@@ -13,6 +13,8 @@ import SignupNew from "./auth/signup/SignupNew";
 import MyAccount from "./pages/MyAccount";
 import Home from "./dashboard/Home";
 import ResetPasswordEmail from "./auth/signin/ResetPasswordEmail";
+import DashBoard from "./dashboard/Dashboard";
+import Dashboard from "./dashboard/Dashboard";
 
 // const url = process.env.REACT_APP_EXPRESS_SERVER_URL
 
@@ -38,7 +40,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" index  element={<Home />} />
+      <Route exact path="/" element={<Dashboard />} />
         <Route path="/auth/sign-in"  element={<SigninNew />} />
         <Route path="/auth/sign-up" element={<SignupNew />} />
         <Route path="/auth/password-reset-email" element={<ResetPasswordEmail />} />
