@@ -48,7 +48,7 @@ function OrderingContact() {
             Email
           </label>
           <input
-            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-password"
             type="email"
             placeholder="devidjond45@gmail.com"
@@ -65,7 +65,7 @@ function OrderingContact() {
             Mobile
           </label>
           <input
-            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-password"
             type="number"
             placeholder="0412 345 678"

@@ -1,6 +1,6 @@
 import React from 'react'
-import Calendar from './Calendar'
-import Filter from './Filter'
+import CustomCalender from './CustomCalender';
+import Filter from './CustomFilter';
 
 function ActiveOrder() {
     return (
@@ -11,7 +11,7 @@ function ActiveOrder() {
                 </div>
                 <div className="flex justify-center items-center gap-2">
                     <div className="">
-                       <Calendar/>
+                      <CustomCalender/>
                     </div>
                     <div className="">
                         <Filter/>

@@ -2,7 +2,7 @@ import React from 'react'
 import OutOfStockBtn from '../StockAlert/OutOfStockBtn';
 import LowStockBtn from '../StockAlert/LowStockBtn';
 
-function product() {
+function ProductDetails() {
     const productItem = Array.from({ length: 4 });;
 
     return (
@@ -30,4 +30,4 @@ function product() {
     )
 }
 
-export default product
+export default ProductDetails

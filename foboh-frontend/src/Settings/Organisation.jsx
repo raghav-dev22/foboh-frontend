@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidebar from '../dashBoard/Sidebar'
-import Header from '../dashBoard/Header'
+import Sidebar from '../dashboard/sidebar'
+import Header from '../dashboard/Header'
 import OrganisationDetails from './OrganisationDetails'
 import OrganisationAddress from './OrganisationAddress'
 import BillingAddress from './BillingAddress'
@@ -26,13 +26,13 @@ function Organisation() {
                                         Customise your public profile
                                     </p>
                                 </div>
-                                <div className="grid gap-5 md:flex  ">
-                                    <div className=" md:w-3/5 w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
+                                <div className="grid md:flex gap-5 ">
+                                    <div className=" md:w-3/5 w-full  gap-5 h-full	 grid	  ">
                                    <OrganisationDetails/>
                                    <OrganisationAddress/>
                                    <BillingAddress/>
                                    </div>
-                                    <div className="w-full md:w-2/5	 rounded-md	 border border-inherit bg-white h-full	">
+                                    <div className="w-full md:w-2/5 grid	 gap-5 h-full	">
                                    <OrganisationLogo/>
                                    <OrderingContact/>
                                    <LogisticsContact/>

@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 // import '../src/style.css'
-import Header from './dashBoard/Header';
-import Sidebar from './dashBoard/Sidebar';
-import Stock from './mainDashboard/stock';
+import Header from './Header';
+// import Sidebar from './dashBoard/Sidebar';
+import Sidebar from './sidebar';
+import StockDetails from '../mainDashboard/StockDetails';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import Product from './mainDashboard/product';
-import OrderDetails from './mainDashboard/OrderDetails';
-import ActiveOrder from './ActiveOrder/ActiveOrder';
+import ProductDetails from '../mainDashboard/ProductDetails';
+import OrderDetails from '../mainDashboard/OrderDetails';
+import ActiveOrder from '../activeOrder/ActiveOrder'
+// import stock from '../mainDashboard/StockDetails';
+// import Sidebar from './sidebar';
 function Dashboard() {
   return (
     <>
       <section className="home-dashboard grid md:flex">
         <section className="sidebar w-1/5 h-screen	flex justify-between flex-col	 border border-inherit">
-          <Sidebar />
+         <Sidebar/>
         </section>
         <section className="dashboard w-full md:w-4/5 bg-slate-100">
           <div className="container mx-auto px-0">
@@ -21,7 +24,7 @@ function Dashboard() {
             <div className="h-custom-half     overflow-y-scroll	scroll-smooth	scrollable">
               <div className="box pt-6 px-6 ">
                 <div className=" grid md:flex gap-6">
-                  <Stock />
+           <StockDetails/>
                 </div>
               </div>
               <div className="box-2 pt-6 px-6">
@@ -67,7 +70,7 @@ function Dashboard() {
                         See all
                       </a>
                     </div>
-                    <Product />
+                 <ProductDetails/>
                   </div>
                 </div>
               </div>
@@ -75,7 +78,7 @@ function Dashboard() {
               <ActiveOrder/>
               </div>
               <div className="box-4 pt-6 px-6">
-                <div className="border rounded-md	 border border-inherit bg-white">
+                <div className=" rounded-md	 border border-inherit bg-white">
                   <table className="min-w-full">
                     <thead>
                       <tr>

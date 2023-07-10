@@ -1,6 +1,6 @@
 import React from 'react'
 
-function stock() {
+function StockDetails() {
   const stockBox = Array.from({ length: 4 });;
   return (
     <>
@@ -43,4 +43,4 @@ function stock() {
   )
 }
 
-export default stock
+export default StockDetails

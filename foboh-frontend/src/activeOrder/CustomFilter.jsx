@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Filter() {
+function CustomFilter() {
     return (
         <div>
             <div className="h-11	 w-24	 border border-inherit rounded-md flex items-center justify-center gap-2">
@@ -13,4 +13,4 @@ function Filter() {
     )
 }
 
-export default Filter
+export default CustomFilter
