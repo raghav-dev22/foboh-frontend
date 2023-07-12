@@ -85,7 +85,7 @@ const ResetLinkCard = () => {
                 onClick={handleResetLink}
                 className="font-semibold cursor-pointer text-[#147D73]"
               >
-                Resesnd email
+                Resend email
               </span>
             </p>
           </div>

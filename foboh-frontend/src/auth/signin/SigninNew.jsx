@@ -6,6 +6,7 @@ import {
   Visibility,
   VisibilityOffOutlined,
 } from "@mui/icons-material";
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import SignInImg from "../../image/signin/SignInImg.png";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import jwtDecode from "jwt-decode";
@@ -206,7 +207,7 @@ const SigninNew = () => {
                       <p className="mt-2 mb-2 text-red-500">{errors.email}</p>
                     )}
                     {errors.email && touched.email && (
-                      <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
                   </div>
 
@@ -280,13 +281,13 @@ const SigninNew = () => {
                   <div className="mb-6 flex items-center justify-between">
                     <div className="">
                       {rememberMe ? (
-                        <CheckBox className="text-[#147D73]" />
+                        <CheckBoxOutlinedIcon onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
                       ) : (
-                        <CheckBoxOutlineBlank className="text-[#147D73]" />
+                        <CheckBoxOutlineBlank onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
                       )}
 
                       <label
-                        className="text-[#637381]  font-thin"
+                        className="text-[#637381]  font-normal"
                         style={{
                           position: "relative",
                           top: "2px",

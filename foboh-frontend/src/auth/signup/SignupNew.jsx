@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import SignUpImg from "../../image/signup/SignUpImg.png";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -8,6 +9,8 @@ import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { generateUniqueKey } from "../../helpers/uniqueKey";
 import CryptoJS from "crypto-js";
+import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
+
 
 const initialValues = {
   email: "",
@@ -17,6 +20,8 @@ const initialValues = {
 const SignupNew = () => {
   const navigate = useNavigate();
   const [emailPresent, setEmailPresent] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
@@ -80,8 +85,9 @@ const SignupNew = () => {
     });
 
 
-  const handleRememberMe = () => {};
-
+    const handleRememberMe = () => {
+      setRememberMe((prevRememberMe) => !prevRememberMe);
+    };
   // Sign in with google
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);
@@ -215,7 +221,7 @@ const SignupNew = () => {
                       <p className="mt-2 mb-2 text-red-500">{errors.email}</p>
                     )}
                     {errors.email && touched.email && (
-                      <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
                   </div>
 
@@ -245,22 +251,35 @@ const SignupNew = () => {
                         value={values.password}
                       />
                     </div>
+                    {!errors.password && values.password && (
+                <p className="mt-2 mb-2 text-green-500">
+                  Your password is strong.
+                </p>
+              )}
+              {!errors.password && values.password && (
+                <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+              )}
                     {errors.password && touched.password && (
                       <p className="mt-2 mb-2 text-red-500">
                         {errors.password}
                       </p>
                     )}
                     {errors.password && touched.password && (
-                      <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
                   </div>
 
                   {/* Remember me checkbox */}
                   <div className="mb-6 flex items-center justify-between">
                     <div className="">
-                      <CheckBox className="text-[#147D73]" />
+                    {rememberMe ? (
+                        <CheckBoxOutlinedIcon onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
+                      ) : (
+                        <CheckBoxOutlineBlank onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
+                      )}
                       <label
-                        className="text-[#637381] font-thin"
+                        onClick={handleRememberMe}
+                        className="text-[#637381] font-normal"
                         style={{
                           position: "relative",
                           top: "2px",

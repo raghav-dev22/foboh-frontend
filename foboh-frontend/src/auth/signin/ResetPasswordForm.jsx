@@ -53,7 +53,7 @@ const ResetPasswordForm = () => {
 
 
 
-  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } = useFormik({
     initialValues: initialValues,
     validationSchema: ResetPasswordFormSchema,
     onSubmit: (values) => {
@@ -140,7 +140,7 @@ const ResetPasswordForm = () => {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                style={{ border: errors.password && "1px solid red" }}
+                style={{ border: errors.password && touched.password && "1px solid red" }}
                 type="password"
                 autoComplete="off"
               />
@@ -150,13 +150,13 @@ const ResetPasswordForm = () => {
                 </p>
               )}
               {!errors.password && values.password && (
-                <TaskAltOutlinedIcon className="absolute text-green-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
 
               {<p className="mt-2 mb-2 text-red-500">{errors.password}</p>}
 
-              {errors.password && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+              {errors.password && touched.password && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
 
@@ -174,7 +174,7 @@ const ResetPasswordForm = () => {
                 value={values.repeatPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                style={{ border: errors.repeatPassword && "1px solid red " }}
+                style={{ border: errors.repeatPassword && touched.repeatPassword && "1px solid red " }}
               />
               {!errors.repeatPassword && values.repeatPassword && (
                 <p className="mt-2 mb-2 text-green-500">
@@ -182,12 +182,12 @@ const ResetPasswordForm = () => {
                 </p>
               )}
               {
-                <p className="mt-2 mb-2 text-red-500">
+                errors.repeatPassword && touched.repeatPassword &&(<p className="mt-2 mb-2 text-red-500">
                   {errors.repeatPassword}
-                </p>
+                </p>)
               }
-              {errors.repeatPassword && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+              {errors.repeatPassword && touched.repeatPassword && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
 

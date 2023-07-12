@@ -12,6 +12,7 @@ const initialValues = {
 const ResetPasswordEmail = () => {
   const navigate = useNavigate()
 
+  
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialValues,
@@ -121,7 +122,7 @@ const ResetPasswordEmail = () => {
               />
               {<p className="mt-2 mb-2 text-red-500">{errors.email}</p>}
               {errors.email && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-10 right-3 transition-all duration-[0.3s]" />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
 
