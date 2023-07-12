@@ -9,10 +9,17 @@ import {
 import SignInImg from "../../image/signin/SignInImg.png";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import jwtDecode from "jwt-decode";
-import alertCircle from "../../image/alertCircle.png";
 import CryptoJS from "crypto-js";
 
+import { useFormik } from "formik";
+import { SignInSchema } from "../../schemas";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { generateUniqueKey } from "../../helpers/uniqueKey";
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 const SigninNew = () => {
   const navigate = useNavigate();
@@ -21,12 +28,53 @@ const SigninNew = () => {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isEmail, setIsEmail] = useState(true);
-  const [password, setPassword] = useState("");
   const [isPassword, setIsPassword] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   const key = "12345";
+
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: SignInSchema,
+      onSubmit: (values) => {
+    
+          fetch(
+            `https://graph.microsoft.com/beta/tenant.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'tenant.onmicrosoft.com' and i/issuerAssignedId eq '${values.email}'))&mailNickname`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if (data.value.length > 0) {
+                console.log(data);
+                console.log(data.value[0].mailNickname);
+                // localStorage.setItem('mailNickname', data.value[0].mailNickname)
+                const bytes = CryptoJS.AES.decrypt(data.value[0].mailNickname, key);
+                const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+                console.log(decryptedPassword);
+                if (decryptedPassword === values.password) {
+                  navigate("/");
+                } else {
+                  setIsValidPassword(false);
+                }
+              } else {
+                setIsValidPassword(false);
+              }
+            })
+            .catch((error) => console.log(error));
+        
+      
+    
+      },
+    });
 
   //Google handle callback
   const handleCallback = (response) => {
@@ -85,6 +133,7 @@ const SigninNew = () => {
       })
       .catch((error) => console.log(error));
   };
+
   // Sign in with google
 
   useEffect(() => {
@@ -105,73 +154,8 @@ const SigninNew = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  const validatePassword = () => {
-    // Regex for password
-    const passwordPattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
-    setIsValidPassword(passwordPattern.test(password));
-
-    if (!password) {
-      setIsPassword(false);
-      setIsValidPassword(true);
-    } else {
-      setIsPassword(true);
-    }
-  };
-
-  const validateEmail = () => {
-    // Regex for email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setIsValidEmail(emailPattern.test(email));
-
-    if (!email) {
-      setIsEmail(false);
-      setIsValidEmail(true);
-    } else {
-      setIsEmail(true);
-    }
-  };
-
   const handleRememberMe = () => {
     setRememberMe((prevRememberMe) => !prevRememberMe);
-  };
-
-  const handleSignIn = (email, password) => {
-    validateEmail();
-    validatePassword();
-
-    // Call your sign-in API or perform the desired authentication logic here
-    if (email && password) {
-      fetch(
-        `https://graph.microsoft.com/beta/tenant.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'tenant.onmicrosoft.com' and i/issuerAssignedId eq '${email}'))&mailNickname`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          if (data.value.length > 0) {
-            console.log(data);
-            console.log(data.value[0].mailNickname);
-            // localStorage.setItem('mailNickname', data.value[0].mailNickname)
-            const bytes = CryptoJS.AES.decrypt(data.value[0].mailNickname, key);
-            const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-            if (decryptedPassword === password) {
-              navigate("/");
-            } else {
-              setIsValidPassword(false);
-            }
-          } else {
-            setIsValidPassword(false);
-          }
-        })
-        .catch((error) => console.log(error));
-    }
   };
 
   return (
@@ -191,7 +175,7 @@ const SigninNew = () => {
                     <span className="text-[#147D73]">Sign up</span>
                   </p>
                 </div>
-                <form className="px-4 sm:px-6 md:px-8 lg:px-10  py-4 ">
+                <form onSubmit={handleSubmit} className="px-4 sm:px-6 md:px-8 lg:px-10  py-4 ">
                   {/* Email input  */}
                   <div
                     className={`relative mb-6 ${
@@ -210,21 +194,19 @@ const SigninNew = () => {
                       id="email"
                       placeholder="Your email"
                       autoComplete="on"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className={`${
-                        !isValidEmail || !isEmail ? "border-red-500" : ""
-                      }`}
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      style={{
+                        border:
+                          errors.email && touched.email && "1px solid red",
+                      }}
                     />
-                    {!isValidEmail && (
-                      <p className="mt-2 text-red-500">
-                        Please enter a valid email address
-                      </p>
+                    {errors.email && touched.email && (
+                      <p className="mt-2 mb-2 text-red-500">{errors.email}</p>
                     )}
-                    {!isEmail && (
-                      <p className="mt-2 text-red-500">
-                        Email field must not be empty!
-                      </p>
+                    {errors.email && touched.email && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
                     )}
                   </div>
 
@@ -253,11 +235,18 @@ const SigninNew = () => {
                         }`}
                         autoComplete="off"
                         placeholder="Your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        style={{
+                          border:
+                            errors.password &&
+                            touched.password &&
+                            "1px solid red",
+                        }}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
                       />
                       <label
-                        className="opacity-[0.5] mb-[5px] rounded px-2 text-sm text-gray-600 font-inter absolute right-3 bottom-2.5 cursor-pointer js-password-label"
+                        className="opacity-[0.5] mb-[5px] rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
                         htmlFor="password"
                         onClick={handleTogglePassword}
                       >
@@ -268,6 +257,12 @@ const SigninNew = () => {
                         )}
                       </label>
                     </div>
+                      {errors.password && touched.password && (
+                        <p className="mt-2 mb-2 text-red-500">
+                          {errors.password}
+                        </p>
+                      )}
+                      
                   </div>
                   {!isValidPassword && (
                     <p className="mb-6 -mt-4 text-red-500">
@@ -291,7 +286,7 @@ const SigninNew = () => {
                       )}
 
                       <label
-                        className="position: relative; top: 2px; left: 5px; cursor: pointer;text-[#637381]  font-thin"
+                        className="text-[#637381]  font-thin"
                         style={{
                           position: "relative",
                           top: "2px",
@@ -314,11 +309,7 @@ const SigninNew = () => {
                   </div>
 
                   {/* Submit button */}
-                  <button
-                    type="button"
-                    className="foboh-green-btn"
-                    onClick={() => handleSignIn(email, password)}
-                  >
+                  <button type="submit" className="foboh-green-btn">
                     Login
                   </button>
 

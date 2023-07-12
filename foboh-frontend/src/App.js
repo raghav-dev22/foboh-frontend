@@ -30,7 +30,9 @@ const App = () => {
   useEffect(() => {
     const url = process.env.REACT_APP_URL
 
-    fetch(`http://127.0.0.1:8000/api/token`, {
+   
+
+    fetch(`https://dev-orderflow.foboh.com.au/api/token`, {
       method: "GET",
     })
       .then((response) => response.json())

@@ -21,6 +21,7 @@ const ResetLinkCard = () => {
   const handleResetLink = () => {
     const url = process.env.REACT_APP_URL
     //Reset Link
+
     fetch(`${url}/api/api/send-email`, {
       method: "POST",
       headers: {
@@ -43,6 +44,7 @@ const ResetLinkCard = () => {
         }
       })
       .catch((error) => console.log(error));
+    
   };
 
   return (

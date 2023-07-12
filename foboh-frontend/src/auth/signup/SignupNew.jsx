@@ -1,61 +1,92 @@
 import { useState, useEffect } from "react";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
-import CryptoJS from "crypto-js";
-
 import SignUpImg from "../../image/signup/SignUpImg.png";
 import { useNavigate } from "react-router-dom";
-import alertCircle from "../../image/alertCircle.png";
-import {
-  validateEmailHelper,
-  validatePasswordHelper,
-} from "../../helpers/signup-helper";
-import { generateUniqueKey } from "../../helpers/uniqueKey";
-import { useDispatch, useSelector } from "react-redux";
-import { setEmail, setPassword } from "../../Redux/Action/authSlice";
 import jwtDecode from "jwt-decode";
+import { SignUpSchema } from "../../schemas";
+import { useFormik } from "formik";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { generateUniqueKey } from "../../helpers/uniqueKey";
+import CryptoJS from "crypto-js";
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 const SignupNew = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const email = useSelector((state) => state.auth.email);
-  const password = useSelector((state) => state.auth.password);
-
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [isValidPassword, setIsValidPassword] = useState(true);
-  const [isEmail, setIsEmail] = useState(true);
-  const [isPassword, setIsPassword] = useState(true);
-  const [isAlertIcon, setIsAlertIcon] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [emailPresent, setEmailPresent] = useState(false);
 
-  // Encrypting Password
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: SignUpSchema,
+      onSubmit: (values) => {
+        const url = process.env.REACT_APP_URL;
 
-  const handleRememberMe = () => {
-    setRememberMe(!rememberMe);
-  };
+        const key1 = "12345";
+        const encryptedPassword = CryptoJS.AES.encrypt(
+          values.password,
+          key1
+        ).toString();
+        console.log(encryptedPassword);
 
-  const validateForm = () => {
-    validateEmailHelper(
-      setIsValidEmail,
-      isValidEmail,
-      email,
-      setIsAlertIcon,
-      setIsEmail
-    );
-    validatePasswordHelper(
-      setIsValidPassword,
-      password,
-      isValidPassword,
-      setIsPassword
-    );
-  };
+        fetch(
+          `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${values.email}'))`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((response) => response.json())
+
+          .then((data) => {
+            console.log("recent email >>>", values.email);
+            console.log(data);
+
+            if (data.value.length > 0) {
+              if (data.value[0].mail === values.email) {
+                setEmailPresent(true);
+              }
+            } else {
+              setEmailPresent(false);
+              fetch(`https://dev-orderflow.foboh.com.au/api/api/send-email`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: values.email,
+                  type: "email-verification",
+                  name: "email",
+                }),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  localStorage.setItem("email", values.email);
+                  localStorage.setItem("password", encryptedPassword);
+
+                  localStorage.setItem("uniqueKey", data.key);
+                  navigate(`/auth/registration-email/${data.key}`);
+                })
+                .catch((error) => console.log(error));
+            }
+          });
+      },
+    });
+
+
+  const handleRememberMe = () => {};
 
   // Sign in with google
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);
+    console.log(googleResponse);
 
-    //Setting google email credentials to azure b2c
     fetch(
       `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
       {
@@ -129,64 +160,6 @@ const SignupNew = () => {
     });
   }, []);
 
-  // Sign up handler
-  const handleSignup = async () => {
-    const url = process.env.REACT_APP_URL;
-
-    validateForm();
-    const key1 = "12345";
-    const encryptedPassword = CryptoJS.AES.encrypt(password, key1).toString();
-    console.log(encryptedPassword);
-    if (email && password && isValidEmail && isValidPassword) {
-      fetch(
-        `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${email}'))`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => response.json())
-
-        .then((data) => {
-          console.log("recent email >>>", email);
-          console.log(data);
-
-          if (data.value.length > 0) {
-            if (data.value[0].mail === email) {
-              setEmailPresent(true);
-            }
-          } else {
-            setEmailPresent(false);
-            fetch(`${url}/api/api/send-email`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: email,
-                type: "email-verification",
-                name: "email",
-              }),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                localStorage.setItem("email", email);
-                localStorage.setItem("password", encryptedPassword);
-
-                dispatch(setEmail(""));
-                dispatch(setPassword(""));
-                localStorage.setItem("uniqueKey", data.key);
-                navigate(`/auth/registration-email/${data.key}`);
-              })
-              .catch((error) => console.log(error));
-          }
-        });
-    }
-  };
-
   return (
     <>
       <div className="absolute md:bg-[#F8FAFC] w-full h-screen flex items-center justify-center">
@@ -210,7 +183,10 @@ const SignupNew = () => {
                     </p>
                   )}
                 </div>
-                <form className="px-4 sm:px-6 md:px-8 lg:px-10 py-4">
+                <form
+                  onSubmit={handleSubmit}
+                  className="px-4 sm:px-6 md:px-8 lg:px-10 py-4"
+                >
                   {/* Email input */}
                   <div className="relative mb-6" data-te-input-wrapper-init>
                     <label
@@ -221,29 +197,25 @@ const SignupNew = () => {
                     </label>
                     <input
                       type="text"
+                      name="email"
                       id="email"
-                      className="relative"
+                      className="transition-all duration-[0.3s]"
                       placeholder="Your email"
                       autoComplete="on"
-                      onChange={(e) => dispatch(setEmail(e.target.value))}
+                      style={{
+                        border:
+                          errors.email && touched.email && "1px solid red",
+                      }}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
                     />
 
-                    {isAlertIcon && (
-                      <img
-                        src={alertCircle}
-                        className="absolute top-[55px] right-4 h-[20px]"
-                        alt="alert circle"
-                      />
+                    {errors.email && touched.email && (
+                      <p className="mt-2 mb-2 text-red-500">{errors.email}</p>
                     )}
-                    {!isValidEmail && (
-                      <p className="mt-2 text-red-500">
-                        Please enter a valid email address.
-                      </p>
-                    )}
-                    {!isEmail && (
-                      <p className="mt-2 text-red-500">
-                        Email field must not be empty!
-                      </p>
+                    {errors.email && touched.email && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
                     )}
                   </div>
 
@@ -262,38 +234,31 @@ const SignupNew = () => {
                         className="js-password relative"
                         autoComplete="off"
                         placeholder="Your password"
-                        value={password}
-                        onChange={(e) => dispatch(setPassword(e.target.value))}
+                        style={{
+                          border:
+                            errors.password &&
+                            touched.password &&
+                            "1px solid red",
+                        }}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
                       />
-                      {isAlertIcon && (
-                        <img
-                          src={alertCircle}
-                          className="absolute top-[55px] right-4 h-[20px]"
-                          alt="alert circle"
-                        />
-                      )}
                     </div>
+                    {errors.password && touched.password && (
+                      <p className="mt-2 mb-2 text-red-500">
+                        {errors.password}
+                      </p>
+                    )}
+                    {errors.password && touched.password && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                    )}
                   </div>
-                  {!isValidPassword && (
-                    <p className="mb-6 -mt-4 text-red-500 font-inter">
-                      Password must be 8 characters or more and contain at least
-                      1 number and 1 special character.
-                    </p>
-                  )}
-                  {!isPassword && (
-                    <p className="mb-6 -mt-4 text-red-500 font-inter">
-                      Password field must not be empty.
-                    </p>
-                  )}
 
                   {/* Remember me checkbox */}
                   <div className="mb-6 flex items-center justify-between">
                     <div className="">
-                      <CheckBox
-                        className="text-[#147D73]"
-                        checked={rememberMe}
-                        onChange={handleRememberMe}
-                      />
+                      <CheckBox className="text-[#147D73]" />
                       <label
                         className="text-[#637381] font-thin"
                         style={{
@@ -302,7 +267,6 @@ const SignupNew = () => {
                           left: "5px",
                           cursor: "pointer",
                         }}
-                        onClick={handleRememberMe}
                       >
                         Remember me
                       </label>
@@ -312,11 +276,7 @@ const SignupNew = () => {
                   </div>
 
                   {/* Submit button */}
-                  <button
-                    type="button"
-                    className="foboh-green-btn"
-                    onClick={handleSignup}
-                  >
+                  <button type="submit" className="foboh-green-btn">
                     Sign up
                   </button>
 

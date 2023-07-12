@@ -4,50 +4,36 @@ import fobohLogo from "../../image/signup/fobohLogo.png";
 import userIcon from "../../image/signup/user.png";
 import phone from "../../image/signup/install_mobile.png";
 import briefCase from "../../image/signup/briefcase 2.png";
-import { validateRegistration } from "../../helpers/signup-helper";
-import alertCircle from "../../image/alertCircle.png";
 import { useParams } from "react-router-dom";
+import { RegistrationSchema } from "../../schemas";
+import { useFormik } from "formik";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  mobile: "",
+  businessName: "",
+};
 
 const Registration = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [details, setDetails] = useState({});
-  const [isFirstName, setIsFirstName] = useState(true);
-  const [isLastName, setIsLastName] = useState(true);
-  const [isMobile, setIsMobile] = useState(true);
-  const [isBusiness, setIsBusiness] = useState(true);
-  const [isAlertIcon, setIsAlertIcon] = useState(false);
-
-  // Check if the unique key is matching with the url id or not
 
   useEffect(() => {
     if (localStorage.getItem("uniqueKey") !== id) {
       navigate("/auth/sign-up");
     }
-      
     
   }, []);
 
-  const handleChange = (e) => {
-    setDetails({
-      ...details,
-      [e.target.name]: e.target.value,
-    });
-  };
 
-  const handleRegistration = (details) => {
-    validateRegistration(
-      setIsFirstName,
-      isAlertIcon,
-      setIsAlertIcon,
-      setIsLastName,
-      details,
-      setIsMobile,
-      setIsBusiness
-    );
-
-    fetch("https://graph.microsoft.com/v1.0/users", {
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: RegistrationSchema,
+      onSubmit: (values) => {
+        fetch("https://graph.microsoft.com/v1.0/users", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -55,8 +41,8 @@ const Registration = () => {
       },
       body: JSON.stringify({
         accountEnabled: true,
-        displayName: `${details.fname} ${details.lname}`,
-        jobTitle: details.business,
+        displayName: `${values.firstName} ${values.lastName}`,
+        jobTitle: values.businessName,
         mail: localStorage.getItem('email'),
         mailNickname: localStorage.getItem('password'),
         identities: [
@@ -70,7 +56,7 @@ const Registration = () => {
           forceChangePasswordNextSignIn: true,
           password: localStorage.getItem('password'),
         },
-        mobilePhone : details.mobile
+        mobilePhone : values.mobile
       }),
     })
       .then((response) => response.json())
@@ -91,7 +77,11 @@ const Registration = () => {
         }
       })
       .catch((error) => console.log(error));
-  };
+      },
+    });
+
+
+  // Check if the unique key is matching with the url id or not
 
   return (
     <section className="mx-auto h-full bg-[#F8FAFC]">
@@ -106,65 +96,68 @@ const Registration = () => {
             <h1 className="mb-8 text-[23px]  md:text-3xl font-bold font-inter text-center text-[#147D73]">
               Create your account
             </h1>
-
-            <form className="min-w-full registration">
+            <form onSubmit={handleSubmit} className="min-w-full registration">
               {/* First name input */}
-              <div className="mb-6" data-te-input-wrapper-init>
-                <label htmlFor="fname">First Name</label>
+              <div className="mb-6 relative" data-te-input-wrapper-init>
+                <label htmlFor="fname">First name</label>
                 <input
                   type="text"
-                  id="fname"
-                  name="fname"
-                  className="relative"
+                  id="firstName"
+                  name="firstName"
+                  className="transition-all duration-[0.3s]"
                   placeholder="Your first name"
                   autoComplete="on"
-                  maxLength={50}
-                  value={details.fname}
+                  value={values.firstName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.firstName && touched.firstName && "1px solid red",
+                  }}
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 left-4 -mb-[20px]"
                   src={userIcon}
                   alt="user"
                 />
-                {isAlertIcon && (
-                  <img
-                    src={alertCircle}
-                    className="absolute top-[55px] right-4 h-[20px]"
-                    alt="alert circle"
-                  />
+                {errors.firstName && touched.firstName && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.firstName}</p>
+                )}
+                {errors.firstName && touched.firstName && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
                 )}
               </div>
-              {!isFirstName && (
-                <p className="mb-6 -mt-4 text-red-500">
-                  First name field must not be empty
-                </p>
-              )}
 
               {/* Last name input */}
               <div className="relative mb-6" data-te-input-wrapper-init>
                 <label htmlFor="lname">Last Name</label>
                 <input
                   type="text"
-                  id="lname"
-                  name="lname"
+                  id="lastName"
+                  name="lastName"
                   placeholder="Your last name"
                   autoComplete="on"
-                  maxLength={50}
-                  value={details.lname}
+                  className="transition-all duration-[0.3s]"
+                  value={values.lastName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.lastName && touched.lastName && "1px solid red",
+                  }}
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 left-4 -mb-[20px]"
                   src={userIcon}
                   alt="user"
                 />
+                {errors.lastName && touched.lastName && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.lastName}</p>
+                )}
+                {errors.lastName && touched.lastName && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
-              {!isLastName && (
-                <p className="mb-6 -mt-4 text-red-500">
-                  Last name field must not be empty
-                </p>
-              )}
 
               {/* Mobile input */}
               <div className="relative mb-6">
@@ -172,60 +165,63 @@ const Registration = () => {
                 <input
                   id="mobile"
                   name="mobile"
-                  maxLength={10}
                   placeholder="Your mobile"
-                  value={details.mobile}
-                  onChange={handleChange}
                   type="text"
-                  onKeyPress={(e) => {
-                    if (isNaN(Number(e.key))) {
-                      e.preventDefault();
-                    }
+                  value={values.mobile}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border: errors.mobile && touched.mobile && "1px solid red",
                   }}
+                  
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 left-4 -mb-[20px]"
                   src={phone}
                   alt="user"
                 />
+                {errors.mobile && touched.mobile && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.mobile}</p>
+                )}
+                {errors.mobile && touched.mobile && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
-              {!isMobile && (
-                <p className="mb-6 -mt-4 text-red-500">
-                  Mobile field must not be empty
-                </p>
-              )}
 
               {/* Business name input */}
               <div className="relative mb-6" data-te-input-wrapper-init>
                 <label htmlFor="mobile">Business name</label>
                 <input
                   type="text"
-                  id="business"
-                  name="business"
+                  id="businessName"
+                  name="businessName"
                   placeholder="Your business name"
                   autoComplete="on"
-                  maxLength={50}
-                  value={details.business}
+                  value={values.businessName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.businessName &&
+                      touched.businessName &&
+                      "1px solid red",
+                  }}
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 -mb-[20px] left-4"
                   src={briefCase}
                   alt="user"
                 />
+                {errors.businessName && touched.businessName && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.businessName}</p>
+                )}
+                {errors.businessName && touched.businessName && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
-              {!isBusiness && (
-                <p className="mb-6 -mt-4 text-red-500">
-                  Business name field must not be empty
-                </p>
-              )}
 
               {/* Submit button */}
-              <button
-                type="button"
-                className="foboh-green-btn"
-                onClick={() => handleRegistration(details)}
-              >
+              <button type="submit" className="foboh-green-btn">
                 Create account
               </button>
             </form>

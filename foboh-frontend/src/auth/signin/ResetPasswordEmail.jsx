@@ -1,76 +1,72 @@
 import React, { useState } from "react";
 import fobohLogo from "../../image/reset/fobohLogo.png";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { ResetPasswordEmailSchema } from "../../schemas";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
+const initialValues = {
+  email: "",
+};
 
 const ResetPasswordEmail = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [email, setEmail] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [isEmail, setIsEmail] = useState(true);
-  const [isEmailPresent, setIsEmailPresent] = useState(true)
 
-  const validateEmail = (e) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setIsValid(emailPattern.test(email));
-    if (!email) {
-      setIsEmail(false);
-      setIsValid(true);
-    } else {
-      setIsEmail(true);
-    }
-  };
+  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: ResetPasswordEmailSchema,
+    onSubmit: (values) => {
+      const url = process.env.REACT_APP_URL
+      localStorage.setItem('email', values.email)
+  
+  
+      fetch(
+        `https://graph.microsoft.com/beta/tenant.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'tenant.onmicrosoft.com' and i/issuerAssignedId eq '${values.email}'))&mailNickname`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.value) {
+            if (data.value.length > 0) {
+              const userName = data.value[0].displayName;
+              localStorage.setItem('userName', userName);
+  
+              fetch(`https://dev-orderflow.foboh.com.au/api/api/send-email`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: values.email,
+                  type: "password-reset",
+                  name: userName
+                }),
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data);
+                localStorage.setItem('uniqueKey', data.key);
+                navigate(`/auth/reset-link/${data.key}`);
+              })
+              .catch((error) => console.log(error));
+            } 
+            }
+        })
+        .catch((error) => console.log(error));
+    },
+  });
 
-  const handleSubmit = (e) => {
-    const url = process.env.REACT_APP_URL
-    localStorage.setItem('email', email)
-    e.preventDefault();
 
-    validateEmail();
 
-    fetch(
-      `https://graph.microsoft.com/beta/tenant.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'tenant.onmicrosoft.com' and i/issuerAssignedId eq '${email}'))&mailNickname`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.value) {
-          if (data.value.length > 0) {
-            const userName = data.value[0].displayName;
-            localStorage.setItem('userName', userName);
-
-            fetch(`${url}/api/api/send-email`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: email,
-                type: "password-reset",
-                name: userName
-              }),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-              localStorage.setItem('uniqueKey', data.key);
-              navigate(`/auth/reset-link/${data.key}`);
-            })
-            .catch((error) => console.log(error));
-          } else{
-            setIsEmailPresent(false)
-          }
-          }
-      })
-      .catch((error) => console.log(error));
-  };
+  console.log(errors);
 
   return (
     <section>
@@ -94,8 +90,12 @@ const ResetPasswordEmail = () => {
             </p>
           </div>
 
-          <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5" action="#">
-            <div>
+          <form
+            onSubmit={handleSubmit}
+            className="mt-4 space-y-4 lg:mt-5 md:space-y-5"
+            action="#"
+          >
+            <div className="relative">
               <label
                 htmlFor="email"
                 className="block mb-2 text-base font-inter font-medium text-[#2B4447] "
@@ -105,9 +105,12 @@ const ResetPasswordEmail = () => {
               <input
                 type="email"
                 name="email"
-                onChange={(e) => setEmail(e.target.value)}
-                id="email"
-                className="border border-[#E2E8F0] bg-white  sm:text-sm rounded-[15px]
+                id="email-input"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{ border: errors.email && '1px solid red' }}
+                className="border transition duration-[0.3s]  border-[#E2E8F0] bg-white  sm:text-sm rounded-[8px]
                 flex flex-col px-[20px] items-center 
                   w-full p-2.5 border-solid 
                   outline-none dark:placeholder-[#A0AEC0] 
@@ -116,25 +119,14 @@ const ResetPasswordEmail = () => {
                 placeholder="test@gmail.com"
                 required=""
               />
+              {<p className="mt-2 mb-2 text-red-500">{errors.email}</p>}
+              {errors.email && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-10 right-3 transition-all duration-[0.3s]" />
+              )}
             </div>
-            {!isValid && (
-              <p className="mt-2 text-red-500">
-                Please enter a valid email address.
-              </p>
-            )}
-            {!isEmail && (
-              <p className="mt-2 text-red-500">
-                Email field must not be empty!
-              </p>
-            )}
-            {!isEmailPresent && (
-              <p className="mt-2 text-red-500">
-                Entered email is not registered.
-              </p>
-            )}
 
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="inline-block h-[47px] font-bold w-full rounded-[15px] bg-[#147D73] px-6 pb-2 pt-2.5 text-[16px] leading-normal text-[#FCFCFC] font-inter shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)]  focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0  active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]  dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-[#0e6158] dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
             >
               Reset password
