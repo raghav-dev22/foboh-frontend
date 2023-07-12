@@ -10,14 +10,14 @@ function ProductDetails() {
             {productItem.map((item, index) => {
                 return (
 
-                    <div className={`flex justify-between items-center pt-5 productItem-${index}`}>
-                        <div className="flex items-between gap-2 justify-center">
+                    <div className={`flex justify-between sm:items-center items-end pt-5 productItem-${index}`}>
+                        <div className=" sm:flex items-center  grid  gap-2 justify-center">
                             <div className="">
-                                <img src="assets/stock.jpg" alt="" />
+                                <img src="assets/stock.jpg" alt="" className='w-12	h-12' />
                             </div>
                             <div className="">
-                                <h5 className="text-base	 font-semibold"> Product name 1</h5>
-                                <p className="text-sm	font-normal	">No units remaining</p>
+                                <h5 className="sm:text-base	text-sm	font-medium	 sm:font-semibold"> Product name 1</h5>
+                                <p className="sm:text-sm font-light	text-xs		sm:font-normal	">No units remaining</p>
                             </div>
                         </div>
                         <LowStockBtn/>

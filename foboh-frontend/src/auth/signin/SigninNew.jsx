@@ -291,7 +291,7 @@ const SigninNew = () => {
                       )}
 
                       <label
-                        className="text-[#637381]  font-thin"
+                        className="position: relative; top: 2px; left: 5px; cursor: pointer;text-[#637381]  font-thin"
                         style={{
                           position: "relative",
                           top: "2px",

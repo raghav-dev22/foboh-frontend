@@ -4,8 +4,8 @@ function OrganisationLogo() {
   return (
     <>
     <div className="w-full 	 rounded-md	 border border-inherit bg-white h-full	">
-  <div className=" border-b	 border-inherit px-5 py-4">
-    <h6 className="text-base	font-medium	 text-green">Personal details</h6>
+  <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
+    <h6 className="text-base	font-medium	 text-green">Organisation logo</h6>
   </div>
   <div className="px-6 py-7">
     <div className="flex justify-start gap-3 items-center">
@@ -18,7 +18,7 @@ function OrganisationLogo() {
         />
       </div>
       <div className="">
-        <h6 className="font-normal	 text-base text-green">Edit your photo</h6>
+        <h6 className="font-normal	 text-base text-green">Edit your logo</h6>
         <div className=" pt-1 flex justify-start gap-2">
           <p className="text-gray font-normal	 text-sm	">Delete</p>
           <p className="text-sm font-normal text-lime-600	">Update</p>

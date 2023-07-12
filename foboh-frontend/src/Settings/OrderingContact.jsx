@@ -4,7 +4,7 @@ function OrderingContact() {
   return (
     <>
       <div className="   w-full  rounded-lg		 border border-inherit bg-white h-full	 	  ">
-  <div className=" border-b	 border-inherit px-5 py-4">
+  <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
     <h6 className="text-base	font-medium	 text-green">Personal details</h6>
   </div>
   <div className="px-6 py-7">
@@ -12,7 +12,7 @@ function OrderingContact() {
       <div className="flex flex-wrap -mx-3 mb-5">
         <div className="w-full md:w-1/2 px-3">
           <label
-            className="block  tracking-wide text-gray-700 text-base	 font-medium	 mb-2"
+            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
             htmlFor="grid-last-name"
           >
             First name
@@ -26,7 +26,7 @@ function OrderingContact() {
         </div>
         <div className="w-full md:w-1/2 px-3">
           <label
-            className="block  tracking-wide text-gray-700 text-base	 font-medium	 mb-2"
+            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
             htmlFor="grid-last-name"
           >
             Last name
@@ -42,7 +42,7 @@ function OrderingContact() {
       <div className="flex flex-wrap -mx-3 mb-5">
         <div className="w-full px-3">
           <label
-            className="block  tracking-wide text-gray-700 text-base	 font-medium	 mb-2"
+            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
             htmlFor="grid-password"
           >
             Email
@@ -59,7 +59,7 @@ function OrderingContact() {
       <div className="flex flex-wrap -mx-3 mb-5">
         <div className="w-full px-3">
           <label
-            className="block  tracking-wide text-gray-700 text-base	 font-medium	 mb-2"
+            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
             htmlFor="grid-password"
           >
             Mobile

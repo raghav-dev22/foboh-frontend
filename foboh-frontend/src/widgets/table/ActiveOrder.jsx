@@ -59,7 +59,7 @@ function ActiveOrder() {
                         <tbody className="w-full">
                             <tr className="h-20 text-sm leading-none text-gray-800 bg-white hover:bg-gray-100 border-b border-t border-gray-100">
                                 <td className="pl-4 cursor-pointer">
-                                    <p className="text-[#637381] text-base font-normal">#LF1001024</p>
+                                    <p className="text-[#637381] text-base font-normal">4</p>
                                 </td>
                                 <td className="pl-16">
                                     <div className="flex items-center text-[#637381]">
