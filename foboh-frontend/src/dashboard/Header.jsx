@@ -190,13 +190,13 @@ export default function Header() {
                     className=" z-10	   w-60 absolute user-dropdown bg-white	shadow-md rounded-lg	h-44	"
                   >
                     <ul className="dropdown-content 	 ">
-                      <Link to="/profile">
+                      <Link to="/dashboard/Profile">
                         <li className="py-2.5	px-4	">
                           <h6 className="text-sm font-medium		">Profile</h6>
                         </li>
                       </Link>
                       <a href="#">
-                        <Link to="/Organisation">
+                        <Link to="/dashboard/Organisation">
                           <li className="py-2.5	px-4	">
 
                             <h6 className="text-sm font-medium		">Settings</h6>
@@ -248,14 +248,14 @@ export default function Header() {
             </svg> */}
           </div>
           <div className=" relative">
-            <ul id="list" className={`${dropDown ? 'hidden' : 'block'}  bg-white absolute top-8	right-0		shadow-md rounded-lg	h-44 w-64	`}>
-              <Link to="/profile">
+            <ul id="list" className={`${dropDown ? 'hidden' : 'block'}  bg-white absolute top-8	right-0	z-50	shadow-md rounded-lg	h-44 w-64	`}>
+              <Link to="/dashboard/Profile">
                 <li className="py-2.5	px-4	">
                   <h6 className="text-sm font-medium		">Profile</h6>
                 </li>
               </Link>
               <a href="#">
-                <Link to="/Organisation">
+                <Link to="/dashboard/Organisation">
                   <li className="py-2.5	px-4	">
 
                     <h6 className="text-sm font-medium		">Settings</h6>
