@@ -75,16 +75,14 @@ export const PersonalDetailsSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, "Your first name should have atleast 2 letters")
     .max(50)
-    .required("First name is required"),
+    ,
   lastName: Yup.string()
     .min(2, "Your last name should have atleast 2 letters")
     .max(50)
-    .required("Last name is required"),
+    ,
   email: Yup.string()
-    .required("Email is required")
     .email("Invalid is email"),
   mobile: Yup.string()
-    .required("Mobile number is required")
     .matches(
       /^\+\d{1,3}\s?\d{1,14}$/,
       "Mobile number must be a valid number with country code"

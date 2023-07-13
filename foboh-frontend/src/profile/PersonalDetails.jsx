@@ -2,26 +2,22 @@ import { useFormik } from "formik";
 import React from "react";
 import { PersonalDetailsSchema } from "../schemas";
 
-const initialValues =  {
-  firstName: '',
-  lastName: '',
-  email: '',
-  mobile: '',
-}
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  mobile: "",
+};
 
 function PersonalDetails() {
-
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-  useFormik({
-    initialValues: initialValues,
-    validationSchema: PersonalDetailsSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  })
-
-
-    
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: PersonalDetailsSchema,
+      onSubmit: (values) => {
+        console.log(values);
+      },
+    });
 
   return (
     <>
@@ -31,7 +27,7 @@ function PersonalDetails() {
         </div>
         <div className="px-6 py-7">
           <form onSubmit={handleSubmit} className="w-full max-w-lg">
-            <div className="flex flex-wrap -mx-3 mb-5">
+            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
               <div className="w-full md:w-1/2 px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
@@ -48,6 +44,10 @@ function PersonalDetails() {
                   value={values.firstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.firstName && touched.firstName && "1px solid red",
+                  }}
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
@@ -61,7 +61,15 @@ function PersonalDetails() {
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
+                  name="lastName"
                   placeholder="Jones"
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.lastName && touched.lastName && "1px solid red",
+                  }}
                 />
               </div>
             </div>
@@ -77,7 +85,16 @@ function PersonalDetails() {
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="email"
+                  name="email"
+                  autoComplete="on"
                   placeholder="devidjond45@gmail.com"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.email && touched.email && "1px solid red",
+                  }}
                 />
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
@@ -94,7 +111,15 @@ function PersonalDetails() {
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="number"
+                  name="mobile"
                   placeholder="0412 345 678"
+                  value={values.mobile}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.mobile && touched.mobile && "1px solid red",
+                  }}
                 />
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
