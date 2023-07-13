@@ -47,8 +47,8 @@ const App = () => {
     <Router>
       <Routes>
       <Route exact path="/" element={<Dashboard />} />
-      <Route path="/Profile" element={<Profile/>}/>
-      <Route path="/Organisation" element={<Organisation/>}/>
+      <Route path="/dashboard/Profile" element={<Profile/>}/>
+      <Route path="/dashboard/Organisation" element={<Organisation/>}/>
         <Route path="/auth/sign-in"  element={<SigninNew />} />
         <Route path="/auth/sign-up" element={<SignupNew />} />
         <Route path="/auth/password-reset-email" element={<ResetPasswordEmail />} />

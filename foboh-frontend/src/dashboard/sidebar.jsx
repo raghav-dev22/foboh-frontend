@@ -10,8 +10,8 @@ function Sidebar() {
   return (
     <>
       <div>
-        <div className="p-6">
-          <div className="border-2	border-dark	bg-custom-gray w-52	h-16 flex justify-center items-center	">
+        <div className="p-6 placeholder-box">
+          <div className="border-2	border-dark	bg-custom-gray w-full	h-16 flex justify-center items-center	">
             <div className="">
               <p className="text-xs	font-semibold	italic	text-gray text-center pb-2	">
                 {" "}
