@@ -129,13 +129,13 @@ export default function Header() {
 
   return (
     <div className="2xl:container 2xl:mx-auto">
-      <div className="bg-white rounded shadow-lg py-5 px-7">
+      <div className="bg-custom-skyBlue shadow-lg py-3 px-7">
         <div className="hidden md:block">
 
           <nav className="flex justify-between  ">
             <div className="">
-              <h5 className="text-xl font-semibold">Hello [first name] 👋</h5>
-              <p className="text-sm font-normal text-zinc-500 text-start">Welcome back to FOBOH!</p>
+            <h5 className="text-xl font-semibold text-white">Hello [first name] 👋</h5>
+              <p className="text-sm font-normal text-lightGray text-start">Welcome back to FOBOH!</p>
             </div>
             <div className=" flex lg:gap-x-14 gap-x-6 items-center	 ">
               <div className="flex gap-4 ">
@@ -156,7 +156,7 @@ export default function Header() {
                 </div>
                 <div className="dropdown">
                   <div className="relative">
-                    <div className=" cursor-pointer absolute msg-no bg-custom-darkGreen rounded-full 	flex justify-center items-center">
+                    <div className=" cursor-pointer absolute msg-no bg-custom-purple rounded-full 	flex justify-center items-center">
                       <p className="text-xs text-white		font-medium	">4</p>
                     </div>
                     <div className="msg-icon">
@@ -175,8 +175,8 @@ export default function Header() {
                   onClick={toggleDropdown}
                 >
                   <div className="">
-                    <h6 className="text-sm	 font-bold">Tom Sheer</h6>
-                    <p className="text-xs font-normal text-zinc-500">Lo-Fi Wines</p>
+                  <h6 className="text-sm	 font-bold text-white">Tom Sheer</h6>
+                 <p className="text-xs font-normal text-lightGray">Lo-Fi Wines</p>
                   </div>
                   <div className="">
                     <img src="assets/user.png" alt="" className='h-11	w-11' />
@@ -233,8 +233,8 @@ export default function Header() {
             // onClick={toggleDropdown}
             >
               <div className="">
-                <h6 className="text-sm	 font-bold text-black">Tom Sheer</h6>
-                <p className="text-xs font-normal text-zinc-500">Lo-Fi Wines</p>
+              <h6 className="text-sm	 font-bold text-white">Tom Sheer</h6>
+                 <p className="text-xs font-normal text-lightGray">Lo-Fi Wines</p>
               </div>
               <div className="">
                 <img src="assets/user.png" alt="" className='h-11	w-11' />

@@ -4,6 +4,18 @@ body{
 .h-86{
 height: 86px;
 }
+.bg-custom-skyBlue{
+    background-color: #147D73
+    ;
+}
+.text-lightGray{
+    color: #F8FAFC
+    ;
+}
+.bg-custom-purple{
+    background-color: #A53CEB
+    ;
+}
 @font-face {
     font-family: 'Inter';
     src: url('/public/font/Inter-Bold.woff2') format('woff2'),
@@ -149,6 +161,10 @@ border-radius: 30px;
 }
 .w-90{
     width: 90px;
+}
+.bg-custom-extraDarkGreen{
+    background-color: #2B4447
+    ;
 }
 .text-green{
     color: #2B4447
