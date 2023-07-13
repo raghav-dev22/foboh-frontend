@@ -3,6 +3,7 @@ import Header from '../dashboard/Header';
 import Sidebar from '../dashboard/sidebar';
 import PersonalDetails from './PersonalDetails';
 import EditProfile from './EditProfile';
+import ProfileHeader from '../dashboard/ProfileHeader';
 
 function Profile() {
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -42,7 +43,8 @@ function Profile() {
       {/* Remove class [ h-64 ] when adding a card block */}
       <div className="container mx-auto  h-64 md:w-4/5 w-full ">
       <div className="container mx-auto px-0">
-          <Header />
+          {/* <Header /> */}
+          <ProfileHeader/>
           <div>
               <div className="profile-section  sm:px-11 px-5 h-custom-half     overflow-y-scroll	scroll-smooth	scrollable	">
                 <div className="sm:py-12 py-8	">
