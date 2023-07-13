@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import SignUpImg from "../../image/signup/SignUpImg.png";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -11,7 +11,6 @@ import { generateUniqueKey } from "../../helpers/uniqueKey";
 import CryptoJS from "crypto-js";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 
-
 const initialValues = {
   email: "",
   password: "",
@@ -21,7 +20,6 @@ const SignupNew = () => {
   const navigate = useNavigate();
   const [emailPresent, setEmailPresent] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
@@ -37,24 +35,26 @@ const SignupNew = () => {
         ).toString();
         console.log(encryptedPassword);
 
-        fetch(
-          `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${values.email}'))`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              "Content-Type": "application/json",
+        fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetUser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            filters: {
+              issuer: "fobohdev.onmicrosoft.com",
+              issuerAssignedId: values.email,
+              email: null,
             },
-          }
-        )
+          }),
+        })
           .then((response) => response.json())
-
           .then((data) => {
-            console.log("recent email >>>", values.email);
             console.log(data);
-
-            if (data.value.length > 0) {
-              if (data.value[0].mail === values.email) {
+            console.log(data.userdetails.value.length);
+            if (data.userdetails.value.length > 0 && !data.error) {
+              if (data.userdetails.value[0].mail === values.email) {
                 setEmailPresent(true);
               }
             } else {
@@ -84,69 +84,53 @@ const SignupNew = () => {
       },
     });
 
-
-    const handleRememberMe = () => {
-      setRememberMe((prevRememberMe) => !prevRememberMe);
-    };
+  const handleRememberMe = () => {
+    setRememberMe((prevRememberMe) => !prevRememberMe);
+  };
   // Sign in with google
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);
     console.log(googleResponse);
-
-    fetch(
-      `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
+    let randomPassword = generateUniqueKey();
+    let password = randomPassword.slice(0, 8);
+    fetch(`https://fobauthservice.azurewebsites.net/api/Verify/CreateUser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem("token"),
+        userProfile: {
+          accountEnabled: true,
+          displayName: `${googleResponse.given_name} ${googleResponse.family_name}`,
+          jobTitle: null,
+          mail: googleResponse.email,
+          identities: [
+            {
+              signInType: "emailAddress",
+              issuer: "fobohdev.onmicrosoft.com",
+              issuerAssignedId: googleResponse.email,
+            },
+          ],
+          passwordProfile: {
+            forceChangePasswordNextSignIn: true,
+            password: password,
+          },
+          mobilePhone: null,
         },
-      }
-    )
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
-        let randomPassword = generateUniqueKey();
-        let password = randomPassword.slice(0, 8);
-        console.log("Data present ->", data);
-        fetch("https://graph.microsoft.com/v1.0/users", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            accountEnabled: true,
-            displayName: `${googleResponse.given_name} ${googleResponse.family_name}`,
-            jobTitle: null,
-            mail: googleResponse.email,
-            identities: [
-              {
-                signInType: "emailAddress",
-                issuer: "fobohdev.onmicrosoft.com",
-                issuerAssignedId: googleResponse.email,
-              },
-            ],
-            passwordProfile: {
-              forceChangePasswordNextSignIn: true,
-
-              //Random generated password
-              password: `@${password}`,
-            },
-            mobilePhone: null,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Registration data ->", data);
-            if (data.error) {
-              if (data.error.details[0].code === "ObjectConflict") {
-                setEmailPresent(true);
-              }
-            } else {
-              navigate("/");
-            }
-          })
-          .catch((error) => console.log(error));
+        console.log(data);
+        console.log("Registration data ->", data);
+        if (data.error) {
+          if (data.error.error) {
+            setEmailPresent(true);
+          }
+        } else {
+          navigate("/");
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -252,13 +236,13 @@ const SignupNew = () => {
                       />
                     </div>
                     {!errors.password && values.password && (
-                <p className="mt-2 mb-2 text-green-500">
-                  Your password is strong.
-                </p>
-              )}
-              {!errors.password && values.password && (
-                <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-              )}
+                      <p className="mt-2 mb-2 text-green-500">
+                        Your password is strong.
+                      </p>
+                    )}
+                    {!errors.password && values.password && (
+                      <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                    )}
                     {errors.password && touched.password && (
                       <p className="mt-2 mb-2 text-red-500">
                         {errors.password}
@@ -272,10 +256,16 @@ const SignupNew = () => {
                   {/* Remember me checkbox */}
                   <div className="mb-6 flex items-center justify-between">
                     <div className="">
-                    {rememberMe ? (
-                        <CheckBoxOutlinedIcon onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
+                      {rememberMe ? (
+                        <CheckBoxOutlinedIcon
+                          onClick={handleRememberMe}
+                          className="text-[#147D73] cursor-pointer"
+                        />
                       ) : (
-                        <CheckBoxOutlineBlank onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
+                        <CheckBoxOutlineBlank
+                          onClick={handleRememberMe}
+                          className="text-[#147D73] cursor-pointer"
+                        />
                       )}
                       <label
                         onClick={handleRememberMe}

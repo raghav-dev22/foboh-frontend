@@ -32,13 +32,13 @@ const App = () => {
 
    
 
-    fetch(`https://dev-orderflow.foboh.com.au/api/token`, {
+    fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetToken`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        localStorage.setItem("token", data.token);
+        console.log(data.tokenresponse.access_token);
+        localStorage.setItem('token', data.tokenresponse.access_token)
       })
       .catch((error) => console.log(error));
   }, []);

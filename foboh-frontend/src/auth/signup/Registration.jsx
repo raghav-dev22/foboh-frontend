@@ -33,30 +33,35 @@ const Registration = () => {
       initialValues: initialValues,
       validationSchema: RegistrationSchema,
       onSubmit: (values) => {
-        fetch("https://graph.microsoft.com/v1.0/users", {
+        fetch("https://fobauthservice.azurewebsites.net/api/Verify/CreateUser", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        accountEnabled: true,
-        displayName: `${values.firstName} ${values.lastName}`,
-        jobTitle: values.businessName,
-        mail: localStorage.getItem('email'),
-        mailNickname: localStorage.getItem('password'),
-        identities: [
-          {
-            signInType: "emailAddress",
-            issuer: "fobohdev.onmicrosoft.com",
-            issuerAssignedId: localStorage.getItem('email')
-          },
-        ],
-        passwordProfile: {
-          forceChangePasswordNextSignIn: true,
-          password: localStorage.getItem('password'),
-        },
-        mobilePhone : values.mobile
+
+        token : localStorage.getItem("token"),
+        userProfile :
+        {
+            accountEnabled :true,
+            displayName : `${values.firstName} ${values.lastName}`,
+            jobTitle :values.businessName,
+            mail :localStorage.getItem('email'),
+            identities :
+            [
+                {
+                    signInType :"emailAddress",
+                    issuer :"fobohdev.onmicrosoft.com",
+                    issuerAssignedId :localStorage.getItem('email')
+                }
+            ],
+            passwordProfile :
+            {
+                forceChangePasswordNextSignIn :true,
+                password : localStorage.getItem('password')
+            },
+            mobilePhone : values.mobile
+        }
       }),
     })
       .then((response) => response.json())
