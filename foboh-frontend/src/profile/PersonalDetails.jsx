@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import React from "react";
 import { PersonalDetailsSchema } from "../schemas";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 
 const initialValues = {
   firstName: "",
@@ -8,6 +10,7 @@ const initialValues = {
   email: "",
   mobile: "",
 };
+
 
 function PersonalDetails() {
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
@@ -19,6 +22,7 @@ function PersonalDetails() {
       },
     });
 
+    
   return (
     <>
       <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
@@ -28,7 +32,7 @@ function PersonalDetails() {
         <div className="px-6 py-7">
           <form onSubmit={handleSubmit} className="w-full max-w-lg">
             <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className="w-full md:w-1/2 px-3">
+              <div className="w-full relative md:w-1/2 px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
@@ -49,8 +53,14 @@ function PersonalDetails() {
                       errors.firstName && touched.firstName && "1px solid red",
                   }}
                 />
+                {errors.firstName && touched.firstName && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.firstName}</p>
+                )}
+                {errors.firstName && touched.firstName && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                )}
               </div>
-              <div className="w-full md:w-1/2 px-3">
+              <div className="w-full relative md:w-1/2 px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
@@ -71,10 +81,16 @@ function PersonalDetails() {
                       errors.lastName && touched.lastName && "1px solid red",
                   }}
                 />
+                {errors.lastName && touched.lastName && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.lastName}</p>
+                )}
+                {errors.lastName && touched.lastName && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                )}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-5">
-              <div className="w-full px-3">
+              <div className="w-full relative px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-password"
@@ -92,15 +108,21 @@ function PersonalDetails() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   style={{
-                    border:
-                      errors.email && touched.email && "1px solid red",
+                    border: errors.email && touched.email && "1px solid red",
                   }}
                 />
+                {errors.email && touched.email && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.email}</p>
+                )}
+                {errors.email && touched.email && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                )}
+
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-5">
-              <div className="w-full px-3">
+              <div className="w-full relative px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-password"
@@ -110,17 +132,22 @@ function PersonalDetails() {
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
-                  type="number"
+                  type="text"
                   name="mobile"
                   placeholder="0412 345 678"
                   value={values.mobile}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   style={{
-                    border:
-                      errors.mobile && touched.mobile && "1px solid red",
+                    border: errors.mobile && touched.mobile && "1px solid red",
                   }}
                 />
+                {errors.email && touched.email && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.mobile}</p>
+                )}
+                {errors.mobile && touched.mobile && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                )}
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
