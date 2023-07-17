@@ -29,7 +29,7 @@ function Filter() {
         <>
             <div className="relative sm:w-24 w-2/4	">
 
-                <div className="h-11	  shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2" onClick={toggleDropdown} >
+                <div className="h-11	w-fit px-5  shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2" onClick={toggleDropdown} >
                     <div className="">
                         <svg
                             width={18}
@@ -138,7 +138,7 @@ function Filter() {
                                 <div className="border-t border-inherit ">
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className="" />
+                                            <img src="/assets/arrow_upward.png" alt="" className="" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">
@@ -148,7 +148,7 @@ function Filter() {
                                     </div>
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className=" rotate-180" />
+                                            <img src="/assets/arrow_upward.png" alt="" className=" rotate-180" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">
@@ -165,7 +165,7 @@ function Filter() {
                                 <div className="border-t border-inherit ">
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className="" />
+                                            <img src="/assets/arrow_upward.png" alt="" className="" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">
@@ -175,7 +175,7 @@ function Filter() {
                                     </div>
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className=" rotate-180" />
+                                            <img src="/assets/arrow_upward.png" alt="" className=" rotate-180" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">
@@ -193,7 +193,7 @@ function Filter() {
                                 <div className="border-t border-inherit ">
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className="" />
+                                            <img src="/assets/arrow_upward.png" alt="" className="" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">
@@ -203,7 +203,7 @@ function Filter() {
                                     </div>
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className=" rotate-180" />
+                                            <img src="/assets/arrow_upward.png" alt="" className=" rotate-180" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">
@@ -220,7 +220,7 @@ function Filter() {
                                 <div className="border-t border-inherit ">
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className="" />
+                                            <img src="/assets/arrow_upward.png" alt="" className="" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">
@@ -230,7 +230,7 @@ function Filter() {
                                     </div>
                                     <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
                                         <div className="">
-                                            <img src="assets/arrow_upward.png" alt="" className=" rotate-180" />
+                                            <img src="/assets/arrow_upward.png" alt="" className=" rotate-180" />
                                         </div>
                                         <div className="">
                                             <h5 className="text-base font-medium text-gray">

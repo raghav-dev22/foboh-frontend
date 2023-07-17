@@ -165,7 +165,7 @@ function Sidebar() {
                 <h6 className="text-base	font-medium  text-gray	">Products</h6>
               </div>
               <div className="dropdown-arrow">
-                <img src="assets/arrow.png" alt="" />
+                <img src="/assets/arrow.png" alt="" />
               </div>
             </div>
           </li>
@@ -337,7 +337,7 @@ function Sidebar() {
             </li>
           </ul>
           <div className=" mt-3">
-            <img src="assets/logo.png" alt="" className="mx-auto" />
+            <img src="/assets/logo.png" alt="" className="mx-auto" />
           </div>
         </div>
       </div>
