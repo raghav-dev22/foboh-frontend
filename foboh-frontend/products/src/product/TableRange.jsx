@@ -23,7 +23,7 @@ function TableRange() {
                 scope="row"
                 className="flex justify-center items-center gap-3 px-6 py-4 whitespace-nowrap dark:text-white"
             >
-                <img src="assets/defaultRange.png" alt="" className=" mx-auto object-contain	" />
+                <img src="/assets/defaultRange.png" alt="" className=" mx-auto object-contain	" />
                 <h5 className="font-medium whitespace-no-wrap text-gray">  Good Intentions 'Cape<br /> Jaffa' Chardonnay</h5>
 
 

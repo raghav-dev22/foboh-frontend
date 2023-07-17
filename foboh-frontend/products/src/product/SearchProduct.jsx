@@ -47,7 +47,7 @@ function SearchProduct() {
                     </div>
                     <div className="flex justify-center items-center gap-2">
                        <Filter/>
-                        <div className="h-11	w-2/4	 sm:w-24 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
+                        <div className="h-11	w-fit px-5 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
                             <div className="">
                                 <svg
                                     width={13}
@@ -66,7 +66,7 @@ function SearchProduct() {
                         </div>
                     </div>
                 </div>
-                <div className="flex gap-8 relative  pt-3 flex-wrap">
+                <div className="flex gap-8 relative  pt-4 flex-wrap">
                
                        <Category/>
                        <Subcategory/>

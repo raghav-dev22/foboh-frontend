@@ -127,10 +127,10 @@ export default function Header() {
                     <p className="text-xs font-normal text-lightGray">Lo-Fi Wines</p>
                   </div>
                   <div className="">
-                    <img src="assets/user.png" alt="" className='h-11	w-11' />
+                    <img src="/assets/user.png" alt="" className='h-11	w-11' />
                   </div>
                   <div className="">
-                    <img src="assets/arrow.png" alt="" />
+                    <img src="/assets/arrow.png" alt="" />
                   </div>
                 </div>
                 {isOpen && (
@@ -185,10 +185,10 @@ export default function Header() {
                 <p className="text-xs font-normal text-white">Lo-Fi Wines</p>
               </div>
               <div className="">
-                <img src="assets/user.png" alt="" className='h-11	w-11' />
+                <img src="/assets/user.png" alt="" className='h-11	w-11' />
               </div>
               <div className="">
-                <img src="assets/arrow.png" alt="" />
+                <img src="/assets/arrow.png" alt="" />
               </div>
             </div>
             {/* <svg id="ArrowSVG" className={`${dropDown ? '' : 'rotate-180'} transform duration-100`} width={24} height={24} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

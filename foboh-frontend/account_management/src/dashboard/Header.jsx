@@ -128,8 +128,8 @@ export default function Header() {
   }
 
   return (
-    <div className="2xl:container 2xl:mx-auto">
-      <div className="bg-custom-skyBlue shadow-lg py-3 px-7">
+    <div className="2xl:container 2xl:mx-auto ">
+      <div className="bg-custom-skyBlue shadow-lg py-3 px-7 	">
         <div className="hidden md:block">
 
           <nav className="flex justify-between  ">
