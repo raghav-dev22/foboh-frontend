@@ -7,6 +7,10 @@ import ProfileHeader from "../dashboard/ProfileHeader";
 
 
 function PersonalDetails() {
+  const [show, setShow] = useState(false)
+
+
+
   const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
@@ -63,7 +67,11 @@ function PersonalDetails() {
       .catch((error) => console.log(error));
   }, []);
 
-  console.log(initialValues);
+  console.log("Initial Values >>>",initialValues);
+
+  const handleReset = () => {
+    setValues(initialValues)
+  }
 
   const {
     values,
@@ -73,6 +81,8 @@ function PersonalDetails() {
     handleSubmit,
     touched,
     setValues,
+
+
   } = useFormik({
     initialValues: initialValues,
     validationSchema: PersonalDetailsSchema,
@@ -99,21 +109,69 @@ function PersonalDetails() {
       .then(data => {
         console.log(data);
         if(data.success) {
-          alert('Profile updated successfully')
+          setShow(false)
+          fetch(`https://user-api-foboh.azurewebsites.net/api/User/get?id=${id}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+        const separatedName = separateFullName(data.data[0].name);
+
+        setInitialValues({
+          firstName: separatedName.firstName,
+          lastName: separatedName.lastName,
+          email: data.data[0].email,
+          mobile: data.data[0].mobile,
+          bio: data.data[0].bio,
+          password: data.data[0].password,
+          status: true,
+          role: data.data[0].role,
+          meta: data.data[0].meta,
+          adId: data.data[0].adId,
+          imageUrl: data.data[0].imageUrl,
+        });
+
+        setValues({
+          firstName: separatedName.firstName,
+          lastName: separatedName.lastName,
+          email: data.data[0].email,
+          mobile: data.data[0].mobile,
+          bio: data.data[0].bio,
+          password: data.data[0].password,
+          status: true,
+          role: data.data[0].role,
+          meta: data.data[0].meta,
+          adId: data.data[0].adId,
+          imageUrl: data.data[0].imageUrl,
+        });
+      })
+      .catch((error) => console.log(error));
+
         }
       }).catch(error => console.log(error))
     },
   });
 
+
+
+  const handleInputChange = () => {
+    setShow(true)
+  }
+
   return (
     <>
       <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
-      <ProfileHeader handleSubmit={handleSubmit} />
+
+      {
+        show && <ProfileHeader handleSubmit={handleSubmit} handleReset={handleReset} />
+      }
         <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
           <h6 className="text-base	font-medium	 text-green">Personal details</h6>
         </div>
         <div className="px-6 py-7">
-          <form  className="w-full max-w-lg">
+          <form onChange={handleInputChange}  className="w-full max-w-lg">
             <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
               <div className="w-full relative md:w-1/2 px-3">
                 <label
