@@ -61,7 +61,7 @@ const SigninNew = () => {
                 const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
                 console.log(decryptedPassword);
                 if (decryptedPassword === values.password) {
-                  navigate("/");
+                  navigate("/dashboard/main");
                 } else {
                   setIsValidPassword(false);
                 }
@@ -127,7 +127,7 @@ const SigninNew = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            navigate("/");
+            navigate("/dashboard/main");
           })
           .catch((error) => console.log(error));
       })

@@ -53,7 +53,7 @@ const ResetLinkCard = () => {
           <div className="flex flex-col items-center">
             <img
               className=" mb-6 mt-10 w-[190px]"
-              src="image/reset/fobohLogo.png"
+              src="/image/reset/fobohLogo.png"
               alt="foboh-icon"
             />
 

@@ -114,7 +114,7 @@ const ResetPasswordForm = () => {
         <div className="bg-white px-6 py-8 rounded-[15px] min-w-min lg:w-1/3 md:w-1/2 sm:w-2/3   shadow-md text-black">
           <img
             className="mx-auto my-6 w-[190px]"
-            src="image/reset/fobohLogo.png"
+            src="/image/reset/fobohLogo.png"
             alt="foboh-icon"
           />
           <h2

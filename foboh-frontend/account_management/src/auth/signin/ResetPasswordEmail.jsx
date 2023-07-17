@@ -17,7 +17,6 @@ const ResetPasswordEmail = () => {
     initialValues: initialValues,
     validationSchema: ResetPasswordEmailSchema,
     onSubmit: (values) => {
-      const url = process.env.REACT_APP_URL
       localStorage.setItem('email', values.email)
   
   
@@ -75,7 +74,7 @@ const ResetPasswordEmail = () => {
           <div className="flex flex-col items-center">
             <img
               className=" mb-6 mt-10 w-[190px]"
-              src="image/reset/fobohLogo.png"
+              src="/image/reset/fobohLogo.png"
               alt="foboh-icon"
             />
 
