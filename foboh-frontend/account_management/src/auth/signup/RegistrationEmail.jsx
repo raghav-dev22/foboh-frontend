@@ -26,9 +26,9 @@ const RegistrationEmail = () => {
     }
 
     const handleResendLink = () => {
-      const url = process.env.REACT_APP_URL
+      // const url = process.env.REACT_APP_URL
         //Resend Link
-        fetch(`${url}/api/api/send-email`, {
+        fetch(`https://dev-orderflow.foboh.com.au/api/api/send-email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import TableRange from './TableRange';
 import SearchProduct from './SearchProduct';
 
 import ActiveProduct from './ActiveProduct';
+import '../style.css'
 
 function Range() {
     const [isDivVisible, setIsDivVisible] = useState(false);
@@ -50,7 +51,7 @@ function Range() {
                         <SearchProduct/>
                         </div>
                         <div className="box-4 pt-6 px-6 ">
-                            <div className="relative overflow-x-auto overflow-y-auto h-80	 no-scrollbar shadow-md sm:rounded-lg rounded-md	 border border-inherit bg-white">
+                            <div className="relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
                                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead className=" border-b">
                                         <tr>

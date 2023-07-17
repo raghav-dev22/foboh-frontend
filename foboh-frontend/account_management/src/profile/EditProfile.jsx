@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 
 function EditProfile() {
     const [imageSrc, setImageSrc] = useState(``);
-    const defaultImage = 'assets/update-user.png';
+    const defaultImage = '/assets/update-user.png';
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {

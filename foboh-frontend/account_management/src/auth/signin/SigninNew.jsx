@@ -327,7 +327,7 @@ const SigninNew = () => {
                 </form>
               </div>
               <div className="  md:basis-1/2  hidden lg:block ">
-                <img src="image/signin/SignInImg.png" className="h-full w-full  " alt="signin" />
+                <img src="/image/signin/SignInImg.png" className="h-full w-full  " alt="signin" />
               </div>
             </div>
           </div>

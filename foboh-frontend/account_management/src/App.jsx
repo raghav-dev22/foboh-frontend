@@ -1,10 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-
-
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import './style.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ReactDOM from "react-dom";
+
 
 import ResetLinkCard from "./auth/signin/ResetLinkCard";
 // import Home from './Home';
@@ -17,25 +15,26 @@ import SigninNew from "./auth/signin/SigninNew";
 import SignupNew from "./auth/signup/SignupNew";
 import MyAccount from "./pages/MyAccount";
 import ResetPasswordEmail from "./auth/signin/ResetPasswordEmail";
-// import DashBoard from "./dashboard/Dashboard";
-import Profile from "./profile/Profile";
 import Dashboard from "./dashboard/Dashboard";
-import Organisation from "./Settings/Organisation";
-import Range from "products/Range"
+
+
+// const url = process.env.REACT_APP_EXPRESS_SERVER_URL
+
+
+
 
 const App = () => {
   // Getting token from server
   useEffect(() => {
+    // const url = process.env.REACT_APP_URL
 
-   
-
-    fetch(`https://verifyserviceapi.azurewebsites.net/api/Verify/GetToken`, {
+    fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetToken`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.tokenresponse.access_token);
-        localStorage.setItem('token', data.tokenresponse.access_token)
+        console.log(data);
+        localStorage.setItem("token", data.tokenresponse.access_token);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -43,12 +42,9 @@ const App = () => {
   return (
     <Router>
       <Routes>
-      <Route exact path="/" element={<Dashboard />} />
-      <Route path="/dashboard/Profile" element={<Profile/>}/>
-      <Route path="/dashboard/Organisation" element={<Organisation/>}/>
-      <Route path="/dashboard/products" element={<Range />}/>
-
-      
+      <Route exact path="/dashboard/*" element={<Dashboard />} />
+      {/* <Route path="/dashboard/Profile" element={<Profile/>}/> */}
+      {/* <Route path="/dashboard/Organisation" element={<Organisation/>}/> */}
         <Route path="/auth/sign-in"  element={<SigninNew />} />
         <Route path="/auth/sign-up" element={<SignupNew />} />
         <Route path="/auth/password-reset-email" element={<ResetPasswordEmail />} />
@@ -71,7 +67,5 @@ const App = () => {
     </Router>
   );
 };
-
-
 
 ReactDOM.render(<App />, document.getElementById("app"));

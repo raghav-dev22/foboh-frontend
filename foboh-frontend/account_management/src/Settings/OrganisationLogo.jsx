@@ -12,7 +12,7 @@ function OrganisationLogo() {
       <div className="update-user">
         <img
           id="previewImage"
-          src="assets/update-user.png"
+          src="/assets/update-user.png"
           alt=""
           className="w-14	h-14	object-contain	"
         />

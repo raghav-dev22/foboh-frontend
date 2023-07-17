@@ -11,7 +11,7 @@ function StockDetails() {
               <div className={` rounded-md	 border border-inherit bg-white grow h-40 stock-${index}`}>
                 <div className="grid grid-cols-1 gap-6 p-4">
                   <div className=" stock-icon h-12 w-12 rounded-full	flex justify-center items-center bg-slate-100	">
-                    <img src="assets/revenue.png" alt="" />
+                    <img src="/assets/revenue.png" alt="" />
                   </div>
                   <div className="">
                     <h4 className="text-2xl font-bold text-start	">$12,489</h4>

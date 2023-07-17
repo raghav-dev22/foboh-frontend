@@ -238,7 +238,7 @@ export default function Home() {
                                     <div className="border-t border-gray-300">
                                         <div className="w-full flex items-center justify-between px-6 pt-1">
                                             <div className="flex items-center">
-                                                <img alt="profile-pic" src="https://tuk-cdn.s3.amazonaws.com/assets/components/boxed_layout/bl_1.png" className="w-8 h-8 rounded-md" />
+                                                <img alt="profile-pic" src="https://tuk-cdn.s3.amazonaws.com//assets/components/boxed_layout/bl_1.png" className="w-8 h-8 rounded-md" />
                                                 <p className="md:text-xl text-gray-800 text-base leading-4 ml-2">Jane Doe</p>
                                             </div>
                                             <ul className="flex">
@@ -349,7 +349,7 @@ export default function Home() {
                                                     ""
                                                 )}
                                                 <div className="relative">
-                                                    <img className="rounded-full h-10 w-10 object-cover" src="https://tuk-cdn.s3.amazonaws.com/assets/components/sidebar_layout/sl_1.png" alt="avatar" />
+                                                    <img className="rounded-full h-10 w-10 object-cover" src="https://tuk-cdn.s3.amazonaws.com//assets/components/sidebar_layout/sl_1.png" alt="avatar" />
                                                     <div className="w-2 h-2 rounded-full bg-green-400 border border-white absolute inset-0 mb-0 mr-0 m-auto" />
                                                 </div>
                                             </div>

@@ -25,7 +25,7 @@ const SignupNew = () => {
       initialValues: initialValues,
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
-        const url = process.env.REACT_APP_URL;
+        // const url = process.env.REACT_APP_URL;
 
         const key1 = "12345";
         const encryptedPassword = CryptoJS.AES.encrypt(
@@ -304,7 +304,7 @@ const SignupNew = () => {
                 </form>
               </div>
               <div className="md:basis-1/2 hidden lg:block">
-                <img src="image/signup/SignUpImg.png" className="h-full w-full" alt="signup" />
+                <img src="/image/signup/SignUpImg.png" className="h-full w-full" alt="signup" />
               </div>
             </div>
           </div>
