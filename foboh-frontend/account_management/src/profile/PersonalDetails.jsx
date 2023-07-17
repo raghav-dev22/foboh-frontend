@@ -1,36 +1,119 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PersonalDetailsSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-
-
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  mobile: "",
-};
+import separateFullName from "../helpers/separateFullName";
+import ProfileHeader from "../dashboard/ProfileHeader";
 
 
 function PersonalDetails() {
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: PersonalDetailsSchema,
-      onSubmit: (values) => {
-        console.log(values);
-      },
-    });
+  const [initialValues, setInitialValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    password: "",
+    status: true,
+    role: "",
+    meta: "",
+    adId: "",
+    imageUrl: "",
+    bio: "",
+  });
 
-    
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    fetch(`https://user-api-foboh.azurewebsites.net/api/User/get?id=${id}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+        const separatedName = separateFullName(data.data[0].name);
+
+        setInitialValues({
+          firstName: separatedName.firstName,
+          lastName: separatedName.lastName,
+          email: data.data[0].email,
+          mobile: data.data[0].mobile,
+          bio: data.data[0].bio,
+          password: data.data[0].password,
+          status: true,
+          role: data.data[0].role,
+          meta: data.data[0].meta,
+          adId: data.data[0].adId,
+          imageUrl: data.data[0].imageUrl,
+        });
+
+        setValues({
+          firstName: separatedName.firstName,
+          lastName: separatedName.lastName,
+          email: data.data[0].email,
+          mobile: data.data[0].mobile,
+          bio: data.data[0].bio,
+          password: data.data[0].password,
+          status: true,
+          role: data.data[0].role,
+          meta: data.data[0].meta,
+          adId: data.data[0].adId,
+          imageUrl: data.data[0].imageUrl,
+        });
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  console.log(initialValues);
+
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    setValues,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: PersonalDetailsSchema,
+    onSubmit: (values) => {
+      const id = localStorage.getItem("userId");
+      fetch(`https://user-api-foboh.azurewebsites.net/api/User/update?id=${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `${values.firstName} ${values.lastName}`,
+          email: values.email,
+          password: values.password,
+          status: true,
+          role:  values.role,
+          meta: values.meta,
+          adId: values.adId,
+          imageUrl: values.imageUrl,
+          bio: values.bio,
+          mobile: values.mobile,
+        }),
+      }).then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if(data.success) {
+          alert('Profile updated successfully')
+        }
+      }).catch(error => console.log(error))
+    },
+  });
+
   return (
     <>
       <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
+      <ProfileHeader handleSubmit={handleSubmit} />
         <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
           <h6 className="text-base	font-medium	 text-green">Personal details</h6>
         </div>
         <div className="px-6 py-7">
-          <form onSubmit={handleSubmit} className="w-full max-w-lg">
+          <form  className="w-full max-w-lg">
             <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
               <div className="w-full relative md:w-1/2 px-3">
                 <label
@@ -100,6 +183,7 @@ function PersonalDetails() {
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
+                  disabled
                   type="email"
                   name="email"
                   autoComplete="on"
@@ -157,7 +241,7 @@ function PersonalDetails() {
                   htmlFor="message"
                   className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
                 >
-                  Your message
+                  Bio
                 </label>
                 <textarea
                   id="message"
@@ -165,10 +249,15 @@ function PersonalDetails() {
                   className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                   placeholder="Leave a comment..."
                   defaultValue={""}
+                  name="bio"
+                  value={values.bio}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
+            
           </form>
         </div>
       </div>

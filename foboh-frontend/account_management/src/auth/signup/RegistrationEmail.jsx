@@ -53,7 +53,7 @@ const RegistrationEmail = () => {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full p-6 bg-white md:mt-0 sm:max-w-md  rounded-[22px] sm:p-8  shadow-xl">
           <div className="flex flex-col items-center scale-95">
-            <img className=" mb-6 mt-10 w-[190px]" src="image/signup/fobohLogo.png" alt="foboh-icon" />
+            <img className=" mb-6 mt-10 w-[190px]" src="/image/signup/fobohLogo.png" alt="foboh-icon" />
 
             <h2 className="mb-6   text-[20px] font-bold leading-tight text-[#147D73] font-inter md:text-3xl">
               Verify your email

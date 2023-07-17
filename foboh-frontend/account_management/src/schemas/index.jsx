@@ -83,6 +83,7 @@ export const PersonalDetailsSchema = Yup.object().shape({
     /^\+\d{1,3}\s?\d{1,14}$/,
     "Mobile number must be a valid number with country code"
   ),
+  bio: Yup.string()
 });
 
 export const OrganisationDetailsSchema = Yup.object().shape({

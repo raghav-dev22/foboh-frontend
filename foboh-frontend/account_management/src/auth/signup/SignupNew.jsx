@@ -58,7 +58,7 @@ const SignupNew = () => {
               }
             } else {
               setEmailPresent(false);
-              fetch(`https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`, {
+              fetch(`https://dev-orderflow.foboh.com.au/api/api/send-email`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -73,11 +73,11 @@ const SignupNew = () => {
                 .then((data) => {
 
                   console.log(data);
-                  // localStorage.setItem("email", values.email);
-                  // localStorage.setItem("password", encryptedPassword);
+                  localStorage.setItem("email", values.email);
+                  localStorage.setItem("password", encryptedPassword);
 
-                  // localStorage.setItem("uniqueKey", data.key);
-                  // navigate(`/auth/registration-email/${data.key}`);
+                  localStorage.setItem("uniqueKey", data.key);
+                  navigate(`/auth/registration-email/${data.key}`);
                 })
                 .catch((error) => console.log(error));
             }
