@@ -4,7 +4,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "build:start": "cd dist && PORT=3000 npx serve",
+    "build:start": "cd dist && npx serve",
     "start": "webpack serve --open --mode development",
     "start:live": "webpack serve --open --mode development --live-reload --hot"
   },
@@ -46,7 +46,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
-    "tailwindcss": "^3.3.3",
     "browserify-zlib": "^0.2.0",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
@@ -61,12 +60,14 @@
     "react": "^18.2.0",
     "react-datepicker": "^4.15.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-helmet": "^6.1.0",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.1",
     "redux-persist": "^6.0.0",
     "stream": "^0.0.2",
     "stream-browserify": "^3.0.0",
+    "tailwindcss": "^3.3.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   }

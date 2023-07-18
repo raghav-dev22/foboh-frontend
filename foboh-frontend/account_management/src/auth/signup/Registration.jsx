@@ -20,67 +20,90 @@ const Registration = () => {
     if (localStorage.getItem("uniqueKey") !== id) {
       navigate("/auth/sign-up");
     }
-    
   }, []);
-
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: RegistrationSchema,
       onSubmit: (values) => {
-        fetch("https://fobauthservice.azurewebsites.net/api/Verify/CreateUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-
-        token : localStorage.getItem("token"),
-        userProfile :
-        {
-            accountEnabled :true,
-            displayName : `${values.firstName} ${values.lastName}`,
-            jobTitle :values.businessName,
-            mail :localStorage.getItem('email'),
-            identities :
-            [
-                {
-                    signInType :"emailAddress",
-                    issuer :"fobohdev.onmicrosoft.com",
-                    issuerAssignedId :localStorage.getItem('email')
-                }
-            ],
-            passwordProfile :
-            {
-                forceChangePasswordNextSignIn :true,
-                password : localStorage.getItem('password')
+        fetch(
+          "https://fobauthservice.azurewebsites.net/api/Verify/CreateUser",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-            mobilePhone : values.mobile
-        }
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.removeItem("uniqueKey");
-        console.log(data);
-        if (!data.error) {
-          localStorage.removeItem("email");
-          localStorage.removeItem("uniqueKey");
-          localStorage.removeItem('password')
-          navigate("/auth/sign-in");
-        } else {
-          console.log(data);
-          localStorage.setItem('id', data.id);
-          localStorage.removeItem("email");
-          localStorage.removeItem("uniqueKey");
-          localStorage.removeItem('password')
-        }
-      })
-      .catch((error) => console.log(error));
+            body: JSON.stringify({
+              token: localStorage.getItem("token"),
+              userProfile: {
+                accountEnabled: true,
+                displayName: `${values.firstName} ${values.lastName}`,
+                jobTitle: values.businessName,
+                mail: localStorage.getItem("email"),
+                identities: [
+                  {
+                    signInType: "emailAddress",
+                    issuer: "fobohdev.onmicrosoft.com",
+                    issuerAssignedId: localStorage.getItem("email"),
+                  },
+                ],
+                passwordProfile: {
+                  forceChangePasswordNextSignIn: true,
+                  password: localStorage.getItem("password"),
+                },
+                mobilePhone: values.mobile,
+              },
+            }),
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+
+            const userInfo = data.userdetails
+
+            fetch("https://user-api-foboh.azurewebsites.net/api/User/create", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: userInfo.displayName,
+                email: userInfo.mail,
+                password: localStorage.getItem("password"),
+                status: true,
+                role: "string",
+                meta: "string",
+                adId: userInfo.id,
+                imageUrl: "string",
+                bio: "string",
+                mobile: userInfo.mobilePhone,
+              }),
+            }).then((response) => response.json())
+            .then(data => {
+
+              console.log("userDB >>>",data);
+
+              localStorage.removeItem("uniqueKey");
+              if (!data.error) {
+                localStorage.removeItem("email");
+                localStorage.removeItem("uniqueKey");
+                localStorage.removeItem('password')
+                navigate("/auth/sign-in");
+              } else {
+                console.log(data);
+                localStorage.setItem('id', data.id);
+                localStorage.removeItem("email");
+                localStorage.removeItem("uniqueKey");
+                localStorage.removeItem('password')
+              }
+            })
+
+          })
+          .catch((error) => console.log(error));
       },
     });
-
 
   // Check if the unique key is matching with the url id or not
 
@@ -91,7 +114,7 @@ const Registration = () => {
           <div className="bg-white px-8 py-8 rounded-[15px] shadow-md text-black md:w-[500px]">
             <img
               className="mx-auto my-6 w-[190px]"
-              src='image/signup/fobohLogo.png'
+              src="/image/signup/fobohLogo.png"
               alt="account-icon"
             />
             <h1 className="mb-8 text-[23px]  md:text-3xl font-bold font-inter text-center text-[#147D73]">
@@ -118,7 +141,7 @@ const Registration = () => {
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 left-4 -mb-[20px]"
-                  src="image/signup/user.png"
+                  src="/image/signup/user.png"
                   alt="user"
                 />
                 {errors.firstName && touched.firstName && (
@@ -149,7 +172,7 @@ const Registration = () => {
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 left-4 -mb-[20px]"
-                  src="image/signup/user.png"
+                  src="/image/signup/user.png"
                   alt="user"
                 />
                 {errors.lastName && touched.lastName && (
@@ -174,11 +197,10 @@ const Registration = () => {
                   style={{
                     border: errors.mobile && touched.mobile && "1px solid red",
                   }}
-                  
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 left-4 -mb-[20px]"
-                  src="image/signup/install_mobile.png"
+                  src="/image/signup/install_mobile.png"
                   alt="user"
                 />
                 {errors.mobile && touched.mobile && (
@@ -210,11 +232,13 @@ const Registration = () => {
                 />
                 <img
                   className="relative h-[20px] w-[20px] bottom-9 -mb-[20px] left-4"
-                  src="image/signup/briefcase 2.png"
+                  src="/image/signup/briefcase 2.png"
                   alt="user"
                 />
                 {errors.businessName && touched.businessName && (
-                  <p className="mt-2 mb-2 text-red-500">{errors.businessName}</p>
+                  <p className="mt-2 mb-2 text-red-500">
+                    {errors.businessName}
+                  </p>
                 )}
                 {errors.businessName && touched.businessName && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[50px] right-3 transition-all duration-[0.3s]" />

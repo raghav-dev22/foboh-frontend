@@ -41,26 +41,27 @@ const SigninNew = () => {
       onSubmit: (values) => {
     
           fetch(
-            `https://graph.microsoft.com/beta/tenant.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'tenant.onmicrosoft.com' and i/issuerAssignedId eq '${values.email}'))&mailNickname`,
+            `https://user-api-foboh.azurewebsites.net/api/User/get?email=${values.email}`,
             {
               method: "GET",
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
-              },
             }
           )
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
-              if (data.value.length > 0) {
+
+              console.log(data);
+
+              if (data.success) {
                 console.log(data);
-                console.log(data.value[0].mailNickname);
-                // localStorage.setItem('mailNickname', data.value[0].mailNickname)
-                const bytes = CryptoJS.AES.decrypt(data.value[0].mailNickname, key);
+                console.log(data.data[0].password);
+                localStorage.setItem('mailNickname', data.data[0].password)
+                const bytes = CryptoJS.AES.decrypt(data.data[0].password, key);
                 const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
                 console.log(decryptedPassword);
                 if (decryptedPassword === values.password) {
+                  console.log(data);
+                  localStorage.setItem('userId', data.data[0].id)
                   navigate("/dashboard/main");
                 } else {
                   setIsValidPassword(false);
@@ -127,6 +128,7 @@ const SigninNew = () => {
         })
           .then((response) => response.json())
           .then((data) => {
+
             navigate("/dashboard/main");
           })
           .catch((error) => console.log(error));

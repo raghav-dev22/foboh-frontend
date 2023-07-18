@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import './style.css'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
 
 
@@ -24,6 +24,7 @@ import Dashboard from "./dashboard/Dashboard";
 
 
 const App = () => {
+
   // Getting token from server
   useEffect(() => {
     // const url = process.env.REACT_APP_URL
@@ -37,6 +38,7 @@ const App = () => {
         localStorage.setItem("token", data.tokenresponse.access_token);
       })
       .catch((error) => console.log(error));
+
   }, []);
 
   return (
