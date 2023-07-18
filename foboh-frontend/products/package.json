@@ -4,7 +4,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "build:start": "cd dist && PORT=3001 npx serve",
+    "build:start": "cd dist &&  npx serve",
     "start": "webpack serve --open --mode development",
     "start:live": "webpack serve --open --mode development --live-reload --hot"
   },
@@ -25,7 +25,7 @@
     "postcss": "^8.2.1",
     "postcss-loader": "^4.1.0",
     "style-loader": "^3.3.0",
-    "tailwindcss": "^3.3.2",
+    "tailwindcss": "^3.3.3",
     "webpack": "^5.57.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.3.1"
