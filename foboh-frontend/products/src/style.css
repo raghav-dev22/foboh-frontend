@@ -396,3 +396,39 @@ input[type='radio']:checked:before {
 .h-80{
     height: 320px ;
 }
+.h-96{
+    height: 390px;
+}
+.top-14{
+    top: 56px;
+}
+.w-56 {
+    width: 224px;
+}
+.bg-custom-blur {
+    background-color: #00000059;
+}
+.toggle-checkbox:checked {
+    @apply: right-0 border-green-400;
+    right: 0;
+    border-color: #147D73
+;
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    @apply: bg-green-400;
+    background-color: #147D73
+;
+  }
+  .bg-slate-200{
+    background-color: rgb(226 232 240);
+
+  }
+  .border-solid{
+    border: 1px solid #dadada;
+  }
+  .basic-multi-select .css-13cymwt-control{
+    padding: 6px 20px !important;
+  }
+  .css-13ipsp-control:hover{
+    border-color: hsl(0, 0%, 70%) !important;
+  }

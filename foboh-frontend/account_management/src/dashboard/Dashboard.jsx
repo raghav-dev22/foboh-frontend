@@ -7,6 +7,7 @@ import MainDashBoard from '../components/mainPage/MainDashBoard';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Organisation from '../Settings/Organisation';
 import Range from "products/Range"
+import ViewProduct from 'products/ViewProduct';
 
 function Dashboard() {
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -49,6 +50,7 @@ function Dashboard() {
               <Route path="/your-profile" element={<Profile />} />
               <Route path="/organisation-settings" element={<Organisation />} />
               <Route path="/products" element={<Range />} />
+              <Route path="/view-product" element={<ViewProduct />} />
               </Routes>
             {/* <Profile /> */}
           </div>

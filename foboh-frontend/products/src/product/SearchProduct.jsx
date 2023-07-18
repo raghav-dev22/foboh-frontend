@@ -12,12 +12,7 @@ function SearchProduct() {
             <div className=" border border-inherit bg-white h-full py-3	 px-4">
                 <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center ">
                     <div>
-                        <label
-                            htmlFor="default-search"
-                            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-                        >
-                            Search
-                        </label>
+            
                         <div className="relative 	">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <svg

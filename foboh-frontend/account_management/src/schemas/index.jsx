@@ -93,6 +93,7 @@ export const OrganisationDetailsSchema = Yup.object().shape({
     .min(2, "Your business name should have atleast 2 letters")
     .max(50),
   abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
+  liquorLicence: Yup.string().matches(/^\d{11}$/, "Invalid liquorLicence format"),
 });
 
 export const OrganisationAddressSchema = Yup.object().shape({
@@ -106,4 +107,44 @@ export const OrganisationAddressSchema = Yup.object().shape({
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
   postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+});
+
+export const BillingAddressSchema = Yup.object().shape({
+  address: Yup.string()
+    .min(10, "Your address should have atleast 10 letters")
+    .max(100),
+  apartment: Yup.string()
+    .min(2, "Your apartment should have atleast 2 letters")
+    .max(100),
+  suburb: Yup.string()
+    .min(2, "Suburb should have atleast 2 letters")
+    .max(50),
+  postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+});
+
+export const OrderingContactSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, "Your first name should have atleast 2 letters")
+    .max(50),
+  lastName: Yup.string()
+    .min(2, "Your last name should have atleast 2 letters")
+    .max(50),
+  email: Yup.string().email("Invalid is email"),
+  mobile: Yup.string().matches(
+    /^\+\d{1,3}\s?\d{1,14}$/,
+    "Mobile number must be a valid number with country code"
+  ),
+});
+export const LogisticsContactSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, "Your first name should have atleast 2 letters")
+    .max(50),
+  lastName: Yup.string()
+    .min(2, "Your last name should have atleast 2 letters")
+    .max(50),
+  email: Yup.string().email("Invalid is email"),
+  mobile: Yup.string().matches(
+    /^\+\d{1,3}\s?\d{1,14}$/,
+    "Mobile number must be a valid number with country code"
+  ),
 });

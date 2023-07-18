@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Sidebar from '../dashboard/Sidebar';
-import Header from '../dashboard/Header'
+
 import TableRange from './TableRange';
 import SearchProduct from './SearchProduct';
 

@@ -1,6 +1,23 @@
 import React from 'react'
+import { useFormik } from "formik";
+import { BillingAddressSchema} from '../schemas';
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+const initialValues = {
+  address: "",
+  apartment: "",
+  suburb: "",
+  postcode: "",
+};
 
 function BillingAddress() {
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+  useFormik({
+    initialValues: initialValues,
+    validationSchema: BillingAddressSchema ,
+    onSubmit: (values) => {
+      console.log(values,"kkk");
+    },
+  });
   return (
     <>
       <div className="   w-full  rounded-lg		 border border-inherit bg-white h-fit		 	  ">
@@ -8,7 +25,7 @@ function BillingAddress() {
     <h6 className="text-base	font-medium	 text-green">Billing address</h6>
   </div>
   <div className="px-6 py-7">
-    <form className="w-full max-w-lg">
+    <form className="w-full max-w-lg"  onSubmit={handleSubmit}>
       <div className="flex items-center mb-5">
         <input
           id="default-checkbox"
@@ -23,8 +40,8 @@ function BillingAddress() {
           Use same address as Organisation for Billing{" "}
         </label>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-5 items-end">
-        <div className="w-full md:w-1/2 px-3">
+      <div className="flex flex-wrap -mx-3 mb-5 items-start">
+        <div className="w-full md:w-1/2 px-3 relative">
           <label
             className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
             htmlFor="grid-last-name"
@@ -36,9 +53,23 @@ function BillingAddress() {
             id="grid-last-name"
             type="text"
             placeholder="126 Juliett Street"
+            name="address"
+            value={values.address}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            style={{
+              border:
+                errors.address && touched.address && "1px solid red",
+            }}
           />
+            {errors.address && touched.address && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">{errors.address}</p>
+                )}
+                {errors.address && touched.address && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                )}
         </div>
-        <div className="w-full md:w-1/2 px-3">
+        <div className="w-full md:w-1/2 px-3 relative">
           <label
             className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
             htmlFor="grid-last-name"
@@ -50,11 +81,25 @@ function BillingAddress() {
             id="grid-last-name"
             type="text"
             placeholder="Jones"
+            name="apartment"
+            value={values.apartment}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            style={{
+              border:
+                errors.apartment && touched.apartment && "1px solid red",
+            }}
           />
+           {errors.apartment && touched.apartment && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">{errors.apartment}</p>
+                )}
+                {errors.apartment && touched.apartment && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                )}
         </div>
       </div>
-      <div className="flex flex-wrap -mx-3 mb-5 items-end">
-        <div className="w-full md:w-1/3	 px-3">
+      <div className="flex flex-wrap -mx-3 mb-5 items-start">
+        <div className="w-full md:w-1/3	 px-3 relative">
           <label
             className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
             htmlFor="grid-last-name"
@@ -66,9 +111,22 @@ function BillingAddress() {
             id="grid-last-name"
             type="text"
             placeholder="Tom"
+            name="suburb"
+            value={values.suburb}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            style={{
+              border: errors.suburb && touched.suburb && "1px solid red",
+            }}
           />
+           {errors.suburb && touched.suburb && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">{errors.suburb}</p>
+                )}
+                {errors.suburb && touched.suburb && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                )}
         </div>
-        <div className="w-full md:w-1/3	 px-3">
+        <div className="w-full md:w-1/3	 px-3 relative">
           <label
             className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
             htmlFor="grid-last-name"
@@ -80,9 +138,22 @@ function BillingAddress() {
             id="grid-last-name"
             type="text"
             placeholder="Jones"
+            name="postcode"
+            value={values.postcode}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            style={{
+              border: errors.postcode && touched.postcode && "1px solid red",
+            }}
           />
+           {errors.email && touched.email && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">{errors.postcode}</p>
+                )}
+                {errors.postcode && touched.postcode && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                )}
         </div>
-        <div className="w-full md:w-1/3	 px-3">
+        <div className="w-full md:w-1/3	 px-3 relative">
           <label
             className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
             htmlFor="grid-last-name"

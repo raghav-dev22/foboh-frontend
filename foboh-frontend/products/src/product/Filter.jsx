@@ -51,7 +51,7 @@ function Filter() {
                 {isOpen && (
                     <>
                         <div
-                            className=" z-10	right-0 w-full   sm:w-60 absolute top-14 border border-inherit bg-white	shadow-md rounded-lg	h-fit py-3	"
+                            className=" z-10	left-0 w-56   sm:w-30 absolute top-14 border border-inherit bg-white	shadow-md rounded-lg	h-fit py-3	"
                         >
                             <ul className="dropdown-content 	 ">
                                 <li className="py-2.5	px-4	">
