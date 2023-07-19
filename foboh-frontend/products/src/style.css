@@ -397,7 +397,7 @@ input[type='radio']:checked:before {
     height: 320px ;
 }
 .h-96{
-    height: 390px;
+    height: 440px   ;
 }
 .top-14{
     top: 56px;
@@ -427,8 +427,30 @@ input[type='radio']:checked:before {
     border: 1px solid #dadada;
   }
   .basic-multi-select .css-13cymwt-control{
-    padding: 6px 20px !important;
+    padding:6px 0px 6px 0 !important
   }
   .css-13ipsp-control:hover{
     border-color: hsl(0, 0%, 70%) !important;
+  }
+  .bg-teal-600{
+    background-color: #147D73;
+  }
+  .css-1p3m7a8-multiValue{
+    background-color: #147D73 !important;
+    color: #fff;
+    border-radius: 50px !important;
+  }
+  .css-wsp0cs-MultiValueGeneric{
+    color: #fff !important;
+  }
+  .css-12a83d4-MultiValueRemove:hover{
+    background: none !important;
+    color:#fff !important;
+  }
+  .css-t3ipsp-control{
+    box-shadow: none !important;
+    border-color: hsl(0, 0%, 80%) !important;
+  }
+  .css-t3ipsp-control:hover{
+    border:1px solid  hsl(0, 0%, 80%) !important;
   }

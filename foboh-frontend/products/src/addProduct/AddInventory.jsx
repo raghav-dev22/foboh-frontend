@@ -4,7 +4,7 @@ import { Combobox, Transition } from "@headlessui/react";
 // import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-function Inventory() {
+function AddInventory() {
   const people = [
     { id: 1, name: "Wade Cooper" },
     { id: 2, name: "Arlene Mccoy" },
@@ -35,7 +35,7 @@ function Inventory() {
         <div className="p-5">
           <div className=" pb-5">
             <h5 className="text-base font-medium text-green mb-3">
-              Minimum order quantity
+            Minimum order quantity
             </h5>
             <div className="fixed top-16 w-72">
               <Combobox value={selected} onChange={setSelected}>
@@ -47,10 +47,6 @@ function Inventory() {
                       onChange={(event) => setQuery(event.target.value)}
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                      {/* <ChevronUpDownIcon
-                                                className="h-5 w-5 text-gray-400"
-                                                aria-hidden="true"
-                                            /> */}
                       <ArrowDropDownIcon />
                     </Combobox.Button>
                   </div>
@@ -61,7 +57,7 @@ function Inventory() {
                     leaveTo="opacity-0"
                     afterLeave={() => setQuery("")}
                   >
-                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-40	">
+                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                       {filteredPeople.length === 0 && query !== "" ? (
                         <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                           Nothing found.
@@ -160,7 +156,7 @@ function Inventory() {
                     leaveTo="opacity-0"
                     afterLeave={() => setQuery("")}
                   >
-                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-40	">
+                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                       {filteredPeople.length === 0 && query !== "" ? (
                         <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                           Nothing found.
@@ -237,4 +233,4 @@ function Inventory() {
   );
 }
 
-export default Inventory;
+export default AddInventory;

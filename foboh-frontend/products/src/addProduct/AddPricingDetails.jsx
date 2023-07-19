@@ -1,6 +1,6 @@
 import React from "react";
 
-function PricingDetails() {
+function AddPricingDetails() {
   return (
     <>
       <div className="  w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
@@ -156,4 +156,4 @@ function PricingDetails() {
   );
 }
 
-export default PricingDetails;
+export default AddPricingDetails;
