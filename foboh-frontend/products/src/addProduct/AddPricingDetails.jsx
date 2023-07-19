@@ -1,6 +1,6 @@
 import React from "react";
 
-function PricingDetails() {
+function AddPricingDetails() {
   return (
     <>
       <div className="  w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
@@ -109,7 +109,7 @@ function PricingDetails() {
                   className="ml-2  dark:text-gray-300"
                 >
                   <p className="text-sm	 font-medium text-gray">WET applicable</p>
-                </label> 
+                </label>
               </div>
             </div>
             <div className="mb-5">
@@ -156,4 +156,4 @@ function PricingDetails() {
   );
 }
 
-export default PricingDetails;
+export default AddPricingDetails;

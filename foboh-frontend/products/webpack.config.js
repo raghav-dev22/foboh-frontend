@@ -47,6 +47,7 @@ module.exports = (_, argv) => ({
       exposes: {
         "./Range" : "./src/product/Range.jsx",
         "./ViewProduct":"./src/product/ViewProduct.jsx",
+        "./AddProduct":"./src/product/AddProduct.jsx",
       },
       shared: {
         ...deps,
