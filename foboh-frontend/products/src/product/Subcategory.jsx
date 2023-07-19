@@ -10,7 +10,7 @@ function Subcategory() {
             <div className="relative ">
                 <div className="flex items-center gap-2 product-category-box" onClick={toggleDropdown}>
                     <h5 className="text-base font-medium	text-gray">Subcategory</h5>
-                    <div className=""><img src="/assets/dropdownArrow.png" alt="" /></div>
+                    <div className=""><img src="http://localhost:3001/assets/dropdownArrow.png" alt="" /></div>
                 </div>
                 {isOpen && (
                     <div
