@@ -109,7 +109,7 @@ function PricingDetails() {
                   className="ml-2  dark:text-gray-300"
                 >
                   <p className="text-sm	 font-medium text-gray">WET applicable</p>
-                </label>
+                </label> 
               </div>
             </div>
             <div className="mb-5">

@@ -2,13 +2,17 @@ import React from 'react'
 import { useFormik } from "formik";
 import { OrganisationDetailsSchema} from '../schemas';
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
+
 const initialValues = {
   tradingName: "",
   businessName: "",
   abn: "",
   liquorLicence: "",
 };
-function OrganisationDetails() {
+
+
+function OrganisationDetails({ organisationSettings, setOrganisationSettings }) {
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
@@ -18,6 +22,9 @@ function OrganisationDetails() {
         console.log(values,"kkk");
       },
     });
+
+    console.log(values);
+
   return (
     <>
       <div className="   w-full  rounded-lg		 border border-inherit bg-white h-fit		 	  ">

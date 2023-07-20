@@ -1,4 +1,3 @@
-import { Password } from "@mui/icons-material";
 import * as Yup from "yup";
 
 //Reset Password Schema
@@ -7,6 +6,7 @@ export const ResetPasswordEmailSchema = Yup.object({
     .email("Invalid is email")
     .required("Please enter your email."),
 });
+
 
 export const ResetPasswordFormSchema = Yup.object().shape({
   password: Yup.string()
@@ -24,6 +24,7 @@ export const ResetPasswordFormSchema = Yup.object().shape({
     ),
 });
 
+
 //Sign-up Schema
 export const SignUpSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email("Invalid is email"),
@@ -35,6 +36,7 @@ export const SignUpSchema = Yup.object().shape({
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
+
 
 // Registration Form Schema
 export const RegistrationSchema = Yup.object().shape({
@@ -58,6 +60,7 @@ export const RegistrationSchema = Yup.object().shape({
     .required("Business name is required"),
 });
 
+
 // Sign-in Schema
 export const SignInSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email("Invalid is email"),
@@ -69,6 +72,7 @@ export const SignInSchema = Yup.object().shape({
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
+
 
 // Personal Details Schema [User Profile]
 export const PersonalDetailsSchema = Yup.object().shape({
@@ -86,6 +90,7 @@ export const PersonalDetailsSchema = Yup.object().shape({
   bio: Yup.string()
 });
 
+
 export const OrganisationDetailsSchema = Yup.object().shape({
   tradingName: Yup.string()
     .min(2, "Your trading name should have atleast 2 letters")
@@ -96,6 +101,7 @@ export const OrganisationDetailsSchema = Yup.object().shape({
   abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
   liquorLicence: Yup.string().matches(/^\d{11}$/, "Invalid liquorLicence format"),
 });
+
 
 export const OrganisationAddressSchema = Yup.object().shape({
   address: Yup.string()
@@ -110,6 +116,7 @@ export const OrganisationAddressSchema = Yup.object().shape({
   postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
 });
 
+
 export const BillingAddressSchema = Yup.object().shape({
   address: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
@@ -122,6 +129,7 @@ export const BillingAddressSchema = Yup.object().shape({
     .max(50),
   postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
 });
+
 
 export const OrderingContactSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -136,6 +144,8 @@ export const OrderingContactSchema = Yup.object().shape({
     "Mobile number must be a valid number with country code"
   ),
 });
+
+
 export const LogisticsContactSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, "Your first name should have atleast 2 letters")
