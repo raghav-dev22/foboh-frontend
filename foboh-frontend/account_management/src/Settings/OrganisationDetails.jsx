@@ -12,7 +12,7 @@ const initialValues = {
 };
 
 
-function OrganisationDetails() {
+function OrganisationDetails({ organisationSettings, setOrganisationSettings }) {
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({

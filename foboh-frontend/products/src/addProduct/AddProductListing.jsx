@@ -1,6 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 
-function AddProductListing() {
+function AddProductListing({ setValues, values }) {
+  const [selectedState, setSelectedState] = useState("");
+
+  const status = ["Active", "Inactive", "Archived"];
+
+  const regionAvailability = [
+    "NSW",
+    "VIC",
+    "QLD",
+    "WA",
+    "SA",
+    "TAS",
+    "ACT",
+    "NT",
+  ];
+
+  // Product Availability
+  const handleChange = () => {
+    
+    setValues({
+      ...values,
+      visibility: !values.visibility,
+    });
+  };
+
+  // Region Availability
+  const handleRegionAvailability = (e) => {
+    console.log("isRegion >>>", e.target.checked);
+    console.log(e.target.value);
+    if (e.target.checked) {
+      if (!values.region.includes(e.target.value)) {
+        setValues({
+          ...values,
+          region: [...values.region, e.target.value],
+        });
+      }
+    } else {
+      setValues({
+        ...values,
+        region: values.region.filter((region) => region !== e.target.value),
+      });
+    }
+    
+    console.log("values >>>",values);
+  };
+
+  // status
+  const handleStateSelection = (event) => {
+    setSelectedState(event.target.value);
+    console.log(selectedState);
+    setValues({
+      ...values, 
+      status : event.target.value
+    })
+  };
+
   return (
     <>
       <div className="rounded-lg	border border-inherit	bg-white">
@@ -10,50 +65,22 @@ function AddProductListing() {
         <div className="p-5">
           <div className="">
             <h5 className="text-base font-medium text-green mb-3">Status</h5>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                id="default-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="default-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">Active</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">Inactive</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">Archived</p>
-              </label>
-            </div>
+            {status.map((state, index) => (
+              <div key={index} className="flex items-center mb-4 gap-3">
+                <input
+                  id={state}
+                  onChange={handleStateSelection}
+                  type="checkbox"
+                  value={state}
+                  name={state}
+                  checked={selectedState === state}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                />
+                <label htmlFor={state} className="ml-2  dark:text-gray-300">
+                  <p className="text-sm	 font-medium text-gray">{state}</p>
+                </label>
+              </div>
+            ))}
           </div>
           <div className="pb-5">
             <h5 className="text-base font-medium text-green mb-2">
@@ -67,142 +94,40 @@ function AddProductListing() {
             <h5 className="text-green text-base font-medium">
               Visible to customers
             </h5>
-            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+
+            <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
               <input
+                onChange={handleChange}
                 type="checkbox"
-                name="toggle"
+                name="availability"
                 id="toggle"
-                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
               />
               <label
-                for="toggle"
-                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                htmlFor="toggle"
+                className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
               ></label>
             </div>
           </div>
           <div className="">
             <h5 className="text-base font-medium text-green mb-3">
-            Region availability
+              Region availability
             </h5>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                id="default-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="default-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">NSW</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">VIC</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">QLD</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">WA</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">SA</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">TAS</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">ACT</p>
-              </label>
-            </div>
-            <div className="flex items-center mb-4 gap-3">
-              <input
-                defaultChecked=""
-                id="checked-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-              />
-              <label
-                htmlFor="checked-checkbox"
-                className="ml-2  dark:text-gray-300"
-              >
-                <p className="text-sm	 font-medium text-gray">NT</p>
-              </label>
-            </div>
+            {regionAvailability.map((region, index) => (
+              <div key={index} className="flex items-center mb-4 gap-3">
+                <input
+                  onChange={handleRegionAvailability}
+                  id={region}
+                  type="checkbox"
+                  value={region}
+                  name={region}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                />
+                <label htmlFor={region} className="ml-2  dark:text-gray-300">
+                  <p className="text-sm	 font-medium text-gray">{region}</p>
+                </label>
+              </div>
+            ))}
           </div>
         </div>
       </div>

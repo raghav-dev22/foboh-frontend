@@ -10,9 +10,35 @@ import OrderingContact from "./OrderingContact";
 function Organisation() {
   const [isDivVisible, setIsDivVisible] = useState(false);
 
+  const [organisationSettings, setOrganisationSettings] = useState({
+    tradingName: "string",
+    businessName: "string",
+    liquorLicense: "string",
+    abn: "string",
+    categories: "string",
+    organisationlogo: "string",
+    description: "string",
+    orderingContactFirstName: "string",
+    orderingContactLastName: "string",
+    orderingContactMobile: "string",
+    orderingContactEmail: "string",
+    logisticsContactFirstName: "string",
+    logisticsContactLastName: "string",
+    logisticsContactMobile: "string",
+    logisticsContactEmail: "string",
+    organisationAddress: "string",
+    apartment: "string",
+    city: "string",
+    state: "string",
+    postcode: "string",
+    country: "string",
+    billingAddress: "string",
+  });
+
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
+
   return (
     <>
       <div>
@@ -28,11 +54,11 @@ function Organisation() {
           </div>
           <div className="grid lg:flex gap-5 ">
             <div className=" lg:w-3/5 w-full  gap-5 h-full	 grid	  ">
-              <OrganisationDetails />
+              <OrganisationDetails organisationSettings = {organisationSettings} setOrganisationSettings ={setOrganisationSettings} />
               <OrganisationAddress />
               <BillingAddress />
             </div>
-            <div className="w-full lg:w-2/5 grid	 gap-5 h-full	">
+            <div className="w-full lg:w-2/5  grid	 gap-5 h-full	">
               <OrganisationLogo />
               <OrderingContact />
               <LogisticsContact />
