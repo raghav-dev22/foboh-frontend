@@ -9,6 +9,9 @@ import Organisation from '../Settings/Organisation';
 import Range from "products/Range"
 import ViewProduct from 'products/ViewProduct';
 import AddProduct from 'products/AddProduct';
+import AddCustomers from 'customers/AddCustomers';
+import AddCustomersDetails from 'customers/AddCustomersDetails';
+// import CustomerContact from 'customers/AddCustomersDetails';
 
 function Dashboard() {
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -53,6 +56,8 @@ function Dashboard() {
               <Route path="/products" element={<Range />} />
               <Route path="/view-product" element={<ViewProduct />} />
               <Route path="/add-product" element={<AddProduct />} />
+              <Route path="/customers" element={<AddCustomers />} />
+              <Route path="/add-customer/*" element={<AddCustomersDetails />} />
               </Routes>
             {/* <Profile /> */}
           </div>

@@ -12,7 +12,7 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    port: 3000,
+    port: 3002,
     historyApiFallback: true,
   },
 
@@ -41,12 +41,9 @@ module.exports = (_, argv) => ({
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "account_management",
+      name: "CustomerApp",
       filename: "remoteEntry.js",
-      remotes: {
-        products: "products@http://localhost:3001/remoteEntry.js",
-        customers: "customers@http://localhost:3002/remoteEntry.js"
-      },
+      remotes: {},
       exposes: {},
       shared: {
         ...deps,

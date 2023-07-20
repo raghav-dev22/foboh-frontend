@@ -1,10 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
-
 import './style.css'
-
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Range from "./product/Range";
 import ViewProduct from "./product/ViewProduct";

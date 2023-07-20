@@ -1,9 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
-
-// import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-// import ComboBoxMultiSelect from './ComboBoxMultiSelect';
 import Select from "react-select";
 
 const options = [
@@ -28,11 +25,11 @@ function EditProductDetails() {
     query === ""
       ? people
       : people.filter((person) =>
-          person.name
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
-        );
+        person.name
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(query.toLowerCase().replace(/\s+/g, ""))
+      );
   return (
     <>
       <div className=" w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
@@ -66,7 +63,7 @@ function EditProductDetails() {
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
                 >
-                 SKU code  
+                  SKU code
                 </label>
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -131,10 +128,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -142,19 +138,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -209,10 +203,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -220,19 +213,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -290,10 +281,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -301,19 +291,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -368,10 +356,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -379,19 +366,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -463,10 +448,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -474,19 +458,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -503,8 +485,8 @@ function EditProductDetails() {
                   </Combobox>
                 </div>
               </div>
-              </div>
-              <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+            </div>
+            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
               <div className="  w-full relative md:w-1/2 px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Vintage
@@ -543,10 +525,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -554,19 +535,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -621,10 +600,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -632,19 +610,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -716,10 +692,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -727,19 +702,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -796,10 +769,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -807,19 +779,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
@@ -874,10 +844,9 @@ function EditProductDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -885,19 +854,17 @@ function EditProductDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
+                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
+                                        }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
                                             ? "text-white"
                                             : "text-teal-600"
-                                        }`}
+                                          }`}
                                       >
                                         {/* <ArrowDropDownIcon/> */}
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}

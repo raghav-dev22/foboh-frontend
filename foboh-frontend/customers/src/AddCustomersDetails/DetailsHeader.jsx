@@ -1,7 +1,6 @@
 import React from 'react'
 
-
-function AddProductHeader() {
+function DetailsHeader() {
     return (
         <>
             <div className="py-6 sm:flex grid items-center justify-between px-6 gap-5">
@@ -9,8 +8,7 @@ function AddProductHeader() {
                     <div className="">
                         <img src="/assets/previousBtn.png" alt="" />
                     </div>
-                    <h4 className=" text-2xl font-semibold	text-darkGreen">Add product  </h4>
-
+                    <h4 className=" text-2xl font-semibold text-darkGreen">Add customer  </h4>
                 </div>
 
             </div>
@@ -18,4 +16,4 @@ function AddProductHeader() {
     )
 }
 
-export default AddProductHeader
+export default DetailsHeader

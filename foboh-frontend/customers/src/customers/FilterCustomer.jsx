@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Filter() {
+function FilterCustomer() {
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -29,7 +29,7 @@ function Filter() {
         <>
             <div className="relative sm:w-24 w-2/4	">
 
-                <div className=" cursor-pointer h-11	w-fit px-5  shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2" onClick={toggleDropdown} >
+                <div className="h-11	w-fit px-5  shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2 cursor-pointer	" onClick={toggleDropdown} >
                     <div className="">
                         <svg
                             width={18}
@@ -245,12 +245,8 @@ function Filter() {
                     </>
                 )}
             </div>
-
-
-
-
         </>
     )
 }
 
-export default Filter
+export default FilterCustomer

@@ -1,7 +1,5 @@
 import React from 'react'
-import ImportProductBtn from './ImportProductBtn';
-import EditProductBtn from './EditProductBtn';
-import AddProductBtn from './AddProductBtn';
+
 
 function ViewProductHeader() {
   return (

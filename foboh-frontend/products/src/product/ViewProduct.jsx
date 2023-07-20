@@ -15,9 +15,7 @@ function ViewProduct() {
         <div className="w-full lg:w-2/5	 h-full	">
           <div className="grid gap-3">
             <UpdateImg />
-
             <ProductListing />
-
             <Inventory />
           </div>
         </div>

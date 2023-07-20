@@ -173,6 +173,9 @@ border-radius: 30px;
 .text-gray{
     color: #637381;
 }
+.bg-dark-gray{
+    background-color: #637381;
+}
 .dot{
     width: 6px;
     height: 6px;
@@ -329,4 +332,30 @@ border: 1px solid #E7E7E7 !important
   }
   .w-custom-20{
     width: 20%;
+  }
+  .w-5{
+    width: 20px;
+  }
+  .h-5{
+    height: 20px;
+  }
+  /* .py-5{
+    padding:20px 0;
+  } */
+  .pb-10{
+    padding-bottom: 2.5rem;
+  }
+  .line-1{
+    top: 9px;
+    left: 16%;
+    height: 1px;
+    background: #0000005e;
+    width: 31%;
+  }
+  .line-2{
+    top: 9px;
+    right: 16%;
+    height: 1px;
+    background: #0000005e;
+    width: 31%;
   }
