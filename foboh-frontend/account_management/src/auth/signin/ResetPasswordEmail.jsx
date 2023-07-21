@@ -38,14 +38,14 @@ const ResetPasswordEmail = () => {
               const userName = data.value[0].displayName;
               localStorage.setItem('userName', userName);
   
-              fetch(`https://dev-orderflow.foboh.com.au/api/api/send-email`, {
+              fetch(`https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  email: values.email,
-                  type: "password-reset",
+                  to: values.email,
+                  mailtype: "password-reset",
                   name: userName
                 }),
               })

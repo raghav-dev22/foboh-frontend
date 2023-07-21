@@ -21,15 +21,15 @@ const ResetLinkCard = () => {
     const url = process.env.REACT_APP_URL
     //Reset Link
 
-    fetch(`${url}/api/api/send-email`, {
+    fetch(`https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email,
+        to: email,
         name: localStorage.getItem("userName"),
-        type: 'password-reset'
+        mailtype: 'password-reset'
       }),
     })
       .then((response) => response.json())

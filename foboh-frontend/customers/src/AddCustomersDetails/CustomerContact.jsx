@@ -16,16 +16,16 @@ function CustomerContact() {
     Customer details
     </h5>
 </div>
-<div className="line-1 absolute"></div>
+<div className="line-1 border-[#147D73] bg-[#147D73] absolute"></div>
 <div className="contact-box flex flex-col gap-2 items-center justify-center">
     <div className="box-2 flex justify-center items-center bg-custom-skyBlue w-5	h-5 rounded-full	">
         <p className="text-white font-normal text-xs">2</p>
     </div>
     <h5 className="text-base	text-center text-darkGreen font-medium	">
-    Customer details
+    Customer contacts
     </h5>
 </div>
-<div className="line-2 absolute"></div>
+<div className="line-2 bg-[#000000] border-[#0000005e] absolute"></div>
 <div className="address-box  flex flex-col gap-2 items-center justify-center   ">
     <div className="box-3 flex justify-center items-center bg-dark-gray w-5	h-5 rounded-full	">
         <p className="text-white font-normal text-xs">3</p>
@@ -201,7 +201,7 @@ function CustomerContact() {
                   <h5 className="text-base font-medium text-white">Back</h5>
                 </button>
               </Link>
-              <Link to="/dashboard/add-customer/customer-addrress">
+              <Link to="/dashboard/add-customer/customer-address">
 
                 <button className="py-2 px-7 rounded-md	bg-custom-skyBlue	">
                   <h5 className="text-base font-medium text-white">Next</h5>

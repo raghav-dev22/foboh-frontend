@@ -44,8 +44,10 @@ module.exports = (_, argv) => ({
       name: "customers",
       filename: "remoteEntry.js",
       remotes: {},
-      exposes: { "./AddCustomers" : "./src/customers/AddCustomers.jsx",
-    "./AddCustomersDetails" : "./src/customers/AddCustomersDetails.jsx"},
+      exposes: {
+        "./AddCustomers": "./src/customers/AddCustomers.jsx",
+        "./AddCustomersDetails": "./src/customers/AddCustomersDetails.jsx",
+      },
       shared: {
         ...deps,
         react: {

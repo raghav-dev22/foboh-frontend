@@ -14,7 +14,7 @@ function AddCustomersDetails() {
       {/* <ContactForm /> */}
       <Routes>
         <Route path="/customer-details" element={<CustomerDetails />} />
-        <Route path="/customer-addrress" element={<CustomerAddress />} />
+        <Route path="/customer-address" element={<CustomerAddress />} />
         <Route path="/customer-contact" element={<CustomerContact />} />
       </Routes>
     

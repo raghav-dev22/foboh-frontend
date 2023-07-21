@@ -45,7 +45,7 @@ function CustomerDetails() {
             Customer details
           </h5>
         </div>
-        <div className="line-1 absolute"></div>
+        <div className="line-1 border-[#0000005e] bg-[#0000005e]  absolute"></div>
         <div className="contact-box flex flex-col gap-2 items-center justify-center">
           <div className="box-2 flex justify-center items-center bg-dark-gray w-5	h-5 rounded-full	">
             <p className="text-white font-normal text-xs">2</p>

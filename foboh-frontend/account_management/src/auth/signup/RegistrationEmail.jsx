@@ -28,14 +28,14 @@ const RegistrationEmail = () => {
     const handleResendLink = () => {
       // const url = process.env.REACT_APP_URL
         //Resend Link
-        fetch(`https://dev-orderflow.foboh.com.au/api/api/send-email`, {
+        fetch(`https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email,
-        type: 'email-verification',
+        to: email,
+        mailtype: 'email-verification',
         name: 'email'
       }),
     })

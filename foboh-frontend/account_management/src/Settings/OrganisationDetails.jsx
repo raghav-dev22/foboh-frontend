@@ -1,38 +1,53 @@
-import React from 'react'
+import React from "react";
 import { useFormik } from "formik";
-import { OrganisationDetailsSchema} from '../schemas';
+import { OrganisationDetailsSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-
 
 const initialValues = {
   tradingName: "",
   businessName: "",
   abn: "",
   liquorLicence: "",
+  description: ""
 };
 
-
-function OrganisationDetails({ organisationSettings, setOrganisationSettings }) {
-
+function OrganisationDetails({
+  organisationSettings,
+  setOrganisationSettings,
+  setShow
+}) {
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: OrganisationDetailsSchema,
-      onSubmit: (values) => {
-        console.log(values,"kkk");
-      },
+      onSubmit: (values) => {},
     });
 
-    console.log(values);
+    const handleFormChange = () => {
+      setShow(true)
+      setOrganisationSettings({
+        ...organisationSettings,
+        tradingName: values.tradingName,
+        businessName: values.businessName,
+        liquorLicense: values.liquorLicence,
+        abn: values.abn,
+        description: values.description,
+      });
+    }
+
+
+  console.log(values);
 
   return (
     <>
       <div className="   w-full  rounded-lg		 border border-inherit bg-white h-fit		 	  ">
         <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
-          <h6 className="text-base	font-medium	 text-green">Organisation details </h6>
+          <h6 className="text-base	font-medium	 text-green">
+            Organisation details{" "}
+          </h6>
         </div>
         <div className="px-6 py-7">
-          <form className="w-full max-w-lg" onSubmit={handleSubmit}>
+          <form className="w-full max-w-lg" onChange={handleFormChange} onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3 mb-5">
               <div className="w-full md:w-1/2 px-3 relative">
                 <label
@@ -52,11 +67,15 @@ function OrganisationDetails({ organisationSettings, setOrganisationSettings }) 
                   onBlur={handleBlur}
                   style={{
                     border:
-                      errors.tradingName && touched.tradingName && "1px solid red",
+                      errors.tradingName &&
+                      touched.tradingName &&
+                      "1px solid red",
                   }}
                 />
                 {errors.tradingName && touched.tradingName && (
-                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">{errors.tradingName}</p>
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                    {errors.tradingName}
+                  </p>
                 )}
                 {errors.tradingName && touched.tradingName && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
@@ -80,11 +99,15 @@ function OrganisationDetails({ organisationSettings, setOrganisationSettings }) 
                   onBlur={handleBlur}
                   style={{
                     border:
-                      errors.businessName && touched.businessName && "1px solid red",
+                      errors.businessName &&
+                      touched.businessName &&
+                      "1px solid red",
                   }}
                 />
                 {errors.businessName && touched.businessName && (
-                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">{errors.businessName}</p>
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                    {errors.businessName}
+                  </p>
                 )}
                 {errors.businessName && touched.businessName && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
@@ -113,7 +136,9 @@ function OrganisationDetails({ organisationSettings, setOrganisationSettings }) 
                   }}
                 />
                 {errors.abn && touched.abn && (
-                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">{errors.abn}</p>
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                    {errors.abn}
+                  </p>
                 )}
                 {errors.abn && touched.abn && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[31px] right-5 transition-all duration-[0.3s]" />
@@ -131,18 +156,23 @@ function OrganisationDetails({ organisationSettings, setOrganisationSettings }) 
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
-                  type="number"
+                  type="text"
                   placeholder="LIQO10000000"
                   name="liquorLicence"
                   value={values.liquorLicence}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   style={{
-                    border: errors.liquorLicence && touched.liquorLicence && "1px solid red",
+                    border:
+                      errors.liquorLicence &&
+                      touched.liquorLicence &&
+                      "1px solid red",
                   }}
                 />
                 {errors.email && touched.email && (
-                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">{errors.liquorLicence}</p>
+                  <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                    {errors.liquorLicence}
+                  </p>
                 )}
                 {errors.liquorLicence && touched.liquorLicence && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
@@ -170,9 +200,8 @@ function OrganisationDetails({ organisationSettings, setOrganisationSettings }) 
           </form>
         </div>
       </div>
-
     </>
-  )
+  );
 }
 
-export default OrganisationDetails
+export default OrganisationDetails;

@@ -349,13 +349,13 @@ border: 1px solid #E7E7E7 !important
     top: 9px;
     left: 16%;
     height: 1px;
-    background: #0000005e;
+    background-color: #0000005e;
     width: 31%;
   }
   .line-2{
     top: 9px;
     right: 16%;
+    background-color: #0000005e;
     height: 1px;
-    background: #0000005e;
     width: 31%;
   }
