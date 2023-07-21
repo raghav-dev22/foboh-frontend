@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function TableRange() {
+function OrderTable() {
   const tableItem = Array.from({ length: 8 });
   const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState("");
@@ -29,28 +29,13 @@ function TableRange() {
             key={product.index}
             className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  tableNo-${product.index}`}
           >
-            <td className="w-4 p-4">
-              <div className="flex items-center">
-                <input
-                  id="default-checkbox"
-                  type="checkbox"
-                  name={product.title}
-                  onChange={handleProductId}
-                  value={product.productId}
-                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                />
-              </div>
-            </td>
+          
 
             <th
               scope="row"
               className="flex justify-start items-center gap-3 px-6 py-4 whitespace-nowrap dark:text-white"
             >
-              <img
-                src="http://localhost:3001/assets/defaultRange.png"
-                alt=""
-                className="object-contain	"
-              />
+            
               <h5 className="font-medium whitespace-no-wrap text-gray">
                 {" "}
                 {product.title}
@@ -93,4 +78,4 @@ function TableRange() {
   );
 }
 
-export default TableRange;
+export default OrderTable;

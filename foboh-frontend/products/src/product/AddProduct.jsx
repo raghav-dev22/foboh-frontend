@@ -7,7 +7,7 @@ import AddPricingDetails from "../addProduct/AddPricingDetails";
 import AddProductHeader from "../addProduct/AddProductHeader";
 import ProductEditHeader from "../components/ProductEditHeader";
 import { useFormik } from "formik";
-import { addProductSchema } from "../schema";
+import { addProductSchema } from "../schemas";
 
 const initialValues = {
   status: "",

@@ -8,3 +8,19 @@
 .w-3\/4{
     width: 75%;
 }
+.px-12	{
+    padding-left: 48px;
+    padding-right: 48px;
+}
+.grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.rounded-s-lg{
+    border-top-left-radius: 8px;
+}
+.rounded-e-lg{
+    border-top-right-radius: 8px;
+}
+.customer-tab svg{
+    fill: #000 !important;
+}

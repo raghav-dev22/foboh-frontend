@@ -11,6 +11,8 @@ import ViewProduct from 'products/ViewProduct';
 import AddProduct from 'products/AddProduct';
 import AddCustomers from 'customers/AddCustomers';
 import AddCustomersDetails from 'customers/AddCustomersDetails';
+import ViewCustomer from 'customers/ViewCustomer';
+// import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
 
 function Dashboard() {
@@ -57,6 +59,7 @@ function Dashboard() {
               <Route path="/view-product" element={<ViewProduct />} />
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/customers" element={<AddCustomers />} />
+              <Route path="/view-customer-details" element={<ViewCustomer/>} />
               <Route path="/add-customer/*" element={<AddCustomersDetails />} />
               </Routes>
             {/* <Profile /> */}
