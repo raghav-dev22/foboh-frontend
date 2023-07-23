@@ -21,6 +21,6 @@
 .rounded-e-lg{
     border-top-right-radius: 8px;
 }
-.customer-tab svg{
+.customer-tab .fill-1{
     fill: #000 !important;
 }
