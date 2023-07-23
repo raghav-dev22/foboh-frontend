@@ -34,46 +34,46 @@ export const segment = [
 ];
 
 export const region = [
-  { id: 1, name: "Napa Valley" },
-  { id: 2, name: "Bordeaux" },
-  { id: 3, name: "Tuscany" },
-  { id: 4, name: "Barossa Valley" },
-  { id: 5, name: "Champagne" },
-  { id: 6, name: "Rioja" },
-  { id: 7, name: "Mosel" },
-  { id: 8, name: "Marlborough" },
+  { value: 1, label: "Napa Valley" },
+  { value: 2, label: "Bordeaux" },
+  { value: 3, label: "Tuscany" },
+  { value: 4, label: "Barossa Valley" },
+  { value: 5, label: "Champagne" },
+  { value: 6, label: "Rioja" },
+  { value: 7, label: "Mosel" },
+  { value: 8, label: "Marlborough" },
 ];
 
 export const country = [
-  { id: 1, name: "United States" },
-  { id: 2, name: "France" },
-  { id: 3, name: "Italy" },
-  { id: 4, name: "Australia" },
-  { id: 5, name: "Spain" },
-  { id: 6, name: "Germany" },
-  { id: 7, name: "New Zealand" },
+  { value: 1, label: "United States" },
+  { value: 2, label: "France" },
+  { value: 3, label: "Italy" },
+  { value: 4, label: "Australia" },
+  { value: 5, label: "Spain" },
+  { value: 6, label: "Germany" },
+  { value: 7, label: "New Zealand" },
 ];
 
 export const baseUnitOfMeasurement = [
-  { value: 750, name: "750 ml (standard bottle)" },
-  { value: 700, name: "700 ml (non-standard bottle)" },
-  { value: 375, name: "375 ml (half-bottle size)" },
-  { value: 1500, name: "1500 ml (magnum)" },
-  { value: 3000, name: "3000 ml (double magnum)" },
-  { value: 250, name: "250 ml (cans)" },
+  { value: 750, label: "750 ml (standard bottle)" },
+  { value: 700, label: "700 ml (non-standard bottle)" },
+  { value: 375, label: "375 ml (half-bottle size)" },
+  { value: 1500, label: "1500 ml (magnum)" },
+  { value: 3000, label: "3000 ml (double magnum)" },
+  { value: 250, label: "250 ml (cans)" },
 ];
 
 
 export const innerUnitOfMeasurement = [
-  { value: 6, name: "6 bottle case" },
-  { value: 12, name: "12 bottle case" },
-  { value: 24, name: "24 bottle case" },
-  { value: 16, name: "16 can case" },
-  { value: 24, name: "24 can case" },
+  { value: 6, label: "6 bottle case" },
+  { value: 12, label: "12 bottle case" },
+  { value: 24, label: "24 bottle case" },
+  { value: 16, label: "16 can case" },
+  { value: 24, label: "24 can case" },
 ];
 
 export const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+  { value: 1234, label: "Chocolate" },
+  { value: 2345, label: "Strawberry" },
+  { value: 3456, label: "Vanilla" },
 ];

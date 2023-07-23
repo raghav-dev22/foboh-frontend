@@ -8,16 +8,28 @@ import "../style.css";
 
 function Range() {
   const [isDivVisible, setIsDivVisible] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [filterAndSort, setFilterAndSort] = useState({
+    filter: {
+      category: [],
+      subCategory: [],
+      stock: [],
+      status: [],
+      visibility: [],
+    },
+    sort: {},
+  });
 
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
+  
   return (
     <>
       <ActiveProduct />
       <div className="   ">
         <div className="box-3 px-6 ">
-          <SearchProduct />
+          <SearchProduct setProducts={setProducts} products={products} />
         </div>
         <div className="box-4 pt-6 px-6 ">
           <div className="relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
@@ -74,7 +86,7 @@ function Range() {
                 </tr>
               </thead>
               <tbody>
-                <TableRange />
+                <TableRange setProducts={setProducts} products={products} />
               </tbody>
             </table>
           </div>

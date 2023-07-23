@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 
 // import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
@@ -6,9 +6,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // import ComboBoxMultiSelect from './ComboBoxMultiSelect';
 import Select from "react-select";
 import {
-  category,
   segment,
-  department,
   subCategory,
   region,
   country,
@@ -20,6 +18,9 @@ import {
 
 
 function AddProductDetails({ setValues, values }) {
+  const [department, setDepartment] = useState([])
+  const [category, setCategory] = useState([])
+
   // Department
   const [selectedDepartment, setSelectedDepartment] = useState(department[0]);
   const [queryDepartment, setQuerydepartment] = useState("");
@@ -62,7 +63,7 @@ function AddProductDetails({ setValues, values }) {
     queryDepartment === ""
       ? department
       : department.filter((dept) =>
-          dept.name
+          dept.departmentName
             .toLowerCase()
             .replace(/\s+/g, "")
             .includes(queryDepartment.toLowerCase().replace(/\s+/g, ""))
@@ -178,6 +179,18 @@ function AddProductDetails({ setValues, values }) {
     console.log(values.configuration);
   };
 
+  
+  useEffect(() => {
+    fetch('https://masters-api-foboh.azurewebsites.net/api/Department/get', {
+      method: 'GET',
+    }).then(response => response.json())
+    .then(data => {
+      console.log("department -->",data);
+      setDepartment(data.data)
+      
+    }).catch(error => console.log(error))
+  }, [])
+
   return (
     <>
       <div className=" w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
@@ -254,7 +267,7 @@ function AddProductDetails({ setValues, values }) {
                       <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                         <Combobox.Input
                           className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                          displayValue={(dept) => dept.name}
+                          displayValue={(dept) => dept.departmentName}
                           onChange={(event) =>
                             setQuerydepartment(event.target.value)
                           }
@@ -283,7 +296,7 @@ function AddProductDetails({ setValues, values }) {
                           ) : (
                             filteredDepartment.map((dept) => (
                               <Combobox.Option
-                                key={dept.id}
+                                key={dept.departmentId}
                                 className={({ active }) =>
                                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                     active
@@ -300,7 +313,7 @@ function AddProductDetails({ setValues, values }) {
                                         selected ? "font-medium" : "font-normal"
                                       }`}
                                     >
-                                      {dept.name}
+                                      {dept.departmentName}
                                     </span>
                                     {selected ? (
                                       <span

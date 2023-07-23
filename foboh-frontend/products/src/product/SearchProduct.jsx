@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Category from './Category'
 import Subcategory from './Subcategory'
 import Stock from './Stock'
@@ -6,7 +6,35 @@ import Status from './Status'
 import Visibility from './Visibility'
 import Filter from './Filter'
 
-function SearchProduct() {
+function SearchProduct({products ,setProducts}) {
+    const [input, setInput] = useState("")
+
+    const handleInputChange = (e) => {
+        setInput(e.target.value)
+    }
+
+    // Debouce function
+    function debounce(func, timeout = 1000){
+        let timer;
+        return (...args) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        };
+      }
+      function saveInput(){
+        fetch(`https://product-api-foboh.azurewebsites.net/api/Product/get?Title=${input}`, {
+            method: "GET"
+        }).then(respose => respose.json())
+        .then(data => {
+            if(data.success) {
+                setProducts(data.data)
+            }
+        })
+      }
+      const processChange = debounce(() => saveInput());
+
+
+
     return (
         <>
             <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -32,6 +60,8 @@ function SearchProduct() {
                                 </svg>
                             </div>
                             <input
+                                onKeyUp={processChange}
+                                onChange={handleInputChange}
                                 type="search"
                                 id="default-search"
                                 className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "

@@ -2,39 +2,58 @@ import React from "react";
 import { useFormik } from "formik";
 import { OrganisationDetailsSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Select from "react-select";
+import { options } from "../../../products/src/data";
 
 const initialValues = {
   tradingName: "",
   businessName: "",
   abn: "",
   liquorLicence: "",
-  description: ""
+  description: "",
+  categories: "",
 };
 
 function OrganisationDetails({
   organisationSettings,
   setOrganisationSettings,
-  setShow
+  setShow,
 }) {
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
     useFormik({
       initialValues: initialValues,
       validationSchema: OrganisationDetailsSchema,
-      onSubmit: (values) => {},
+      onSubmit: (values) => {
+        console.log(values);
+      },
     });
 
-    const handleFormChange = () => {
-      setShow(true)
-      setOrganisationSettings({
-        ...organisationSettings,
-        tradingName: values.tradingName,
-        businessName: values.businessName,
-        liquorLicense: values.liquorLicence,
-        abn: values.abn,
-        description: values.description,
-      });
-    }
+  const handleFormChange = () => {
+    setShow(true);
+    setOrganisationSettings({
+      ...organisationSettings,
+      tradingName: values.tradingName,
+      businessName: values.businessName,
+      liquorLicense: values.liquorLicence,
+      abn: values.abn,
+      description: values.description,
+    });
+  };
 
+  const handleCategoriesChange = (e) => {
+    console.log(e);
+    console.log(organisationSettings);
+    setValues({
+      ...values,
+      categories: [...e]
+    })
+    setOrganisationSettings({
+      ...organisationSettings,
+      categories:[e.map((item) => {
+        return item.value
+      })],
+    });
+  };
 
   console.log(values);
 
@@ -47,7 +66,11 @@ function OrganisationDetails({
           </h6>
         </div>
         <div className="px-6 py-7">
-          <form className="w-full max-w-lg" onChange={handleFormChange} onSubmit={handleSubmit}>
+          <form
+            className="w-full max-w-lg"
+            onChange={handleFormChange}
+            onSubmit={handleSubmit}
+          >
             <div className="flex flex-wrap -mx-3 mb-5">
               <div className="w-full md:w-1/2 px-3 relative">
                 <label
@@ -195,6 +218,26 @@ function OrganisationDetails({
                   defaultValue={""}
                 />
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+              </div>
+              <div className="w-full mt-5 px-3">
+                <label
+                  className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
+                  htmlFor="Categories"
+                >
+                  Categories
+                </label>
+                <div className="w-full">
+                  <Select
+                    id="Categories"
+                    name="categories"
+                    isMulti
+                    value={values.categories}
+                    onChange={handleCategoriesChange}
+                    options={options}
+                    className="basic-multi-select "
+                    classNamePrefix="select"
+                  />
+                </div>
               </div>
             </div>
           </form>
