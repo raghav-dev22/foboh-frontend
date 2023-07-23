@@ -13,28 +13,28 @@ function Organisation() {
   const [show, setShow] = useState(false);
 
   const [organisationSettings, setOrganisationSettings] = useState({
-    tradingName: "",
-    businessName: "",
-    liquorLicense: "",
-    abn: "",
-    categories: "",
-    organisationlogo: "",
-    description: "",
-    orderingContactFirstName: "",
-    orderingContactLastName: "",
-    orderingContactMobile: "",
-    orderingContactEmail: "",
-    logisticsContactFirstName: "",
-    logisticsContactLastName: "",
-    logisticsContactMobile: "",
-    logisticsContactEmail: "",
-    organisationAddress: "",
-    apartment: "",
-    city: "",
-    state: "",
-    postcode: "",
-    country: "",
-    billingAddress: "",
+    tradingName: "string",
+    businessName: "string",
+    liquorLicense: "string",
+    abn: "string",
+    categories: "string",
+    organisationlogo: "string",
+    description: "string",
+    orderingContactFirstName: "string",
+    orderingContactLastName: "string",
+    orderingContactMobile: "string",
+    orderingContactEmail: "string",
+    logisticsContactFirstName: "string",
+    logisticsContactLastName: "string",
+    logisticsContactMobile: "string",
+    logisticsContactEmail: "string",
+    organisationAddress: "string",
+    apartment: "string",
+    city: "string",
+    state: "string",
+    postcode: "string",
+    country: "string",
+    billingAddress: "string",
   });
 
   const sidebarHandler = () => {
@@ -57,12 +57,15 @@ function Organisation() {
           categories: organisationSettings.categories,
           organisationlogo: organisationSettings.organisationlogo,
           description: organisationSettings.description,
-          orderingContactFirstName: organisationSettings.orderingContactFirstName,
+          orderingContactFirstName:
+            organisationSettings.orderingContactFirstName,
           orderingContactLastName: organisationSettings.orderingContactLastName,
           orderingContactMobile: organisationSettings.logisticsContactMobile,
           orderingContactEmail: organisationSettings.orderingContactEmail,
-          logisticsContactFirstName: organisationSettings.logisticsContactFirstName,
-          logisticsContactLastName: organisationSettings.logisticsContactLastName,
+          logisticsContactFirstName:
+            organisationSettings.logisticsContactFirstName,
+          logisticsContactLastName:
+            organisationSettings.logisticsContactLastName,
           logisticsContactMobile: organisationSettings.logisticsContactMobile,
           logisticsContactEmail: organisationSettings.logisticsContactEmail,
           organisationAddress: organisationSettings.organisationAddress,
@@ -73,15 +76,16 @@ function Organisation() {
           country: organisationSettings.country,
           billingAddress: organisationSettings.billingAddress,
         }),
-      }).then(response => response.json())
-      .then(data => {
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
-        if(data.success) {
+        if (data.success) {
           setShow(false);
         }
-      }).catch(error => console.log(error))
-
-
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleReset = () => {

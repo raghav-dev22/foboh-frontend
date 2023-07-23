@@ -1,6 +1,8 @@
 import React from "react";
 
 function ProductEditHeader({handleSubmit, handleReset}) {
+
+
   return (
     <>
       <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">

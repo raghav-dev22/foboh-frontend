@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-function TableRange() {
+function TableRange({products, setProducts}) {
   const tableItem = Array.from({ length: 8 });
-  const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState("");
 
   useEffect(() => {
@@ -13,7 +12,7 @@ function TableRange() {
       .then((data) => {
         console.log(data);
         setProducts(data.data);
-      });
+      }).catch(error => console.log(error))
   }, []);
 
 
