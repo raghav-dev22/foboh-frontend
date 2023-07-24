@@ -55,8 +55,8 @@ const initialValues = {
   configuration: "",
   description: "",
   tags: [],
-  salePrice: "",
-  buyPrice: "",
+  salePrice: null,
+  buyPrice: null,
   profit: "",
   margin: "",
   tax: "",
@@ -69,22 +69,80 @@ function AddProduct() {
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
+  const [checkGST, setCheckGST] = useState(false);
+  const [checkWET, setCheckWET] = useState(false);
+  const [salePriceCopy, setSalePriceCopy] = useState(null);
+  const [profitCopy, setProfitCopy] = useState(null);
+  const [marginCopy, setMarginCopy] = useState(null);
 
   const {
     values,
     errors,
     handleBlur,
     handleChange,
-    handleSubmit,
     touched,
     setValues,
   } = useFormik({
     initialValues: initialValues,
     validationSchema: addProductSchema,
     onSubmit: (values) => {
-      console.log(values);
+      console.log(values.configuration);
     },
   });
+
+  const handleSubmit =(e) => {
+    e.preventDefault()
+    fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: (values.title).toString(),
+          description: (values.description).toString(),
+          articleId: 0,
+          skUcode: (values.skuCode).toString(),
+          productImage: "string",
+          unitofMeasure: (values.baseUnitMeasure.value).toString(),
+          configuration: (values.configuration).toString(),
+          brand: (values.brand).toString(),
+          departmentId: (values.department.value).toString(),
+          categoryId: (values.category.value).toString(),
+          subCategoryId: (values.subcategory.value).toString(),
+          segmentId: "string",
+          variety: (values.grapeVariety).toString(),
+          vintage: values.vintage,
+          abv: values.abv,
+          globalPrice: values.salePrice,
+          luCcost: values.landedUnitCost,
+          buyPrice: values.buyPrice,
+          gstFlag: checkGST,
+          wetFlag: checkWET,
+          availableQty: values.minimumOrder,
+          stockThreshold: values.stockAlertLevel,
+          stockStatus: values.status,
+          regionAvailability: (values.region).toString(),
+          productStatus: (values.status).toString(),
+          visibility: values.visibility,
+          minimumOrder: values.minimumOrder,
+          tags: (values.tags).toString(),
+          countryOfOrigin: (values.country.value).toString(),
+          barcodes: "string",
+          esgStatus: "string",
+          healthRating: "string",
+          isActive: 0,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.success) {
+            console.log("Success >>>", data);
+            setShow(false);
+          }
+        })
+        .catch((error) => console.log(error));
+  }
 
   console.log(values);
 
@@ -291,7 +349,7 @@ function AddProduct() {
   };
 
   const handleGrapeVarietyChange = (e) => {
-    console.log(e);
+
     setValues({
       ...values,
       grapeVariety: [...e],
@@ -303,7 +361,7 @@ function AddProduct() {
       setValues({
         ...values,
         baseUnitMeasure: e,
-        configuration: values.innerUnitMeasure.value * e.value,
+        configuration:`${values.innerUnitMeasure.value} x ${e.label}`,
       });
     } else {
       setValues({
@@ -320,7 +378,7 @@ function AddProduct() {
       setValues({
         ...values,
         innerUnitMeasure: e,
-        configuration: e.value * values.baseUnitMeasure.value,
+        configuration: `${e.value} x ${values.baseUnitMeasure.label}`,
       });
     } else {
       setValues({
@@ -335,6 +393,82 @@ function AddProduct() {
       ...values,
       tags: [...e],
     });
+  };
+
+  const handleSalePrice = (e) => {
+    const salePrice = e.target.value;
+    setSalePriceCopy(salePrice);
+    if (values.buyPrice) {
+      const profit = salePrice - values.buyPrice;
+      setProfitCopy(profit);
+      onsole.log("profit >>>", profit);
+      const margin = (profit * 100) / values.salePrice;
+      setMarginCopy(margin);
+      setValues({
+        ...values,
+        salePrice: salePrice,
+        profit: profit,
+        margin: margin.toFixed(2),
+      });
+    } else {
+      setValues({
+        ...values,
+        salePrice: salePrice,
+      });
+    }
+  };
+
+  const handleBuyPrice = (e) => {
+    const buyPrice = e.target.value;
+
+    if (values.salePrice) {
+      const profit = values.salePrice - buyPrice;
+      setProfitCopy(profit);
+      console.log("profit >>>", profit);
+      const margin = (profit * 100) / values.salePrice;
+      setMarginCopy(margin);
+      setValues({
+        ...values,
+        buyPrice: buyPrice,
+        profit: profit,
+        margin: margin.toFixed(2),
+      });
+    } else {
+      setValues({
+        ...values,
+        buyPrice: buyPrice,
+      });
+    }
+  };
+
+  const handleGSTChange = (e) => {
+    setCheckGST(!checkGST);
+    console.log(checkGST);
+  };
+
+  const handleWETChange = (e) => {
+    if (e.target.checked) {
+      //Calculating WET & LUC
+      const salePrice = values.salePrice;
+      const wet = parseInt(salePrice) * 0.29;
+      const luc = parseInt(salePrice) + parseInt(wet)
+
+      //Setting WET & Setting LUC
+      setValues({
+        ...values,
+        wineEqualisationTax: wet.toFixed(2),
+        landedUnitCost: luc.toFixed(2),
+      });
+    } else {
+      setValues({
+        ...values,
+        wineEqualisationTax: "",
+        landedUnitCost: "",
+      });
+    }
+
+    setCheckWET(!checkWET);
+    console.log(checkWET);
   };
 
   const handleConfiguration = (e) => {
@@ -389,6 +523,7 @@ function AddProduct() {
     },
   }));
 
+  const handleReset = () => {};
   return (
     <>
       <AddProductHeader />
@@ -396,7 +531,25 @@ function AddProduct() {
         onChange={handleFormChange}
         className="grid gap-5 lg:flex  px-6  overflow-y-auto h-96 no-scrollbar"
       >
-        {show && <ProductEditHeader handleSubmit={handleSubmit} />}
+        {show && (
+          <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+            <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+              <div className="block">
+                <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                  <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
+                    Save
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="w-full lg:w-2/5	 h-full	">
           <div className="grid gap-3">
             {/* Upload Image  */}
@@ -733,7 +886,6 @@ function AddProduct() {
                     </div>
                   </div>
                 </div>
-
                 <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
                   <div className=" w-full md:w-1/2 px-3">
                     <h5 className="text-base font-medium text-green mb-3">
@@ -930,7 +1082,7 @@ function AddProduct() {
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-password"
                       type="text"
-                      name="config"
+                      name="configuration"
                       disabled
                       value={
                         values.configuration &&
@@ -1023,7 +1175,7 @@ function AddProduct() {
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="Sale-price"
                       name="salePrice"
-                      onChange={handleChange}
+                      onChange={handleSalePrice}
                       prefix="$"
                       value={values.salePrice}
                       type="text"
@@ -1060,7 +1212,7 @@ function AddProduct() {
                       id="Buy-price"
                       type="text"
                       name="buyPrice"
-                      onChange={handleChange}
+                      onChange={handleBuyPrice}
                       value={values.buyPrice}
                       placeholder="$250.00"
                     />
@@ -1078,7 +1230,10 @@ function AddProduct() {
                       <input
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="Profit"
-                        value = {values.profit}
+                        disabled
+                        value={
+                          values.salePrice && values.buyPrice && values.profit
+                        }
                         name="firstName"
                         type="text"
                         placeholder="$80.00"
@@ -1094,6 +1249,12 @@ function AddProduct() {
                       <input
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="Margin"
+                        disabled
+                        value={
+                          values.salePrice &&
+                          values.buyPrice &&
+                          `${values.margin}%`
+                        }
                         type="text"
                         name="lastName"
                         placeholder="24.2%"
@@ -1110,7 +1271,8 @@ function AddProduct() {
                     <input
                       id="default-checkbox"
                       type="checkbox"
-                      defaultValue=""
+                      value={checkGST}
+                      onChange={handleGSTChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                     />
                     <label
@@ -1124,9 +1286,10 @@ function AddProduct() {
                   </div>
                   <div className="flex items-center mb-4 gap-3">
                     <input
-                      defaultChecked=""
                       id="checked-checkbox"
                       type="checkbox"
+                      value={checkWET}
+                      onChange={handleWETChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                     />
                     <label
@@ -1141,7 +1304,7 @@ function AddProduct() {
                 </div>
                 <div className="mb-5">
                   <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-3">
-                    {isWine && (
+                    {isWine && checkWET && (
                       <div className="w-full relative md:w-1/2 px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
@@ -1154,11 +1317,13 @@ function AddProduct() {
                           id="Wine-equalisation-tax"
                           name="firstName"
                           type="text"
+                          disabled
+                          value={`$${values.wineEqualisationTax}`}
                           placeholder="$105.27"
                         />
                       </div>
                     )}
-                    {isWine && (
+                    {isWine && checkWET && (
                       <div className="w-full relative md:w-1/2 px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
@@ -1170,17 +1335,19 @@ function AddProduct() {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="Landed-unit-cost"
                           type="text"
+                          disabled
+                          value={`$${values.landedUnitCost}`}
                           name="lastName"
                           placeholder="$224.73"
                         />
                       </div>
                     )}
                   </div>
-                    {isWine && (
-                      <p className="text-center justify-center text-xs font-normal	text-gray">
-                        Customers won’t see this
-                      </p>
-                    )}
+                  {isWine && checkWET && (
+                    <p className="text-center justify-center text-xs font-normal	text-gray">
+                      Customers won’t see this
+                    </p>
+                  )}
                 </div>
               </div>
               {/* Main Form End / */}
