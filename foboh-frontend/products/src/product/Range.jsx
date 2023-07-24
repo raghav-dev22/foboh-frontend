@@ -10,6 +10,7 @@ function Range() {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
   const [filterAndSort, setFilterAndSort] = useState({
+    
     filter: {
       category: [],
       subCategory: [],
@@ -17,7 +18,10 @@ function Range() {
       status: [],
       visibility: [],
     },
-    sort: {},
+    sort: {
+      sortBy: "",
+      sortOrder: "",
+    },
   });
 
   const sidebarHandler = () => {

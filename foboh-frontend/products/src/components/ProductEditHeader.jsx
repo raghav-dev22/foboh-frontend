@@ -1,6 +1,6 @@
 import React from "react";
 
-function ProductEditHeader({handleSubmit, handleReset}) {
+function ProductEditHeader({handleSubmit}) {
 
 
   return (
@@ -9,10 +9,10 @@ function ProductEditHeader({handleSubmit, handleReset}) {
         <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
           <div className="block">
             <nav className="flex h-[65px] items-center justify-end gap-5 ">
-              <button onClick={handleReset} className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+              <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
                 Cancel
               </button>
-              <button onClick={handleSubmit} className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+              <button type="submit" onClick={handleSubmit} className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
                 Save
               </button>
             </nav>
