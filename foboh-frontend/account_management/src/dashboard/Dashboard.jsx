@@ -12,6 +12,7 @@ import AddProduct from 'products/AddProduct';
 import AddCustomers from 'customers/AddCustomers';
 import AddCustomersDetails from 'customers/AddCustomersDetails';
 import ViewCustomer from 'customers/ViewCustomer';
+import BulkEdit from 'products/BulkEdit'
 // import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
 
@@ -56,11 +57,12 @@ function Dashboard() {
               <Route path="/your-profile" element={<Profile />} />
               <Route path="/organisation-settings" element={<Organisation />} />
               <Route path="/products" element={<Range />} />
-              <Route path="/view-product" element={<ViewProduct />} />
+              <Route path="/view-product/:id" element={<ViewProduct />} />
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/customers" element={<AddCustomers />} />
               <Route path="/view-customer-details" element={<ViewCustomer/>} />
               <Route path="/add-customer/*" element={<AddCustomersDetails />} />
+              <Route path="/bulk-edit" element={<BulkEdit />}/>
               </Routes>
             {/* <Profile /> */}
           </div>

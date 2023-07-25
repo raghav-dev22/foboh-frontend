@@ -2,15 +2,16 @@ import React, { useState } from "react";
 
 import TableRange from "./TableRange";
 import SearchProduct from "./SearchProduct";
+import CloseIcon from "@mui/icons-material/Close";
 
 import ActiveProduct from "./ActiveProduct";
 import "../style.css";
 
 function Range() {
+  const [isBulkEdit, setIsBulkEdit] = useState(true);
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
   const [filterAndSort, setFilterAndSort] = useState({
-    
     filter: {
       category: [],
       subCategory: [],
@@ -27,7 +28,7 @@ function Range() {
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
-  
+
   return (
     <>
       <ActiveProduct />
@@ -35,7 +36,7 @@ function Range() {
         <div className="box-3 px-6 ">
           <SearchProduct setProducts={setProducts} products={products} />
         </div>
-        <div className="box-4 pt-6 px-6 ">
+        <div className="box-4 pt-6 px-6 relative">
           <div className="relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className=" border-b">
@@ -94,6 +95,31 @@ function Range() {
               </tbody>
             </table>
           </div>
+          {isBulkEdit && (
+            <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
+              <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+                <h6 className="text-white font-semibold text-base ">
+                  Bulk edit{" "}
+                </h6>
+              </button>
+
+              <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+                <h6 className="text-white font-semibold text-base ">
+                  Set as Visible{" "}
+                </h6>
+              </button>
+
+              <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+                <h6 className="text-white font-semibold text-base ">
+                  Set as Hidden{" "}
+                </h6>
+              </button>
+
+              <div className="cursor-pointer">
+                <CloseIcon />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

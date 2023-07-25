@@ -92,6 +92,7 @@ function AddProduct() {
 
   const handleSubmit =(e) => {
     e.preventDefault()
+  
     fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
         method: "POST",
         headers: {
@@ -110,7 +111,9 @@ function AddProduct() {
           categoryId: (values.category.value).toString(),
           subCategoryId: (values.subcategory.value).toString(),
           segmentId: "string",
-          variety: (values.grapeVariety).toString(),
+          variety:  values.grapeVariety.map(item => {
+            return item.label
+          }),
           vintage: values.vintage,
           abv: values.abv,
           globalPrice: values.salePrice,
@@ -121,12 +124,14 @@ function AddProduct() {
           availableQty: values.minimumOrder,
           stockThreshold: values.stockAlertLevel,
           stockStatus: values.status,
-          regionAvailability: (values.region).toString(),
+          regionAvailability: values.region,
           productStatus: (values.status).toString(),
           visibility: values.visibility,
           minimumOrder: values.minimumOrder,
-          tags: (values.tags).toString(),
-          countryOfOrigin: (values.country.value).toString(),
+          tags: values.tags.map(item => {
+            return item.label
+          }),
+          countryOfOrigin: values.country.label,
           barcodes: "string",
           esgStatus: "string",
           healthRating: "string",
@@ -149,8 +154,7 @@ function AddProduct() {
   // Product Listing Handlers ---START
   const [selectedState, setSelectedState] = useState("");
 
-  const status = ["Active", "Inactive", "Archived"];
-
+   
   const regionAvailability = [
     "NSW",
     "VIC",
@@ -161,6 +165,8 @@ function AddProduct() {
     "ACT",
     "NT",
   ];
+
+  const status =  ["Active", "Inactive", "Archived"]
 
   // Product Availability
   const handleVisibility = () => {

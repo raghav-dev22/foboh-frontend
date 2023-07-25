@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function TableRange({products, setProducts}) {
   const tableItem = Array.from({ length: 8 });
   const [productId, setProductId] = useState("");
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch("https://product-api-foboh.azurewebsites.net/api/Product/get", {
@@ -16,8 +18,9 @@ function TableRange({products, setProducts}) {
   }, []);
 
 
-  const handleProductId = (e) => {
-    console.log( e.target.name, e.target.value);
+  const handleProductId = (id) => {
+    console.log("id >>>", id);
+    navigate(`/dashboard/view-product/${id}`)
   }
 
   return (
@@ -34,8 +37,6 @@ function TableRange({products, setProducts}) {
                   id="default-checkbox"
                   type="checkbox"
                   name={product.title}
-                  onChange={handleProductId}
-                  value={product.productId}
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                 />
               </div>
@@ -50,7 +51,7 @@ function TableRange({products, setProducts}) {
                 alt=""
                 className="object-contain	"
               />
-              <h5 className="font-medium whitespace-no-wrap text-gray">
+              <h5 onClick={() => handleProductId(product.productId)} name={product.title} className="font-medium cursor-pointer whitespace-no-wrap text-gray">
                 {" "}
                 {product.title}
               </h5>

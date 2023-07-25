@@ -359,3 +359,135 @@ border: 1px solid #E7E7E7 !important
     height: 1px;
     width: 31%;
   }
+
+
+  .fixed{
+
+    position: fixed;
+
+  }
+
+  .bg-gray-500{
+
+    background-color: #0000005c;
+
+  }
+
+  .opacity-100 {
+
+    opacity: 1;
+
+}
+
+.min-h-full {
+
+    min-height: 100%;
+
+}
+
+.rounded-lg {
+
+    border-radius: 0.5rem;
+
+}
+
+@media (min-width: 640px){
+
+ 
+
+    .sm\:ml-4 {
+
+        margin-left: 1rem;
+
+    }
+
+    .sm\:max-w-lg {
+
+        max-width: 32rem;
+
+    }
+
+    .sm\:w-full {
+
+        width: 100%;
+
+    }
+
+    .sm\:text-left {
+
+        text-align: left;
+
+    }
+
+.sm\:my-8 {
+
+    margin-top: 2rem;
+
+    margin-bottom: 2rem;
+
+}
+
+.sm\:w-full {
+
+    width: 100%;
+
+}
+
+.sm\:flex-row-reverse {
+
+    flex-direction: row-reverse;
+
+}
+
+.sm\:w-auto {
+
+    width: auto;
+
+}
+
+.sm\:ml-3 {
+
+    margin-left: 0.75rem;
+
+}
+
+/* .sm\:flex {
+
+    display: flex;
+
+} */
+
+}
+
+.bg-red-600{
+
+    background-color: #EF4444   ;
+
+}
+
+.bg-gray-50{
+
+    background-color: rgb(248 250 252);
+
+
+
+
+}
+
+.rounded-b-lg   {
+
+    border-bottom-right-radius: 0.5rem; /* 8px */
+
+border-bottom-left-radius: 0.5rem; /* 8px */
+
+}
+
+.rounded-t-lg{
+
+    border-top-right-radius: 0.5rem; /* 8px */
+
+    border-top-left-radius: 0.5rem; /* 8px */
+
+}
+
+  

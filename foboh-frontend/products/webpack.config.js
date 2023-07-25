@@ -48,6 +48,7 @@ module.exports = (_, argv) => ({
         "./Range" : "./src/product/Range.jsx",
         "./ViewProduct":"./src/product/ViewProduct.jsx",
         "./AddProduct":"./src/product/AddProduct.jsx",
+        "./BulkEdit" : "./src/product/BulkEdit.jsx"
       },
       shared: {
         ...deps,
