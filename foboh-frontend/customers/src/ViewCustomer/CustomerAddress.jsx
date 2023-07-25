@@ -9,7 +9,7 @@ function CustomerAddress() {
             orderItem.map((item,index)=>{
                 return(
                     
-                    <div className={`address-box-${index} bg-white rounded-lg border border-darkGreen shadow-md	 p-5`}>
+                    <div className={`address-box address-box-${index} bg-white rounded-lg border border-darkGreen shadow-md	 p-5`}>
                         <div className="flex items-center gap-3 mb-4">
                             <div className="">
                                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
