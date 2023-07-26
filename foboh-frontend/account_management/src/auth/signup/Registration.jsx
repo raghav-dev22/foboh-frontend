@@ -61,7 +61,7 @@ const Registration = () => {
           .then((data) => {
             console.log(data);
 
-            const userInfo = data.userdetails
+            const userInfo = data.userdetails;
 
             fetch("https://user-api-foboh.azurewebsites.net/api/User/create", {
               method: "POST",
@@ -69,37 +69,38 @@ const Registration = () => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                name: userInfo.displayName,
+                firstName: values.firstName,
+                lastName: values.lastName,
                 email: userInfo.mail,
                 password: localStorage.getItem("password"),
                 status: true,
-                role: "string",
-                meta: "string",
+                role: "",
+                meta: "",
                 adId: userInfo.id,
-                imageUrl: "string",
-                bio: "string",
+                imageUrl: "",
+                bio: "",
                 mobile: userInfo.mobilePhone,
+                organisationId: "",
+                isActive: true,
               }),
-            }).then((response) => response.json())
-            .then(data => {
-
-              console.log("userDB >>>",data);
-
-              localStorage.removeItem("uniqueKey");
-              if (!data.error) {
-                localStorage.removeItem("email");
-                localStorage.removeItem("uniqueKey");
-                localStorage.removeItem('password')
-                navigate("/auth/sign-in");
-              } else {
-                console.log(data);
-                localStorage.setItem('id', data.id);
-                localStorage.removeItem("email");
-                localStorage.removeItem("uniqueKey");
-                localStorage.removeItem('password')
-              }
             })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("userDB >>>", data);
 
+                localStorage.removeItem("uniqueKey");
+                if (!data.error) {
+                  localStorage.removeItem("uniqueKey");
+                  localStorage.removeItem("password");
+                  navigate("/auth/sign-in");
+                } else {
+                  console.log(data);
+                  localStorage.setItem("id", data.id);
+                  localStorage.removeItem("email");
+                  localStorage.removeItem("uniqueKey");
+                  localStorage.removeItem("password");
+                }
+              });
           })
           .catch((error) => console.log(error));
       },

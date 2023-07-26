@@ -35,6 +35,7 @@ function Organisation() {
     postcode: "string",
     country: "string",
     billingAddress: "string",
+    categoryList: [],
   });
 
   const sidebarHandler = () => {
@@ -42,6 +43,7 @@ function Organisation() {
   };
 
   const handleSubmit = () => {
+    console.log(organisationSettings);
     fetch(
       "https://organization-api-foboh.azurewebsites.net/api/Organization/create",
       {
@@ -54,7 +56,7 @@ function Organisation() {
           businessName: organisationSettings.businessName,
           liquorLicense: organisationSettings.liquorLicense,
           abn: organisationSettings.abn,
-          categories: organisationSettings.categories,
+          categories: "",
           organisationlogo: organisationSettings.organisationlogo,
           description: organisationSettings.description,
           orderingContactFirstName:
@@ -75,6 +77,12 @@ function Organisation() {
           postcode: organisationSettings.postcode,
           country: organisationSettings.country,
           billingAddress: organisationSettings.billingAddress,
+          categoryList: organisationSettings.categoryList,
+          billingAddress: organisationSettings.billingAddress,
+          billingAddressApartment: "string",
+          billingAddressSuburb: "string",
+          billingAddressPostCode: "string",
+          billingAddressState: "string",
         }),
       }
     )
@@ -113,6 +121,7 @@ function Organisation() {
       postcode: "",
       country: "",
       billingAddress: "",
+      categoryList: [],
     });
   };
 

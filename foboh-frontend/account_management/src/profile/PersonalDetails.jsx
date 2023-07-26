@@ -5,11 +5,8 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import separateFullName from "../helpers/separateFullName";
 import ProfileHeader from "../dashboard/ProfileHeader";
 
-
 function PersonalDetails() {
-  const [show, setShow] = useState(false)
-
-
+  const [show, setShow] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -26,19 +23,21 @@ function PersonalDetails() {
   });
 
   useEffect(() => {
-    const id = localStorage.getItem("userId");
-    fetch(`https://user-api-foboh.azurewebsites.net/api/User/get?id=${id}`, {
-      method: "GET",
-    })
+    const email = localStorage.getItem("email");
+    fetch(
+      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${email}`,
+      {
+        method: "GET",
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("your profile data --->", data);
 
-        const separatedName = separateFullName(data.data[0].name);
-
+        localStorage.setItem("ccrn", data.data[0].ccrn);
         setInitialValues({
-          firstName: separatedName.firstName,
-          lastName: separatedName.lastName,
+          firstName: data.data[0].firstName,
+          lastName: data.data[0].lastName,
           email: data.data[0].email,
           mobile: data.data[0].mobile,
           bio: data.data[0].bio,
@@ -51,8 +50,8 @@ function PersonalDetails() {
         });
 
         setValues({
-          firstName: separatedName.firstName,
-          lastName: separatedName.lastName,
+          firstName: data.data[0].firstName,
+          lastName: data.data[0].lastName,
           email: data.data[0].email,
           mobile: data.data[0].mobile,
           bio: data.data[0].bio,
@@ -70,8 +69,8 @@ function PersonalDetails() {
   console.log("Initial Values >>>", initialValues);
 
   const handleReset = () => {
-    setValues(initialValues)
-  }
+    setValues(initialValues);
+  };
 
   const {
     values,
@@ -81,46 +80,52 @@ function PersonalDetails() {
     handleSubmit,
     touched,
     setValues,
-
-
   } = useFormik({
     initialValues: initialValues,
     validationSchema: PersonalDetailsSchema,
     onSubmit: (values) => {
-      const id = localStorage.getItem("userId");
-      fetch(`https://user-api-foboh.azurewebsites.net/api/User/update?id=${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: `${values.firstName} ${values.lastName}`,
-          email: values.email,
-          password: values.password,
-          status: true,
-          role: values.role,
-          meta: values.meta,
-          adId: values.adId,
-          imageUrl: values.imageUrl,
-          bio: values.bio,
-          mobile: values.mobile,
-        }),
-      }).then(response => response.json())
-        .then(data => {
+      const id = localStorage.getItem("ccrn");
+      fetch(
+        `https://user-api-foboh.azurewebsites.net/api/User/update?ccrn=${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            password: values.password,
+            status: true,
+            role: values.role,
+            meta: values.meta,
+            adId: values.adId,
+            imageUrl: values.imageUrl,
+            bio: values.bio,
+            mobile: values.mobile,
+            organisationId: "",
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
           console.log(data);
           if (data.success) {
-            setShow(false)
-            fetch(`https://user-api-foboh.azurewebsites.net/api/User/get?id=${id}`, {
-              method: "GET",
-            })
+            setShow(false);
+            fetch(
+              `https://user-api-foboh.azurewebsites.net/api/User/get?ccrn=${id}`,
+              {
+                method: "GET",
+              }
+            )
               .then((response) => response.json())
               .then((data) => {
                 console.log(data);
-                const separatedName = separateFullName(data.data[0].name);
 
                 setInitialValues({
-                  firstName: separatedName.firstName,
-                  lastName: separatedName.lastName,
+                  firstName: data.data[0].firstName,
+                  lastName: data.data[0].lastName,
                   email: data.data[0].email,
                   mobile: data.data[0].mobile,
                   bio: data.data[0].bio,
@@ -133,8 +138,8 @@ function PersonalDetails() {
                 });
 
                 setValues({
-                  firstName: separatedName.firstName,
-                  lastName: separatedName.lastName,
+                  firstName: data.data[0].firstName,
+                  lastName: data.data[0].lastName,
                   email: data.data[0].email,
                   mobile: data.data[0].mobile,
                   bio: data.data[0].bio,
@@ -147,25 +152,25 @@ function PersonalDetails() {
                 });
               })
               .catch((error) => console.log(error));
-
           }
-        }).catch(error => console.log(error))
+        })
+        .catch((error) => console.log(error));
     },
   });
 
-
-
   const handleInputChange = () => {
-    setShow(true)
-  }
+    setShow(true);
+  };
 
   return (
     <>
       <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
-
-        {
-          show && <ProfileHeader handleSubmit={handleSubmit} handleReset={handleReset} />
-        }
+        {show && (
+          <ProfileHeader
+            handleSubmit={handleSubmit}
+            handleReset={handleReset}
+          />
+        )}
         <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
           <h6 className="text-base	font-medium	 text-green">Personal details</h6>
         </div>
@@ -314,7 +319,6 @@ function PersonalDetails() {
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
-
           </form>
         </div>
       </div>

@@ -19,14 +19,21 @@ function OrganisationDetails({
   setOrganisationSettings,
   setShow,
 }) {
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: OrganisationDetailsSchema,
-      onSubmit: (values) => {
-        console.log(values);
-      },
-    });
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    setValues,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: OrganisationDetailsSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
   const handleFormChange = () => {
     setShow(true);
@@ -45,13 +52,14 @@ function OrganisationDetails({
     console.log(organisationSettings);
     setValues({
       ...values,
-      categories: [...e]
-    })
+      categories: [...e],
+    });
     setOrganisationSettings({
       ...organisationSettings,
-      categories:[e.map((item) => {
-        return item.value
-      })],
+      categoryList: 
+        e.map((item) => {
+          return `${item.value}`;
+        }),
     });
   };
 

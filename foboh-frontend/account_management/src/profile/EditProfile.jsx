@@ -22,11 +22,31 @@ function EditProfile() {
 
     if (file) {
       const reader = new FileReader();
+      const formData = new FormData();
+      formData.append("image", file);
+      const id = localStorage.getItem('crn')
+      fetch(`https://user-api-foboh.azurewebsites.net/api/User/UploadProfileImage?ccrn=${id}`, {
+        method: "POST",
+        body:{
+          file: formData
+        }
+        
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response from the server
+          console.log("Server response:", data);
+        })
+        .catch((error) => {
+          // Handle any errors that occurred during the request
+          console.error("Error:", error);
+        });
+
 
       reader.onload = () => {
         // Do whatever you want with the file contents
         const imgData = reader.result;
-        setImageSrc(imgData)
+        setImageSrc(imgData);
       };
       reader.readAsDataURL(file);
     }

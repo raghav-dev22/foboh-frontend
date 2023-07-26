@@ -18,6 +18,7 @@ import ResetPasswordEmail from "./auth/signin/ResetPasswordEmail";
 import Dashboard from "./dashboard/Dashboard";
 
 
+
 // const url = process.env.REACT_APP_EXPRESS_SERVER_URL
 
 
@@ -27,6 +28,7 @@ const App = () => {
 
   // Getting token from server
   useEffect(() => {
+
     // const url = process.env.REACT_APP_URL
 
     fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetToken`, {

@@ -48,9 +48,8 @@ const SigninNew = () => {
           )
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
+              console.log("sign-in data --->",data);
 
-              console.log(data);
 
               if (data.success) {
                 console.log(data);
@@ -61,6 +60,7 @@ const SigninNew = () => {
                 console.log(decryptedPassword);
                 if (decryptedPassword === values.password) {
                   console.log(data);
+                  localStorage.setItem('email', values.email)
                   localStorage.setItem('userId', data.data[0].id)
                   navigate("/dashboard/main");
                 } else {
@@ -128,7 +128,7 @@ const SigninNew = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-
+            localStorage.setItem('email', googleResponse.email)
             navigate("/dashboard/main");
           })
           .catch((error) => console.log(error));
