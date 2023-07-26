@@ -7,7 +7,7 @@ const OrderDetails = () => {
             <div className="px-12 pt-6">
 
                 <div className="xl:w-full xl:mx-0  sm:block rounded-lg border border-darkGreen	">
-                    <ul className="flex      gap-5 bg-custom-skyBlue rounded-s-lg	rounded-e-lg	pt-4">
+                    <ul className="flex      gap-5 bg-custom-skyBlue rounded-s-lg	rounded-e-lg	pt-4 overflow-x-scroll">
                         <li onClick={() => setActiveStatus(1)} className={activeStatus == 1 ? "text-sm border-indigo-700 pt-3 rounded-t text-indigo-700 py-3 px-4	 cursor-pointer rounded-s-lg rounded-e-lg bg-white customer-tab-active" : "customer-tab text-sm text-gray-600 py-3 flex items-center  hover:text-indigo-700 cursor-pointer  px-4"}>
                             <div className="flex gap-2 items-center">
                                 <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,36 +59,36 @@ const OrderDetails = () => {
                                 <thead className=" border-b">
                                     <tr>
                                         <th scope="col"
-                                            className="px-6 py-3 text-green	font-medium text-base">
+                                            className="px-6 py-3 text-green	font-medium text-base w-44">
                                             Title
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-green	font-medium text-base	"
+                                            className="px-6 py-3 text-green	font-medium text-base	w-44"
                                         >
                                             Code
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-green	font-medium text-base	"
+                                            className="px-6 py-3 text-green	font-medium text-base	w-44"
                                         >
                                             Configuration
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-green	font-medium text-base	"
+                                            className="px-6 py-3 text-green	font-medium text-base	w-44"
                                         >
                                             Price
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-green	font-medium text-base	"
+                                            className="px-6 py-3 text-green	font-medium text-base	w-44"
                                         >
                                             Stock level
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-green	font-medium text-base	"
+                                            className="px-6 py-3 text-green	font-medium text-base	w-44"
                                         >
                                             Status
                                         </th>

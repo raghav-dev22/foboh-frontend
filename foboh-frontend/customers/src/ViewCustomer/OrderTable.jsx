@@ -31,16 +31,16 @@ function OrderTable() {
           >
           
 
-            <th
-              scope="row"
-              className="flex justify-start items-center gap-3 px-6 py-4 whitespace-nowrap dark:text-white"
+            <td
+              
+              className=" px-6 py-4 "
             >
             
               <h5 className="font-medium whitespace-no-wrap text-gray">
                 {" "}
                 {product.title}
               </h5>
-            </th>
+            </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
                 {" "}
