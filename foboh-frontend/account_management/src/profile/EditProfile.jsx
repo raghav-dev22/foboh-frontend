@@ -24,13 +24,13 @@ function EditProfile() {
       const reader = new FileReader();
       const formData = new FormData();
       formData.append("image", file);
-      const id = localStorage.getItem('crn')
-      fetch(`https://user-api-foboh.azurewebsites.net/api/User/UploadProfileImage?ccrn=${id}`, {
+
+      const ccrn = localStorage.getItem("ccrn");
+      fetch(`https://user-api-foboh.azurewebsites.net/api/User/UploadProfileImage?ccrn=${ccrn}`, {
         method: "POST",
-        body:{
-          file: formData
+        body: {
+          file :[formData]
         }
-        
       })
         .then((response) => response.json())
         .then((data) => {
@@ -41,7 +41,7 @@ function EditProfile() {
           // Handle any errors that occurred during the request
           console.error("Error:", error);
         });
-
+  
 
       reader.onload = () => {
         // Do whatever you want with the file contents

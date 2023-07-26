@@ -56,10 +56,9 @@ function OrganisationDetails({
     });
     setOrganisationSettings({
       ...organisationSettings,
-      categoryList: 
-        e.map((item) => {
-          return `${item.value}`;
-        }),
+      categoryList: e.map((item) => {
+        return `${item.value}`;
+      }),
     });
   };
 

@@ -20,6 +20,8 @@ function PersonalDetails() {
     adId: "",
     imageUrl: "",
     bio: "",
+    organisationId: "string",
+    isActive: true,
   });
 
   useEffect(() => {
@@ -32,9 +34,11 @@ function PersonalDetails() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("your profile data --->", data);
+        console.log(data);
 
-        localStorage.setItem("ccrn", data.data[0].ccrn);
+        const ccrn = data.data[0].ccrn
+        localStorage.setItem('ccrn', ccrn)
+        
         setInitialValues({
           firstName: data.data[0].firstName,
           lastName: data.data[0].lastName,
@@ -105,6 +109,7 @@ function PersonalDetails() {
             bio: values.bio,
             mobile: values.mobile,
             organisationId: "",
+            isActive: true,
           }),
         }
       )
@@ -135,6 +140,8 @@ function PersonalDetails() {
                   meta: data.data[0].meta,
                   adId: data.data[0].adId,
                   imageUrl: data.data[0].imageUrl,
+                  organisationId: "",
+                  isActive: true,
                 });
 
                 setValues({
@@ -149,6 +156,8 @@ function PersonalDetails() {
                   meta: data.data[0].meta,
                   adId: data.data[0].adId,
                   imageUrl: data.data[0].imageUrl,
+                  organisationId: "",
+                  isActive: true,
                 });
               })
               .catch((error) => console.log(error));

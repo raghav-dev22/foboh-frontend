@@ -16,9 +16,10 @@ function OrderTable() {
       });
   }, []);
 
+
   const handleProductId = (e) => {
-    console.log(e.target.name, e.target.value);
-  };
+    console.log( e.target.name, e.target.value);
+  }
 
   return (
     <>
@@ -28,7 +29,13 @@ function OrderTable() {
             key={product.index}
             className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  tableNo-${product.index}`}
           >
-            <td scope="row" className="px-6 py-4">
+          
+
+            <td
+              
+              className=" px-6 py-4 "
+            >
+            
               <h5 className="font-medium whitespace-no-wrap text-gray">
                 {" "}
                 {product.title}
