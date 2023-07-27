@@ -52,7 +52,7 @@ const SignupNew = () => {
           .then((data) => {
             console.log(data);
             console.log(data.userdetails.value.length);
-            if (data.userdetails.value.length > 0 && !data.error) {
+            if (data.userdetails.value.length > 0 && !data.error && data.userdetails.value) {
               if (data.userdetails.value[0].mail === values.email) {
                 setEmailPresent(true);
               }

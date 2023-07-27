@@ -1,6 +1,5 @@
 import React from "react";
 import { useFormik } from "formik";
-import { OrganisationDetailsSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Select from "react-select";
 import { options } from "../../../products/src/data";
@@ -29,7 +28,6 @@ function OrganisationDetails({
     setValues,
   } = useFormik({
     initialValues: initialValues,
-    validationSchema: OrganisationDetailsSchema,
     onSubmit: (values) => {
       console.log(values);
     },
