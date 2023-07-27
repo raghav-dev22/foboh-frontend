@@ -63,22 +63,24 @@ const Registration = () => {
 
             const userInfo = data.userdetails;
 
+
+
             fetch("https://user-api-foboh.azurewebsites.net/api/User/create", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                firstName: userInfo.firstName,
-                lastName: userInfo.lastName,
+                firstName: values.firstName,
+                lastName: values.lastName,
                 email: userInfo.mail,
                 password: localStorage.getItem("password"),
                 status: true,
-                role: "string",
-                meta: "string",
+                role: "",
+                meta: "",
                 adId: userInfo.id,
-                imageUrl: "string",
-                bio: "string",
+                imageUrl: "",
+                bio: "",
                 mobile: userInfo.mobilePhone,
                 organisationId: "",
                 isActive: true,

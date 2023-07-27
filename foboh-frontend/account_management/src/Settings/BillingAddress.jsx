@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { BillingAddressSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const initialValues = {
@@ -13,7 +12,7 @@ const initialValues = {
 
 
 function BillingAddress({organisationSettings,
-  setOrganisationSettings, organisationAddress, apartment, postcode, state }) {
+  setOrganisationSettings }) {
   const [check, setCheck] = useState(false);
 
   const {
@@ -26,22 +25,22 @@ function BillingAddress({organisationSettings,
     setValues,
   } = useFormik({
     initialValues: initialValues,
-    validationSchema: BillingAddressSchema,
     onSubmit: (values) => {
       console.log(values, "kkk");
     },
   });
 
   const handleCheckbox = (e) => {
-    console.log(organisationAddress);
-    setCheck(!check);
-    if (check) {
+    console.log("e --->", e.target.checked);
+
+    setCheck(!e.target.checked);
+    if (e.target.checked) {
       setValues({
-        address: organisationAddress,
-        apartment: apartment,
-        suburb: "",
-        postcode: postcode,
-        state: state
+        address: organisationSettings.organisationAddress,
+        apartment: organisationSettings.apartment,
+        suburb: organisationSettings.suburb,
+        postcode: organisationSettings.postcode,
+        state: organisationSettings.state
       });
     };
   }
@@ -68,7 +67,7 @@ function BillingAddress({organisationSettings,
                 id="same-address"
                 type="checkbox"
                 name="checkbox"
-                value={check}
+                checked={check}
                 defaultValue=""
                 className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
               />

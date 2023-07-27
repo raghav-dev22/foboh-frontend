@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { OrganisationAddressSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 const initialValues = {
   address: "",
   apartment: "",
   suburb: "",
   postcode: "",
-  state: ""
+  state: "",
+  city: ""
 };
 
 function OrganisationAddress({
@@ -18,7 +18,6 @@ function OrganisationAddress({
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
-      validationSchema: OrganisationAddressSchema,
       onSubmit: (values) => {
         console.log(values, "kkk");
       },
@@ -31,9 +30,10 @@ function OrganisationAddress({
       ...organisationSettings,
       organisationAddress: values.address,
       apartment: values.apartment,
-      city: "string",
+      city: "",
       postcode: values.postcode,
-      state: values.state
+      state: values.state,
+      suburb: values.suburb
     });
 
     console.log("org >>>>",organisationSettings);

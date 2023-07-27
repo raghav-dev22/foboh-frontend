@@ -7,7 +7,6 @@ export const ResetPasswordEmailSchema = Yup.object({
     .required("Please enter your email."),
 });
 
-
 export const ResetPasswordFormSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
@@ -24,7 +23,6 @@ export const ResetPasswordFormSchema = Yup.object().shape({
     ),
 });
 
-
 //Sign-up Schema
 export const SignUpSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email("Invalid is email"),
@@ -36,7 +34,6 @@ export const SignUpSchema = Yup.object().shape({
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
-
 
 // Registration Form Schema
 export const RegistrationSchema = Yup.object().shape({
@@ -60,7 +57,6 @@ export const RegistrationSchema = Yup.object().shape({
     .required("Business name is required"),
 });
 
-
 // Sign-in Schema
 export const SignInSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email("Invalid is email"),
@@ -72,7 +68,6 @@ export const SignInSchema = Yup.object().shape({
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
-
 
 // Personal Details Schema [User Profile]
 export const PersonalDetailsSchema = Yup.object().shape({
@@ -87,11 +82,11 @@ export const PersonalDetailsSchema = Yup.object().shape({
     /^\+\d{1,3}\s?\d{1,14}$/,
     "Mobile number must be a valid number with country code"
   ),
-  bio: Yup.string()
+  bio: Yup.string(),
 });
 
-
-export const OrganisationDetailsSchema = Yup.object().shape({
+export const OrganisationSettingsSchema = Yup.object().shape({
+  //Organization Details
   tradingName: Yup.string()
     .min(2, "Your trading name should have atleast 2 letters")
     .max(50),
@@ -99,63 +94,62 @@ export const OrganisationDetailsSchema = Yup.object().shape({
     .min(2, "Your business name should have atleast 2 letters")
     .max(50),
   abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
-  liquorLicence: Yup.string().matches(/^\d{11}$/, "Invalid liquorLicence format"),
-});
+  liquorLicence: Yup.string().matches(
+    /^\d{11}$/,
+    "Invalid liquorLicence format"
+  ),
 
-
-export const OrganisationAddressSchema = Yup.object().shape({
-  address: Yup.string()
+  //Organization Address
+  organisationAddress: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
     .max(100),
-  apartment: Yup.string()
+  organisationAddressApartment: Yup.string()
     .min(2, "Your apartment should have atleast 2 letters")
     .max(100),
-  suburb: Yup.string()
+  organisationAddressSuburb: Yup.string()
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
-  postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
-});
+  organisationAddressPostcode: Yup.string().matches(
+    /^\d{4}$/,
+    "Invalid postcode"
+  ),
 
-
-export const BillingAddressSchema = Yup.object().shape({
-  address: Yup.string()
+  // Billing address
+  billingAddress: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
     .max(100),
-  apartment: Yup.string()
+  billingAddressApartment: Yup.string()
     .min(2, "Your apartment should have atleast 2 letters")
     .max(100),
-  suburb: Yup.string()
+  billingAddressSuburb: Yup.string()
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
-  postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
-});
+  billingAddressPostcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
 
-
-export const OrderingContactSchema = Yup.object().shape({
-  firstName: Yup.string()
+  // Ordering contact
+  orderingContactFirstName: Yup.string()
     .min(2, "Your first name should have atleast 2 letters")
     .max(50),
-  lastName: Yup.string()
+  orderingContactLastName: Yup.string()
     .min(2, "Your last name should have atleast 2 letters")
     .max(50),
-  email: Yup.string().email("Invalid is email"),
-  mobile: Yup.string().matches(
+  orderingContactEmail: Yup.string().email("Invalid is email"),
+  orderingContactMobile: Yup.string().matches(
+    /^\+\d{1,3}\s?\d{1,14}$/,
+    "Mobile number must be a valid number with country code"
+  ),
+
+  // Logistics Contacts
+  LogisticsContactFirstName: Yup.string()
+    .min(2, "Your first name should have atleast 2 letters")
+    .max(50),
+  LogisticsContactLastName: Yup.string()
+    .min(2, "Your last name should have atleast 2 letters")
+    .max(50),
+  LogisticsContactEmail: Yup.string().email("Invalid is email"),
+  LogisticsContactMobile: Yup.string().matches(
     /^\+\d{1,3}\s?\d{1,14}$/,
     "Mobile number must be a valid number with country code"
   ),
 });
 
-
-export const LogisticsContactSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, "Your first name should have atleast 2 letters")
-    .max(50),
-  lastName: Yup.string()
-    .min(2, "Your last name should have atleast 2 letters")
-    .max(50),
-  email: Yup.string().email("Invalid is email"),
-  mobile: Yup.string().matches(
-    /^\+\d{1,3}\s?\d{1,14}$/,
-    "Mobile number must be a valid number with country code"
-  ),
-});

@@ -1,6 +1,5 @@
 import React from "react";
 import { useFormik } from "formik";
-import { LogisticsContactSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 const initialValues = {
   firstName: "",
@@ -12,7 +11,6 @@ function LogisticsContact({ organisationSettings, setOrganisationSettings }) {
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
-      validationSchema: LogisticsContactSchema,
       onSubmit: (values) => {
         console.log(values, "kkk");
       },
