@@ -73,9 +73,6 @@ function BulkEdit() {
   const showModal = () => {
     setShow(true);
   };
-  // const openPopup = () => {
-  //     setOpen(true)
-  // }
   const cancelButtonRef = useRef(null);
   return (
     <>
