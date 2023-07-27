@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from './Header';
-import Sidebar from './sidebar';
+import Sidebar from './Sidebar';
 import 'react-datepicker/dist/react-datepicker.css';
 import Profile from '../profile/Profile';
 import MainDashBoard from '../components/mainPage/MainDashBoard';
