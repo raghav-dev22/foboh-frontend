@@ -1,8 +1,12 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect } from "react";
+
 
 export default function Header() {
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
@@ -27,6 +31,10 @@ export default function Header() {
     setDropDown(true);
   }
 
+  useEffect(()=>{
+
+  }, [])
+
   const handleLogOut = () => {
     localStorage.removeItem('email')
     localStorage.removeItem('password')
@@ -44,7 +52,7 @@ export default function Header() {
 
           <nav className="flex justify-between  ">
             <div className="">
-            <h5 className="text-xl font-semibold text-white">Hello [first name] 👋</h5>
+            <h5 className="text-xl font-semibold text-white">Hello { user.firstName || ["first name"]} 👋</h5>
               <p className="text-sm font-normal text-lightGray text-start">Welcome back to FOBOH!</p>
             </div>
             <div className=" flex lg:gap-x-14 gap-x-6 items-center	 ">
@@ -83,14 +91,14 @@ export default function Header() {
                   onClick={toggleDropdown}
                 >
                   <div className="">
-                  <h6 className="text-sm	 font-bold text-white">Tom Sheer</h6>
-                 <p className="text-xs font-normal text-lightGray">Lo-Fi Wines</p>
+                  <h6 className="text-sm	 font-bold text-white">{user.firstName}</h6>
+                 <p className="text-xs font-normal text-lightGray">{user.lastName}</p>
                   </div>
                   <div className="">
-                    <img src="/assets/user.png" alt="" className='h-11	w-11' />
+                    <img src={user.imageUrl ? user.imageUrl :  "/assets/user.png"} alt="" className='h-11	w-11 rounded-full' />
                   </div>
                   <div className="">
-                    <img src="/assets/arrow.png" alt="" />
+                    <img src={"/assets/arrow.png"} alt="" />
                   </div>
                 </div>
                 {isOpen && (

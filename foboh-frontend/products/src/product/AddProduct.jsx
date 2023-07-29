@@ -18,6 +18,10 @@ import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useNavigate } from "react-router-dom";
+
+
 
 import {
   segment,
@@ -35,7 +39,7 @@ const initialValues = {
   region: [],
   minimumOrder: "",
   trackInventory: false,
-  stockAlertLevel: "",
+  stockAlertLevel: 0,
   sellOutOfStock: false,
   title: "",
   skuCode: "",
@@ -46,9 +50,9 @@ const initialValues = {
   segment: "",
   grapeVariety: [],
   regionSelect: "",
-  vintage: "",
+  vintage: 0,
   awards: "",
-  abv: "",
+  abv: 0,
   country: "",
   baseUnitMeasure: {},
   innerUnitMeasure: {},
@@ -61,11 +65,12 @@ const initialValues = {
   margin: "",
   tax: "",
   wineEqualisationTax: "",
-  landedUnitCost: "",
+  landedUnitCost: 0,
   status: ["Active", "Inactive", "Archived"],
 };
 
 function AddProduct() {
+  const navigate = useNavigate()
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
@@ -80,39 +85,36 @@ function AddProduct() {
     errors,
     handleBlur,
     handleChange,
+    handleSubmit,
     touched,
     setValues,
   } = useFormik({
     initialValues: initialValues,
     validationSchema: addProductSchema,
     onSubmit: (values) => {
-      console.log(values.configuration);
-    },
-  });
-
-  const handleSubmit =(e) => {
-    e.preventDefault()
-  
-    fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
+      console.log(values);
+      fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title: (values.title).toString(),
-          description: (values.description).toString(),
+          title: values.title,
+          description: values.description,
+          award: values.awards,
           articleId: 0,
-          skUcode: (values.skuCode).toString(),
-          productImage: "string",
-          unitofMeasure: (values.baseUnitMeasure.value).toString(),
-          configuration: (values.configuration).toString(),
-          brand: (values.brand).toString(),
-          departmentId: (values.department.value).toString(),
-          categoryId: (values.category.value).toString(),
-          subCategoryId: (values.subcategory.value).toString(),
-          segmentId: "string",
-          variety:  values.grapeVariety.map(item => {
-            return item.label
+          skUcode: values.skuCode,
+          productImageUrls: [],
+          unitofMeasure: values.baseUnitMeasure.value.toString(),
+          innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
+          configuration: values.configuration,
+          brand: values.brand,
+          departmentId: values.department.value,
+          categoryId: values.category.value,
+          subCategoryId: values.subcategory.value,
+          segmentId: values.segment.value ? values.segment.value : "",
+          variety: values.grapeVariety.map((item) => {
+            return item.label;
           }),
           vintage: values.vintage,
           abv: values.abv,
@@ -125,17 +127,17 @@ function AddProduct() {
           stockThreshold: values.stockAlertLevel,
           stockStatus: values.status,
           regionAvailability: values.region,
-          productStatus: (values.status).toString(),
+          productStatus: values.status,
           visibility: values.visibility,
           minimumOrder: values.minimumOrder,
-          tags: values.tags.map(item => {
-            return item.label
+          tags: values.tags.map((item) => {
+            return item.label;
           }),
           countryOfOrigin: values.country.label,
           barcodes: "string",
           esgStatus: "string",
           healthRating: "string",
-          isActive: 0,
+          isActive: 1,
         }),
       })
         .then((response) => response.json())
@@ -144,17 +146,109 @@ function AddProduct() {
           if (data.success) {
             console.log("Success >>>", data);
             setShow(false);
+            navigate('/dashboard/products');
           }
         })
         .catch((error) => console.log(error));
-  }
+    },
+  });
+
+  console.log("err ->",errors);
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if(!errors) {
+  //     fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         title: values.title,
+  //         description: values.description,
+  //         award: values.awards,
+  //         articleId: 0,
+  //         skUcode: values.skuCode,
+  //         productImage: "string",
+  //         unitofMeasure: values.baseUnitMeasure.value,
+  //         innerUnitofMeasure: values.innerUnitMeasure.value,
+  //         configuration: values.configuration,
+  //         brand: values.brand,
+  //         departmentId: values.department.value,
+  //         categoryId: values.category.value,
+  //         subCategoryId: values.subcategory.value,
+  //         segmentId: values.segment?.value,
+  //         variety: values.grapeVariety.map((item) => {
+  //           return item.label;
+  //         }),
+  //         vintage: values.vintage,
+  //         abv: values.abv,
+  //         globalPrice: values.salePrice,
+  //         luCcost: values.landedUnitCost,
+  //         buyPrice: values.buyPrice,
+  //         gstFlag: checkGST,
+  //         wetFlag: checkWET,
+  //         availableQty: values.minimumOrder,
+  //         stockThreshold: values.stockAlertLevel,
+  //         stockStatus: values.status,
+  //         regionAvailability: values.region,
+  //         productStatus: values.status,
+  //         visibility: values.visibility,
+  //         minimumOrder: values.minimumOrder,
+  //         tags: values.tags.map((item) => {
+  //           return item.label;
+  //         }),
+  //         countryOfOrigin: values.country.label,
+  //         barcodes: "string",
+  //         esgStatus: "string",
+  //         healthRating: "string",
+  //         isActive: 1,
+  //       }),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         if (data.success) {
+  //           console.log("Success >>>", data);
+  //           setShow(false);
+  //         }
+  //       })
+  //       .catch((error) => console.log(error));
+  //   }
+  // };
+
+  const handleReset = () => {
+    setShow(false);
+  };
 
   console.log(values);
+
+  // Handle product image
+  const handleProductImage = (e) => {
+    alert('You need to save this product first')
+    const files = e.target.files
+    console.log("files -->",files);
+    if(files.length) {
+      files.length = files.length > 3 && 3
+      const formData = new FormData();
+      files.forEach(file => {
+        formData.append("files[]", file)
+      })
+
+      fetch(`https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`, {
+        method: 'POST',
+        body: formData
+      }).then(response => response.json())
+      .then(data => {
+        console.log(data);
+      }).catch(error => console.log(error))
+    }
+
+  }
 
   // Product Listing Handlers ---START
   const [selectedState, setSelectedState] = useState("");
 
-   
   const regionAvailability = [
     "NSW",
     "VIC",
@@ -166,7 +260,7 @@ function AddProduct() {
     "NT",
   ];
 
-  const status =  ["Active", "Inactive", "Archived"]
+  const status = ["Active", "Inactive", "Archived"];
 
   // Product Availability
   const handleVisibility = () => {
@@ -355,7 +449,6 @@ function AddProduct() {
   };
 
   const handleGrapeVarietyChange = (e) => {
-
     setValues({
       ...values,
       grapeVariety: [...e],
@@ -367,7 +460,7 @@ function AddProduct() {
       setValues({
         ...values,
         baseUnitMeasure: e,
-        configuration:`${values.innerUnitMeasure.value} x ${e.label}`,
+        configuration: `${values.innerUnitMeasure.value} x ${e.label}`,
       });
     } else {
       setValues({
@@ -407,8 +500,8 @@ function AddProduct() {
     if (values.buyPrice) {
       const profit = salePrice - values.buyPrice;
       setProfitCopy(profit);
-      onsole.log("profit >>>", profit);
-      const margin = (profit * 100) / values.salePrice;
+      const margin = (profit * 100) /  salePrice;
+      console.log(margin);
       setMarginCopy(margin);
       setValues({
         ...values,
@@ -430,7 +523,6 @@ function AddProduct() {
     if (values.salePrice) {
       const profit = values.salePrice - buyPrice;
       setProfitCopy(profit);
-      console.log("profit >>>", profit);
       const margin = (profit * 100) / values.salePrice;
       setMarginCopy(margin);
       setValues({
@@ -457,7 +549,7 @@ function AddProduct() {
       //Calculating WET & LUC
       const salePrice = values.salePrice;
       const wet = parseInt(salePrice) * 0.29;
-      const luc = parseInt(salePrice) + parseInt(wet)
+      const luc = parseInt(salePrice) + parseInt(wet);
 
       //Setting WET & Setting LUC
       setValues({
@@ -487,6 +579,16 @@ function AddProduct() {
   };
 
   useEffect(() => {
+    // Getting organization id
+    fetch(`https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem('organisationID')}`, {
+      method: 'GET',
+    }).then(response => response.json())
+    .then(data => {
+      console.log("organization data--->", data);
+    })
+
+
+    // Department
     fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
       method: "GET",
     })
@@ -529,7 +631,6 @@ function AddProduct() {
     },
   }));
 
-  const handleReset = () => {};
   return (
     <>
       <AddProductHeader />
@@ -542,7 +643,10 @@ function AddProduct() {
             <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
               <div className="block">
                 <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                  <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+                  <button
+                    onClick={handleReset}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
                     Cancel
                   </button>
                   <button
@@ -563,7 +667,8 @@ function AddProduct() {
               <img src="/assets/inventory-img.png" alt="" className=" w-full" />
             </div>
 
-            <div className="update-img-btn rounded-md	w-full py-3	bg-custom-skyBlue flex justify-center">
+            <label htmlFor="imageUpload" onChange={handleProductImage} type="file" className="update-img-btn rounded-md cursor-pointer	w-full py-3	bg-custom-skyBlue flex justify-center">
+            <input id="imageUpload" multiple hidden type="file" onChange={handleProductImage} />
               <div className="flex gap-2 items-center justify-center">
                 <div className="">
                   <svg
@@ -593,12 +698,12 @@ function AddProduct() {
                   </svg>
                 </div>
                 <div className="">
-                  <button className="text-white font-medium	text-base	">
+                  <p className="text-white font-medium	text-base	">
                     Upload images
-                  </button>
+                  </p>
                 </div>
               </div>
-            </div>
+            </label>
 
             {/* Product Listing  */}
             <div className="rounded-lg	border border-inherit	bg-white">
@@ -790,7 +895,7 @@ function AddProduct() {
             <div className="px-6 py-7">
               <div className="w-full ">
                 <div className="flex flex-wrap -mx-3 mb-5">
-                  <div className="w-full px-3">
+                  <div className="w-full px-3 relative">
                     <label
                       className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                       htmlFor="title"
@@ -800,18 +905,31 @@ function AddProduct() {
                     <input
                       onChange={handleChange}
                       value={values.title}
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      onBlur={handleBlur}
+                      style={{
+                        border:
+                          errors.title && touched.title && "1px solid red",
+                      }}
+                      className="appearance-none  block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="title"
                       type="text"
                       name="title"
                       autoComplete="on"
                       placeholder="Good Intentions 'Cape Jaffa' Chardonnay   "
                     />
+                    {errors.title && touched.title && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.title}
+                      </p>
+                    )}
+                    {errors.title && touched.title && (
+                      <ErrorOutlineIcon className="absolute text-red-500 error-icon-position right-5 transition-all duration-[0.3s]" />
+                    )}
                   </div>
                 </div>
                 {/* <ComboBoxMultiSelect/> */}
                 <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="w-full md:w-1/2 px-3">
+                  <div className="w-full md:w-1/2 px-3 relative">
                     <label
                       className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                       htmlFor="sku-code"
@@ -834,14 +952,30 @@ function AddProduct() {
                     <input
                       onChange={handleChange}
                       value={values.skuCode}
+                      onBlur={handleBlur}
+                      style={{
+                        border:
+                          errors.skuCode && touched.skuCode && "1px solid red",
+                      }}
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="sku-code"
                       name="skuCode"
                       type="text"
                       placeholder="GOODINTCJCHARD22"
                     />
+                    {errors.skuCode && touched.skuCode && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.skuCode}
+                      </p>
+                    )}
+                    {errors.skuCode && touched.skuCode && (
+                      <ErrorOutlineIcon
+                        style={{ top: "45px" }}
+                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                      />
+                    )}
                   </div>
-                  <div className="w-full md:w-1/2 px-3">
+                  <div className="w-full md:w-1/2 px-3 relative">
                     <label
                       className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                       htmlFor="brand"
@@ -851,12 +985,28 @@ function AddProduct() {
                     <input
                       onChange={handleChange}
                       value={values.brand}
+                      onBlur={handleBlur}
+                      style={{
+                        border:
+                          errors.brand && touched.brand && "1px solid red",
+                      }}
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="brand"
                       type="text"
                       name="brand"
                       placeholder="Lo-Fi Wines"
                     />
+                    {errors.brand && touched.brand && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.brand}
+                      </p>
+                    )}
+                    {errors.brand && touched.brand && (
+                      <ErrorOutlineIcon
+                        style={{ top: "45px" }}
+                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
@@ -869,10 +1019,22 @@ function AddProduct() {
                         name="colors"
                         options={department}
                         value={values.department}
+                        onBlur={handleBlur}
                         onChange={handleDepartmentChange}
                         className="basic-multi-select "
                         classNamePrefix="select"
+                        style={{
+                          border:
+                            errors.department &&
+                            touched.department &&
+                            "1px solid red",
+                        }}
                       />
+                      {errors.department && touched.department && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.department}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="  w-full md:w-1/2 px-3">
@@ -884,11 +1046,17 @@ function AddProduct() {
                         name="colors"
                         options={category}
                         isDisabled={!category.length}
+                        onBlur={handleBlur}
                         value={values.category}
                         onChange={handleCategoryChange}
                         className="basic-multi-select "
                         classNamePrefix="select"
                       />
+                      {errors.category && touched.category && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.category}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -901,12 +1069,18 @@ function AddProduct() {
                       <Select
                         name="colors"
                         options={subCategory}
+                        onBlur={handleBlur}
                         isDisabled={!subCategory.length}
                         value={values.subcategory}
                         onChange={handleSubCategoryChange}
                         className="basic-multi-select "
                         classNamePrefix="select"
                       />
+                      {errors.subcategory && touched.subcategory && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.subcategory}
+                        </p>
+                      )}
                     </div>
                   </div>
                   {isAlcoholicBeverage && (

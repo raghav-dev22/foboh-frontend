@@ -3,6 +3,7 @@ import PersonalDetails from './PersonalDetails';
 import EditProfile from './EditProfile';
 function Profile() {
   const [isDivVisible, setIsDivVisible] = useState(false);
+  const [profileUri, setProfileUri] = useState("");
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
@@ -17,8 +18,8 @@ function Profile() {
                   </p>
                 </div>
                 <div className="grid gap-5 lg:flex  ">
-                <PersonalDetails/>
-                 <EditProfile/>
+                <PersonalDetails profileUri={profileUri} />
+                 <EditProfile setProfileUri={setProfileUri} />
                 </div>
               </div>
 

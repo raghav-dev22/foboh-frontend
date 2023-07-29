@@ -1,10 +1,16 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserData } from "../Redux/Action/userSlice";
 
-function EditProfile() {
+function EditProfile({ setProfileUri }) {
   const [imageSrc, setImageSrc] = useState(``);
-  const [file, setFile] = useState([]);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const [file, setFile] = useState([]);   
+  const [showError, setShowError] = useState()
   const defaultImage = "/assets/update-user.png";
+
 
   const handleDelete = () => {
     setFile(null);
@@ -20,32 +26,48 @@ function EditProfile() {
     console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
 
-    if (file) {
-      const reader = new FileReader();
-      const formData = new FormData();
-      formData.append("file", file);
 
-      const ccrn = localStorage.getItem("ccrn");
-      fetch(
-        `https://user-api-foboh.azurewebsites.net/api/User/UploadProfileImage?ccrn=${ccrn}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response from the server
-          console.log("Server response:", data);
-          if(!data.error) {
-            console.log("uri --->", data.blob.uri);
-            setImageSrc(data.blob.uri)
+    if (file) {
+      const fileNameParts = file.name.split(".");
+      const fileExtension =
+        fileNameParts[fileNameParts.length - 1].toLowerCase();
+
+      // List of allowed image extensions (add more if needed)
+      const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+
+      if (allowedExtensions.includes(fileExtension)) {
+        const reader = new FileReader();
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const ccrn = localStorage.getItem("ccrn");
+        fetch(
+          `https://user-api-foboh.azurewebsites.net/api/User/UploadProfileImage?ccrn=${ccrn}`,
+          {
+            method: "POST",
+            body: formData,
           }
-        })
-        .catch((error) => {
-          // Handle any errors that occurred during the request
-          console.error("Error:", error);
-        });
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the response from the server
+            console.log("Server response:", data);
+            if (!data.error) {
+              console.log("uri --->", data.blob.uri);
+              setImageSrc(data.blob.uri);
+              setProfileUri(data.blob.uri);
+            }
+          })
+          .catch((error) => {
+            // Handle any errors that occurred during the request
+            console.error("Error:", error);
+          });
+      } else {
+        alert(
+          "Invalid file format. Please upload an image (jpg, jpeg, png, or gif)."
+        );
+        // Clear the file input field
+      }
 
       reader.onload = () => {
         // Do whatever you want with the file contents
@@ -105,6 +127,7 @@ function EditProfile() {
                 <input
                   {...getInputProps()}
                   type="file"
+                  accept="image/*"
                   className="download-file w-full h-full rounded-full absolute opacity-0	"
                   // value={imageSrc}
                 />

@@ -83,7 +83,7 @@ function TableRange({products, setProducts}) {
             </td>
             <td className="px-6 py-4 ">
               <p className="text-sm	font-normal		 whitespace-no-wrap text-gray">
-                {product.stockStatus}
+                {product.stockStatus} <br /> {product.visibility ? 'visible' : ''}
               </p>
             </td>
           </tr>

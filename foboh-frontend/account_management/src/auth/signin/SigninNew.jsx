@@ -6,7 +6,7 @@ import {
   Visibility,
   VisibilityOffOutlined,
 } from "@mui/icons-material";
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import jwtDecode from "jwt-decode";
 import CryptoJS from "crypto-js";
@@ -15,6 +15,8 @@ import { useFormik } from "formik";
 import { SignInSchema } from "../../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { generateUniqueKey } from "../../helpers/uniqueKey";
+import { updateUserData } from "../../Redux/Action/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const initialValues = {
   email: "",
@@ -23,6 +25,8 @@ const initialValues = {
 
 const SigninNew = () => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
@@ -39,42 +43,56 @@ const SigninNew = () => {
       initialValues: initialValues,
       validationSchema: SignInSchema,
       onSubmit: (values) => {
-    
-          fetch(
-            `https://user-api-foboh.azurewebsites.net/api/User/get?email=${values.email}`,
-            {
-              method: "GET",
-            }
-          )
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
+        fetch(
+          `https://user-api-foboh.azurewebsites.net/api/User/get?email=${values.email}`,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
 
-              console.log(data);
+            console.log(data);
 
-              if (data.success) {
+            if (data.success) {
+              console.log(data);
+              console.log(data.data[0].password);
+              localStorage.setItem("mailNickname", data.data[0].password);
+              const bytes = CryptoJS.AES.decrypt(data.data[0].password, key);
+              const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+              console.log(decryptedPassword);
+              if (decryptedPassword === values.password) {
                 console.log(data);
-                console.log(data.data[0].password);
-                localStorage.setItem('mailNickname', data.data[0].password)
-                const bytes = CryptoJS.AES.decrypt(data.data[0].password, key);
-                const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-                console.log(decryptedPassword);
-                if (decryptedPassword === values.password) {
-                  console.log(data);
-                  localStorage.setItem('userId', data.data[0].id)
-                  localStorage.setItem('email', values.email)
-                  navigate("/dashboard/main");
-                } else {
-                  setIsValidPassword(false);
-                }
+                localStorage.setItem("userId", data.data[0].id);
+                localStorage.setItem("email", values.email);
+                const user = data.data[0]
+                dispatch(
+                  updateUserData({
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    mobile: user.mobile,
+                    password: "",
+                    status: true,
+                    role: user.role,
+                    meta: "",
+                    adId: user.adId,
+                    imageUrl: user.imageUrl,
+                    bio: user.bio,
+                    organisationId: user.organisationId,
+                    isActive: true,
+                  })
+                );
+                navigate("/dashboard/main");
               } else {
                 setIsValidPassword(false);
               }
-            })
-            .catch((error) => console.log(error));
-        
-      
-    
+            } else {
+              setIsValidPassword(false);
+            }
+          })
+          .catch((error) => console.log(error));
       },
     });
 
@@ -128,8 +146,8 @@ const SigninNew = () => {
           }),
         })
           .then((response) => response.json())
-          .then((data) => {
-            localStorage.setItem('email', googleResponse.email)
+          .then((data) => {            
+            localStorage.setItem("email", googleResponse.email);
             navigate("/dashboard/main");
           })
           .catch((error) => console.log(error));
@@ -178,7 +196,10 @@ const SigninNew = () => {
                     <span className="text-[#147D73]">Sign up</span>
                   </p>
                 </div>
-                <form onSubmit={handleSubmit} className="px-4 sm:px-6 md:px-8 lg:px-10  py-4 ">
+                <form
+                  onSubmit={handleSubmit}
+                  className="px-4 sm:px-6 md:px-8 lg:px-10  py-4 "
+                >
                   {/* Email input  */}
                   <div
                     className={`relative mb-6 ${
@@ -260,12 +281,11 @@ const SigninNew = () => {
                         )}
                       </label>
                     </div>
-                      {errors.password && touched.password && (
-                        <p className="mt-2 mb-2 text-red-500">
-                          {errors.password}
-                        </p>
-                      )}
-                      
+                    {errors.password && touched.password && (
+                      <p className="mt-2 mb-2 text-red-500">
+                        {errors.password}
+                      </p>
+                    )}
                   </div>
                   {!isValidPassword && (
                     <p className="mb-6 -mt-4 text-red-500">
@@ -283,9 +303,15 @@ const SigninNew = () => {
                   <div className="mb-6 flex items-center justify-between">
                     <div className="">
                       {rememberMe ? (
-                        <CheckBoxOutlinedIcon onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
+                        <CheckBoxOutlinedIcon
+                          onClick={handleRememberMe}
+                          className="text-[#147D73] cursor-pointer"
+                        />
                       ) : (
-                        <CheckBoxOutlineBlank onClick={handleRememberMe} className="text-[#147D73] cursor-pointer" />
+                        <CheckBoxOutlineBlank
+                          onClick={handleRememberMe}
+                          className="text-[#147D73] cursor-pointer"
+                        />
                       )}
 
                       <label
@@ -330,7 +356,11 @@ const SigninNew = () => {
                 </form>
               </div>
               <div className="  md:basis-1/2  hidden lg:block ">
-                <img src="/image/signin/SignInImg.png" className="h-full w-full  " alt="signin" />
+                <img
+                  src="/image/signin/SignInImg.png"
+                  className="h-full w-full  "
+                  alt="signin"
+                />
               </div>
             </div>
           </div>

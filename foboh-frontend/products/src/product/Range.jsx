@@ -8,7 +8,7 @@ import ActiveProduct from "./ActiveProduct";
 import "../style.css";
 
 function Range() {
-  const [isBulkEdit, setIsBulkEdit] = useState(true);
+  const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
   const [filterAndSort, setFilterAndSort] = useState({

@@ -59,20 +59,24 @@ const initialValues = {
   wineEqualisationTax: "",
   landedUnitCost: "",
   status: ["Active", "Inactive", "Archived"],
+  productImageUrls: [],
 };
 
 function ViewProduct() {
   const { id } = useParams();
-
+  const [productImageUris, setProductImageUris] = useState([]);
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
   const [checkGST, setCheckGST] = useState(false);
   const [checkWET, setCheckWET] = useState(false);
+  const [productId, setProductId] = useState("");
+  const [regions, setRegions] = useState([]);
   const [salePriceCopy, setSalePriceCopy] = useState(null);
   const [profitCopy, setProfitCopy] = useState(null);
   const [marginCopy, setMarginCopy] = useState(null);
   const [departmentObj, setDepartmentObj] = useState({});
+  const [productName, setProductName] = useState("");
 
   const productPromise = new Promise((resolve, reject) => {
     fetch(
@@ -148,11 +152,26 @@ function ViewProduct() {
         console.log("product promise --->", data);
 
         const product = data.data[0];
+        const productId = product.productId;
+        setProductName(product.title)
+        setProductId(productId);
         const departmentId = product.departmentId;
+        const categoryId = product.categoryId;
+        const subCategoryId = product.subCategoryId;
+        const segmentId = product.segmentId;
+        const grapeVarietyName = product.variety;
+        const countryOfOrigin = product.countryOfOrigin;
+        const baseUnitMeasure = product.unitofMeasure;
+        const innerUnitMeasure = product.innerUnitofMeasure;
+        const regions = product.regionAvailability;
+        setRegions(regions);
+        const tags = product.tags;
         const profit = product.globalPrice - product.buyPrice;
         const margin = (profit * 100) / product.globalPrice;
-        const wet = parseInt(product.salePrice) * 0.29;
+        const wet = parseInt(product.globalPrice) * 0.29;
 
+        const imageUris = product.productImageUrls;
+        setProductImageUris(imageUris);
         setCheckGST(product.gstFlag);
         setCheckWET(product.wetFlag);
         setSelectedState(product.productStatus);
@@ -173,7 +192,7 @@ function ViewProduct() {
           grapeVariety: product.variety,
           regionSelect: "",
           vintage: product.vintage,
-          awards: "",
+          awards: product.award && product.award,
           abv: product.abv,
           country: product.countryOfOrigin,
           baseUnitMeasure: product.unitofMeasure,
@@ -185,9 +204,10 @@ function ViewProduct() {
           buyPrice: product.buyPrice,
           profit: profit,
           margin: margin,
-          wineEqualisationTax: wet,
-          landedUnitCost: values.luCcost,
+          wineEqualisationTax: wet && wet.toFixed(2),
+          landedUnitCost: product.luCcost && product.luCcost.toFixed(2),
           status: product.productStatus,
+          productImageUrls: imageUris,
         }).then(() => {
           Promise.all([
             departmentPromise,
@@ -198,25 +218,152 @@ function ViewProduct() {
             .then((data) => {
               console.log("Promise all --->", data);
 
+              const departmentObj = [
+                data[0].data.find((obj) => obj.departmentId === departmentId),
+              ];
+
+              const [dept] = departmentObj.map((item) => {
+                return {
+                  label: item.departmentName,
+                  value: item.departmentId,
+                };
+              })
+              
+
+              const categoryObj = [
+                data[1].data.find((obj) => obj.categoryId === categoryId),
+              ];
+
+              const [cate] = categoryObj.map((item) => {
+                return {
+                  label: item.categoryName,
+                  value: item.categoryId,
+                };
+              })
+
+              const subCategoryObj = [
+                data[2].data.find((obj) => obj.subCategoryId === subCategoryId),
+              ];
+
+              const [subCate] = subCategoryObj.map((item) => {
+                return {
+                  label: item.subCategoryName,
+                  value: item.subCategoryId,
+                };
+              })
+
+              const segmentObj = [
+                data[3].data.find((obj) => obj.segmentId === segmentId),
+              ];
+
+
+              const grapeVarietyObj = options.filter((option) =>
+                grapeVarietyName.includes(option.label)
+              );
+
+              const countryObj = country.find(
+                (country) => country.label === countryOfOrigin
+              );
+
+              const baseUnitOfMeasureObj = baseUnitOfMeasurement.find(
+                (BUM) => BUM.value === parseInt(baseUnitMeasure)
+              );
+
+              const innerUnitofMeasureObj = innerUnitOfMeasurement.find(
+                (IUM) => IUM.value === parseInt(innerUnitMeasure)
+              );
+
+              const tagsObj = options.filter((option) =>
+                tags.includes(option.label)
+              );
+
+              const imageUris = product.productImageUrls;
+              setProductImageUris(imageUris);
+
+              setValues({
+                ...values,
+                visibility: product.visibility,
+                region: product.regionAvailability,
+                minimumOrder: product.minimumOrder,
+                trackInventory: false,
+                stockAlertLevel: product.stockThreshold,
+                sellOutOfStock: product.stockStatus,
+                title: product.title,
+                skuCode: product.skUcode,
+                brand: product.brand,
+                productImageUrls: imageUris,
+                category:
+                  categoryId && cate,
+                  
+                subcategory:
+                  subCategoryId && subCate,
+                  
+                segment:
+                  segmentId && segmentObj.map((item) => {
+                    return {
+                      label: item.segmentName,
+                      value: item.segmentId,
+                    };
+                  }),
+                  
+                grapeVariety: grapeVarietyObj,
+                regionSelect: "",
+                vintage: product.vintage,
+                awards: product.award,
+                abv: product.abv,
+                country: countryObj,
+                baseUnitMeasure: baseUnitOfMeasureObj,
+                innerUnitMeasure: innerUnitofMeasureObj,
+                configuration: product.configuration,
+                description: product.description,
+                tags: tagsObj,
+                salePrice: product.globalPrice,
+                buyPrice: product.buyPrice,
+                profit: profit,
+                margin: margin.toFixed(2),
+                wineEqualisationTax: wet,
+                landedUnitCost: product.luCcost,
+                status: product.productStatus,
+                department:
+                  departmentId && dept
+                  
+              }).then(() => {
+                const [category] = categoryObj.map((item) => {
+                  return {
+                    label: item.categoryName,
+                    value: item.categoryId,
+                  };
+                });
+
+                const [subCategory] = subCategoryObj.map((item) => {
+                  return {
+                    label: item.subCategoryName,
+                    value: item.subCategoryId,
+                  };
+                });
+
+                if (category.label.toLowerCase() === "alcoholic beverages") {
+                  setIsAlcoholicBeverage(true);
+                } else {
+                  setIsAlcoholicBeverage(false);
+                }
+
+                if (subCategory.label.toLowerCase() === "wine") {
+                  setIsWine(true);
+                } else {
+                  setIsWine(false);
+                }
+              });
+
               setDepartment(
                 data[0].data.map((item) => {
-                  console.log(
-                    "obj ===>",
-                    item.data.find((obj) => obj.departmentId === departmentId)
-                  );
-                  setDepartmentObj(
-                    item.data.find((obj) => obj.departmentId === departmentId)
-                  );
-                  const department = item.data.find(
-                    (obj) => obj.departmentId === departmentId
-                  );
-
                   return {
-                    value: item.departmentId,
                     label: item.departmentName,
+                    value: item.departmentId,
                   };
                 })
               );
+
               setCategory(
                 data[1].data.map((item) => {
                   return {
@@ -247,112 +394,6 @@ function ViewProduct() {
         });
       }
     });
-
-    // fetch(
-    //   `https://product-api-foboh.azurewebsites.net/api/Product/get?ProductId=${id}`,
-    //   {
-    //     method: "GET",
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("product data -->", data);
-    //     if (data.success) {
-    //       const product = data.data[0];
-    //       const departmentId = product.departmentId;
-    //       fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get",
-    //         {
-    //           method: "GET",
-    //         }
-    //       )
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //           console.log("department -->", data);
-    //           if (data.success) {
-    //             console.log("obj ===>", data.data.find(obj => obj.departmentId === departmentId))
-    //             setDepartmentObj(data.data.find(obj => obj.departmentId === departmentId))
-    //             const department = data.data.find(obj => obj.departmentId === departmentId)
-    //             setValues({
-    //               ...values,
-    //               ...product,
-    //               department: {
-    //                 value: department.departmentId,
-    //                 label: department.departmentName
-    //               }
-    //             })
-    //             setDepartment(
-    //               data.data.map((i) => {
-
-    //                 return {
-    //                   value: i.departmentId,
-    //                   label: i.departmentName,
-    //                 };
-    //               })
-    //             );
-    //           }
-    //         })
-    //         .catch((error) => console.log(error));
-
-    //       const profit = product.globalPrice - product.buyPrice;
-    //       const margin = (profit * 100) / product.globalPrice;
-    //       const wet = parseInt(product.salePrice) * 0.29;
-
-    //       setValues({
-    //         ...values,
-    //         ...product.visibility,
-    //         region: product.regionAvailability,
-    //         minimumOrder: product.minimumOrder,
-    //         trackInventory: false,
-    //         stockAlertLevel: product.stockThreshold,
-    //         sellOutOfStock: product.stockStatus,
-    //         title: product.title,
-    //         skuCode: product.skUcode,
-    //         brand: product.brand,
-    //         category: product.categoryId,
-    //         subcategory: product.subCategoryId,
-    //         segment: product.segmentId,
-    //         grapeVariety: product.variety,
-    //         regionSelect: "",
-    //         vintage: product.vintage,
-    //         awards: "",
-    //         abv: product.abv,
-    //         country: product.countryOfOrigin,
-    //         baseUnitMeasure: product.unitofMeasure,
-    //         innerUnitMeasure: {},
-    //         configuration: product.configuration,
-    //         description: product.description,
-    //         tags: product.tags,
-    //         salePrice: product.globalPrice,
-    //         buyPrice: product.buyPrice,
-    //         profit: profit,
-    //         margin: margin,
-    //         wineEqualisationTax: wet,
-    //         landedUnitCost: values.luCcost,
-    //         status: product.stockStatus,
-    //       });
-    //       setCheckGST(product.gstFlag);
-    //       setCheckWET(product.wetFlag);
-    //     }
-    //   }).then(() => {
-    //     fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
-    //   method: "GET",
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("category --->", data);
-    //     if (data.success) {
-    //       setCategory(
-    //         data.data.map((i) => {
-    //           return {
-    //             value: i.categoryId,
-    //             label: i.categoryName,
-    //           };
-    //         })
-    //       );
-    //     }
-    //   })
-    //   })
-    //   .catch((error) => console.log(error));
   }, []);
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
@@ -365,6 +406,72 @@ function ViewProduct() {
     });
 
   console.log(values);
+
+  
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(
+      `https://product-api-foboh.azurewebsites.net/api/Product/update?ProductId=${productId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: values.title,
+          description: values.description,
+          award: values.awards,
+          articleId: 0,
+          skUcode: values.skuCode,
+          productImageUrls: values.productImageUrls,
+          unitofMeasure: values.baseUnitMeasure.value.toString(),
+          innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
+          configuration: values.configuration,
+          brand: values.brand,
+          departmentId: values.department.value,
+          categoryId: values.category.value,
+          subCategoryId: values.subcategory.value,
+          segmentId: values.segment.value ? values.segment.value : "",
+          variety: values.grapeVariety.map((item) => {
+            return item.label;
+          }),
+          vintage: values.vintage,
+          abv: values.abv,
+          globalPrice: values.salePrice,
+          luCcost: values.landedUnitCost,
+          buyPrice: values.buyPrice,
+          gstFlag: checkGST,
+          wetFlag: checkWET,
+          availableQty: values.minimumOrder,
+          stockThreshold: values.stockAlertLevel,
+          stockStatus: values.status,
+          regionAvailability: values.region,
+          productStatus: values.status,
+          visibility: values.visibility,
+          minimumOrder: values.minimumOrder,
+          tags: values.tags.map((item) => {
+            return item.label;
+          }),
+          countryOfOrigin: values.country.label,
+          barcodes: "string",
+          esgStatus: "string",
+          healthRating: "string",
+          isActive: 1,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if(data.success) {
+          setShow(false)
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   // Product Listing Handlers ---START
   const [selectedState, setSelectedState] = useState("");
 
@@ -620,7 +727,7 @@ function ViewProduct() {
       const profit = salePrice - values.buyPrice;
       setProfitCopy(profit);
       onsole.log("profit >>>", profit);
-      const margin = (profit * 100) / values.salePrice;
+      const margin = (profit * 100) / salePrice;
       setMarginCopy(margin);
       setValues({
         ...values,
@@ -698,6 +805,42 @@ function ViewProduct() {
     });
   };
 
+  const handleImageUpload = (e) => {
+    const files = e.target.files;
+  
+    console.log("files -->", files);
+    if(files.length) {
+      // files.length = files.length > 3 ? 3 : files.length
+      const formData = new FormData();
+      for(let i in files) {
+        
+        if(files[i] instanceof File){
+          console.log("--->", files[i]);
+          formData.append("files", files[i])
+        }
+      } 
+      console.log("form data", formData);
+
+      // files.forEach(file => {
+
+      //   formData.append("files[]", file)
+      // })
+
+      fetch(`https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`, {
+        method: 'POST',
+        body: formData
+      }).then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setProductImageUris(
+          data.map(item => {
+            return item.blob.uri
+          })
+        )
+      }).catch(error => console.log(error))
+    }
+  };
+
   // useEffect(() => {
   //   fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
   //     method: "GET",
@@ -742,9 +885,13 @@ function ViewProduct() {
     setShow(true);
   };
 
+  const handleReset = () => {
+    setShow(false);
+  };
+
   return (
     <>
-      <ViewProductHeader />
+      <ViewProductHeader productName={productName} />
       <form
         onChange={handleFormChange}
         className="grid gap-5 lg:flex  px-6  overflow-y-auto h-96 no-scrollbar"
@@ -754,10 +901,16 @@ function ViewProduct() {
             <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
               <div className="block">
                 <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                  <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+                  <button
+                    onClick={handleReset}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
                     Cancel
                   </button>
-                  <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+                  <button
+                    onClick={handleSubmit}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
                     Save
                   </button>
                 </nav>
@@ -768,7 +921,90 @@ function ViewProduct() {
         <div className="grid gap-5 lg:flex  px-6  overflow-y-auto h-96 no-scrollbar">
           <div className="w-full lg:w-2/5	 h-full	">
             <div className="grid gap-3">
-              <UpdateImg />
+              {/* Update Image ---START */}
+              <div className="edit-img">
+                <img
+                  src={
+                    values.productImageUrls[0]
+                      ? values.productImageUrls[0]
+                      : "/assets/inventory-img.png"
+                  }
+                  alt=""
+                  className=" w-full"
+                />
+              </div>
+              <div className="flex gap-3">
+                <div className="">
+                  <img
+                    src={
+                      values.productImageUrls[1]
+                        ? values.productImageUrls[1]
+                        : "/assets/inventory-img.png"
+                    }
+                    alt=""
+                    className=""
+                  />
+                </div>
+                <div className="">
+                  <img
+                    src={
+                      values.productImageUrls[2]
+                        ? values.productImageUrls[2]
+                        : "/assets/inventory-img.png"
+                    }
+                    alt=""
+                    className=""
+                  />
+                </div>
+              </div>
+              <label
+                htmlFor="upload-image"
+                className="update-img-btn rounded-md	w-full py-3	bg-custom-skyBlue flex cursor-pointer justify-center"
+              >
+                <input
+                  onChange={handleImageUpload}
+                  id="upload-image"
+                  type="file"
+                  name="files[]"
+                  multiple
+                  hidden
+                />
+                <div className="flex gap-2 items-center justify-center">
+                  <div className="">
+                    <svg
+                      width={20}
+                      height={21}
+                      viewBox="0 0 20 21"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <mask
+                        id="mask0_555_25257"
+                        style={{ maskType: "alpha" }}
+                        maskUnits="userSpaceOnUse"
+                        x={0}
+                        y={0}
+                        width={20}
+                        height={21}
+                      >
+                        <rect y="0.5" width={20} height={20} fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_555_25257)">
+                        <path
+                          d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
+                          fill="white"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                  <div className="">
+                    <h6 className="text-white font-medium	text-base	">
+                      Update images
+                    </h6>
+                  </div>
+                </div>
+              </label>
+              {/* Update Image ---END  */}
 
               {/* Product Listing ---START */}
               <div className="rounded-lg	border border-inherit	bg-white">
@@ -822,6 +1058,7 @@ function ViewProduct() {
                     <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
                       <input
                         onChange={handleVisibility}
+                        checked={values.visibility}
                         type="checkbox"
                         name="availability"
                         id="toggle"
@@ -844,6 +1081,7 @@ function ViewProduct() {
                           id={region}
                           type="checkbox"
                           value={region}
+                          checked={values.region.includes(region)}
                           name={region}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                         />
@@ -875,6 +1113,7 @@ function ViewProduct() {
                     <div className="w-72">
                       <input
                         onChange={handleMinimumOrderQuantity}
+                        value={values.minimumOrder}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-last-name"
                         name="firstName"
@@ -891,6 +1130,7 @@ function ViewProduct() {
                       <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                         <input
                           onChange={handleTrackInventory}
+                          checked={values.trackInventory}
                           type="checkbox"
                           name="track-inventory"
                           id="track-inventory"
@@ -915,6 +1155,7 @@ function ViewProduct() {
                       <div className="w-72">
                         <input
                           onChange={handleStockAlertLevel}
+                          value={values.stockAlertLevel}
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="stock-alert-level"
                           name="stock-alert-level"
@@ -932,6 +1173,7 @@ function ViewProduct() {
                       <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                         <input
                           onChange={handleSellOutOfStock}
+                          checked={values.sellOutOfStock}
                           type="checkbox"
                           name="SellOutOfStock"
                           id="SellOutOfStock"

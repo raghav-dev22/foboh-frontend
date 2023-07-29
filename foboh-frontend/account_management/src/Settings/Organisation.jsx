@@ -194,7 +194,7 @@ function Organisation() {
             return options.find((obj) => obj.value === parseInt(id));
           });
 
-          setLogoUri(organisationSettings.organisationlogo)
+          setLogoUri(organisationSettings.organisationlogo);
           setValues({
             tradingName: organisationSettings.tradingName,
             businessName: organisationSettings.businessName,
@@ -304,7 +304,7 @@ function Organisation() {
 
           if (!data.error) {
             console.log("uri --->", data.blob.uri);
-            setShow(true)
+            setShow(true);
             setLogoUri(data.blob.uri);
           }
         })

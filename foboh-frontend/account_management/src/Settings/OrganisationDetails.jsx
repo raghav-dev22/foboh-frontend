@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Select from "react-select";
-import { options } from "../../../products/src/data";
+
 
 const initialValues = {
   tradingName: "",

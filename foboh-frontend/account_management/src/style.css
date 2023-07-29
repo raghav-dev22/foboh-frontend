@@ -490,4 +490,9 @@ border-bottom-left-radius: 0.5rem; /* 8px */
 
 }
 
+.error-icon-position {
+    position: absolute;
+    top: 44px;
+}
+
   

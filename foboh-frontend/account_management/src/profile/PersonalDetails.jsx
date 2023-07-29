@@ -4,10 +4,14 @@ import { PersonalDetailsSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import separateFullName from "../helpers/separateFullName";
 import ProfileHeader from "../dashboard/ProfileHeader";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserData } from "../Redux/Action/userSlice";
 
-function PersonalDetails() {
+
+function PersonalDetails({profileUri}) {
   const [show, setShow] = useState(false);
-
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
@@ -105,7 +109,7 @@ function PersonalDetails() {
             role: values.role,
             meta: values.meta,
             adId: values.adId,
-            imageUrl: values.imageUrl,
+            imageUrl: profileUri,
             bio: values.bio,
             mobile: values.mobile,
             organisationId: "",
@@ -117,6 +121,24 @@ function PersonalDetails() {
         .then((data) => {
           console.log(data);
           if (data.success) {
+            dispatch(
+              updateUserData({
+                ...user,
+                firstName: values.firstName,
+                lastName: values.lastName,
+                email: values.email,
+                mobile: values.mobile,
+                password: "",
+                imageUrl : profileUri,
+                status: true,
+                role: values.role,
+                meta: values.meta,
+                adId: values.adId,
+                bio: values.bio,
+                organisationId: values.organisationId,
+                isActive: true,
+              })
+            );
             setShow(false);
             fetch(
               `https://user-api-foboh.azurewebsites.net/api/User/get?ccrn=${id}`,
