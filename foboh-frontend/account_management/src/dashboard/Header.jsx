@@ -95,7 +95,7 @@ export default function Header() {
                  <p className="text-xs font-normal text-lightGray">{user.lastName}</p>
                   </div>
                   <div className="">
-                    <img src={user.imageUrl ? user.imageUrl :  "/assets/user.png"} alt="" className='h-11	w-11 rounded-full' />
+                    <img src={user.imageUrl ? user.imageUrl :  "/assets/user.png"} alt="" className='h-11	w-11 rounded-full object-cover' />
                   </div>
                   <div className="">
                     <img src={"/assets/arrow.png"} alt="" />

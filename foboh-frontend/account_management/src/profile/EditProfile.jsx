@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
@@ -7,14 +7,15 @@ function EditProfile({ setProfileUri }) {
   const [imageSrc, setImageSrc] = useState(``);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [file, setFile] = useState([]);   
-  const [showError, setShowError] = useState()
+  const [file, setFile] = useState([]);
+  const [showError, setShowError] = useState();
   const defaultImage = "/assets/update-user.png";
-
+  const fileInputRef = useRef();
 
   const handleDelete = () => {
     setFile(null);
     setImageSrc("");
+    setProfileUri("");
   };
 
   const handleUpdate = () => {
@@ -26,7 +27,6 @@ function EditProfile({ setProfileUri }) {
     console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
 
-
     if (file) {
       const fileNameParts = file.name.split(".");
       const fileExtension =
@@ -36,6 +36,7 @@ function EditProfile({ setProfileUri }) {
       const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 
       if (allowedExtensions.includes(fileExtension)) {
+        setShowError(false);
         const reader = new FileReader();
         const formData = new FormData();
         formData.append("file", file);
@@ -63,10 +64,9 @@ function EditProfile({ setProfileUri }) {
             console.error("Error:", error);
           });
       } else {
-        alert(
-          "Invalid file format. Please upload an image (jpg, jpeg, png, or gif)."
-        );
+        setShowError(true);
         // Clear the file input field
+        fileInputRef.current.value = "";
       }
 
       reader.onload = () => {
@@ -95,7 +95,7 @@ function EditProfile({ setProfileUri }) {
                 id="previewImage"
                 src={imageSrc || defaultImage}
                 alt=""
-                className="w-14	h-14	object-contain	"
+                className="w-14	h-14	object-cover	rounded-full"
               />
             </div>
             <div className="">
@@ -118,6 +118,12 @@ function EditProfile({ setProfileUri }) {
               </div>
             </div>
           </div>
+          {showError && (
+            <p className="mt-2 mb-2 text-red-500 text-sm">
+              Invalid file format. Please upload an image (jpg, jpeg, png, or
+              gif).
+            </p>
+          )}
           <div
             {...getRootProps()}
             className="border-darkGreen border border-dashed	flex justify-center items-center rounded-md	h-44 w-full mt-4"
@@ -128,6 +134,7 @@ function EditProfile({ setProfileUri }) {
                   {...getInputProps()}
                   type="file"
                   accept="image/*"
+                  ref={fileInputRef}
                   className="download-file w-full h-full rounded-full absolute opacity-0	"
                   // value={imageSrc}
                 />

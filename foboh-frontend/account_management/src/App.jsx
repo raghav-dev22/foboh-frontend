@@ -26,10 +26,11 @@ import { store } from "./Redux/store";
 // const url = process.env.REACT_APP_EXPRESS_SERVER_URL
 
 const App = () => {
-  // Getting token from server
+
   useEffect(() => {
     // const url = process.env.REACT_APP_URL
 
+    // Getting token from server
     fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetToken`, {
       method: "GET",
     })
@@ -39,6 +40,9 @@ const App = () => {
         localStorage.setItem("token", data.tokenresponse.access_token);
       })
       .catch((error) => console.log(error));
+
+    // Fetching user profile and setting to redux store
+    
   }, []);
 
   return (
