@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -13,15 +13,52 @@ import AddCustomers from 'customers/AddCustomers';
 import AddCustomersDetails from 'customers/AddCustomersDetails';
 import ViewCustomer from 'customers/ViewCustomer';
 import BulkEdit from 'products/BulkEdit'
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserData } from '../Redux/Action/userSlice';
 // import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
 
 function Dashboard() {
   const [isDivVisible, setIsDivVisible] = useState(false);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
+
   };
+
+  useEffect(()=> {
+    const email = localStorage.getItem("email");
+    fetch(
+      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${email}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const user = data.data[0];
+
+        dispatch(
+          updateUserData({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            mobile: user.mobile,
+            bio: user.bio,
+            password: "",
+            status: true,
+            role: user.role,
+            meta: user.meta,
+            adId: user.adId,
+            imageUrl: user.imageUrl,
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+  },[])
+
   return (
     <>
 

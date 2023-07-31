@@ -4,6 +4,7 @@ import authReducer from './Action/authSlice'
 import keyReducer from './Action/uniqueKeySlice'
 import organisationDetailsReducer from "./Action/organisationDetailsSlice";
 import userReducer from "../Redux/Action/userSlice"
+import logoReducer from '../Redux/Action/organisationLogoSlice'; 
 
 
 export const store = configureStore({
@@ -13,7 +14,7 @@ export const store = configureStore({
         key: keyReducer,
         organisationDetails: organisationDetailsReducer,
         user: userReducer,
-
+        logo: logoReducer,
     },
   })
 

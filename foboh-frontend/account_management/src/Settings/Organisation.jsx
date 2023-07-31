@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import OrganisationDetails from "./OrganisationDetails";
 import OrganisationAddress from "./OrganisationAddress";
@@ -12,6 +12,9 @@ import { useFormik } from "formik";
 import Select from "react-select";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useDropzone } from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
+import { updateLogoURI, resetLogoURI } from "../Redux/Action/organisationLogoSlice";
+
 
 export const options = [
   { value: 1234, label: "Chocolate" },
@@ -53,6 +56,11 @@ function Organisation() {
   const [show, setShow] = useState(false);
   const [check, setCheck] = useState(false);
   const [logoUri, setLogoUri] = useState("");
+  const fileInputRef = useRef();
+  const [showError, setShowError] = useState();
+  const dispatch = useDispatch();
+
+
 
   const {
     values,
@@ -95,6 +103,7 @@ function Organisation() {
               apartment: values.organisationAddress,
               city: "",
               state: values.state,
+              suburb: values.organisationAddressSuburb,
               postcode: values.organisationAddressPostcode,
               country: "",
               billingAddress: values.billingAddress,
@@ -152,6 +161,7 @@ function Organisation() {
               state: values.state,
               postcode: values.organisationAddressPostcode,
               country: "",
+              suburb: values.organisationAddressSuburb,
               billingAddress: values.billingAddress,
               billingAddressApartment: values.billingAddressApartment,
               billingAddressSuburb: values.billingAddressSuburb,
@@ -202,8 +212,7 @@ function Organisation() {
             liquorLicence: organisationSettings.liquorLicense,
             organisationAddress: organisationSettings.organisationAddress,
             organisationAddressApartment: organisationSettings.apartment,
-            organisationAddressSuburb:
-              organisationSettings.organisationAddressSuburb,
+            organisationAddressSuburb: organisationSettings.suburb,
             organisationAddressPostcode: organisationSettings.postcode,
             billingAddress: organisationSettings.billingAddress,
             billingAddressApartment:
@@ -283,35 +292,49 @@ function Organisation() {
     const file = acceptedFiles[0];
 
     if (file) {
-      const reader = new FileReader();
-      const formData = new FormData();
-      formData.append("file", file);
+      const fileNameParts = file.name.split(".");
+      const fileExtension =
+        fileNameParts[fileNameParts.length - 1].toLowerCase();
 
-      fetch(
-        `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${localStorage.getItem(
-          "organisationID"
-        )}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response from the server
-          console.log("user value --->", values);
-          console.log("Server response:", data);
+      // List of allowed image extensions (add more if needed)
+      const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 
-          if (!data.error) {
-            console.log("uri --->", data.blob.uri);
-            setShow(true);
-            setLogoUri(data.blob.uri);
+      if (allowedExtensions.includes(fileExtension)) {
+        setShowError(false);
+        const reader = new FileReader();
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch(
+          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${localStorage.getItem(
+            "organisationID"
+          )}`,
+          {
+            method: "POST",
+            body: formData,
           }
-        })
-        .catch((error) => {
-          // Handle any errors that occurred during the request
-          console.error("Error:", error);
-        });
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the response from the server
+            console.log("user value --->", values);
+            console.log("Server response:", data);
+
+            if (!data.error) {
+              console.log("uri --->", data.blob.uri);
+              setShow(true);
+              setLogoUri(data.blob.uri);
+            }
+          })
+          .catch((error) => {
+            // Handle any errors that occurred during the request
+            console.error("Error:", error);
+          });
+      } else {
+        setShowError(true);
+        // Clear the file input field
+        fileInputRef.current.value = "";
+      }
 
       reader.onload = () => {
         // Do whatever you want with the file contents
@@ -937,7 +960,7 @@ function Organisation() {
                 <div className="w-full rounded-md border border-inherit bg-white h-full">
                   <div className="border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
                     <h6 className="text-base font-medium text-green">
-                      Personal details
+                      Organisation logo
                     </h6>
                   </div>
                   <div className="px-6 py-7">
@@ -947,12 +970,12 @@ function Organisation() {
                           id="previewImage"
                           src={logoUri || defaultImage}
                           alt=""
-                          className="w-14	h-14	object-contain	"
+                          className="w-[187px]	h-[58px]	object-cover"
                         />
                       </div>
                       <div className="">
                         <h6 className="font-normal text-base text-green">
-                          Edit your photo
+                          Edit your logo
                         </h6>
                         <div className=" pt-1 flex justify-start gap-2">
                           <p
@@ -970,6 +993,12 @@ function Organisation() {
                         </div>
                       </div>
                     </div>
+                      {showError && (
+                        <p className="mt-2 mb-2 text-red-500 text-sm">
+                          Invalid file format. Please upload an image (jpg,
+                          jpeg, png, or gif).
+                        </p>
+                      )}
                     <div
                       {...getRootProps()}
                       className="border-darkGreen border border-dashed	flex justify-center items-center rounded-md	h-44 w-full mt-4"
@@ -979,6 +1008,8 @@ function Organisation() {
                           <input
                             {...getInputProps()}
                             type="file"
+                            accept="image/*"
+                            ref={fileInputRef}
                             className="download-file w-full h-full rounded-full absolute opacity-0	"
                             // value={imageSrc}
                           />
