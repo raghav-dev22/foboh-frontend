@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LogisticsContact from "../Settings/LogisticsContact";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
