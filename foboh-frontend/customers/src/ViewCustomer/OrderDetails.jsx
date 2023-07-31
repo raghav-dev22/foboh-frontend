@@ -160,39 +160,39 @@ const OrderDetails = () => {
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-green	font-medium text-base w-44"
+                      className="px-6 py-3 text-green	font-medium text-base "
                     >
-                      Title
+                      Order ID
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-green	font-medium text-base	w-44"
+                      className="px-6 py-3 text-green	font-medium text-base	"
                     >
-                      Code
+                      Amount
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-green	font-medium text-base	w-44"
+                      className="px-6 py-3 text-green	font-medium text-base	"
                     >
-                      Configuration
+                      Delivery date
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-green	font-medium text-base	w-44"
+                      className="px-6 py-3 text-green	font-medium text-base	"
                     >
-                      Price
+                      Last updated{" "}
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-green	font-medium text-base	w-44"
-                    >
-                      Stock level
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-green	font-medium text-base	w-44"
+                      className="px-6 py-3 text-green	font-medium text-base	"
                     >
                       Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-green	font-medium text-base	"
+                    >
+                      {/* Status */}
                     </th>
                   </tr>
                 </thead>

@@ -1,75 +1,47 @@
 import React, { useEffect, useState } from "react";
-
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 function OrderTable() {
   const tableItem = Array.from({ length: 8 });
-  const [products, setProducts] = useState([]);
-  const [productId, setProductId] = useState("");
-
-  useEffect(() => {
-    fetch("https://product-api-foboh.azurewebsites.net/api/Product/get", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setProducts(data.data);
-      });
-  }, []);
-
-
-  const handleProductId = (e) => {
-    console.log( e.target.name, e.target.value);
-  }
 
   return (
     <>
-      {products.map((product) => {
+      {tableItem.map((product, index) => {
         return (
           <tr
-            key={product.index}
-            className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  tableNo-${product.index}`}
+            key={index}
+            className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  tableNo-${index}`}
           >
-          
-
-            <td
-              
-              className=" px-6 py-4 "
-            >
-            
+            <td className=" px-6 py-4 ">
               <h5 className="font-medium whitespace-no-wrap text-gray">
                 {" "}
-                {product.title}
+                #LF1001024
               </h5>
             </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
                 {" "}
-                {product.skUcode}
+                $450.10
               </h5>
             </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
-                {product.configuration}
+                25 Dec 2023
               </h5>
             </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
-                ${product.globalPrice}
+                Today
               </h5>
             </td>
 
             <td className="px-6 py-4">
               {" "}
               <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-32		px-3">
-                <p className="text-green-dark font-normal		text-sm	">
-                  In stock ({product.availableQty})
-                </p>
+                <p className="text-green-dark font-normal		text-sm	">New</p>
               </div>
             </td>
             <td className="px-6 py-4 ">
-              <p className="text-sm	font-normal		 whitespace-no-wrap text-gray">
-                {product.stockStatus}
-              </p>
+              <ChevronRightIcon />
             </td>
           </tr>
         );
