@@ -1,17 +1,34 @@
-
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { Combobox, Transition } from "@headlessui/react";
 import Select from "react-select";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+// import { Formik } from "formik";
+import { useFormik } from "formik";
+// import { AddCustomerSchema } from "../schemas";
+import { AddCustomerSchema } from "../schemas";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
   { value: "strawberry", label: "Strawberry" },
   { value: "vanilla", label: "Vanilla" },
 ];
+const initialValues = {
+  BusinessName: "",
+  ABN: "",
+  LiquorLicence: "",
+};
 
 function CustomerDetails() {
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: AddCustomerSchema,
+      onSubmit: (values) => {
+        console.log(values);
+      },
+    });
   const people = [
     { id: 1, name: "Wade Cooper" },
     { id: 2, name: "Arlene Mccoy" },
@@ -27,16 +44,15 @@ function CustomerDetails() {
     query === ""
       ? people
       : people.filter((person) =>
-        person.name
-          .toLowerCase()
-          .replace(/\s+/g, "")
-          .includes(query.toLowerCase().replace(/\s+/g, ""))
-      );
+          person.name
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .includes(query.toLowerCase().replace(/\s+/g, ""))
+        );
 
   return (
     <>
       <div className="flex justify-between mx-auto lg:w-3/5 w-full pb-10 relative	px-4">
-
         <div className="details-box  flex flex-col gap-2	 items-center justify-center">
           <div className="box-1 flex justify-center items-center bg-custom-skyBlue w-5	h-5 rounded-full	">
             <p className="text-white font-normal text-xs">1</p>
@@ -69,7 +85,7 @@ function CustomerDetails() {
           <h6 className="text-base	font-medium	 text-green">Customer details</h6>
         </div>
         <div className="px-6 py-7">
-          <form className="w-full ">
+          <form className="w-full " onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3 mb-5">
               <div className="w-full relative px-3">
                 <label
@@ -81,13 +97,27 @@ function CustomerDetails() {
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
-                  disabled
-                  type="email"
-                  name="email"
-                  autoComplete="on"
+                  type="text"
                   placeholder="devidjond45@gmail.com"
+                  name="BusinessName"
+                  value={values.BusinessName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.BusinessName &&
+                      touched.BusinessName &&
+                      "1px solid red",
+                  }}
                 />
-
+                {errors.BusinessName && touched.BusinessName && (
+                  <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                    {errors.BusinessName}
+                  </p>
+                )}
+                {errors.BusinessName && touched.BusinessName && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                )}
               </div>
             </div>
             <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
@@ -101,10 +131,24 @@ function CustomerDetails() {
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
-                  name="firstName"
                   type="text"
                   placeholder="Tom"
+                  name="ABN"
+                  value={values.ABN}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border: errors.ABN && touched.ABN && "1px solid red",
+                  }}
                 />
+                {errors.ABN && touched.ABN && (
+                  <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                    {errors.ABN}
+                  </p>
+                )}
+                {errors.ABN && touched.ABN && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                )}
               </div>
               <div className="w-full relative md:w-1/2 px-3">
                 <label
@@ -117,9 +161,26 @@ function CustomerDetails() {
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
-                  name="lastName"
                   placeholder="Jones"
+                  name="LiquorLicence"
+                  value={values.LiquorLicence}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border:
+                      errors.LiquorLicence &&
+                      touched.LiquorLicence &&
+                      "1px solid red",
+                  }}
                 />
+                {errors.LiquorLicence && touched.LiquorLicence && (
+                  <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                    {errors.LiquorLicence}
+                  </p>
+                )}
+                {errors.LiquorLicence && touched.LiquorLicence && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                )}
               </div>
             </div>
             <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
@@ -127,7 +188,7 @@ function CustomerDetails() {
                 <h5 className="text-base font-medium text-green mb-3">
                   Sales rep
                 </h5>
-                <div className="fixed top-16 w-full">
+                <div className=" top-16 w-full">
                   <Combobox value={selected} onChange={setSelected}>
                     <div className="relative mt-1">
                       <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -161,9 +222,10 @@ function CustomerDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                    ? "bg-teal-600 text-white"
-                                    : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? "bg-teal-600 text-white"
+                                      : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -171,19 +233,21 @@ function CustomerDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
-                                        }`}
+                                      className={`block truncate ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
-                                          ? "text-white"
-                                          : "text-teal-600"
-                                          }`}
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                          active
+                                            ? "text-white"
+                                            : "text-teal-600"
+                                        }`}
                                       >
-                                        <ArrowDropDownIcon/>
+                                        <ArrowDropDownIcon />
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
                                       </span>
                                     ) : null}
@@ -202,7 +266,7 @@ function CustomerDetails() {
                 <h5 className="text-base font-medium text-green mb-3">
                   Pricing profile
                 </h5>
-                <div className="fixed top-16 w-full">
+                <div className=" top-16 w-full">
                   <Combobox value={selected} onChange={setSelected}>
                     <div className="relative mt-1">
                       <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -236,9 +300,10 @@ function CustomerDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                    ? "bg-teal-600 text-white"
-                                    : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? "bg-teal-600 text-white"
+                                      : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -246,19 +311,21 @@ function CustomerDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
-                                        }`}
+                                      className={`block truncate ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
-                                          ? "text-white"
-                                          : "text-teal-600"
-                                          }`}
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                          active
+                                            ? "text-white"
+                                            : "text-teal-600"
+                                        }`}
                                       >
-                                        <ArrowDropDownIcon/>
+                                        <ArrowDropDownIcon />
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
                                       </span>
                                     ) : null}
@@ -279,7 +346,7 @@ function CustomerDetails() {
                 <h5 className="text-base font-medium text-green mb-3">
                   Default payment terms
                 </h5>
-                <div className="fixed top-16 w-full">
+                <div className=" top-16 w-full">
                   <Combobox value={selected} onChange={setSelected}>
                     <div className="relative mt-1">
                       <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -313,9 +380,10 @@ function CustomerDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                    ? "bg-teal-600 text-white"
-                                    : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? "bg-teal-600 text-white"
+                                      : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -323,19 +391,21 @@ function CustomerDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
-                                        }`}
+                                      className={`block truncate ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
-                                          ? "text-white"
-                                          : "text-teal-600"
-                                          }`}
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                          active
+                                            ? "text-white"
+                                            : "text-teal-600"
+                                        }`}
                                       >
-                                        <ArrowDropDownIcon/>
+                                        <ArrowDropDownIcon />
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
                                       </span>
                                     ) : null}
@@ -354,7 +424,7 @@ function CustomerDetails() {
                 <h5 className="text-base font-medium text-green mb-3">
                   Default payment method
                 </h5>
-                <div className="fixed top-16 w-full">
+                <div className=" top-16 w-full">
                   <Combobox value={selected} onChange={setSelected}>
                     <div className="relative mt-1">
                       <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -384,9 +454,10 @@ function CustomerDetails() {
                               <Combobox.Option
                                 key={person.id}
                                 className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                    ? "bg-teal-600 text-white"
-                                    : "text-gray-900"
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? "bg-teal-600 text-white"
+                                      : "text-gray-900"
                                   }`
                                 }
                                 value={person}
@@ -394,19 +465,21 @@ function CustomerDetails() {
                                 {({ selected, active }) => (
                                   <>
                                     <span
-                                      className={`block truncate ${selected ? "font-medium" : "font-normal"
-                                        }`}
+                                      className={`block truncate ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
                                     >
                                       {person.name}
                                     </span>
                                     {selected ? (
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
-                                          ? "text-white"
-                                          : "text-teal-600"
-                                          }`}
+                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                          active
+                                            ? "text-white"
+                                            : "text-teal-600"
+                                        }`}
                                       >
-                                        <ArrowDropDownIcon/>
+                                        <ArrowDropDownIcon />
                                         {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
                                       </span>
                                     ) : null}
@@ -425,10 +498,8 @@ function CustomerDetails() {
 
             <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
               <div className=" w-full relative md:w-1/2 px-3">
-                <h5 className="text-base font-medium text-green mb-3">
-                  Tags
-                </h5>
-                <div className="fixed top-16 w-full">
+                <h5 className="text-base font-medium text-green mb-3">Tags</h5>
+                <div className=" top-16 w-full">
                   <Select
                     defaultValue={[options[2], options[3]]}
                     isMulti
@@ -463,16 +534,13 @@ function CustomerDetails() {
               </div>
             </div>
 
-
             <div className="mb-5 text-end	">
               <Link to="/dashboard/add-customer/customer-contact">
-
                 <button className="py-2 px-7 rounded-md	bg-custom-skyBlue	">
                   <h5 className="text-base font-medium text-white">Next</h5>
                 </button>
               </Link>
             </div>
-
           </form>
         </div>
       </div>
