@@ -15,6 +15,7 @@ import ViewCustomer from 'customers/ViewCustomer';
 import BulkEdit from 'products/BulkEdit'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../Redux/Action/userSlice';
+import { updateLogoURI } from '../Redux/Action/organisationLogoSlice';
 // import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
 
@@ -57,6 +58,25 @@ function Dashboard() {
         );
       })
       .catch((error) => console.log(error));
+
+
+      fetch(
+        `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+          "organisationID"
+        )}`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("get org --> ", data);
+          const org = data.data[0]
+          if (data.success) {
+            dispatch(updateLogoURI(org.organisationlogo))
+          }
+        });
+
   },[])
 
   return (

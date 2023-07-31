@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function TableRange({products, setProducts}) {
+function TableRange({ products, setProducts }) {
   const tableItem = Array.from({ length: 8 });
   const [productId, setProductId] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://product-api-foboh.azurewebsites.net/api/Product/get", {
@@ -14,14 +14,14 @@ function TableRange({products, setProducts}) {
       .then((data) => {
         console.log(data);
         setProducts(data.data);
-      }).catch(error => console.log(error))
+      })
+      .catch((error) => console.log(error));
   }, []);
-
 
   const handleProductId = (id) => {
     console.log("id >>>", id);
-    navigate(`/dashboard/view-product/${id}`)
-  }
+    navigate(`/dashboard/view-product/${id}`);
+  };
 
   return (
     <>
@@ -47,11 +47,20 @@ function TableRange({products, setProducts}) {
               className="flex justify-start items-center gap-3 px-6 py-4 whitespace-nowrap dark:text-white"
             >
               <img
-                src="http://localhost:3001/assets/defaultRange.png"
+                src={
+                  product.productImageUrls?.length > 0
+                    ? product.productImageUrls[0]
+                    : "http://localhost:3001/assets/defaultRange.png"
+                }
                 alt=""
-                className="object-contain	"
+                className="object-cover w-[50px] h-[50px]"
+                style={{height: "50px", width: "50px"}}
               />
-              <h5 onClick={() => handleProductId(product.productId)} name={product.title} className="font-medium cursor-pointer whitespace-no-wrap text-gray">
+              <h5
+                onClick={() => handleProductId(product.productId)}
+                name={product.title}
+                className="font-medium cursor-pointer whitespace-no-wrap text-gray"
+              >
                 {" "}
                 {product.title}
               </h5>
@@ -83,7 +92,8 @@ function TableRange({products, setProducts}) {
             </td>
             <td className="px-6 py-4 ">
               <p className="text-sm	font-normal		 whitespace-no-wrap text-gray">
-                {product.stockStatus} <br /> {product.visibility ? 'visible' : 'hidden'}
+                {product.stockStatus} <br />{" "}
+                {product.visibility ? "visible" : "hidden"}
               </p>
             </td>
           </tr>

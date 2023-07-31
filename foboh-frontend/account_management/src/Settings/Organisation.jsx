@@ -13,8 +13,10 @@ import Select from "react-select";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
-import { updateLogoURI, resetLogoURI } from "../Redux/Action/organisationLogoSlice";
-
+import {
+  updateLogoURI,
+  resetLogoURI,
+} from "../Redux/Action/organisationLogoSlice";
 
 export const options = [
   { value: 1234, label: "Chocolate" },
@@ -59,8 +61,6 @@ function Organisation() {
   const fileInputRef = useRef();
   const [showError, setShowError] = useState();
   const dispatch = useDispatch();
-
-
 
   const {
     values,
@@ -324,6 +324,7 @@ function Organisation() {
               console.log("uri --->", data.blob.uri);
               setShow(true);
               setLogoUri(data.blob.uri);
+              dispatch(updateLogoURI(data.blob.uri))
             }
           })
           .catch((error) => {
@@ -993,12 +994,12 @@ function Organisation() {
                         </div>
                       </div>
                     </div>
-                      {showError && (
-                        <p className="mt-2 mb-2 text-red-500 text-sm">
-                          Invalid file format. Please upload an image (jpg,
-                          jpeg, png, or gif).
-                        </p>
-                      )}
+                    {showError && (
+                      <p className="mt-2 mb-2 text-red-500 text-sm">
+                        Invalid file format. Please upload an image (jpg, jpeg,
+                        png, or gif).
+                      </p>
+                    )}
                     <div
                       {...getRootProps()}
                       className="border-darkGreen border border-dashed	flex justify-center items-center rounded-md	h-44 w-full mt-4"

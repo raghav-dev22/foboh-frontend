@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import LogisticsContact from "../Settings/LogisticsContact";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const logoURI = useSelector((state) => state.logo.logoURI);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -13,13 +16,23 @@ function Sidebar() {
         <div className="p-6 placeholder-box">
           <div className="border-2	border-dark	bg-custom-gray w-full	h-16 flex justify-center items-center	">
             <div className="">
-              <p className="text-xs	font-semibold	italic	text-gray text-center pb-2	">
-                {" "}
-                PLACEHOLDER
-              </p>
-              <p className="text-xs	font-semibold italic	text-gray 	text-center	">
-                supplier logo
-              </p>
+              {logoURI ? (
+                <img
+                  src={logoURI}
+                  alt="logoUri"
+                  className="w-[207px] h-[63px] object-cover"
+                />
+              ) : (
+                <>
+                  <p className="text-xs	font-semibold	italic	text-gray text-center pb-2	">
+                    {" "}
+                    PLACEHOLDER
+                  </p>
+                  <p className="text-xs	font-semibold italic	text-gray 	text-center	">
+                    supplier logo
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>

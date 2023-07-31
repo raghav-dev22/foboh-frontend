@@ -41,7 +41,7 @@ const initialValues = {
   subcategory: "",
   segment: "",
   grapeVariety: [],
-  regionSelect: "",
+  regionSelect: {},
   vintage: "",
   awards: "",
   abv: "",
@@ -153,7 +153,7 @@ function ViewProduct() {
 
         const product = data.data[0];
         const productId = product.productId;
-        setProductName(product.title)
+        setProductName(product.title);
         setProductId(productId);
         const departmentId = product.departmentId;
         const categoryId = product.categoryId;
@@ -164,6 +164,7 @@ function ViewProduct() {
         const baseUnitMeasure = product.unitofMeasure;
         const innerUnitMeasure = product.innerUnitofMeasure;
         const regions = product.regionAvailability;
+        const regionName = product.region;
         setRegions(regions);
         const tags = product.tags;
         const profit = product.globalPrice - product.buyPrice;
@@ -180,7 +181,7 @@ function ViewProduct() {
           visibility: product.visibility,
           region: product.regionAvailability,
           minimumOrder: product.minimumOrder,
-          trackInventory: false,
+          trackInventory: product.trackInventory,
           stockAlertLevel: product.stockThreshold,
           sellOutOfStock: product.stockStatus,
           title: product.title,
@@ -190,7 +191,7 @@ function ViewProduct() {
           subcategory: product.subCategoryId,
           segment: product.segmentId,
           grapeVariety: product.variety,
-          regionSelect: "",
+          regionSelect: product.region,
           vintage: product.vintage,
           awards: product.award && product.award,
           abv: product.abv,
@@ -227,8 +228,7 @@ function ViewProduct() {
                   label: item.departmentName,
                   value: item.departmentId,
                 };
-              })
-              
+              });
 
               const categoryObj = [
                 data[1].data.find((obj) => obj.categoryId === categoryId),
@@ -239,7 +239,7 @@ function ViewProduct() {
                   label: item.categoryName,
                   value: item.categoryId,
                 };
-              })
+              });
 
               const subCategoryObj = [
                 data[2].data.find((obj) => obj.subCategoryId === subCategoryId),
@@ -250,12 +250,11 @@ function ViewProduct() {
                   label: item.subCategoryName,
                   value: item.subCategoryId,
                 };
-              })
+              });
 
               const segmentObj = [
                 data[3].data.find((obj) => obj.segmentId === segmentId),
               ];
-
 
               const grapeVarietyObj = options.filter((option) =>
                 grapeVarietyName.includes(option.label)
@@ -276,6 +275,11 @@ function ViewProduct() {
               const tagsObj = options.filter((option) =>
                 tags.includes(option.label)
               );
+              console.log("tags : --->", tagsObj);
+
+              const regionObj = region.find((rgn) => rgn.label === regionName);
+
+              console.log("region obj ---->", regionObj);
 
               const imageUris = product.productImageUrls;
               setProductImageUris(imageUris);
@@ -285,29 +289,29 @@ function ViewProduct() {
                 visibility: product.visibility,
                 region: product.regionAvailability,
                 minimumOrder: product.minimumOrder,
-                trackInventory: false,
+                regionSelect: regionObj,
+                trackInventory: product.trackInventory,
                 stockAlertLevel: product.stockThreshold,
                 sellOutOfStock: product.stockStatus,
                 title: product.title,
                 skuCode: product.skUcode,
                 brand: product.brand,
                 productImageUrls: imageUris,
-                category:
-                  categoryId && cate,
-                  
-                subcategory:
-                  subCategoryId && subCate,
-                  
+                category: categoryId && cate,
+
+                subcategory: subCategoryId && subCate,
+
                 segment:
-                  segmentId && segmentObj.map((item) => {
+                  segmentId &&
+                  segmentObj.map((item) => {
                     return {
                       label: item.segmentName,
                       value: item.segmentId,
                     };
                   }),
-                  
+
                 grapeVariety: grapeVarietyObj,
-                regionSelect: "",
+
                 vintage: product.vintage,
                 awards: product.award,
                 abv: product.abv,
@@ -321,12 +325,10 @@ function ViewProduct() {
                 buyPrice: product.buyPrice,
                 profit: profit,
                 margin: margin.toFixed(2),
-                wineEqualisationTax: wet,
+                wineEqualisationTax: wet.toFixed(2),
                 landedUnitCost: product.luCcost,
                 status: product.productStatus,
-                department:
-                  departmentId && dept
-                  
+                department: departmentId && dept,
               }).then(() => {
                 const [category] = categoryObj.map((item) => {
                   return {
@@ -407,9 +409,6 @@ function ViewProduct() {
 
   console.log(values);
 
-  
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(
@@ -425,11 +424,13 @@ function ViewProduct() {
           award: values.awards,
           articleId: 0,
           skUcode: values.skuCode,
-          productImageUrls: values.productImageUrls,
+          productImageUrls: productImageUris,
           unitofMeasure: values.baseUnitMeasure.value.toString(),
           innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
           configuration: values.configuration,
           brand: values.brand,
+          region: values.regionSelect.label,
+          trackInventory: values.trackInventory,
           departmentId: values.department.value,
           categoryId: values.category.value,
           subCategoryId: values.subcategory.value,
@@ -465,8 +466,8 @@ function ViewProduct() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if(data.success) {
-          setShow(false)
+        if (data.success) {
+          setShow(false);
         }
       })
       .catch((error) => console.log(error));
@@ -726,7 +727,7 @@ function ViewProduct() {
     if (values.buyPrice) {
       const profit = salePrice - values.buyPrice;
       setProfitCopy(profit);
-      onsole.log("profit >>>", profit);
+      console.log("profit >>>", profit);
       const margin = (profit * 100) / salePrice;
       setMarginCopy(margin);
       setValues({
@@ -807,18 +808,17 @@ function ViewProduct() {
 
   const handleImageUpload = (e) => {
     const files = e.target.files;
-  
+
     console.log("files -->", files);
-    if(files.length) {
+    if (files.length) {
       // files.length = files.length > 3 ? 3 : files.length
       const formData = new FormData();
-      for(let i in files) {
-        
-        if(files[i] instanceof File){
+      for (let i in files) {
+        if (files[i] instanceof File) {
           console.log("--->", files[i]);
-          formData.append("files", files[i])
+          formData.append("files", files[i]);
         }
-      } 
+      }
       console.log("form data", formData);
 
       // files.forEach(file => {
@@ -826,18 +826,23 @@ function ViewProduct() {
       //   formData.append("files[]", file)
       // })
 
-      fetch(`https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`, {
-        method: 'POST',
-        body: formData
-      }).then(response => response.json())
-      .then(data => {
-        console.log(data);
-        setProductImageUris(
-          data.map(item => {
-            return item.blob.uri
-          })
-        )
-      }).catch(error => console.log(error))
+      fetch(
+        `https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setProductImageUris(
+            data.map((item) => {
+              return item.blob.uri;
+            })
+          );
+        })
+        .catch((error) => console.log(error));
     }
   };
 
@@ -925,8 +930,8 @@ function ViewProduct() {
               <div className="edit-img">
                 <img
                   src={
-                    values.productImageUrls[0]
-                      ? values.productImageUrls[0]
+                    productImageUris[0]
+                      ? productImageUris[0]
                       : "/assets/inventory-img.png"
                   }
                   alt=""
@@ -937,8 +942,8 @@ function ViewProduct() {
                 <div className="">
                   <img
                     src={
-                      values.productImageUrls[1]
-                        ? values.productImageUrls[1]
+                      productImageUris[1]
+                        ? productImageUris[1]
                         : "/assets/inventory-img.png"
                     }
                     alt=""
@@ -948,8 +953,8 @@ function ViewProduct() {
                 <div className="">
                   <img
                     src={
-                      values.productImageUrls[2]
-                        ? values.productImageUrls[2]
+                      productImageUris[2]
+                        ? productImageUris[2]
                         : "/assets/inventory-img.png"
                     }
                     alt=""
@@ -1560,12 +1565,13 @@ function ViewProduct() {
                       </label>
                       <div className="w-full">
                         <Select
-                          id="tags"
-                          name="tags"
                           isMulti
+                          id="tags"
+                          name="colors"
+                          isDisabled={!options.length}
+                          options={options}
                           value={values.tags}
                           onChange={handletagsChange}
-                          options={options}
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
