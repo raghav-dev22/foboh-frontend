@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function Sidebar() {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const logoURI = useSelector((state) => state.logo.logoURI);
   const toggleMenu = () => {
@@ -363,4 +363,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default Sidebar

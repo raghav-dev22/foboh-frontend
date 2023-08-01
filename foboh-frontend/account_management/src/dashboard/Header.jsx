@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from "react";
 
 
-export default function Header() {
+const Header = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
@@ -184,3 +184,5 @@ export default function Header() {
 
   );
 }
+
+export default Header

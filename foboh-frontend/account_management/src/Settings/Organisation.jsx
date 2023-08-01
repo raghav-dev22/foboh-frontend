@@ -130,6 +130,7 @@ function Organisation() {
           })
           .catch((error) => console.log(error));
       } else {
+        console.log("org id", localStorage.getItem("organisationID"));
         fetch(
           `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${localStorage.getItem(
             "organisationID"
@@ -324,7 +325,7 @@ function Organisation() {
               console.log("uri --->", data.blob.uri);
               setShow(true);
               setLogoUri(data.blob.uri);
-              dispatch(updateLogoURI(data.blob.uri))
+              dispatch(updateLogoURI(data.blob.uri));
             }
           })
           .catch((error) => {

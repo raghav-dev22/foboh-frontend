@@ -40,7 +40,8 @@ function Dashboard() {
       .then((response) => response.json())
       .then((data) => {
         const user = data.data[0];
-
+        console.log("user data --->",data);
+        localStorage.setItem("organisationID",user.organisationId);
         dispatch(
           updateUserData({
             firstName: user.firstName,
@@ -71,7 +72,7 @@ function Dashboard() {
         .then((response) => response.json())
         .then((data) => {
           console.log("get org --> ", data);
-          const org = data.data[0]
+          const org = data?.data[0]
           if (data.success) {
             dispatch(updateLogoURI(org.organisationlogo))
           }

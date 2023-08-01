@@ -44,8 +44,10 @@ module.exports = (_, argv) => ({
       name: "account_management",
       filename: "remoteEntry.js",
       remotes: {
-        products: "products@http://localhost:3001/remoteEntry.js",
-        customers: "customers@http://localhost:3002/remoteEntry.js"
+        products:
+          "products@http://localhost:3001/remoteEntry.js",
+        customers:
+          "customers@http://localhost:3002/remoteEntry.js",
       },
       exposes: {},
       shared: {
