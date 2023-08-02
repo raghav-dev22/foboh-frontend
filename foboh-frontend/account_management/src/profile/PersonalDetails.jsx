@@ -112,7 +112,7 @@ function PersonalDetails({profileUri}) {
             imageUrl: profileUri,
             bio: values.bio,
             mobile: values.mobile,
-            organisationId: "",
+            organisationId: user.organisationId,
             isActive: true,
           }),
         }
@@ -128,7 +128,7 @@ function PersonalDetails({profileUri}) {
                 lastName: values.lastName,
                 email: values.email,
                 mobile: values.mobile,
-                password: "",
+                password: values.password,
                 imageUrl : profileUri,
                 status: true,
                 role: values.role,

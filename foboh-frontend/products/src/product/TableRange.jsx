@@ -50,7 +50,7 @@ function TableRange({ products, setProducts }) {
                 src={
                   product.productImageUrls?.length > 0
                     ? product.productImageUrls[0]
-                    : "http://localhost:3001/assets/defaultRange.png"
+                    : "/assets/defaultRange.png"
                 }
                 alt=""
                 className="object-cover w-[50px] h-[50px]"

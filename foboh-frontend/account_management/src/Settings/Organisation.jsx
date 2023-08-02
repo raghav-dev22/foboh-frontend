@@ -17,6 +17,7 @@ import {
   updateLogoURI,
   resetLogoURI,
 } from "../Redux/Action/organisationLogoSlice";
+import { updateUserData } from "../Redux/Action/userSlice";
 
 export const options = [
   { value: 1234, label: "Chocolate" },
@@ -61,6 +62,7 @@ function Organisation() {
   const fileInputRef = useRef();
   const [showError, setShowError] = useState();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const {
     values,
@@ -75,7 +77,7 @@ function Organisation() {
     validationSchema: OrganisationSettingsSchema,
     onSubmit: (values) => {
       console.log(values, "kkk");
-      if (!localStorage.getItem("organisationID")) {
+      if (!localStorage.getItem("organisationId")) {
         fetch(
           "https://organization-api-foboh.azurewebsites.net/api/Organization/create",
           {
@@ -123,17 +125,46 @@ function Organisation() {
             console.log(data);
             if (data.success) {
               const organisationID = data.data.organisationID;
+              console.log("organisationID =>", organisationID);
+              const id = localStorage.getItem("ccrn");
+              fetch(
+                `https://user-api-foboh.azurewebsites.net/api/User/update?ccrn=${id}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    password: user.password,
+                    status: true,
+                    role: user.role,
+                    meta: user.meta,
+                    adId: user.adId,
+                    imageUrl: user.imageUrl,
+                    bio: user.bio,
+                    mobile: user.mobile,
+                    organisationId: organisationID,
+                    isActive: true,
+                  }),
+                }).then(response => response.json())
+                .then((data) => {
+                  console.log("org id updated in user profile--->",data);
+                })
+
               const organisationSettings = data.data;
-              localStorage.setItem("organisationID", organisationID);
+              localStorage.setItem("organisationId", organisationID);
               setShow(false);
             }
           })
           .catch((error) => console.log(error));
       } else {
-        console.log("org id", localStorage.getItem("organisationID"));
+        console.log("org id", localStorage.getItem("organisationId"));
         fetch(
           `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${localStorage.getItem(
-            "organisationID"
+            "organisationId"
           )}`,
           {
             method: "PUT",
@@ -190,7 +221,7 @@ function Organisation() {
   useEffect(() => {
     fetch(
       `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-        "organisationID"
+        "organisationId"
       )}`,
       {
         method: "GET",
@@ -199,8 +230,14 @@ function Organisation() {
       .then((response) => response.json())
       .then((data) => {
         console.log("get org --> ", data);
-        if (data.success) {
+        if (data.success && data.data.length === 1) {
           const organisationSettings = data.data[0];
+          dispatch(
+            updateUserData({
+              ...user,
+              organisationId: organisationSettings.organisationID,
+            })
+          );
           const categoryList = organisationSettings.categoryList.map((id) => {
             return options.find((obj) => obj.value === parseInt(id));
           });
