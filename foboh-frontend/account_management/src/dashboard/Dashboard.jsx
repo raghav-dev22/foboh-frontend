@@ -29,56 +29,58 @@ function Dashboard() {
 
   };
 
-  useEffect(()=> {
-    const email = localStorage.getItem("email");
-    fetch(
-      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${email}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const user = data.data[0];
-        console.log("user data --->",data);
-        localStorage.setItem("organisationID",user.organisationId);
-        dispatch(
-          updateUserData({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            mobile: user.mobile,
-            bio: user.bio,
-            password: "",
-            status: true,
-            role: user.role,
-            meta: user.meta,
-            adId: user.adId,
-            imageUrl: user.imageUrl,
-          })
-        );
-      })
-      .catch((error) => console.log(error));
+  // useEffect(()=> {
+  //   const email = localStorage.getItem("email");
+  //   fetch(
+  //     `https://user-api-foboh.azurewebsites.net/api/User/get?email=${email}`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const user = data.data[0];
+  //       console.log("user data --->",data);
+  //       localStorage.setItem("organisationID",user.organisationId);
+  //       dispatch(
+  //         updateUserData({
+  //           firstName: user.firstName,
+  //           lastName: user.lastName,
+  //           email: user.email,
+  //           mobile: user.mobile,
+  //           bio: user.bio,
+  //           password: "",
+  //           status: true,
+  //           role: user.role,
+  //           meta: user.meta,
+  //           adId: user.adId,
+  //           imageUrl: user.imageUrl,
+  //         })
+  //       );
+  //     })
+  //     .catch((error) => console.log(error));
 
 
-      fetch(
-        `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-          "organisationID"
-        )}`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("get org --> ", data);
-          const org = data?.data[0]
-          if (data.success) {
-            dispatch(updateLogoURI(org.organisationlogo))
-          }
-        });
+  //     fetch(
+  //       `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+  //         "organisationID"
+  //       )}`,
+  //       {
+  //         method: "GET",
+  //       }
+  //     )
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log("get org --> ", data);
+  //         if (data.success) {
+  //           const org = data?.data[0]
+  //           dispatch(updateLogoURI(org.organisationlogo))
+  //         }
+         
+         
+  //       });
 
-  },[])
+  // },[])
 
   return (
     <>

@@ -7,7 +7,6 @@ import CustomerTable from "./CustomerTable";
 
 function AddCustomers() {
   const [isDivVisible, setIsDivVisible] = useState(false);
-
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };

@@ -166,11 +166,11 @@ function ViewProduct() {
         const regions = product.regionAvailability;
         const regionName = product.region;
         setRegions(regions);
+        // console.log("vikas tags >>",product.tags)
         const tags = product.tags;
         const profit = product.globalPrice - product.buyPrice;
         const margin = (profit * 100) / product.globalPrice;
         const wet = parseInt(product.globalPrice) * 0.29;
-
         const imageUris = product.productImageUrls;
         setProductImageUris(imageUris);
         setCheckGST(product.gstFlag);
