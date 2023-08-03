@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function TableRange({ products, setProducts }) {
-  const tableItem = Array.from({ length: 8 });
-  const [productId, setProductId] = useState("");
+function TableRange({ products, setProducts, setIsBulkEdit }) {
   const navigate = useNavigate();
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   useEffect(() => {
     fetch("https://product-api-foboh.azurewebsites.net/api/Product/get", {
@@ -23,6 +22,32 @@ function TableRange({ products, setProducts }) {
     navigate(`/dashboard/view-product/${id}`);
   };
 
+  // Setting product obj into an array
+  const handleCheckbox = (product) => {
+    console.log("prod :->", product);
+    setSelectedProducts(product);
+    if (selectedProducts.includes(product)) {
+      const newSelectedProducts = selectedProducts.filter(
+        (prod) => prod !== product
+      );
+      setSelectedProducts(newSelectedProducts);
+    } else {
+      setSelectedProducts([...selectedProducts, product]);
+    }
+  };
+
+  if (selectedProducts.length > 1) {
+    setIsBulkEdit(true);
+    localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts))
+    console.log("local products", selectedProducts);
+  } else {
+    setIsBulkEdit(false);
+    localStorage.removeItem('selectedProducts');
+  }
+  console.log("selected products: ", selectedProducts);
+
+
+
   return (
     <>
       {products.map((product) => {
@@ -37,6 +62,7 @@ function TableRange({ products, setProducts }) {
                   id="default-checkbox"
                   type="checkbox"
                   name={product.title}
+                  onClick={() => handleCheckbox(product)}
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                 />
               </div>
@@ -54,7 +80,7 @@ function TableRange({ products, setProducts }) {
                 }
                 alt=""
                 className="object-cover w-[50px] h-[50px]"
-                style={{height: "50px", width: "50px"}}
+                style={{ height: "50px", width: "50px" }}
               />
               <h5
                 onClick={() => handleProductId(product.productId)}

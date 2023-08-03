@@ -63,7 +63,6 @@ export const baseUnitOfMeasurement = [
   { value: 250, label: "250 ml (cans)" },
 ];
 
-
 export const innerUnitOfMeasurement = [
   { value: 6, label: "6 bottle case" },
   { value: 12, label: "12 bottle case" },
@@ -76,4 +75,12 @@ export const options = [
   { value: 1234, label: "Chocolate" },
   { value: 2345, label: "Strawberry" },
   { value: 3456, label: "Vanilla" },
+];
+
+export const configurations = [
+  { value: `6 x 750`, label: "6 x 750 ml" },
+  { value: `12 x 700`, label: "12 x 700 ml" },
+  { value: `24 x 375`, label: "24 x 375 ml" },
+  { value: `16 x 1500`, label: "16 x 1500 ml" },
+  { value: `24 x 3000`, label: "24 X 3000 ml" },
 ];
