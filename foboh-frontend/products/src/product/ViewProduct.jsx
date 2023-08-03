@@ -57,7 +57,7 @@ const initialValues = {
   margin: "",
   tax: "",
   wineEqualisationTax: "",
-  landedUnitCost: "",
+  landedUnitCost: 0,
   status: ["Active", "Inactive", "Archived"],
   productImageUrls: [],
 };
@@ -200,7 +200,6 @@ function ViewProduct() {
           innerUnitMeasure: {},
           configuration: product.configuration,
           description: product.description,
-          tags: product.tags,
           salePrice: product.globalPrice,
           buyPrice: product.buyPrice,
           profit: profit,
@@ -298,9 +297,7 @@ function ViewProduct() {
                 brand: product.brand,
                 productImageUrls: imageUris,
                 category: categoryId && cate,
-
                 subcategory: subCategoryId && subCate,
-
                 segment:
                   segmentId &&
                   segmentObj.map((item) => {
@@ -309,9 +306,7 @@ function ViewProduct() {
                       value: item.segmentId,
                     };
                   }),
-
                 grapeVariety: grapeVarietyObj,
-
                 vintage: product.vintage,
                 awards: product.award,
                 abv: product.abv,
@@ -429,7 +424,7 @@ function ViewProduct() {
           innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
           configuration: values.configuration,
           brand: values.brand,
-          region: values.regionSelect.label,
+          region: values.regionSelect ? values.regionSelect.label : "",
           trackInventory: values.trackInventory,
           departmentId: values.department.value,
           categoryId: values.category.value,
@@ -441,7 +436,7 @@ function ViewProduct() {
           vintage: values.vintage,
           abv: values.abv,
           globalPrice: values.salePrice,
-          luCcost: values.landedUnitCost,
+          luCcost: values.landedUnitCost ? values.landedUnitCost : 0,
           buyPrice: values.buyPrice,
           gstFlag: checkGST,
           wetFlag: checkWET,
@@ -517,6 +512,7 @@ function ViewProduct() {
 
   // status
   const handleStateSelection = (event) => {
+    console.log("status --->", event.target.value);
     setSelectedState(event.target.value);
     console.log(selectedState);
     setValues({
@@ -715,6 +711,7 @@ function ViewProduct() {
   };
 
   const handletagsChange = (e) => {
+    console.log("tags -->", e);
     setValues({
       ...values,
       tags: [...e],
@@ -1029,10 +1026,10 @@ function ViewProduct() {
                         <input
                           id={state}
                           onChange={handleStateSelection}
-                          type="radio"
-                          checked={selectedState === state}
-                          value={selectedState}
+                          type="checkbox"
+                          value={state}
                           name="status"
+                          checked={selectedState === state}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                         />
                         <label
@@ -1361,7 +1358,7 @@ function ViewProduct() {
                             name="colors"
                             isDisabled={!options.length}
                             options={options}
-                            value={values.grapeVariety}
+                            value={values.grapeVariety.length > 0 ? values.grapeVariety : null}
                             onChange={handleGrapeVarietyChange}
                             className="basic-multi-select "
                             classNamePrefix="select"
@@ -1570,7 +1567,7 @@ function ViewProduct() {
                           name="colors"
                           isDisabled={!options.length}
                           options={options}
-                          value={values.tags}
+                          value={values.tags.length > 0 ? values.tags : null}
                           onChange={handletagsChange}
                           className="basic-multi-select "
                           classNamePrefix="select"

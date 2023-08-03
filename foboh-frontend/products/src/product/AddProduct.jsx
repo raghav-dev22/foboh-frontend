@@ -292,6 +292,7 @@ function AddProduct() {
 
   // status
   const handleStateSelection = (event) => {
+    console.log("status --->", event.target.value);
     setSelectedState(event.target.value);
     console.log(selectedState);
     setValues({
@@ -1116,7 +1117,7 @@ function AddProduct() {
                           name="colors"
                           isDisabled={!options.length}
                           options={options}
-                          value={values.grapeVariety}
+                          value={values.grapeVariety.length > 0 ? values.grapeVariety : null}
                           onChange={handleGrapeVarietyChange}
                           className="basic-multi-select "
                           classNamePrefix="select"
@@ -1323,7 +1324,7 @@ function AddProduct() {
                         id="tags"
                         name="tags"
                         isMulti
-                        value={values.tags}
+                        value={values.tags.length ?  values.tags : null}
                         onChange={handletagsChange}
                         options={options}
                         className="basic-multi-select "

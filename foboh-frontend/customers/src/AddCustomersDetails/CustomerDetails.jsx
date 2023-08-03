@@ -5,6 +5,7 @@ import CustomerContact from "./CustomerContact";
 import CustomerAddress from "./CustomerAddress";
 import CustomerDetailsFirst from "./CustomerDetailsFirst";
 import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 export const options = [
   { value: 1234, label: "Chocolate" },
   { value: 2345, label: "Strawberry" },
@@ -41,6 +42,7 @@ const initialValues = {
   isActive: 0,
 };
 function CustomerDetails() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
@@ -78,6 +80,10 @@ function CustomerDetails() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer added>>", data);
+        if (data.success) {
+          console.log("navigate")
+          navigate('/dashboard/customers/')
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -87,7 +93,7 @@ function CustomerDetails() {
         <Stepper
           activeStep={activeStep}
           isLastStep={(value) => {
-            console.log("last is>>", value)
+            // console.log("last is>>", value)
             setIsLastStep(value)
           }}
           isFirstStep={(value) => setIsFirstStep(value)}
