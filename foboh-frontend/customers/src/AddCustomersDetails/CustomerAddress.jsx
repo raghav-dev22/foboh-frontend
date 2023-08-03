@@ -1,8 +1,15 @@
 import React from "react";
-function CustomerAddress({ values, handleChange, handleBlur, errors, options, touched }) {
+function CustomerAddress({
+  values,
+  handleChange,
+  handleBlur,
+  errors,
+  options,
+  touched,
+}) {
   return (
     <>
-      <div className=" mx-auto lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
+      <div className="  ">
         <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
           <h6 className="text-base	font-medium	 text-green">
             Customer addresses
