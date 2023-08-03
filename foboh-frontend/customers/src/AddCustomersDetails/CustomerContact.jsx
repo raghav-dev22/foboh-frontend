@@ -42,21 +42,21 @@ function CustomerContact({
                 id="grid-last-name"
                 type="text"
                 placeholder="Tom"
-                name="FirstName"
-                value={values.FirstName}
+                name="orderingFirstName"
+                value={values.orderingFirstName}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.FirstName && touched.FirstName && "1px solid red",
+                    errors.orderingFirstName && touched.orderingFirstName && "1px solid red",
                 }}
               />
-              {errors.FirstName && touched.FirstName && (
+              {errors.orderingFirstName && touched.orderingFirstName && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.FirstName}
+                  {errors.orderingFirstName}
                 </p>
               )}
-              {errors.FirstName && touched.FirstName && (
+              {errors.orderingFirstName && touched.orderingFirstName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -72,21 +72,21 @@ function CustomerContact({
                 id="grid-last-name"
                 type="text"
                 placeholder="Jones"
-                name="LastName"
-                value={values.LastName}
+                name="orderingLastName"
+                value={values.orderingLastName}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.LastName && touched.LastName && "1px solid red",
+                    errors.orderingLastName && touched.orderingLastName && "1px solid red",
                 }}
               />
-              {errors.LastName && touched.LastName && (
+              {errors.orderingLastName && touched.orderingLastName && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.LastName}
+                  {errors.orderingLastName}
                 </p>
               )}
-              {errors.LastName && touched.LastName && (
+              {errors.orderingLastName && touched.orderingLastName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -104,20 +104,20 @@ function CustomerContact({
                 id="grid-last-name"
                 type="text"
                 placeholder="Tom"
-                name="Mobile"
-                value={values.LiquorLicence}
+                name="orderingMobile"
+                value={values.orderingMobile}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.Mobile && touched.Mobile && "1px solid red",
+                  border: errors.orderingMobile && touched.orderingMobile && "1px solid red",
                 }}
               />
-              {errors.Mobile && touched.Mobile && (
+              {errors.orderingMobile && touched.orderingMobile && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.Mobile}
+                  {errors.orderingMobile}
                 </p>
               )}
-              {errors.Mobile && touched.Mobile && (
+              {errors.orderingMobile && touched.orderingMobile && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -133,20 +133,20 @@ function CustomerContact({
                 id="grid-last-name"
                 type="email"
                 placeholder="Jones"
-                name="Email"
-                value={values.Email}
+                name="orderingEmail"
+                value={values.orderingEmail}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.Email && touched.Email && "1px solid red",
+                  border: errors.orderingEmail && touched.orderingEmail && "1px solid red",
                 }}
               />
-              {errors.Email && touched.Email && (
+              {errors.orderingEmail && touched.orderingEmail && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.Email}
+                  {errors.orderingEmail}
                 </p>
               )}
-              {errors.Email && touched.Email && (
+              {errors.orderingEmail && touched.orderingEmail && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -162,6 +162,8 @@ function CustomerContact({
                 <input
                   id="default-checkbox"
                   type="checkbox"
+                  name="deliveryMobile"
+                  value={values.deliveryMobile}
                   defaultValue=""
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                 />
@@ -182,7 +184,8 @@ function CustomerContact({
               <input
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
-                name="firstName"
+                name="deliveryFirstName"
+                value={values.deliveryFirstName}
                 type="text"
                 placeholder="Tom"
               />
@@ -198,7 +201,8 @@ function CustomerContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                name="lastName"
+                name="deliveryLastName"
+                value={values.deliveryLastName}
                 placeholder="Jones"
               />
             </div>
@@ -209,30 +213,58 @@ function CustomerContact({
                 className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                 htmlFor="grid-last-name"
               >
-                First name
+                Mobile
               </label>
               <input
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
-                name="firstName"
                 type="text"
                 placeholder="Tom"
+                name="deliveryMobile"
+                value={values.deliveryMobile}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{
+                  border: errors.deliveryMobile && touched.deliveryMobile && "1px solid red",
+                }}
               />
+              {errors.deliveryMobile && touched.deliveryMobile && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.deliveryMobile}
+                </p>
+              )}
+              {errors.deliveryMobile && touched.deliveryMobile && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+              )}
             </div>
             <div className="w-full relative md:w-1/2 px-3">
               <label
                 className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                 htmlFor="grid-last-name"
               >
-                Last name
+                Email
               </label>
               <input
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
-                type="text"
-                name="lastName"
+                type="email"
                 placeholder="Jones"
+                name="deliveryEmail"
+                value={values.deliveryEmail}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{
+                  border: errors.deliveryEmail && touched.deliveryEmail && "1px solid red",
+                }}
               />
+              {errors.deliveryEmail && touched.deliveryEmail && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.deliveryEmail}
+                </p>
+              )}
+              {errors.deliveryEmail && touched.deliveryEmail && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+              )}
             </div>
           </div>
         </div>

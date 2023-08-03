@@ -93,7 +93,7 @@ function CustomerDetailsFirst({
               id="grid-last-name"
               type="text"
               placeholder="Jones"
-              name="LiquorLicence"
+              name="liquorLicence"
               value={values.liquorLicence}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -119,8 +119,9 @@ function CustomerDetailsFirst({
             <h5 className="text-base font-medium text-green mb-3">Sales rep</h5>
             <div className=" top-16 w-full">
               <Select
-                name="colors"
+                name="salesRepId"
                 options={options}
+                value={values.salesRepId}
                 onChange={handleChange}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -133,7 +134,8 @@ function CustomerDetailsFirst({
             </h5>
             <div className=" top-16 w-full">
               <Select
-                name="colors"
+                name="pricingProfileId"
+                value={values.pricingProfileId}
                 options={options}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -148,8 +150,9 @@ function CustomerDetailsFirst({
             </h5>
             <div className=" top-16 w-full">
               <Select
-                name="colors"
+                name="defaultPaymentMethodId"
                 options={options}
+                value={values.defaultPaymentMethodId}
                 className="basic-multi-select "
                 classNamePrefix="select"
               />
@@ -161,7 +164,8 @@ function CustomerDetailsFirst({
             </h5>
             <div className=" top-16 w-full">
               <Select
-                name="colors"
+                name="defaultPaymentMethodId"
+                value={values.defaultPaymentMethodId}
                 options={options}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -175,8 +179,10 @@ function CustomerDetailsFirst({
             <h5 className="text-base font-medium text-green mb-3">Tags</h5>
             <div className=" top-16 w-full">
               <Select
-                name="colors"
+                name="tags"
+                value={values.tags}
                 options={options}
+                // onChange={}
                 className="basic-multi-select "
                 classNamePrefix="select"
               />
@@ -188,8 +194,9 @@ function CustomerDetailsFirst({
               <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
                   type="checkbox"
-                  name="toggle"
+                  name="wetLiable"
                   id="toggle"
+                  value={values.wetLiable}
                   onChange={handleChange}
                   class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />

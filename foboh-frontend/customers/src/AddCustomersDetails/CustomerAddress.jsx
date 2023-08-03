@@ -17,7 +17,7 @@ function CustomerAddress({
         </div>
         <div className="px-6 py-7">
           <h5 className="text-green mb-5 text-base font-bold	">
-            Ordering contact
+            Delivery Address
           </h5>
           <div className="flex flex-wrap -mx-3 mb-5 items-start">
             <div className="w-full md:w-1/2 px-3 relative">
@@ -31,6 +31,9 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                name="address"
+                onChange={handleChange}
+                value={values.address}
                 placeholder="126 Juliett Street"
               />
             </div>
@@ -45,6 +48,8 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                value={values.apartment}
+                onChange={handleChange}
                 placeholder="Jones"
                 name="apartment"
               />
@@ -62,6 +67,8 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                value={values.suburb}
+                onChange={handleChange}
                 placeholder="Marrickville"
                 name="suburb"
               />
@@ -77,8 +84,10 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                value={values.postalCode}
+                onChange={handleChange}
                 placeholder="2204"
-                name="postcode"
+                name="postalCode"
               />
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -93,9 +102,9 @@ function CustomerAddress({
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
-                  <option>NSW</option>
-                  <option>Missouri</option>
-                  <option>Texas</option>
+                  <option value="NSW">NSW</option>
+                  <option value="Missouri">Missouri</option>
+                  <option value="Texas">Texas</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg
@@ -120,6 +129,9 @@ function CustomerAddress({
               <textarea
                 id="message"
                 rows={4}
+                value={values.deliveryNotes}
+                onChange={handleChange}
+                name="deliveryNotes"
                 className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                 placeholder="Leave a comment..."
                 defaultValue={""}
@@ -173,8 +185,10 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                value={values.billingAddress}
+                onChange={handleChange}
                 placeholder="Jones"
-                name="apartment"
+                name="billingAddress"
               />
             </div>
           </div>
@@ -191,7 +205,9 @@ function CustomerAddress({
                 id="grid-last-name"
                 type="text"
                 placeholder="Marrickville"
-                name="suburb"
+                name="billingSuburb"
+                value={values.billingSuburb}
+                onChange={handleChange}
               />
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -205,8 +221,10 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                onChange={handleChange}
+                value={values.billingPostalCode}
                 placeholder="2204"
-                name="postcode"
+                name="billingPostalCode"
               />
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -221,9 +239,9 @@ function CustomerAddress({
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
-                  <option>NSW</option>
-                  <option>Missouri</option>
-                  <option>Texas</option>
+                  <option value="NSW">NSW</option>
+                  <option value="Missouri">Missouri</option>
+                  <option value="Texas">Texas</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg

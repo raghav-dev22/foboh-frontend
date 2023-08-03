@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import OrderTable from "./OrderTable";
-const OrderDetails = () => {
+const OrderDetails = ({data}) => {
   const [activeStatus, setActiveStatus] = useState(1);
   return (
     <>
@@ -227,6 +227,7 @@ const OrderDetails = () => {
                           id="grid-last-name"
                           name="firstName"
                           type="text"
+                          value={data?.OrderingFirstName}
                           placeholder="Tom"
                         />
                       </div>
@@ -241,6 +242,7 @@ const OrderDetails = () => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-last-name"
                           type="text"
+                          value={data?.OrderingLastName}
                           name="lastName"
                           placeholder="Jones"
                         />
@@ -259,6 +261,7 @@ const OrderDetails = () => {
                           id="grid-password"
                           disabled
                           type="email"
+                          value={data?.OrderingEmail}
                           name="email"
                           autoComplete="on"
                           placeholder="devidjond45@gmail.com"
@@ -277,6 +280,7 @@ const OrderDetails = () => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
                           type="text"
+                          value={data?.OrderingMobile}
                           name="mobile"
                           placeholder="0412 345 678"
                         />
@@ -293,6 +297,7 @@ const OrderDetails = () => {
                         <textarea
                           id="message"
                           rows={4}
+                          value={data?.DeliveryNotes}
                           className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                           placeholder="Leave a comment..."
                           defaultValue={""}
@@ -340,6 +345,7 @@ const OrderDetails = () => {
                           id="grid-last-name"
                           name="firstName"
                           type="text"
+                          value={data?.DeliveryFirstName}
                           placeholder="Tom"
                         />
                       </div>
@@ -354,6 +360,7 @@ const OrderDetails = () => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-last-name"
                           type="text"
+                          value={data?.DeliveryLastName}
                           name="lastName"
                           placeholder="Jones"
                         />
@@ -372,6 +379,7 @@ const OrderDetails = () => {
                           id="grid-password"
                           disabled
                           type="email"
+                          value={data?.DeliveryEmail}
                           name="email"
                           autoComplete="on"
                           placeholder="devidjond45@gmail.com"
@@ -390,6 +398,7 @@ const OrderDetails = () => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
                           type="text"
+                          value={data?.DeliveryMobile}
                           name="mobile"
                           placeholder="0412 345 678"
                         />
@@ -405,6 +414,7 @@ const OrderDetails = () => {
                         </label>
                         <textarea
                           id="message"
+                          value={data?.DeliveryNotes}
                           rows={4}
                           className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                           placeholder="Leave a comment..."
