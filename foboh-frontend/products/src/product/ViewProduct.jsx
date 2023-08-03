@@ -424,7 +424,7 @@ function ViewProduct() {
           innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
           configuration: values.configuration,
           brand: values.brand,
-          region: values.regionSelect.label,
+          region: values.regionSelect ? values.regionSelect.label : "",
           trackInventory: values.trackInventory,
           departmentId: values.department.value,
           categoryId: values.category.value,
