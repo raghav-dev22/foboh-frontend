@@ -145,7 +145,7 @@ function CustomerDetails() {
           </Step>
         </Stepper>
       </div>
-      <form className=" mx-auto lg:w-3/5 w-full   rounded-lg		 border border-inherit bg-white h-80	overflow-y-scroll		 flex flex-col	  ">
+      <form className=" mx-auto lg:w-3/5 w-full   rounded-lg		 border border-inherit bg-white h-85	overflow-y-scroll		 flex flex-col	  ">
         {activeStep === 0 ? (
           <CustomerDetailsFirst
             touched={touched}

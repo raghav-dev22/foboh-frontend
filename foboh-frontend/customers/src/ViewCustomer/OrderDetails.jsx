@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import OrderTable from "./OrderTable";
-const OrderDetails = ({data}) => {
+const OrderDetails = ({ data }) => {
   const [activeStatus, setActiveStatus] = useState(1);
   return (
     <>
@@ -286,24 +286,6 @@ const OrderDetails = ({data}) => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-wrap -mx-3 mb-5">
-                      <div className="w-full px-3">
-                        <label
-                          htmlFor="message"
-                          className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
-                        >
-                          Bio
-                        </label>
-                        <textarea
-                          id="message"
-                          rows={4}
-                          value={data?.DeliveryNotes}
-                          className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
-                          placeholder="Leave a comment..."
-                          defaultValue={""}
-                        />
-                      </div>
-                    </div>
                   </form>
                 </div>
               </div>
@@ -404,24 +386,6 @@ const OrderDetails = ({data}) => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-wrap -mx-3 mb-5">
-                      <div className="w-full px-3">
-                        <label
-                          htmlFor="message"
-                          className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
-                        >
-                          Bio
-                        </label>
-                        <textarea
-                          id="message"
-                          value={data?.DeliveryNotes}
-                          rows={4}
-                          className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
-                          placeholder="Leave a comment..."
-                          defaultValue={""}
-                        />
-                      </div>
-                    </div>
                   </form>
                 </div>
               </div>
@@ -439,13 +403,31 @@ const OrderDetails = ({data}) => {
                 </div>
                 <div className="px-6 py-7">
                   <form className="w-full  overflow-y-auto overflow-x-visible	 h-80 no-scrollbar">
+                    <div className="flex flex-wrap -mx-3 mb-5">
+                      <div className="w-full relative px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                          htmlFor="grid-password"
+                        >
+                          Address
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-password"
+                          disabled
+                          type="text"
+                          autoComplete="on"
+                          placeholder="126 Juliett Street"
+                        />
+                      </div>
+                    </div>
                     <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
                       <div className="w-full relative md:w-1/2 px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-last-name"
                         >
-                          First name
+                          Apartment, floor etc.
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -460,7 +442,7 @@ const OrderDetails = ({data}) => {
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-last-name"
                         >
-                          Last name
+                          Suburb
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -471,56 +453,54 @@ const OrderDetails = ({data}) => {
                         />
                       </div>
                     </div>
+                    <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+                      <div className="w-full relative md:w-1/2 px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                          htmlFor="grid-password"
+                        >
+                          Postcode
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-password"
+                          type="Postcode"
+                          name="mobile"
+                          placeholder="2204"
+                        />
+                      </div>
+                      <div className="w-full relative md:w-1/2 px-3">
+                        <label
+                          htmlFor="message"
+                          className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
+                        >
+                          State
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-password"
+                          type="Postcode"
+                          name="mobile"
+                          placeholder="2204"
+                        />
+                      </div>
+                    </div>
+
                     <div className="flex flex-wrap -mx-3 mb-5">
                       <div className="w-full relative px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-password"
                         >
-                          Email
+                          Delivery instructions
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
                           disabled
-                          type="email"
-                          name="email"
-                          autoComplete="on"
-                          placeholder="devidjond45@gmail.com"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-5">
-                      <div className="w-full relative px-3">
-                        <label
-                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                          htmlFor="grid-password"
-                        >
-                          Mobile
-                        </label>
-                        <input
-                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-password"
                           type="text"
-                          name="mobile"
-                          placeholder="0412 345 678"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-5">
-                      <div className="w-full px-3">
-                        <label
-                          htmlFor="message"
-                          className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
-                        >
-                          Bio
-                        </label>
-                        <textarea
-                          id="message"
-                          rows={4}
-                          className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
-                          placeholder="Leave a comment..."
-                          defaultValue={""}
+                          autoComplete="on"
+                          placeholder="Notes here -"
                         />
                       </div>
                     </div>
@@ -552,13 +532,32 @@ const OrderDetails = ({data}) => {
                 </div>
                 <div className="px-6 py-7">
                   <form className="w-full  overflow-y-auto overflow-x-visible	 h-80 no-scrollbar">
+                    <div className="flex flex-wrap -mx-3 mb-5">
+                      <div className="w-full relative px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                          htmlFor="grid-password"
+                        >
+                          Address
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-password"
+                          disabled
+                          type="email"
+                          name="email"
+                          autoComplete="on"
+                          placeholder="126 Juliett Street"
+                        />
+                      </div>
+                    </div>
                     <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
                       <div className="w-full relative md:w-1/2 px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-last-name"
                         >
-                          First name
+                          Apartment, floor etc.
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -573,7 +572,7 @@ const OrderDetails = ({data}) => {
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-last-name"
                         >
-                          Last name
+                          Suburb
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -584,56 +583,35 @@ const OrderDetails = ({data}) => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-wrap -mx-3 mb-5">
-                      <div className="w-full relative px-3">
+                    <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+                      <div className="w-full relative  px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-password"
                         >
-                          Email
-                        </label>
-                        <input
-                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-password"
-                          disabled
-                          type="email"
-                          name="email"
-                          autoComplete="on"
-                          placeholder="devidjond45@gmail.com"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-5">
-                      <div className="w-full relative px-3">
-                        <label
-                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                          htmlFor="grid-password"
-                        >
-                          Mobile
+                          Postcode
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
-                          type="text"
+                          type="Postcode"
                           name="mobile"
-                          placeholder="0412 345 678"
+                          placeholder="2204"
                         />
                       </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-5">
-                      <div className="w-full px-3">
+                      <div className="w-full relative  px-3">
                         <label
                           htmlFor="message"
                           className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
                         >
-                          Bio
+                          State
                         </label>
-                        <textarea
-                          id="message"
-                          rows={4}
-                          className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
-                          placeholder="Leave a comment..."
-                          defaultValue={""}
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="grid-password"
+                          type="Postcode"
+                          name="mobile"
+                          placeholder="2204"
                         />
                       </div>
                     </div>
@@ -650,7 +628,7 @@ const OrderDetails = ({data}) => {
               <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col  ">
                 <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
                   <h6 className="text-lg	 font-bold	 text-darkGreen">
-                    Personal details
+                    Payment details
                   </h6>
                 </div>
                 <div className="px-6 py-7">
@@ -661,7 +639,7 @@ const OrderDetails = ({data}) => {
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-password"
                         >
-                          Email
+                          Default payment terms
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -670,7 +648,7 @@ const OrderDetails = ({data}) => {
                           type="email"
                           name="email"
                           autoComplete="on"
-                          placeholder="devidjond45@gmail.com"
+                          placeholder="30 day"
                         />
                       </div>
                     </div>
@@ -680,21 +658,21 @@ const OrderDetails = ({data}) => {
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="grid-password"
                         >
-                          Mobile
+                          Default payment method
                         </label>
                         <input
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
                           type="text"
                           name="mobile"
-                          placeholder="0412 345 678"
+                          placeholder="Bank transfer"
                         />
                       </div>
                     </div>
 
                     <div className="">
                       <h5 className="text-base font-medium text-green mb-3">
-                        Region availability
+                        Tax
                       </h5>
                       <div className="flex items-center mb-4 gap-3">
                         <input
@@ -708,7 +686,9 @@ const OrderDetails = ({data}) => {
                           htmlFor="NSW"
                           className="ml-2  dark:text-gray-300"
                         >
-                          <p className="text-sm	 font-medium text-gray">NSW</p>
+                          <p className="text-sm	 font-medium text-gray">
+                            GST applicable
+                          </p>
                         </label>
                       </div>
                       <div className="flex items-center mb-4 gap-3">
@@ -723,7 +703,9 @@ const OrderDetails = ({data}) => {
                           htmlFor="VIC"
                           className="ml-2  dark:text-gray-300"
                         >
-                          <p className="text-sm	 font-medium text-gray">VIC</p>
+                          <p className="text-sm	 font-medium text-gray">
+                            WET applicable
+                          </p>
                         </label>
                       </div>
                     </div>
