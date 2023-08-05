@@ -80,7 +80,7 @@ function TableRange({ products, setProducts, setIsBulkEdit }) {
                 }
                 alt=""
                 className="object-cover w-[50px] h-[50px]"
-                style={{ height: "50px", width: "50px" }}
+                style={{ height: "50px", width: "50px", borderRadius : "5px" }}
               />
               <h5
                 onClick={() => handleProductId(product.productId)}

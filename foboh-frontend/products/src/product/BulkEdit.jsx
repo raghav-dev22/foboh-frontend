@@ -167,7 +167,7 @@ function BulkEdit() {
         skuCode: product.skUcode,
         configuration: {
           value: 5,
-          label: `${ium.value} x ${bum.label}`,
+          label: `${ium?.value} x ${bum?.label}`,
         },
         salePrice: product.globalPrice,
         stockAlertLevel: product.stockThreshold,

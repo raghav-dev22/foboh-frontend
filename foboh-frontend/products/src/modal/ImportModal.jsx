@@ -1,17 +1,70 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import PreviewProductModal from "./PreviewProductModal";
+import * as XLSX from "xlsx";
 
 function ImportModal({ show, setShow }) {
   const [uploadedFile, setUploadedFile] = useState(null);
 
   // Function to handle the file upload
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setUploadedFile(file);
+  const handleFileUpload = (evt) => {
+    var f = evt.target.files[0];
+
+    if (f) {
+      var r = new FileReader();
+      r.onload = (e) => {
+        var workbook = XLSX.read(e.target.result, {
+          type: "binary",
+        });
+
+        var firstSheet = workbook.SheetNames[0];
+        var data = to_json(workbook);
+        let productList = [...data[firstSheet]];
+        if (productList.length) {
+          console.log("productList", productList);
+          const dataStructure = [...productList].slice(0, 2);
+          const productData = [...productList].slice(2, productList.length);
+          console.log(finalProductArray);
+          // return true;
+          const finalProductArray = productData.map((product) => {
+            let tmpObj = {};
+            dataStructure[1].forEach((element, index) => {
+              tmpObj[element] = product[index];
+              if (!product[index] && !dataStructure[0][index]) {
+                console.log("this requires data is not there");
+              }
+            });
+            return tmpObj;
+          });
+          console.log("finalProductArray", finalProductArray);
+        }
+        console.log(productList);
+      };
+      r.readAsBinaryString(f);
+    } else {
+      console.log("Failed to load file");
     }
   };
+
+  function processExcel(data) {
+    return data;
+  }
+
+  function to_json(workbook) {
+    var result = {};
+    workbook.SheetNames.forEach(function (sheetName) {
+      var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+        header: 1,
+      });
+      if (roa.length) result[sheetName] = roa;
+    });
+    return result;
+  }
+
+  // if (file) {
+  //   setUploadedFile(file);
+  // }
+
   // const [click, setClick] = useState(0);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
@@ -52,7 +105,7 @@ function ImportModal({ show, setShow }) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden  text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl	">
+                <Dialog.Panel className="relative transform overflow-hidden text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl	">
                   <div className="bg-white px-8 pb-8 pt-8 sm:p-6 sm:pb-4 rounded-t-lg">
                     <div className="sm:flex sm:items-center">
                       <div className="">
@@ -71,6 +124,7 @@ function ImportModal({ show, setShow }) {
                     <div className="relative py-6 px-8 ">
                       <input
                         type="file"
+                        accept=".csv"
                         onChange={handleFileUpload}
                         className={`download-file w-full h-full  absolute opacity-0	`}
                       />
