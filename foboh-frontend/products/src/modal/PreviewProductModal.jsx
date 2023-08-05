@@ -2,7 +2,7 @@ import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportProductModal from "./ImportProductModal";
 
-function PreviewProductModal({ show, setShow }) {
+function PreviewProductModal({ show, setShow, importedProducts }) {
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
@@ -67,25 +67,15 @@ function PreviewProductModal({ show, setShow }) {
                         </p>
                       </div>
                     </div>
-                    <div className="relative px-6 py-3  ">
-                      <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                        <p className="text-sm font-semibold">Title</p>
-                        <p className="text-sm font-normal text-lightGreen">
-                          Rising Star Riesling{" "}
-                        </p>
-                      </div>
-                      <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                        <p className="text-sm font-semibold">Title</p>
-                        <p className="text-sm font-normal text-lightGreen">
-                          Rising Star Riesling{" "}
-                        </p>
-                      </div>
-                      <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                        <p className="text-sm font-semibold">Title</p>
-                        <p className="text-sm font-normal text-lightGreen">
-                          Rising Star Riesling{" "}
-                        </p>
-                      </div>
+                    <div style={{height: "100px"}} className="relative px-6 py-3 overflow-y-auto ">
+                      {importedProducts.map((product) => (
+                        <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                          <p className="text-sm font-semibold">Title</p>
+                          <p className="text-sm font-normal text-lightGreen">
+                            {product.Title}{" "}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">

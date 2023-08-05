@@ -4,13 +4,16 @@ import PreviewProductModal from "./PreviewProductModal";
 import * as XLSX from "xlsx";
 
 function ImportModal({ show, setShow }) {
-  const [uploadedFile, setUploadedFile] = useState(null);
+  const [addedFile, setAddedFile] = useState(null);
+  const [importedProducts, setImportedProducts] = useState([]);
+  const [errorData, setErrorData] = useState(null);
 
   // Function to handle the file upload
   const handleFileUpload = (evt) => {
     var f = evt.target.files[0];
 
     if (f) {
+      setAddedFile(f);
       var r = new FileReader();
       r.onload = (e) => {
         var workbook = XLSX.read(e.target.result, {
@@ -19,24 +22,49 @@ function ImportModal({ show, setShow }) {
 
         var firstSheet = workbook.SheetNames[0];
         var data = to_json(workbook);
-        let productList = [...data[firstSheet]];
+        let productList = [...data[firstSheet]].filter((i) => i.length);
         if (productList.length) {
           console.log("productList", productList);
+
           const dataStructure = [...productList].slice(0, 2);
-          const productData = [...productList].slice(2, productList.length);
+          const productData = [...productList].slice(2);
+          console.log("product data", productData);
           console.log(finalProductArray);
           // return true;
-          const finalProductArray = productData.map((product) => {
+          // const errorFlag = productData.map((product, rowIndex) => {
+          //   dataStructure[1].forEach((element, index) => {
+          //     return {
+          //       row : rowIndex,
+          //       column : product.map(el => {
+          //         if(el === undefined){
+          //           return element
+          //         }
+          //       })
+          //     }
+          //   })
+          // })
+          let errorData = [];
+          console.log("error flg");
+          const finalProductArray = productData.map((product, rowIndex) => {
             let tmpObj = {};
+            errorData[rowIndex] = [];
             dataStructure[1].forEach((element, index) => {
               tmpObj[element] = product[index];
-              if (!product[index] && !dataStructure[0][index]) {
+              // console.log("values =>", product[index]);
+              if (
+                (!product[index] || product[index] === undefined) &&
+                dataStructure[0][index]
+              ) {
+                errorData[rowIndex].push(element);
                 console.log("this requires data is not there");
               }
             });
             return tmpObj;
           });
           console.log("finalProductArray", finalProductArray);
+          console.log("error data", errorData);
+          setErrorData(errorData.filter(err => err.length));
+          setImportedProducts(finalProductArray);
         }
         console.log(productList);
       };
@@ -45,10 +73,6 @@ function ImportModal({ show, setShow }) {
       console.log("Failed to load file");
     }
   };
-
-  function processExcel(data) {
-    return data;
-  }
 
   function to_json(workbook) {
     var result = {};
@@ -128,7 +152,7 @@ function ImportModal({ show, setShow }) {
                         onChange={handleFileUpload}
                         className={`download-file w-full h-full  absolute opacity-0	`}
                       />
-                      {uploadedFile ? (
+                      {addedFile && !errorData?.length ? (
                         <>
                           <div className="pb-4">
                             <p className="text-sm text-lightGreen ">
@@ -152,7 +176,7 @@ function ImportModal({ show, setShow }) {
                                 </svg>
                               </div>
                               <p className="text-sm font-semibold text-gray">
-                                {uploadedFile.name}
+                                {addedFile.name}
                               </p>
                             </div>
                             <button
@@ -215,7 +239,38 @@ function ImportModal({ show, setShow }) {
                         </>
                       )}
                     </div>
-                    <div className="flex items-center  ">
+                    {errorData?.length > 0 && (
+                      <div
+                        style={{
+                          color: "red",
+                          maxHeight: "90px",
+                          background: "rgb(244 130 130 / 5%)",
+                          border: "1px solid #e11818",
+                        }}
+                        className="bg-red-100  border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 mx-6 flex-row items-center overflow-x-auto overflow-y-auto"
+                        role="alert"
+                      >
+                      {
+                       errorData?.length && <strong className="font-semibold">Below fields missing required data</strong>
+                      }
+                        {errorData?.map((errors, errorRow) => (
+                          <div className="flex">
+                            <span className="pr-2">{`Row ${
+                              errorRow + 3
+                            } :`}</span>
+                            {errors.map((err) => {
+                              return (
+                                <span className="block sm:inline pl-2">
+                                  {err},{" "}
+                                </span>
+                              );
+                            })}
+                            <span className="pl-2">fields.</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="flex items-center ">
                       <input
                         id="default-checkbox"
                         type="checkbox"
@@ -271,6 +326,7 @@ function ImportModal({ show, setShow }) {
       </Transition.Root>
 
       <PreviewProductModal
+        importedProducts={importedProducts}
         show={showPreviewModal}
         setShow={(set) => setShowPreviewModal(set)}
       />
