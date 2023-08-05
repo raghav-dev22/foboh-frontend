@@ -149,10 +149,12 @@ function Organisation() {
                     organisationId: organisationID,
                     isActive: true,
                   }),
-                }).then(response => response.json())
+                }
+              )
+                .then((response) => response.json())
                 .then((data) => {
-                  console.log("org id updated in user profile--->",data);
-                })
+                  console.log("org id updated in user profile--->", data);
+                });
 
               const organisationSettings = data.data;
               localStorage.setItem("organisationId", organisationID);
@@ -431,7 +433,7 @@ function Organisation() {
                     </h6>
                   </div>
                   <div className="px-6 py-7">
-                    <div className="w-full max-w-lg">
+                    <div className="w-full ">
                       <div className="flex flex-wrap -mx-3 mb-5">
                         <div className="w-full md:w-1/2 px-3 relative">
                           <label
@@ -618,7 +620,7 @@ function Organisation() {
                     </h6>
                   </div>
                   <div className="px-6 py-7">
-                    <div className="w-full max-w-lg">
+                    <div className="w-full ">
                       <div className="flex flex-wrap -mx-3 mb-5 items-start">
                         <div className="w-full md:w-1/2 px-3 relative">
                           <label
@@ -802,7 +804,7 @@ function Organisation() {
                     </h6>
                   </div>
                   <div className="px-6 py-7">
-                    <div className="w-full max-w-lg">
+                    <div className="w-full">
                       <div className="flex items-center mb-5">
                         <input
                           onChange={handleCheckbox}
@@ -1114,7 +1116,7 @@ function Organisation() {
                     </h6>
                   </div>
                   <div className="px-6 py-7">
-                    <div className="w-full max-w-lg">
+                    <div className="w-full ">
                       <div className="flex flex-wrap -mx-3 mb-5">
                         <div className="w-full md:w-1/2 px-3 relative">
                           <label
@@ -1272,7 +1274,7 @@ function Organisation() {
                     </h6>
                   </div>
                   <div className="px-6 py-7">
-                    <div className="w-full max-w-lg">
+                    <div className="w-full ">
                       <div className="flex flex-wrap -mx-3 mb-5">
                         <div className="w-full md:w-1/2 px-3 relative">
                           <label

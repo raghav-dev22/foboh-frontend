@@ -84,7 +84,10 @@ function EditProfile({ setProfileUri }) {
 
   return (
     <>
-      <div className="w-full lg:w-2/5	rounded-md	 border border-inherit bg-white h-full	">
+      <div
+        className="w-full lg:w-2/5	rounded-md	 border border-inherit bg-white  overflow-y-scroll	scroll-smooth	scrollable	"
+        style={{ height: "380px" }}
+      >
         <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
           <h6 className="text-base	font-medium	 text-green">Personal details</h6>
         </div>

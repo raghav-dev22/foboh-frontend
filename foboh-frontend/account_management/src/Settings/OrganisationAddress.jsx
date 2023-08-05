@@ -7,7 +7,7 @@ const initialValues = {
   suburb: "",
   postcode: "",
   state: "",
-  city: ""
+  city: "",
 };
 
 function OrganisationAddress({
@@ -22,10 +22,9 @@ function OrganisationAddress({
         console.log(values, "kkk");
       },
     });
-  
 
   const handleFormChange = (e) => {
-    setShow(true)
+    setShow(true);
     setOrganisationSettings({
       ...organisationSettings,
       organisationAddress: values.address,
@@ -33,14 +32,11 @@ function OrganisationAddress({
       city: "",
       postcode: values.postcode,
       state: values.state,
-      suburb: values.suburb
+      suburb: values.suburb,
     });
 
-    console.log("org >>>>",organisationSettings);
-
+    console.log("org >>>>", organisationSettings);
   };
-
-  
 
   return (
     <>
@@ -52,7 +48,7 @@ function OrganisationAddress({
         </div>
         <div className="px-6 py-7">
           <form
-            className="w-full max-w-lg"
+            className="w-full "
             onChange={handleFormChange}
             onSubmit={handleSubmit}
           >

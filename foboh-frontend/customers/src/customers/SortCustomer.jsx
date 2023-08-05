@@ -35,25 +35,23 @@ function FilterCustomer() {
         >
           <div className="">
             <svg
-              width={18}
-              height={18}
-              viewBox="0 0 18 18"
+              width={13}
+              height={10}
+              viewBox="0 0 13 10"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M1.13131 2.44682C1.2458 2.2053 1.4931 2.05078 1.76513 2.05078H15.7395C16.0115 2.05078 16.2588 2.2053 16.3733 2.44682C16.4878 2.68833 16.4487 2.97292 16.273 3.17621L10.8485 9.45426V15.044C10.8485 15.281 10.7231 15.5011 10.5171 15.6257C10.3111 15.7503 10.0539 15.7616 9.83727 15.6556L7.0424 14.2879C6.80569 14.1721 6.65616 13.9353 6.65616 13.6763V9.45426L1.23161 3.17621C1.05596 2.97292 1.01682 2.68833 1.13131 2.44682ZM3.27108 3.41848L7.8884 8.76229C7.99507 8.88574 8.0536 9.04219 8.0536 9.20387V13.2536L9.45103 13.9375V9.20387C9.45103 9.04219 9.50956 8.88574 9.61623 8.76229L14.2335 3.41848H3.27108Z"
+                d="M0.367676 9.19262V7.79512H4.56018V9.19262H0.367676ZM0.367676 5.69887V4.30137H8.75268V5.69887H0.367676ZM0.367676 2.20512V0.807617H12.9452V2.20512H0.367676Z"
                 fill="#637381"
               />
             </svg>
           </div>
-          <h6 className="text-base	font-normal	text-gray">Filter</h6>
+          <h6 className="text-base	font-normal	text-gray">Sort</h6>
         </div>
         {isOpen && (
           <>
-            <div className=" z-10	left-0 w-56   sm:w-30 absolute top-14 border border-inherit bg-white	shadow-md rounded-lg	h-fit py-3	">
+            <div className=" z-10	right-0 w-56   sm:w-30 absolute top-14 border border-inherit bg-white	shadow-md rounded-lg	h-fit py-3	">
               <ul className="dropdown-content 	 ">
                 <li className="py-2.5	px-4	">
                   <div className="flex items-center">

@@ -7,12 +7,10 @@ const initialValues = {
   apartment: "",
   suburb: "",
   postcode: "",
-  state: ''
+  state: "",
 };
 
-
-function BillingAddress({organisationSettings,
-  setOrganisationSettings }) {
+function BillingAddress({ organisationSettings, setOrganisationSettings }) {
   const [check, setCheck] = useState(false);
 
   const {
@@ -40,18 +38,17 @@ function BillingAddress({organisationSettings,
         apartment: organisationSettings.apartment,
         suburb: organisationSettings.suburb,
         postcode: organisationSettings.postcode,
-        state: organisationSettings.state
+        state: organisationSettings.state,
       });
-    };
-  }
-  
+    }
+  };
+
   const handleForm = () => {
     setOrganisationSettings({
       ...organisationSettings,
-      billingAddress: values.address
-    })
-  }
-
+      billingAddress: values.address,
+    });
+  };
 
   return (
     <>
@@ -60,7 +57,11 @@ function BillingAddress({organisationSettings,
           <h6 className="text-base	font-medium	 text-green">Billing address</h6>
         </div>
         <div className="px-6 py-7">
-          <form className="w-full max-w-lg" onChange={handleForm} onSubmit={handleSubmit}>
+          <form
+            className="w-full "
+            onChange={handleForm}
+            onSubmit={handleSubmit}
+          >
             <div className="flex items-center mb-5">
               <input
                 onChange={handleCheckbox}
@@ -208,7 +209,7 @@ function BillingAddress({organisationSettings,
                   State
                 </label>
                 <div className="relative">
-                <select
+                  <select
                     value={values.state} // Bind the selected state value to the state variable
                     onChange={handleChange}
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"

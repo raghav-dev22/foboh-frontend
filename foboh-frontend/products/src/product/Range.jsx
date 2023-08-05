@@ -12,7 +12,7 @@ function Range() {
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [filterAndSort, setFilterAndSort] = useState({
     filter: {
       category: [],
@@ -32,8 +32,8 @@ function Range() {
   };
 
   const handleBulkEdit = () => {
-    navigate('/dashboard/bulk-edit')
-  }
+    navigate("/dashboard/bulk-edit");
+  };
 
   return (
     <>
@@ -97,13 +97,20 @@ function Range() {
                 </tr>
               </thead>
               <tbody>
-                <TableRange setIsBulkEdit={setIsBulkEdit} setProducts={setProducts} products={products} />
+                <TableRange
+                  setIsBulkEdit={setIsBulkEdit}
+                  setProducts={setProducts}
+                  products={products}
+                />
               </tbody>
             </table>
           </div>
           {isBulkEdit && (
             <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
-              <button onClick={handleBulkEdit} className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <button
+                onClick={handleBulkEdit}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              >
                 <h6 className="text-white font-semibold text-base ">
                   Bulk edit{" "}
                 </h6>

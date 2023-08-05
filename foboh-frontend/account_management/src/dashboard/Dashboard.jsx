@@ -83,7 +83,7 @@ function Dashboard() {
   return (
     <>
       <div className="flex flex-no-wrap">
-        <div className="w-custom-20 absolute sm:relative border border-inherit md:h-full flex-col justify-between hidden sm:flex">
+        <div className="w-custom-20 absolute sm:relative border border-inherit md:h-screen overflow-y-scroll		 flex-col justify-between hidden sm:flex">
           <Sidebar />
         </div>
         <div
@@ -127,8 +127,8 @@ function Dashboard() {
             <Sidebar />
           </div>
         </div>
-        <div className="container mx-auto  h-64 md:w-4/5 w-full ">
-          <div className="container mx-auto px-0">
+        <div className="container-fluid mx-auto  h-64 sm:w-4/5 w-full ">
+          <div className="container-fluid mx-auto px-0">
             <Header />
             <Routes>
               <Route path="/main" element={<MainDashBoard />} />

@@ -105,7 +105,7 @@ function BulkEdit() {
               globalPrice: product.salePrice,
               buyPrice: product.buyPrice,
               availableQty: product.stockAlertLevel,
-              visibility: product.visibility.label === 'Visible' ? true : false,
+              visibility: product.visibility.label === "Visible" ? true : false,
               productStatus: product.status.label,
             };
           })
@@ -115,7 +115,7 @@ function BulkEdit() {
       .then((response) => response.json())
       .then((data) => {
         console.log("response data:", data);
-        navigate('/dashboard/products')
+        navigate("/dashboard/products");
       })
       .catch((error) => console.log(error));
   };
