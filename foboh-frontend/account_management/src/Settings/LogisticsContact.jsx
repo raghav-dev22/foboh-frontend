@@ -16,17 +16,15 @@ function LogisticsContact({ organisationSettings, setOrganisationSettings }) {
       },
     });
 
-
-    const handleForm = () =>{
-      setOrganisationSettings({
-        ...organisationSettings,
-        logisticsContactFirstName: values.firstName,
-        logisticsContactLastName: values.lastName,
-        logisticsContactMobile: values.mobile,
-        logisticsContactEmail: values.email,
-      })
-    }
-
+  const handleForm = () => {
+    setOrganisationSettings({
+      ...organisationSettings,
+      logisticsContactFirstName: values.firstName,
+      logisticsContactLastName: values.lastName,
+      logisticsContactMobile: values.mobile,
+      logisticsContactEmail: values.email,
+    });
+  };
 
   return (
     <>
@@ -35,7 +33,11 @@ function LogisticsContact({ organisationSettings, setOrganisationSettings }) {
           <h6 className="text-base	font-medium	 text-green">Logistics contact</h6>
         </div>
         <div className="px-6 py-7">
-          <form className="w-full max-w-lg" onChange={handleForm} onSubmit={handleSubmit}>
+          <form
+            className="w-full"
+            onChange={handleForm}
+            onSubmit={handleSubmit}
+          >
             <div className="flex flex-wrap -mx-3 mb-5">
               <div className="w-full md:w-1/2 px-3 relative">
                 <label

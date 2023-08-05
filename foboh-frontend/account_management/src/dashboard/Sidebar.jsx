@@ -4,9 +4,15 @@ import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const logoURI = useSelector((state) => state.logo.logoURI);
+  const ContactMenu = () => {
+    setOpenMenu(!openMenu);
+    setIsOpen(false);
+  };
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+    setOpenMenu(false);
   };
 
   return (
@@ -103,44 +109,79 @@ const Sidebar = () => {
               <h6 className="text-base	font-medium  text-gray	">Orders</h6>
             </div>
           </li>
-          <li className=" ps-7 py-3 list-inside  cursor-pointer">
-            <div className="flex justify-start items-center gap-2">
-              <div className="home">
-                <svg
-                  width={18}
-                  height={18}
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <mask
-                    id="mask0_313_21342"
-                    style={{ maskType: "alpha" }}
-                    maskUnits="userSpaceOnUse"
-                    x={0}
-                    y={0}
+          <li
+            className=" px-7 py-3  list-inside  cursor-pointer"
+            onClick={ContactMenu}
+          >
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <div className="home">
+                  <svg
                     width={18}
                     height={18}
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect width={18} height={18} fill="#D9D9D9" />
-                  </mask>
-                  <g mask="url(#mask0_313_21342)">
-                    <path
-                      className="cls-1"
-                      d="M2.60714 14.2098C3.44048 13.5253 4.3631 13.0156 5.375 12.6808C6.3869 12.346 7.42857 12.1786 8.5 12.1786C9.57143 12.1786 10.6131 12.3423 11.625 12.6696C12.6369 12.997 13.5595 13.5104 14.3929 14.2098V3.60714H2.60714V14.2098ZM8.5054 11.1071C9.39466 11.1071 10.1518 10.7928 10.7768 10.1642C11.4018 9.53562 11.7143 8.7767 11.7143 7.88746C11.7143 6.9982 11.4 6.24107 10.7714 5.61607C10.1428 4.99107 9.38384 4.67857 8.4946 4.67857C7.60534 4.67857 6.84821 4.99287 6.22321 5.62147C5.59821 6.25009 5.28571 7.00902 5.28571 7.89826C5.28571 8.78752 5.60002 9.54464 6.22862 10.1696C6.85723 10.7946 7.61616 11.1071 8.5054 11.1071ZM2.60714 17C2.16518 17 1.78683 16.8426 1.4721 16.5279C1.15737 16.2132 1 15.8348 1 15.3929V3.60714C1 3.16518 1.15737 2.78683 1.4721 2.4721C1.78683 2.15737 2.16518 2 2.60714 2H14.3929C14.8348 2 15.2132 2.15737 15.5279 2.4721C15.8426 2.78683 16 3.16518 16 3.60714V15.3929C16 15.8348 15.8426 16.2132 15.5279 16.5279C15.2132 16.8426 14.8348 17 14.3929 17H2.60714ZM3.70089 15.3929H13.2991C12.6146 14.872 11.8631 14.474 11.0446 14.1987C10.2262 13.9234 9.37798 13.7857 8.5 13.7857C7.62202 13.7857 6.77753 13.9234 5.96652 14.1987C5.15551 14.474 4.4003 14.872 3.70089 15.3929ZM8.5 9.5C8.05357 9.5 7.67411 9.34375 7.36161 9.03125C7.04911 8.71875 6.89286 8.33929 6.89286 7.89286C6.89286 7.44643 7.04911 7.06696 7.36161 6.75446C7.67411 6.44196 8.05357 6.28571 8.5 6.28571C8.94643 6.28571 9.32589 6.44196 9.63839 6.75446C9.95089 7.06696 10.1071 7.44643 10.1071 7.89286C10.1071 8.33929 9.95089 8.71875 9.63839 9.03125C9.32589 9.34375 8.94643 9.5 8.5 9.5Z"
-                      fill="#637381"
-                    />
-                  </g>
-                </svg>
+                    <mask
+                      id="mask0_313_21342"
+                      style={{ maskType: "alpha" }}
+                      maskUnits="userSpaceOnUse"
+                      x={0}
+                      y={0}
+                      width={18}
+                      height={18}
+                    >
+                      <rect width={18} height={18} fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_313_21342)">
+                      <path
+                        className="cls-1"
+                        d="M2.60714 14.2098C3.44048 13.5253 4.3631 13.0156 5.375 12.6808C6.3869 12.346 7.42857 12.1786 8.5 12.1786C9.57143 12.1786 10.6131 12.3423 11.625 12.6696C12.6369 12.997 13.5595 13.5104 14.3929 14.2098V3.60714H2.60714V14.2098ZM8.5054 11.1071C9.39466 11.1071 10.1518 10.7928 10.7768 10.1642C11.4018 9.53562 11.7143 8.7767 11.7143 7.88746C11.7143 6.9982 11.4 6.24107 10.7714 5.61607C10.1428 4.99107 9.38384 4.67857 8.4946 4.67857C7.60534 4.67857 6.84821 4.99287 6.22321 5.62147C5.59821 6.25009 5.28571 7.00902 5.28571 7.89826C5.28571 8.78752 5.60002 9.54464 6.22862 10.1696C6.85723 10.7946 7.61616 11.1071 8.5054 11.1071ZM2.60714 17C2.16518 17 1.78683 16.8426 1.4721 16.5279C1.15737 16.2132 1 15.8348 1 15.3929V3.60714C1 3.16518 1.15737 2.78683 1.4721 2.4721C1.78683 2.15737 2.16518 2 2.60714 2H14.3929C14.8348 2 15.2132 2.15737 15.5279 2.4721C15.8426 2.78683 16 3.16518 16 3.60714V15.3929C16 15.8348 15.8426 16.2132 15.5279 16.5279C15.2132 16.8426 14.8348 17 14.3929 17H2.60714ZM3.70089 15.3929H13.2991C12.6146 14.872 11.8631 14.474 11.0446 14.1987C10.2262 13.9234 9.37798 13.7857 8.5 13.7857C7.62202 13.7857 6.77753 13.9234 5.96652 14.1987C5.15551 14.474 4.4003 14.872 3.70089 15.3929ZM8.5 9.5C8.05357 9.5 7.67411 9.34375 7.36161 9.03125C7.04911 8.71875 6.89286 8.33929 6.89286 7.89286C6.89286 7.44643 7.04911 7.06696 7.36161 6.75446C7.67411 6.44196 8.05357 6.28571 8.5 6.28571C8.94643 6.28571 9.32589 6.44196 9.63839 6.75446C9.95089 7.06696 10.1071 7.44643 10.1071 7.89286C10.1071 8.33929 9.95089 8.71875 9.63839 9.03125C9.32589 9.34375 8.94643 9.5 8.5 9.5Z"
+                        fill="#637381"
+                      />
+                    </g>
+                  </svg>
+                </div>
+                {/* <Link to="/dashboard/customers"> */}
+                <Link to="/dashboard/customers">
+                  <h6 className="text-base	font-medium  text-gray">Customers</h6>
+                </Link>
               </div>
-              {/* <Link to="/dashboard/customers"> */}
-              <Link to="/dashboard/customers">
-                <h6 className="text-base	font-medium  text-gray">Customers</h6>
-              </Link>
+              <div className={`dropdown-arrow arrow-${openMenu}`}>
+                <img src="/assets/dropdownArrow.png" alt="" />
+              </div>
+
               {/* </Link> */}
             </div>
           </li>
-
+          {openMenu && (
+            <ul id="dropdown-example" class="  space-y-2 ">
+              <li className="ps-12 list-inside cursor-pointer ">
+                <Link
+                  to="/dashboard/products"
+                  className="flex items-center w-full p-2 "
+                >
+                  <h6 className="text-base	font-medium  text-gray">Customers</h6>{" "}
+                </Link>
+              </li>
+              <li className="ps-12 list-inside cursor-pointer">
+                <Link to="#" class="flex items-center w-full p-2 ">
+                  <h6 className="text-base	font-medium  text-gray">Segments</h6>{" "}
+                </Link>
+              </li>
+              <li className="ps-12 list-inside cursor-pointer">
+                <Link
+                  to="/dashboard/add-product"
+                  className="flex items-center w-full p-2 "
+                >
+                  <h6 className="text-base	font-medium  text-gray">
+                    Add customer
+                  </h6>{" "}
+                </Link>
+              </li>
+            </ul>
+          )}
           <li
             onClick={toggleMenu}
             className=" px-7 py-3 list-inside cursor-pointer"
@@ -180,8 +221,8 @@ const Sidebar = () => {
                 </div>
                 <h6 className="text-base	font-medium  text-gray	">Products</h6>
               </div>
-              <div className="dropdown-arrow">
-                <img src="/assets/arrow.png" alt="" />
+              <div className={`dropdown-arrow arrow-${isOpen}`}>
+                <img src="/assets/dropdownArrow.png" alt="" />
               </div>
             </div>
           </li>
@@ -190,19 +231,25 @@ const Sidebar = () => {
             <>
               <ul id="dropdown-example" class="  space-y-2 ">
                 <li className="ps-12 list-inside cursor-pointer ">
-                  <Link to="/dashboard/products">
+                  <Link
+                    to="/dashboard/products"
+                    className="flex items-center w-full p-2 "
+                  >
                     <h6 className="text-base	font-medium  text-gray">Range</h6>{" "}
                   </Link>
                 </li>
                 <li className="ps-12 list-inside cursor-pointer">
-                  <a href="#" class="flex items-center w-full p-2 ">
+                  <Link to="#" class="flex items-center w-full p-2 ">
                     <h6 className="text-base	font-medium  text-gray">
                       Inventory
                     </h6>{" "}
-                  </a>
+                  </Link>
                 </li>
                 <li className="ps-12 list-inside cursor-pointer">
-                  <Link to="/dashboard/add-product">
+                  <Link
+                    to="/dashboard/add-product"
+                    className="flex items-center w-full p-2 "
+                  >
                     <h6 className="text-base	font-medium  text-gray">
                       Add product
                     </h6>{" "}
@@ -361,6 +408,6 @@ const Sidebar = () => {
       </div>
     </>
   );
-}
+};
 
-export default Sidebar
+export default Sidebar;

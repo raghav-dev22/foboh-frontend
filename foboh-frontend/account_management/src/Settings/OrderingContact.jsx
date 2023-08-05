@@ -35,7 +35,7 @@ function OrderingContact({ organisationSettings, setOrganisationSettings }) {
         </div>
         <div className="px-6 py-7">
           <form
-            className="w-full max-w-lg"
+            className="w-full "
             onChange={handleForm}
             onSubmit={handleSubmit}
           >

@@ -173,5 +173,8 @@
   padding-right: 2.5rem /* 40px */;
 }
 .h-85 {
-  height: 357px;
+  height: 50vh;
+}
+.arrow-true img {
+  transform: rotate(180deg);
 }

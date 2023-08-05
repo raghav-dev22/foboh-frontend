@@ -7,8 +7,7 @@ import ProfileHeader from "../dashboard/ProfileHeader";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
 
-
-function PersonalDetails({profileUri}) {
+function PersonalDetails({ profileUri }) {
   const [show, setShow] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -40,9 +39,9 @@ function PersonalDetails({profileUri}) {
       .then((data) => {
         console.log(data);
 
-        const ccrn = data.data[0].ccrn
-        localStorage.setItem('ccrn', ccrn)
-        
+        const ccrn = data.data[0].ccrn;
+        localStorage.setItem("ccrn", ccrn);
+
         setInitialValues({
           firstName: data.data[0].firstName,
           lastName: data.data[0].lastName,
@@ -129,7 +128,7 @@ function PersonalDetails({profileUri}) {
                 email: values.email,
                 mobile: values.mobile,
                 password: values.password,
-                imageUrl : profileUri,
+                imageUrl: profileUri,
                 status: true,
                 role: values.role,
                 meta: values.meta,
@@ -195,7 +194,10 @@ function PersonalDetails({profileUri}) {
 
   return (
     <>
-      <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
+      <div
+        className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white	 grid	 overflow-y-scroll	scroll-smooth	scrollable "
+        style={{ height: "380px" }}
+      >
         {show && (
           <ProfileHeader
             handleSubmit={handleSubmit}
@@ -206,7 +208,7 @@ function PersonalDetails({profileUri}) {
           <h6 className="text-base	font-medium	 text-green">Personal details</h6>
         </div>
         <div className="px-6 py-7">
-          <form onChange={handleInputChange} className="w-full max-w-lg">
+          <form onChange={handleInputChange} className="w-full ">
             <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
               <div className="w-full relative md:w-1/2 px-3">
                 <label

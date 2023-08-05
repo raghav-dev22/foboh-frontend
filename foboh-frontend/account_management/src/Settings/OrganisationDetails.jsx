@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Select from "react-select";
 
-
 const initialValues = {
   tradingName: "",
   businessName: "",
@@ -72,7 +71,7 @@ function OrganisationDetails({
         </div>
         <div className="px-6 py-7">
           <form
-            className="w-full max-w-lg"
+            className="w-full "
             onChange={handleFormChange}
             onSubmit={handleSubmit}
           >

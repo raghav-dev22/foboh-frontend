@@ -1,12 +1,11 @@
-import React from 'react';
-import Header from '../dashboard/Header';
-import Sidebar from '../dashboard/sidebar';
-import PersonalDetails from './PersonalDetails';
-import EditProfile from './EditProfile';
+import React from "react";
+import Header from "../dashboard/Header";
+import Sidebar from "../dashboard/sidebar";
+import PersonalDetails from "./PersonalDetails";
+import EditProfile from "./EditProfile";
 
 function Profile() {
   return (
-
     <>
       <section className="home-dashboard grid md:flex">
         <section className="sidebar w-1/5 h-screen	flex justify-between flex-col	 border border-inherit">
@@ -18,25 +17,25 @@ function Profile() {
             <div>
               <div className="profile-section  px-11 h-custom-half     overflow-y-scroll	scroll-smooth	scrollable	">
                 <div className="py-12">
-                  <h4 className="text-green text-2xl	font-semibold pb-2	"> Your profile</h4>
+                  <h4 className="text-green text-2xl	font-semibold pb-2	">
+                    {" "}
+                    Your profile
+                  </h4>
                   <p className="text-gray font-medium	 text-sm	">
                     Customise your public profile
                   </p>
                 </div>
                 <div className="grid gap-5 md:flex  ">
-                <PersonalDetails/>
-                 <EditProfile/>
+                  <PersonalDetails />
+                  <EditProfile />
                 </div>
               </div>
-
             </div>
           </div>
         </section>
       </section>
-
-
     </>
-  )
+  );
 }
 
-export default Profile
+export default Profile;
