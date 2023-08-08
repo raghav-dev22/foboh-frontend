@@ -27,23 +27,23 @@ import { store } from "./Redux/store";
 
 const App = () => {
 
-  // useEffect(() => {
-  //   // const url = process.env.REACT_APP_URL
+  useEffect(() => {
+    // const url = process.env.REACT_APP_URL
 
-  //   // Getting token from server
-  //   fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetToken`, {
-  //     method: "GET",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       localStorage.setItem("token", data.tokenresponse.access_token);
-  //     })
-  //     .catch((error) => console.log(error));
+    // Getting token from server
+    fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetToken`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem("token", data.tokenresponse.access_token);
+      })
+      .catch((error) => console.log(error));
 
-  //   // Fetching user profile and setting to redux store
+    // Fetching user profile and setting to redux store
     
-  // }, []);
+  }, []);
 
   return (
     <Provider store={store}>
