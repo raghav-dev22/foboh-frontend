@@ -1,11 +1,11 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import PreviewProductModal from "./PreviewProductModal";
+import PreviewModal from "./PreviewModal";
 import * as XLSX from "xlsx";
 
 function ImportModal({ show, setShow }) {
   const [addedFile, setAddedFile] = useState(null);
-  const [importedProducts, setImportedProducts] = useState([]);
+  //   const [importedProducts, setImportedProducts] = useState([]);
   const [errorData, setErrorData] = useState(null);
 
   // Function to handle the file upload
@@ -30,19 +30,6 @@ function ImportModal({ show, setShow }) {
           const productData = [...productList].slice(2);
           console.log("product data", productData);
           console.log(finalProductArray);
-          // return true;
-          // const errorFlag = productData.map((product, rowIndex) => {
-          //   dataStructure[1].forEach((element, index) => {
-          //     return {
-          //       row : rowIndex,
-          //       column : product.map(el => {
-          //         if(el === undefined){
-          //           return element
-          //         }
-          //       })
-          //     }
-          //   })
-          // })
           let errorData = [];
           console.log("error flg");
           const finalProductArray = productData.map((product, rowIndex) => {
@@ -50,7 +37,6 @@ function ImportModal({ show, setShow }) {
             errorData[rowIndex] = [];
             dataStructure[1].forEach((element, index) => {
               tmpObj[element] = product[index];
-              // console.log("values =>", product[index]);
               if (
                 (!product[index] || product[index] === undefined) &&
                 dataStructure[0][index]
@@ -64,7 +50,7 @@ function ImportModal({ show, setShow }) {
           console.log("finalProductArray", finalProductArray);
           console.log("error data", errorData);
           setErrorData(errorData.filter((err) => err.length));
-          setImportedProducts(finalProductArray);
+          //   setImportedProducts(finalProductArray);
         }
         console.log(productList);
       };
@@ -140,7 +126,7 @@ function ImportModal({ show, setShow }) {
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Import products
+                          Import customers
                         </Dialog.Title>
                       </div>
                     </div>
@@ -327,13 +313,12 @@ function ImportModal({ show, setShow }) {
         </Dialog>
       </Transition.Root>
 
-      <PreviewProductModal
-        importedProducts={importedProducts}
+      <PreviewModal
         show={showPreviewModal}
-        setShow={(set) => setShowPreviewModal(set)}
+        setShow={setShowPreviewModal}
         previous={setShow}
-        setErrorData={setErrorData}
         setAddedFile={setAddedFile}
+        setErrorData={setErrorData}
       />
     </>
   );

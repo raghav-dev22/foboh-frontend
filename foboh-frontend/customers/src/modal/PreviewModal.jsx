@@ -1,17 +1,8 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ImportProductModal from "./ImportProductModal";
-// import { useNavigate } from "react-router-dom";
+import ImportCustomerModal from "./ImportCustomerModal";
 
-function PreviewProductModal({
-  show,
-  setShow,
-  importedProducts,
-  previous,
-  setErrorData,
-  setAddedFile,
-}) {
-  // const navigate = useNavigate();
+function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData }) {
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
@@ -19,8 +10,8 @@ function PreviewProductModal({
     setShow(false);
   };
   const previousModal = () => {
-    previous(true);
     setShowPreviewModal(false);
+    previous(true);
     setAddedFile(null);
     setErrorData([]);
   };
@@ -32,7 +23,7 @@ function PreviewProductModal({
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={setShow}
+          onClose={() => setShow(false)}
         >
           <Transition.Child
             as={Fragment}
@@ -68,15 +59,15 @@ function PreviewProductModal({
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Preview products
+                          Preview customer
                         </Dialog.Title>
                       </div>
                     </div>
                     <div className="mt-2">
                       <div className="my-4 rounded-md	border-y	border-r	border-l-8	border-y-custom	border-left-blue py-3 px-4 border-r-custom	">
                         <p className="text-sm font-normal">
-                          You are importing X products into FOBOH. You have
-                          chosen to overwrite any existing products that have
+                          You are importing X customer into FOBOH. You have
+                          chosen to overwrite any existing customer that have
                           the same SKU. If this preview doesn’t look right
                           please update the file and try again.
                         </p>
@@ -86,14 +77,12 @@ function PreviewProductModal({
                       style={{ height: "100px" }}
                       className="relative px-6 py-3 overflow-y-auto "
                     >
-                      {importedProducts.map((product) => (
-                        <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                          <p className="text-sm font-semibold">Title</p>
-                          <p className="text-sm font-normal text-lightGreen">
-                            {product.Title}{" "}
-                          </p>
-                        </div>
-                      ))}
+                      <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                        <p className="text-sm font-semibold">Title</p>
+                        <p className="text-sm font-normal text-lightGreen">
+                          Rising Star Riesling
+                        </p>
+                      </div>
                     </div>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
@@ -101,7 +90,9 @@ function PreviewProductModal({
                       <button
                         className=" rounded-lg	border border-inherit py-2.5	px-5 w-full"
                         type="button"
-                        onClick={() => previousModal()}
+                        onClick={() => {
+                          previousModal();
+                        }}
                       >
                         <h5 className="text-base	font-medium text-green	">
                           Back
@@ -127,7 +118,7 @@ function PreviewProductModal({
         </Dialog>
       </Transition.Root>
 
-      <ImportProductModal
+      <ImportCustomerModal
         show={showPreviewModal}
         setShow={(set) => setShowPreviewModal(set)}
       />
@@ -135,4 +126,4 @@ function PreviewProductModal({
   );
 }
 
-export default PreviewProductModal;
+export default PreviewModal;
