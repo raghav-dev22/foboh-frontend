@@ -6,7 +6,7 @@ function TableRange({ products, setProducts, setIsBulkEdit }) {
   const [selectedProducts, setSelectedProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://product-api-foboh.azurewebsites.net/api/Product/get", {
+    fetch("https://fobohwepapifbh.azurewebsites.net/api/product/GetAll", {
       method: "GET",
     })
       .then((response) => response.json())

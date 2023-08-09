@@ -59,12 +59,9 @@ const SigninNew = () => {
             setIsLoading(false);
             if (data.success) {
               console.log(data);
-              console.log(data.data[0].password);
-              localStorage.setItem("mailNickname", data.data[0].password);
-              const bytes = CryptoJS.AES.decrypt(data.data[0].password, key);
-              const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-              console.log(decryptedPassword);
-              if (decryptedPassword === values.password) {
+              const getPassword = data.data[0].password
+            
+              if (getPassword === values.password) {
                 console.log(data);
                 localStorage.setItem("userId", data.data[0].id);
                 localStorage.setItem("email", values.email);

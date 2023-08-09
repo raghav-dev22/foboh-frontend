@@ -1,6 +1,7 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportProductModal from "./ImportProductModal";
+import { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 
 function PreviewProductModal({
@@ -14,9 +15,79 @@ function PreviewProductModal({
   // const navigate = useNavigate();
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+
+  
+
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
+
+    const prod = importedProducts.map((product) => {
+      return {
+        title: product.title,
+        description: product.description,
+        productImage: product.productImageUrls,
+        globalPrice: product.globalPrice,
+        createdBy: "",
+        articleID: 0,
+        skUcode: product.SkUcode,
+        unitofMeasure: product.unitofMeasure,
+        configuration: "",
+        brand: product.brand,
+        departmentId: product.departmentId,
+        categoryId: product.categoryID,
+        subCategoryId: product.subCategoryId,
+        segmentId: product.segmentId,
+        variety: product.variety ? product.variety.split(",") : [],
+        vintage: product.vintage,
+        abv: product.abv,
+        luCcost: product.luCcost ? product.luCcost : 0,
+        buyPrice: product.buyPrice ? product.buyPrice : 0,
+        gstFlag: product.gstFlag,
+        wetFlag: product.wetFlag,
+      };
+    })
+
+    console.log("prod",prod);
+
+    // fetch(
+    //   "https://fobohwepapifbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(
+    //       importedProducts.map((product) => {
+    //         return {
+    //           title: product.title,
+    //           description: product.description,
+    //           productImage: product.productImageUrls,
+    //           globalPrice: product.globalPrice,
+    //           createdBy: "",
+    //           articleID: 0,
+    //           skUcode: product.SkUcode,
+    //           unitofMeasure: product.unitofMeasure,
+    //           configuration: "",
+    //           brand: product.brand,
+    //           departmentId: product.departmentId,
+    //           categoryId: product.categoryID,
+    //           subCategoryId: product.subCategoryId,
+    //           segmentId: product.segmentId,
+    //           variety: product.variety ? product.variety.split(",") : [],
+    //           vintage: product.vintage,
+    //           abv: product.abv,
+    //           luCcost: product.luCcost ? product.luCcost : 0,
+    //           buyPrice: product.buyPrice ? product.buyPrice : 0,
+    //           gstFlag: product.gstFlag,
+    //           wetFlag: product.wetFlag,
+    //         };
+    //       })
+    //     ),
+    //   }
+    // ).then(response => response.json())
+    // .then(data => {
+    //   console.log("Bulk-import-data-response->",data);
+    // }).catch(error => console.log(error))
+
   };
   const previousModal = () => {
     previous(true);
@@ -24,6 +95,10 @@ function PreviewProductModal({
     setAddedFile(null);
     setErrorData([]);
   };
+
+  useEffect(() => {
+    
+  }, []);
 
   return (
     <>
@@ -90,7 +165,7 @@ function PreviewProductModal({
                         <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
                           <p className="text-sm font-semibold">Title</p>
                           <p className="text-sm font-normal text-lightGreen">
-                            {product.Title}{" "}
+                            {product.title}{" "}
                           </p>
                         </div>
                       ))}

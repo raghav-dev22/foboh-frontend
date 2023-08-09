@@ -92,8 +92,10 @@ function ImportModal({ show, setShow }) {
   // const [click, setClick] = useState(0);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
-    setShowPreviewModal(true);
-    setShow(false);
+    if (addedFile && !errorData?.length) {
+      setShowPreviewModal(true);
+      setShow(false);
+    }
   };
   const cancelButtonRef = useRef(null);
 
