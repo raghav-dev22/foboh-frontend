@@ -16,8 +16,6 @@ function PreviewProductModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
-  
-
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
