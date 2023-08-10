@@ -44,48 +44,69 @@ function PreviewProductModal({
         gstFlag: product.gstFlag,
         wetFlag: product.wetFlag,
       };
-    })
+    });
 
-    console.log("prod",prod);
+    console.log("prod", prod);
 
-    // fetch(
-    //   "https://fobohwepapifbh.azurewebsites.net/api/product/CreateUpdateBulkData",
-    //   {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(
-    //       importedProducts.map((product) => {
-    //         return {
-    //           title: product.title,
-    //           description: product.description,
-    //           productImage: product.productImageUrls,
-    //           globalPrice: product.globalPrice,
-    //           createdBy: "",
-    //           articleID: 0,
-    //           skUcode: product.SkUcode,
-    //           unitofMeasure: product.unitofMeasure,
-    //           configuration: "",
-    //           brand: product.brand,
-    //           departmentId: product.departmentId,
-    //           categoryId: product.categoryID,
-    //           subCategoryId: product.subCategoryId,
-    //           segmentId: product.segmentId,
-    //           variety: product.variety ? product.variety.split(",") : [],
-    //           vintage: product.vintage,
-    //           abv: product.abv,
-    //           luCcost: product.luCcost ? product.luCcost : 0,
-    //           buyPrice: product.buyPrice ? product.buyPrice : 0,
-    //           gstFlag: product.gstFlag,
-    //           wetFlag: product.wetFlag,
-    //         };
-    //       })
-    //     ),
-    //   }
-    // ).then(response => response.json())
-    // .then(data => {
-    //   console.log("Bulk-import-data-response->",data);
-    // }).catch(error => console.log(error))
-
+    fetch(
+      "https://fobohwepapifbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify([{
+          title: "tshirt",
+          description: "string",
+          productImage: "string",
+          globalPrice: 0,
+          createdBy: "string",
+          articleID: 0,
+          skUcode: "string",
+          unitofMeasure: "string",
+          configuration: "string",
+          brand: "string",
+          departmentId: "string",
+          innerUnitofMeasure: "string",
+          award: "string",
+          categoryId: "string",
+          subCategoryId: "string",
+          segmentId: "string",
+          variety: ["string"],
+          vintage: 0,
+          abv: 0,
+          luCcost: 0,
+          buyPrice: 0,
+          gstFlag: true,
+          wetFlag: true,
+          trackInventory: true,
+          region: "string",
+          availableQty: 0,
+          stockThreshold: 0,
+          stockStatus: "string",
+          regionAvailability: ["string"],
+          productStatus: "string",
+          visibility: true,
+          minimumOrder: 0,
+          tags: ["string"],
+          countryOfOrigin: "string",
+          barcodes: "string",
+          esgStatus: "string",
+          healthRating: "string",
+          isActive: 0,
+          category: "string",
+          subCategory: "string",
+          stock: "string",
+          status: true,
+        }]),
+      }
+    )
+      .then((response) => {
+        console.log("raw response", response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Bulk-import-data-response->", data);
+      })
+      .catch((error) => console.log(error));
   };
   const previousModal = () => {
     previous(true);
@@ -94,9 +115,7 @@ function PreviewProductModal({
     setErrorData([]);
   };
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
