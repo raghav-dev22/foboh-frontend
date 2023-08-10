@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 
-function TableRange({ products, setProducts, setIsBulkEdit }) {
+function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPage }) {
   const navigate = useNavigate();
   const [selectedProducts, setSelectedProducts] = useState([]);
+  console.log(selectedPage);
 
   useEffect(() => {
-    fetch("https://fobohwepapifbh.azurewebsites.net/api/product/GetAll", {
+    fetch(`https://fobohwepapifbh.azurewebsites.net/api/product/GetAll?page=${selectedPage}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("product lists --->", data);
         setProducts(data.data);
+        const array = createArrayWithNumber(data.last_page)
+        setPages(array)
       })
       .catch((error) => console.log(error));
   }, []);

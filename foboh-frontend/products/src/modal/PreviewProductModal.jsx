@@ -44,7 +44,7 @@ function PreviewProductModal({
         gstFlag: product.gstFlag,
         wetFlag: product.wetFlag,
       };
-    })
+    });
 
     console.log("prod", prod);
 
@@ -102,34 +102,12 @@ function PreviewProductModal({
             "stock": "string",
             "status": true
           }
-          //   title: 
-          //   description: 
-          //   productImage: product.productImageUrls,
-          //   globalPrice: product.globalPrice,
-          //   createdBy: "",
-          //   articleID: 0,
-          //   skUcode: 
-          //   unitofMeasure: 
-          //   configuration: "",
-          //   brand: 
-          //   departmentId:
-          //   categoryId:
-          //   subCategoryId: 
-          //   segmentId: 
-          //   variety:
-          //   vintage:
-          //   abv: product.abv,
-          //   luCcost: product.luCcost ? product.luCcost : 0,
-          //   buyPrice: product.buyPrice ? product.buyPrice : 0,
-          //   gstFlag: product.gstFlag,
-          //   wetFlag: product.wetFlag,
-          // };
         }))
       }
-    ).then(response => response.json())
-      .then(data => {
-        console.log("Bulk-import-data-response->", data);
-      }).catch(error => console.log(error))
+    ).then(response => {
+      // navigation logic here 
+      // console.log("Bulk-import-data-response->", response);
+    }).catch(error => console.log(error))
 
   };
   const previousModal = () => {
@@ -138,11 +116,6 @@ function PreviewProductModal({
     setAddedFile(null);
     setErrorData([]);
   };
-
-  useEffect(() => {
-
-  }, []);
-
   return (
     <>
       <Transition.Root show={show} as={Fragment}>
