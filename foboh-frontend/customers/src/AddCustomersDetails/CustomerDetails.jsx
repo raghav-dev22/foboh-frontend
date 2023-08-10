@@ -12,13 +12,13 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
-  businessName: "test",
+  businessName: "",
   abn: "",
   liquorLicence: "",
   salesRepId: "",
   pricingProfileId: "",
   defaultPaymentMethodId: "",
-  defaultPaymentTerms : "",
+  defaultPaymentTerms: "",
   tags: "",
   wetLiable: true,
   orderingFirstName: "",
