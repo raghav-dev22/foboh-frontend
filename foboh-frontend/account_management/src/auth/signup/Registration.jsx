@@ -195,11 +195,7 @@ const Registration = () => {
                   value={values.mobile}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  onKeyPress={(e) => {
-                    if (isNaN(Number(e.key))) {
-                      e.preventDefault();
-                    }
-                  }}
+                  
                   style={{
                     border: errors.mobile && touched.mobile && "1px solid red",
                   }}

@@ -75,9 +75,7 @@ function PersonalDetails({ profileUri }) {
 
   console.log("Initial Values >>>", initialValues);
 
-  const handleReset = () => {
-    setValues(initialValues);
-  };
+  
 
   const {
     values,
@@ -191,6 +189,13 @@ function PersonalDetails({ profileUri }) {
   const handleInputChange = () => {
     setShow(true);
   };
+
+  const handleReset = () => {
+    setValues(initialValues);
+    setShow(false)
+  };
+
+  
 
   return (
     <>
