@@ -12,6 +12,21 @@ function SearchProduct({ products, setProducts }) {
   const [filterTextThird, setFilterTextThird] = useState(false);
   const [filterTextForth, setFilterTextForth] = useState(false);
 
+  const [filterAndSort, setFilterAndSort] = useState({
+    filter: {
+      category: [],
+      subCategory: [],
+      stock: [],
+      status: true,
+      visibility: true,
+      page: 0,
+    },
+    sort: {
+      sortBy: "",
+      sortOrder: "",
+    },
+  });
+
   const FirstDropdown = () => {
     setFilterTextFirst(!filterTextFirst);
     setFilterTextSecond(false);
@@ -66,6 +81,18 @@ function SearchProduct({ products, setProducts }) {
         }
       });
   }
+
+  const handleCategory = (e) => {
+    console.log("handleCategory", e.target.name);
+    // setFilterAndSort({
+    //   ...filterAndSort,
+    //   filter.[...category, ]
+    // })
+    toggleCategory();
+  };
+
+  const handleFilterAndSort = () => {};
+
   const processChange = debounce(() => saveInput());
 
   return (
@@ -122,7 +149,10 @@ function SearchProduct({ products, setProducts }) {
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
             </div>
-            <Sort />
+            <Sort
+              filterAndSort={filterAndSort}
+              setFilterAndSort={setFilterAndSort}
+            />
           </div>
         </div>
         <div className="flex gap-8 relative  pt-4 flex-wrap">
@@ -144,16 +174,17 @@ function SearchProduct({ products, setProducts }) {
               <div className=" z-10	left-0   w-max	 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content ">
                   <li className="py-2.5	px-4	">
-                    <div className="flex items-center" onClick={toggleCategory}>
+                    <div className="flex items-center">
                       <input
-                        defaultChecked=""
-                        id="checked-checkbox"
+                        id="Alcoholic-beverage"
                         type="checkbox"
-                        defaultValue=""
+                        name="Alcoholic beverage"
+                        value={filterTextFirst}
+                        onChange={(e) => handleCategory(e)}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Alcoholic-beverage"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Alcoholic beverage
@@ -165,13 +196,13 @@ function SearchProduct({ products, setProducts }) {
                           <div className="flex items-center">
                             <input
                               defaultChecked=""
-                              id="checked-checkbox"
+                              id="Beer"
                               type="checkbox"
                               defaultValue=""
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
-                              htmlFor="checked-checkbox"
+                              htmlFor="Beer"
                               className="ml-2 text-sm font-medium text-gray"
                             >
                               Beer
@@ -182,13 +213,13 @@ function SearchProduct({ products, setProducts }) {
                           <div className="flex items-center">
                             <input
                               defaultChecked=""
-                              id="checked-checkbox"
+                              id="Wine"
                               type="checkbox"
                               defaultValue=""
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
-                              htmlFor="checked-checkbox"
+                              htmlFor="Wine"
                               className="ml-2 text-sm font-medium text-gray"
                             >
                               Wine{" "}
@@ -199,16 +230,16 @@ function SearchProduct({ products, setProducts }) {
                           <div className="flex items-center">
                             <input
                               defaultChecked=""
-                              id="checked-checkbox"
+                              id="Spirits"
                               type="checkbox"
                               defaultValue=""
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
-                              htmlFor="checked-checkbox"
+                              htmlFor="Spirits"
                               className="ml-2 text-sm font-medium text-gray"
                             >
-                              Spirirts{" "}
+                              Spirits{" "}
                             </label>
                           </div>
                         </li>
@@ -216,13 +247,13 @@ function SearchProduct({ products, setProducts }) {
                           <div className="flex items-center">
                             <input
                               defaultChecked=""
-                              id="checked-checkbox"
+                              id="Cider"
                               type="checkbox"
                               defaultValue=""
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
-                              htmlFor="checked-checkbox"
+                              htmlFor="Cider"
                               className="ml-2 text-sm font-medium text-gray"
                             >
                               Cider{" "}
@@ -233,13 +264,13 @@ function SearchProduct({ products, setProducts }) {
                           <div className="flex items-center">
                             <input
                               defaultChecked=""
-                              id="checked-checkbox"
+                              id="Pre-mixed"
                               type="checkbox"
                               defaultValue=""
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
-                              htmlFor="checked-checkbox"
+                              htmlFor="Pre-mixed"
                               className="ml-2 text-sm font-medium text-gray"
                             >
                               Pre-mixed{" "}
@@ -250,13 +281,13 @@ function SearchProduct({ products, setProducts }) {
                           <div className="flex items-center">
                             <input
                               defaultChecked=""
-                              id="checked-checkbox"
+                              id="Other"
                               type="checkbox"
                               defaultValue=""
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
-                              htmlFor="checked-checkbox"
+                              htmlFor="Other"
                               className="ml-2 text-sm font-medium text-gray"
                             >
                               Other{" "}
@@ -271,13 +302,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Non-alcoholic-beverage"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Non-alcoholic-beverage"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Non-alcoholic beverage
@@ -289,13 +320,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Equipment"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Equipment"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Equipment
@@ -326,13 +357,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="In-stock"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="In-stock"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         In stock
@@ -344,13 +375,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Low-stock"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Low-stock"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Low stock
@@ -362,13 +393,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Out-of-stock"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Out-of-stock"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Out of stock
@@ -399,13 +430,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Active"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Active"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Active
@@ -417,13 +448,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Inactive"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Inactive"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Inactive
@@ -435,13 +466,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Archived"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Archived"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Archived
@@ -472,13 +503,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Visible"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Visible"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Visible
@@ -490,13 +521,13 @@ function SearchProduct({ products, setProducts }) {
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
-                        id="checked-checkbox"
+                        id="Hidden"
                         type="checkbox"
                         defaultValue=""
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="Hidden"
                         className="ml-2 text-sm font-medium text-gray"
                       >
                         Hidden
