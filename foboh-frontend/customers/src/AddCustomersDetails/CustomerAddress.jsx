@@ -6,7 +6,10 @@ function CustomerAddress({
   errors,
   options,
   touched,
+  setValues
 }) {
+
+  
   return (
     <>
       <div className="  ">
@@ -94,11 +97,14 @@ function CustomerAddress({
               <label
                 className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
                 htmlFor="grid-last-name"
+                
               >
                 State
               </label>
               <div className="relative">
-                <select
+                <select 
+                name="state"
+                onChange={handleChange}
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
@@ -230,14 +236,16 @@ function CustomerAddress({
             <div className="w-full md:w-1/3	 px-3 relative">
               <label
                 className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                htmlFor="grid-last-name"
+                htmlFor="billingState"
               >
                 State
               </label>
               <div className="relative">
                 <select
+                onChange={handleChange}
+                name="billingState"
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-state"
+                  id="billingState"
                 >
                   <option value="NSW">NSW</option>
                   <option value="Missouri">Missouri</option>

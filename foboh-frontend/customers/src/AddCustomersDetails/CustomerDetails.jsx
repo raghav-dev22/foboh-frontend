@@ -15,30 +15,31 @@ const initialValues = {
   businessName: "test",
   abn: "",
   liquorLicence: "",
-  salesRepId: "245",
-  pricingProfileId: "245",
-  defaultPaymentMethodId: "245",
-  tags: "245",
+  salesRepId: "",
+  pricingProfileId: "",
+  defaultPaymentMethodId: "",
+  defaultPaymentTerms : "",
+  tags: "",
   wetLiable: true,
-  orderingFirstName: "jhg",
-  orderingLastName: "jhgjh",
-  orderingMobile: "jh",
-  orderingEmail: "jkh",
-  deliveryFirstName: "fgdh",
-  deliveryLastName: "fdgh",
-  deliveryMobile: "jkjh",
-  deliveryEmail: "mg",
-  address: "hjgf",
-  apartment: "jkhgf",
-  suburb: "kljh",
-  postalCode: "kljhg",
-  state: "klj",
-  deliveryNotes: "jh",
-  billingAddress: "jhfg",
-  billingApartment: "jkj",
-  billingSuburb: "y",
-  billingPostalCode: "hgf",
-  billingState: "iuytr",
+  orderingFirstName: "",
+  orderingLastName: "",
+  orderingMobile: "",
+  orderingEmail: "",
+  deliveryFirstName: "",
+  deliveryLastName: "",
+  deliveryMobile: "",
+  deliveryEmail: "",
+  address: "",
+  apartment: "",
+  suburb: "",
+  postalCode: "",
+  state: "",
+  deliveryNotes: "",
+  billingAddress: "",
+  billingApartment: "",
+  billingSuburb: "",
+  billingPostalCode: "",
+  billingState: "",
   isActive: 0,
 };
 function CustomerDetails() {
@@ -68,6 +69,10 @@ function CustomerDetails() {
       console.log("All Vlaues>>", values);
     },
   });
+
+  console.log("All customer Vlaues>>", values);
+
+
   const finalHandleSubmit = () => {
     console.log("final vales>>>", values);
     fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
@@ -151,6 +156,7 @@ function CustomerDetails() {
             touched={touched}
             options={options}
             values={values}
+            setValues={setValues}
             handleChange={handleChange}
             handleBlur={handleBlur}
             errors={errors}
@@ -169,6 +175,7 @@ function CustomerDetails() {
             touched={touched}
             options={options}
             values={values}
+            setValues={setValues}
             handleChange={handleChange}
             handleBlur={handleBlur}
             errors={errors}

@@ -3,6 +3,7 @@ import { Combobox, Transition } from "@headlessui/react";
 import Select from "react-select";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 function CustomerDetailsFirst({
   handleChange,
   values,
@@ -10,7 +11,18 @@ function CustomerDetailsFirst({
   errors,
   options,
   touched,
+  setValues,
 }) {
+
+
+  const handleSelect = (e, name) => {
+    console.log(e, name);
+    setValues({
+      ...values,
+      [name]: e.value,
+    });
+  };
+
   return (
     <div className="">
       <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -116,13 +128,18 @@ function CustomerDetailsFirst({
         </div>
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className="  w-full relative md:w-1/2 px-3">
-            <h5 className="text-base font-medium text-green mb-3">Sales rep</h5>
+            <label className="text-base font-medium text-green mb-3">
+              Sales rep
+            </label>
             <div className=" top-16 w-full">
               <Select
+                id="salesRepId"
                 name="salesRepId"
                 options={options}
-                value={values.salesRepId}
-                onChange={handleChange}
+                value={options.find(
+                  (option) => option.value === values.salesRepId
+                )}
+                onChange={(e) => handleSelect(e, "salesRepId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
               />
@@ -134,9 +151,13 @@ function CustomerDetailsFirst({
             </h5>
             <div className=" top-16 w-full">
               <Select
+                id="pricingProfileId"
                 name="pricingProfileId"
-                value={values.pricingProfileId}
+                value={options.find(
+                  (option) => option.value === values.pricingProfileId
+                )}
                 options={options}
+                onChange={(e) => handleSelect(e, "pricingProfileId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
               />
@@ -150,9 +171,12 @@ function CustomerDetailsFirst({
             </h5>
             <div className=" top-16 w-full">
               <Select
-                name="defaultPaymentMethodId"
+                name="defaultPaymentTerms"
                 options={options}
-                value={values.defaultPaymentMethodId}
+                value={options.find(
+                  (option) => option.value === values.defaultPaymentTerms
+                )}
+                onChange={(e) => handleSelect(e, "defaultPaymentTerms")}
                 className="basic-multi-select "
                 classNamePrefix="select"
               />
@@ -165,8 +189,11 @@ function CustomerDetailsFirst({
             <div className=" top-16 w-full">
               <Select
                 name="defaultPaymentMethodId"
-                value={values.defaultPaymentMethodId}
+                value={options.find(
+                  (option) => option.value === values.defaultPaymentMethodId
+                )}
                 options={options}
+                onChange={(e) => handleSelect(e, "defaultPaymentMethodId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
               />
@@ -180,8 +207,11 @@ function CustomerDetailsFirst({
             <div className=" top-16 w-full">
               <Select
                 name="tags"
-                value={values.tags}
+                value={options.find(
+                  (option) => option.value === values.tags
+                )}
                 options={options}
+                onChange={(e) => handleSelect(e, "tags")}
                 // onChange={}
                 className="basic-multi-select "
                 classNamePrefix="select"
