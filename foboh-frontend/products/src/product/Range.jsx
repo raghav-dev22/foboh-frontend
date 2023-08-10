@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import TableRange from "./TableRange";
 import SearchProduct from "./SearchProduct";
@@ -12,8 +12,29 @@ function Range() {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
   const [pages, setPages] = useState([]);
+  const [page, setPage] = useState(1);
   const [selectedPage, setSelectedPage] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getProductList(1)
+  }, [])
+
+  const getProductList = (values) => {
+    console.log("vales>>", values)
+    fetch(`https://fobohwepapifbh.azurewebsites.net/api/product/GetAll?page=${values}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("product lists --->", data);
+        setProducts(data.data);
+        const array = createArrayWithNumber(data.last_page)
+        setPages(array)
+      })
+      .catch((error) => console.log(error));
+  }
+
   const [filterAndSort, setFilterAndSort] = useState({
     filter: {
       category: [],
@@ -36,7 +57,29 @@ function Range() {
     navigate("/dashboard/bulk-edit");
   };
 
-  console.log("range products", products);
+  const buttonClik = (type) => {
+    switch (type) {
+      case 'next':
+        let newPage = page + 1;
+        setPage(page + 1)
+        getProductList(newPage)
+        break;
+      case 'previous':
+        if (page > 0) {
+          let newPage = page - 1
+          setPage(page > 0 ? page - 1 : 1)
+          getProductList(newPage)
+        } else {
+          getProductList(1)
+        }
+        break;
+
+      default:
+        break;
+    }
+    // alert("button clikc",type)
+  }
+  // console.log("range products", products);
 
   return (
     <>
@@ -114,7 +157,7 @@ function Range() {
                 href="#"
                 className="px-4 py-2 mx-1 text-green  bg-white rounded-md cursor-not-allowed  border border-inherit"
               >
-                <div className="flex items-center -mx-1">
+                <div className="flex items-center -mx-1" onClick={() => buttonClik('previous')}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-6 h-6 mx-1 rtl:-scale-x-100"
@@ -136,7 +179,7 @@ function Range() {
                 {pages.map((page, index) => {
                   return (
                     <div
-                      onClick={() => navigate(`/dashboard/prooducts/${index+1}`)}
+                      onClick={() => navigate(`/dashboard/prooducts/${index + 1}`)}
                       className="hidden px-4 py-2 mx-1 text-green  bg-white rounded-md sm:inline  dark:text-gray-200  table-pagination "
                     >
                       {index + 1}
@@ -144,12 +187,11 @@ function Range() {
                   );
                 })}
               </div>
-
               <a
                 href="#"
                 className="px-4 py-2 mx-1 text-green  transform bg-white border border-inherit rounded-md"
               >
-                <div className="flex items-center -mx-1">
+                <div className="flex items-center -mx-1" onClick={() => buttonClik('next')}>
                   <span className="mx-1">Next</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
