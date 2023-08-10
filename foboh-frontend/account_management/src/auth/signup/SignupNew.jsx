@@ -28,12 +28,7 @@ const SignupNew = () => {
       onSubmit: (values) => {
         // const url = process.env.REACT_APP_URL;
         setIsLoading(true);
-        const key1 = "12345";
-        const encryptedPassword = CryptoJS.AES.encrypt(
-          values.password,
-          key1
-        ).toString();
-        console.log(encryptedPassword);
+        
 
         fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetUser`, {
           method: "POST",
@@ -83,7 +78,7 @@ const SignupNew = () => {
                   setIsLoading(false);
                   console.log(data);
                   localStorage.setItem("email", values.email);
-                  localStorage.setItem("password", encryptedPassword);
+                  localStorage.setItem("password", values.password);
 
                   localStorage.setItem("uniqueKey", data.key);
                   navigate(`/auth/registration-email/${data.key}`);

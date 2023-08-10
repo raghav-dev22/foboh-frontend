@@ -574,3 +574,16 @@ input[type="radio"]:checked:before {
 /* .border-inherit {
   border-color: #000;
 } */
+@media (min-width: 640px)
+{
+
+  .sm\:inline {
+      display: inline;
+  }
+}
+
+.table-pagination:hover{
+  background-color: #147d7317;
+  text-decoration: none;
+  color: #147D73
+}

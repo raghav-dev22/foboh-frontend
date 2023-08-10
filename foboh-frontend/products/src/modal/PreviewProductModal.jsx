@@ -1,6 +1,7 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportProductModal from "./ImportProductModal";
+import { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 
 function PreviewProductModal({
@@ -14,9 +15,100 @@ function PreviewProductModal({
   // const navigate = useNavigate();
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
+
+    const prod = importedProducts.map((product) => {
+      return {
+        title: product.title,
+        description: product.description,
+        productImage: product.productImageUrls,
+        globalPrice: product.globalPrice,
+        createdBy: "",
+        articleID: 0,
+        skUcode: product.SkUcode,
+        unitofMeasure: product.unitofMeasure,
+        configuration: "",
+        brand: product.brand,
+        departmentId: product.departmentId,
+        categoryId: product.categoryID,
+        subCategoryId: product.subCategoryId,
+        segmentId: product.segmentId,
+        variety: product.variety ? product.variety.split(",") : [],
+        vintage: product.vintage,
+        abv: product.abv,
+        luCcost: product.luCcost ? product.luCcost : 0,
+        buyPrice: product.buyPrice ? product.buyPrice : 0,
+        gstFlag: product.gstFlag,
+        wetFlag: product.wetFlag,
+      };
+    });
+
+    console.log("prod", prod);
+
+    fetch(
+      "https://fobohwepapifbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(importedProducts.map((product) => {
+          return {
+            "title": product.title,
+            "description": product.description,
+            "productImage": product.productImageUrls,
+            "globalPrice": parseInt(product.globalPrice),
+            "createdBy": "string",
+            "articleID": 0,
+            "skUcode": product.SkUcode,
+            "unitofMeasure": product.unitofMeasure,
+            "configuration": "",
+            "brand": product.brand,
+            "departmentId": product.departmentId,
+            "innerUnitofMeasure": "",
+            "award": "",
+            "categoryId": product.categoryID,
+            "subCategoryId": product.subCategoryId,
+            "segmentId": product.segmentId,
+            "variety": product.variety ? product.variety.split(",") : [],
+            "vintage": product.vintage,
+            "abv": 0,
+            "luCcost": product.luCcost ? parseInt(product.luCcost) : 0,
+            "buyPrice": product.buyPrice ? parseInt(product.buyPrice) : 0,
+            "gstFlag": product.gstFlag,
+            "wetFlag": product.wetFlag,
+            "trackInventory": true,
+            "region": "string",
+            "availableQty": 0,
+            "stockThreshold": 0,
+            "stockStatus": "string",
+            "regionAvailability": [
+              "string"
+            ],
+            "productStatus": "string",
+            "visibility": true,
+            "minimumOrder": 0,
+            "tags": [
+              "string"
+            ],
+            "countryOfOrigin": "string",
+            "barcodes": "string",
+            "esgStatus": "string",
+            "healthRating": "string",
+            "isActive": true,
+            "category": "string",
+            "subCategory": "string",
+            "stock": "string",
+            "status": true
+          }
+        }))
+      }
+    ).then(response => {
+      // navigation logic here 
+      // console.log("Bulk-import-data-response->", response);
+    }).catch(error => console.log(error))
+
   };
   const previousModal = () => {
     previous(true);
@@ -24,7 +116,6 @@ function PreviewProductModal({
     setAddedFile(null);
     setErrorData([]);
   };
-
   return (
     <>
       <Transition.Root show={show} as={Fragment}>
@@ -90,7 +181,7 @@ function PreviewProductModal({
                         <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
                           <p className="text-sm font-semibold">Title</p>
                           <p className="text-sm font-normal text-lightGreen">
-                            {product.Title}{" "}
+                            {product.title}{" "}
                           </p>
                         </div>
                       ))}
