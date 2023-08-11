@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { SignUpSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import Verifyemail from "./Verifyemail";
 
 function Signup() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const initialValues = {
     name: "",
     email: "",
@@ -208,6 +208,7 @@ function Signup() {
                   {/* Submit button */}
                   {/* <Link to="/verify-email"> */}
                   <button
+                    onClick={() => navigate("/create-account")}
                     type="submit"
                     className="login-btn bg-custom-blue rounded-md	w-full p-2.5	"
                     // onClick={() => navigate("/verify-email")}
