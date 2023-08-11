@@ -522,7 +522,7 @@ function CustomerTable() {
             </td>
             <td className="px-6 py-4">
               {" "}
-              {isActive === 1 ?
+              {item?.IsActive === 1 ?
                 <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-32		px-3">
                   <p className="text-green-dark font-normal		text-sm	">Active</p>
                 </div> :

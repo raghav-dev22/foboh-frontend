@@ -12,13 +12,13 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
-  businessName: "",
+  businessName: "test",
   abn: "",
   liquorLicence: "",
   salesRepId: "",
   pricingProfileId: "",
   defaultPaymentMethodId: "",
-  defaultPaymentTerms: "",
+  defaultPaymentTerms : "",
   tags: "",
   wetLiable: true,
   orderingFirstName: "",
@@ -86,8 +86,8 @@ function CustomerDetails() {
       .then((data) => {
         console.log("Customer added>>", data);
         if (data.success) {
-          console.log("navigate");
-          navigate("/dashboard/customers/");
+          console.log("navigate")
+          navigate('/dashboard/customers/')
         }
       })
       .catch((error) => console.log(error));
@@ -99,7 +99,7 @@ function CustomerDetails() {
           activeStep={activeStep}
           isLastStep={(value) => {
             // console.log("last is>>", value)
-            setIsLastStep(value);
+            setIsLastStep(value)
           }}
           isFirstStep={(value) => setIsFirstStep(value)}
         >
@@ -189,22 +189,20 @@ function CustomerDetails() {
           >
             Prev
           </Button>
-          {isLastStep ? (
+          {isLastStep ?
             <Button
               className="py-3.5 px-7 rounded-md	bg-custom-skyBlue	"
               onClick={finalHandleSubmit}
             >
               Submit
-            </Button>
-          ) : (
+            </Button> :
             <Button
               className="py-3.5 px-7 rounded-md	bg-custom-skyBlue	"
               onClick={handleNext}
               disabled={isLastStep}
             >
               Next
-            </Button>
-          )}
+            </Button>}
         </div>
       </form>
     </>

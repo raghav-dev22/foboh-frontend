@@ -28,7 +28,7 @@ function PreviewProductModal({
         globalPrice: product.globalPrice,
         createdBy: "",
         articleID: 0,
-        skUcode: product.skUcode,
+        skUcode: product.SkUcode,
         unitofMeasure: product.unitofMeasure,
         configuration: "",
         brand: product.brand,
@@ -53,61 +53,62 @@ function PreviewProductModal({
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          importedProducts.map((product) => {
-            return {
-              title: product.title,
-              description: product.description,
-              productImage: product.productImageUrls,
-              globalPrice: parseInt(product.globalPrice),
-              createdBy: "string",
-              articleID: 0,
-              skUcode: product.skUcode,
-              unitofMeasure: product.unitofMeasure,
-              configuration: "",
-              brand: product.brand,
-              departmentId: product.departmentId,
-              innerUnitofMeasure: "",
-              award: "",
-              categoryId: product.categoryID,
-              subCategoryId: product.subCategoryId,
-              segmentId: product.segmentId,
-              variety: product.variety ? product.variety.split(",") : [],
-              vintage: product.vintage,
-              abv: 0,
-              luCcost: product.luCcost ? parseInt(product.luCcost) : 0,
-              buyPrice: product.buyPrice ? parseInt(product.buyPrice) : 0,
-              gstFlag: product.gstFlag,
-              wetFlag: product.wetFlag,
-              trackInventory: true,
-              region: "string",
-              availableQty: product.availableQty,
-              stockThreshold: 0,
-              stockStatus: product.productStatus,
-              regionAvailability: ["string"],
-              productStatus: "string",
-              visibility: product.visibility,
-              minimumOrder: 0,
-              tags: ["string"],
-              countryOfOrigin: "string",
-              barcodes: "string",
-              esgStatus: "string",
-              healthRating: "string",
-              isActive: true,
-              category: "string",
-              subCategory: "string",
-              stock: "string",
-              status: true,
-            };
-          })
-        ),
+        body: JSON.stringify(importedProducts.map((product) => {
+          return {
+            "title": product.title,
+            "description": product.description,
+            "productImage": product.productImageUrls,
+            "globalPrice": parseInt(product.globalPrice),
+            "createdBy": "string",
+            "articleID": 0,
+            "skUcode": product.SkUcode,
+            "unitofMeasure": product.unitofMeasure,
+            "configuration": "",
+            "brand": product.brand,
+            "departmentId": product.departmentId,
+            "innerUnitofMeasure": "",
+            "award": "",
+            "categoryId": product.categoryID,
+            "subCategoryId": product.subCategoryId,
+            "segmentId": product.segmentId,
+            "variety": product.variety ? product.variety.split(",") : [],
+            "vintage": product.vintage,
+            "abv": 0,
+            "luCcost": product.luCcost ? parseInt(product.luCcost) : 0,
+            "buyPrice": product.buyPrice ? parseInt(product.buyPrice) : 0,
+            "gstFlag": product.gstFlag,
+            "wetFlag": product.wetFlag,
+            "trackInventory": true,
+            "region": "string",
+            "availableQty": 0,
+            "stockThreshold": 0,
+            "stockStatus": "string",
+            "regionAvailability": [
+              "string"
+            ],
+            "productStatus": "string",
+            "visibility": true,
+            "minimumOrder": 0,
+            "tags": [
+              "string"
+            ],
+            "countryOfOrigin": "string",
+            "barcodes": "string",
+            "esgStatus": "string",
+            "healthRating": "string",
+            "isActive": true,
+            "category": "string",
+            "subCategory": "string",
+            "stock": "string",
+            "status": true
+          }
+        }))
       }
-    )
-      .then((response) => {
-        // navigation logic here
-        // console.log("Bulk-import-data-response->", response);
-      })
-      .catch((error) => console.log(error));
+    ).then(response => {
+      // navigation logic here 
+      // console.log("Bulk-import-data-response->", response);
+    }).catch(error => console.log(error))
+
   };
   const previousModal = () => {
     previous(true);

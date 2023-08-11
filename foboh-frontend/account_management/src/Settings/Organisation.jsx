@@ -20,10 +20,39 @@ import {
 import { updateUserData } from "../Redux/Action/userSlice";
 
 export const options = [
-  { value: 1234, label: "Alcoholic beverage" },
-  { value: 2345, label: "Non-alcoholic beverage" },
-  { value: 3456, label: "Equipment" },
+  { value: 1234, label: "Chocolate" },
+  { value: 2345, label: "Strawberry" },
+  { value: 3456, label: "Vanilla" },
 ];
+
+const initialValues = {
+  tradingName: "",
+  businessName: "",
+  abn: "",
+  liquorLicence: "",
+  organisationAddress: "",
+  organisationAddressApartment: "",
+  organisationAddressSuburb: "",
+  organisationAddressPostcode: "",
+  billingAddress: "",
+  billingAddressApartment: "",
+  billingAddressSuburb: "",
+  billingAddressPostcode: "",
+  billingAddressState: "",
+  orderingContactFirstName: "",
+  orderingContactLastName: "",
+  orderingContactEmail: "",
+  orderingContactMobile: "",
+  LogisticsContactFirstName: "",
+  LogisticsContactLastName: "",
+  LogisticsContactEmail: "",
+  LogisticsContactMobile: "",
+  categories: [],
+  description: "",
+  state: "",
+  postcode: "",
+  categoryList: [],
+};
 
 function Organisation() {
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -34,34 +63,6 @@ function Organisation() {
   const [showError, setShowError] = useState();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [initialValues, setInitialValues] = useState({
-    tradingName: "",
-    businessName: "",
-    abn: "",
-    liquorLicence: "",
-    organisationAddress: "",
-    organisationAddressApartment: "",
-    organisationAddressSuburb: "",
-    organisationAddressPostcode: "",
-    billingAddress: "",
-    billingAddressApartment: "",
-    billingAddressSuburb: "",
-    billingAddressPostcode: "",
-    billingAddressState: "",
-    orderingContactFirstName: "",
-    orderingContactLastName: "",
-    orderingContactEmail: "",
-    orderingContactMobile: "",
-    LogisticsContactFirstName: "",
-    LogisticsContactLastName: "",
-    LogisticsContactEmail: "",
-    LogisticsContactMobile: "",
-    categories: [],
-    description: "",
-    state: "",
-    postcode: "",
-    categoryList: [],
-  });
 
   const {
     values,
@@ -122,34 +123,6 @@ function Organisation() {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            setInitialValues({
-              tradingName: values.tradingName,
-              businessName: values.businessName,
-              abn: values.abn,
-              liquorLicence: values.liquorLicence,
-              organisationAddress: values.organisationAddress,
-              organisationAddressApartment: values.organisationAddressApartment,
-              organisationAddressSuburb: values.organisationAddressSuburb,
-              organisationAddressPostcode: values.organisationAddressPostcode,
-              billingAddress: values.billingAddress,
-              billingAddressApartment: values.billingAddressApartment,
-              billingAddressSuburb: values.billingAddressSuburb,
-              billingAddressPostcode: values.billingAddressPostcode,
-              billingAddressState: values.billingAddressState,
-              orderingContactFirstName: values.orderingContactFirstName,
-              orderingContactLastName: values.orderingContactLastName,
-              orderingContactEmail: values.orderingContactEmail,
-              orderingContactMobile: values.orderingContactMobile,
-              LogisticsContactFirstName: values.LogisticsContactFirstName,
-              LogisticsContactLastName: values.LogisticsContactLastName,
-              LogisticsContactEmail: values.LogisticsContactEmail,
-              LogisticsContactMobile: values.LogisticsContactMobile,
-              categories: "",
-              description: values.description,
-              state: values.state,
-              postcode: values.postcode,
-              categoryList: values.categoryList,
-            });
             if (data.success) {
               const organisationID = data.data.organisationID;
               console.log("organisationID =>", organisationID);
@@ -237,37 +210,8 @@ function Organisation() {
         )
           .then((response) => response.json())
           .then((data) => {
-            
             console.log(data);
             if (data.success) {
-              setInitialValues({
-                tradingName: values.tradingName,
-                businessName: values.businessName,
-                abn: values.abn,
-                liquorLicence: values.liquorLicence,
-                organisationAddress: values.organisationAddress,
-                organisationAddressApartment: values.organisationAddressApartment,
-                organisationAddressSuburb: values.organisationAddressSuburb,
-                organisationAddressPostcode: values.organisationAddressPostcode,
-                billingAddress: values.billingAddress,
-                billingAddressApartment: values.billingAddressApartment,
-                billingAddressSuburb: values.billingAddressSuburb,
-                billingAddressPostcode: values.billingAddressPostcode,
-                billingAddressState: values.billingAddressState,
-                orderingContactFirstName: values.orderingContactFirstName,
-                orderingContactLastName: values.orderingContactLastName,
-                orderingContactEmail: values.orderingContactEmail,
-                orderingContactMobile: values.orderingContactMobile,
-                LogisticsContactFirstName: values.LogisticsContactFirstName,
-                LogisticsContactLastName: values.LogisticsContactLastName,
-                LogisticsContactEmail: values.LogisticsContactEmail,
-                LogisticsContactMobile: values.LogisticsContactMobile,
-                categories: "",
-                description: values.description,
-                state: values.state,
-                postcode: values.postcode,
-                categoryList: values.categoryList,
-              });
               setShow(false);
             }
           })
@@ -452,7 +396,6 @@ function Organisation() {
 
   const handleReset = () => {
     setShow(false);
-    setValues(initialValues)
   };
 
   const handleFormChange = () => {
@@ -833,13 +776,8 @@ function Organisation() {
                             >
                               <option value={""}>Select a state</option>
                               <option value={"NSW"}>NSW</option>
-                              <option value={"VIC"}>VIC</option>
-                              <option value={"QLD"}>QLD</option>
-                              <option value={"WA"}>WA</option>
-                              <option value={"SA"}>SA</option>
-                              <option value={"TAS"}>TAS</option>
-                              <option value={"ACT"}>ACT</option>
-                              <option value={"NT"}>NT</option>
+                              <option value={"Missouri"}>Missouri</option>
+                              <option value={"Texas"}>Texas</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                               <svg
@@ -1038,13 +976,8 @@ function Organisation() {
                             >
                               <option value={""}>Select a state</option>
                               <option value={"NSW"}>NSW</option>
-                              <option value={"VIC"}>VIC</option>
-                              <option value={"QLD"}>QLD</option>
-                              <option value={"WA"}>WA</option>
-                              <option value={"SA"}>SA</option>
-                              <option value={"TAS"}>TAS</option>
-                              <option value={"ACT"}>ACT</option>
-                              <option value={"NT"}>NT</option>
+                              <option value={"Missouri"}>Missouri</option>
+                              <option value={"Texas"}>Texas</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                               <svg
@@ -1074,16 +1007,12 @@ function Organisation() {
                   <div className="px-6 py-7">
                     <div className="flex justify-start gap-3 items-center">
                       <div className="update-user rounded-full">
-                        {logoUri ? (
-                          <img
-                            id="previewImage"
-                            src={logoUri || defaultImage}
-                            alt=""
-                            className="w-[187px]	h-[58px]	object-cover"
-                          />
-                        ) : (
-                          <div className="w-[187px] h-[58px] bg-[#D9D9D9]"></div>
-                        )}
+                        <img
+                          id="previewImage"
+                          src={logoUri || defaultImage}
+                          alt=""
+                          className="w-[187px]	h-[58px]	object-cover"
+                        />
                       </div>
                       <div className="">
                         <h6 className="font-normal text-base text-green">

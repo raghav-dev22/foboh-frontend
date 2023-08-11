@@ -58,7 +58,7 @@ const RegistrationEmail = () => {
             <h2 className="mb-6   text-[20px] font-bold leading-tight text-[#147D73] font-inter md:text-3xl">
               Verify your email
             </h2>
-            <p className="text-[#637381] text-[16px] font-inter leading-[20px]  my-4 flex-shrink-0 tracking-tight text-center">Almost there! An email containing the your your verification link<br />was sent to <span onClick={handleEmailLink} className='text-[#147D73] cursor-pointer underline'>{email}</span></p>
+            <p className="text-[#637381] text-[16px] font-inter leading-[20px]  my-4 flex-shrink-0 tracking-tight text-center">Almost there! An email containing the your<br />password reset link was sent to <span onClick={handleEmailLink} className='text-[#147D73] cursor-pointer underline'>{email}</span></p>
             <p className="text-[#637381] text-[16px] font-inter leading-[20px]  my-4 flex-shrink-0 tracking-tight text-center">Didn’t receive an email? Please double check  <br /> that you entered the correct email address and check your spam folder. </p>
             <p className="text-[#637381] text-[16px] font-inter leading-[20px] my-4 flex-shrink-0 tracking-tight text-center">Still no luck? <span onClick={handleResendLink} className='font-semibold cursor-pointer text-[#147D73]'>Resend email</span></p>
           </div>
