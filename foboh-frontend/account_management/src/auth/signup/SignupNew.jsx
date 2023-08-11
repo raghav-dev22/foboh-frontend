@@ -136,7 +136,7 @@ const SignupNew = () => {
             setEmailPresent(true);
           }
         } else {
-          navigate("/");
+          navigate("/dashboard/main");
         }
       })
       .catch((error) => console.log(error));
