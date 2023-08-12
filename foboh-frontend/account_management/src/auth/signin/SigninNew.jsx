@@ -59,6 +59,8 @@ const SigninNew = () => {
             setIsLoading(false);
             if (data.success) {
               console.log(data);
+              console.log("pass", data.data[0].password);
+              console.log("values pass", values.password);
               const getPassword = data.data[0].password
             
               if (getPassword === values.password) {
