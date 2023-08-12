@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Filter({filterAndSort, setFilterAndSort}) {
+function Filter() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

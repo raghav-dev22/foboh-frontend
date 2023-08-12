@@ -2,15 +2,15 @@ import React from 'react'
 import ViewCustomerHeader from "../ViewCustomer/ViewCustomerHeader"
 import CustomerAddress from '../ViewCustomer/CustomerAddress'
 import OrderDetails from '../ViewCustomer/OrderDetails'
-import {useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 function ViewCustomer() {
   const location = useLocation();
-  console.log("location>>",location?.state?.data)
+  console.log("location>>", location?.state?.data)
   return (
     <div className='px-6'>
-  <ViewCustomerHeader/>
-  <CustomerAddress/>
-  <OrderDetails data={location?.state?.data}/>
+      <ViewCustomerHeader />
+      <CustomerAddress />
+      <OrderDetails data={location?.state?.data} />
     </div>
   )
 }
