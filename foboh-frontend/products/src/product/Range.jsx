@@ -19,6 +19,7 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
+import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 const TABLE_HEAD = ["Title", "Code", "Configuration", "Price", "Stock level", " Status"];
 function Range() {
   const [isBulkEdit, setIsBulkEdit] = useState(false);

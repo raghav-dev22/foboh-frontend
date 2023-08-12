@@ -1,16 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Sort from "./Sort";
 
+const stock = [
+  { label: "In Stock", value: "inStock" },
+  { label: "Low Stock", value: "lowStock" },
+  { label: "Out of Stock", value: "outOfStock" },
+];
+
+const status = [
+  { label: "Active", value: "active" },
+  { label: "Inactive", value: "inActive" },
+  { label: "Archived", value: "archived" },
+];
+
 function SearchProduct({ products, setProducts }) {
   const [Open, setOpen] = useState(false);
-  const toggleCategory = () => {
-    setOpen(!Open);
-  };
   const [filterTextFirst, setFilterTextFirst] = useState(false);
   const [filterTextSecond, setFilterTextSecond] = useState(false);
   const [filterTextThird, setFilterTextThird] = useState(false);
   const [filterTextForth, setFilterTextForth] = useState(false);
+  const [input, setInput] = useState("");
+  const [selectedCatId, setSelectedCatId] = useState([]);
+  const [categoryAndSubcategory, setCategoryAndSubcategory] = useState([]);
+  const [selectedSubcatId, setSelectedSubcatId] = useState([]);
+  const [filterAndSort, setFilterAndSort] = useState({
+    filter: {
+      category: [],
+      subcategory: [],
+      stock: [],
+      status: false,
+      visibility: false,
+      page: 0,
+    },
+    sort: {
+      sortBy: "",
+      sortOrder: "",
+    },
+  });
 
   const FirstDropdown = () => {
     setFilterTextFirst(!filterTextFirst);
@@ -36,7 +63,44 @@ function SearchProduct({ products, setProducts }) {
     setFilterTextThird(false);
     setFilterTextForth(!filterTextForth);
   };
-  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/ShowCategorySubcategory`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Category and Subcategory >>", data);
+
+        console.log(
+          "cat drop",
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+
+        setCategoryAndSubcategory(
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -68,6 +132,73 @@ function SearchProduct({ products, setProducts }) {
   }
   const processChange = debounce(() => saveInput());
 
+  const toggleCategoryAndSubcategory = (e, id, name) => {
+    if (name === "category") {
+      setOpen(!Open);
+
+      const newCategoryIds = e.target.checked
+        ? [...filterAndSort.filter.category, id]
+        : filterAndSort.filter.category.filter((catId) => catId !== id);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        category: newCategoryIds,
+      };
+
+      setFilterAndSort((prevState) => ({
+        ...prevState,
+        filter: newFilter,
+      }));
+    } else if (name === "subcategory") {
+      const newSubcategoryIds = e.target.checked
+        ? [...filterAndSort.filter.subcategory, id]
+        : filterAndSort.filter.subcategory.filter(
+            (subcatId) => subcatId !== id
+          );
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        subcategory: newSubcategoryIds,
+      };
+
+      setFilterAndSort((prevState) => ({
+        ...prevState,
+        filter: newFilter,
+      }));
+    } else if (name === "stock") {
+      const newStockValues = e.target.checked
+        ? [...filterAndSort.filter.stock, id]
+        : filterAndSort.filter.stock.filter((stockValue) => stockValue !== id);
+
+      console.log("stock", newStockValues);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        stock: newStockValues,
+      };
+
+      setFilterAndSort((prevState) => ({
+        ...prevState,
+        filter: newFilter,
+      }));
+    } else if (name === "status") {
+      const newStatusValues = e.target.checked
+        ? [...filterAndSort.filter.status, id] // Replace id with the actual status value
+        : filterAndSort.filter.status.filter(
+            (statusValue) => statusValue !== id
+          );
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        status: newStatusValues,
+      };
+
+      setFilterAndSort((prevState) => ({
+        ...prevState,
+        filter: newFilter,
+      }));
+    }
+  };
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -143,165 +274,62 @@ function SearchProduct({ products, setProducts }) {
             {filterTextFirst && (
               <div className=" z-10	left-0   w-max	 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content ">
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center" onClick={toggleCategory}>
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Alcoholic beverage
-                      </label>
-                    </div>
-                    {Open && (
-                      <ul className="dropdown-content 	 ">
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="checked-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="checked-checkbox"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Beer
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="checked-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="checked-checkbox"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Wine{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="checked-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="checked-checkbox"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Spirirts{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="checked-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="checked-checkbox"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Cider{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="checked-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="checked-checkbox"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Pre-mixed{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="checked-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="checked-checkbox"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Other{" "}
-                            </label>
-                          </div>
-                        </li>
-                      </ul>
-                    )}
-                  </li>
-
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Non-alcoholic beverage
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4 	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Equipment
-                      </label>
-                    </div>
-                  </li>
+                  {categoryAndSubcategory &&
+                    categoryAndSubcategory.map((category, idx) => (
+                      <li className="py-2.5	px-4	">
+                        <div className="flex items-center">
+                          <input
+                            id={idx}
+                            type="checkbox"
+                            value={category.categoryId}
+                            onClick={(e) =>
+                              toggleCategoryAndSubcategory(
+                                e,
+                                category.categoryId,
+                                "category"
+                              )
+                            }
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor={idx}
+                            className="ml-2 text-sm font-medium text-gray"
+                          >
+                            {category.categoryName}
+                          </label>
+                        </div>
+                        <ul className="dropdown-content">
+                          {category.subcategory.map((subcat) => (
+                            <>
+                              {selectedCatId.includes(category.categoryId) && (
+                                <li className="py-2.5	px-4	">
+                                  <div className="flex items-center">
+                                    <input
+                                      id={subcat.id}
+                                      type="checkbox"
+                                      onClick={(e) =>
+                                        toggleCategoryAndSubcategory(
+                                          e,
+                                          subcat.id,
+                                          "subcategory"
+                                        )
+                                      }
+                                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <label
+                                      htmlFor={subcat.id}
+                                      className="ml-2 text-sm font-medium text-gray"
+                                    >
+                                      {subcat.name}
+                                    </label>
+                                  </div>
+                                </li>
+                              )}
+                            </>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
                 </ul>
               </div>
             )}
@@ -322,59 +350,27 @@ function SearchProduct({ products, setProducts }) {
             {filterTextSecond && (
               <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content 	 ">
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        In stock
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Low stock
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4 	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Out of stock
-                      </label>
-                    </div>
-                  </li>
+                  {stock.map((ele, idx) => (
+                    <li className="py-2.5	px-4	">
+                      <div className="flex items-center">
+                        <input
+                          id={`${ele.label}-${idx}`}
+                          type="checkbox"
+                          value={ele.value}
+                          onClick={(e) =>
+                            toggleCategoryAndSubcategory(e, ele.value, "stock")
+                          }
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={`${ele.label}-${idx}`}
+                          className="ml-2 text-sm font-medium text-gray"
+                        >
+                          {ele.label}
+                        </label>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -395,6 +391,24 @@ function SearchProduct({ products, setProducts }) {
             {filterTextThird && (
               <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content 	 ">
+                  {status.map((sts) => (
+                    <li className="py-2.5	px-4	">
+                      <div className="flex items-center">
+                        <input
+                          id={sts.value}
+                          type="checkbox"
+                          value={sts.value}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={sts.value}
+                          className="ml-2 text-sm font-medium text-gray"
+                        >
+                          {sts.label}
+                        </label>
+                      </div>
+                    </li>
+                  ))}
                   <li className="py-2.5	px-4	">
                     <div className="flex items-center">
                       <input
