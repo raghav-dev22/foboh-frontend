@@ -25,9 +25,9 @@ function Range() {
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
+  const [prevProducts, setPrevProducts] = useState([])
   const [pages, setPages] = useState([]);
   const [page, setPage] = useState(1);
-  const [selectedPage, setSelectedPage] = useState(0);
   const navigate = useNavigate();
 
   const TABLE_ROWS = [
@@ -96,6 +96,7 @@ function Range() {
       .then((data) => {
         console.log("product lists --->", data);
         setProducts(data.data);
+        setPrevProducts(data.data)
         const array = createArrayWithNumber(data.last_page)
         setPages(array)
       })
@@ -163,7 +164,7 @@ function Range() {
       <ActiveProduct />
       <div className="   ">
         <div className="box-3 px-6 ">
-          <SearchProduct setProducts={setProducts} products={products} />
+          <SearchProduct setProducts={setProducts} products={products} prevProducts={prevProducts} />
         </div>
         <CardBody className="overflow-scroll px-0">
           <table className="w-full min-w-max table-auto text-left">
