@@ -32,7 +32,7 @@ function Range() {
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
-  const [prevProducts, setPrevProducts] = useState([])
+  const [prevProducts, setPrevProducts] = useState([]);
   const [pages, setPages] = useState([]);
   const [page, setPage] = useState(1);
   const [selectedPage, setSelectedPage] = useState(0);
@@ -108,9 +108,9 @@ function Range() {
       .then((data) => {
         console.log("product lists --->", data);
         setProducts(data.data);
-        setPrevProducts(data.data)
-        const array = createArrayWithNumber(data.last_page)
-        setPages(array)
+        setPrevProducts(data.data);
+        const array = createArrayWithNumber(data.last_page);
+        setPages(array);
       })
       .catch((error) => console.log(error));
   };
@@ -160,6 +160,7 @@ function Range() {
   };
   // console.log("range products", products);
   const handleCheckbox = (product) => {
+    setIsBulkEdit(true);
     console.log("prod :->", product);
     setSelectedProducts(product);
     console.log(selectedProducts, "setSelectedProducts");
@@ -177,9 +178,13 @@ function Range() {
       <ActiveProduct />
       <div className="   ">
         <div className="box-3 px-6 ">
-          <SearchProduct setProducts={setProducts} products={products} prevProducts={prevProducts} />
+          <SearchProduct
+            setProducts={setProducts}
+            products={products}
+            prevProducts={prevProducts}
+          />
         </div>
-        <div className="pt-6 px-6 ">
+        <div className="pt-6 px-6 relative">
           <div className="box-4 relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -344,6 +349,41 @@ function Range() {
               </Button>
             </CardFooter>
           </div>
+          {isBulkEdit ? (
+            <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
+              <button
+                onClick={handleBulkEdit}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              >
+                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
+                  Bulk edit{" "}
+                </h6>
+              </button>
+
+              <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                  Set as Visible{" "}
+                </h6>
+              </button>
+
+              <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                  Set as Hidden{" "}
+                </h6>
+              </button>
+
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setIsBulkEdit(false);
+                }}
+              >
+                <CloseIcon />
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         {/* <div className="box-4 pt-6 px-6 relative">
           <div className="relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
