@@ -19,7 +19,7 @@ const sort = [
   },
   {
     label: "Stock level",
-    key : "stockLevel",
+    key : "stock",
     value: {
       asc: "Lowest to highest",
       desc: "Highest to lowest",
@@ -35,9 +35,8 @@ const sort = [
   },
 ];
 
-function Filter({ filterAndSort, setFilterAndSort, processChange }) {
+function Filter({ handleSortChange, itemLabel, filterAndSort }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [itemLabel, setItemLabel] = useState("");
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -63,19 +62,7 @@ function Filter({ filterAndSort, setFilterAndSort, processChange }) {
     });
   };
 
-  const handleSortChange = (sortBy, sortOrder) => {
-    console.log(sortBy, sortOrder);
-    setItemLabel(sortBy);
-    setFilterAndSort((prevState) => ({
-      ...prevState,
-      sort: {
-        sortBy: sortBy,
-        sortOrder: sortOrder,
-      },
-    }));
-    processChange("filterAndSort")
-    console.log("val", filterAndSort);
-  };
+  
 
   return (
     <>

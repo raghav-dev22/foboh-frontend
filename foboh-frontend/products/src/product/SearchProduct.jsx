@@ -9,10 +9,25 @@ const stock = [
 ];
 
 const status = [
-  { label: "Active", value: "active" },
-  { label: "Inactive", value: "inActive" },
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "inactive" },
   { label: "Archived", value: "archived" },
 ];
+
+let filterAndSort = {
+  filter: {
+    category: [],
+    subcategory: [],
+    stock: [],
+    productStatus: [],
+    visibility: true,
+    page: 0,
+  },
+  sort: {
+    sortBy: "",
+    sortOrder: "asc",
+  },
+};
 
 function SearchProduct({ products, setProducts, prevProducts }) {
   const [Open, setOpen] = useState(false);
@@ -24,20 +39,9 @@ function SearchProduct({ products, setProducts, prevProducts }) {
   const [selectedCatId, setSelectedCatId] = useState([]);
   const [categoryAndSubcategory, setCategoryAndSubcategory] = useState([]);
   const [selectedSubcatId, setSelectedSubcatId] = useState([]);
-  const [filterAndSort, setFilterAndSort] = useState({
-    filter: {
-      category: [],
-      subcategory: [],
-      stock: [],
-      productStatus: [],
-      visibility: true,
-      page: 0,
-    },
-    sort: {
-      sortBy: "",
-      sortOrder: "asc",
-    },
-  });
+  const [itemLabel, setItemLabel] = useState("");
+
+
 
   const FirstDropdown = () => {
     setFilterTextFirst(!filterTextFirst);
@@ -131,7 +135,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
         .then((response) => response.json())
         .then((data) => {
           setProducts(data.data);
-          console.log("filter data table",data.data);
+          console.log("filter data table", data.data);
         })
         .catch((error) => console.log(error));
     } else {
@@ -154,6 +158,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
   const processChange = debounce((name) => saveInput(name));
 
   const toggleCategoryAndSubcategory = (e, id, name) => {
+    console.log(id, name);
     if (name === "category") {
       setOpen(!Open);
 
@@ -166,10 +171,12 @@ function SearchProduct({ products, setProducts, prevProducts }) {
         category: newCategoryIds,
       };
 
-      setFilterAndSort((prevState) => ({
-        ...prevState,
+      filterAndSort = {
+        ...filterAndSort,
         filter: newFilter,
-      }));
+      };
+
+    
     } else if (name === "subcategory") {
       const newSubcategoryIds = e.target.checked
         ? [...filterAndSort.filter.subcategory, id]
@@ -182,10 +189,12 @@ function SearchProduct({ products, setProducts, prevProducts }) {
         subcategory: newSubcategoryIds,
       };
 
-      setFilterAndSort((prevState) => ({
-        ...prevState,
+      filterAndSort = {
+        ...filterAndSort,
         filter: newFilter,
-      }));
+      };
+
+      
     } else if (name === "stock") {
       const newStockValues = e.target.checked
         ? [...filterAndSort.filter.stock, id]
@@ -198,10 +207,12 @@ function SearchProduct({ products, setProducts, prevProducts }) {
         stock: newStockValues,
       };
 
-      setFilterAndSort((prevState) => ({
-        ...prevState,
+      filterAndSort = {
+        ...filterAndSort,
         filter: newFilter,
-      }));
+      };
+
+    
     } else if (name === "status") {
       const newStatusValues = e.target.checked
         ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
@@ -214,10 +225,12 @@ function SearchProduct({ products, setProducts, prevProducts }) {
         productStatus: newStatusValues,
       };
 
-      setFilterAndSort((prevState) => ({
-        ...prevState,
+      filterAndSort = {
+        ...filterAndSort,
         filter: newFilter,
-      }));
+      };
+
+      
     } else if (name === "visibility") {
       const newVisibilityValue = id ? true : false;
       const newFilter = {
@@ -225,16 +238,33 @@ function SearchProduct({ products, setProducts, prevProducts }) {
         visibility: newVisibilityValue,
       };
 
-      setFilterAndSort((prevState) => ({
-        ...prevState,
+      filterAndSort = {
+        ...filterAndSort,
         filter: newFilter,
-      }));
+      };
+
     }
     console.log(filterAndSort);
-    if (name !== "category") {
-      processChange("filterAndSort");
-    }
+
+    processChange("filterAndSort");
   };
+
+  const handleSortChange = (sortBy, sortOrder) => {
+    console.log(sortBy, sortOrder);
+    setItemLabel(sortBy);
+
+    filterAndSort = {
+      ...filterAndSort,
+      sort: {
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      },
+    };
+
+    processChange("filterAndSort");
+    console.log("val", filterAndSort);
+  };
+
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -289,11 +319,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
             </div>
-            <Sort
-              filterAndSort={filterAndSort}
-              setFilterAndSort={setFilterAndSort}
-              processChange={processChange}
-            />
+            <Sort filterAndSort={filterAndSort} itemLabel={itemLabel} handleSortChange={handleSortChange} />
           </div>
         </div>
         <div className="flex gap-8 relative  pt-4 flex-wrap">
@@ -431,8 +457,8 @@ function SearchProduct({ products, setProducts, prevProducts }) {
               </div>
             </div>
             {filterTextThird && (
-              <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
-                <ul className="dropdown-content 	 ">
+              <div className="z-10 left-0 w-60 absolute product-dropdown bg-white	shadow-md rounded-lg h-fit py-3	">
+                <ul className="dropdown-content">
                   {status.map((sts) => (
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
