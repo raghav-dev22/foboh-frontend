@@ -5,70 +5,111 @@ import ActiveCustomers from "./ActiveCustomers";
 import SearchCustomer from "./SearchCustomer";
 import CustomerTable from "./CustomerTable";
 import {
-  Card,
-  CardHeader,
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
-  Avatar,
   IconButton,
-  Tooltip,
-  Input,
 } from "@material-tailwind/react";
-const TABLE_HEAD = ["Name", "Contact", "Region", "Status", "Orders", " Amount Spent"];
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
+const TABLE_HEAD = ["Name", "Contact", "Region", "Status", "Orders", "Amount spent", "Action"];
 function AddCustomers() {
+  const navigate = useNavigate();
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [customerList, setCustomerList] = useState([]);
-  const [page, setPage] = useState(1);
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
-
+  const [lastPage, setlasetPage] = React.useState();
+  const [tableRecords, setTableRecords] = useState([])
+  const [page, setPage] = React.useState(1);
+  const [inputValue, setInputValue] = useState('');
+  // Create a variable to store the timeout ID
+  let timeoutId;
+  // Function to handle the debounced action
+  const handleDebounce = (value) => {
+    // Clear the previous timeout if it exists
+    clearTimeout(timeoutId);
+    // Set a new timeout
+    timeoutId = setTimeout(() => {
+      // Perform the action here (e.g., API call, state update)
+      console.log('Performing action with value:', value);
+      setInputValue(value)
+      searchApi(value)
+    }, 300); // Adjust the delay time as needed
+  };
+  // Event handler for input change
+  const handleInputChange = (event) => {
+    const newValue = event.target.value;
+    setInputValue(newValue);
+    // Call the debounced function
+    handleDebounce(newValue);
+  };
   useEffect(() => {
-    getCustomerList(1)
+    callApi(page)
   }, [])
-
-  const getCustomerList = (values) => {
+  const callApi = (item) => {
     fetch(
-      `https://fobohwepapifbh.azurewebsites.net/api/Customer/GetAll?page=${values}`,
+      `https://fobohwepapifbh.azurewebsites.net/api/Customer/GetAll?page=${item}`,
       {
         method: "GET",
       }
     ).then((response) => response.json())
       .then((data) => {
         console.log("user data --->", data);
-        setCustomerList(data.data)
+        setTableRecords(data.data)
       })
   }
-  const buttonClik = (type) => {
-    switch (type) {
-      case 'next':
-        let newPage = page + 1;
-        setPage(page + 1)
-        getCustomerList(newPage)
-        break;
+  const onButtonClick = (item) => {
+    switch (item) {
       case 'previous':
-        if (page > 0) {
-          let newPage = page - 1
-          setPage(page > 0 ? page - 1 : 1)
-          getCustomerList(newPage)
-        } else {
-          getCustomerList(1)
-        }
+        let newItme = page > 0 ? page - 1 : 1;
+        setPage(newItme);
+        callApi(newItme)
         break;
+      case 'next':
+        let newItmes = page + 1
+        setPage(newItmes);
+        callApi(newItmes)
+
       default:
         break;
     }
-    // alert("button clikc",type)
+  }
+  const handleCustomerId = (item) => {
+    navigate(`/dashboard/view-customer-details/`, { state: { data: item } });
+  };
+
+  const searchApi = () => {
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/Customer/SearchByName?search=${inputValue}&page=1`,
+      {
+        method: "GET",
+      }
+    ).then((response) => response.json())
+      .then((data) => {
+        console.log("user data --->", data);
+        setTableRecords(data.data)
+      })
+  }
+
+  const itemDelected = (item) => {
+    console.log("item>>", item)
+    // https://fobohwepapifbh.azurewebsites.net/api/Customer/Delete/64b6bdd4a631d5f7b9058af9
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/Customer/Delete/${item?.id}`,
+      {
+        method: "DELETE",
+      }
+    ).then((response) =>callApi('1') )
   }
   return (
     <>
       <ActiveCustomers />
       <div className="   ">
         <div className="box-3 px-6 ">
-          <SearchCustomer />
+          <SearchCustomer onChange={handleInputChange} />
         </div>
         <CardBody className="overflow-scroll px-0">
           <table className="w-full min-w-max table-auto text-left">
@@ -91,172 +132,127 @@ function AddCustomers() {
               </tr>
             </thead>
             <tbody>
-              {customerList.map(
-                (
-                  {
-                    businessName,
-                    orderingMobile,
-                    address,
-                    state,
-                    isActive,
-                    availableQty = 10,
-                    stockStatus = 100,
-                  },
-                  index,
-                ) => {
-                  const isLast = index === customerList.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-blue-gray-50";
+              {tableRecords.map((item, index) => {
+                const isLast = index === tableRecords.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
 
-                  return (
-                    <tr key={name}>
-                      <td className={classes}>
-                        <div className="flex items-center gap-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            name={businessName}
-                            onClick={() => handleCheckbox(product)}
-                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                          />
+                return (
+                  <tr key={name}>
+                    <td className={classes}>
+                      <div className="flex items-center gap-3">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          defaultValue=""
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <div onClick={() => handleCustomerId(item)}>
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-bold"
                           >
-                            {businessName}
+                            {item?.businessName}
                           </Typography>
                         </div>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {orderingMobile}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {address}{state}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        {isActive === 1 ?
-                          <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-32		px-3">
-                            <p className="text-green-dark font-normal		text-sm	">Active</p>
-                          </div> :
-                          <div className="flex justify-center items-center gap-1 radius-30 bg-custom-red h-7	w-32		px-3">
-                            <p className="text-red-dark font-normal		text-sm	">InActive</p>
-                          </div>}
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {availableQty}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {stockStatus * availableQty}
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                },
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {item?.orderingEmail}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {item?.address}{item?.state}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      {item?.isActive === 1 ?
+                        <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-32		px-3">
+                          <p className="text-green-dark font-normal		text-sm	">Active</p>
+                        </div> :
+                        <div className="flex justify-center items-center gap-1 radius-30 bg-custom-red h-7	w-32		px-3">
+                          <p className="text-red-dark font-normal		text-sm	">InActive</p>
+                        </div>}
+
+                    </td>
+                    <td className={classes}>
+                      <div className="flex items-center gap-3">
+                        <div className="h-9 w-12 rounded-md border border-blue-gray-50 p-1">
+
+                        </div>
+                        <div className="flex flex-col">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal capitalize"
+                          >
+                            {10}
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal opacity-70"
+                          >
+                            {/* {expiry} */}
+                          </Typography>
+                        </div>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal opacity-70"
+                      >
+                        {10 * 10}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <div onClick={() => itemDelected(item)}>
+                        <DeleteIcon />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              },
               )}
             </tbody>
           </table>
         </CardBody>
-
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Button onClick={() => buttonClik('previous')} variant="outlined" size="sm" >
+          <Button disabled={page === '1' ? true : false} variant="outlined" onClick={() => onButtonClick('previous')} size="sm">
             Previous
           </Button>
           <div className="flex items-center gap-2">
-            <div>
-
-            </div>
+            <IconButton onClick={() => callApi('1')} variant="outlined" size="sm">
+              1
+            </IconButton>
+            <IconButton onClick={() => callApi('2')} variant="text" size="sm">
+              2
+            </IconButton>
+            <IconButton onClick={() => callApi('3')} variant="text" size="sm">
+              3
+            </IconButton>
+            <IconButton variant="text" size="sm">
+              ...
+            </IconButton>
           </div>
-          <Button onClick={() => buttonClik('next')} variant="outlined" size="sm">
+          <Button onClick={() => onButtonClick('next')} variant="outlined" size="sm">
             Next
           </Button>
         </CardFooter>
-
-
-        {/* <div className="box-4 pt-6 px-6 ">
-          <div className="relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className=" border-b">
-                <tr>
-                  <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                      />
-                    </div>
-                  </th>
-
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base text-center	"
-                  >
-                    Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	"
-                  >
-                    Contact
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	w-44"
-                  >
-                    Region
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	"
-                  >
-                    Status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base w-44	"
-                  >
-                    Orders
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	"
-                  >
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <CustomerTable />
-              </tbody>
-            </table>
-          </div>
-        </div> */}
       </div>
     </>
   );

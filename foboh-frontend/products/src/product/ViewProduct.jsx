@@ -64,6 +64,7 @@ const initialValues = {
 
 function ViewProduct() {
   const { id } = useParams();
+  // console.log("product id>>",id)
   const [productImageUris, setProductImageUris] = useState([]);
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
