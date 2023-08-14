@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderTable from "./OrderTable";
-const OrderDetails = ({ data }) => {
+import { useLocation, useParams } from "react-router-dom";
+const OrderDetails = ({data}) => {
   const [activeStatus, setActiveStatus] = useState(1);
   return (
     <>
@@ -31,11 +32,10 @@ const OrderDetails = ({ data }) => {
                 </svg>
                 <div className="flex items-center">
                   <span
-                    className={`${
-                      activeStatus == 1
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                    } text-base`}
+                    className={`${activeStatus == 1
+                      ? " text-black font-bold	"
+                      : " font-normal	 text-white"
+                      } text-base`}
                   >
                     Orders
                   </span>
@@ -66,11 +66,10 @@ const OrderDetails = ({ data }) => {
                 </svg>
                 <div className="flex items-center">
                   <span
-                    className={`${
-                      activeStatus == 2
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                    } text-base`}
+                    className={`${activeStatus == 2
+                      ? " text-black font-bold	"
+                      : " font-normal	 text-white"
+                      } text-base`}
                   >
                     Contacts
                   </span>
@@ -101,11 +100,10 @@ const OrderDetails = ({ data }) => {
                 </svg>
                 <div className="flex items-center">
                   <span
-                    className={`${
-                      activeStatus == 3
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                    } text-base`}
+                    className={`${activeStatus == 3
+                      ? " text-black font-bold	"
+                      : " font-normal	 text-white"
+                      } text-base`}
                   >
                     Addresses
                   </span>
@@ -136,11 +134,10 @@ const OrderDetails = ({ data }) => {
                 </svg>
                 <div className="flex items-center">
                   <span
-                    className={`${
-                      activeStatus == 4
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                    } text-base`}
+                    className={`${activeStatus == 4
+                      ? " text-black font-bold	"
+                      : " font-normal	 text-white"
+                      } text-base`}
                   >
                     Payments
                   </span>
@@ -151,9 +148,8 @@ const OrderDetails = ({ data }) => {
 
           <div className="p-5">
             <div
-              className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${
-                activeStatus == 1 ? "Active active-table" : "hide-table hidden"
-              }`}
+              className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${activeStatus == 1 ? "Active active-table" : "hide-table hidden"
+                }`}
             >
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className=" border-b">
@@ -202,9 +198,8 @@ const OrderDetails = ({ data }) => {
               </table>
             </div>
             <div
-              className={`${
-                activeStatus == 2 ? "Active active-table" : "hide-table hidden"
-              } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+              className={`${activeStatus == 2 ? "Active active-table" : "hide-table hidden"
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
             >
               <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                 <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -227,7 +222,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-last-name"
                           name="firstName"
                           type="text"
-                          value={data?.OrderingFirstName}
+                          value={data?.orderingFirstName}
                           placeholder="Tom"
                         />
                       </div>
@@ -242,7 +237,7 @@ const OrderDetails = ({ data }) => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-last-name"
                           type="text"
-                          value={data?.OrderingLastName}
+                          value={data?.orderingLastName}
                           name="lastName"
                           placeholder="Jones"
                         />
@@ -261,7 +256,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           disabled
                           type="email"
-                          value={data?.OrderingEmail}
+                          value={data?.orderingEmail}
                           name="email"
                           autoComplete="on"
                           placeholder="devidjond45@gmail.com"
@@ -280,7 +275,7 @@ const OrderDetails = ({ data }) => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
                           type="text"
-                          value={data?.OrderingMobile}
+                          value={data?.orderingMobile}
                           name="mobile"
                           placeholder="0412 345 678"
                         />
@@ -327,7 +322,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-last-name"
                           name="firstName"
                           type="text"
-                          value={data?.DeliveryFirstName}
+                          value={data?.deliveryFirstName}
                           placeholder="Tom"
                         />
                       </div>
@@ -342,7 +337,7 @@ const OrderDetails = ({ data }) => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-last-name"
                           type="text"
-                          value={data?.DeliveryLastName}
+                          value={data?.deliveryLastName}
                           name="lastName"
                           placeholder="Jones"
                         />
@@ -361,7 +356,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           disabled
                           type="email"
-                          value={data?.DeliveryEmail}
+                          value={data?.deliveryEmail}
                           name="email"
                           autoComplete="on"
                           placeholder="devidjond45@gmail.com"
@@ -380,7 +375,7 @@ const OrderDetails = ({ data }) => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
                           type="text"
-                          value={data?.DeliveryMobile}
+                          value={data?.deliveryMobile}
                           name="mobile"
                           placeholder="0412 345 678"
                         />
@@ -391,9 +386,8 @@ const OrderDetails = ({ data }) => {
               </div>
             </div>
             <div
-              className={`${
-                activeStatus == 3 ? "Active active-table" : "hide-table hidden"
-              } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+              className={`${activeStatus == 3 ? "Active active-table" : "hide-table hidden"
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
             >
               <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                 <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -416,6 +410,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           disabled
                           type="text"
+                          value={data?.address}
                           autoComplete="on"
                           placeholder="126 Juliett Street"
                         />
@@ -434,6 +429,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-last-name"
                           name="firstName"
                           type="text"
+                          value={data?.apartment}
                           placeholder="Tom"
                         />
                       </div>
@@ -448,6 +444,7 @@ const OrderDetails = ({ data }) => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-last-name"
                           type="text"
+                          value={data?.suburb}
                           name="lastName"
                           placeholder="Jones"
                         />
@@ -466,6 +463,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           type="Postcode"
                           name="mobile"
+                          value={data?.postalCode}
                           placeholder="2204"
                         />
                       </div>
@@ -481,6 +479,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           type="Postcode"
                           name="mobile"
+                          value={data?.state}
                           placeholder="2204"
                         />
                       </div>
@@ -499,6 +498,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           disabled
                           type="text"
+                          value={data?.deliveryNotes}
                           autoComplete="on"
                           placeholder="Notes here -"
                         />
@@ -518,6 +518,7 @@ const OrderDetails = ({ data }) => {
                       id="default-checkbox"
                       type="checkbox"
                       defaultValue=""
+                     
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                     />
                     <label
@@ -544,8 +545,9 @@ const OrderDetails = ({ data }) => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-password"
                           disabled
-                          type="email"
-                          name="email"
+                          type="text"
+                          name="billingAddress"
+                          value={data?.billingAddress}
                           autoComplete="on"
                           placeholder="126 Juliett Street"
                         />
@@ -563,6 +565,7 @@ const OrderDetails = ({ data }) => {
                           className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-last-name"
                           name="firstName"
+                          value={data?.billingApartment}
                           type="text"
                           placeholder="Tom"
                         />
@@ -579,6 +582,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-last-name"
                           type="text"
                           name="lastName"
+                          value={data?.billingSuburb}
                           placeholder="Jones"
                         />
                       </div>
@@ -596,6 +600,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           type="Postcode"
                           name="mobile"
+                          value={data?.billingPostalCode}
                           placeholder="2204"
                         />
                       </div>
@@ -611,6 +616,7 @@ const OrderDetails = ({ data }) => {
                           id="grid-password"
                           type="Postcode"
                           name="mobile"
+                          value={data?.billingState}
                           placeholder="2204"
                         />
                       </div>
@@ -621,9 +627,8 @@ const OrderDetails = ({ data }) => {
             </div>
 
             <div
-              className={`${
-                activeStatus == 4 ? "Active active-table" : " hide-table hidden"
-              } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+              className={`${activeStatus == 4 ? "Active active-table" : " hide-table hidden"
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
             >
               <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col  ">
                 <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">

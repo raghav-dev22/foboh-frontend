@@ -1,28 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
-// import State from "../data";
-
-// import CustomerState from "./CustomerState";
-// import CustomerStatus from "./CustomerStatus";
-// import CustomerVisibility from './CustomerState'
-// import CustomerPostCode from "./CustomerPostCode";
-
-function SearchCustomer() {
+function SearchCustomer({ onChange, isFilter }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const [First, setFirst] = useState(false);
   const [Second, setSecond] = useState(false);
   const [Third, setThird] = useState(false);
-  //   const [active, setActive] = useState(false);
+  const [pincode, SetpinCode] = React.useState('');
+  const [selectArray, setSelectedArray] = React.useState([]);
   const addState = (item) => {
     console.log(item, "item");
+    if (!selectArray.includes(item)) {
+      setSelectedArray([...selectArray, item]);
+    }
   };
   const DropDownFirst = () => {
     setFirst(!First);
     setSecond(false);
     setThird(false);
-    // setActive(!active);
   };
   const DropDownSecond = () => {
     setFirst(false);
@@ -34,6 +30,23 @@ function SearchCustomer() {
     setSecond(false);
     setThird(!Third);
   };
+
+  const filterClick = () => {
+    let jsonIs = {
+      "filter": {
+        "businessName": "string",
+        "status": true,
+        "postCode": pincode,
+        "state": selectArray,
+        "page": 0
+      },
+      "sort": {
+        "sortBy": "string",
+        "sortOrder": "string"
+      }
+    }
+    isFilter(jsonIs)
+  }
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -63,12 +76,13 @@ function SearchCustomer() {
                 className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                 placeholder="Search Mockups, Logos..."
                 required=""
+                onChange={(e) => SetpinCode(e.target.value)}
               />
             </div>
           </div>
           <div className="flex justify-center items-center gap-2">
             {/* <Filter/> */}
-            <div className="h-11	w-fit px-5 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
+            <div onClick={() => filterClick()} className="h-11	w-fit px-5 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
               <div className="">
                 <svg
                   width={18}
@@ -226,6 +240,8 @@ function SearchCustomer() {
                   className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                   placeholder="473990."
                   required=""
+                  // value={ }
+                  onChange={(e)=>console.log(e.target.value)}
                 />
               </div>
             )}

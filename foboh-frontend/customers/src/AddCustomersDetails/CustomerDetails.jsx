@@ -12,13 +12,14 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
-  businessName: "test",
+  customerId:'',
+  businessName: "",
   abn: "",
   liquorLicence: "",
   salesRepId: "",
   pricingProfileId: "",
   defaultPaymentMethodId: "",
-  defaultPaymentTerms : "",
+  defaultPaymentTerms: "",
   tags: "",
   wetLiable: true,
   orderingFirstName: "",
@@ -71,8 +72,6 @@ function CustomerDetails() {
   });
 
   console.log("All customer Vlaues>>", values);
-
-
   const finalHandleSubmit = () => {
     console.log("final vales>>>", values);
     fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
