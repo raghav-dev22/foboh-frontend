@@ -276,7 +276,7 @@ function Range() {
         </CardBody>
 
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Button onClick={() => buttonClik('previous')} variant="outlined" size="sm" >
+          <Button  onClick={() => buttonClik('previous')} variant="outlined" size="sm" >
             Previous
           </Button>
           <div className="flex items-center gap-2">
