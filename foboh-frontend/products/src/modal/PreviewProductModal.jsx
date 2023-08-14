@@ -49,7 +49,7 @@ function PreviewProductModal({
     console.log("prod", prod);
 
     fetch(
-      "https://fobohwepapifbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+      "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
