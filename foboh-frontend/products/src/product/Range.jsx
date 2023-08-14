@@ -32,6 +32,7 @@ function Range() {
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [products, setProducts] = useState([]);
+  const [prevProducts, setPrevProducts] = useState([])
   const [pages, setPages] = useState([]);
   const [page, setPage] = useState(1);
   const [selectedPage, setSelectedPage] = useState(0);
@@ -107,8 +108,9 @@ function Range() {
       .then((data) => {
         console.log("product lists --->", data);
         setProducts(data.data);
-        const array = createArrayWithNumber(data.last_page);
-        setPages(array);
+        setPrevProducts(data.data)
+        const array = createArrayWithNumber(data.last_page)
+        setPages(array)
       })
       .catch((error) => console.log(error));
   };
@@ -175,7 +177,7 @@ function Range() {
       <ActiveProduct />
       <div className="   ">
         <div className="box-3 px-6 ">
-          <SearchProduct setProducts={setProducts} products={products} />
+          <SearchProduct setProducts={setProducts} products={products} prevProducts={prevProducts} />
         </div>
         <div className="pt-6 px-6 ">
           <div className="box-4 relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
