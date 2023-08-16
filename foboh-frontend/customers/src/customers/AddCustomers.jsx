@@ -27,19 +27,14 @@ function AddCustomers() {
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   let timeoutId;
   const handleDebounce = (value) => {
-    // Clear the previous timeout if it exists
     clearTimeout(timeoutId);
-    // Set a new timeout
     timeoutId = setTimeout(() => {
-      // Perform the action here (e.g., API call, state update)
       console.log("Performing action with value:", value);
       setInputValue(value);
       searchApi(value);
-    }, 300); // Adjust the delay time as needed
+    }, 300);
   };
-  // Event handler for input change
   const handleInputChange = (event) => {
-    console.log("on search>>", event);
     const newValue = event.target.value;
     setInputValue(newValue);
     // Call the debounced function
@@ -85,8 +80,8 @@ function AddCustomers() {
     e.target.checked
       ? setSelectedProducts([...selectedProducts, product])
       : setSelectedProducts(
-          selectedProducts.filter((prod) => prod !== product)
-        );
+        selectedProducts.filter((prod) => prod !== product)
+      );
 
     if (selectedProducts.length > 0) {
       setIsBulkEdit(true);
@@ -94,7 +89,29 @@ function AddCustomers() {
   };
   const handleBulkEdit = () => {
     localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
-    // navigate("/dashboard/bulk-edit");
+  };
+  const isFilter = (item) => {
+    console.log("item>>", item?.);
+    const debounceTimeout = setTimeout(() => {
+      callFilterApi(item)
+    }, 500);
+  }
+  const callFilterApi = (item) => {
+    fetch(
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(item),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("user data --->", data);
+        setTableRecords(data.data);
+      });
   };
 
   return (
@@ -102,7 +119,7 @@ function AddCustomers() {
       <ActiveCustomers />
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
-          <SearchCustomer onChange={handleInputChange} />
+          <SearchCustomer onChange={handleInputChange} isFilter={isFilter} />
         </div>
         <div className="pt-6 px-6 relative">
           <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
@@ -163,15 +180,15 @@ function AddCustomers() {
                         </td>
                         <td className={classes}>
                           {item?.isActive === 1 ? (
-                            <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-32		px-3">
+                            <div className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3">
                               <p className="text-green-dark font-normal		text-sm	">
                                 Active
                               </p>
                             </div>
                           ) : (
-                            <div className="flex justify-center items-center gap-1 radius-30 bg-custom-red h-7	w-32		px-3">
-                              <p className="text-red-dark font-normal		text-sm	">
-                                InActive
+                            <div className="flex justify-center items-center gap-1 radius-20 bg-custom-red h-7	w-32		px-3">
+                              <p style={{ color: '#FFA70B' }} className="text-red-dark font-normal		text-sm	">
+                                Inactive
                               </p>
                             </div>
                           )}
@@ -202,7 +219,7 @@ function AddCustomers() {
                             color="blue-gray"
                             className="font-normal opacity-70"
                           >
-                            {10 * 10}
+                            ${10 * 10}
                           </Typography>
                         </td>
                       </tr>

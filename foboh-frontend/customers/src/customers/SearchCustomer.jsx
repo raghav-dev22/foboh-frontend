@@ -9,10 +9,13 @@ function SearchCustomer({ onChange, isFilter }) {
   const [Third, setThird] = useState(false);
   const [pincode, SetpinCode] = React.useState('');
   const [selectArray, setSelectedArray] = React.useState([]);
+  const [isActiveChecked, setIsActiveChecked] = React.useState(false);
+  const [isInactiveChecked, setIsInactiveChecked] = React.useState(true)
   const addState = (item) => {
     console.log(item, "item");
     if (!selectArray.includes(item)) {
       setSelectedArray([...selectArray, item]);
+      filterClick()
     }
   };
   const DropDownFirst = () => {
@@ -34,18 +37,39 @@ function SearchCustomer({ onChange, isFilter }) {
   const filterClick = () => {
     let jsonIs = {
       "filter": {
-        "businessName": "string",
+        "businessName": "",
         "status": true,
         "postCode": pincode,
         "state": selectArray,
         "page": 0
       },
       "sort": {
-        "sortBy": "string",
-        "sortOrder": "string"
+        "sortBy": "",
+        "sortOrder": ""
       }
     }
     isFilter(jsonIs)
+  }
+  const pinCodeClik = (e) => {
+    console.log(e.target.value);
+    SetpinCode(e.target.value);
+    filterClick()
+  }
+  const toggleCheckbox = (name, e) => {
+    switch (name) {
+      case 'active':
+        setIsActiveChecked(true)
+        setIsInactiveChecked(false)
+        filterClick()
+        break;
+      case 'inactive':
+        setIsActiveChecked(false)
+        setIsInactiveChecked(true)
+        filterClick()
+      default:
+        break;
+    }
+
   }
   return (
     <>
@@ -126,6 +150,10 @@ function SearchCustomer({ onChange, isFilter }) {
                         id="checked-checkbox"
                         type="checkbox"
                         defaultValue=""
+                        checked={isActiveChecked}
+                        onClick={(e) =>
+                          toggleCheckbox('active', e)
+                        }
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
@@ -144,6 +172,10 @@ function SearchCustomer({ onChange, isFilter }) {
                         id="checked-checkbox"
                         type="checkbox"
                         defaultValue=""
+                        checked={isInactiveChecked}
+                        onClick={(e) =>
+                          toggleCheckbox('inactive', e)
+                        }
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
@@ -242,7 +274,7 @@ function SearchCustomer({ onChange, isFilter }) {
                   placeholder="473990."
                   required=""
                   // value={ }
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => pinCodeClik(e)}
                 />
               </div>
             )}
