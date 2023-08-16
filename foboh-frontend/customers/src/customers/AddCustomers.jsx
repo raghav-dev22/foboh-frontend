@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from "react";
-
+import CloseIcon from "@mui/icons-material/Close";
 import "../style.css";
 import ActiveCustomers from "./ActiveCustomers";
 import SearchCustomer from "./SearchCustomer";
-import CustomerTable from "./CustomerTable";
 import {
   Typography,
-  Button,
   CardBody,
   CardFooter,
-  IconButton,
 } from "@material-tailwind/react";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-const TABLE_HEAD = ["Name", "Contact", "Region", "Status", "Orders", "Amount spent", "Action"];
+import { PaginationCustomer } from "./PaginationCustomer";
+import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
+const TABLE_HEAD = ["Name", "Contact", "Region", "Status", "Orders", "Amount spent"];
 function AddCustomers() {
   const navigate = useNavigate();
   const [isDivVisible, setIsDivVisible] = useState(false);
-  const [customerList, setCustomerList] = useState([]);
-  const sidebarHandler = () => {
-    setIsDivVisible(!isDivVisible);
-  };
-  const [lastPage, setlasetPage] = React.useState();
+  const [totalPages, setTotalPages] = useState(0);
   const [tableRecords, setTableRecords] = useState([])
   const [page, setPage] = React.useState(1);
+  const [pages, setPages] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  // Create a variable to store the timeout ID
+  const [isBulkEdit, setIsBulkEdit] = useState(false);
   let timeoutId;
-  // Function to handle the debounced action
   const handleDebounce = (value) => {
     // Clear the previous timeout if it exists
     clearTimeout(timeoutId);
@@ -41,6 +36,7 @@ function AddCustomers() {
   };
   // Event handler for input change
   const handleInputChange = (event) => {
+    console.log("on search>>", event)
     const newValue = event.target.value;
     setInputValue(newValue);
     // Call the debounced function
@@ -59,23 +55,10 @@ function AddCustomers() {
       .then((data) => {
         console.log("user data --->", data);
         setTableRecords(data.data)
+        const array = createArrayWithNumber(data.last_page);
+        setTotalPages(data.last_page);
+        setPages(array);
       })
-  }
-  const onButtonClick = (item) => {
-    switch (item) {
-      case 'previous':
-        let newItme = page > 0 ? page - 1 : 1;
-        setPage(newItme);
-        callApi(newItme)
-        break;
-      case 'next':
-        let newItmes = page + 1
-        setPage(newItmes);
-        callApi(newItmes)
-
-      default:
-        break;
-    }
   }
   const handleCustomerId = (item) => {
     navigate(`/dashboard/view-customer-details/`, { state: { data: item } });
@@ -93,17 +76,22 @@ function AddCustomers() {
         setTableRecords(data.data)
       })
   }
+  const handleCheckbox = (e, product) => {
+    e.target.checked
+      ? setSelectedProducts([...selectedProducts, product])
+      : setSelectedProducts(
+        selectedProducts.filter((prod) => prod !== product)
+      );
 
-  const itemDelected = (item) => {
-    console.log("item>>", item)
-    // https://fobohwepapifbh.azurewebsites.net/api/Customer/Delete/64b6bdd4a631d5f7b9058af9
-    fetch(
-      `https://fobohwepapifbh.azurewebsites.net/api/Customer/Delete/${item?.id}`,
-      {
-        method: "DELETE",
-      }
-    ).then((response) =>callApi('1') )
-  }
+    if (selectedProducts.length > 0) {
+      setIsBulkEdit(true);
+    }
+  };
+  const handleBulkEdit = () => {
+    localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
+    // navigate("/dashboard/bulk-edit");
+  };
+
   return (
     <>
       <ActiveCustomers />
@@ -146,6 +134,7 @@ function AddCustomers() {
                           id="default-checkbox"
                           type="checkbox"
                           defaultValue=""
+                          onClick={(e) => handleCheckbox(e, item)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />
                         <div onClick={() => handleCustomerId(item)}>
@@ -219,11 +208,6 @@ function AddCustomers() {
                         {10 * 10}
                       </Typography>
                     </td>
-                    <td className={classes}>
-                      <div onClick={() => itemDelected(item)}>
-                        <DeleteIcon />
-                      </div>
-                    </td>
                   </tr>
                 );
               },
@@ -231,28 +215,47 @@ function AddCustomers() {
             </tbody>
           </table>
         </CardBody>
-        <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Button disabled={page === '1' ? true : false} variant="outlined" onClick={() => onButtonClick('previous')} size="sm">
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            <IconButton onClick={() => callApi('1')} variant="outlined" size="sm">
-              1
-            </IconButton>
-            <IconButton onClick={() => callApi('2')} variant="text" size="sm">
-              2
-            </IconButton>
-            <IconButton onClick={() => callApi('3')} variant="text" size="sm">
-              3
-            </IconButton>
-            <IconButton variant="text" size="sm">
-              ...
-            </IconButton>
-          </div>
-          <Button onClick={() => onButtonClick('next')} variant="outlined" size="sm">
-            Next
-          </Button>
+        <CardFooter className="flex w-full items-center justify-between border-t border-blue-gray-50 p-4">
+          <PaginationCustomer
+            totalPages={totalPages}
+            getProductList={callApi}
+          />
         </CardFooter>
+        {isBulkEdit ? (
+          <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
+            <button
+              onClick={handleBulkEdit}
+              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+            >
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
+                Bulk edit{" "}
+              </h6>
+            </button>
+
+            <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                Set as Visible{" "}
+              </h6>
+            </button>
+
+            <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                Set as Hidden{" "}
+              </h6>
+            </button>
+
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setIsBulkEdit(false);
+              }}
+            >
+              <CloseIcon />
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
