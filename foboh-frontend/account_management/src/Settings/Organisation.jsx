@@ -13,11 +13,14 @@ import Select from "react-select";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
 import {
   updateLogoURI,
   resetLogoURI,
 } from "../Redux/Action/organisationLogoSlice";
 import { updateUserData } from "../Redux/Action/userSlice";
+import { styled } from "@mui/material";
 
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
@@ -400,6 +403,23 @@ function Organisation() {
   const handleFormChange = () => {
     setShow(true);
   };
+
+  const CustomTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#2B4447",
+      color: "white",
+      borderRadius: "5px",
+      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      textAlign: "center",
+      fontSize: 11,
+      lineHeight: "24px",
+      fontFamily: "Inter",
+      fontSize: "11px",
+      fontWeight: 600,
+    },
+  }));
 
   return (
     <>
@@ -1016,19 +1036,16 @@ function Organisation() {
                   <div className="px-6 py-7">
                     <div className="flex justify-start gap-3 items-center">
                       <div className="update-user rounded-full">
-                      {
-                        logoUri ? (
+                        {logoUri ? (
                           <img
-                          id="previewImage"
-                          src={logoUri || defaultImage}
-                          alt=""
-                          className="w-[187px]	h-[58px]	object-cover"
-                        />
+                            id="previewImage"
+                            src={logoUri || defaultImage}
+                            alt=""
+                            className="w-[187px]	h-[58px]	object-cover"
+                          />
                         ) : (
                           <div className="bg-[#D9D9D9] h-[58px] w-[187px]"></div>
-                        )
-                      }
-
+                        )}
                       </div>
                       <div className="">
                         <h6 className="font-normal text-base text-green">
@@ -1243,10 +1260,23 @@ function Organisation() {
                       <div className="flex flex-wrap -mx-3 mb-5 relative">
                         <div className="w-full px-3">
                           <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                            className="tracking-wide text-gray-700 text-base flex items-center	 font-medium	 "
                             htmlFor="orderingContactMobile"
                           >
                             Mobile
+                            <CustomTooltip
+                              placement="right"
+                              arrow
+                              title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                            >
+                              <HelpIcon
+                                sx={{
+                                  color: "#E0E0E0",
+                                  width: "20px",
+                                  marginLeft: "10px",
+                                }}
+                              />{" "}
+                            </CustomTooltip>
                           </label>
                           <input
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -1258,6 +1288,12 @@ function Organisation() {
                             onChange={handleChange}
                             maxLength={20}
                             onBlur={handleBlur}
+                            onKeyPress={(event) => {
+                              const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
                             style={{
                               border:
                                 errors.orderingContactMobile &&
@@ -1406,6 +1442,19 @@ function Organisation() {
                             htmlFor="LogisticsContactMobile"
                           >
                             Mobile
+                            <CustomTooltip
+                              placement="right"
+                              arrow
+                              title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                            >
+                              <HelpIcon
+                                sx={{
+                                  color: "#E0E0E0",
+                                  width: "20px",
+                                  marginLeft: "10px",
+                                }}
+                              />{" "}
+                            </CustomTooltip>
                           </label>
                           <input
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -1416,6 +1465,12 @@ function Organisation() {
                             value={values.LogisticsContactMobile}
                             onChange={handleChange}
                             maxLength={20}
+                            onKeyPress={(event) => {
+                              const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
                             onBlur={handleBlur}
                             style={{
                               border:
