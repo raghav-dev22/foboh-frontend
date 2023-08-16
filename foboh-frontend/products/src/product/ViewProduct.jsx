@@ -189,13 +189,13 @@ function ViewProduct() {
           title: product.title,
           skuCode: product.skUcode,
           brand: product.brand,
+          availableQty : product.availableQty,
           category: product.categoryId,
           subcategory: product.subCategoryId,
           segment: product.segmentId,
           grapeVariety: product.variety,
           regionSelect: product.region,
           vintage: product.vintage,
-          availableQty : product.availableQty,
           awards: product.award && product.award,
           abv: product.abv,
           country: product.countryOfOrigin,
@@ -533,6 +533,13 @@ function ViewProduct() {
       minimumOrder: e.target.value,
     });
   };
+
+  const handleAvailableQuantity = (e) => {
+    setValues({
+      ...values,
+      availableQty: e.target.value,
+    });
+  }
 
   const handleTrackInventory = () => {
     setValues({
@@ -1128,6 +1135,21 @@ function ViewProduct() {
                       />
                     </div>
                   </div>
+                  <div className=" pb-5">
+                  <h5 className="text-base font-medium text-green mb-3">
+                    Available quantity
+                  </h5>
+                  <div className="w-72">
+                    <input
+                      onChange={handleAvailableQuantity}
+                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="handleAvailableQuantity"
+                      name="handleAvailableQuantity"
+                      type="number"
+                      placeholder="2 cases"
+                    />
+                  </div>
+                </div>
                   <div className="pb-5">
                     <div className=" flex justify-between items-center mb-3">
                       <h5 className="text-green text-base font-medium">
