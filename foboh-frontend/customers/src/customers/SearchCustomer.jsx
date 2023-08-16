@@ -76,7 +76,8 @@ function SearchCustomer({ onChange, isFilter }) {
                 className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                 placeholder="Search Mockups, Logos..."
                 required=""
-                onChange={(e) => SetpinCode(e.target.value)}
+                onChange={onChange}
+              // onChange={(e) => SetpinCode(e.target.value)}
               />
             </div>
           </div>
@@ -241,7 +242,7 @@ function SearchCustomer({ onChange, isFilter }) {
                   placeholder="473990."
                   required=""
                   // value={ }
-                  onChange={(e)=>console.log(e.target.value)}
+                  onChange={(e) => console.log(e.target.value)}
                 />
               </div>
             )}
