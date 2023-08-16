@@ -316,6 +316,7 @@ function PersonalDetails({ profileUri }) {
                   placeholder="0412 345 678"
                   value={values.mobile}
                   onChange={handleChange}
+                  maxLength={20}
                   onBlur={handleBlur}
                   style={{
                     border: errors.mobile && touched.mobile && "1px solid red",

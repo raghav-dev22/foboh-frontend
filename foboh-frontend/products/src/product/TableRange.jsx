@@ -7,19 +7,20 @@ function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPa
   const [selectedProducts, setSelectedProducts] = useState([]);
   console.log(selectedPage);
 
-  useEffect(() => {
-    fetch(`https://fobohwepapifbh.azurewebsites.net/api/product/GetAll?page=${selectedPage}`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("product lists --->", data);
-        setProducts(data.data);
-        const array = createArrayWithNumber(data.last_page)
-        setPages(array)
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   fetch(`https://fobohwepapifbh.azurewebsites.net/api/product/GetAll?page=${selectedPage}`, {
+  //     method: "GET",
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("product lists --->", data);
+  //       setProducts(data.data);
+  //       // const array = createArrayWithNumber(data.last_page)
+  //       // setPages(array)
+  //     })
+  //     .catch((error) => console.log(error));
+  // },
+  //  []);
 
   const handleProductId = (id) => {
     console.log("id >>>", id);
@@ -49,8 +50,6 @@ function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPa
     localStorage.removeItem('selectedProducts');
   }
   console.log("selected products: ", selectedProducts);
-
-
 
   return (
     <>
@@ -84,7 +83,7 @@ function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPa
                 }
                 alt=""
                 className="object-cover w-[50px] h-[50px]"
-                style={{ height: "50px", width: "50px", borderRadius : "5px" }}
+                style={{ height: "50px", width: "50px", borderRadius: "5px" }}
               />
               <h5
                 onClick={() => handleProductId(product.productId)}

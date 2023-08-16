@@ -1,7 +1,72 @@
 import React, { useState } from "react";
 
-function Filter({filterAndSort, setFilterAndSort}) {
+const sort = [
+  {
+    label: "Title",
+    key: "title",
+    value: {
+      asc: "A - Z",
+      desc: "Z - A",
+    },
+  },
+  {
+    label: "Date updated",
+    key: "date",
+    value: {
+      asc: "Oldest first",
+      desc: "Newest first",
+    },
+  },
+  {
+    label: "Stock level",
+    key: "stock",
+    value: {
+      asc: "Lowest to highest",
+      desc: "Highest to lowest",
+    },
+  },
+  {
+    label: "Price",
+    key: "price",
+    value: {
+      asc: "Lowest to highest",
+      desc: "Highest to lowest",
+    },
+  },
+  {
+    businessName: "string",
+    abn: "string",
+    liquorLicence: "string",
+    salesRepId: "string",
+    pricingProfileId: "string",
+    defaultPaymentMethodId: "string",
+    tags: "string",
+    wetLiable: true,
+    orderingFirstName: "string",
+    orderingLastName: "string",
+    orderingMobile: "string",
+    orderingEmail: "string",
+    deliveryFirstName: "string",
+    deliveryLastName: "string",
+    deliveryMobile: "string",
+    deliveryEmail: "string",
+    address: "string",
+    apartment: "string",
+    suburb: "string",
+    postalCode: "string",
+    state: "string",
+    deliveryNotes: "string",
+    billingAddress: "string",
+    billingApartment: "string",
+    billingSuburb: "string",
+    billingPostalCode: "string",
+    billingState: "string",
+  },
+];
+
+function Filter({ handleSortChange, itemLabel, filterAndSort }) {
   const [isOpen, setIsOpen] = useState(false);
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -51,200 +116,105 @@ function Filter({filterAndSort, setFilterAndSort}) {
         </div>
         {isOpen && (
           <>
-            <div className=" z-10	right-0 w-56   sm:w-30 absolute top-14 border border-inherit bg-white	shadow-md rounded-lg	h-fit py-3	">
-              <ul className="dropdown-content 	 ">
-                <li className="py-2.5	px-4	">
-                  <div className="flex items-center">
-                    <input
-                      defaultChecked=""
-                      id="default-radio-1"
-                      type="radio"
-                      name="filterTextFirst"
-                      checked={filterTextFirst}
-                      onChange={changeHandler}
-                      defaultValue=""
-                      className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full	      dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label
-                      for="default-radio-1"
-                      htmlFor="checked-checkbox"
-                      className="ml-2 text-sm font-medium text-gray"
-                    >
-                      Title
-                    </label>
-                  </div>
-                </li>
-
-                <li className="py-2.5	px-4	">
-                  <div className="flex items-center">
-                    <input
-                      defaultChecked=""
-                      id="default-radio-2"
-                      type="radio"
-                      name="filterTextSecond"
-                      checked={filterTextSecond}
-                      onChange={changeHandler}
-                      defaultValue=""
-                      className="w-4 relative h-4 text-lightGreen bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label
-                      htmlFor="checked-checkbox"
-                      className="ml-2 text-sm font-medium text-gray"
-                    >
-                      Date updated
-                    </label>
-                  </div>
-                </li>
-
-                <li className="py-2.5	px-4 	">
-                  <div className="flex items-center">
-                    <input
-                      defaultChecked=""
-                      id="default-radio-3"
-                      type="radio"
-                      name="filterTextThird"
-                      checked={filterTextThird}
-                      onChange={changeHandler}
-                      defaultValue=""
-                      className="w-4 h-4 relative text-lightGreen bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label
-                      htmlFor="checked-checkbox"
-                      className="ml-2 text-sm font-medium text-gray"
-                    >
-                      Stock levelEquipment
-                    </label>
-                  </div>
-                </li>
-                <li className="py-2.5	px-4 	">
-                  <div className="flex items-center">
-                    <input
-                      defaultChecked=""
-                      id="default-radio-4"
-                      type="radio"
-                      name="filterTextForth"
-                      checked={filterTextForth}
-                      onChange={changeHandler}
-                      defaultValue=""
-                      className="w-4 h-4 text-lightGreen bg-gray-100 border-gray-300 rounded  relative     dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label
-                      htmlFor="checked-checkbox"
-                      className="ml-2 text-sm font-medium text-gray"
-                    >
-                      Price
-                    </label>
-                  </div>
-                </li>
+            <div className="z-10 right-0 w-56 sm:w-30 absolute top-14 border border-inherit bg-white shadow-md rounded-lg h-fit py-3">
+              <ul className="dropdown-content">
+                {sort.map((item) => (
+                  <li className="py-2.5 px-4" key={item.label}>
+                    <div className="flex items-center">
+                      <input
+                        defaultChecked=""
+                        id={item.label}
+                        type="radio"
+                        name="filterTextFirst"
+                        checked={filterAndSort.sort.sortBy === item.key}
+                        onChange={() =>
+                          handleSortChange(
+                            item.key,
+                            filterAndSort.sort.sortOrder
+                          )
+                        }
+                        defaultValue=""
+                        className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor={item.label}
+                        className="ml-2 text-sm font-medium text-gray"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  </li>
+                ))}
               </ul>
-              {filterTextFirst && (
-                <div className="border-t border-inherit ">
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img src="/assets/arrow_upward.png" alt="" className="" />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">A - Z</h5>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img
-                        src="/assets/arrow_upward.png"
-                        alt=""
-                        className=" rotate-180"
-                      />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">A - Z</h5>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {filterTextSecond && (
-                <div className="border-t border-inherit ">
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img src="/assets/arrow_upward.png" alt="" className="" />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">
-                        Oldest first
-                      </h5>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img
-                        src="/assets/arrow_upward.png"
-                        alt=""
-                        className=" rotate-180"
-                      />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">
-                        Newest first
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {filterTextThird && (
-                <div className="border-t border-inherit ">
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img src="/assets/arrow_upward.png" alt="" className="" />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">
-                        Lowest to highest
-                      </h5>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img
-                        src="/assets/arrow_upward.png"
-                        alt=""
-                        className=" rotate-180"
-                      />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">
-                        Highest to lowest
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {filterTextForth && (
-                <div className="border-t border-inherit ">
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img src="/assets/arrow_upward.png" alt="" className="" />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">
-                        Oldest first
-                      </h5>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-3 py-2.5	px-4 box-range">
-                    <div className="">
-                      <img
-                        src="/assets/arrow_upward.png"
-                        alt=""
-                        className=" rotate-180"
-                      />
-                    </div>
-                    <div className="">
-                      <h5 className="text-base font-medium text-gray">
-                        Newest first
-                      </h5>
-                    </div>
-                  </div>
-                </div>
+              {filterAndSort.sort.sortBy && (
+                <ul className="border-t border-inherit">
+                  <li className="flex items-center py-2.5 px-4">
+                    <input
+                      type="radio"
+                      value={"asc"}
+                      checked={filterAndSort.sort.sortOrder === "asc"}
+                      onChange={() =>
+                        handleSortChange(filterAndSort.sort.sortBy, "asc")
+                      }
+                      className="w-4 h-4 text-lightGreen bg-gray-100 border-gray-300 rounded relative dark:bg-gray-700 dark:border-gray-600"
+                      id="asc"
+                    />
+                    <label
+                      htmlFor="asc"
+                      className="flex items-center ml-2 justify-start gap-3 box-range"
+                    >
+                      <div className="">
+                        <img
+                          src="/assets/arrow_upward.png"
+                          alt=""
+                          className=""
+                        />
+                      </div>
+                      <div className="">
+                        <h5 className="text-base font-medium text-gray whitespace-nowrap">
+                          {
+                            sort.find(
+                              (item) => item.key === filterAndSort.sort.sortBy
+                            ).value.asc
+                          }
+                        </h5>
+                      </div>
+                    </label>
+                  </li>
+                  <li className="flex items-center py-2.5 px-4">
+                    <input
+                      type="radio"
+                      className="w-4 h-4 text-lightGreen bg-gray-100 border-gray-300 rounded relative dark:bg-gray-700 dark:border-gray-600"
+                      id="desc"
+                      value={"desc"}
+                      checked={filterAndSort.sort.sortOrder === "desc"}
+                      onChange={() =>
+                        handleSortChange(filterAndSort.sort.sortBy, "desc")
+                      }
+                    />
+                    <label
+                      htmlFor="desc"
+                      className="flex items-center ml-2 justify-start gap-3 box-range"
+                    >
+                      <div className="">
+                        <img
+                          src="/assets/arrow_upward.png"
+                          alt=""
+                          className=" rotate-180"
+                        />
+                      </div>
+                      <div className="">
+                        <h5 className="text-base font-medium text-gray whitespace-nowrap">
+                          {
+                            sort.find(
+                              (item) => item.key === filterAndSort.sort.sortBy
+                            ).value.desc
+                          }
+                        </h5>
+                      </div>
+                    </label>
+                  </li>
+                </ul>
               )}
             </div>
           </>

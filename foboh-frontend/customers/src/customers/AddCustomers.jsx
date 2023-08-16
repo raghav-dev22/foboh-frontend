@@ -17,6 +17,7 @@ const TABLE_HEAD = ["Name", "Contact", "Region", "Status", "Orders", "Amount spe
 function AddCustomers() {
   const navigate = useNavigate();
   const [isDivVisible, setIsDivVisible] = useState(false);
+  const [customerList, setCustomerList] = useState([]);
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };

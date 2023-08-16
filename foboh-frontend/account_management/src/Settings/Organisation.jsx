@@ -776,8 +776,13 @@ function Organisation() {
                             >
                               <option value={""}>Select a state</option>
                               <option value={"NSW"}>NSW</option>
-                              <option value={"Missouri"}>Missouri</option>
-                              <option value={"Texas"}>Texas</option>
+                              <option value={"VIC"}>VIC</option>
+                              <option value={"QLD"}>QLD</option>
+                              <option value={"WA"}>WA</option>
+                              <option value={"SA"}>SA</option>
+                              <option value={"TAS"}>TAS</option>
+                              <option value={"ACT"}>ACT</option>
+                              <option value={"NT"}>NT</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                               <svg
@@ -976,8 +981,13 @@ function Organisation() {
                             >
                               <option value={""}>Select a state</option>
                               <option value={"NSW"}>NSW</option>
-                              <option value={"Missouri"}>Missouri</option>
-                              <option value={"Texas"}>Texas</option>
+                              <option value={"VIC"}>VIC</option>
+                              <option value={"QLD"}>QLD</option>
+                              <option value={"WA"}>WA</option>
+                              <option value={"SA"}>SA</option>
+                              <option value={"TAS"}>TAS</option>
+                              <option value={"ACT"}>ACT</option>
+                              <option value={"NT"}>NT</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                               <svg
@@ -1240,6 +1250,7 @@ function Organisation() {
                             name="orderingContactMobile"
                             value={values.orderingContactMobile}
                             onChange={handleChange}
+                            maxLength={20}
                             onBlur={handleBlur}
                             style={{
                               border:
@@ -1398,6 +1409,7 @@ function Organisation() {
                             name="LogisticsContactMobile"
                             value={values.LogisticsContactMobile}
                             onChange={handleChange}
+                            maxLength={20}
                             onBlur={handleBlur}
                             style={{
                               border:

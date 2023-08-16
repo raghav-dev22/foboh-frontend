@@ -56,12 +56,7 @@ const ResetPasswordForm = () => {
     initialValues: initialValues,
     validationSchema: ResetPasswordFormSchema,
     onSubmit: (values) => {
-      const key1 = "12345";
-    const encryptedPassword = CryptoJS.AES.encrypt(
-      values.repeatPassword,
-      key1
-    ).toString();
-    console.log(encryptedPassword);
+      
 
 
       fetch(
@@ -73,7 +68,7 @@ const ResetPasswordForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            mailNickname: encryptedPassword,
+            mailNickname: values.repeatPassword,
           }),
         }
       )

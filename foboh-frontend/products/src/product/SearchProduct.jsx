@@ -1,31 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Sort from "./Sort";
 
-function SearchProduct({ products, setProducts }) {
+const stock = [
+  { label: "In Stock", value: "inStock" },
+  { label: "Low Stock", value: "lowStock" },
+  { label: "Out of Stock", value: "outOfStock" },
+];
+
+const status = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "inactive" },
+  { label: "Archived", value: "archived" },
+];
+
+let filterAndSort = {
+  filter: {
+    category: [],
+    subcategory: [],
+    stock: [],
+    productStatus: [],
+    visibility: true,
+    page: 0,
+  },
+  sort: {
+    sortBy: "",
+    sortOrder: "asc",
+  },
+};
+
+function SearchProduct({ products, setProducts, prevProducts }) {
   const [Open, setOpen] = useState(false);
-  const toggleCategory = () => {
-    setOpen(!Open);
-  };
   const [filterTextFirst, setFilterTextFirst] = useState(false);
   const [filterTextSecond, setFilterTextSecond] = useState(false);
   const [filterTextThird, setFilterTextThird] = useState(false);
   const [filterTextForth, setFilterTextForth] = useState(false);
+  const [input, setInput] = useState("");
+  const [selectedCatId, setSelectedCatId] = useState([]);
+  const [categoryAndSubcategory, setCategoryAndSubcategory] = useState([]);
+  const [selectedSubcatId, setSelectedSubcatId] = useState([]);
+  const [itemLabel, setItemLabel] = useState("");
 
-  const [filterAndSort, setFilterAndSort] = useState({
-    filter: {
-      category: [],
-      subCategory: [],
-      stock: [],
-      status: true,
-      visibility: true,
-      page: 0,
-    },
-    sort: {
-      sortBy: "",
-      sortOrder: "",
-    },
-  });
+
 
   const FirstDropdown = () => {
     setFilterTextFirst(!filterTextFirst);
@@ -51,7 +67,44 @@ function SearchProduct({ products, setProducts }) {
     setFilterTextThird(false);
     setFilterTextForth(!filterTextForth);
   };
-  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/ShowCategorySubcategory`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Category and Subcategory >>", data);
+
+        console.log(
+          "cat drop",
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+
+        setCategoryAndSubcategory(
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -67,33 +120,150 @@ function SearchProduct({ products, setProducts }) {
       }, timeout);
     };
   }
-  function saveInput() {
-    fetch(
-      `https://product-api-foboh.azurewebsites.net/api/Product/get?Title=${input}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((respose) => respose.json())
-      .then((data) => {
-        if (data.success) {
-          setProducts(data.data);
+  function saveInput(name) {
+    if (name === "filterAndSort") {
+      fetch(
+        "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Filter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filterAndSort),
         }
-      });
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setProducts(data.data);
+          console.log("filter data table", data.data);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      fetch(
+        `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAllByTitle?search=${input}`,
+        {
+          method: "GET",
+        }
+      )
+        .then((respose) => respose.json())
+        .then((data) => {
+          if (!data.status) {
+            setProducts(data.data);
+          } else {
+            setProducts(prevProducts);
+          }
+        });
+    }
   }
+  const processChange = debounce((name) => saveInput(name));
 
-  const handleCategory = (e) => {
-    console.log("handleCategory", e.target.name);
-    // setFilterAndSort({
-    //   ...filterAndSort,
-    //   filter.[...category, ]
-    // })
-    toggleCategory();
+  const toggleCategoryAndSubcategory = (e, id, name) => {
+    console.log(id, name);
+    if (name === "category") {
+      setOpen(!Open);
+
+      const newCategoryIds = e.target.checked
+        ? [...filterAndSort.filter.category, id]
+        : filterAndSort.filter.category.filter((catId) => catId !== id);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        category: newCategoryIds,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+
+    
+    } else if (name === "subcategory") {
+      const newSubcategoryIds = e.target.checked
+        ? [...filterAndSort.filter.subcategory, id]
+        : filterAndSort.filter.subcategory.filter(
+            (subcatId) => subcatId !== id
+          );
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        subcategory: newSubcategoryIds,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+
+      
+    } else if (name === "stock") {
+      const newStockValues = e.target.checked
+        ? [...filterAndSort.filter.stock, id]
+        : filterAndSort.filter.stock.filter((stockValue) => stockValue !== id);
+
+      console.log("stock", newStockValues);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        stock: newStockValues,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+
+    
+    } else if (name === "status") {
+      const newStatusValues = e.target.checked
+        ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
+        : filterAndSort.filter.productStatus.filter(
+            (statusValue) => statusValue !== id
+          );
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        productStatus: newStatusValues,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+
+      
+    } else if (name === "visibility") {
+      const newVisibilityValue = id ? true : false;
+      const newFilter = {
+        ...filterAndSort.filter,
+        visibility: newVisibilityValue,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+
+    }
+    console.log(filterAndSort);
+
+    processChange("filterAndSort");
   };
 
-  const handleFilterAndSort = () => {};
+  const handleSortChange = (sortBy, sortOrder) => {
+    console.log(sortBy, sortOrder);
+    setItemLabel(sortBy);
 
-  const processChange = debounce(() => saveInput());
+    filterAndSort = {
+      ...filterAndSort,
+      sort: {
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      },
+    };
+
+    processChange("filterAndSort");
+    console.log("val", filterAndSort);
+  };
 
   return (
     <>
@@ -149,10 +319,7 @@ function SearchProduct({ products, setProducts }) {
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
             </div>
-            <Sort
-              filterAndSort={filterAndSort}
-              setFilterAndSort={setFilterAndSort}
-            />
+            <Sort filterAndSort={filterAndSort} itemLabel={itemLabel} handleSortChange={handleSortChange} />
           </div>
         </div>
         <div className="flex gap-8 relative  pt-4 flex-wrap">
@@ -173,166 +340,64 @@ function SearchProduct({ products, setProducts }) {
             {filterTextFirst && (
               <div className=" z-10	left-0   w-max	 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content ">
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        id="Alcoholic-beverage"
-                        type="checkbox"
-                        name="Alcoholic beverage"
-                        value={filterTextFirst}
-                        onChange={(e) => handleCategory(e)}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Alcoholic-beverage"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Alcoholic beverage
-                      </label>
-                    </div>
-                    {Open && (
-                      <ul className="dropdown-content 	 ">
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="Beer"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="Beer"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Beer
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="Wine"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="Wine"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Wine{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="Spirits"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="Spirits"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Spirits{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="Cider"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="Cider"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Cider{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="Pre-mixed"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="Pre-mixed"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Pre-mixed{" "}
-                            </label>
-                          </div>
-                        </li>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              defaultChecked=""
-                              id="Other"
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="Other"
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              Other{" "}
-                            </label>
-                          </div>
-                        </li>
-                      </ul>
-                    )}
-                  </li>
-
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="Non-alcoholic-beverage"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Non-alcoholic-beverage"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Non-alcoholic beverage
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4 	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="Equipment"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Equipment"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Equipment
-                      </label>
-                    </div>
-                  </li>
+                  {categoryAndSubcategory &&
+                    categoryAndSubcategory.map((category, idx) => (
+                      <li className="py-2.5	px-4	">
+                        <div className="flex items-center">
+                          <input
+                            id={idx}
+                            type="checkbox"
+                            value={category.categoryId}
+                            onClick={(e) =>
+                              toggleCategoryAndSubcategory(
+                                e,
+                                category.categoryId,
+                                "category"
+                              )
+                            }
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor={idx}
+                            className="ml-2 text-sm font-medium text-gray"
+                          >
+                            {category.categoryName}
+                          </label>
+                        </div>
+                        <ul className="dropdown-content">
+                          {category.subcategory.map((subcat) => (
+                            <>
+                              {filterAndSort.filter.category.includes(
+                                category.categoryId
+                              ) && (
+                                <li className="py-2.5	px-4	">
+                                  <div className="flex items-center">
+                                    <input
+                                      id={subcat.id}
+                                      type="checkbox"
+                                      onClick={(e) =>
+                                        toggleCategoryAndSubcategory(
+                                          e,
+                                          subcat.id,
+                                          "subcategory"
+                                        )
+                                      }
+                                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <label
+                                      htmlFor={subcat.id}
+                                      className="ml-2 text-sm font-medium text-gray"
+                                    >
+                                      {subcat.name}
+                                    </label>
+                                  </div>
+                                </li>
+                              )}
+                            </>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
                 </ul>
               </div>
             )}
@@ -353,59 +418,27 @@ function SearchProduct({ products, setProducts }) {
             {filterTextSecond && (
               <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content 	 ">
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="In-stock"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="In-stock"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        In stock
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="Low-stock"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Low-stock"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Low stock
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4 	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="Out-of-stock"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Out-of-stock"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Out of stock
-                      </label>
-                    </div>
-                  </li>
+                  {stock.map((ele, idx) => (
+                    <li className="py-2.5	px-4	">
+                      <div className="flex items-center">
+                        <input
+                          id={`${ele.label}-${idx}`}
+                          type="checkbox"
+                          value={ele.value}
+                          onClick={(e) =>
+                            toggleCategoryAndSubcategory(e, ele.value, "stock")
+                          }
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={`${ele.label}-${idx}`}
+                          className="ml-2 text-sm font-medium text-gray"
+                        >
+                          {ele.label}
+                        </label>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -424,61 +457,29 @@ function SearchProduct({ products, setProducts }) {
               </div>
             </div>
             {filterTextThird && (
-              <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
-                <ul className="dropdown-content 	 ">
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="Active"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Active"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Active
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="Inactive"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Inactive"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Inactive
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4 	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="Archived"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="Archived"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Archived
-                      </label>
-                    </div>
-                  </li>
+              <div className="z-10 left-0 w-60 absolute product-dropdown bg-white	shadow-md rounded-lg h-fit py-3	">
+                <ul className="dropdown-content">
+                  {status.map((sts) => (
+                    <li className="py-2.5	px-4	">
+                      <div className="flex items-center">
+                        <input
+                          id={sts.value}
+                          type="checkbox"
+                          value={sts.value}
+                          onClick={(e) =>
+                            toggleCategoryAndSubcategory(e, sts.value, "status")
+                          }
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={sts.value}
+                          className="ml-2 text-sm font-medium text-gray"
+                        >
+                          {sts.label}
+                        </label>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -502,10 +503,12 @@ function SearchProduct({ products, setProducts }) {
                   <li className="py-2.5	px-4	">
                     <div className="flex items-center">
                       <input
-                        defaultChecked=""
                         id="Visible"
                         type="checkbox"
-                        defaultValue=""
+                        onClick={(e) =>
+                          toggleCategoryAndSubcategory(e, true, "visibility")
+                        }
+                        checked={filterAndSort.filter.visibility === true}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
@@ -520,10 +523,12 @@ function SearchProduct({ products, setProducts }) {
                   <li className="py-2.5	px-4	">
                     <div className="flex items-center">
                       <input
-                        defaultChecked=""
                         id="Hidden"
                         type="checkbox"
-                        defaultValue=""
+                        onClick={(e) =>
+                          toggleCategoryAndSubcategory(e, false, "visibility")
+                        }
+                        checked={filterAndSort.filter.visibility === false}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
