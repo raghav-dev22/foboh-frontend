@@ -19,7 +19,7 @@ function CustomerDetailsFirst({
     console.log(e, name);
     setValues({
       ...values,
-      [name]: e.value,
+      [name]: JSON.stringify(e.value),
     });
   };
 

@@ -20,6 +20,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 import createArrayWithNumber from "../helpers/createArrayWithNumbers";
+import { PaginationNav1Presentation } from "./Pagination";
 const TABLE_HEAD = [
   "Title",
   "Code",
@@ -35,62 +36,9 @@ function Range() {
   const [prevProducts, setPrevProducts] = useState([]);
   const [pages, setPages] = useState([]);
   const [page, setPage] = useState(1);
-  const [selectedPage, setSelectedPage] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
-
-  const TABLE_ROWS = [
-    {
-      img: "/img/logos/logo-spotify.svg",
-      name: "Spotify",
-      amount: "$2,500",
-      date: "Wed 3:00pm",
-      status: "paid",
-      account: "visa",
-      accountNumber: "1234",
-      expiry: "06/2026",
-    },
-    {
-      img: "/img/logos/logo-amazon.svg",
-      name: "Amazon",
-      amount: "$5,000",
-      date: "Wed 1:00pm",
-      status: "paid",
-      account: "master-card",
-      accountNumber: "1234",
-      expiry: "06/2026",
-    },
-    {
-      img: "/img/logos/logo-pinterest.svg",
-      name: "Pinterest",
-      amount: "$3,400",
-      date: "Mon 7:40pm",
-      status: "pending",
-      account: "master-card",
-      accountNumber: "1234",
-      expiry: "06/2026",
-    },
-    {
-      img: "/img/logos/logo-google.svg",
-      name: "Google",
-      amount: "$1,000",
-      date: "Wed 5:00pm",
-      status: "paid",
-      account: "visa",
-      accountNumber: "1234",
-      expiry: "06/2026",
-    },
-    {
-      img: "/img/logos/logo-netflix.svg",
-      name: "netflix",
-      amount: "$14,000",
-      date: "Wed 3:30am",
-      status: "cancelled",
-      account: "visa",
-      accountNumber: "1234",
-      expiry: "06/2026",
-    },
-  ];
 
   useEffect(() => {
     getProductList(1);
@@ -110,30 +58,14 @@ function Range() {
         setProducts(data.data);
         setPrevProducts(data.data);
         const array = createArrayWithNumber(data.last_page);
+        setTotalPages(data.last_page);
         setPages(array);
       })
       .catch((error) => console.log(error));
   };
 
-  const [filterAndSort, setFilterAndSort] = useState({
-    filter: {
-      category: [],
-      subCategory: [],
-      stock: [],
-      status: [],
-      visibility: [],
-    },
-    sort: {
-      sortBy: "",
-      sortOrder: "",
-    },
-  });
-
-  const sidebarHandler = () => {
-    setIsDivVisible(!isDivVisible);
-  };
-
   const handleBulkEdit = () => {
+    localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
     navigate("/dashboard/bulk-edit");
   };
 
@@ -159,20 +91,80 @@ function Range() {
     // alert("button clikc",type)
   };
   // console.log("range products", products);
-  const handleCheckbox = (product) => {
-    setIsBulkEdit(true);
+  const handleCheckbox = (e, product) => {
+    e.target.checked
+      ? setSelectedProducts([...selectedProducts, product])
+      : setSelectedProducts(
+          selectedProducts.filter((prod) => prod !== product)
+        );
+
+    if (selectedProducts.length > 0) {
+      setIsBulkEdit(true);
+    }
+
     console.log("prod :->", product);
-    setSelectedProducts(product);
-    console.log(selectedProducts, "setSelectedProducts");
-    if (selectedProducts.includes(product)) {
-      const newSelectedProducts = selectedProducts.filter(
-        (prod) => prod !== product
+    console.log("selected product array >>>", selectedProducts);
+  };
+
+  const stockStatus = (availableQty, stockThreshold) => {
+    if (availableQty === 0) {
+      return (
+        <div
+          className="bg-[#EDF7F1] py-1 px-3.5	rounded-[30px]"
+          style={{
+            background: "rgba(220, 53, 69, 0.05)",
+            paddingLeft: "0.875rem",
+            paddingRight: "0.875rem",
+            borderRadius: "30px",
+            maxWidth: "134px",
+          }}
+        >
+          <Typography className="font-normal md:text-base text-sm text-[#DC3545] text-center">
+            {`Out of stock(${availableQty})`}
+          </Typography>
+        </div>
       );
-      setSelectedProducts(newSelectedProducts);
-    } else {
-      setSelectedProducts([...selectedProducts, product]);
+    } else if (availableQty <= stockThreshold) {
+      return (
+        <div
+          className="bg-[#EDF7F1] py-1 px-3.5	rounded-[30px]"
+          style={{
+            background: "rgba(255, 167, 11, 0.08)",
+            paddingLeft: "0.875rem",
+            paddingRight: "0.875rem",
+            borderRadius: "30px",
+            maxWidth: "134px",
+          }}
+        >
+          <Typography className="font-normal md:text-base text-sm text-[#FFA70B] text-center">
+            {`Low stock(${availableQty})`}
+          </Typography>
+        </div>
+      );
+    } else if (availableQty >= stockThreshold) {
+      return (
+        <div
+          className="bg-[#EDF7F1] py-1 px-3.5	rounded-[30px]"
+          style={{
+            background: "rgba(33, 150, 83, 0.08)",
+            paddingLeft: "0.875rem",
+            paddingRight: "0.875rem",
+            borderRadius: "30px",
+            maxWidth: "134px",
+            color: "#219653",
+          }}
+        >
+          <Typography
+            style={{ color: "#219653" }}
+            className="font-normal md:text-base text-sm text-center"
+          >
+            {`In stock(${availableQty})`}
+          </Typography>
+        </div>
+      );
     }
   };
+
   return (
     <>
       <ActiveProduct />
@@ -185,7 +177,7 @@ function Range() {
           />
         </div>
         <div className="pt-6 px-6 relative">
-          <div className="box-4 relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
+          <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead>
@@ -233,7 +225,7 @@ function Range() {
                               id="default-checkbox"
                               type="checkbox"
                               name={product.title}
-                              onClick={() => handleCheckbox(product)}
+                              onClick={(e) => handleCheckbox(e, product)}
                               className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                             />
                           </div>
@@ -268,7 +260,14 @@ function Range() {
                           </div>
                         </td>
                         <td className={classes}>
-                          <div className="flex items-center gap-3">
+                          <div
+                            onClick={() =>
+                              navigate(
+                                `/dashboard/view-product/${product.productId}`
+                              )
+                            }
+                            className="flex items-center gap-3"
+                          >
                             <Typography className="font-medium	md:text-base text-sm text-[#637381]">
                               {product.title}
                             </Typography>
@@ -286,27 +285,20 @@ function Range() {
                         </td>
                         <td className={classes}>
                           <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                            {product.globalPrice}
+                            {`$${product.globalPrice}`}
                           </Typography>
                         </td>
                         <td className={classes}>
-                          <div
-                            className="bg-[#EDF7F1] py-1 px-3.5	rounded-[30px]"
-                            style={{
-                              background: "#EDF7F1",
-                              paddingLeft: "0.875rem",
-                              paddingRight: "0.875rem",
-                              borderRadius: "30px",
-                            }}
-                          >
-                            <Typography className="font-normal md:text-base text-sm text-[#637381] text-center ">
-                              {product.availableQty}
-                            </Typography>
-                          </div>
+                          {stockStatus(
+                            product.availableQty,
+                            product.stockThreshold
+                          )}
                         </td>
                         <td className={classes}>
                           <Typography className="font-normal md:text-base text-sm text-[#637381]">
                             {product.stockStatus}
+                            <br />
+                            {product.visibility ? "Visible" : "Hidden"}
                           </Typography>
                         </td>
                       </tr>
@@ -316,37 +308,11 @@ function Range() {
               </table>
             </CardBody>
 
-            <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-              <Button
-                onClick={() => buttonClik("previous")}
-                variant="outlined"
-                size="sm"
-              >
-                Previous
-              </Button>
-              <div className="flex items-center gap-2">
-                <div>
-                  {pages.map((page, index) => {
-                    return (
-                      <div
-                        onClick={() =>
-                          navigate(`/dashboard/prooducts/${index + 1}`)
-                        }
-                        className="hidden px-4 py-2 mx-1 text-green  bg-white rounded-md sm:inline  dark:text-gray-200  table-pagination "
-                      >
-                        {index + 1}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <Button
-                onClick={() => buttonClik("next")}
-                variant="outlined"
-                size="sm"
-              >
-                Next
-              </Button>
+            <CardFooter className="flex w-full items-center justify-between border-t border-blue-gray-50 p-4">
+              <PaginationNav1Presentation
+                totalPages={totalPages}
+                getProductList={getProductList}
+              />
             </CardFooter>
           </div>
           {isBulkEdit ? (

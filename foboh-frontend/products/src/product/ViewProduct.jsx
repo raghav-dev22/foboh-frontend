@@ -40,6 +40,7 @@ const initialValues = {
   category: "",
   subcategory: "",
   segment: "",
+  availableQty : "",
   grapeVariety: [],
   regionSelect: {},
   vintage: "",
@@ -64,6 +65,7 @@ const initialValues = {
 
 function ViewProduct() {
   const { id } = useParams();
+  // console.log("product id>>",id)
   const [productImageUris, setProductImageUris] = useState([]);
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
@@ -193,6 +195,7 @@ function ViewProduct() {
           grapeVariety: product.variety,
           regionSelect: product.region,
           vintage: product.vintage,
+          availableQty : product.availableQty,
           awards: product.award && product.award,
           abv: product.abv,
           country: product.countryOfOrigin,
@@ -294,6 +297,7 @@ function ViewProduct() {
                 sellOutOfStock: product.stockStatus,
                 title: product.title,
                 skuCode: product.skUcode,
+                availableQty : product.availableQty,
                 brand: product.brand,
                 productImageUrls: imageUris,
                 category: categoryId && cate,
@@ -440,7 +444,7 @@ function ViewProduct() {
           buyPrice: values.buyPrice,
           gstFlag: checkGST,
           wetFlag: checkWET,
-          availableQty: values.minimumOrder,
+          availableQty: values.availableQty,
           stockThreshold: values.stockAlertLevel,
           stockStatus: values.status,
           regionAvailability: values.region,
@@ -927,7 +931,7 @@ function ViewProduct() {
               <div className="edit-img">
                 <img
                   src={
-                    productImageUris[0]
+                    productImageUris
                       ? productImageUris[0]
                       : "/assets/inventory-img.png"
                   }
@@ -939,7 +943,7 @@ function ViewProduct() {
                 <div className="">
                   <img
                     src={
-                      productImageUris[1]
+                      productImageUris
                         ? productImageUris[1]
                         : "/assets/inventory-img.png"
                     }
@@ -950,7 +954,7 @@ function ViewProduct() {
                 <div className="">
                   <img
                     src={
-                      productImageUris[2]
+                      productImageUris
                         ? productImageUris[2]
                         : "/assets/inventory-img.png"
                     }
@@ -1083,7 +1087,7 @@ function ViewProduct() {
                           id={region}
                           type="checkbox"
                           value={region}
-                          checked={values.region.includes(region)}
+                          checked={values.region?.includes(region)}
                           name={region}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                         />
