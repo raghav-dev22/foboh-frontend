@@ -9,8 +9,7 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
 
-function PersonalDetails({ profileUri }) {
-  const [show, setShow] = useState(false);
+function PersonalDetails({ profileUri, setShow, show }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({

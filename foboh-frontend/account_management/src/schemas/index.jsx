@@ -25,7 +25,9 @@ export const ResetPasswordFormSchema = Yup.object().shape({
 
 //Sign-up Schema
 export const SignUpSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required").email("Please enter a valid email"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Please enter a valid email"),
   password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
@@ -59,7 +61,9 @@ export const RegistrationSchema = Yup.object().shape({
 
 // Sign-in Schema
 export const SignInSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required").email("Please enter a valid email"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Please enter a valid email"),
   password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
@@ -88,11 +92,13 @@ export const PersonalDetailsSchema = Yup.object().shape({
 export const OrganisationSettingsSchema = Yup.object().shape({
   //Organization Details
   tradingName: Yup.string()
-    .min(2, "Your trading name should have atleast 2 letters")
-    .max(50),
+    .min(2, "Your trading name should have at least 2 letters")
+    .max(50)
+    .matches(/^[^\d]*$/, "Trading name should not contain numbers"),
   businessName: Yup.string()
-    .min(2, "Your business name should have atleast 2 letters")
-    .max(50),
+    .min(2, "Your business name should have at least 2 letters")
+    .max(50)
+    .matches(/^[^\d]*$/, "Business name should not contain numbers"),
   abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
   liquorLicence: Yup.string().matches(
     /^\d{11}$/,

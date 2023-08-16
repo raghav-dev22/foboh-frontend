@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
 
-function EditProfile({ setProfileUri }) {
+function EditProfile({ setProfileUri, setShow, show }) {
   const [imageSrc, setImageSrc] = useState(``);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -55,6 +55,7 @@ function EditProfile({ setProfileUri }) {
             console.log("Server response:", data);
             if (!data.error) {
               console.log("uri --->", data.blob.uri);
+              setShow(true)
               setImageSrc(data.blob.uri);
               setProfileUri(data.blob.uri);
             }

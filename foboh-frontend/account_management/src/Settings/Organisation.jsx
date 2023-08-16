@@ -332,7 +332,6 @@ function Organisation() {
     // Do something with the files
     console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
-
     if (file) {
       const fileNameParts = file.name.split(".");
       const fileExtension =
@@ -547,7 +546,7 @@ function Organisation() {
                             </p>
                           )}
                           {errors.abn && touched.abn && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[31px] right-5 transition-all duration-[0.3s]" />
+                            <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
                           )}
                         </div>
                       </div>
