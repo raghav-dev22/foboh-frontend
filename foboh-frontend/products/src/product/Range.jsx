@@ -72,7 +72,7 @@ function Range() {
     if (availableQty === 0) {
       return (
         <div
-          className="bg-[#EDF7F1] py-1 px-3.5	rounded-[30px]"
+          className="bg-[#EDF7F1] py-2 px-3.5	rounded-[30px]"
           style={{
             background: "rgba(220, 53, 69, 0.05)",
             paddingLeft: "0.875rem",
@@ -81,7 +81,7 @@ function Range() {
             maxWidth: "134px",
           }}
         >
-          <Typography className="font-normal md:text-base text-sm text-[#DC3545] text-center">
+          <Typography className="font-normal md:text-sm text-sm text-[#DC3545] text-center">
             {`Out of stock(${availableQty})`}
           </Typography>
         </div>
@@ -89,7 +89,7 @@ function Range() {
     } else if (availableQty <= stockThreshold) {
       return (
         <div
-          className="bg-[#EDF7F1] py-1 px-3.5	rounded-[30px]"
+          className="bg-[#EDF7F1] py-2 px-3.5	rounded-[30px]"
           style={{
             background: "rgba(255, 167, 11, 0.08)",
             paddingLeft: "0.875rem",
@@ -98,7 +98,7 @@ function Range() {
             maxWidth: "134px",
           }}
         >
-          <Typography className="font-normal md:text-base text-sm text-[#FFA70B] text-center">
+          <Typography className="font-normal md:text-sm text-sm text-[#FFA70B] text-center">
             {`Low stock(${availableQty})`}
           </Typography>
         </div>
@@ -118,7 +118,7 @@ function Range() {
         >
           <Typography
             style={{ color: "#219653" }}
-            className="font-normal md:text-base text-sm text-center"
+            className="font-normal md:text-sm text-sm text-center"
           >
             {`In stock(${availableQty})`}
           </Typography>
@@ -130,7 +130,7 @@ function Range() {
   return (
     <>
       <ActiveProduct />
-      <div className="   ">
+      <div className="   " style={{ height: "420px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchProduct
             setProducts={setProducts}
