@@ -2,13 +2,93 @@ import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportCustomerModal from "./ImportCustomerModal";
 
-function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData }) {
+function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, importedProducts }) {
+  console.log("imported data>>", importedProducts)
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
-    setShowPreviewModal(true);
-    setShow(false);
-  };
+    const prod = importedProducts.map((product) => {
+      return {
+        customerId: '',
+        businessName: "",
+        abn: "",
+        liquorLicence: "",
+        salesRepId: "",
+        pricingProfileId: "",
+        defaultPaymentMethodId: "",
+        defaultPaymentTerms: "",
+        tags: "",
+        wetLiable: true,
+        orderingFirstName: "",
+        orderingLastName: "",
+        orderingMobile: "",
+        orderingEmail: "",
+        deliveryFirstName: "",
+        deliveryLastName: "",
+        deliveryMobile: "",
+        deliveryEmail: "",
+        address: "",
+        apartment: "",
+        suburb: "",
+        postalCode: "",
+        state: "",
+        deliveryNotes: "",
+        billingAddress: "",
+        billingApartment: "",
+        billingSuburb: "",
+        billingPostalCode: "",
+        billingState: "",
+        isActive: 0,
+      };
+    });
+    console.log("prod", prod);
+    fetch(
+      "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          importedProducts.map((product) => {
+            return {
+              customerId: '',
+              businessName: "",
+              abn: "",
+              liquorLicence: "",
+              salesRepId: "",
+              pricingProfileId: "",
+              defaultPaymentMethodId: "",
+              defaultPaymentTerms: "",
+              tags: "",
+              wetLiable: true,
+              orderingFirstName: "",
+              orderingLastName: "",
+              orderingMobile: "",
+              orderingEmail: "",
+              deliveryFirstName: "",
+              deliveryLastName: "",
+              deliveryMobile: "",
+              deliveryEmail: "",
+              address: "",
+              apartment: "",
+              suburb: "",
+              postalCode: "",
+              state: "",
+              deliveryNotes: "",
+              billingAddress: "",
+              billingApartment: "",
+              billingSuburb: "",
+              billingPostalCode: "",
+              billingState: "",
+              isActive: 0,
+            };
+          })
+        ),
+      }
+    )
+      .then((response) => {
+      })
+      .catch((error) => console.log(error));
+  }
   const previousModal = () => {
     setShowPreviewModal(false);
     previous(true);
