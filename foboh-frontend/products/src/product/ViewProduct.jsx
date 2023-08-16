@@ -424,8 +424,8 @@ function ViewProduct() {
           articleId: 0,
           skUcode: values.skuCode,
           productImageUrls: productImageUris,
-          unitofMeasure: values.baseUnitMeasure.value.toString(),
-          innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
+          unitofMeasure: values.baseUnitMeasure?.value.toString(),
+          innerUnitofMeasure: values.innerUnitMeasure?.value.toString(),
           configuration: values.configuration,
           brand: values.brand,
           region: values.regionSelect ? values.regionSelect.label : "",
@@ -828,7 +828,7 @@ function ViewProduct() {
       // })
 
       fetch(
-        `https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`,
+        `https://product-fobohwepapi-fbh.azurewebsites.net/api/uploadproductimages?productId=${id}`,
         {
           method: "POST",
           body: formData,

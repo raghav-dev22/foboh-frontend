@@ -24,7 +24,7 @@ function Range() {
   const [products, setProducts] = useState([]);
   const [prevProducts, setPrevProducts] = useState([]);
   const [pages, setPages] = useState([]);
-  const [page, setPage] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0)
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
@@ -36,15 +36,17 @@ function Range() {
   const getProductList = (values) => {
     console.log("vales>>", values);
     fetch(
-      `https://fobohwepapifbh.azurewebsites.net/api/product/GetAll?page=${values}`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=${values}`,
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log("product list >>", data);
         setProducts(data.data);
         setPrevProducts(data.data);
+        setTotalProducts(data.total)
         const array = createArrayWithNumber(data.last_page);
         setTotalPages(data.last_page);
         setPages(array);
@@ -129,7 +131,7 @@ function Range() {
 
   return (
     <>
-      <ActiveProduct />
+      <ActiveProduct totalProducts={totalProducts} />
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchProduct
@@ -194,11 +196,11 @@ function Range() {
                         </td>
                         <td className={classes}>
                           <div className="flex items-center gap-3">
-                            {product.productImage ? (
+                            {product.productImageUrls ? (
                               <>
                                 <div className="">
                                   <img
-                                    src={product.productImage}
+                                    src={product.productImageUrls[0]}
                                     alt=""
                                     className="object-cover	"
                                     style={{
