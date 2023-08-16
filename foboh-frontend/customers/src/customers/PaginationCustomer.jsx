@@ -7,14 +7,11 @@ function Button2({ content, onClick, active, disabled }) {
     <button
       className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg
       ${active ? "bg-[#F8FAFC] text-[#147D73]" : "text-[#667085]"}
-      ${
-        !disabled
-          ? "bg-white hover:bg-red-500 hover:text-white"
-          : "text-red-300 bg-white cursor-not-allowed"
-      }
+     
       `}
       onClick={onClick}
       disabled={disabled}
+      style={{ width: "2.25rem", height: "2.25rem" }}
     >
       {content}
     </button>
@@ -62,37 +59,33 @@ function PaginationNav1({
     ));
   }, [pageCount, pageIndex]);
   return (
-    <ul className="flex gap-2">
-      <li>
-        <Button2
-          content={
-            <Button variant="outlined" size="sm">
-              Previous
-            </Button>
-          }
-          onClick={() => {
-            onPageChange(pageIndex - 1);
-            gotoPage(pageIndex - 1);
-          }}
-          disabled={!canPreviousPage}
-        />
-      </li>
-      {renderPageLinks()}
-      <li>
-        <Button2
-          content={
-            <Button variant="outlined" size="sm">
-              Next
-            </Button>
-          }
-          onClick={() => {
-            onPageChange(pageIndex + 1);
-            gotoPage(pageIndex + 1);
-          }}
-          disabled={!canNextPage}
-        />
-      </li>
-    </ul>
+    <>
+      <Button
+        variant="outlined"
+        size="sm"
+        onClick={() => {
+          onPageChange(pageIndex - 1);
+          gotoPage(pageIndex - 1);
+        }}
+        disabled={!canPreviousPage}
+      >
+        Previous
+      </Button>
+
+      <ul className="flex gap-2">{renderPageLinks()}</ul>
+
+      <Button
+        variant="outlined"
+        size="sm"
+        onClick={() => {
+          onPageChange(pageIndex + 1);
+          gotoPage(pageIndex + 1);
+        }}
+        disabled={!canNextPage}
+      >
+        Next
+      </Button>
+    </>
   );
 }
 
@@ -101,19 +94,17 @@ function PaginationCustomer({ totalPages, getProductList }) {
   const pageCount = totalPages;
 
   return (
-    <div className="flex gap-3 flex-wrap p-6 py-2">
-      <PaginationNav1
-        gotoPage={setPageIndex}
-        canPreviousPage={pageIndex > 0}
-        canNextPage={pageIndex < pageCount - 1}
-        pageCount={pageCount}
-        pageIndex={pageIndex}
-        onPageChange={(newPageIndex) => {
-          setPageIndex(newPageIndex);
-          getProductList(newPageIndex); // Call getProductList with the new page index
-        }}
-      />
-    </div>
+    <PaginationNav1
+      gotoPage={setPageIndex}
+      canPreviousPage={pageIndex > 0}
+      canNextPage={pageIndex < pageCount - 1}
+      pageCount={pageCount}
+      pageIndex={pageIndex}
+      onPageChange={(newPageIndex) => {
+        setPageIndex(newPageIndex);
+        getProductList(newPageIndex); // Call getProductList with the new page index
+      }}
+    />
   );
 }
 
