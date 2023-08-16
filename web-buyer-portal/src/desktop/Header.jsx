@@ -12,6 +12,7 @@ import WineBarIcon from "@mui/icons-material/WineBar";
 function Header() {
   const [wine, setWine] = useState(false);
   const [lists, setLists] = useState(false);
+  const [showUser, setShowUser] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const WineDropDown = () => {
     setWine(!wine);
@@ -19,6 +20,10 @@ function Header() {
   const ListsDropDown = () => {
     setLists(!lists);
     setWine(false);
+  };
+
+  const userDropdown = () => {
+    setShowUser(!showUser);
   };
   return (
     <>
@@ -53,9 +58,15 @@ function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center">
+          <div
+            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center"
+            onClick={() => {
+              userDropdown();
+            }}
+          >
             <AccountCircleIcon className="icon-svg" />
           </div>
+          {showUser && <></>}
           <div className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center">
             <ShoppingCartIcon className="icon-svg" />
           </div>
