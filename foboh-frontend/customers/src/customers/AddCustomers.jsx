@@ -40,6 +40,7 @@ function AddCustomers() {
   };
   // Event handler for input change
   const handleInputChange = (event) => {
+    console.log("on search>>",event)
     const newValue = event.target.value;
     setInputValue(newValue);
     // Call the debounced function
