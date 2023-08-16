@@ -130,7 +130,7 @@ function Range() {
   return (
     <>
       <ActiveProduct />
-      <div className="   " style={{ height: "420px", overflowY: "scroll" }}>
+      <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchProduct
             setProducts={setProducts}

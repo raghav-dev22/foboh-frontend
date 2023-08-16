@@ -100,7 +100,7 @@ function AddCustomers() {
   return (
     <>
       <ActiveCustomers />
-      <div className="   " style={{ height: "420px", overflowY: "scroll" }}>
+      <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchCustomer onChange={handleInputChange} />
         </div>

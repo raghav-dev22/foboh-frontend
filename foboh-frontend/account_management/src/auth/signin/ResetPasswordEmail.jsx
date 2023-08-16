@@ -11,6 +11,7 @@ const initialValues = {
 const ResetPasswordEmail = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false)
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialValues,
@@ -60,6 +61,9 @@ const ResetPasswordEmail = () => {
                   navigate(`/auth/reset-link/${data.key}`);
                 })
                 .catch((error) => console.log(error));
+            } else {
+              setError(true)
+              setIsLoading(false)
             }
           }
         })
@@ -127,6 +131,11 @@ const ResetPasswordEmail = () => {
               {errors.email && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
+              {
+                error && (
+                  <p className="mt-2 mb-2 text-red-500">User not present with this email. Please sign up.</p>
+                )
+              }
             </div>
 
             {isLoading ? (
