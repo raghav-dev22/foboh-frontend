@@ -239,7 +239,7 @@ const SigninNew = () => {
                   {/* Password input */}
 
                   <div
-                    className={`relative mb-6 ${
+                    className={`relative  mb-6 ${
                       !isPassword ? "text-red-500" : ""
                     }`}
                     data-te-input-wrapper-init
@@ -272,7 +272,8 @@ const SigninNew = () => {
                         value={values.password}
                       />
                       <label
-                        className="opacity-[0.5] mb-[5px] rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
+                        style={{zIndex:"50"}}
+                        className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
                         htmlFor="password"
                         onClick={handleTogglePassword}
                       >

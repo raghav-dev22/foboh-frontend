@@ -20,9 +20,8 @@ import {
 import { updateUserData } from "../Redux/Action/userSlice";
 
 export const options = [
-  { value: 1234, label: "Chocolate" },
-  { value: 2345, label: "Strawberry" },
-  { value: 3456, label: "Vanilla" },
+  { value: 1234, label: "Alcoholic Beverage" },
+  { value: 2345, label: "Non-Alcoholic Beverage" },
 ];
 
 const initialValues = {
@@ -1017,12 +1016,19 @@ function Organisation() {
                   <div className="px-6 py-7">
                     <div className="flex justify-start gap-3 items-center">
                       <div className="update-user rounded-full">
-                        <img
+                      {
+                        logoUri ? (
+                          <img
                           id="previewImage"
                           src={logoUri || defaultImage}
                           alt=""
                           className="w-[187px]	h-[58px]	object-cover"
                         />
+                        ) : (
+                          <div className="bg-[#D9D9D9] h-[58px] w-[187px]"></div>
+                        )
+                      }
+
                       </div>
                       <div className="">
                         <h6 className="font-normal text-base text-green">

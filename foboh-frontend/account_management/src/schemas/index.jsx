@@ -72,17 +72,17 @@ export const SignInSchema = Yup.object().shape({
 // Personal Details Schema [User Profile]
 export const PersonalDetailsSchema = Yup.object().shape({
   firstName: Yup.string()
-    .min(2, "Your first name should have atleast 2 letters")
+    .min(2, "Your first name should have at least 2 letters")
     .max(50),
   lastName: Yup.string()
-    .min(2, "Your last name should have atleast 2 letters")
+    .min(2, "Your last name should have at least 2 letters")
     .max(50),
   email: Yup.string().email("Please enter a valid email"),
   mobile: Yup.string().matches(
     /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
-  bio: Yup.string(),
+  bio: Yup.string().max(255, "Bio cannot be more than 255 characters"), // Set max limit to 225 and error message
 });
 
 export const OrganisationSettingsSchema = Yup.object().shape({
@@ -103,9 +103,6 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   organisationAddress: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
     .max(100),
-  organisationAddressApartment: Yup.string()
-    .min(2, "Your apartment should have atleast 2 letters")
-    .max(100),
   organisationAddressSuburb: Yup.string()
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
@@ -117,9 +114,6 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   // Billing address
   billingAddress: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
-    .max(100),
-  billingAddressApartment: Yup.string()
-    .min(2, "Your apartment should have atleast 2 letters")
     .max(100),
   billingAddressSuburb: Yup.string()
     .min(2, "Suburb should have atleast 2 letters")

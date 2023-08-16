@@ -76,6 +76,7 @@ function PersonalDetails({ profileUri }) {
   console.log("Initial Values >>>", initialValues);
 
   const handleReset = () => {
+    setShow(false);
     setValues(initialValues);
   };
 
@@ -332,7 +333,7 @@ function PersonalDetails({ profileUri }) {
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-5">
-              <div className="w-full px-3">
+              <div className="w-full relative px-3">
                 <label
                   htmlFor="message"
                   className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
@@ -346,10 +347,17 @@ function PersonalDetails({ profileUri }) {
                   placeholder="Leave a comment..."
                   defaultValue={""}
                   name="bio"
+                  maxLength={256}
                   value={values.bio}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  style={{
+                    border: errors.bio && "1px solid red",
+                  }}
                 />
+                {errors.bio && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.bio}</p>
+                )}
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
