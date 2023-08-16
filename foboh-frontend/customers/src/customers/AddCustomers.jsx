@@ -91,7 +91,6 @@ function AddCustomers() {
     localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
   };
   const isFilter = (item) => {
-    console.log("item>>", item?.);
     const debounceTimeout = setTimeout(() => {
       callFilterApi(item)
     }, 500);

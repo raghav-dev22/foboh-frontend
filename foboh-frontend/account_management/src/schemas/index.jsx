@@ -100,10 +100,7 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .max(50)
     .matches(/^[^\d]*$/, "Business name should not contain numbers"),
   abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
-  liquorLicence: Yup.string().matches(
-    /^\d{11}$/,
-    "Invalid liquorLicence format"
-  ),
+  liquorLicence: Yup.string().max(13, "Liquor licence cannot be more than 13 characters"),
 
   //Organization Address
   organisationAddress: Yup.string()
