@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { AddCustomerSchema } from "../schemas";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-
+import HelpIcon from "@mui/icons-material/Help";
+import { styled } from "@mui/material";
 const initialValues = {
   FirstName: "",
   LastName: "",
@@ -19,6 +21,23 @@ function CustomerContact({
   options,
   touched,
 }) {
+  const CustomTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#2B4447",
+      color: "white",
+      borderRadius: "5px",
+      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      textAlign: "center",
+      fontSize: 11,
+      lineHeight: "24px",
+      fontFamily: "Inter",
+      fontSize: "11px",
+      fontWeight: 600,
+    },
+  }));
+  console.log("errors and touch on contact page",errors,touched)
   return (
     <>
       <div className="  ">
@@ -98,15 +117,35 @@ function CustomerContact({
                 htmlFor="grid-last-name"
               >
                 Mobile
+                <CustomTooltip
+                  placement="right"
+                  arrow
+                  title="Please enter a valid Australian mobile number that starts with '04', '+61', or '61'"
+                >
+                  <HelpIcon
+                    sx={{
+                      color: "#E0E0E0",
+                      width: "20px",
+                      marginLeft: "10px",
+                    }}
+                  />{" "}
+                </CustomTooltip>
               </label>
               <input
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
                 placeholder="Tom"
+                maxLength={20}
                 name="orderingMobile"
                 value={values.orderingMobile}
                 onChange={handleChange}
+                onKeyPress={(event) => {
+                  const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                  if (!allowedCharacters.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
                 onBlur={handleBlur}
                 style={{
                   border: errors.orderingMobile && touched.orderingMobile && "1px solid red",
@@ -188,7 +227,21 @@ function CustomerContact({
                 value={values.deliveryFirstName}
                 type="text"
                 placeholder="Tom"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{
+                  border:
+                    errors.deliveryFirstName && touched.deliveryFirstName && "1px solid red",
+                }}
               />
+              {errors.deliveryFirstName && touched.deliveryFirstName && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.deliveryFirstName}
+                </p>
+              )}
+              {errors.deliveryFirstName && touched.deliveryFirstName && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
             <div className="w-full relative md:w-1/2 px-3">
               <label
@@ -204,7 +257,21 @@ function CustomerContact({
                 name="deliveryLastName"
                 value={values.deliveryLastName}
                 placeholder="Jones"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{
+                  border:
+                    errors.deliveryLastName && touched.deliveryLastName && "1px solid red",
+                }}
               />
+              {errors.deliveryLastName && touched.deliveryLastName && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.deliveryLastName}
+                </p>
+              )}
+              {errors.LastName && touched.LastName && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
           </div>
           <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
@@ -214,6 +281,19 @@ function CustomerContact({
                 htmlFor="grid-last-name"
               >
                 Mobile
+                <CustomTooltip
+                  placement="right"
+                  arrow
+                  title="Please enter a valid Australian mobile number that starts with '04', '+61', or '61'"
+                >
+                  <HelpIcon
+                    sx={{
+                      color: "#E0E0E0",
+                      width: "20px",
+                      marginLeft: "10px",
+                    }}
+                  />{" "}
+                </CustomTooltip>
               </label>
               <input
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -221,6 +301,7 @@ function CustomerContact({
                 type="text"
                 placeholder="Tom"
                 name="deliveryMobile"
+                maxLength={20}
                 value={values.deliveryMobile}
                 onChange={handleChange}
                 onBlur={handleBlur}

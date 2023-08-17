@@ -23,6 +23,7 @@ function CustomerDetailsFirst({
     });
   };
 
+  console.log("all error and touch is>>",errors,touched)
   return (
     <div className="">
       <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
