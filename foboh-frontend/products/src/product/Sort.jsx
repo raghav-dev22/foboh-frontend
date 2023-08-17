@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const sort = [
   {
     label: "Title",
-    key : "title",
+    key: "title",
     value: {
       asc: "A - Z",
       desc: "Z - A",
@@ -11,7 +11,7 @@ const sort = [
   },
   {
     label: "Date updated",
-    key : "date",
+    key: "date",
     value: {
       asc: "Oldest first",
       desc: "Newest first",
@@ -19,7 +19,7 @@ const sort = [
   },
   {
     label: "Stock level",
-    key : "stock",
+    key: "stock",
     value: {
       asc: "Lowest to highest",
       desc: "Highest to lowest",
@@ -27,7 +27,7 @@ const sort = [
   },
   {
     label: "Price",
-    key : "price",
+    key: "price",
     value: {
       asc: "Lowest to highest",
       desc: "Highest to lowest",
@@ -61,8 +61,6 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
       [e.target.name]: e.target.checked,
     });
   };
-
-  
 
   return (
     <>

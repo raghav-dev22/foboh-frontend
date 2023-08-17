@@ -64,6 +64,7 @@ const initialValues = {
   profit: "",
   margin: "",
   tax: "",
+  availableQty : "",
   wineEqualisationTax: "",
   landedUnitCost: 0,
   status: ["Active", "Inactive", "Archived"],
@@ -125,7 +126,7 @@ function AddProduct() {
           buyPrice: values.buyPrice,
           gstFlag: checkGST,
           wetFlag: checkWET,
-          availableQty: values.minimumOrder,
+          availableQty: values.availableQty,
           stockThreshold: values.stockAlertLevel,
           stockStatus: values.status,
           regionAvailability: values.region,
@@ -309,6 +310,13 @@ function AddProduct() {
       minimumOrder: e.target.value,
     });
   };
+
+  const handleAvailableQuantity = (e) => {
+    setValues({
+      ...values,
+      availableQty: e.target.value,
+    });
+  }
 
   const handleTrackInventory = () => {
     setValues({
@@ -813,6 +821,21 @@ function AddProduct() {
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-last-name"
                       name="firstName"
+                      type="number"
+                      placeholder="2 cases"
+                    />
+                  </div>
+                </div>
+                <div className=" pb-5">
+                  <h5 className="text-base font-medium text-green mb-3">
+                    Available quantity
+                  </h5>
+                  <div className="w-72">
+                    <input
+                      onChange={handleAvailableQuantity}
+                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="handleAvailableQuantity"
+                      name="handleAvailableQuantity"
                       type="number"
                       placeholder="2 cases"
                     />

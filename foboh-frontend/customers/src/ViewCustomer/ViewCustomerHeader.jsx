@@ -14,8 +14,8 @@ function ViewCustomerHeader() {
                 </div>
                 <div className=" flex-wrap	 flex judstify-center items-center gap-3">
                  
-                    <EditCustomerBtn/>
-                    <AddCustomerBtn/>
+                    <EditCustomerBtn/> 
+                   <AddCustomerBtn/>
                 </div>
             </div>
         </>

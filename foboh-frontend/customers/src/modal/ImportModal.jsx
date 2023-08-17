@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 
 function ImportModal({ show, setShow }) {
   const [addedFile, setAddedFile] = useState(null);
-  //   const [importedProducts, setImportedProducts] = useState([]);
+    const [importedProducts, setImportedProducts] = useState([]);
   const [errorData, setErrorData] = useState(null);
 
   // Function to handle the file upload
@@ -50,7 +50,7 @@ function ImportModal({ show, setShow }) {
           console.log("finalProductArray", finalProductArray);
           console.log("error data", errorData);
           setErrorData(errorData.filter((err) => err.length));
-          //   setImportedProducts(finalProductArray);
+          setImportedProducts(finalProductArray);
         }
         console.log(productList);
       };
@@ -314,6 +314,7 @@ function ImportModal({ show, setShow }) {
       </Transition.Root>
 
       <PreviewModal
+       importedProducts={importedProducts}
         show={showPreviewModal}
         setShow={setShowPreviewModal}
         previous={setShow}

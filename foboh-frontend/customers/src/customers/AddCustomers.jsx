@@ -1,262 +1,275 @@
 import React, { useEffect, useState } from "react";
-
+import CloseIcon from "@mui/icons-material/Close";
 import "../style.css";
 import ActiveCustomers from "./ActiveCustomers";
 import SearchCustomer from "./SearchCustomer";
-import CustomerTable from "./CustomerTable";
-import {
-  Card,
-  CardHeader,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Avatar,
-  IconButton,
-  Tooltip,
-  Input,
-} from "@material-tailwind/react";
-const TABLE_HEAD = ["Name", "Contact", "Region", "Status", "Orders", " Amount Spent"];
+import { Typography, CardBody, CardFooter } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
+import { PaginationCustomer } from "./PaginationCustomer";
+import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
+const TABLE_HEAD = [
+  "Name",
+  "Contact",
+  "Region",
+  "Status",
+  "Orders",
+  "Amount spent",
+];
 function AddCustomers() {
+  const navigate = useNavigate();
   const [isDivVisible, setIsDivVisible] = useState(false);
-  const [customerList, setCustomerList] = useState([]);
-  const [page, setPage] = useState(1);
-  const sidebarHandler = () => {
-    setIsDivVisible(!isDivVisible);
+  const [totalPages, setTotalPages] = useState(0);
+  const [tableRecords, setTableRecords] = useState([]);
+  const [page, setPage] = React.useState(1);
+  const [pages, setPages] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [isBulkEdit, setIsBulkEdit] = useState(false);
+  let timeoutId;
+  const handleDebounce = (value) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      console.log("Performing action with value:", value);
+      setInputValue(value);
+      searchApi(value);
+    }, 300);
   };
-
+  const handleInputChange = (event) => {
+    const newValue = event.target.value;
+    setInputValue(newValue);
+    // Call the debounced function
+    handleDebounce(newValue);
+  };
   useEffect(() => {
-    getCustomerList(1)
-  }, [])
-
-  const getCustomerList = (values) => {
+    callApi(page);
+  }, []);
+  const callApi = (item) => {
     fetch(
-      `https://fobohwepapifbh.azurewebsites.net/api/Customer/GetAll?page=${values}`,
+      `https://fobohwepapifbh.azurewebsites.net/api/Customer/GetAll?page=${item}`,
       {
         method: "GET",
       }
-    ).then((response) => response.json())
+    )
+      .then((response) => response.json())
       .then((data) => {
         console.log("user data --->", data);
-        setCustomerList(data.data)
-      })
-  }
-  const buttonClik = (type) => {
-    switch (type) {
-      case 'next':
-        let newPage = page + 1;
-        setPage(page + 1)
-        getCustomerList(newPage)
-        break;
-      case 'previous':
-        if (page > 0) {
-          let newPage = page - 1
-          setPage(page > 0 ? page - 1 : 1)
-          getCustomerList(newPage)
-        } else {
-          getCustomerList(1)
-        }
-        break;
-      default:
-        break;
+        setTableRecords(data.data);
+        const array = createArrayWithNumber(data.last_page);
+        setTotalPages(data.last_page);
+        setPages(array);
+      });
+  };
+  const handleCustomerId = (item) => {
+    navigate(`/dashboard/view-customer-details/`, { state: { data: item } });
+  };
+
+  const searchApi = () => {
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/Customer/SearchByName?search=${inputValue}&page=1`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("user data --->", data);
+        setTableRecords(data.data);
+      });
+  };
+  const handleCheckbox = (e, product) => {
+    e.target.checked
+      ? setSelectedProducts([...selectedProducts, product])
+      : setSelectedProducts(
+        selectedProducts.filter((prod) => prod !== product)
+      );
+
+    if (selectedProducts.length > 0) {
+      setIsBulkEdit(true);
     }
-    // alert("button clikc",type)
+  };
+  const handleBulkEdit = () => {
+    localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
+  };
+  const isFilter = (item) => {
+    const debounceTimeout = setTimeout(() => {
+      callFilterApi(item)
+    }, 500);
   }
+  const callFilterApi = (item) => {
+    fetch(
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(item),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("user data --->", data);
+        setTableRecords(data.data);
+      });
+  };
+
   return (
     <>
       <ActiveCustomers />
-      <div className="   ">
+      <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
-          <SearchCustomer />
+          <SearchCustomer onChange={handleInputChange} isFilter={isFilter} />
         </div>
-        <CardBody className="overflow-scroll px-0">
-          <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
-                {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                  >
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal leading-none opacity-70"
-                    >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {customerList.map(
-                (
-                  {
-                    businessName,
-                    orderingMobile,
-                    address,
-                    state,
-                    isActive,
-                    availableQty = 10,
-                    stockStatus = 100,
-                  },
-                  index,
-                ) => {
-                  const isLast = index === customerList.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-blue-gray-50";
+        <div className="pt-6 px-6 relative">
+          <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
+            <CardBody className="p-0">
+              <table className="w-full min-w-max table-auto text-left">
+                <thead>
+                  <tr>
+                    {TABLE_HEAD.map((head) => (
+                      <th
+                        key={head}
+                        className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                      >
+                        <Typography
+                          variant="small"
+                          className="font-medium leading-none text-base text-[#2B4447]"
+                        >
+                          {head}
+                        </Typography>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableRecords.map((item, index) => {
+                    const isLast = index === tableRecords.length - 1;
+                    const classes = isLast
+                      ? "p-4"
+                      : "p-4 border-b border-blue-gray-50";
 
-                  return (
-                    <tr key={name}>
-                      <td className={classes}>
-                        <div className="flex items-center gap-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            name={businessName}
-                            onClick={() => handleCheckbox(product)}
-                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                          />
+                    return (
+                      <tr key={name}>
+                        <td className={classes}>
+                          <div className="flex items-center gap-3">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              defaultValue=""
+                              onClick={(e) => handleCheckbox(e, item)}
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <div onClick={() => handleCustomerId(item)}>
+                              <Typography className="font-medium	md:text-base text-sm text-[#637381]">
+                                {item?.businessName}
+                              </Typography>
+                            </div>
+                          </div>
+                        </td>
+                        <td className={classes}>
+                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                            {item?.orderingEmail}
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                            {item?.address}
+                            {item?.state}
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          {item?.isActive === 1 ? (
+                            <div className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3">
+                              <p className="text-green-dark font-normal		text-sm	">
+                                Active
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="flex justify-center items-center gap-1 radius-20 bg-custom-red h-7	w-32		px-3">
+                              <p style={{ color: '#FFA70B' }} className="text-red-dark font-normal		text-sm	">
+                                Inactive
+                              </p>
+                            </div>
+                          )}
+                        </td>
+                        <td className={classes}>
+                          <div className="flex items-center gap-3">
+                            <div className="flex flex-col">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal capitalize"
+                              >
+                                {10} orders
+                              </Typography>
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal opacity-70"
+                              >
+                                {/* {expiry} */}
+                              </Typography>
+                            </div>
+                          </div>
+                        </td>
+                        <td className={classes}>
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-bold"
+                            className="font-normal opacity-70"
                           >
-                            {businessName}
+                            ${10 * 10}
                           </Typography>
-                        </div>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {orderingMobile}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {address}{state}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        {isActive === 1 ?
-                          <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-32		px-3">
-                            <p className="text-green-dark font-normal		text-sm	">Active</p>
-                          </div> :
-                          <div className="flex justify-center items-center gap-1 radius-30 bg-custom-red h-7	w-32		px-3">
-                            <p className="text-red-dark font-normal		text-sm	">InActive</p>
-                          </div>}
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {availableQty}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {stockStatus * availableQty}
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                },
-              )}
-            </tbody>
-          </table>
-        </CardBody>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </CardBody>
+            <CardFooter className="flex w-full items-center justify-between border-t border-blue-gray-50 p-4">
+              <PaginationCustomer
+                totalPages={totalPages}
+                getProductList={callApi}
+              />
+            </CardFooter>
+          </div>
+        </div>
+        {isBulkEdit ? (
+          <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
+            <button
+              onClick={handleBulkEdit}
+              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+            >
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
+                Bulk edit{" "}
+              </h6>
+            </button>
 
-        <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Button onClick={() => buttonClik('previous')} variant="outlined" size="sm" >
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            <div>
+            <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                Set as Visible{" "}
+              </h6>
+            </button>
 
+            <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                Set as Hidden{" "}
+              </h6>
+            </button>
+
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setIsBulkEdit(false);
+              }}
+            >
+              <CloseIcon />
             </div>
           </div>
-          <Button onClick={() => buttonClik('next')} variant="outlined" size="sm">
-            Next
-          </Button>
-        </CardFooter>
-
-
-        {/* <div className="box-4 pt-6 px-6 ">
-          <div className="relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className=" border-b">
-                <tr>
-                  <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                      />
-                    </div>
-                  </th>
-
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base text-center	"
-                  >
-                    Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	"
-                  >
-                    Contact
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	w-44"
-                  >
-                    Region
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	"
-                  >
-                    Status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base w-44	"
-                  >
-                    Orders
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-green	font-medium text-base	"
-                  >
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <CustomerTable />
-              </tbody>
-            </table>
-          </div>
-        </div> */}
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

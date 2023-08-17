@@ -12,6 +12,7 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
+  customerId:'',
   businessName: "",
   abn: "",
   liquorLicence: "",
@@ -71,8 +72,6 @@ function CustomerDetails() {
   });
 
   console.log("All customer Vlaues>>", values);
-
-
   const finalHandleSubmit = () => {
     console.log("final vales>>>", values);
     fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {

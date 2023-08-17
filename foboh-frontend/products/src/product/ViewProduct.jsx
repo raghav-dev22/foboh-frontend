@@ -40,6 +40,7 @@ const initialValues = {
   category: "",
   subcategory: "",
   segment: "",
+  availableQty : "",
   grapeVariety: [],
   regionSelect: {},
   vintage: "",
@@ -64,6 +65,7 @@ const initialValues = {
 
 function ViewProduct() {
   const { id } = useParams();
+  // console.log("product id>>",id)
   const [productImageUris, setProductImageUris] = useState([]);
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
@@ -187,6 +189,7 @@ function ViewProduct() {
           title: product.title,
           skuCode: product.skUcode,
           brand: product.brand,
+          availableQty : product.availableQty,
           category: product.categoryId,
           subcategory: product.subCategoryId,
           segment: product.segmentId,
@@ -294,6 +297,7 @@ function ViewProduct() {
                 sellOutOfStock: product.stockStatus,
                 title: product.title,
                 skuCode: product.skUcode,
+                availableQty : product.availableQty,
                 brand: product.brand,
                 productImageUrls: imageUris,
                 category: categoryId && cate,
@@ -420,8 +424,8 @@ function ViewProduct() {
           articleId: 0,
           skUcode: values.skuCode,
           productImageUrls: productImageUris,
-          unitofMeasure: values.baseUnitMeasure.value.toString(),
-          innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
+          unitofMeasure: values.baseUnitMeasure?.value.toString(),
+          innerUnitofMeasure: values.innerUnitMeasure?.value.toString(),
           configuration: values.configuration,
           brand: values.brand,
           region: values.regionSelect ? values.regionSelect.label : "",
@@ -440,7 +444,7 @@ function ViewProduct() {
           buyPrice: values.buyPrice,
           gstFlag: checkGST,
           wetFlag: checkWET,
-          availableQty: values.minimumOrder,
+          availableQty: values.availableQty,
           stockThreshold: values.stockAlertLevel,
           stockStatus: values.status,
           regionAvailability: values.region,
@@ -529,6 +533,13 @@ function ViewProduct() {
       minimumOrder: e.target.value,
     });
   };
+
+  const handleAvailableQuantity = (e) => {
+    setValues({
+      ...values,
+      availableQty: e.target.value,
+    });
+  }
 
   const handleTrackInventory = () => {
     setValues({
@@ -824,7 +835,7 @@ function ViewProduct() {
       // })
 
       fetch(
-        `https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`,
+        `https://product-fobohwepapi-fbh.azurewebsites.net/api/uploadproductimages?productId=${id}`,
         {
           method: "POST",
           body: formData,
@@ -927,7 +938,7 @@ function ViewProduct() {
               <div className="edit-img">
                 <img
                   src={
-                    productImageUris[0]
+                    productImageUris
                       ? productImageUris[0]
                       : "/assets/inventory-img.png"
                   }
@@ -939,7 +950,7 @@ function ViewProduct() {
                 <div className="">
                   <img
                     src={
-                      productImageUris[1]
+                      productImageUris
                         ? productImageUris[1]
                         : "/assets/inventory-img.png"
                     }
@@ -950,7 +961,7 @@ function ViewProduct() {
                 <div className="">
                   <img
                     src={
-                      productImageUris[2]
+                      productImageUris
                         ? productImageUris[2]
                         : "/assets/inventory-img.png"
                     }
@@ -1083,7 +1094,7 @@ function ViewProduct() {
                           id={region}
                           type="checkbox"
                           value={region}
-                          checked={values.region.includes(region)}
+                          checked={values.region?.includes(region)}
                           name={region}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                         />
@@ -1124,6 +1135,21 @@ function ViewProduct() {
                       />
                     </div>
                   </div>
+                  <div className=" pb-5">
+                  <h5 className="text-base font-medium text-green mb-3">
+                    Available quantity
+                  </h5>
+                  <div className="w-72">
+                    <input
+                      onChange={handleAvailableQuantity}
+                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="handleAvailableQuantity"
+                      name="handleAvailableQuantity"
+                      type="number"
+                      placeholder="2 cases"
+                    />
+                  </div>
+                </div>
                   <div className="pb-5">
                     <div className=" flex justify-between items-center mb-3">
                       <h5 className="text-green text-base font-medium">

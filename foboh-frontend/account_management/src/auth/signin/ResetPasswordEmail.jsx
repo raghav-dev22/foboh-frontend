@@ -11,6 +11,7 @@ const initialValues = {
 const ResetPasswordEmail = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false)
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialValues,
@@ -60,6 +61,9 @@ const ResetPasswordEmail = () => {
                   navigate(`/auth/reset-link/${data.key}`);
                 })
                 .catch((error) => console.log(error));
+            } else {
+              setError(true)
+              setIsLoading(false)
             }
           }
         })
@@ -87,7 +91,7 @@ const ResetPasswordEmail = () => {
               className="mb-6 text-[20px]  md:text-3xl font-bold leading-tight text-[#147D73] font-Inter
 "
             >
-              Reset your Password
+              Reset your password
             </h2>
             <p className="text-[#637381] text-[15px] font-inter leading-[20px] flex flex-col my-2 flex-shrink-0 tracking-tight text-center">
               Enter your email and we'll send you a link to reset your password.
@@ -127,6 +131,11 @@ const ResetPasswordEmail = () => {
               {errors.email && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
+              {
+                error && (
+                  <p className="mt-2 mb-2 text-red-500">User not present with this email. Please sign up.</p>
+                )
+              }
             </div>
 
             {isLoading ? (

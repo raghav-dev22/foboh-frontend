@@ -2,13 +2,14 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { PersonalDetailsSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import separateFullName from "../helpers/separateFullName";
 import ProfileHeader from "../dashboard/ProfileHeader";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
+import { styled } from "@mui/material";
 
-function PersonalDetails({ profileUri }) {
-  const [show, setShow] = useState(false);
+function PersonalDetails({ profileUri, setShow, show }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({
@@ -76,6 +77,7 @@ function PersonalDetails({ profileUri }) {
   console.log("Initial Values >>>", initialValues);
 
   const handleReset = () => {
+    setShow(false);
     setValues(initialValues);
   };
 
@@ -192,6 +194,24 @@ function PersonalDetails({ profileUri }) {
     setShow(true);
   };
 
+
+  const CustomTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#2B4447",
+      color: "white",
+      borderRadius: "5px",
+      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      textAlign: "center",
+      fontSize: 11,
+      lineHeight: "24px",
+      fontFamily: "Inter",
+      fontSize: "11px",
+      fontWeight: 600,
+    },
+  }));
+
   return (
     <>
       <div
@@ -307,6 +327,19 @@ function PersonalDetails({ profileUri }) {
                   htmlFor="grid-password"
                 >
                   Mobile
+                  <CustomTooltip
+                    placement="right"
+                    arrow
+                    title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                  >
+                    <HelpIcon
+                      sx={{
+                        color: "#E0E0E0",
+                        width: "20px",
+                        marginLeft: "10px",
+                      }}
+                    />{" "}
+                  </CustomTooltip>
                 </label>
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -316,7 +349,14 @@ function PersonalDetails({ profileUri }) {
                   placeholder="0412 345 678"
                   value={values.mobile}
                   onChange={handleChange}
+                  maxLength={20}
                   onBlur={handleBlur}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   style={{
                     border: errors.mobile && touched.mobile && "1px solid red",
                   }}
@@ -331,7 +371,7 @@ function PersonalDetails({ profileUri }) {
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-5">
-              <div className="w-full px-3">
+              <div className="w-full relative px-3">
                 <label
                   htmlFor="message"
                   className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
@@ -345,10 +385,17 @@ function PersonalDetails({ profileUri }) {
                   placeholder="Leave a comment..."
                   defaultValue={""}
                   name="bio"
+                  maxLength={256}
                   value={values.bio}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  style={{
+                    border: errors.bio && "1px solid red",
+                  }}
                 />
+                {errors.bio && (
+                  <p className="mt-2 mb-2 text-red-500">{errors.bio}</p>
+                )}
                 {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>

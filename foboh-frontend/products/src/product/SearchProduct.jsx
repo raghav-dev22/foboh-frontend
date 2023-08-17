@@ -40,6 +40,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
   const [categoryAndSubcategory, setCategoryAndSubcategory] = useState([]);
   const [selectedSubcatId, setSelectedSubcatId] = useState([]);
   const [itemLabel, setItemLabel] = useState("");
+  const [showFilter, setShowFilter] = useState(false)
 
 
 
@@ -265,6 +266,10 @@ function SearchProduct({ products, setProducts, prevProducts }) {
     console.log("val", filterAndSort);
   };
 
+  const handleFilter = () => {
+    setShowFilter(!showFilter)
+  }
+
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -300,7 +305,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
             </div>
           </div>
           <div className="flex justify-center items-center gap-2">
-            <div className="h-11	w-fit px-5 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
+            <div onClick={handleFilter} className="h-11	w-fit px-5 shadow-md cursor-pointer	border  border-inherit rounded-md flex items-center justify-center gap-2">
               <div className="">
                 <svg
                   width={18}
@@ -322,17 +327,20 @@ function SearchProduct({ products, setProducts, prevProducts }) {
             <Sort filterAndSort={filterAndSort} itemLabel={itemLabel} handleSortChange={handleSortChange} />
           </div>
         </div>
-        <div className="flex gap-8 relative  pt-4 flex-wrap">
+        {
+          showFilter && (
+            <div className="flex gap-8 relative  pt-4 flex-wrap">
           {/* <Category/> */}
+
           <div className="relative ">
             <div
-              className="flex items-center gap-2 product-category-box"
+              className="flex items-center gap-2 cursor-pointer product-category-box"
               onClick={FirstDropdown}
             >
               <h5 className="text-base font-medium	text-gray">Sub-category</h5>
               <div className="">
                 <img
-                  src="http://localhost:3001/assets/dropdownArrow.png"
+                  src="/assets/dropdownArrow.png"
                   alt=""
                 />
               </div>
@@ -386,7 +394,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
                                     />
                                     <label
                                       htmlFor={subcat.id}
-                                      className="ml-2 text-sm font-medium text-gray"
+                                      className="ml-2 text-sm font-medium text-gray cursor-pointer"
                                     >
                                       {subcat.name}
                                     </label>
@@ -544,6 +552,9 @@ function SearchProduct({ products, setProducts, prevProducts }) {
             )}
           </div>
         </div>
+          )
+        }
+        
       </div>
     </>
   );
