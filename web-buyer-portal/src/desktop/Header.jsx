@@ -189,7 +189,7 @@ function Header() {
                         }}
                       >
                         <div className="flex items-center gap-2">
-                          <WineBarIcon />
+                          <WineBarIcon style={{ fill: "#1D1E20" }} />
                           WINE
                         </div>
 
@@ -232,8 +232,8 @@ function Header() {
                         }}
                       >
                         <div className="flex items-center gap-2">
-                          <WineBarIcon />
-                          Product
+                          <FormatListBulletedIcon style={{ fill: "#1D1E20" }} />
+                          Lists
                         </div>
 
                         <ChevronDownIcon
@@ -266,27 +266,108 @@ function Header() {
                       )}
                     </>
                   </Disclosure>
-                  <a
-                    href="#"
-                    className=" block rounded-md px-6 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Marketplace
-                  </a>
-                  <a
-                    href="#"
-                    className=" block rounded-md px-6 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Company
-                  </a>
+                  <Disclosure as="div" className="">
+                    <>
+                      <Disclosure.Button
+                        className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        onClick={() => {
+                          ListsDropDown();
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <ShoppingBasketIcon style={{ fill: "#1D1E20" }} />
+                          Orders
+                        </div>
+
+                        <ChevronDownIcon
+                          className="h-5 w-5 flex-none"
+                          aria-hidden="true"
+                        />
+                      </Disclosure.Button>
+
+                      {lists && (
+                        <div className="pb-[100px] border-b border-[#CDCED6]">
+                          <a
+                            href="#"
+                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          >
+                            Features
+                          </a>
+                          <a
+                            href="#"
+                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          >
+                            Marketplace
+                          </a>
+                          <a
+                            href="#"
+                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          >
+                            Company
+                          </a>
+                        </div>
+                      )}
+                    </>
+                  </Disclosure>
+                  <Disclosure as="div" className="">
+                    <>
+                      <Disclosure.Button
+                        className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        onClick={() => {
+                          ListsDropDown();
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <CreditCardIcon style={{ fill: "#1D1E20" }} />
+                          Payments
+                        </div>
+
+                        <ChevronDownIcon
+                          className="h-5 w-5 flex-none"
+                          aria-hidden="true"
+                        />
+                      </Disclosure.Button>
+
+                      {lists && (
+                        <div className="pb-[100px] border-b border-[#CDCED6]">
+                          <a
+                            href="#"
+                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          >
+                            Features
+                          </a>
+                          <a
+                            href="#"
+                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          >
+                            Marketplace
+                          </a>
+                          <a
+                            href="#"
+                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          >
+                            Company
+                          </a>
+                        </div>
+                      )}
+                    </>
+                  </Disclosure>
                 </div>
-                <div className="py-6">
-                  <a
-                    href="#"
-                    className=" block rounded-md px-6 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Logout
-                  </a>
-                </div>
+                <Disclosure as="div" className="">
+                  <>
+                    <Disclosure.Button className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                      <div className="flex items-center gap-2">
+                        <AccountCircleIcon />
+                        Account
+                      </div>
+
+                      <ChevronDownIcon
+                        className="h-5 w-5 flex-none"
+                        aria-hidden="true"
+                      />
+                    </Disclosure.Button>
+                  </>
+                </Disclosure>
               </div>
             </div>
           </Dialog.Panel>
