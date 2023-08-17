@@ -1144,8 +1144,9 @@ function ViewProduct() {
                       onChange={handleAvailableQuantity}
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="handleAvailableQuantity"
-                      name="handleAvailableQuantity"
+                      name="availableQty"
                       type="number"
+                      value={values.availableQty}
                       placeholder="2 cases"
                     />
                   </div>

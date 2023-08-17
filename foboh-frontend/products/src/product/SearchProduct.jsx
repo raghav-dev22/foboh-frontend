@@ -418,7 +418,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
               <h5 className="text-base font-medium	text-gray">Stock</h5>
               <div className="">
                 <img
-                  src="http://localhost:3001/assets/dropdownArrow.png"
+                  src="/assets/dropdownArrow.png"
                   alt=""
                 />
               </div>
@@ -459,7 +459,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
               <h5 className="text-base font-medium	text-gray">Status</h5>
               <div className="">
                 <img
-                  src="http://localhost:3001/assets/dropdownArrow.png"
+                  src="/assets/dropdownArrow.png"
                   alt=""
                 />
               </div>
@@ -500,7 +500,7 @@ function SearchProduct({ products, setProducts, prevProducts }) {
               <h5 className="text-base font-medium	text-gray">Visibility</h5>
               <div className="">
                 <img
-                  src="http://localhost:3001/assets/dropdownArrow.png"
+                  src="/assets/dropdownArrow.png"
                   alt=""
                 />
               </div>

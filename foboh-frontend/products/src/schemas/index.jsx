@@ -1,12 +1,15 @@
 import * as Yup from "yup";
 
 export const addProductSchema = Yup.object().shape({
-  status: Yup.mixed(),
+  status: Yup.mixed().required("Status is required"),
   visibility: Yup.boolean(),
-  region: Yup.array(),
-  minimumOrder: Yup.string(),
+  region: Yup.array()
+    .required("Region is required")
+    .min(1, "Region is required"),
+  availableQty: Yup.string().required("Available quantity is required"),
+  minimumOrder: Yup.string().required("Minimum order is required"),
   trackInventory: Yup.boolean(),
-  stockAlertLevel: Yup.string(),
+  stockAlertLevel: Yup.string().required("Stock alert level is required"),
   sellOutOfStock: Yup.boolean(),
   title: Yup.string()
     .required("Title is required")
@@ -27,13 +30,13 @@ export const addProductSchema = Yup.object().shape({
   awards: Yup.string(),
   abv: Yup.string(),
   country: Yup.mixed(),
-  baseUnitMeasure: Yup.object(),
-  innerUnitMeasure: Yup.object(),
+  baseUnitMeasure: Yup.object().required("Base unit measure is required"),
+  innerUnitMeasure: Yup.object().required("Inner unit measure is required"),
   configuration: Yup.string(),
   description: Yup.string(),
   tags: Yup.array(),
-  salePrice: Yup.string(),
-  buyPrice: Yup.string(),
+  salePrice: Yup.string().required("Sale price is required"),
+  buyPrice: Yup.string().required("Buy price is required"),
   profit: Yup.string(),
   margin: Yup.string(),
   tax: Yup.string(),
