@@ -6,7 +6,6 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 import CryptoJS from "crypto-js";
 
-
 const initialValues = {
   password: "",
   repeatPassword: "",
@@ -17,9 +16,7 @@ const ResetPasswordForm = () => {
 
   const { id } = useParams();
 
-
   const email = localStorage.getItem("email");
-
 
   useEffect(() => {
     console.log("idddddd >>>>", localStorage.getItem("uniqueKey"));
@@ -50,53 +47,45 @@ const ResetPasswordForm = () => {
       .catch((error) => console.log(error));
   }, []);
 
-
-
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched } = useFormik({
-    initialValues: initialValues,
-    validationSchema: ResetPasswordFormSchema,
-    onSubmit: (values) => {
-      
-
-
-      fetch(
-        `https://graph.microsoft.com/v1.0/users/${localStorage.getItem("id")}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            mailNickname: values.repeatPassword,
-          }),
-        }
-      )
-        .then((response) => {
-          console.log(response); // Log the response here
-
-          if (response.status === 204) {
-            localStorage.removeItem('uniqueKey')
-            localStorage.removeItem('email')
-            localStorage.removeItem('userName')
-            localStorage.removeItem('id')
-            navigate('/auth/password-reset-success')
-          } else {
-            localStorage.removeItem('uniqueKey')
-            localStorage.removeItem('email')
-            localStorage.removeItem('userName')
-            localStorage.removeItem('id')
-            alert("Some error occurred, please try again later.")
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: ResetPasswordFormSchema,
+      onSubmit: (values) => {
+        fetch(
+          `https://user-api-foboh.azurewebsites.net/api/User/reset-password`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: localStorage.getItem("email"),
+              password: values.repeatPassword,
+            }),
           }
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => console.log(error));
-    
-    },
-  });
+        )
+          .then(response => response.json())
+          .then((data) => {
+            console.log(data);
+            if (data.success) {
+              localStorage.removeItem("uniqueKey");
+              localStorage.removeItem("email");
+              localStorage.removeItem("userName");
+              localStorage.removeItem("id");
+              navigate("/auth/password-reset-success");
+            } else {
+              localStorage.removeItem("uniqueKey");
+              localStorage.removeItem("email");
+              localStorage.removeItem("userName");
+              localStorage.removeItem("id");
+              alert("Some error occurred, please try again later.");
+            }
+            console.log(data);
+          })
+          .catch((error) => console.log(error));
+      },
+    });
 
   console.log(errors);
 
@@ -116,7 +105,7 @@ const ResetPasswordForm = () => {
             className="mb-6 mt-4 text-center text-[20px] font-bold leading-tight text-[#147D73] font-inter md:text-3xl
 "
           >
-             Reset your password
+            Reset your password
           </h2>
           <p className="text-[#637381] text-[15px] font-inter leading-[20px] flex flex-col my-2 flex-shrink-0 tracking-tight text-center">
             Enter your email and we'll send you a link to reset your password.
@@ -134,7 +123,10 @@ const ResetPasswordForm = () => {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                style={{ border: errors.password && touched.password && "1px solid red" }}
+                style={{
+                  border:
+                    errors.password && touched.password && "1px solid red",
+                }}
                 type="password"
                 autoComplete="off"
               />
@@ -168,18 +160,23 @@ const ResetPasswordForm = () => {
                 value={values.repeatPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                style={{ border: errors.repeatPassword && touched.repeatPassword && "1px solid red " }}
+                style={{
+                  border:
+                    errors.repeatPassword &&
+                    touched.repeatPassword &&
+                    "1px solid red ",
+                }}
               />
               {!errors.repeatPassword && values.repeatPassword && (
                 <p className="mt-2 mb-2 text-green-500">
                   Your password is matched.
                 </p>
               )}
-              {
-                errors.repeatPassword && touched.repeatPassword &&(<p className="mt-2 mb-2 text-red-500">
+              {errors.repeatPassword && touched.repeatPassword && (
+                <p className="mt-2 mb-2 text-red-500">
                   {errors.repeatPassword}
-                </p>)
-              }
+                </p>
+              )}
               {errors.repeatPassword && touched.repeatPassword && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}

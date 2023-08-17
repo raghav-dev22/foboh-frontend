@@ -46,47 +46,45 @@ const SigninNew = () => {
       onSubmit: (values) => {
         setIsLoading(true);
         fetch(
-          `https://user-api-foboh.azurewebsites.net/api/User/get?email=${values.email}`,
+          `https://user-api-foboh.azurewebsites.net/api/User/Verify-login`,
           {
-            method: "GET",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: values.email,
+              password: values.password,
+            }),
           }
         )
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-
-            console.log(data);
             setIsLoading(false);
             if (data.success) {
               console.log(data);
-              const getPassword = data.data[0].password
-            
-              if (getPassword === values.password) {
-                console.log(data);
-                localStorage.setItem("userId", data.data[0].id);
-                localStorage.setItem("email", values.email);
-                const user = data.data[0];
-                dispatch(
-                  updateUserData({
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    mobile: user.mobile,
-                    password: "",
-                    status: true,
-                    role: user.role,
-                    meta: "",
-                    adId: user.adId,
-                    imageUrl: user.imageUrl,
-                    bio: user.bio,
-                    organisationId: user.organisationId,
-                    isActive: true,
-                  })
-                );
-                navigate("/dashboard/main");
-              } else {
-                setIsValidPassword(false);
-              }
+              localStorage.setItem("userId", data.data.ccrn);
+              localStorage.setItem("email", values.email);
+              const user = data.data;
+              dispatch(
+                updateUserData({
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                  email: user.email,
+                  mobile: user.mobile,
+                  password: "",
+                  status: true,
+                  role: user.role,
+                  meta: "",
+                  adId: user.adId,
+                  imageUrl: user.imageUrl,
+                  bio: user.bio,
+                  organisationId: user.organisationId,
+                  isActive: true,
+                })
+              );
+              navigate("/dashboard/main");
             } else {
               setIsValidPassword(false);
             }
@@ -272,7 +270,7 @@ const SigninNew = () => {
                         value={values.password}
                       />
                       <label
-                        style={{zIndex:"50"}}
+                        style={{ zIndex: "50" }}
                         className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
                         htmlFor="password"
                         onClick={handleTogglePassword}
