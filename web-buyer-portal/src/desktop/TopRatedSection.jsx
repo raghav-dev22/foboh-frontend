@@ -4,10 +4,15 @@ function TopRatedSection() {
   return (
     <>
       <div className="top-rated-section md:w-4/5	w-full mx-auto ">
-        <h2 className="text-center font-bold text-[#212B36] text-3xl	py-10">
+        <div className="relative">
+        <h2 className="text-left xl:text-center md:text-center xl:mx-0 md:mx-0 mx-3 xl:font-bold md:font-bold font-[500] text-[#212B36] xl:text-3xl md:text-3xl text-[16px]	xl:py-10 md:py-10 py-7">
           Top rated
         </h2>
-        <Carousel cols={4} rows={1} gap={10} mobileBreakpoint={767} loop>
+        <a href="" className="absolute top-[27px] right-0 xl block xl:hidden md:hidden mx-3 font-[500] text-[#3669C9] text-[12px] border-b border-[#3669C9]">view all</a>
+        </div>
+        
+        <Carousel cols={4} rows={1} gap={10} mobileBreakpoint={320} loop>
+        {/* { base: 2, sm: 2, md: 3, xl: 4 } */}
           <Carousel.Item>
             <div className="border border-inherit rounded-lg">
               <div className="relative">
@@ -15,7 +20,7 @@ function TopRatedSection() {
                   className="w-full object-cover	"
                   src="/assets/top-rated.png"
                 />
-                <div className="absolute top-[15px] right-[15px] ">
+                <div className="absolute top-[15px] right-[15px]">
                   <div className="rounded-[4px] py-[3px] px-[15px] bg-[#DC2626]">
                     <p className="text-white font-bold text-center">Promo</p>
                   </div>
@@ -218,5 +223,4 @@ function TopRatedSection() {
     </>
   );
 }
-
 export default TopRatedSection;

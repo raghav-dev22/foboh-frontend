@@ -4,9 +4,14 @@ import EditProfile from "./EditProfile";
 function Profile() {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [profileUri, setProfileUri] = useState("");
+  const [show, setShow] = useState(false);
+  
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
+
+  
+
   return (
     <>
       <div>
@@ -24,8 +29,8 @@ function Profile() {
             className="grid gap-5 lg:flex  overflow-y-scroll	scroll-smooth	scrollable"
            
           >
-            <PersonalDetails profileUri={profileUri} />
-            <EditProfile setProfileUri={setProfileUri} />
+            <PersonalDetails profileUri={profileUri} setShow={setShow} show={show} />
+            <EditProfile setProfileUri={setProfileUri} setShow={setShow} show={show} />
           </div>
         </div>
       </div>

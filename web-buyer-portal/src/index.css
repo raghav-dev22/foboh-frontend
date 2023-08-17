@@ -87,11 +87,13 @@ select {
   stroke: #637381 !important;
 }
 .banner {
-  background: linear-gradient(
+  /* background: linear-gradient(
     45deg,
     rgba(222, 220, 247, 1) 49%,
     rgba(255, 255, 255, 0.49360994397759106) 100%
-  );
+  ); */
+  background: linear-gradient(84.5deg, rgba(95, 74, 221, 0.1) -4.14%, rgba(252, 252, 252, 0.7) 55.7%);
+
 }
 
 /*...................................................................................................*/
@@ -170,10 +172,43 @@ select {
 }
 @media screen and (max-width: 767px) {
   .kNGbMc {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
   }
 }
+
 .social-icon svg {
   fill: #fff;
 }
+
+
+/* *************************shopsection***************************** */
+@media (max-width: 768px) {
+  .shop-section .dZkckO {
+    display: none;
+  }
+  .carousel-container {
+    display: flex;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch; 
+  }
+  
+  .carousel-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 100%;
+    height: auto;
+    scroll-snap-type: x mandatory;
+  }
+}
+/* CustomCarousel.css */
+
+
+
+
+
+
+
+
+
+

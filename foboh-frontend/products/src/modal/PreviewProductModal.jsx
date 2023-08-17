@@ -12,6 +12,7 @@ function PreviewProductModal({
   setAddedFile,
 }) {
   // const navigate = useNavigate();
+  console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 

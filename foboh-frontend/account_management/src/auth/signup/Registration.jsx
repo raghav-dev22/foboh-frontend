@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import { RegistrationSchema } from "../../schemas";
 import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
+import { styled } from "@mui/material";
 
 const initialValues = {
   firstName: "",
@@ -108,6 +111,23 @@ const Registration = () => {
 
   // Check if the unique key is matching with the url id or not
 
+  const CustomTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#2B4447",
+      color: "white",
+      borderRadius: "5px",
+      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      textAlign: "center",
+      fontSize: 11,
+      lineHeight: "24px",
+      fontFamily: "Inter",
+      fontSize: "11px",
+      fontWeight: 600,
+    },
+  }));
+
   return (
     <section className="mx-auto h-full bg-[#F8FAFC]">
       <div className="flex flex-col md:flex-row items-center justify-center scale-[90%]">
@@ -186,7 +206,22 @@ const Registration = () => {
 
               {/* Mobile input */}
               <div className="relative mb-6">
-                <label htmlFor="mobile">Mobile</label>
+                <label htmlFor="mobile">
+                  Mobile
+                  <CustomTooltip
+                    placement="right"
+                    arrow
+                    title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                  >
+                    <HelpIcon
+                      sx={{
+                        color: "#E0E0E0",
+                        width: "20px",
+                        marginLeft: "10px",
+                      }}
+                    />{" "}
+                  </CustomTooltip>
+                </label>
                 <input
                   id="mobile"
                   name="mobile"
@@ -196,6 +231,12 @@ const Registration = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   maxLength={20}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   style={{
                     border: errors.mobile && touched.mobile && "1px solid red",
                   }}

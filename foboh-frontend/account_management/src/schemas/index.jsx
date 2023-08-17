@@ -25,7 +25,9 @@ export const ResetPasswordFormSchema = Yup.object().shape({
 
 //Sign-up Schema
 export const SignUpSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required").email("Please enter a valid email"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Please enter a valid email"),
   password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
@@ -59,7 +61,9 @@ export const RegistrationSchema = Yup.object().shape({
 
 // Sign-in Schema
 export const SignInSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required").email("Please enter a valid email"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Please enter a valid email"),
   password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
@@ -72,39 +76,35 @@ export const SignInSchema = Yup.object().shape({
 // Personal Details Schema [User Profile]
 export const PersonalDetailsSchema = Yup.object().shape({
   firstName: Yup.string()
-    .min(2, "Your first name should have atleast 2 letters")
+    .min(2, "Your first name should have at least 2 letters")
     .max(50),
   lastName: Yup.string()
-    .min(2, "Your last name should have atleast 2 letters")
+    .min(2, "Your last name should have at least 2 letters")
     .max(50),
   email: Yup.string().email("Please enter a valid email"),
   mobile: Yup.string().matches(
     /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
-  bio: Yup.string(),
+  bio: Yup.string().max(255, "Bio cannot be more than 255 characters"), // Set max limit to 225 and error message
 });
 
 export const OrganisationSettingsSchema = Yup.object().shape({
   //Organization Details
   tradingName: Yup.string()
-    .min(2, "Your trading name should have atleast 2 letters")
-    .max(50),
+    .min(2, "Your trading name should have at least 2 letters")
+    .max(50)
+    .matches(/^[^\d]*$/, "Trading name should not contain numbers"),
   businessName: Yup.string()
-    .min(2, "Your business name should have atleast 2 letters")
-    .max(50),
+    .min(2, "Your business name should have at least 2 letters")
+    .max(50)
+    .matches(/^[^\d]*$/, "Business name should not contain numbers"),
   abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
-  liquorLicence: Yup.string().matches(
-    /^\d{11}$/,
-    "Invalid liquorLicence format"
-  ),
+  liquorLicence: Yup.string().max(13, "Liquor licence cannot be more than 13 characters"),
 
   //Organization Address
   organisationAddress: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
-    .max(100),
-  organisationAddressApartment: Yup.string()
-    .min(2, "Your apartment should have atleast 2 letters")
     .max(100),
   organisationAddressSuburb: Yup.string()
     .min(2, "Suburb should have atleast 2 letters")
@@ -117,9 +117,6 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   // Billing address
   billingAddress: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
-    .max(100),
-  billingAddressApartment: Yup.string()
-    .min(2, "Your apartment should have atleast 2 letters")
     .max(100),
   billingAddressSuburb: Yup.string()
     .min(2, "Suburb should have atleast 2 letters")

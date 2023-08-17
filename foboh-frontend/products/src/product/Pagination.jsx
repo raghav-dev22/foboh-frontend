@@ -1,6 +1,5 @@
 import { Button } from "@material-tailwind/react";
 import { useCallback, useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function Button2({ content, onClick, active, disabled }) {
   return (
