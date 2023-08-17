@@ -4,11 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ActiveProduct from "./ActiveProduct";
 import { useNavigate } from "react-router-dom";
 import "../style.css";
-import {
-  Typography,
-  CardBody,
-  CardFooter,
-} from "@material-tailwind/react";
+import { Typography, CardBody, CardFooter } from "@material-tailwind/react";
 import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 import { PaginationNav1Presentation } from "./Pagination";
 const TABLE_HEAD = [
@@ -24,7 +20,7 @@ function Range() {
   const [products, setProducts] = useState([]);
   const [prevProducts, setPrevProducts] = useState([]);
   const [pages, setPages] = useState([]);
-  const [totalProducts, setTotalProducts] = useState(0)
+  const [totalProducts, setTotalProducts] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
@@ -46,8 +42,8 @@ function Range() {
         console.log("product list >>", data);
         setProducts(data.data);
         setPrevProducts(data.data);
-        setTotalProducts(data.total)
-        const array = createArrayWithNumber(data.last_page);
+        setTotalProducts(data.total);
+        const array = createArrayWithNumber(data.last_page); //error
         setTotalPages(data.last_page);
         setPages(array);
       })
@@ -62,8 +58,8 @@ function Range() {
     e.target.checked
       ? setSelectedProducts([...selectedProducts, product])
       : setSelectedProducts(
-        selectedProducts.filter((prod) => prod !== product)
-      );
+          selectedProducts.filter((prod) => prod !== product)
+        );
 
     if (selectedProducts.length > 0) {
       setIsBulkEdit(true);

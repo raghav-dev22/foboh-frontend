@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 
 function ImportModal({ show, setShow }) {
   const [addedFile, setAddedFile] = useState(null);
-    const [importedProducts, setImportedProducts] = useState([]);
+  const [importedCustomers, setImportedCustomers] = useState([]);
   const [errorData, setErrorData] = useState(null);
 
   // Function to handle the file upload
@@ -22,23 +22,23 @@ function ImportModal({ show, setShow }) {
 
         var firstSheet = workbook.SheetNames[0];
         var data = to_json(workbook);
-        let productList = [...data[firstSheet]].filter((i) => i.length);
-        if (productList.length) {
-          console.log("productList", productList);
+        let customerList = [...data[firstSheet]].filter((i) => i.length);
+        if (customerList.length) {
+          console.log("customerList", customerList);
 
-          const dataStructure = [...productList].slice(0, 2);
-          const productData = [...productList].slice(2);
-          console.log("product data", productData);
-          console.log(finalProductArray);
+          const dataStructure = [...customerList].slice(0, 2);
+          const customerData = [...customerList].slice(2);
+          console.log("customer data", customerData);
+          console.log(finalCustomerArray);
           let errorData = [];
           console.log("error flg");
-          const finalProductArray = productData.map((product, rowIndex) => {
+          const finalCustomerArray = customerData.map((customer, rowIndex) => {
             let tmpObj = {};
             errorData[rowIndex] = [];
             dataStructure[1].forEach((element, index) => {
-              tmpObj[element] = product[index];
+              tmpObj[element] = customer[index];
               if (
-                (!product[index] || product[index] === undefined) &&
+                (!customer[index] || customer[index] === undefined) &&
                 dataStructure[0][index]
               ) {
                 errorData[rowIndex].push(element);
@@ -47,12 +47,12 @@ function ImportModal({ show, setShow }) {
             });
             return tmpObj;
           });
-          console.log("finalProductArray", finalProductArray);
+          console.log("finalCustomerArray", finalCustomerArray);
           console.log("error data", errorData);
           setErrorData(errorData.filter((err) => err.length));
-          setImportedProducts(finalProductArray);
+          setImportedCustomers(finalCustomerArray);
         }
-        console.log(productList);
+        console.log(customerList);
       };
       r.readAsBinaryString(f);
     } else {
@@ -270,7 +270,7 @@ function ImportModal({ show, setShow }) {
                         className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                       >
                         <p className="text-gray text-sm	 font-normal	">
-                          Overwrite any current products that have the same SKU
+                          Overwrite any current customers that have the same SKU
                           code. Existing values will be used for any missing
                           columns
                         </p>
@@ -280,7 +280,7 @@ function ImportModal({ show, setShow }) {
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-center items-center sm:justify-between pb-6 px-8 ">
                     <a href="#" className="anchor-blue">
                       <p className="text-blue text-sm font-medium">
-                        Need help uploading products?
+                        Need help uploading customers?
                       </p>
                     </a>
                     <div className="flex gap-3">
@@ -314,12 +314,12 @@ function ImportModal({ show, setShow }) {
       </Transition.Root>
 
       <PreviewModal
-       importedProducts={importedProducts}
         show={showPreviewModal}
         setShow={setShowPreviewModal}
         previous={setShow}
         setAddedFile={setAddedFile}
         setErrorData={setErrorData}
+        importedCustomers={importedCustomers}
       />
     </>
   );

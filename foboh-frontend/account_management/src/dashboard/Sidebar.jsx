@@ -143,10 +143,7 @@ const Sidebar = () => {
                     </g>
                   </svg>
                 </div>
-                {/* <Link to="/dashboard/customers"> */}
-                <Link to="/dashboard/customers">
-                  <h6 className="text-base	font-medium  text-gray">Customers</h6>
-                </Link>
+                <h6 className="text-base	font-medium  text-gray">Customers</h6>
               </div>
               <div className={`dropdown-arrow arrow-${openMenu}`}>
                 <img src="/assets/dropdownArrow.png" alt="" />
@@ -158,7 +155,10 @@ const Sidebar = () => {
           {openMenu && (
             <ul id="dropdown-example" class="  space-y-2 ">
               <li className="ps-12 list-inside cursor-pointer ">
-                <Link to="#" className="flex items-center w-full p-2 ">
+                <Link
+                  to="/dashboard/customers"
+                  className="flex items-center w-full p-2 "
+                >
                   <h6 className="text-base	font-medium  text-gray">Customers</h6>{" "}
                 </Link>
               </li>

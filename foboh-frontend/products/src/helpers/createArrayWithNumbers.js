@@ -1,11 +1,10 @@
 function createArrayWithNumber(num) {
-    const resultArray = [];
-  
-    for (let i = 0; i < num; i++) {
-      resultArray.push(i);
-    }
-  
-    return resultArray;
-  } 
+  const resultArray = [];
+  for (let i = 0; i < num; i++) {
+    resultArray.push(i);
+  }
 
-export default createArrayWithNumber
+  return resultArray;
+}
+
+export default createArrayWithNumber;

@@ -80,8 +80,8 @@ function AddCustomers() {
     e.target.checked
       ? setSelectedProducts([...selectedProducts, product])
       : setSelectedProducts(
-        selectedProducts.filter((prod) => prod !== product)
-      );
+          selectedProducts.filter((prod) => prod !== product)
+        );
 
     if (selectedProducts.length > 0) {
       setIsBulkEdit(true);
@@ -92,9 +92,9 @@ function AddCustomers() {
   };
   const isFilter = (item) => {
     const debounceTimeout = setTimeout(() => {
-      callFilterApi(item)
+      callFilterApi(item);
     }, 500);
-  }
+  };
   const callFilterApi = (item) => {
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter`,
@@ -186,7 +186,10 @@ function AddCustomers() {
                             </div>
                           ) : (
                             <div className="flex justify-center items-center gap-1 radius-20 bg-custom-red h-7	w-32		px-3">
-                              <p style={{ color: '#FFA70B' }} className="text-red-dark font-normal		text-sm	">
+                              <p
+                                style={{ color: "#FFA70B" }}
+                                className="text-red-dark font-normal		text-sm	"
+                              >
                                 Inactive
                               </p>
                             </div>
