@@ -128,6 +128,7 @@ function Organisation() {
             if (data.success) {
               const organisationID = data.data.organisationID;
               console.log("organisationID =>", organisationID);
+              localStorage.setItem("organisationId", organisationID);
               const id = localStorage.getItem("ccrn");
               fetch(
                 `https://user-api-foboh.azurewebsites.net/api/User/update?ccrn=${id}`,
@@ -159,7 +160,6 @@ function Organisation() {
                 });
 
               const organisationSettings = data.data;
-              localStorage.setItem("organisationId", organisationID);
               setShow(false);
             }
           })

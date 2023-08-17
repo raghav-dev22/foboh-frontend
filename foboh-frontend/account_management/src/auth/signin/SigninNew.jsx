@@ -101,58 +101,108 @@ const SigninNew = () => {
     const googleResponse = jwtDecode(response.credential);
 
     fetch(
-      `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
+      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${googleResponse.email}`,
       {
         method: "GET",
-
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-
-          "Content-Type": "application/json",
-        },
       }
     )
       .then((response) => response.json())
-
       .then((data) => {
         let randomPassword = generateUniqueKey();
         let password = randomPassword.slice(0, 8);
         console.log(data);
 
         console.log("Email >>>", googleResponse);
-        fetch("https://graph.microsoft.com/v1.0/users", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            accountEnabled: true,
-            displayName: `${googleResponse.given_name} ${googleResponse.family_name}`,
-            jobTitle: null,
-            mail: googleResponse.email,
-            identities: [
-              {
-                signInType: "emailAddress",
-                issuer: "fobohdev.onmicrosoft.com",
-                issuerAssignedId: googleResponse.email,
+        if (data.success) {
+          localStorage.setItem("email", googleResponse.email);
+          navigate("/dashboard/main");
+        } else {
+          fetch(
+            `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
+            {
+              method: "GET",
+
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+
+                "Content-Type": "application/json",
               },
-            ],
-            passwordProfile: {
-              forceChangePasswordNextSignIn: true,
-              password: `@${password}`,
-            },
-            mobilePhone: null,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            localStorage.setItem("email", googleResponse.email);
-            navigate("/dashboard/main");
-          })
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => console.log(error));
+            }
+          )
+            .then((response) => response.json())
+
+            .then((data) => {
+              console.log("issuerAssignedId eq", data);
+              fetch(
+                "https://user-api-foboh.azurewebsites.net/api/User/create",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    firstName: googleResponse.given_name,
+                    lastName: googleResponse.family_name,
+                    email: googleResponse.email,
+                    password: "",
+                    status: true,
+                    role: "",
+                    meta: "",
+                    adId: "",
+                    imageUrl: "",
+                    bio: "",
+                    mobile: "",
+                    organisationId: "",
+                    isActive: true,
+                  }),
+                }
+              )
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.success) {
+                    console.log("user instance created in db");
+
+                    fetch("https://graph.microsoft.com/v1.0/users", {
+                      method: "POST",
+                      headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                          "token"
+                        )}`,
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        accountEnabled: true,
+                        displayName: `${googleResponse.given_name} ${googleResponse.family_name}`,
+                        jobTitle: null,
+                        mail: googleResponse.email,
+                        identities: [
+                          {
+                            signInType: "emailAddress",
+                            issuer: "fobohdev.onmicrosoft.com",
+                            issuerAssignedId: googleResponse.email,
+                          },
+                        ],
+                        passwordProfile: {
+                          forceChangePasswordNextSignIn: true,
+                          password: `@${password}`,
+                        },
+                        mobilePhone: null,
+                      }),
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        localStorage.setItem("email", googleResponse.email);
+
+                        navigate("/dashboard/main");
+                      })
+                      .catch((error) => console.log(error));
+                  }
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((error) => console.log(error));
+        }
+      });
   };
 
   // Sign in with google
