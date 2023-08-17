@@ -1,8 +1,14 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import ImportComplete from "./ImportComplete";
 
 function ImportProductModal({ show, setShow }) {
+  const remove = () => {
+    setShow(false);
+    setShowCompleteModal(true);
+  };
   const cancelButtonRef = useRef(null);
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   return (
     <>
@@ -64,11 +70,29 @@ function ImportProductModal({ show, setShow }) {
                       you can close this dialog box and continue working.
                     </p>
 
+                    {/* <Carousel className="rounded-xl">
+                        <p className="text-gray text-sm font-medium">
+                          This could take some time to complete. In the
+                          meantime, you can close this dialog box and continue
+                          working.
+                        </p>
+                        <p className="text-gray text-sm font-medium">
+                          This could take some time to complete. In the
+                          meantime, you can close this dialog box and continue
+                          working.
+                        </p>
+                        <p className="text-gray text-sm font-medium">
+                          This could take some time to complete. In the
+                          meantime, you can close this dialog box and continue
+                          working.
+                        </p>
+                      </Carousel> */}
+
                     <div className="flex gap-3">
                       <button
                         className=" rounded-lg	border border-inherit py-2.5	px-5 w-full"
                         type="button"
-                        onClick={() => setShow(false)}
+                        onClick={() => remove()}
                       >
                         <h5 className="text-base	font-medium text-green	">
                           Close
@@ -82,6 +106,10 @@ function ImportProductModal({ show, setShow }) {
           </div>
         </Dialog>
       </Transition.Root>
+      <ImportComplete
+        show={showCompleteModal}
+        setShow={(set) => setShowCompleteModal(set)}
+      />
     </>
   );
 }

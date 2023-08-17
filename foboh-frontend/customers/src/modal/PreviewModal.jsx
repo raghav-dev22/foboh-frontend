@@ -1,9 +1,17 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportCustomerModal from "./ImportCustomerModal";
+import Carousel from "better-react-carousel";
 
-function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, importedProducts }) {
-  console.log("imported data>>", importedProducts)
+function PreviewModal({
+  show,
+  setShow,
+  previous,
+  setAddedFile,
+  setErrorData,
+  importedCustomers,
+}) {
+  console.log("imported data>>", importedCustomers);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
@@ -50,7 +58,7 @@ function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, imp
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          importedProducts.map((product) => {
+          importedCustomers.map((product) => {
             return {
               customerId: '',
               businessName: product.businessName || "",
@@ -91,7 +99,7 @@ function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, imp
 
       })
       .catch((error) => console.log(error));
-  }
+  };
   const previousModal = () => {
     setShowPreviewModal(false);
     previous(true);
@@ -99,6 +107,14 @@ function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, imp
     setErrorData([]);
   };
 
+  const customerModalData = importedCustomers.map((product) => {
+    return {
+      title: product.title,
+      skUcode: product.skUcode,
+      brand: product.brand,
+    };
+  });
+  console.log(customerModalData, "customerModalData----");
   return (
     <>
       <Transition.Root show={show} as={Fragment}>
@@ -156,17 +172,42 @@ function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, imp
                         </p>
                       </div>
                     </div>
-                    <div
-                      style={{ height: "100px" }}
-                      className="relative px-6 py-3 overflow-y-auto "
-                    >
-                      <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                        <p className="text-sm font-semibold">Title</p>
-                        <p className="text-sm font-normal text-lightGreen">
-                          Rising Star Riesling
-                        </p>
-                      </div>
-                    </div>
+                    <Carousel cols={1} rows={1} gap={10} mobileBreakpoint={0}>
+                      {customerModalData.map((customer, index) => {
+                        return (
+                          <Carousel.Item>
+                            <div className="text-center w-full py-2 bg-[#F8FAFC]">
+                              <p className="text-sm font-bold text-[#147D73]">
+                                CUSTOMER {index + 1}
+                              </p>
+                            </div>
+                            <div
+                              style={{ height: "150px" }}
+                              className="relative px-6 py-3 overflow-y-auto "
+                            >
+                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                                <p className="text-sm font-semibold">Title</p>
+                                <p className="text-sm font-normal text-lightGreen">
+                                  {customer.title}
+                                </p>
+                              </div>
+                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                                <p className="text-sm font-semibold">skUcode</p>
+                                <p className="text-sm font-normal text-lightGreen">
+                                  {customer.skUcode}
+                                </p>
+                              </div>
+                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                                <p className="text-sm font-semibold">brand</p>
+                                <p className="text-sm font-normal text-lightGreen">
+                                  {customer.brand}
+                                </p>
+                              </div>
+                            </div>
+                          </Carousel.Item>
+                        );
+                      })}
+                    </Carousel>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
                     <div className="flex gap-3">
