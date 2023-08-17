@@ -377,13 +377,6 @@ function Organisation() {
         // Clear the file input field
         fileInputRef.current.value = "";
       }
-
-      reader.onload = () => {
-        // Do whatever you want with the file contents
-        const imgData = reader.result;
-        // setImageSrc(imgData);
-      };
-      reader.readAsDataURL(file);
     }
   }, []);
 

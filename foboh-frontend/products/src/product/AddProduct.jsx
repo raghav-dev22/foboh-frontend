@@ -21,8 +21,6 @@ import Button from "@mui/material/Button";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 
-
-
 import {
   segment,
   subCategory,
@@ -54,8 +52,8 @@ const initialValues = {
   awards: "",
   abv: 0,
   country: "",
-  baseUnitMeasure: {},
-  innerUnitMeasure: {},
+  baseUnitMeasure: "",
+  innerUnitMeasure: "",
   configuration: "",
   description: "",
   tags: [],
@@ -64,14 +62,16 @@ const initialValues = {
   profit: "",
   margin: "",
   tax: "",
-  availableQty : "",
+  availableQty: "",
   wineEqualisationTax: "",
   landedUnitCost: 0,
-  status: ["Active", "Inactive", "Archived"],
+  status: "",
 };
 
+const status = ["Active", "Inactive", "Archived"];
+
 function AddProduct() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
@@ -84,6 +84,7 @@ function AddProduct() {
   const {
     values,
     errors,
+    setErrors,
     handleBlur,
     handleChange,
     handleSubmit,
@@ -94,6 +95,7 @@ function AddProduct() {
     validationSchema: addProductSchema,
     onSubmit: (values) => {
       console.log(values);
+
       fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
         method: "POST",
         headers: {
@@ -111,7 +113,8 @@ function AddProduct() {
           configuration: values.configuration,
           brand: values.brand,
           region: values.regionSelect ? values.regionSelect.label : "",
-          trackInventory : values.trackInventory,
+          sellOutOfStock : values.sellOutOfStock,
+          trackInventory: values.trackInventory,
           departmentId: values.department.value,
           categoryId: values.category.value,
           subCategoryId: values.subcategory.value,
@@ -128,6 +131,7 @@ function AddProduct() {
           wetFlag: checkWET,
           availableQty: values.availableQty,
           stockThreshold: values.stockAlertLevel,
+
           stockStatus: values.status,
           regionAvailability: values.region,
           productStatus: values.status,
@@ -149,14 +153,14 @@ function AddProduct() {
           if (data.success) {
             console.log("Success >>>", data);
             setShow(false);
-            navigate('/dashboard/products');
+            navigate("/dashboard/products");
           }
         })
         .catch((error) => console.log(error));
     },
   });
 
-  console.log("err ->",errors);
+  console.log("err ->", errors);
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -228,26 +232,30 @@ function AddProduct() {
 
   // Handle product image
   const handleProductImage = (e) => {
-    alert('You need to save this product first')
-    const files = e.target.files
-    console.log("files -->",files);
-    if(files.length) {
-      files.length = files.length > 3 && 3
+    alert("You need to save this product first");
+    const files = e.target.files;
+    console.log("files -->", files);
+    if (files.length) {
+      files.length = files.length > 3 && 3;
       const formData = new FormData();
-      files.forEach(file => {
-        formData.append("files[]", file)
-      })
+      files.forEach((file) => {
+        formData.append("files[]", file);
+      });
 
-      fetch(`https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`, {
-        method: 'POST',
-        body: formData
-      }).then(response => response.json())
-      .then(data => {
-        console.log(data);
-      }).catch(error => console.log(error))
+      fetch(
+        `https://product-api-foboh.azurewebsites.net/api/Product/uploadproductimages?productId=${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => console.log(error));
     }
-
-  }
+  };
 
   // Product Listing Handlers ---START
   const [selectedState, setSelectedState] = useState("");
@@ -316,7 +324,7 @@ function AddProduct() {
       ...values,
       availableQty: e.target.value,
     });
-  }
+  };
 
   const handleTrackInventory = () => {
     setValues({
@@ -511,7 +519,7 @@ function AddProduct() {
     if (values.buyPrice) {
       const profit = salePrice - values.buyPrice;
       setProfitCopy(profit);
-      const margin = (profit * 100) /  salePrice;
+      const margin = (profit * 100) / salePrice;
       console.log(margin);
       setMarginCopy(margin);
       setValues({
@@ -591,13 +599,18 @@ function AddProduct() {
 
   useEffect(() => {
     // Getting organization id
-    fetch(`https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem('organisationID')}`, {
-      method: 'GET',
-    }).then(response => response.json())
-    .then(data => {
-      console.log("organization data--->", data);
-    })
-
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+        "organisationID"
+      )}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("organization data--->", data);
+      });
 
     // Department
     fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
@@ -678,8 +691,19 @@ function AddProduct() {
               <img src="/assets/inventory-img.png" alt="" className=" w-full" />
             </div>
 
-            <label htmlFor="imageUpload" onChange={handleProductImage} type="file" className="update-img-btn rounded-md cursor-pointer	w-full py-3	bg-custom-skyBlue flex justify-center">
-            <input id="imageUpload" multiple hidden type="file" onChange={handleProductImage} />
+            <label
+              htmlFor="imageUpload"
+              onChange={handleProductImage}
+              type="file"
+              className="update-img-btn rounded-md cursor-pointer	w-full py-3	bg-custom-skyBlue flex justify-center"
+            >
+              <input
+                id="imageUpload"
+                multiple
+                hidden
+                type="file"
+                onChange={handleProductImage}
+              />
               <div className="flex gap-2 items-center justify-center">
                 <div className="">
                   <svg
@@ -748,6 +772,11 @@ function AddProduct() {
                       </label>
                     </div>
                   ))}
+                  {errors.status && touched.status && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                      {errors.status}
+                    </p>
+                  )}
                 </div>
                 <div className="pb-5">
                   <h5 className="text-base font-medium text-green mb-2">
@@ -788,7 +817,8 @@ function AddProduct() {
                         id={region}
                         type="checkbox"
                         value={region}
-                        name={region}
+                        onBlur={handleBlur}
+                        name="region"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                       />
                       <label
@@ -801,6 +831,11 @@ function AddProduct() {
                       </label>
                     </div>
                   ))}
+                  {errors.region && touched.region && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                      {errors.region}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -820,10 +855,15 @@ function AddProduct() {
                       onChange={handleMinimumOrderQuantity}
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-last-name"
-                      name="firstName"
+                      name="minimumOrder"
                       type="number"
                       placeholder="2 cases"
                     />
+                    {errors.minimumOrder && touched.minimumOrder && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.minimumOrder}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className=" pb-5">
@@ -835,10 +875,16 @@ function AddProduct() {
                       onChange={handleAvailableQuantity}
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="handleAvailableQuantity"
-                      name="handleAvailableQuantity"
+                      name="availableQty"
                       type="number"
+                      value={values.availableQty}
                       placeholder="2 cases"
                     />
+                    {errors.availableQty && touched.availableQty && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.availableQty}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="pb-5">
@@ -873,12 +919,18 @@ function AddProduct() {
                     <div className="w-72">
                       <input
                         onChange={handleStockAlertLevel}
+                        value={values.stockAlertLevel}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="stock-alert-level"
-                        name="stock-alert-level"
+                        name="stockAlertLevel"
                         type="number"
                         placeholder="2 cases"
                       />
+                      {errors.stockAlertLevel && touched.stockAlertLevel && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.stockAlertLevel}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1140,7 +1192,11 @@ function AddProduct() {
                           name="colors"
                           isDisabled={!options.length}
                           options={options}
-                          value={values.grapeVariety.length > 0 ? values.grapeVariety : null}
+                          value={
+                            values.grapeVariety.length > 0
+                              ? values.grapeVariety
+                              : null
+                          }
                           onChange={handleGrapeVarietyChange}
                           className="basic-multi-select "
                           classNamePrefix="select"
@@ -1245,7 +1301,7 @@ function AddProduct() {
                 </div>
 
                 <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="  w-full md:w-1/2 px-3">
+                  <div className="w-full md:w-1/2 px-3">
                     <h5 className="text-base font-medium text-green mb-3">
                       Base unit of measure
                     </h5>
@@ -1253,11 +1309,18 @@ function AddProduct() {
                       <Select
                         isDisabled={!baseUnitOfMeasurement.length}
                         options={baseUnitOfMeasurement}
-                        value={values.baseUnitMeasure}
+                        onBlur={handleBlur}
+                        value={values.baseUnitMeasure || null} // Set value to null when no option is selected
+                        name="baseUnitMeasure"
                         onChange={handlebaseUnitOfMeasurement}
-                        className="basic-multi-select "
+                        className="basic-multi-select"
                         classNamePrefix="select"
                       />
+                      {errors.baseUnitMeasure && touched.baseUnitMeasure && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
+                          {errors.baseUnitMeasure}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="w-full md:w-1/2 px-3">
@@ -1270,9 +1333,16 @@ function AddProduct() {
                         options={innerUnitOfMeasurement}
                         value={values.innerUnitMeasure}
                         onChange={handleinnerUnitOfMeasurement}
+                        onBlur={handleBlur}
+                        name="innerUnitMeasure"
                         className="basic-multi-select "
                         classNamePrefix="select"
                       />
+                      {errors.innerUnitMeasure && touched.innerUnitMeasure && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.innerUnitMeasure}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1347,7 +1417,7 @@ function AddProduct() {
                         id="tags"
                         name="tags"
                         isMulti
-                        value={values.tags.length ?  values.tags : null}
+                        value={values.tags.length ? values.tags : null}
                         onChange={handletagsChange}
                         options={options}
                         className="basic-multi-select "
@@ -1384,9 +1454,15 @@ function AddProduct() {
                       onChange={handleSalePrice}
                       prefix="$"
                       value={values.salePrice}
+                      onBlur={handleBlur}
                       type="text"
                       placeholder="$330.00"
                     />
+                    {errors.salePrice && touched.salePrice && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.salePrice}
+                      </p>
+                    )}
                   </div>
                   <div className="w-full relative md:w-1/2 px-3">
                     <label
@@ -1420,8 +1496,14 @@ function AddProduct() {
                       name="buyPrice"
                       onChange={handleBuyPrice}
                       value={values.buyPrice}
+                      onBlur={handleBlur}
                       placeholder="$250.00"
                     />
+                    {errors.buyPrice && touched.buyPrice && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.buyPrice}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="mb-5">

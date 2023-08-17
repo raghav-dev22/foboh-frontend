@@ -99,8 +99,8 @@
   background-color: #637381 !important;
 }
 .custom-stepper .w-10 {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 .custom-stepper .bg-blue-500,
 .custom-stepper .bg-blue-gray-200 {
@@ -181,4 +181,13 @@
 .bBfHpH,
 .dZkckO {
   top: 53%;
+}
+.custom-stepper .bg-gray-300 {
+  background-color: #637381;
+}
+.custom-stepper .text-gray-900 {
+  color: #fff;
+}
+.custom-stepper .bg-gray-900 {
+  background-color: #12736a;
 }
