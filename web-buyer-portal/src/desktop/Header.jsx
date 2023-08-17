@@ -15,16 +15,47 @@ import LogoutIcon from "@mui/icons-material/Logout";
 function Header() {
   const [wine, setWine] = useState(false);
   const [lists, setLists] = useState(false);
+  const [orders, setOrders] = useState(false);
+  const [payments, setPayments] = useState(false);
+  const [account, setAccount] = useState(false);
   const [showUser, setShowUser] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const WineDropDown = () => {
     setWine(!wine);
+    setLists(false);
+    setOrders(false);
+    setPayments(false);
+    setAccount(false);
   };
   const ListsDropDown = () => {
     setLists(!lists);
     setWine(false);
+    setOrders(false);
+    setPayments(false);
+    setAccount(false);
   };
-
+  const ordersDropDown = () => {
+    setOrders(!orders);
+    setLists(false);
+    setWine(false);
+    setPayments(false);
+    setAccount(false);
+  };
+  const PaymentsDropDown = () => {
+    setPayments(!payments);
+    setLists(false);
+    setWine(false);
+    setOrders(false);
+    setAccount(false);
+  };
+  const AccountDropDown = () => {
+    setAccount(!account);
+    setLists(false);
+    setWine(false);
+    setOrders(false);
+    setPayments(false);
+  };
   const userDropdown = () => {
     setShowUser(!showUser);
   };
@@ -72,7 +103,7 @@ function Header() {
           {showUser && (
             <>
               <div
-                className="right-0 top-16 	 z-50 w-60 absolute user-dropdown bg-white	 rounded-lg	h-fit	"
+                className="right-0 md:top-16 top-0 	 z-50 w-60 md:absolute fixed user-dropdown bg-white	 md:rounded-lg	md:h-fit h-full 	"
                 style={{
                   boxShadow: "rgb(0 0 0 / 14%) 0px 0px 5px 0px",
                 }}
@@ -117,7 +148,10 @@ function Header() {
             </>
           )}
 
-          <div className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center">
+          <div
+            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center"
+            onClick={() => setMobileCartOpen(true)}
+          >
             <ShoppingCartIcon className="icon-svg" />
           </div>
         </div>
@@ -158,216 +192,280 @@ function Header() {
           onClose={setMobileMenuOpen}
         >
           <div className="fixed inset-0 z-10" />
-          <Dialog.Panel className="fixed inset-y-0 left-0 z-10 w-full overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between px-6">
-              <Link to="#">
-                <div className="bg-[#F5F5F5] rounded-full w-[40px] h-[40px] flex justify-center items-center">
-                  <MenuIcon />
+          <Dialog.Panel className="fixed inset-y-0 left-0 z-10 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="fixed inset-y-0 left-0 z-10 w-10/12	 overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+              <div className="flex items-center justify-between px-6">
+                <Link to="#">
+                  <div className="bg-[#F5F5F5] rounded-full w-[40px] h-[40px] flex justify-center items-center">
+                    <MenuIcon />
+                  </div>
+                </Link>
+                <h5 className="text-base font-semibold text-[#1D1E20]">
+                  Categories
+                </h5>
+                <button
+                  type="button"
+                  className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="sr-only">Close menu</span>
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
+              <div className="mt-6 flow-root">
+                <div className="-my-6 divide-y divide-gray-500/10">
+                  <div className="space-y-2 py-6">
+                    <Disclosure as="div" className="">
+                      <>
+                        <Disclosure.Button
+                          className="flex w-full items-center justify-between rounded-none py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-[#F0F3FB] hover:border-r-4 hover:border-[#563FE3] hover:text-[#563FE3]"
+                          onClick={() => {
+                            WineDropDown();
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <WineBarIcon />
+                            <h5 className=" text-sm font-bold">WINE</h5>
+                          </div>
+
+                          <ChevronDownIcon
+                            className="h-5 w-5 flex-none"
+                            aria-hidden="true"
+                          />
+                        </Disclosure.Button>
+
+                        {wine && (
+                          <div className="pb-[100px] border-b border-[#CDCED6]">
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Features
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Marketplace
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Company
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    </Disclosure>
+                    <Disclosure as="div" className="">
+                      <>
+                        <Disclosure.Button
+                          className="flex w-full items-center justify-between rounded-none py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-[#F0F3FB] hover:border-r-4 hover:border-[#563FE3] hover:text-[#563FE3]"
+                          onClick={() => {
+                            ListsDropDown();
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <FormatListBulletedIcon />
+                            <h5 className=" text-sm font-bold">Lists</h5>
+                          </div>
+
+                          <ChevronDownIcon
+                            className="h-5 w-5 flex-none"
+                            aria-hidden="true"
+                          />
+                        </Disclosure.Button>
+
+                        {lists && (
+                          <div className="pb-[100px] border-b border-[#CDCED6]">
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Features
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Marketplace
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Company
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    </Disclosure>
+                    <Disclosure as="div" className="">
+                      <>
+                        <Disclosure.Button
+                          className="flex w-full items-center justify-between rounded-none py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-[#F0F3FB] hover:border-r-4 hover:border-[#563FE3] hover:text-[#563FE3]"
+                          onClick={() => {
+                            ordersDropDown();
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <ShoppingBasketIcon />
+                            <h5 className="text-sm font-bold">Orders</h5>
+                          </div>
+
+                          <ChevronDownIcon
+                            className="h-5 w-5 flex-none"
+                            aria-hidden="true"
+                          />
+                        </Disclosure.Button>
+
+                        {orders && (
+                          <div className="pb-[100px] border-b border-[#CDCED6]">
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Features
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Marketplace
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Company
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    </Disclosure>
+                    <Disclosure as="div" className="">
+                      <>
+                        <Disclosure.Button
+                          className="flex w-full items-center justify-between rounded-none py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-[#F0F3FB] hover:border-r-4 hover:border-[#563FE3] hover:text-[#563FE3]"
+                          onClick={() => {
+                            PaymentsDropDown();
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <CreditCardIcon />
+                            <h5 className=" text-sm font-bold">Payments</h5>
+                          </div>
+
+                          <ChevronDownIcon
+                            className="h-5 w-5 flex-none"
+                            aria-hidden="true"
+                          />
+                        </Disclosure.Button>
+
+                        {payments && (
+                          <div className="pb-[100px] border-b border-[#CDCED6]">
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Features
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Marketplace
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Company
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    </Disclosure>
+                    <Disclosure as="div" className="">
+                      <>
+                        <Disclosure.Button
+                          className="flex w-full items-center justify-between rounded-none py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-[#F0F3FB] hover:border-r-4 hover:border-[#563FE3] hover:text-[#563FE3]"
+                          onClick={() => {
+                            AccountDropDown();
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <AccountCircleIcon />
+                            <h5 className=" text-sm font-bold ">Account</h5>
+                          </div>
+
+                          <ChevronDownIcon
+                            className="h-5 w-5 flex-none"
+                            aria-hidden="true"
+                          />
+                        </Disclosure.Button>
+                        {account && (
+                          <div className="pb-[100px] border-b border-[#CDCED6]">
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Features
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Marketplace
+                            </a>
+                            <a
+                              href="#"
+                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Company
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    </Disclosure>
+                  </div>
                 </div>
-              </Link>
-              <h5 className="text-base font-semibold text-[#1D1E20]">
-                Categories
-              </h5>
-              <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </div>
             </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  <Disclosure as="div" className="">
-                    <>
-                      <Disclosure.Button
-                        className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                        onClick={() => {
-                          WineDropDown();
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <WineBarIcon style={{ fill: "#1D1E20" }} />
-                          WINE
-                        </div>
+          </Dialog.Panel>
+        </Dialog>
 
-                        <ChevronDownIcon
-                          className="h-5 w-5 flex-none"
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-
-                      {wine && (
-                        <div className="pb-[100px] border-b border-[#CDCED6]">
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Features
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Marketplace
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Company
-                          </a>
-                        </div>
-                      )}
-                    </>
-                  </Disclosure>
-                  <Disclosure as="div" className="">
-                    <>
-                      <Disclosure.Button
-                        className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                        onClick={() => {
-                          ListsDropDown();
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <FormatListBulletedIcon style={{ fill: "#1D1E20" }} />
-                          Lists
-                        </div>
-
-                        <ChevronDownIcon
-                          className="h-5 w-5 flex-none"
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-
-                      {lists && (
-                        <div className="pb-[100px] border-b border-[#CDCED6]">
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Features
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Marketplace
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Company
-                          </a>
-                        </div>
-                      )}
-                    </>
-                  </Disclosure>
-                  <Disclosure as="div" className="">
-                    <>
-                      <Disclosure.Button
-                        className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                        onClick={() => {
-                          ListsDropDown();
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <ShoppingBasketIcon style={{ fill: "#1D1E20" }} />
-                          Orders
-                        </div>
-
-                        <ChevronDownIcon
-                          className="h-5 w-5 flex-none"
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-
-                      {lists && (
-                        <div className="pb-[100px] border-b border-[#CDCED6]">
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Features
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Marketplace
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Company
-                          </a>
-                        </div>
-                      )}
-                    </>
-                  </Disclosure>
-                  <Disclosure as="div" className="">
-                    <>
-                      <Disclosure.Button
-                        className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                        onClick={() => {
-                          ListsDropDown();
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <CreditCardIcon style={{ fill: "#1D1E20" }} />
-                          Payments
-                        </div>
-
-                        <ChevronDownIcon
-                          className="h-5 w-5 flex-none"
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-
-                      {lists && (
-                        <div className="pb-[100px] border-b border-[#CDCED6]">
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Features
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Marketplace
-                          </a>
-                          <a
-                            href="#"
-                            className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Company
-                          </a>
-                        </div>
-                      )}
-                    </>
-                  </Disclosure>
-                </div>
-                <Disclosure as="div" className="">
-                  <>
-                    <Disclosure.Button className="flex w-full items-center justify-between rounded-md py-2 px-6  text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                      <div className="flex items-center gap-2">
-                        <AccountCircleIcon />
-                        Account
-                      </div>
-
-                      <ChevronDownIcon
-                        className="h-5 w-5 flex-none"
-                        aria-hidden="true"
-                      />
-                    </Disclosure.Button>
-                  </>
-                </Disclosure>
+        <Dialog
+          as="div"
+          className="md:hidden"
+          open={mobileCartOpen}
+          onClose={setMobileCartOpen}
+        >
+          <div className="fixed inset-0 z-10" />
+          <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="fixed inset-y-0 right-0 z-10 w-10/12	 overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+              <div className="flex items-center justify-between px-4">
+                <button
+                  type="button"
+                  className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                  onClick={() => setMobileCartOpen(false)}
+                >
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+                <h5 className="text-base font-semibold text-[#1D1E20]">
+                  Shopping Cart
+                </h5>
+                <Link to="#">
+                  <div className="box-rounded bg-[#F4F7FF] rounded-full h-[40px] object-contain		w-[40px] flex justify-center items-center">
+                    <ShoppingCartIcon className="icon-svg" />
+                  </div>
+                </Link>
+              </div>
+              <div className="mt-8 flow-root border-t border-[#CDCED6] mx-5">
+                <h5 className="text-sm font-bold text-center  pt-8">
+                  Your cart is empty.
+                </h5>
               </div>
             </div>
           </Dialog.Panel>

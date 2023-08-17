@@ -12,7 +12,7 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
-  customerId:'',
+  customerId: "",
   businessName: "",
   abn: "",
   liquorLicence: "",
@@ -103,7 +103,10 @@ function CustomerDetails() {
           isFirstStep={(value) => setIsFirstStep(value)}
         >
           <Step onClick={() => setActiveStep(0)}>
-            1
+            <h5 className="text-xs text-white font-normal flex justify-center items-center">
+              1
+            </h5>
+
             <div className="absolute top-7 w-max text-center -left-84">
               <Typography
                 color={
@@ -118,7 +121,9 @@ function CustomerDetails() {
             </div>
           </Step>
           <Step onClick={() => setActiveStep(1)}>
-            2
+            <h5 className="text-xs text-white font-normal flex justify-center items-center">
+              2
+            </h5>
             <div className="absolute top-7 w-max text-center -left-84">
               <Typography
                 color={
@@ -133,7 +138,9 @@ function CustomerDetails() {
             </div>
           </Step>
           <Step onClick={() => setActiveStep(2)}>
-            3
+            <h5 className="text-xs text-white font-normal flex justify-center items-center">
+              3
+            </h5>
             <div className="absolute top-7 w-max text-center -left-84">
               <Typography
                 color={
