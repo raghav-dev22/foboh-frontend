@@ -10,7 +10,6 @@ export const addProductSchema = Yup.object().shape({
   minimumOrder: Yup.string().required("Minimum order is required"),
   trackInventory: Yup.boolean(),
   stockAlertLevel: Yup.string().required("Stock alert level is required"),
-  sellOutOfStock: Yup.boolean(),
   title: Yup.string()
     .required("Title is required")
     .min(2, "Title must have at least 2 characters"),

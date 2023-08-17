@@ -16,6 +16,7 @@ import ProductListing from "../editProduct/ProducrListing";
 import PricingDetails from "../editProduct/PricingDetails";
 import { useParams } from "react-router-dom";
 import { addProductSchema } from "../schemas";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import {
   segment,
   subCategory,
@@ -40,15 +41,15 @@ const initialValues = {
   category: "",
   subcategory: "",
   segment: "",
-  availableQty : "",
+  availableQty: "",
   grapeVariety: [],
   regionSelect: {},
   vintage: "",
   awards: "",
   abv: "",
   country: "",
-  baseUnitMeasure: {},
-  innerUnitMeasure: {},
+  baseUnitMeasure: "",
+  innerUnitMeasure: "",
   configuration: "",
   description: "",
   tags: [],
@@ -185,11 +186,11 @@ function ViewProduct() {
           minimumOrder: product.minimumOrder,
           trackInventory: product.trackInventory,
           stockAlertLevel: product.stockThreshold,
-          sellOutOfStock: product.stockStatus,
+          sellOutOfStock: product.sellOutOfStock,
           title: product.title,
           skuCode: product.skUcode,
           brand: product.brand,
-          availableQty : product.availableQty,
+          availableQty: product.availableQty,
           category: product.categoryId,
           subcategory: product.subCategoryId,
           segment: product.segmentId,
@@ -297,7 +298,7 @@ function ViewProduct() {
                 sellOutOfStock: product.stockStatus,
                 title: product.title,
                 skuCode: product.skUcode,
-                availableQty : product.availableQty,
+                availableQty: product.availableQty,
                 brand: product.brand,
                 productImageUrls: imageUris,
                 category: categoryId && cate,
@@ -406,70 +407,76 @@ function ViewProduct() {
       },
     });
 
-  console.log(values);
+  console.log("values >>", values);
+  console.log("errors", errors);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(
-      `https://product-api-foboh.azurewebsites.net/api/Product/update?ProductId=${productId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: values.title,
-          description: values.description,
-          award: values.awards,
-          articleId: 0,
-          skUcode: values.skuCode,
-          productImageUrls: productImageUris,
-          unitofMeasure: values.baseUnitMeasure?.value.toString(),
-          innerUnitofMeasure: values.innerUnitMeasure?.value.toString(),
-          configuration: values.configuration,
-          brand: values.brand,
-          region: values.regionSelect ? values.regionSelect.label : "",
-          trackInventory: values.trackInventory,
-          departmentId: values.department.value,
-          categoryId: values.category.value,
-          subCategoryId: values.subcategory.value,
-          segmentId: values.segment.value ? values.segment.value : "",
-          variety: values.grapeVariety.map((item) => {
-            return item.label;
+    const err = Object.values(errors);
+    console.log("err val", err);
+    if (err.length < 1) {
+      fetch(
+        `https://product-api-foboh.azurewebsites.net/api/Product/update?ProductId=${productId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: values.title,
+            description: values.description,
+            award: values.awards,
+            articleId: 0,
+            skUcode: values.skuCode,
+            productImageUrls: productImageUris,
+            unitofMeasure: values.baseUnitMeasure?.value.toString(),
+            innerUnitofMeasure: values.innerUnitMeasure?.value.toString(),
+            configuration: values.configuration,
+            brand: values.brand,
+            region: values.regionSelect ? values.regionSelect.label : "",
+            trackInventory: values.trackInventory,
+            departmentId: values.department.value,
+            categoryId: values.category.value,
+            subCategoryId: values.subcategory.value,
+            segmentId: values.segment.value ? values.segment.value : "",
+            variety: values.grapeVariety.map((item) => {
+              return item.label;
+            }),
+            vintage: values.vintage,
+            abv: values.abv,
+            globalPrice: values.salePrice,
+            luCcost: values.landedUnitCost ? values.landedUnitCost : 0,
+            buyPrice: values.buyPrice,
+            gstFlag: checkGST,
+            wetFlag: checkWET,
+            availableQty: values.availableQty,
+            stockThreshold: values.stockAlertLevel,
+            sellOutOfStock: values.sellOutOfStock,
+            stockStatus: values.status,
+            regionAvailability: values.region,
+            productStatus: values.status,
+            visibility: values.visibility,
+            minimumOrder: values.minimumOrder,
+            tags: values.tags.map((item) => {
+              return item.label;
+            }),
+            countryOfOrigin: values.country.label,
+            barcodes: "string",
+            esgStatus: "string",
+            healthRating: "string",
+            isActive: 1,
           }),
-          vintage: values.vintage,
-          abv: values.abv,
-          globalPrice: values.salePrice,
-          luCcost: values.landedUnitCost ? values.landedUnitCost : 0,
-          buyPrice: values.buyPrice,
-          gstFlag: checkGST,
-          wetFlag: checkWET,
-          availableQty: values.availableQty,
-          stockThreshold: values.stockAlertLevel,
-          stockStatus: values.status,
-          regionAvailability: values.region,
-          productStatus: values.status,
-          visibility: values.visibility,
-          minimumOrder: values.minimumOrder,
-          tags: values.tags.map((item) => {
-            return item.label;
-          }),
-          countryOfOrigin: values.country.label,
-          barcodes: "string",
-          esgStatus: "string",
-          healthRating: "string",
-          isActive: 1,
-        }),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
-          setShow(false);
         }
-      })
-      .catch((error) => console.log(error));
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.success) {
+            setShow(false);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
   // Product Listing Handlers ---START
@@ -539,7 +546,7 @@ function ViewProduct() {
       ...values,
       availableQty: e.target.value,
     });
-  }
+  };
 
   const handleTrackInventory = () => {
     setValues({
@@ -1053,6 +1060,11 @@ function ViewProduct() {
                         </label>
                       </div>
                     ))}
+                    {errors.status && touched.status && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.status}
+                      </p>
+                    )}
                   </div>
                   <div className="pb-5">
                     <h5 className="text-base font-medium text-green mb-2">
@@ -1095,7 +1107,7 @@ function ViewProduct() {
                           type="checkbox"
                           value={region}
                           checked={values.region?.includes(region)}
-                          name={region}
+                          name="region"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                         />
                         <label
@@ -1108,6 +1120,11 @@ function ViewProduct() {
                         </label>
                       </div>
                     ))}
+                    {errors.region && touched.region && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.region}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1136,21 +1153,21 @@ function ViewProduct() {
                     </div>
                   </div>
                   <div className=" pb-5">
-                  <h5 className="text-base font-medium text-green mb-3">
-                    Available quantity
-                  </h5>
-                  <div className="w-72">
-                    <input
-                      onChange={handleAvailableQuantity}
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="handleAvailableQuantity"
-                      name="availableQty"
-                      type="number"
-                      value={values.availableQty}
-                      placeholder="2 cases"
-                    />
+                    <h5 className="text-base font-medium text-green mb-3">
+                      Available quantity
+                    </h5>
+                    <div className="w-72">
+                      <input
+                        onChange={handleAvailableQuantity}
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="handleAvailableQuantity"
+                        name="availableQty"
+                        type="number"
+                        value={values.availableQty}
+                        placeholder="2 cases"
+                      />
+                    </div>
                   </div>
-                </div>
                   <div className="pb-5">
                     <div className=" flex justify-between items-center mb-3">
                       <h5 className="text-green text-base font-medium">
@@ -1203,6 +1220,7 @@ function ViewProduct() {
                         <input
                           onChange={handleSellOutOfStock}
                           checked={values.sellOutOfStock}
+                          value={values.sellOutOfStock}
                           type="checkbox"
                           name="SellOutOfStock"
                           id="SellOutOfStock"
@@ -1235,7 +1253,7 @@ function ViewProduct() {
               <div className="px-6 py-7">
                 <div className="w-full ">
                   <div className="flex flex-wrap -mx-3 mb-5">
-                    <div className="w-full px-3">
+                    <div className="w-full px-3 relative">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                         htmlFor="title"
@@ -1245,6 +1263,11 @@ function ViewProduct() {
                       <input
                         onChange={handleChange}
                         value={values.title}
+                        onBlur={handleBlur}
+                        style={{
+                          border:
+                            errors.title && touched.title && "1px solid red",
+                        }}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="title"
                         type="text"
@@ -1252,11 +1275,19 @@ function ViewProduct() {
                         autoComplete="on"
                         placeholder="Good Intentions 'Cape Jaffa' Chardonnay   "
                       />
+                      {errors.title && touched.title && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.title}
+                        </p>
+                      )}
+                      {errors.title && touched.title && (
+                        <ErrorOutlineIcon className="absolute text-red-500 error-icon-position right-5 transition-all duration-[0.3s]" />
+                      )}
                     </div>
                   </div>
                   {/* <ComboBoxMultiSelect/> */}
                   <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className="w-full md:w-1/2 px-3">
+                    <div className="w-full md:w-1/2 px-3 relative">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                         htmlFor="sku-code"
@@ -1279,14 +1310,31 @@ function ViewProduct() {
                       <input
                         onChange={handleChange}
                         value={values.skuCode}
+                        style={{
+                          border:
+                            errors.skuCode &&
+                            touched.skuCode &&
+                            "1px solid red",
+                        }}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="sku-code"
                         name="skuCode"
                         type="text"
                         placeholder="GOODINTCJCHARD22"
                       />
+                      {errors.skuCode && touched.skuCode && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.skuCode}
+                        </p>
+                      )}
+                      {errors.skuCode && touched.skuCode && (
+                        <ErrorOutlineIcon
+                          style={{ top: "45px" }}
+                          className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                        />
+                      )}
                     </div>
-                    <div className="w-full md:w-1/2 px-3">
+                    <div className="w-full md:w-1/2 px-3 relative">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                         htmlFor="brand"
@@ -1296,16 +1344,32 @@ function ViewProduct() {
                       <input
                         onChange={handleChange}
                         value={values.brand}
+                        onBlur={handleBlur}
+                        style={{
+                          border:
+                            errors.brand && touched.brand && "1px solid red",
+                        }}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="brand"
                         type="text"
                         name="brand"
                         placeholder="Lo-Fi Wines"
                       />
+                      {errors.brand && touched.brand && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.brand}
+                        </p>
+                      )}
+                      {errors.brand && touched.brand && (
+                        <ErrorOutlineIcon
+                          style={{ top: "45px" }}
+                          className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className="  w-full md:w-1/2 px-3">
+                    <div className="  w-full md:w-1/2 px-3 relative">
                       <h5 className="text-base font-medium text-green mb-3">
                         Department
                       </h5>
@@ -1318,6 +1382,11 @@ function ViewProduct() {
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
+                        {errors.department && touched.department && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.department}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="  w-full md:w-1/2 px-3">
@@ -1334,6 +1403,11 @@ function ViewProduct() {
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
+                        {errors.category && touched.category && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.category}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1352,6 +1426,11 @@ function ViewProduct() {
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
+                        {errors.subcategory && touched.subcategory && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.subcategory}
+                          </p>
+                        )}
                       </div>
                     </div>
                     {isAlcoholicBeverage && (
@@ -1385,7 +1464,11 @@ function ViewProduct() {
                             name="colors"
                             isDisabled={!options.length}
                             options={options}
-                            value={values.grapeVariety.length > 0 ? values.grapeVariety : null}
+                            value={
+                              values.grapeVariety.length > 0
+                                ? values.grapeVariety
+                                : null
+                            }
                             onChange={handleGrapeVarietyChange}
                             className="basic-multi-select "
                             classNamePrefix="select"
@@ -1503,6 +1586,11 @@ function ViewProduct() {
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
+                        {errors.baseUnitMeasure && touched.baseUnitMeasure && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                      {errors.baseUnitMeasure}
+                    </p>
+                  )}
                       </div>
                     </div>
                     <div className="w-full md:w-1/2 px-3">
@@ -1518,6 +1606,11 @@ function ViewProduct() {
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
+                        {errors.innerUnitMeasure && touched.innerUnitMeasure && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                      {errors.innerUnitMeasure}
+                    </p>
+                  )}
                       </div>
                     </div>
                   </div>
@@ -1631,9 +1724,15 @@ function ViewProduct() {
                         onChange={handleSalePrice}
                         prefix="$"
                         value={values.salePrice}
+                        onBlur={handleBlur}
                         type="text"
                         placeholder="$330.00"
                       />
+                      {errors.salePrice && touched.salePrice && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.salePrice}
+                        </p>
+                      )}
                     </div>
                     <div className="w-full relative md:w-1/2 px-3">
                       <label
@@ -1667,8 +1766,14 @@ function ViewProduct() {
                         name="buyPrice"
                         onChange={handleBuyPrice}
                         value={values.buyPrice}
+                        onBlur={handleBlur}
                         placeholder="$250.00"
                       />
+                      {errors.buyPrice && touched.buyPrice && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.buyPrice}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="mb-5">

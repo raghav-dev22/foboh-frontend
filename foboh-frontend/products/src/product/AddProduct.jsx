@@ -113,6 +113,7 @@ function AddProduct() {
           configuration: values.configuration,
           brand: values.brand,
           region: values.regionSelect ? values.regionSelect.label : "",
+          sellOutOfStock : values.sellOutOfStock,
           trackInventory: values.trackInventory,
           departmentId: values.department.value,
           categoryId: values.category.value,
@@ -130,6 +131,7 @@ function AddProduct() {
           wetFlag: checkWET,
           availableQty: values.availableQty,
           stockThreshold: values.stockAlertLevel,
+
           stockStatus: values.status,
           regionAvailability: values.region,
           productStatus: values.status,
