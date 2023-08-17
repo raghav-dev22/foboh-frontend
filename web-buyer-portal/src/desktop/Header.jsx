@@ -8,7 +8,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import WineBarIcon from "@mui/icons-material/WineBar";
-
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import LogoutIcon from "@mui/icons-material/Logout";
 function Header() {
   const [wine, setWine] = useState(false);
   const [lists, setLists] = useState(false);
@@ -57,7 +60,7 @@ function Header() {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <div
             className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center"
             onClick={() => {
@@ -66,7 +69,54 @@ function Header() {
           >
             <AccountCircleIcon className="icon-svg" />
           </div>
-          {showUser && <></>}
+          {showUser && (
+            <>
+              <div
+                className="right-0 top-16 	 z-50 w-60 absolute user-dropdown bg-white	 rounded-lg	h-fit	"
+                style={{
+                  boxShadow: "rgb(0 0 0 / 14%) 0px 0px 5px 0px",
+                }}
+              >
+                <ul className="dropdown-content py-3">
+                  <Link to="/dashboard/your-profile">
+                    <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2">
+                      <FormatListBulletedIcon style={{ fill: "#637381" }} />
+                      <h6 className="text-sm font-medium		text-[#637381]">
+                        Lists
+                      </h6>
+                    </li>
+                  </Link>
+                  <Link to="/dashboard/organisation-settings">
+                    <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2">
+                      <ShoppingBasketIcon style={{ fill: "#637381" }} />
+                      <h6 className="text-sm font-medium text-[#637381]">
+                        Orders
+                      </h6>
+                    </li>
+                  </Link>
+                  <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                    <CreditCardIcon style={{ fill: "#637381" }} />
+                    <h6 className="text-sm font-medium	text-[#637381]	">
+                      Payments
+                    </h6>
+                  </li>
+                  <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                    <AccountCircleIcon style={{ fill: "#637381" }} />
+                    <h6 className="text-sm font-medium		text-[#637381]">
+                      Account
+                    </h6>
+                  </li>
+                  <li className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2">
+                    <LogoutIcon style={{ fill: "#FF5757" }} />
+                    <h6 className="text-sm font-medium text-[#FF5757]">
+                      Logout
+                    </h6>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
+
           <div className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center">
             <ShoppingCartIcon className="icon-svg" />
           </div>

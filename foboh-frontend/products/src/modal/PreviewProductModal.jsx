@@ -1,9 +1,8 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportProductModal from "./ImportProductModal";
-import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import Carousel from "better-react-carousel";
 function PreviewProductModal({
   show,
   setShow,
@@ -23,6 +22,8 @@ function PreviewProductModal({
     const prod = importedProducts.map((product) => {
       return {
         title: product.title,
+        skUcode: product.skUcode,
+        brand: product.brand,
         description: product.description,
         productImage: product.productImageUrls,
         globalPrice: product.globalPrice,
@@ -45,7 +46,7 @@ function PreviewProductModal({
         wetFlag: product.wetFlag,
       };
     });
-
+    console.log(importedProducts, "importedProducts");
     console.log("prod", prod);
 
     fetch(
@@ -172,7 +173,41 @@ function PreviewProductModal({
                         </p>
                       </div>
                     </div>
-                    <div
+                    <Carousel cols={1} rows={1} gap={10} mobileBreakpoint={0}>
+                      {importedProducts.map((product, index) => (
+                        <Carousel.Item>
+                          <div className="text-center w-full py-2 bg-[#F8FAFC]">
+                            <p className="text-sm font-bold text-[#147D73]">
+                              PRODUCT {index + 1}
+                            </p>
+                          </div>
+                          <div
+                            style={{ height: "150px" }}
+                            className="relative px-6 py-3 overflow-y-auto "
+                          >
+                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                              <p className="text-sm font-semibold">Title</p>
+                              <p className="text-sm font-normal text-lightGreen">
+                                {product.title}
+                              </p>
+                            </div>
+                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                              <p className="text-sm font-semibold">skUcode</p>
+                              <p className="text-sm font-normal text-lightGreen">
+                                {product.skUcode}
+                              </p>
+                            </div>
+                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                              <p className="text-sm font-semibold">brand</p>
+                              <p className="text-sm font-normal text-lightGreen">
+                                {product.brand}
+                              </p>
+                            </div>
+                          </div>
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
+                    {/* <div
                       style={{ height: "100px" }}
                       className="relative px-6 py-3 overflow-y-auto "
                     >
@@ -184,7 +219,7 @@ function PreviewProductModal({
                           </p>
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
                     <div className="flex gap-3">

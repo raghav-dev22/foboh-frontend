@@ -30,19 +30,6 @@ function ImportModal({ show, setShow }) {
           const productData = [...productList].slice(2);
           console.log("product data", productData);
           console.log(finalProductArray);
-          // return true;
-          // const errorFlag = productData.map((product, rowIndex) => {
-          //   dataStructure[1].forEach((element, index) => {
-          //     return {
-          //       row : rowIndex,
-          //       column : product.map(el => {
-          //         if(el === undefined){
-          //           return element
-          //         }
-          //       })
-          //     }
-          //   })
-          // })
           let errorData = [];
           console.log("error flg");
           const finalProductArray = productData.map((product, rowIndex) => {
@@ -50,7 +37,6 @@ function ImportModal({ show, setShow }) {
             errorData[rowIndex] = [];
             dataStructure[1].forEach((element, index) => {
               tmpObj[element] = product[index];
-              // console.log("values =>", product[index]);
               if (
                 (!product[index] || product[index] === undefined) &&
                 dataStructure[0][index]
