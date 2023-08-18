@@ -7,11 +7,16 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
+import Toast from "../Toast";
 const OrderDetails = ({ datas }) => {
   const navigate = useNavigate();
   const [data, setCustomerDetails] = React.useState();
   const [activeStatus, setActiveStatus] = React.useState(1)
   const [show, setShow] = React.useState(false)
+  const [openToast, setOpenToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSeverity] = useState('success');
+
   const [initialValues, setInitialValues] = useState(
     {
       id: "",
@@ -104,7 +109,8 @@ const OrderDetails = ({ datas }) => {
       })
   }
 
-  const onFinalSubmit = () => {
+  const onFinalSubmit = (event) => {
+    event.preventDefault();
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/${data?.customerId}`,
       {
@@ -115,11 +121,20 @@ const OrderDetails = ({ datas }) => {
         body: JSON.stringify(values),
       }
 
-    ).then((response) => response.json())
-      .then((data) => {
-        navigate("dashboard/customers");
-        // console.log("Customer update successfully --->", data);
-      })
+    ).then((response) => {
+      console.log("updatedd")
+      setShow(false)
+      window.alert('Customer updated successful! ')
+      // setToastSeverity('success');
+      // setToastMessage('Customer updated successful!');
+      // setOpenToast(true)
+
+    }
+    )
+    // .then((data) => {
+
+    // console.log("Customer update successfully --->", data);
+    // })
   }
   const {
     values,
@@ -157,8 +172,17 @@ const OrderDetails = ({ datas }) => {
       fontWeight: 600,
     },
   }));
+  const handleCloseToast = () => {
+    setOpenToast(false)
+  }
   return (
     <>
+      <Toast
+        open={openToast}
+        onClose={handleCloseToast}
+        message={toastMessage}
+        severity={toastSeverity}
+      />
       <div className="px-12 pt-6">
         <form onChange={handleInputChange}>
           <div className="xl:w-full xl:mx-0  sm:block rounded-lg border border-darkGreen	">
@@ -1238,6 +1262,7 @@ const OrderDetails = ({ datas }) => {
             </div>
           </div>
         </form >
+
       </div >
     </>
   );

@@ -3,8 +3,8 @@ import * as Yup from "yup";
 // customers-details Schema
 export const AddCustomerSchema = Yup.object().shape({
   businessName: Yup.string()
+  .max(50)
     .min(2, "Business name should have atleast 2 letters")
-    .max(50)
     .required("Business name is required"),
   abn: Yup.string()
     .min(2, "ABN should have atleast 2 letters")
@@ -32,20 +32,20 @@ export const AddCustomerSchema = Yup.object().shape({
     .min(2, "Last name should have atleast 2 letters")
     .max(50)
     .required("Last name is required"),
-  orderingEmail: Yup.string()
-    .min(2, "Email should have atleast 2 letters")
-    .max(50)
-    .required("Email is required"),
-  orderingMobile: Yup.string()
-    .required("Mobile number is required")
-    .matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
-  deliveryEmail: Yup.string()
-    .min(2, "Email should have atleast 2 letters")
-    .max(50)
-    .required("Email is required"),
-  deliveryMobile: Yup.string()
-    .required("Mobile number is required")
-    .matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
+
+  orderingEmail: Yup.string().email("Please enter a valid email"),
+
+  orderingMobile: Yup.string().matches(
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    "Mobile number must be a valid Australian mobile number"
+  ),
+
+  deliveryEmail: Yup.string().email("Please enter a valid email"),
+
+  deliveryMobile: Yup.string().matches(
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    "Mobile number must be a valid Australian mobile number"
+  ),
 
   address: Yup.string()
     .min(2, "Address should have atleast 2 letters")
@@ -56,10 +56,8 @@ export const AddCustomerSchema = Yup.object().shape({
     .min(2, "suburb should have atleast 2 letters")
     .max(50)
     .required("suburb is required"),
-  postalCode: Yup.string()
-    .min(2, "postalCode should have atleast 5 letters")
-    .max(50)
-    .required("postalCode is required"),
+
+  postalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
   deliveryNotes: Yup.string()
     .min(2, "postalCode should have atleast 5 letters")
     .max(50)
@@ -68,8 +66,6 @@ export const AddCustomerSchema = Yup.object().shape({
     .min(2, "suburb should have atleast 2 letters")
     .max(50)
     .required("suburb  is required"),
-  billingPostalCode: Yup.string()
-    .min(2, "postalCode should have atleast 5 letters")
-    .max(50)
-    .required("postalCode is required"),
+
+  billingPostalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
 });

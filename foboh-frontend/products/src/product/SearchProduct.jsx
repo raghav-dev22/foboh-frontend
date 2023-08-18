@@ -229,16 +229,13 @@ function SearchProduct({ products, setProducts, prevProducts }) {
       filterAndSort = {
         ...filterAndSort,
         filter: newFilter,
-      };
-
-      
+      };      
     } else if (name === "visibility") {
       const newVisibilityValue = id ? true : false;
       const newFilter = {
         ...filterAndSort.filter,
         visibility: newVisibilityValue,
       };
-
       filterAndSort = {
         ...filterAndSort,
         filter: newFilter,

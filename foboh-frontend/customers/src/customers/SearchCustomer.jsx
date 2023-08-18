@@ -2,20 +2,39 @@ import React, { useEffect } from "react";
 
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
-function SearchCustomer({ onChange, isFilter }) {
+
+function SearchCustomer({ products, setProducts, prevProducts }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
+  const status = [
+    { label: "Active", value: "Active" },
+    { label: "Inactive", value: "inactive" },
+  ];
   const [First, setFirst] = useState(false);
   const [Second, setSecond] = useState(false);
   const [Third, setThird] = useState(false);
-  const [pincode, SetpinCode] = React.useState('');
+  const [pincode, setPinCode] = React.useState('');
+  const [search, setSearch] = React.useState();
   const [selectArray, setSelectedArray] = React.useState([]);
   const [isActiveChecked, setIsActiveChecked] = React.useState(false);
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true)
+  const jsonIs = {
+    filter: {
+      "businessName": "",
+      "status": true,
+      "postCode": pincode,
+      "state": selectArray,
+      "page": 0
+    },
+    sort: {
+      "sortBy": "",
+      "sortOrder": ""
+    }
+  }
   const addState = (item) => {
     console.log(item, "item");
     if (!selectArray.includes(item)) {
       setSelectedArray([...selectArray, item]);
-      filterClick()
+      saveInput('filterAndSort')
     }
   };
   const DropDownFirst = () => {
@@ -35,25 +54,23 @@ function SearchCustomer({ onChange, isFilter }) {
   };
 
   const filterClick = () => {
-    let jsonIs = {
-      "filter": {
-        "businessName": "",
-        "status": true,
-        "postCode": pincode,
-        "state": selectArray,
-        "page": 0
-      },
-      "sort": {
-        "sortBy": "",
-        "sortOrder": ""
-      }
-    }
+
     isFilter(jsonIs)
   }
-  const pinCodeClik = (e) => {
-    console.log(e.target.value);
-    SetpinCode(e.target.value);
-    filterClick()
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log("values is>", name, value)
+    switch (name) {
+      case 'search':
+        setSearch(value)
+        break;
+      case 'pincode':
+        setPinCode(value)
+        saveInput("filterAndSort");
+      default:
+        break;
+    }
+
   }
   const toggleCheckbox = (name, e) => {
     switch (name) {
@@ -70,6 +87,64 @@ function SearchCustomer({ onChange, isFilter }) {
         break;
     }
 
+  }
+  function debounce(func, timeout = 1000) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+  const saveInput = (name) => {
+    if (name === "filterAndSort") {
+      fetch(
+        "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonIs),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("filter customer table", data.data);
+          setProducts(data.data);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      fetch(
+        `https://fobohwepapifbh.azurewebsites.net/api/Customer/SearchByName?search=${search}&page=1`,
+        {
+          method: "GET",
+        }
+      )
+        .then((respose) => respose.json())
+        .then((data) => {
+          if (!data.status) {
+            console.log('search data on filter >>', data.data)
+            setProducts(data.data);
+          } else {
+            setProducts(prevProducts);
+          }
+        });
+    }
+  }
+
+  const handleInputChange1 = (e) => {
+    const { name, value } = e.target;
+    if (value?.length > 0) {
+      setPinCode(value)
+      saveInput("filterAndSort");
+    } else {
+      setProducts(prevProducts)
+    }
+  }
+  const toggleCategory=()=>{
+    
   }
   return (
     <>
@@ -100,14 +175,16 @@ function SearchCustomer({ onChange, isFilter }) {
                 className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                 placeholder="Search Mockups, Logos..."
                 required=""
-                onChange={onChange}
+                name="search"
+                onKeyUp={saveInput}
+                onChange={handleInputChange}
               // onChange={(e) => SetpinCode(e.target.value)}
               />
             </div>
           </div>
           <div className="flex justify-center items-center gap-2">
             {/* <Filter/> */}
-            <div onClick={() => filterClick()} className="h-11	w-fit px-5 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
+            <div className="h-11	w-fit px-5 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
               <div className="">
                 <svg
                   width={18}
@@ -143,49 +220,27 @@ function SearchCustomer({ onChange, isFilter }) {
             {First && (
               <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content 	 ">
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        checked={isActiveChecked}
-                        onClick={(e) =>
-                          toggleCheckbox('active', e)
-                        }
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Active
-                      </label>
-                    </div>
-                  </li>
-
-                  <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        checked={isInactiveChecked}
-                        onClick={(e) =>
-                          toggleCheckbox('inactive', e)
-                        }
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Inactive
-                      </label>
-                    </div>
-                  </li>
+                {status.map((sts) => (
+                    <li className="py-2.5	px-4	">
+                      <div className="flex items-center">
+                        <input
+                          id={sts.value}
+                          type="checkbox"
+                          value={sts.value}
+                          onClick={(e) =>
+                            toggleCategory(e, sts.value, "status")
+                          }
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={sts.value}
+                          className="ml-2 text-sm font-medium text-gray"
+                        >
+                          {sts.label}
+                        </label>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -271,10 +326,11 @@ function SearchCustomer({ onChange, isFilter }) {
                   type="search"
                   id="default-search"
                   className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
-                  placeholder="473990."
+                  placeholder="4739"
+                  name="pincode"
                   required=""
-                  // value={ }
-                  onChange={(e) => pinCodeClik(e)}
+                  value={pincode}
+                  onChange={handleInputChange1}
                 />
               </div>
             )}
