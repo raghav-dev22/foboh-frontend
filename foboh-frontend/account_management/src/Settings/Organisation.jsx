@@ -166,10 +166,9 @@ function Organisation() {
           .catch((error) => console.log(error));
       } else {
         console.log("org id", localStorage.getItem("organisationId"));
+        const orgId = localStorage.getItem("organisationId")
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${localStorage.getItem(
-            "organisationId"
-          )}`,
+          `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${orgId}`,
           {
             method: "PUT",
             headers: {
@@ -223,10 +222,11 @@ function Organisation() {
   });
 
   useEffect(() => {
+    console.log("userData >>", user);
+    const orgId = localStorage.getItem(
+      "organisationId")
     fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-        "organisationId"
-      )}`,
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${orgId}`,
       {
         method: "GET",
       }
@@ -345,11 +345,10 @@ function Organisation() {
         const reader = new FileReader();
         const formData = new FormData();
         formData.append("file", file);
-
+        const orgId = localStorage.getItem(
+          "organisationId")
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${localStorage.getItem(
-            "organisationID"
-          )}`,
+          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
           {
             method: "POST",
             body: formData,

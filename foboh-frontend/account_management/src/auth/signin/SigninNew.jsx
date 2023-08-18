@@ -111,20 +111,16 @@ const SigninNew = () => {
         let randomPassword = generateUniqueKey();
         let password = randomPassword.slice(0, 8);
         console.log(data);
-
         console.log("Email >>>", googleResponse);
         if (data.success) {
           localStorage.setItem("email", googleResponse.email);
           navigate("/dashboard/main");
         } else {
-          fetch(
-            `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
+          fetch(`https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
             {
               method: "GET",
-
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-
                 "Content-Type": "application/json",
               },
             }

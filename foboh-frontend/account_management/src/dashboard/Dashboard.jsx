@@ -41,6 +41,7 @@ function Dashboard() {
         const user = data.data[0];
         console.log("user data --->", data);
         localStorage.setItem("organisationId", user.organisationId);
+        localStorage.setItem("ccrn", user.ccrn)
         dispatch(
           updateUserData({
             firstName: user.firstName,
@@ -53,6 +54,7 @@ function Dashboard() {
             role: user.role,
             meta: user.meta,
             adId: user.adId,
+            ccrn: user.ccrn,
             imageUrl: user.imageUrl,
             organisationId: user.organisationId,
           })
