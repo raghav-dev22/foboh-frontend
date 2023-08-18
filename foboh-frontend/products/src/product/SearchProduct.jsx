@@ -111,7 +111,9 @@ const SearchProduct = forwardRef(
         });
     }, []);
 
-  
+    const handleInputChange = (e) => {
+      setInput(e.target.value);
+    };
 
     // Debouce function
     function debounce(func, timeout = 1000) {
