@@ -52,7 +52,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.address && touched.address && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon style={{alignSelf:'center',top:42}} className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
