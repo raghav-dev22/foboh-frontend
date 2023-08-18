@@ -20,6 +20,7 @@ function AddCustomers() {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [tableRecords, setTableRecords] = useState([]);
+  const[prevCustomer,setPrevCustomer]=useState([]);
   const [page, setPage] = React.useState(1);
   const [pages, setPages] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -54,6 +55,7 @@ function AddCustomers() {
       .then((data) => {
         console.log("user data --->", data);
         setTableRecords(data.data);
+        setPrevCustomer(data.data)
         const array = createArrayWithNumber(data.last_page);
         setTotalPages(data.last_page);
         setPages(array);
@@ -80,8 +82,8 @@ function AddCustomers() {
     e.target.checked
       ? setSelectedProducts([...selectedProducts, product])
       : setSelectedProducts(
-          selectedProducts.filter((prod) => prod !== product)
-        );
+        selectedProducts.filter((prod) => prod !== product)
+      );
 
     if (selectedProducts.length > 0) {
       setIsBulkEdit(true);
@@ -90,35 +92,41 @@ function AddCustomers() {
   const handleBulkEdit = () => {
     localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
   };
-  const isFilter = (item) => {
-    const debounceTimeout = setTimeout(() => {
-      callFilterApi(item);
-    }, 500);
-  };
-  const callFilterApi = (item) => {
-    fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(item),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("user data --->", data);
-        setTableRecords(data.data);
-      });
-  };
+  // const isFilter = (item) => {
+  //   console.log("Filter values", item)
+  //   const debounceTimeout = setTimeout(() => {
+  //     callFilterApi(item);
+  //   }, 500);
+  // };
+  // const callFilterApi = (item) => {
+  
+  //   fetch(
+  //     `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(item),
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("user data --->", data);
+  //       setTableRecords(data.data);
+  //     });
+  // };
 
   return (
     <>
       <ActiveCustomers />
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
-          <SearchCustomer onChange={handleInputChange} isFilter={isFilter} />
+          <SearchCustomer 
+           setProducts={setTableRecords}
+           products={tableRecords}
+           prevProducts={prevCustomer}
+          />
         </div>
         <div className="pt-6 px-6 relative">
           <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
