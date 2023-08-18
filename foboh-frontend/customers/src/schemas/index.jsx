@@ -10,9 +10,8 @@ export const AddCustomerSchema = Yup.object().shape({
     .min(2, "ABN should have atleast 2 letters")
     .max(50)
     .required("ABN is required"),
-  liquorLicence: Yup.string()
-    .required("LiquorLicence is required")
-    .matches(/^\+\d{1,3}\s?\d{1,14}$/, "LiquorLicence must be a valid number"),
+  // liquorLicence: Yup.string()
+  liquorLicence: Yup.string().max(13, "Liquor licence cannot be more than 13 characters"),
 
   //customers-contact
 
@@ -25,51 +24,51 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("Last name is required"),
 
-    deliveryFirstName: Yup.string()
+  deliveryFirstName: Yup.string()
     .min(2, "First name should have atleast 2 letters")
     .max(50)
     .required("First name is required"),
-    deliveryLastName: Yup.string()
+  deliveryLastName: Yup.string()
     .min(2, "Last name should have atleast 2 letters")
     .max(50)
     .required("Last name is required"),
-    orderingEmail: Yup.string()
+  orderingEmail: Yup.string()
     .min(2, "Email should have atleast 2 letters")
     .max(50)
     .required("Email is required"),
-    orderingMobile: Yup.string()
+  orderingMobile: Yup.string()
     .required("Mobile number is required")
     .matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
-    deliveryEmail: Yup.string()
+  deliveryEmail: Yup.string()
     .min(2, "Email should have atleast 2 letters")
     .max(50)
     .required("Email is required"),
-    deliveryMobile: Yup.string()
+  deliveryMobile: Yup.string()
     .required("Mobile number is required")
     .matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
 
-    address: Yup.string()
+  address: Yup.string()
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
 
-    suburb: Yup.string()
+  suburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
     .max(50)
     .required("suburb is required"),
-    postalCode:Yup.string()
+  postalCode: Yup.string()
     .min(2, "postalCode should have atleast 5 letters")
     .max(50)
     .required("postalCode is required"),
-    deliveryNotes:Yup.string()
+  deliveryNotes: Yup.string()
     .min(2, "postalCode should have atleast 5 letters")
     .max(50)
     .required("postalCode name is required"),
-    billingSuburb: Yup.string()
+  billingSuburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
     .max(50)
     .required("suburb  is required"),
-    billingPostalCode:Yup.string()
+  billingPostalCode: Yup.string()
     .min(2, "postalCode should have atleast 5 letters")
     .max(50)
     .required("postalCode is required"),

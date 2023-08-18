@@ -67,8 +67,10 @@ function PaginationNav1({
         variant="outlined"
         size="sm"
         onClick={() => {
-          onPageChange(pageIndex - 1);
-          gotoPage(pageIndex - 1);
+          if (pageIndex > 1) {
+            onPageChange(pageIndex - 1);
+            gotoPage(pageIndex - 1)
+          }
         }}
         disabled={!canPreviousPage}
       >
