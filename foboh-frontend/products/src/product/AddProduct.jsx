@@ -113,7 +113,7 @@ function AddProduct() {
           configuration: values.configuration,
           brand: values.brand,
           region: values.regionSelect ? values.regionSelect.label : "",
-          sellOutOfStock : values.sellOutOfStock,
+          sellOutOfStock: values.sellOutOfStock,
           trackInventory: values.trackInventory,
           departmentId: values.department.value,
           categoryId: values.category.value,
@@ -1451,7 +1451,12 @@ function AddProduct() {
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="Sale-price"
                       name="salePrice"
-                      onChange={handleSalePrice}
+                      onKeyPress={(e) => {
+                        const isValidKey = /[0-9]/.test(e.key); // Test if the pressed key is a number
+                        if (!isValidKey) {
+                          e.preventDefault(); // Prevent input of non-numeric characters
+                        }
+                      }}
                       prefix="$"
                       value={values.salePrice}
                       onBlur={handleBlur}
@@ -1494,7 +1499,12 @@ function AddProduct() {
                       id="Buy-price"
                       type="text"
                       name="buyPrice"
-                      onChange={handleBuyPrice}
+                      onKeyPress={(event) => {
+                              const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
                       value={values.buyPrice}
                       onBlur={handleBlur}
                       placeholder="$250.00"

@@ -22,7 +22,7 @@ export const addProductSchema = Yup.object().shape({
   department: Yup.object().required("Department is required"),
   category: Yup.object().required("Category is required"),
   subcategory: Yup.object().required("Subcategory is required"),
-  segment: Yup.object(),
+  segment: Yup.mixed(),
   grapeVariety: Yup.array(),
   regionSelect: Yup.mixed(),
   vintage: Yup.string(),

@@ -92,8 +92,8 @@ function PaginationNav1({
   );
 }
 
-function PaginationNav1Presentation({ totalPages, getProductList }) {
-  const [pageIndex, setPageIndex] = useState(1);
+function PaginationNav1Presentation({ totalPages, getProductList, pageIndex, setPageIndex }) {
+  
   const pageCount = totalPages;
 
   return (
