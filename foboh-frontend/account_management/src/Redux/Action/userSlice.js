@@ -15,6 +15,7 @@ const initialState = {
   imageUrl: "",
   bio: "",
   organisationId: "",
+  ccrn: "",
   isActive: true,
 };
 

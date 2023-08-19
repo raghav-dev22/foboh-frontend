@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { AddCustomerSchema } from "../schemas";
 import CustomerContact from "./CustomerContact";
 import CustomerAddress from "./CustomerAddress";
+import Alert from '@mui/material/Alert';
 import CustomerDetailsFirst from "./CustomerDetailsFirst";
 import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import Toast from "../Toast";
 export const options = [
   { value: 1234, label: "Chocolate" },
   { value: 2345, label: "Strawberry" },
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
-  customerId:'',
+  customerId: "",
   businessName: "",
   abn: "",
   liquorLicence: "",
@@ -48,6 +50,9 @@ function CustomerDetails() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
+  const [openToast, setOpenToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSeverity] = useState('success');
   const handleNext = () => {
     !isLastStep && setActiveStep((cur) => cur + 1);
   };
@@ -71,8 +76,8 @@ function CustomerDetails() {
     },
   });
 
-  console.log("All customer Vlaues>>", values);
-  const finalHandleSubmit = () => {
+  const finalHandleSubmit = (event) => {
+    event.preventDefault();
     console.log("final vales>>>", values);
     fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
       method: "POST",
@@ -85,25 +90,32 @@ function CustomerDetails() {
       .then((data) => {
         console.log("Customer added>>", data);
         if (data.success) {
-          console.log("navigate");
+          window.alert("Customer added successfully!")
           navigate("/dashboard/customers/");
+        } else {
         }
       })
       .catch((error) => console.log(error));
+
   };
+  const handleCloseToast = () => {
+    setOpenToast(false)
+  }
   return (
     <>
       <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper">
         <Stepper
           activeStep={activeStep}
           isLastStep={(value) => {
-            // console.log("last is>>", value)
             setIsLastStep(value);
           }}
           isFirstStep={(value) => setIsFirstStep(value)}
         >
           <Step onClick={() => setActiveStep(0)}>
-            1
+            <h5 className="text-xs text-white font-normal flex justify-center items-center">
+              1
+            </h5>
+
             <div className="absolute top-7 w-max text-center -left-84">
               <Typography
                 color={
@@ -118,7 +130,9 @@ function CustomerDetails() {
             </div>
           </Step>
           <Step onClick={() => setActiveStep(1)}>
-            2
+            <h5 className="text-xs text-white font-normal flex justify-center items-center">
+              2
+            </h5>
             <div className="absolute top-7 w-max text-center -left-84">
               <Typography
                 color={
@@ -133,7 +147,9 @@ function CustomerDetails() {
             </div>
           </Step>
           <Step onClick={() => setActiveStep(2)}>
-            3
+            <h5 className="text-xs text-white font-normal flex justify-center items-center">
+              3
+            </h5>
             <div className="absolute top-7 w-max text-center -left-84">
               <Typography
                 color={
@@ -206,6 +222,12 @@ function CustomerDetails() {
           )}
         </div>
       </form>
+      <Toast
+        open={openToast}
+        onClose={handleCloseToast}
+        message={toastMessage}
+        severity={toastSeverity}
+      />
     </>
   );
 }

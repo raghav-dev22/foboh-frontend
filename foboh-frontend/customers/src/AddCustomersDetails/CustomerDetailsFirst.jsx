@@ -23,8 +23,9 @@ function CustomerDetailsFirst({
     });
   };
 
+  console.log("all error and touch is>>", errors, touched)
   return (
-    <div className="">
+    <form className="">
       <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
         <h6 className="text-base font-medium	 text-green">Customer details</h6>
       </div>
@@ -106,6 +107,7 @@ function CustomerDetailsFirst({
               type="text"
               placeholder="Jones"
               name="liquorLicence"
+              maxLength={13}
               value={values.liquorLicence}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -242,7 +244,7 @@ function CustomerDetailsFirst({
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 export default CustomerDetailsFirst;

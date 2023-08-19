@@ -1,85 +1,94 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportCustomerModal from "./ImportCustomerModal";
+import Carousel from "better-react-carousel";
 
-function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, importedProducts }) {
-  console.log("imported data>>", importedProducts)
+function PreviewModal({
+  show,
+  setShow,
+  previous,
+  setAddedFile,
+  setErrorData,
+  importedCustomers,
+}) {
+  console.log("imported data>>", importedCustomers);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
-    const prod = importedProducts.map((product) => {
+    setShowPreviewModal(true);
+    setShow(false);
+    const prod = importedCustomers.map((product) => {
       return {
         customerId: '',
-        businessName: "",
-        abn: "",
-        liquorLicence: "",
-        salesRepId: "",
-        pricingProfileId: "",
-        defaultPaymentMethodId: "",
+        businessName: product.businessName || "",
+        abn: product.abn,
+        liquorLicence: product.liquorLicence,
+        salesRepId: product.salesRepId,
+        pricingProfileId: product.pricingProfileId,
+        defaultPaymentMethodId: product.defaultPaymentMethodId,
         defaultPaymentTerms: "",
-        tags: "",
-        wetLiable: true,
-        orderingFirstName: "",
-        orderingLastName: "",
-        orderingMobile: "",
-        orderingEmail: "",
-        deliveryFirstName: "",
-        deliveryLastName: "",
-        deliveryMobile: "",
-        deliveryEmail: "",
-        address: "",
-        apartment: "",
-        suburb: "",
-        postalCode: "",
-        state: "",
-        deliveryNotes: "",
-        billingAddress: "",
-        billingApartment: "",
-        billingSuburb: "",
-        billingPostalCode: "",
-        billingState: "",
-        isActive: 0,
+        tags: product.tags,
+        wetLiable: product.wetLiable,
+        orderingFirstName: product.orderingFirstName,
+        orderingLastName: product.orderingLastName,
+        orderingMobile: product.orderingMobile,
+        orderingEmail: product.orderingEmail,
+        deliveryFirstName: product.deliveryFirstName,
+        deliveryLastName: product.deliveryLastName,
+        deliveryMobile: product.deliveryMobile || "",
+        deliveryEmail: product.deliveryEmail || "",
+        address: product.address,
+        apartment: product.apartment,
+        suburb: product.suburb || "",
+        postalCode: product.postalCode,
+        state: product.state,
+        deliveryNotes: product.deliveryNotes || "",
+        billingAddress: product.billingAddress,
+        billingApartment: product.billingApartment,
+        billingSuburb: product.billingSuburb || "",
+        billingPostalCode: product.billingPostalCode || "",
+        billingState: product.billingState || "",
+        isActive: product.isActive || "",
       };
     });
     console.log("prod", prod);
     fetch(
-      "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateUpdateBulkData`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          importedProducts.map((product) => {
+          importedCustomers.map((product) => {
             return {
-              customerId: '',
-              businessName: "",
-              abn: "",
-              liquorLicence: "",
-              salesRepId: "",
-              pricingProfileId: "",
-              defaultPaymentMethodId: "",
+              businessName: product.businessName || "",
+              abn:  JSON.stringify(product.abn),
+              liquorLicence: product.liquorLicence,
+              salesRepId: product.salesRepId,
+              pricingProfileId: product.pricingProfileId,
+              defaultPaymentMethodId: product.defaultPaymentMethodId,
               defaultPaymentTerms: "",
-              tags: "",
-              wetLiable: true,
-              orderingFirstName: "",
-              orderingLastName: "",
-              orderingMobile: "",
-              orderingEmail: "",
-              deliveryFirstName: "",
-              deliveryLastName: "",
-              deliveryMobile: "",
-              deliveryEmail: "",
-              address: "",
-              apartment: "",
-              suburb: "",
-              postalCode: "",
-              state: "",
-              deliveryNotes: "",
-              billingAddress: "",
-              billingApartment: "",
-              billingSuburb: "",
-              billingPostalCode: "",
-              billingState: "",
-              isActive: 0,
+              tags: product.tags,
+              wetLiable: product.wetLiable,
+              orderingFirstName: product.orderingFirstName,
+              orderingLastName: product.orderingLastName,
+              orderingMobile: JSON.stringify(product.orderingMobile),
+              orderingEmail: product.orderingEmail,
+              deliveryFirstName: product.deliveryFirstName,
+              deliveryLastName: product.deliveryLastName,
+              deliveryMobile: product.deliveryMobile || "",
+              deliveryEmail: product.deliveryEmail || "",
+              address: product.address,
+              apartment: product.apartment,
+              suburb: product.suburb || "",
+              postalCode:JSON.stringify(product.postalCode),
+              state: product.state,
+              deliveryNotes: product.deliveryNotes || "",
+              billingAddress: product.billingAddress,
+              billingApartment: product.billingApartment,
+              billingSuburb: product.billingSuburb || "",
+              billingPostalCode: product.billingPostalCode || "",
+              billingState: product.billingState || "",
+              isActive: product.isActive || true,
             };
           })
         ),
@@ -88,14 +97,47 @@ function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, imp
       .then((response) => {
       })
       .catch((error) => console.log(error));
-  }
+  };
   const previousModal = () => {
     setShowPreviewModal(false);
     previous(true);
     setAddedFile(null);
     setErrorData([]);
   };
-
+  const customerModalData = importedCustomers.map((product) => {
+    return {
+      businessName: product.businessName || "",
+      abn: product.abn,
+      liquorLicence: product.liquorLicence,
+      salesRepId: product.salesRepId,
+      pricingProfileId: product.pricingProfileId,
+      defaultPaymentMethodId: product.defaultPaymentMethodId,
+      defaultPaymentTerms: "",
+      tags: product.tags,
+      wetLiable: product.wetLiable,
+      orderingFirstName: product.orderingFirstName,
+      orderingLastName: product.orderingLastName,
+      orderingMobile: product.orderingMobile,
+      orderingEmail: product.orderingEmail,
+      deliveryFirstName: product.deliveryFirstName,
+      deliveryLastName: product.deliveryLastName,
+      deliveryMobile: product.deliveryMobile || "",
+      deliveryEmail: product.deliveryEmail || "",
+      address: product.address,
+      apartment: product.apartment,
+      suburb: product.suburb || "",
+      postalCode: product.postalCode,
+      state: product.state,
+      deliveryNotes: product.deliveryNotes || "",
+      billingAddress: product.billingAddress,
+      billingApartment: product.billingApartment,
+      billingSuburb: product.billingSuburb || "",
+      billingPostalCode: product.billingPostalCode || "",
+      billingState: product.billingState || "",
+      isActive: product.isActive || "",
+    };
+  });
+  console.log(customerModalData, "customerModalData----");
   return (
     <>
       <Transition.Root show={show} as={Fragment}>
@@ -153,17 +195,42 @@ function PreviewModal({ show, setShow, previous, setAddedFile, setErrorData, imp
                         </p>
                       </div>
                     </div>
-                    <div
-                      style={{ height: "100px" }}
-                      className="relative px-6 py-3 overflow-y-auto "
-                    >
-                      <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                        <p className="text-sm font-semibold">Title</p>
-                        <p className="text-sm font-normal text-lightGreen">
-                          Rising Star Riesling
-                        </p>
-                      </div>
-                    </div>
+                    <Carousel cols={1} rows={1} gap={10} mobileBreakpoint={0}>
+                      {customerModalData.map((customer, index) => {
+                        return (
+                          <Carousel.Item>
+                            <div className="text-center w-full py-2 bg-[#F8FAFC]">
+                              <p className="text-sm font-bold text-[#147D73]">
+                                CUSTOMER {index + 1}
+                              </p>
+                            </div>
+                            <div
+                              style={{ height: "150px" }}
+                              className="relative px-6 py-3 overflow-y-auto "
+                            >
+                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                                <p className="text-sm font-semibold">businessName</p>
+                                <p className="text-sm font-normal text-lightGreen">
+                                  {customer.businessName}
+                                </p>
+                              </div>
+                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                                <p className="text-sm font-semibold">Contact</p>
+                                <p className="text-sm font-normal text-lightGreen">
+                                  {customer.address}
+                                </p>
+                              </div>
+                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                                <p className="text-sm font-semibold">Region</p>
+                                <p className="text-sm font-normal text-lightGreen">
+                                  {customer.state}
+                                </p>
+                              </div>
+                            </div>
+                          </Carousel.Item>
+                        );
+                      })}
+                    </Carousel>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
                     <div className="flex gap-3">

@@ -1,4 +1,5 @@
 import React from "react";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 function CustomerAddress({
   values,
   handleChange,
@@ -10,6 +11,7 @@ function CustomerAddress({
 }) {
 
   
+  console.log("contact address>>",errors,touched)
   return (
     <>
       <div className="  ">
@@ -35,10 +37,23 @@ function CustomerAddress({
                 id="grid-last-name"
                 type="text"
                 name="address"
+                onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.address}
                 placeholder="126 Juliett Street"
+                style={{
+                  border:
+                    errors.address && touched.address && "1px solid red",
+                }}
               />
+              {errors.address && touched.address && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.address}
+                </p>
+              )}
+              {errors.address && touched.address && (
+                <ErrorOutlineIcon style={{alignSelf:'center',top:42}} className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
               <label
@@ -51,6 +66,7 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                onBlur={handleBlur}
                 value={values.apartment}
                 onChange={handleChange}
                 placeholder="Jones"
@@ -72,9 +88,22 @@ function CustomerAddress({
                 type="text"
                 value={values.suburb}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 placeholder="Marrickville"
                 name="suburb"
+                style={{
+                  border:
+                    errors.suburb && touched.suburb && "1px solid red",
+                }}
               />
+              {errors.suburb && touched.suburb && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.suburb}
+                </p>
+              )}
+              {errors.suburb && touched.suburb && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
               <label
@@ -88,10 +117,23 @@ function CustomerAddress({
                 id="grid-last-name"
                 type="text"
                 value={values.postalCode}
+                onBlur={handleBlur}
                 onChange={handleChange}
                 placeholder="2204"
                 name="postalCode"
+                style={{
+                  border:
+                    errors.postalCode && touched.postalCode && "1px solid red",
+                }}
               />
+              {errors.postalCode && touched.postalCode && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.postalCode}
+                </p>
+              )}
+              {errors.postalCode && touched.postalCode && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
               <label
@@ -138,10 +180,23 @@ function CustomerAddress({
                 value={values.deliveryNotes}
                 onChange={handleChange}
                 name="deliveryNotes"
+                onBlur={handleBlur}
                 className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                 placeholder="Leave a comment..."
                 defaultValue={""}
+                style={{
+                  border:
+                    errors.deliveryNotes && touched.deliveryNotes && "1px solid red",
+                }}
               />
+              {errors.deliveryNotes && touched.deliveryNotes && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.deliveryNotes}
+                </p>
+              )}
+              {errors.deliveryNotes && touched.deliveryNotes && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
           </div>
           <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
@@ -178,7 +233,19 @@ function CustomerAddress({
                 type="text"
                 placeholder="126 Juliett Street"
                 name="address"
+                // style={{
+                //   border:
+                //     errors.orderingFirstName && touched.orderingFirstName && "1px solid red",
+                // }}
               />
+              {/* {errors.orderingFirstName && touched.orderingFirstName && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.orderingFirstName}
+                </p>
+              )}
+              {errors.orderingFirstName && touched.orderingFirstName && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )} */}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
               <label
@@ -191,6 +258,7 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
+                onBlur={handleBlur}
                 value={values.billingAddress}
                 onChange={handleChange}
                 placeholder="Jones"
@@ -211,10 +279,23 @@ function CustomerAddress({
                 id="grid-last-name"
                 type="text"
                 placeholder="Marrickville"
+                onBlur={handleBlur}
                 name="billingSuburb"
                 value={values.billingSuburb}
                 onChange={handleChange}
+                style={{
+                  border:
+                    errors.billingSuburb && touched.billingSuburb && "1px solid red",
+                }}
               />
+              {errors.billingSuburb && touched.billingSuburb && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.billingSuburb}
+                </p>
+              )}
+              {errors.billingSuburb && touched.billingSuburb && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
               <label
@@ -228,10 +309,23 @@ function CustomerAddress({
                 id="grid-last-name"
                 type="text"
                 onChange={handleChange}
+                onBlur={handleBlur}
                 value={values.billingPostalCode}
                 placeholder="2204"
                 name="billingPostalCode"
+                style={{
+                  border:
+                    errors.billingPostalCode && touched.billingPostalCode && "1px solid red",
+                }}
               />
+              {errors.billingPostalCode && touched.billingPostalCode && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.billingPostalCode}
+                </p>
+              )}
+              {errors.billingPostalCode && touched.billingPostalCode && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
               <label

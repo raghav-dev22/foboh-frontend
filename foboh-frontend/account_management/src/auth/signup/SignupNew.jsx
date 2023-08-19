@@ -136,7 +136,34 @@ const SignupNew = () => {
             setEmailPresent(true);
           }
         } else {
-          navigate("/");
+          fetch(
+            "https://user-api-foboh.azurewebsites.net/api/User/create",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                firstName: googleResponse.given_name,
+                lastName: googleResponse.family_name,
+                email: googleResponse.email,
+                password: "",
+                status: true,
+                role: "",
+                meta: "",
+                adId: "",
+                imageUrl: "",
+                bio: "",
+                mobile: "",
+                organisationId: "",
+                isActive: true,
+              }),
+            }
+          ).then(response => response.json())
+          .then(data => {
+            localStorage.setItem("email", googleResponse.email);
+            navigate("/dashboard/main");
+          })
         }
       })
       .catch((error) => console.log(error));

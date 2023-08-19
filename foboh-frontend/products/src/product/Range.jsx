@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SearchProduct from "./SearchProduct";
 import CloseIcon from "@mui/icons-material/Close";
 import ActiveProduct from "./ActiveProduct";
 import { useNavigate } from "react-router-dom";
 import "../style.css";
-import {
-  Typography,
-  CardBody,
-  CardFooter,
-} from "@material-tailwind/react";
+import { Typography, CardBody, CardFooter } from "@material-tailwind/react";
 import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 import { PaginationNav1Presentation } from "./Pagination";
 const TABLE_HEAD = [
@@ -20,23 +16,21 @@ const TABLE_HEAD = [
   " Status",
 ];
 function Range() {
+  const childRef = useRef(null)
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [products, setProducts] = useState([]);
   const [prevProducts, setPrevProducts] = useState([]);
   const [pages, setPages] = useState([]);
-  const [totalProducts, setTotalProducts] = useState(0)
+  const [totalProducts, setTotalProducts] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [pageIndex, setPageIndex] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
     getProductList(1);
-  }, []);
-
-  const getProductList = (values) => {
-    console.log("vales>>", values);
     fetch(
-      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=${values}`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1`,
       {
         method: "GET",
       }
@@ -46,13 +40,24 @@ function Range() {
         console.log("product list >>", data);
         setProducts(data.data);
         setPrevProducts(data.data);
-        setTotalProducts(data.total)
-        const array = createArrayWithNumber(data.last_page);
+        setTotalProducts(data.total);
+        const array = createArrayWithNumber(data.last_page); //error
         setTotalPages(data.last_page);
         setPages(array);
       })
       .catch((error) => console.log(error));
+  }, []);
+
+
+
+  const getProductList = (values) => {
+    if (childRef.current) {
+      console.log("values>>", values);
+      childRef.current.handleFilterPagination(values);
+    }
   };
+
+  
 
   const handleBulkEdit = () => {
     localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
@@ -62,8 +67,8 @@ function Range() {
     e.target.checked
       ? setSelectedProducts([...selectedProducts, product])
       : setSelectedProducts(
-        selectedProducts.filter((prod) => prod !== product)
-      );
+          selectedProducts.filter((prod) => prod !== product)
+        );
 
     if (selectedProducts.length > 0) {
       setIsBulkEdit(true);
@@ -135,6 +140,9 @@ function Range() {
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchProduct
+            ref={childRef}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
             setProducts={setProducts}
             products={products}
             prevProducts={prevProducts}
@@ -275,6 +283,8 @@ function Range() {
               <PaginationNav1Presentation
                 totalPages={totalPages}
                 getProductList={getProductList}
+                pageIndex={pageIndex}
+                setPageIndex={setPageIndex}
               />
             </CardFooter>
           </div>
