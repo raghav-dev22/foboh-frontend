@@ -53,7 +53,7 @@ function AddCustomers() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("user data --->", data);
+        console.log("customer data --->", data);
         setTableRecords(data.data);
         setPrevCustomer(data.data)
         const array = createArrayWithNumber(data.last_page);
@@ -186,17 +186,17 @@ function AddCustomers() {
                           </Typography>
                         </td>
                         <td className={classes}>
-                          {item?.isActive === 1 ? (
-                            <div className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3">
-                              <p className="text-green-dark font-normal		text-sm	">
+                          {item?.isActive === true ? (
+                            <div style={{background : "rgba(33, 150, 83, 0.08)", borderRadius: "30px"}} className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3">
+                              <p className="text-green-dark font-normal	text-sm	">
                                 Active
                               </p>
                             </div>
                           ) : (
-                            <div className="flex justify-center items-center gap-1 radius-20 bg-custom-red h-7	w-32		px-3">
+                            <div style={{background : "rgba(255, 167, 11, 0.08)", borderRadius: "30px"}} className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3">
                               <p
                                 style={{ color: "#FFA70B" }}
-                                className="text-red-dark font-normal		text-sm	"
+                                className="text-red-dark font-normal text-sm	"
                               >
                                 Inactive
                               </p>
