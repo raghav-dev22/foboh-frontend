@@ -1,7 +1,5 @@
 import React from "react";
-// import { BusinessDetailsSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-// import { useFormik } from "formik";
 function BusinessDetails({
   values,
   errors,
@@ -9,6 +7,8 @@ function BusinessDetails({
   handleChange,
   touched,
 }) {
+
+  console.log("errors", errors);
   // const initialValues = {
   //   BusinessName: "",
   //   ABN: "",
@@ -45,6 +45,7 @@ function BusinessDetails({
             <input
               type="text"
               id="BusinessName"
+              name="BusinessName"
               //   autoComplete="on"
               className="pl-custom-left"
               value={values.BusinessName}
@@ -52,17 +53,17 @@ function BusinessDetails({
               onBlur={handleBlur}
               style={{
                 border:
-                  errors.BusinessName &&
+                errors.BusinessName &&
                   touched.BusinessName &&
                   "1px solid red",
               }}
             />
-            {errors.BusinessName && touched.BusinessName && (
+            {errors.BusinessName && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.BusinessName}
               </p>
             )}
-            {errors.BusinessName && touched.BusinessName && (
+            {errors.BusinessName &&  (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
             <div className=" absolute top-[50px] left-4">
@@ -101,10 +102,10 @@ function BusinessDetails({
                 border: errors.ABN && touched.ABN && "1px solid red",
               }}
             />
-            {errors.ABN && touched.ABN && (
+            {errors.ABN && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.ABN}</p>
             )}
-            {errors.ABN && touched.ABN && (
+            {errors.ABN && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
             <div className=" absolute top-[50px] left-4">
@@ -150,12 +151,12 @@ function BusinessDetails({
                   "1px solid red",
               }}
             />
-            {errors.LiquerLicence && touched.LiquerLicence && (
+            {errors.LiquerLicence &&(
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.LiquerLicence}
               </p>
             )}
-            {errors.LiquerLicence && touched.LiquerLicence && (
+            {errors.LiquerLicence &&(
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
 
