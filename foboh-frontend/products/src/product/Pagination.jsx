@@ -67,8 +67,10 @@ function PaginationNav1({
         variant="outlined"
         size="sm"
         onClick={() => {
-          onPageChange(pageIndex - 1);
-          gotoPage(pageIndex - 1);
+          if (pageIndex > 1) {
+            onPageChange(pageIndex - 1);
+            gotoPage(pageIndex - 1)
+          }
         }}
         disabled={!canPreviousPage}
       >
@@ -92,8 +94,8 @@ function PaginationNav1({
   );
 }
 
-function PaginationNav1Presentation({ totalPages, getProductList }) {
-  const [pageIndex, setPageIndex] = useState(1);
+function PaginationNav1Presentation({ totalPages, getProductList, pageIndex, setPageIndex }) {
+  
   const pageCount = totalPages;
 
   return (

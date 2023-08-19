@@ -23,7 +23,6 @@ function Dashboard() {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
@@ -38,30 +37,35 @@ function Dashboard() {
     )
       .then((response) => response.json())
       .then((data) => {
-        const user = data.data[0];
-        console.log("user data --->", data);
-        localStorage.setItem("organisationId", user.organisationId);
+        const userInfo = data?.data[0];
+        console.log("user data --->", userInfo);
+        localStorage.setItem("organisationId", userInfo.organisationId);
+        localStorage.setItem("ccrn", userInfo.ccrn);
+
         dispatch(
           updateUserData({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            mobile: user.mobile,
-            bio: user.bio,
-            password: user.password,
+            firstName: userInfo.firstName,
+            lastName: userInfo.lastName,
+            email: userInfo.email,
+            mobile: userInfo.mobile,
+            bio: userInfo.bio,
+            password: userInfo.password,
             status: true,
-            role: user.role,
-            meta: user.meta,
-            adId: user.adId,
-            imageUrl: user.imageUrl,
-            organisationId: user.organisationId,
+            role: userInfo.role,
+            meta: userInfo.meta,
+            adId: userInfo.adId,
+            ccrn: userInfo.ccrn,
+            imageUrl: userInfo.imageUrl,
+            organisationId: userInfo.organisationId,
           })
         );
+
+        console.log("redux user >>", user);
       })
       .then(() => {
         fetch(
           `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-            "organisationID"
+            "organisationId"
           )}`,
           {
             method: "GET",

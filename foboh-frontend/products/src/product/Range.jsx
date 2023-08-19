@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SearchProduct from "./SearchProduct";
 import CloseIcon from "@mui/icons-material/Close";
 import ActiveProduct from "./ActiveProduct";
@@ -16,6 +16,7 @@ const TABLE_HEAD = [
   " Status",
 ];
 function Range() {
+  const childRef = useRef(null)
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [products, setProducts] = useState([]);
   const [prevProducts, setPrevProducts] = useState([]);
@@ -23,16 +24,13 @@ function Range() {
   const [totalProducts, setTotalProducts] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [pageIndex, setPageIndex] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
     getProductList(1);
-  }, []);
-
-  const getProductList = (values) => {
-    console.log("vales>>", values);
     fetch(
-      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=${values}`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1`,
       {
         method: "GET",
       }
@@ -48,7 +46,18 @@ function Range() {
         setPages(array);
       })
       .catch((error) => console.log(error));
+  }, []);
+
+
+
+  const getProductList = (values) => {
+    if (childRef.current) {
+      console.log("values>>", values);
+      childRef.current.handleFilterPagination(values);
+    }
   };
+
+  
 
   const handleBulkEdit = () => {
     localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
@@ -131,6 +140,9 @@ function Range() {
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchProduct
+            ref={childRef}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
             setProducts={setProducts}
             products={products}
             prevProducts={prevProducts}
@@ -271,6 +283,8 @@ function Range() {
               <PaginationNav1Presentation
                 totalPages={totalPages}
                 getProductList={getProductList}
+                pageIndex={pageIndex}
+                setPageIndex={setPageIndex}
               />
             </CardFooter>
           </div>

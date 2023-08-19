@@ -58,6 +58,10 @@ function EditProfile({ setProfileUri, setShow, show }) {
               setShow(true)
               setImageSrc(data.blob.uri);
               setProfileUri(data.blob.uri);
+              dispatch(updateUserData({
+                ...user,
+                imageUrl : data.blob.uri
+              }))
             }
           })
           .catch((error) => {
@@ -97,7 +101,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
             <div className="update-user rounded-full">
               <img
                 id="previewImage"
-                src={imageSrc || defaultImage}
+                src={user.imageUrl || defaultImage}
                 alt=""
                 className="w-14	h-14	object-cover	rounded-full"
               />

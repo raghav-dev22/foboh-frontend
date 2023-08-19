@@ -15,58 +15,87 @@ function PreviewModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
-    const customerModalData = importedCustomers.map((product) => {
+    setShowPreviewModal(true);
+    setShow(false);
+    const prod = importedCustomers.map((product) => {
       return {
-        title: product.title,
-        skUcode: product.skUcode,
-        brand: product.brand,
+        customerId: '',
+        businessName: product.businessName || "",
+        abn: product.abn,
+        liquorLicence: product.liquorLicence,
+        salesRepId: product.salesRepId,
+        pricingProfileId: product.pricingProfileId,
+        defaultPaymentMethodId: product.defaultPaymentMethodId,
+        defaultPaymentTerms: "",
+        tags: product.tags,
+        wetLiable: product.wetLiable,
+        orderingFirstName: product.orderingFirstName,
+        orderingLastName: product.orderingLastName,
+        orderingMobile: product.orderingMobile,
+        orderingEmail: product.orderingEmail,
+        deliveryFirstName: product.deliveryFirstName,
+        deliveryLastName: product.deliveryLastName,
+        deliveryMobile: product.deliveryMobile || "",
+        deliveryEmail: product.deliveryEmail || "",
+        address: product.address,
+        apartment: product.apartment,
+        suburb: product.suburb || "",
+        postalCode: product.postalCode,
+        state: product.state,
+        deliveryNotes: product.deliveryNotes || "",
+        billingAddress: product.billingAddress,
+        billingApartment: product.billingApartment,
+        billingSuburb: product.billingSuburb || "",
+        billingPostalCode: product.billingPostalCode || "",
+        billingState: product.billingState || "",
+        isActive: product.isActive || "",
       };
     });
     console.log("prod", prod);
     fetch(
-      "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateUpdateBulkData`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           importedCustomers.map((product) => {
             return {
-              customerId: "",
-              businessName: "",
-              abn: "",
-              liquorLicence: "",
-              salesRepId: "",
-              pricingProfileId: "",
-              defaultPaymentMethodId: "",
+              businessName: product.businessName || "",
+              abn:  JSON.stringify(product.abn),
+              liquorLicence: product.liquorLicence,
+              salesRepId: product.salesRepId,
+              pricingProfileId: product.pricingProfileId,
+              defaultPaymentMethodId: product.defaultPaymentMethodId,
               defaultPaymentTerms: "",
-              tags: "",
-              wetLiable: true,
-              orderingFirstName: "",
-              orderingLastName: "",
-              orderingMobile: "",
-              orderingEmail: "",
-              deliveryFirstName: "",
-              deliveryLastName: "",
-              deliveryMobile: "",
-              deliveryEmail: "",
-              address: "",
-              apartment: "",
-              suburb: "",
-              postalCode: "",
-              state: "",
-              deliveryNotes: "",
-              billingAddress: "",
-              billingApartment: "",
-              billingSuburb: "",
-              billingPostalCode: "",
-              billingState: "",
-              isActive: 0,
+              tags: product.tags,
+              wetLiable: product.wetLiable,
+              orderingFirstName: product.orderingFirstName,
+              orderingLastName: product.orderingLastName,
+              orderingMobile: JSON.stringify(product.orderingMobile),
+              orderingEmail: product.orderingEmail,
+              deliveryFirstName: product.deliveryFirstName,
+              deliveryLastName: product.deliveryLastName,
+              deliveryMobile: product.deliveryMobile || "",
+              deliveryEmail: product.deliveryEmail || "",
+              address: product.address,
+              apartment: product.apartment,
+              suburb: product.suburb || "",
+              postalCode:JSON.stringify(product.postalCode),
+              state: product.state,
+              deliveryNotes: product.deliveryNotes || "",
+              billingAddress: product.billingAddress,
+              billingApartment: product.billingApartment,
+              billingSuburb: product.billingSuburb || "",
+              billingPostalCode: product.billingPostalCode || "",
+              billingState: product.billingState || "",
+              isActive: product.isActive || true,
             };
           })
         ),
       }
     )
-      .then((response) => {})
+      .then((response) => {
+      })
       .catch((error) => console.log(error));
   };
   const previousModal = () => {
@@ -75,12 +104,37 @@ function PreviewModal({
     setAddedFile(null);
     setErrorData([]);
   };
-
   const customerModalData = importedCustomers.map((product) => {
     return {
-      title: product.title,
-      skUcode: product.skUcode,
-      brand: product.brand,
+      businessName: product.businessName || "",
+      abn: product.abn,
+      liquorLicence: product.liquorLicence,
+      salesRepId: product.salesRepId,
+      pricingProfileId: product.pricingProfileId,
+      defaultPaymentMethodId: product.defaultPaymentMethodId,
+      defaultPaymentTerms: "",
+      tags: product.tags,
+      wetLiable: product.wetLiable,
+      orderingFirstName: product.orderingFirstName,
+      orderingLastName: product.orderingLastName,
+      orderingMobile: product.orderingMobile,
+      orderingEmail: product.orderingEmail,
+      deliveryFirstName: product.deliveryFirstName,
+      deliveryLastName: product.deliveryLastName,
+      deliveryMobile: product.deliveryMobile || "",
+      deliveryEmail: product.deliveryEmail || "",
+      address: product.address,
+      apartment: product.apartment,
+      suburb: product.suburb || "",
+      postalCode: product.postalCode,
+      state: product.state,
+      deliveryNotes: product.deliveryNotes || "",
+      billingAddress: product.billingAddress,
+      billingApartment: product.billingApartment,
+      billingSuburb: product.billingSuburb || "",
+      billingPostalCode: product.billingPostalCode || "",
+      billingState: product.billingState || "",
+      isActive: product.isActive || "",
     };
   });
   console.log(customerModalData, "customerModalData----");
@@ -155,21 +209,21 @@ function PreviewModal({
                               className="relative px-6 py-3 overflow-y-auto "
                             >
                               <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">Title</p>
+                                <p className="text-sm font-semibold">businessName</p>
                                 <p className="text-sm font-normal text-lightGreen">
-                                  {customer.title}
+                                  {customer.businessName}
                                 </p>
                               </div>
                               <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">skUcode</p>
+                                <p className="text-sm font-semibold">Contact</p>
                                 <p className="text-sm font-normal text-lightGreen">
-                                  {customer.skUcode}
+                                  {customer.address}
                                 </p>
                               </div>
                               <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">brand</p>
+                                <p className="text-sm font-semibold">Region</p>
                                 <p className="text-sm font-normal text-lightGreen">
-                                  {customer.brand}
+                                  {customer.state}
                                 </p>
                               </div>
                             </div>

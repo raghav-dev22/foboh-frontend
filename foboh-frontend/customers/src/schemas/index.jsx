@@ -2,33 +2,70 @@ import * as Yup from "yup";
 
 // customers-details Schema
 export const AddCustomerSchema = Yup.object().shape({
-  BusinessName: Yup.string()
+  businessName: Yup.string()
+  .max(50)
     .min(2, "Business name should have atleast 2 letters")
-    .max(50)
     .required("Business name is required"),
-  ABN: Yup.string()
+  abn: Yup.string()
     .min(2, "ABN should have atleast 2 letters")
     .max(50)
     .required("ABN is required"),
-  LiquorLicence: Yup.string()
-    .required("LiquorLicence is required")
-    .matches(/^\+\d{1,3}\s?\d{1,14}$/, "LiquorLicence must be a valid number"),
+  // liquorLicence: Yup.string()
+  liquorLicence: Yup.string().max(13, "Liquor licence cannot be more than 13 characters"),
 
   //customers-contact
 
-  FirstName: Yup.string()
+  orderingFirstName: Yup.string()
     .min(2, "First name should have atleast 2 letters")
     .max(50)
     .required("First name is required"),
-  LastName: Yup.string()
+  orderingLastName: Yup.string()
     .min(2, "Last name should have atleast 2 letters")
     .max(50)
     .required("Last name is required"),
-  Email: Yup.string()
-    .min(2, "ABN should have atleast 2 letters")
+
+  deliveryFirstName: Yup.string()
+    .min(2, "First name should have atleast 2 letters")
     .max(50)
-    .required("ABN is required"),
-  Mobile: Yup.string()
-    .required("Mobile number is required")
-    .matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
+    .required("First name is required"),
+  deliveryLastName: Yup.string()
+    .min(2, "Last name should have atleast 2 letters")
+    .max(50)
+    .required("Last name is required"),
+
+  orderingEmail: Yup.string().email("Please enter a valid email"),
+
+  orderingMobile: Yup.string().matches(
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    "Mobile number must be a valid Australian mobile number"
+  ),
+
+  deliveryEmail: Yup.string().email("Please enter a valid email"),
+
+  deliveryMobile: Yup.string().matches(
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    "Mobile number must be a valid Australian mobile number"
+  ),
+
+  address: Yup.string()
+    .min(2, "Address should have atleast 2 letters")
+    .max(50)
+    .required("Address is required"),
+
+  suburb: Yup.string()
+    .min(2, "suburb should have atleast 2 letters")
+    .max(50)
+    .required("suburb is required"),
+
+  postalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+  deliveryNotes: Yup.string()
+    .min(2, "postalCode should have atleast 5 letters")
+    .max(50)
+    .required("postalCode name is required"),
+  billingSuburb: Yup.string()
+    .min(2, "suburb should have atleast 2 letters")
+    .max(50)
+    .required("suburb  is required"),
+
+  billingPostalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
 });

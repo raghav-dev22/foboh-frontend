@@ -128,6 +128,7 @@ function Organisation() {
             if (data.success) {
               const organisationID = data.data.organisationID;
               console.log("organisationID =>", organisationID);
+              localStorage.setItem("organisationId", organisationID);
               const id = localStorage.getItem("ccrn");
               fetch(
                 `https://user-api-foboh.azurewebsites.net/api/User/update?ccrn=${id}`,
@@ -159,17 +160,15 @@ function Organisation() {
                 });
 
               const organisationSettings = data.data;
-              localStorage.setItem("organisationId", organisationID);
               setShow(false);
             }
           })
           .catch((error) => console.log(error));
       } else {
         console.log("org id", localStorage.getItem("organisationId"));
+        const orgId = localStorage.getItem("organisationId")
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${localStorage.getItem(
-            "organisationId"
-          )}`,
+          `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${orgId}`,
           {
             method: "PUT",
             headers: {
@@ -223,10 +222,11 @@ function Organisation() {
   });
 
   useEffect(() => {
+    console.log("userData >>", user);
+    const orgId = localStorage.getItem(
+      "organisationId")
     fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-        "organisationId"
-      )}`,
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${user.organisationId}`,
       {
         method: "GET",
       }
@@ -345,11 +345,10 @@ function Organisation() {
         const reader = new FileReader();
         const formData = new FormData();
         formData.append("file", file);
-
+        const orgId = localStorage.getItem(
+          "organisationId")
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${localStorage.getItem(
-            "organisationID"
-          )}`,
+          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
           {
             method: "POST",
             body: formData,
@@ -364,8 +363,8 @@ function Organisation() {
             if (!data.error) {
               console.log("uri --->", data.blob.uri);
               setShow(true);
-              setLogoUri(data.blob.uri);
-              dispatch(updateLogoURI(data.blob.uri));
+              setLogoUri(data?.blob.uri);
+              dispatch(updateLogoURI(data?.blob.uri));
             }
           })
           .catch((error) => {
@@ -377,13 +376,6 @@ function Organisation() {
         // Clear the file input field
         fileInputRef.current.value = "";
       }
-
-      reader.onload = () => {
-        // Do whatever you want with the file contents
-        const imgData = reader.result;
-        // setImageSrc(imgData);
-      };
-      reader.readAsDataURL(file);
     }
   }, []);
 
