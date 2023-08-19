@@ -1,50 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { SignUpSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
-// import { useNavigate } from "react-router-dom";
-// import Verifyemail from "./Verifyemail";
 
 function Signup() {
-  // const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handle = () => {
+    localStorage.setItem("Name", name);
+    localStorage.setItem("Password", pwd);
+    localStorage.setItem("Password", email);
+  };
+  console.log(handle, "handle------------------>");
   const initialValues = {
     name: "",
     email: "",
     password: "",
   };
-  // const SignupBtn = () => {
-
-  //   ;
-  // };
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
-        // <Router>
-        //   <Routes>
-        //     <Route
-        //       path="/verify-email"
-        //       element={<Verifyemail emailValue={values.email} />}
-        //     />
-        //   </Routes>
-        // </Router>;
-
-        // navigate("/verify-email");
-
-        // emailValue = values.email;
-        // setEmailValue(values.email);
         console.log(values.email, "signup");
       },
     });
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setCount((count) => count + 1);
-  //   }, 1000);
-  // });
-  // const [emailValue, setEmailValue] = useState();
   console.log(values.email, "values");
   return (
     <>
@@ -88,7 +72,8 @@ function Signup() {
                       id="name"
                       autoComplete="on"
                       value={values.name}
-                      onChange={handleChange}
+                      onChange={(e) => setName(e.target.value)}
+                      // onChange={handleChange}
                       onBlur={handleBlur}
                       style={{
                         border: errors.name && touched.name && "1px solid red",
@@ -120,7 +105,8 @@ function Signup() {
                       className={`js-email `}
                       autoComplete="off"
                       value={values.email}
-                      onChange={handleChange}
+                      onChange={(e) => setEmail(e.target.value)}
+                      // onChange={handleChange}
                       onBlur={handleBlur}
                       style={{
                         border:
@@ -160,7 +146,8 @@ function Signup() {
                           touched.password &&
                           "1px solid red",
                       }}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => setPwd(e.target.value)}
                       onBlur={handleBlur}
                       value={values.password}
                     />

@@ -92,8 +92,11 @@ select {
     rgba(222, 220, 247, 1) 49%,
     rgba(255, 255, 255, 0.49360994397759106) 100%
   ); */
-  background: linear-gradient(84.5deg, rgba(95, 74, 221, 0.1) -4.14%, rgba(252, 252, 252, 0.7) 55.7%);
-
+  background: linear-gradient(
+    84.5deg,
+    rgba(95, 74, 221, 0.1) -4.14%,
+    rgba(252, 252, 252, 0.7) 55.7%
+  );
 }
 
 /*...................................................................................................*/
@@ -146,7 +149,8 @@ select {
 }
 .top-rated-section .dZkckO:hover::before,
 .top-rated-section .bBfHpH:hover::before,
-.shop-section .dZkckO::before {
+.shop-section .dZkckO::before,
+.shop-section .bBfHpH::before {
   border-color: #fff;
 }
 .top-rated-section .bBfHpH,
@@ -162,6 +166,12 @@ select {
 }
 .shop-section .dZkckO {
   right: -50px;
+}
+.shop-section .bBfHpH {
+  left: -50px;
+}
+.shop-section .dZkckO,
+.shop-section .bBfHpH {
   top: 31%;
   background: #637381;
   height: 40px;
@@ -181,7 +191,6 @@ select {
   fill: #fff;
 }
 
-
 /* *************************shopsection***************************** */
 @media (max-width: 768px) {
   .shop-section .dZkckO {
@@ -190,9 +199,9 @@ select {
   .carousel-container {
     display: flex;
     overflow-x: scroll;
-    -webkit-overflow-scrolling: touch; 
+    -webkit-overflow-scrolling: touch;
   }
-  
+
   .carousel-item {
     flex: 0 0 auto;
     scroll-snap-align: start;
@@ -202,13 +211,3 @@ select {
   }
 }
 /* CustomCarousel.css */
-
-
-
-
-
-
-
-
-
-

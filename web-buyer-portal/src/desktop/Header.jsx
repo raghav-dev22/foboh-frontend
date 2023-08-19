@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Dialog, Disclosure, Popover } from "@headlessui/react";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LogoutIcon from "@mui/icons-material/Logout";
-function Header() {
+function Header({ count, addData }) {
   const [wine, setWine] = useState(false);
   const [lists, setLists] = useState(false);
   const [orders, setOrders] = useState(false);
@@ -21,6 +21,22 @@ function Header() {
   const [showUser, setShowUser] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
+  const [scroll, setScroll] = useState(false);
+  const [number, setNumber] = useState(0);
+  const wineData = [
+    { title: "All products" },
+    { title: "Sparkling" },
+    { title: "White" },
+    { title: "Rose " },
+    { title: "Orange" },
+    { title: "Red" },
+    { title: "Dessert" },
+  ];
+  const data = addData;
+  const [CARTdata, setCARTData] = useState([]);
+  useEffect(() => {
+    setCARTData(data);
+  }, [data]);
   const WineDropDown = () => {
     setWine(!wine);
     setLists(false);
@@ -59,9 +75,18 @@ function Header() {
   const userDropdown = () => {
     setShowUser(!showUser);
   };
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setScroll(window.scrollY > 50);
+    });
+  }, []);
   return (
     <>
-      <div className="top-header bg-white flex justify-between items-center p-6">
+      <div
+        className={`top-header bg-white flex justify-between items-center p-6 ${
+          scroll && "fixed top-0 right-0 left-0 z-40 border-b border-inherit"
+        }`}
+      >
         <div className="flex md:hidden w-[50px]">
           <button
             type="button"
@@ -108,51 +133,82 @@ function Header() {
                   boxShadow: "rgb(0 0 0 / 14%) 0px 0px 5px 0px",
                 }}
               >
-                <ul className="dropdown-content py-3">
-                  <Link to="/dashboard/your-profile">
-                    <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2">
-                      <FormatListBulletedIcon style={{ fill: "#637381" }} />
-                      <h6 className="text-sm font-medium		text-[#637381]">
-                        Lists
+                <div className="flex justify-between flex-col h-full">
+                  <div className="">
+                    <div className="flex md:hidden items-center justify-between mx-4 py-8 border-b border-[#CDCED6]">
+                      <div
+                        className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                        onClick={() => setShowUser(false)}
+                      >
+                        <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                      </div>
+                      <h5 className="text-base font-semibold text-[#1D1E20]">
+                        Shopping Cart
+                      </h5>
+                      <Link to="#">
+                        <div className="box-rounded bg-[#F4F7FF] rounded-full h-[40px] object-contain		w-[40px] flex justify-center items-center">
+                          <ShoppingCartIcon className="icon-svg" />
+                        </div>
+                      </Link>
+                    </div>
+
+                    <ul className="dropdown-content pt-3">
+                      <Link to="#">
+                        <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2">
+                          <FormatListBulletedIcon style={{ fill: "#637381" }} />
+                          <h6 className="text-sm font-medium		text-[#637381]">
+                            Lists
+                          </h6>
+                        </li>
+                      </Link>
+                      <Link to="#">
+                        <li className="py-2.5	px-4 cursor-pointer flex items-center justify-between gap-2	">
+                          <div className=" flex items-center gap-2">
+                            <ShoppingBasketIcon style={{ fill: "#637381" }} />
+                            <h6 className="text-sm font-medium text-[#637381]">
+                              Orders
+                            </h6>
+                          </div>
+                          <div className="rounded-md h-[30px] w-[30px] bg-[#563FE3] flex justify-center items-center">
+                            <p className="text-white text-xs font-bold">10</p>
+                          </div>
+                        </li>
+                      </Link>
+                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                        <CreditCardIcon style={{ fill: "#637381" }} />
+                        <h6 className="text-sm font-medium	text-[#637381]	">
+                          Payments
+                        </h6>
+                      </li>
+                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                        <AccountCircleIcon style={{ fill: "#637381" }} />
+                        <h6 className="text-sm font-medium		text-[#637381]">
+                          Account
+                        </h6>
+                      </li>
+                    </ul>
+                  </div>
+                  <ul className="dropdown-content pb-3">
+                    <li className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2">
+                      <LogoutIcon style={{ fill: "#FF5757" }} />
+                      <h6 className="text-sm font-medium text-[#FF5757]">
+                        Logout
                       </h6>
                     </li>
-                  </Link>
-                  <Link to="/dashboard/organisation-settings">
-                    <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2">
-                      <ShoppingBasketIcon style={{ fill: "#637381" }} />
-                      <h6 className="text-sm font-medium text-[#637381]">
-                        Orders
-                      </h6>
-                    </li>
-                  </Link>
-                  <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
-                    <CreditCardIcon style={{ fill: "#637381" }} />
-                    <h6 className="text-sm font-medium	text-[#637381]	">
-                      Payments
-                    </h6>
-                  </li>
-                  <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
-                    <AccountCircleIcon style={{ fill: "#637381" }} />
-                    <h6 className="text-sm font-medium		text-[#637381]">
-                      Account
-                    </h6>
-                  </li>
-                  <li className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2">
-                    <LogoutIcon style={{ fill: "#FF5757" }} />
-                    <h6 className="text-sm font-medium text-[#FF5757]">
-                      Logout
-                    </h6>
-                  </li>
-                </ul>
+                  </ul>
+                </div>
               </div>
             </>
           )}
 
           <div
-            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center"
+            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center relative"
             onClick={() => setMobileCartOpen(true)}
           >
             <ShoppingCartIcon className="icon-svg" />
+            <div className=" absolute top-[-4px] right-[-2px] cart-box w-[15px] h-[15px] rounded-full bg-[#563FE3] flex justify-center items-center">
+              <p className="text-white text-[8px] font-normal">{count}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -192,8 +248,8 @@ function Header() {
           onClose={setMobileMenuOpen}
         >
           <div className="fixed inset-0 z-10" />
-          <Dialog.Panel className="fixed inset-y-0 left-0 z-10 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="fixed inset-y-0 left-0 z-10 w-10/12	 overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <Dialog.Panel className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="fixed inset-y-0 left-0 z-50 w-10/12	 overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
               <div className="flex items-center justify-between px-6">
                 <Link to="#">
                   <div className="bg-[#F5F5F5] rounded-full w-[40px] h-[40px] flex justify-center items-center">
@@ -203,14 +259,13 @@ function Header() {
                 <h5 className="text-base font-semibold text-[#1D1E20]">
                   Categories
                 </h5>
-                <button
-                  type="button"
+                <div
                   className="-m-2.5 rounded-md p-2.5 text-gray-700"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span className="sr-only">Close menu</span>
                   <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                </div>
               </div>
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
@@ -236,24 +291,16 @@ function Header() {
 
                         {wine && (
                           <div className="pb-[100px] border-b border-[#CDCED6]">
-                            <a
-                              href="#"
-                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            >
-                              Features
-                            </a>
-                            <a
-                              href="#"
-                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            >
-                              Marketplace
-                            </a>
-                            <a
-                              href="#"
-                              className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            >
-                              Company
-                            </a>
+                            {wineData.map((item) => {
+                              return (
+                                <a
+                                  href="#"
+                                  className=" block rounded-md px-14 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                >
+                                  {item.title}
+                                </a>
+                              );
+                            })}
                           </div>
                         )}
                       </>
@@ -438,21 +485,20 @@ function Header() {
 
         <Dialog
           as="div"
-          className="md:hidden"
+          className=""
           open={mobileCartOpen}
           onClose={setMobileCartOpen}
         >
-          <div className="fixed inset-0 z-10" />
-          <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className="fixed inset-0 z-10 " />
+          <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="fixed inset-y-0 right-0 z-10 w-10/12	 overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
               <div className="flex items-center justify-between px-4">
-                <button
-                  type="button"
+                <div
                   className="-m-2.5 rounded-md p-2.5 text-gray-700"
                   onClick={() => setMobileCartOpen(false)}
                 >
                   <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                </div>
                 <h5 className="text-base font-semibold text-[#1D1E20]">
                   Shopping Cart
                 </h5>
@@ -462,10 +508,97 @@ function Header() {
                   </div>
                 </Link>
               </div>
-              <div className="mt-8 flow-root border-t border-[#CDCED6] mx-5">
-                <h5 className="text-sm font-bold text-center  pt-8">
+              <div className="mx-5 mt-8">
+                {CARTdata.length === 0 ? (
+                  <h5 className="text-sm font-bold text-center  pt-8 mt-8 flow-root border-t border-[#CDCED6] ">
+                    Your cart is empty.
+                  </h5>
+                ) : (
+                  <>
+                    {CARTdata.map((item, index) => {
+                      return (
+                        <>
+                          <div className="box shadow-md rounded-lg my-4">
+                            <div className="flex items-center gap-2 p-2">
+                              <div className="cart-img">
+                                <img
+                                  src={item.img}
+                                  alt=""
+                                  className="max-w-[80px] w-[80px] h-[80px] object-cover	"
+                                />
+                              </div>
+                              <div className="w-full flex flex-col gap-[15px]">
+                                <div className="">
+                                  <h5 className="text-sm font-bold">
+                                    {item.title}
+                                  </h5>
+                                  <p className=" text-[#666666] text-xs">
+                                    {item.title}
+                                  </p>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <h5 className="text-sm font-bold">
+                                    {" "}
+                                    ${item.price * item.quantity}.00
+                                  </h5>
+                                  <div className="bg-[#EEEEEE] rounded-[30px]  w-[70px] flex gap-2 justify-center items-center">
+                                    <div
+                                      className="cursor-pointer"
+                                      onClick={() => {
+                                        const _CART = CARTdata.map(
+                                          (cartItem, index) => {
+                                            return item.id === cartItem.id
+                                              ? {
+                                                  ...cartItem,
+                                                  quantity:
+                                                    cartItem.quantity > 1
+                                                      ? cartItem.quantity - 1
+                                                      : 1,
+                                                }
+                                              : cartItem;
+                                          }
+                                        );
+                                        setCARTData(_CART);
+                                      }}
+                                    >
+                                      -
+                                    </div>
+                                    <div className="text-xs">
+                                      {item.quantity}
+                                    </div>
+                                    <div
+                                      className="cursor-pointer	"
+                                      onClick={() => {
+                                        const _CART = CARTdata.map(
+                                          (cartItem, index) => {
+                                            return item.id === cartItem.id
+                                              ? {
+                                                  ...cartItem,
+                                                  quantity:
+                                                    cartItem.quantity + 1,
+                                                }
+                                              : cartItem;
+                                          }
+                                        );
+                                        setCARTData(_CART);
+                                      }}
+                                    >
+                                      +
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </>
+                )}
+
+                {/* <h5 className="text-sm font-bold text-center  pt-8">
                   Your cart is empty.
-                </h5>
+                </h5> */}
               </div>
             </div>
           </Dialog.Panel>

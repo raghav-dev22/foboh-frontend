@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { DeliveryAddressSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { useFormik } from "formik";
 import Select from "react-select";
 
 function DeliveryAddress({
@@ -10,7 +8,10 @@ function DeliveryAddress({
   handleBlur,
   handleChange,
   touched,
+  setValues
 }) {
+  console.log("errorsdddd", errors);
+
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
@@ -33,6 +34,17 @@ function DeliveryAddress({
   //       console.log(values);
   //     },
   //   });
+
+  const handleState = (e) => {
+    console.log("state", e);
+    setValues({
+      ...values,
+      DeliveryAddressState : e.value
+    })
+  }
+
+  
+
   return (
     <>
       <div className="flex flex-col justify-center">
@@ -55,6 +67,7 @@ function DeliveryAddress({
           <input
             type="text"
             id="DeliveryAddress"
+            name="DeliveryAddress"
             autoComplete="on"
             value={values.DeliveryAddress}
             onChange={handleChange}
@@ -66,12 +79,12 @@ function DeliveryAddress({
                 "1px solid red",
             }}
           />
-          {errors.DeliveryAddress && touched.DeliveryAddress && (
+          {errors.DeliveryAddress && (
             <p className="mt-2 mb-2 text-red-500 text-xs">
               {errors.DeliveryAddress}
             </p>
           )}
-          {errors.DeliveryAddress && touched.DeliveryAddress && (
+          {errors.DeliveryAddress &&(
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
           )}
         </div>
@@ -92,15 +105,15 @@ function DeliveryAddress({
               onBlur={handleBlur}
               style={{
                 border:
-                  errors.Apartment && touched.Apartment && "1px solid red",
+                  errors.Apartment &&"1px solid red",
               }}
             />
-            {errors.Apartment && touched.Apartment && (
+            {errors.Apartment &&(
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.Apartment}
               </p>
             )}
-            {errors.Apartment && touched.Apartment && (
+            {errors.Apartment &&(
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -122,10 +135,10 @@ function DeliveryAddress({
                 border: errors.Suburb && touched.Suburb && "1px solid red",
               }}
             />
-            {errors.Suburb && touched.Suburb && (
+            {errors.Suburb &&(
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Suburb}</p>
             )}
-            {errors.Suburb && touched.Suburb && (
+            {errors.Suburb &&(
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -149,12 +162,12 @@ function DeliveryAddress({
                 border: errors.Postcode && touched.Postcode && "1px solid red",
               }}
             />
-            {errors.Postcode && touched.Postcode && (
+            {errors.Postcode &&(
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.Postcode}
               </p>
             )}
-            {errors.Postcode && touched.Postcode && (
+            {errors.Postcode &&(
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -167,9 +180,12 @@ function DeliveryAddress({
             </label>
             <Select
               defaultValue={selectedOption}
-              onChange={setSelectedOption}
+              onChange={(e) => handleState(e)}
               options={options}
             />
+            {errors.Notes && (
+            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.DeliveryAddressState}</p>
+          )}
           </div>
         </div>
         <div className={`relative mb-5 `} data-te-input-wrapper-init>
@@ -193,10 +209,10 @@ function DeliveryAddress({
               border: errors.Notes && touched.Notes && "1px solid red",
             }}
           />
-          {errors.Notes && touched.Notes && (
+          {errors.Notes && (
             <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Notes}</p>
           )}
-          {errors.Notes && touched.Notes && (
+          {errors.Notes &&(
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
           )}
           <div className=" absolute top-[48px] left-4">
