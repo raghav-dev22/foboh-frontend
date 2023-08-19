@@ -126,7 +126,6 @@ const SigninNew = () => {
             }
           )
             .then((response) => response.json())
-
             .then((data) => {
               console.log("issuerAssignedId eq", data);
               fetch(
