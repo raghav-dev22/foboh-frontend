@@ -5,42 +5,97 @@ import BusinessDetails from "./BusinessDetails";
 import DeliveryAddress from "./DeliveryAddress";
 import OrderContact from "./OrderContact";
 import SuccessModal from "../modal/SuccessModal";
-import { AccountDetailsSchema } from "../schemas";
+import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
 
 import { useFormik } from "formik";
-function CreateAccount() {
-  const initialValues = {
-    BusinessName: "",
-    ABN: "",
-    LiquerLicence: "",
-    DeliveryAddress: "",
-    Apartment: "",
-    Suburb: "",
-    Postcode: "",
-    Notes: "",
-    FirstName: "",
-    LastName: "",
-    email: "",
-    Mobile: "",
-  };
 
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+
+
+function CreateAccount() {
+  const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
+  const [currentStep, setCurrentStep]  = useState(0)
+
+  const formik =
     useFormik({
-      initialValues: initialValues,
-      validationSchema: AccountDetailsSchema,
+      initialValues: {
+        BusinessName: "",
+        ABN: "",
+        LiquerLicence: "",
+        DeliveryAddress: "",
+        Apartment: "",
+        Suburb: "",
+        Postcode: "",
+        Notes: "",
+        FirstName: "",
+        LastName: "",
+        email: "",
+        Mobile: "",
+        DeliveryAddressState : "",
+        OrderContactState: ""
+      },
+      validationSchema: validationSchemas[currentStep],
       onSubmit: (values) => {
         console.log(values, "saksii");
         setShow(true);
       },
     });
 
-  const handleNext = () => {
-    !isLastStep && setActiveStep((cur) => cur + 1);
-  };
+  // const handleNext = () => {
+  //   !isLastStep && setActiveStep((cur) => cur + 1);
+  // };
   const [show, setShow] = useState(false);
+ 
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
+  // const handleNext = () => {
+  //   let isStepValid = true;
+  
+  //   if (activeStep === 0) {
+  //     const step0Errors = Object.keys(errors).filter(
+  //       (key) =>
+  //         key.startsWith("BusinessName") ||
+  //         key.startsWith("ABN") ||
+  //         key.startsWith("LiquerLicence")
+  //     );
+  //     if (step0Errors.length > 0) {
+  //       isStepValid = false;
+  //     }
+  //   } else if (activeStep === 1) {
+  //     const step1Errors = Object.keys(errors).filter(
+  //       (key) =>
+  //         key.startsWith("DeliveryAddress") ||
+  //         key.startsWith("Apartment") ||
+  //         key.startsWith("Suburb") ||
+  //         key.startsWith("Postcode")
+  //     );
+  //     if (step1Errors.length > 0) {
+  //       isStepValid = false;
+  //     }
+  //   }
+  
+  //   if (isStepValid) {
+  //     setActiveStep((cur) => cur + 1);
+  //   } else {
+  //     console.log("error");
+  //   }
+  // };
+  
+  const handleNext = () => {
+    const currentValidationSchema = validationSchemas[currentStep];
+    formik.validateForm().then(errors => {
+       if (currentStep !== 2 && Object.values(errors).length === 0 ) { // Assuming 2 corresponds to the index of the 3rd step
+        // Handle the final form submission, for example, call an API or perform other actions
+        setCurrentStep((cur) => cur + 1);
+
+      } else if (currentStep === 2) {
+        console.log("Form submitted");
+        formik.submitForm();
+      }
+      console.log("res",errors);
+    })
+  };
+  
 
   return (
     <>
@@ -57,63 +112,72 @@ function CreateAccount() {
               </div>
               <form
                 className="w-full md:w-1/2 lg:ps-12  py-8  md:bg-white bg-[#F8FAFC] px-4 sm:px-6 md:px-8 lg:px-10"
-                onSubmit={handleSubmit}
+                
               >
                 <Stepper
-                  activeStep={activeStep}
+                  activeStep={currentStep}
                   isLastStep={(value) => setIsLastStep(value)}
                   className="mt-8 mb-14"
                 >
                   <Step
-                    onClick={() => setActiveStep(0)}
+                    onClick={() => setCurrentStep(0)}
                     className="custom-stepper rounded-full flex items-center justify-center"
                   >
                     <p className="font-sm font-medium">1</p>
                   </Step>
                   <Step
-                    onClick={() => setActiveStep(1)}
+                    onClick={() => setCurrentStep(1)}
                     className="custom-stepper rounded-full flex items-center justify-center"
                   >
                     <p className="font-sm font-medium">2</p>
                   </Step>
                   <Step
-                    onClick={() => setActiveStep(2)}
+                    onClick={() => setCurrentStep(2)}
                     className="custom-stepper rounded-full flex items-center justify-center"
                   >
                     <p className="font-sm font-medium">3</p>
                   </Step>
                 </Stepper>
-                {activeStep === 0 ? (
+                {currentStep === 0 && (
                   <BusinessDetails
-                    values={values}
-                    errors={errors}
-                    handleBlur={handleBlur}
-                    handleChange={handleChange}
-                    touched={touched}
+                    values={formik.values}
+                    errors={formik.errors}
+                    handleBlur={formik.handleBlur}
+                    handleChange={formik.handleChange}
+                    touched={formik.touched}
                   />
-                ) : activeStep === 1 ? (
+                )  
+                }
+                {
+                currentStep === 1 && (
                   <DeliveryAddress
-                    values={values}
-                    errors={errors}
-                    handleBlur={handleBlur}
-                    handleChange={handleChange}
-                    touched={touched}
+                    values={formik.values}
+                    errors={formik.errors}
+                    handleBlur={formik.handleBlur}
+                    handleChange={formik.handleChange}
+                    touched={formik.touched}
+                    setValues={formik.setValues}
                   />
-                ) : activeStep === 2 ? (
+                ) 
+                }
+                {
+                 currentStep === 2 && (
                   <>
                     <OrderContact
-                      values={values}
-                      errors={errors}
-                      handleBlur={handleBlur}
-                      handleChange={handleChange}
-                      touched={touched}
+                      values={formik.values}
+                    errors={formik.errors}
+                    handleBlur={formik.handleBlur}
+                    handleChange={formik.handleChange}
+                    touched={formik.touched}
+                    setValues={formik.setValues}
                     />
                   </>
-                ) : null}
+                ) 
+                }
 
-                {isLastStep ? (
+                {currentStep ===2  ? (
                   <Button
-                    type="submit"
+                    onClick={formik.submitForm}
                     className="login-btn bg-custom-blue rounded-md	w-full p-3 custom-shadow"
                     // onClick={submit}
                   >
@@ -122,16 +186,9 @@ function CreateAccount() {
                     </p>
                   </Button>
                 ) : (
-                  <Button
-                    type="submit"
-                    className="login-btn bg-custom-blue rounded-md	w-full p-3 custom-shadow"
-                    onClick={handleNext}
-                    disabled={isLastStep}
-                  >
-                    <p className="text-white text-center font-semibold	text-sm	">
-                      Next
-                    </p>
-                  </Button>
+                  <button type="button" onClick={handleNext} disabled={!formik.isValid || formik.isSubmitting}>
+        Next
+      </button>
                 )}
               </form>
               <div className="  md:basis-1/2  hidden md:block ">

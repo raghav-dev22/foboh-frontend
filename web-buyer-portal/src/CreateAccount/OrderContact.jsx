@@ -2,13 +2,28 @@ import React, { useState } from "react";
 import Select from "react-select";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
+function OrderContact({
+  values,
+  errors,
+  handleBlur,
+  handleChange,
+  touched,
+  setValues
+}) {
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
   const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleState = (e) => {
+    console.log("state", e);
+    setValues({
+      ...values,
+      OrderContactState : e.value
+    })
+  }
 
   return (
     <>
@@ -43,12 +58,12 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
                   errors.FirstName && touched.FirstName && "1px solid red",
               }}
             />
-            {errors.FirstName && touched.FirstName && (
+            {errors.FirstName && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.FirstName}
               </p>
             )}
-            {errors.FirstName && touched.FirstName && (
+            {errors.FirstName && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -61,9 +76,12 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
             </label>
             <Select
               defaultValue={selectedOption}
-              onChange={setSelectedOption}
+              onChange={(e) => handleState(e)}
               options={options}
             />
+              {errors.OrderContactState && (
+            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.OrderContactState}</p>
+          )}
           </div>
         </div>
 
@@ -87,10 +105,10 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
               border: errors.email && touched.email && "1px solid red",
             }}
           />
-          {errors.email && touched.email && (
+          {errors.email && (
             <p className="mt-2 mb-2 text-red-500 text-xs">{errors.email}</p>
           )}
-          {errors.email && touched.email && (
+          {errors.email && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
           )}
           <label
@@ -119,10 +137,10 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
               border: errors.Mobile && touched.Mobile && "1px solid red",
             }}
           />
-          {errors.Mobile && touched.Mobile && (
+          {errors.Mobile && (
             <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Mobile}</p>
           )}
-          {errors.Mobile && touched.Mobile && (
+          {errors.Mobile && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
           )}
           <label
@@ -182,12 +200,12 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
                     errors.FirstName && touched.FirstName && "1px solid red",
                 }}
               />
-              {errors.FirstName && touched.FirstName && (
+              {errors.FirstName && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
                   {errors.FirstName}
                 </p>
               )}
-              {errors.FirstName && touched.FirstName && (
+              {errors.FirstName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -210,12 +228,12 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
                     errors.LastName && touched.LastName && "1px solid red",
                 }}
               />
-              {errors.LastName && touched.LastName && (
+              {errors.LastName && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
                   {errors.LastName}
                 </p>
               )}
-              {errors.LastName && touched.LastName && (
+              {errors.LastName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -241,10 +259,10 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
                 border: errors.email && touched.email && "1px solid red",
               }}
             />
-            {errors.email && touched.email && (
+            {errors.email && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.email}</p>
             )}
-            {errors.email && touched.email && (
+            {errors.email && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
             <label
@@ -273,10 +291,10 @@ function OrderContact({ values, errors, handleBlur, handleChange, touched }) {
                 border: errors.Mobile && touched.Mobile && "1px solid red",
               }}
             />
-            {errors.Mobile && touched.Mobile && (
+            {errors.Mobile && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Mobile}</p>
             )}
-            {errors.Mobile && touched.Mobile && (
+            {errors.Mobile && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
             <label
