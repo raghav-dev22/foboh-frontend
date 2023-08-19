@@ -7,7 +7,6 @@ import OrderContact from "./OrderContact";
 import SuccessModal from "../modal/SuccessModal";
 import { AccountDetailsSchema } from "../schemas";
 
-// import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
 function CreateAccount() {
   const initialValues = {
@@ -29,9 +28,6 @@ function CreateAccount() {
     useFormik({
       initialValues: initialValues,
       validationSchema: AccountDetailsSchema,
-      // const submit=()=>{
-
-      // },
       onSubmit: (values) => {
         console.log(values, "saksii");
         setShow(true);
@@ -42,22 +38,9 @@ function CreateAccount() {
     !isLastStep && setActiveStep((cur) => cur + 1);
   };
   const [show, setShow] = useState(false);
-  // const showModal = () => {
-  //   setShow(true);
-  // };
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
-  // const handleNext = () => {
-  //   if (values === "") {
-  //     console.log(values, "saksii");
-  //   } else {
-  //     // !isLastStep && setActiveStep((cur) => cur + 1);
-  //     console.log("error");
-  //   }
-
-  //   // console.log(values, "saksii");
-  // };
 
   return (
     <>
