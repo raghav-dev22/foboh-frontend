@@ -36,14 +36,14 @@ export const AddCustomerSchema = Yup.object().shape({
   orderingEmail: Yup.string().email("Please enter a valid email"),
 
   orderingMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
 
   deliveryEmail: Yup.string().email("Please enter a valid email"),
 
   deliveryMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
 
