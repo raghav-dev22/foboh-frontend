@@ -50,7 +50,7 @@ export const RegistrationSchema = Yup.object().shape({
   mobile: Yup.string()
     .required("Mobile number is required")
     .matches(
-      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
   businessName: Yup.string()
@@ -83,7 +83,7 @@ export const PersonalDetailsSchema = Yup.object().shape({
     .max(50),
   email: Yup.string().email("Please enter a valid email"),
   mobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
   bio: Yup.string().max(255, "Bio cannot be more than 255 characters"), // Set max limit to 225 and error message
@@ -132,7 +132,7 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .max(50),
   orderingContactEmail: Yup.string().email("Please enter a valid email"),
   orderingContactMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
 
@@ -145,7 +145,7 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .max(50),
   LogisticsContactEmail: Yup.string().email("Please enter a valid email"),
   LogisticsContactMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
 });
