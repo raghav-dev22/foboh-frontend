@@ -54,7 +54,6 @@ function BusinessDetails({
               style={{
                 border:
                 errors.BusinessName &&
-                  touched.BusinessName &&
                   "1px solid red",
               }}
             />
@@ -99,7 +98,7 @@ function BusinessDetails({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors.ABN && touched.ABN && "1px solid red",
+                border: errors.ABN && "1px solid red",
               }}
             />
             {errors.ABN && (
@@ -147,7 +146,7 @@ function BusinessDetails({
               style={{
                 border:
                   errors.LiquerLicence &&
-                  touched.LiquerLicence &&
+                 
                   "1px solid red",
               }}
             />

@@ -44,45 +44,13 @@ function CreateAccount() {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
-  // const handleNext = () => {
-  //   let isStepValid = true;
 
-  //   if (activeStep === 0) {
-  //     const step0Errors = Object.keys(errors).filter(
-  //       (key) =>
-  //         key.startsWith("BusinessName") ||
-  //         key.startsWith("ABN") ||
-  //         key.startsWith("LiquerLicence")
-  //     );
-  //     if (step0Errors.length > 0) {
-  //       isStepValid = false;
-  //     }
-  //   } else if (activeStep === 1) {
-  //     const step1Errors = Object.keys(errors).filter(
-  //       (key) =>
-  //         key.startsWith("DeliveryAddress") ||
-  //         key.startsWith("Apartment") ||
-  //         key.startsWith("Suburb") ||
-  //         key.startsWith("Postcode")
-  //     );
-  //     if (step1Errors.length > 0) {
-  //       isStepValid = false;
-  //     }
-  //   }
 
-  //   if (isStepValid) {
-  //     setActiveStep((cur) => cur + 1);
-  //   } else {
-  //     console.log("error");
-  //   }
-  // };
 
   const handleNext = () => {
     const currentValidationSchema = validationSchemas[currentStep];
     formik.validateForm().then((errors) => {
       if (currentStep !== 2 && Object.values(errors).length === 0) {
-        // Assuming 2 corresponds to the index of the 3rd step
-        // Handle the final form submission, for example, call an API or perform other actions
         setCurrentStep((cur) => cur + 1);
       } else if (currentStep === 2) {
         console.log("Form submitted");
@@ -91,6 +59,16 @@ function CreateAccount() {
       console.log("res", errors);
     });
   };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep((cur) => cur - 1);
+      formik.setErrors({})
+    }
+    else {
+
+    }
+  }
 
   return (
     <>
@@ -112,19 +90,19 @@ function CreateAccount() {
                   className="mt-8 mb-14"
                 >
                   <Step
-                    onClick={() => setCurrentStep(0)}
+                    onClick={handleNext}
                     className="custom-stepper rounded-full flex items-center justify-center"
                   >
                     <p className="font-sm font-medium">1</p>
                   </Step>
                   <Step
-                    onClick={() => setCurrentStep(1)}
+                    onClick={handleNext}
                     className="custom-stepper rounded-full flex items-center justify-center"
                   >
                     <p className="font-sm font-medium">2</p>
                   </Step>
                   <Step
-                    onClick={() => setCurrentStep(2)}
+                    onClick={handleNext}
                     className="custom-stepper rounded-full flex items-center justify-center"
                   >
                     <p className="font-sm font-medium">3</p>
@@ -163,26 +141,52 @@ function CreateAccount() {
                 )}
 
                 {currentStep === 2 ? (
-                  <Button
-                    onClick={formik.submitForm}
-                    className="login-btn bg-custom-blue rounded-md	w-full p-3 custom-shadow"
+                  <div className="flex justify-between">
+                    <button
+                      className="login-btn bg-transparent border-2 border-[#563fe3] rounded-md w-36 p-3 custom-shadow mx-1"
+                      type="button"
+                      onClick={handleBack}
+                    >
+                      <p className="text-custom-blue text-center font-semibold text-sm">
+                        Back
+                      </p>
+                    </button>
+                    <Button
+                      onClick={formik.submitForm}
+                      className="login-btn bg-custom-blue rounded-md	w-36 p-3 custom-shadow"
                     // onClick={submit}
-                  >
-                    <p className="text-white text-center font-semibold	text-sm	 ">
-                      Done
-                    </p>
-                  </Button>
+                    >
+                      <p className="text-white text-center font-semibold	text-sm	 ">
+                        Save
+                      </p>
+                    </Button>
+                  </div>
                 ) : (
-                  <button
-                    className="login-btn bg-custom-blue rounded-md	w-full p-3 custom-shadow"
-                    type="button"
-                    onClick={handleNext}
-                    disabled={!formik.isValid || formik.isSubmitting}
-                  >
-                    <p className="text-white text-center font-semibold	text-sm">
-                      Next
-                    </p>
-                  </button>
+                  <div className="items-start	flex justify-between">
+                    {currentStep > 0 && (
+                      <button
+                        className="login-btn bg-transparent border-2 border-[#563fe3] rounded-md w-36 p-3 custom-shadow mx-1"
+                        type="button"
+                        onClick={handleBack}
+                      >
+                        <p className="text-custom-blue text-center font-semibold text-sm">
+                          Back
+                        </p>
+                      </button>
+                    )}
+                    <button
+                      className={`login-btn bg-custom-blue rounded-md p-3 custom-shadow mx-1 ${currentStep === 0 ? "w-full" : "w-36"
+                        }`}
+                      type="button"
+                      onClick={handleNext}
+                      disabled={!formik.isValid || formik.isSubmitting}
+                    >
+                      <p className="text-white text-center font-semibold text-sm">
+                        {currentStep === 1 ? "Next" : "Next"}
+                      </p>
+                    </button>
+                  </div>
+
                 )}
               </form>
               <div className="  md:basis-1/2  hidden md:block ">
