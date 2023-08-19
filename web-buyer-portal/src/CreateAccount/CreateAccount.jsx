@@ -9,48 +9,44 @@ import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
 
 import { useFormik } from "formik";
 
-
-
 function CreateAccount() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
-  const [currentStep, setCurrentStep]  = useState(0)
+  const [currentStep, setCurrentStep] = useState(0);
 
-  const formik =
-    useFormik({
-      initialValues: {
-        BusinessName: "",
-        ABN: "",
-        LiquerLicence: "",
-        DeliveryAddress: "",
-        Apartment: "",
-        Suburb: "",
-        Postcode: "",
-        Notes: "",
-        FirstName: "",
-        LastName: "",
-        email: "",
-        Mobile: "",
-        DeliveryAddressState : "",
-        OrderContactState: ""
-      },
-      validationSchema: validationSchemas[currentStep],
-      onSubmit: (values) => {
-        console.log(values, "saksii");
-        setShow(true);
-      },
-    });
+  const formik = useFormik({
+    initialValues: {
+      BusinessName: "",
+      ABN: "",
+      LiquerLicence: "",
+      DeliveryAddress: "",
+      Apartment: "",
+      Suburb: "",
+      Postcode: "",
+      Notes: "",
+      FirstName: "",
+      LastName: "",
+      email: "",
+      Mobile: "",
+      DeliveryAddressState: "",
+      OrderContactState: "",
+    },
+    validationSchema: validationSchemas[currentStep],
+    onSubmit: (values) => {
+      console.log(values, "saksii");
+      setShow(true);
+    },
+  });
 
   // const handleNext = () => {
   //   !isLastStep && setActiveStep((cur) => cur + 1);
   // };
   const [show, setShow] = useState(false);
- 
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   // const handleNext = () => {
   //   let isStepValid = true;
-  
+
   //   if (activeStep === 0) {
   //     const step0Errors = Object.keys(errors).filter(
   //       (key) =>
@@ -73,29 +69,28 @@ function CreateAccount() {
   //       isStepValid = false;
   //     }
   //   }
-  
+
   //   if (isStepValid) {
   //     setActiveStep((cur) => cur + 1);
   //   } else {
   //     console.log("error");
   //   }
   // };
-  
+
   const handleNext = () => {
     const currentValidationSchema = validationSchemas[currentStep];
-    formik.validateForm().then(errors => {
-       if (currentStep !== 2 && Object.values(errors).length === 0 ) { // Assuming 2 corresponds to the index of the 3rd step
+    formik.validateForm().then((errors) => {
+      if (currentStep !== 2 && Object.values(errors).length === 0) {
+        // Assuming 2 corresponds to the index of the 3rd step
         // Handle the final form submission, for example, call an API or perform other actions
         setCurrentStep((cur) => cur + 1);
-
       } else if (currentStep === 2) {
         console.log("Form submitted");
         formik.submitForm();
       }
-      console.log("res",errors);
-    })
+      console.log("res", errors);
+    });
   };
-  
 
   return (
     <>
@@ -110,10 +105,7 @@ function CreateAccount() {
                   alt="signin"
                 />
               </div>
-              <form
-                className="w-full md:w-1/2 lg:ps-12  py-8  md:bg-white bg-[#F8FAFC] px-4 sm:px-6 md:px-8 lg:px-10"
-                
-              >
+              <form className="w-full md:w-1/2 lg:ps-12  py-8  md:bg-white bg-[#F8FAFC] px-4 sm:px-6 md:px-8 lg:px-10">
                 <Stepper
                   activeStep={currentStep}
                   isLastStep={(value) => setIsLastStep(value)}
@@ -146,10 +138,8 @@ function CreateAccount() {
                     handleChange={formik.handleChange}
                     touched={formik.touched}
                   />
-                )  
-                }
-                {
-                currentStep === 1 && (
+                )}
+                {currentStep === 1 && (
                   <DeliveryAddress
                     values={formik.values}
                     errors={formik.errors}
@@ -158,24 +148,21 @@ function CreateAccount() {
                     touched={formik.touched}
                     setValues={formik.setValues}
                   />
-                ) 
-                }
-                {
-                 currentStep === 2 && (
+                )}
+                {currentStep === 2 && (
                   <>
                     <OrderContact
                       values={formik.values}
-                    errors={formik.errors}
-                    handleBlur={formik.handleBlur}
-                    handleChange={formik.handleChange}
-                    touched={formik.touched}
-                    setValues={formik.setValues}
+                      errors={formik.errors}
+                      handleBlur={formik.handleBlur}
+                      handleChange={formik.handleChange}
+                      touched={formik.touched}
+                      setValues={formik.setValues}
                     />
                   </>
-                ) 
-                }
+                )}
 
-                {currentStep ===2  ? (
+                {currentStep === 2 ? (
                   <Button
                     onClick={formik.submitForm}
                     className="login-btn bg-custom-blue rounded-md	w-full p-3 custom-shadow"
@@ -186,9 +173,16 @@ function CreateAccount() {
                     </p>
                   </Button>
                 ) : (
-                  <button type="button" onClick={handleNext} disabled={!formik.isValid || formik.isSubmitting}>
-        Next
-      </button>
+                  <button
+                    className="login-btn bg-custom-blue rounded-md	w-full p-3 custom-shadow"
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!formik.isValid || formik.isSubmitting}
+                  >
+                    <p className="text-white text-center font-semibold	text-sm">
+                      Next
+                    </p>
+                  </button>
                 )}
               </form>
               <div className="  md:basis-1/2  hidden md:block ">
