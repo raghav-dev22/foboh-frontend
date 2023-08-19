@@ -116,7 +116,8 @@ const SigninNew = () => {
           localStorage.setItem("email", googleResponse.email);
           navigate("/dashboard/main");
         } else {
-          fetch(`https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
+          fetch(
+            `https://graph.microsoft.com/beta/fobohdev.onmicrosoft.com/users?$filter=(identities/any(i:i/issuer eq 'fobohdev.onmicrosoft.com' and i/issuerAssignedId eq '${googleResponse.email}'))`,
             {
               method: "GET",
               headers: {
@@ -291,7 +292,7 @@ const SigninNew = () => {
                       htmlFor="password"
                       className="text-base font-normal text-[#2B4447]"
                     >
-                      Your Password{" "}
+                      Your Password
                     </label>
                     <div className="inset-y-0 right-0 flex items-center">
                       <input

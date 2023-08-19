@@ -12,6 +12,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LogoutIcon from "@mui/icons-material/Logout";
+import DeleteIcon from "@mui/icons-material/Delete";
 function Header({ count, addData }) {
   const [wine, setWine] = useState(false);
   const [lists, setLists] = useState(false);
@@ -518,8 +519,8 @@ function Header({ count, addData }) {
                     {CARTdata.map((item, index) => {
                       return (
                         <>
-                          <div className="box shadow-md rounded-lg my-4">
-                            <div className="flex items-center gap-2 p-2">
+                          <div className="box  my-4 relative cartbox-div">
+                            <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
                               <div className="cart-img">
                                 <img
                                   src={item.img}
@@ -539,7 +540,7 @@ function Header({ count, addData }) {
                                 <div className="flex justify-between items-center">
                                   <h5 className="text-sm font-bold">
                                     {" "}
-                                    ${item.price * item.quantity}.00
+                                    ${item.price}
                                   </h5>
                                   <div className="bg-[#EEEEEE] rounded-[30px]  w-[70px] flex gap-2 justify-center items-center">
                                     <div
@@ -564,7 +565,7 @@ function Header({ count, addData }) {
                                       -
                                     </div>
                                     <div className="text-xs">
-                                      {item.quantity}
+                                      {/* {item.quantity} */}1
                                     </div>
                                     <div
                                       className="cursor-pointer	"
@@ -588,6 +589,9 @@ function Header({ count, addData }) {
                                   </div>
                                 </div>
                               </div>
+                            </div>
+                            <div className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full">
+                              <DeleteIcon style={{ fill: "#fff" }} />
                             </div>
                           </div>
                         </>

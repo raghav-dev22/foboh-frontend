@@ -62,7 +62,7 @@ function TopRatedSection({ count, setCount, setAddData, addData }) {
                         Product name 123
                       </h2>
                       <h2 className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm">
-                        $100.00
+                        ${item.price}
                       </h2>
                     </div>
                     <div
