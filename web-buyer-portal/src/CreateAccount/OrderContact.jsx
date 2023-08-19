@@ -55,7 +55,7 @@ function OrderContact({
               onBlur={handleBlur}
               style={{
                 border:
-                  errors.FirstName && touched.FirstName && "1px solid red",
+                  errors.FirstName && "1px solid red",
               }}
             />
             {errors.FirstName && (
@@ -102,7 +102,7 @@ function OrderContact({
             onChange={handleChange}
             onBlur={handleBlur}
             style={{
-              border: errors.email && touched.email && "1px solid red",
+              border: errors.email &&"1px solid red",
             }}
           />
           {errors.email && (
@@ -134,7 +134,7 @@ function OrderContact({
             onChange={handleChange}
             onBlur={handleBlur}
             style={{
-              border: errors.Mobile && touched.Mobile && "1px solid red",
+              border: errors.Mobile && "1px solid red",
             }}
           />
           {errors.Mobile && (
@@ -197,7 +197,7 @@ function OrderContact({
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.FirstName && touched.FirstName && "1px solid red",
+                    errors.FirstName && "1px solid red",
                 }}
               />
               {errors.FirstName && (
@@ -225,7 +225,7 @@ function OrderContact({
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.LastName && touched.LastName && "1px solid red",
+                    errors.LastName && "1px solid red",
                 }}
               />
               {errors.LastName && (
@@ -256,7 +256,7 @@ function OrderContact({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors.email && touched.email && "1px solid red",
+                border: errors.email && "1px solid red",
               }}
             />
             {errors.email && (
@@ -288,7 +288,7 @@ function OrderContact({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors.Mobile && touched.Mobile && "1px solid red",
+                border: errors.Mobile && "1px solid red",
               }}
             />
             {errors.Mobile && (
