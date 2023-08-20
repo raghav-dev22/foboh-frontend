@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
 
-function SearchCustomer({ products, setProducts, prevProducts }) {
+function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
     { label: "Active", value: "Active" },
@@ -27,7 +27,7 @@ function SearchCustomer({ products, setProducts, prevProducts }) {
     },
     sort: {
       "sortBy": "",
-      "sortOrder": ""
+      "sortOrder": "asc"
     }
   }
   const addState = (item) => {
@@ -111,6 +111,7 @@ function SearchCustomer({ products, setProducts, prevProducts }) {
       )
         .then((response) => response.json())
         .then((data) => {
+          totalPages(data.total)
           console.log("filter customer table", data.data);
           setProducts(data.data);
         })
@@ -125,7 +126,8 @@ function SearchCustomer({ products, setProducts, prevProducts }) {
         .then((respose) => respose.json())
         .then((data) => {
           if (!data.status) {
-            console.log('search data on filter >>', data.data)
+            totalPages(data.total)
+            console.log('search data on filter >>', data)
             setProducts(data.data);
           } else {
             setProducts(prevProducts);
@@ -144,7 +146,7 @@ function SearchCustomer({ products, setProducts, prevProducts }) {
     }
   }
   const toggleCategory=()=>{
-    
+
   }
   return (
     <>

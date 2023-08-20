@@ -78,6 +78,7 @@ function CustomerDetails() {
 
   const finalHandleSubmit = (event) => {
     event.preventDefault();
+    if(values?.businessName && values.abn && values.address && values.apartment && values.billingPostalCode){
     console.log("final vales>>>", values);
     fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
       method: "POST",
@@ -96,11 +97,15 @@ function CustomerDetails() {
         }
       })
       .catch((error) => console.log(error));
+    }else{
+      window.alert("Please fill all the filed")
+    }
 
   };
   const handleCloseToast = () => {
     setOpenToast(false)
   }
+  console.log("errros",errors)
   return (
     <>
       <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper">
@@ -183,6 +188,7 @@ function CustomerDetails() {
             values={values}
             handleChange={handleChange}
             handleBlur={handleBlur}
+            setValues={setValues}
             errors={errors}
           />
         ) : activeStep === 2 ? (

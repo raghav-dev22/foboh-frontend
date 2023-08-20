@@ -125,6 +125,8 @@ function AddCustomers() {
            setProducts={setTableRecords}
            products={tableRecords}
            prevProducts={prevCustomer}
+           totalPages={setTotalPages}
+
           />
         </div>
         <div className="pt-6 px-6 relative">

@@ -169,8 +169,20 @@ const OrderDetails = ({ datas }) => {
     },
   }));
   const handleCloseToast = () => {
-    setOpenToast(false);
-  };
+    setOpenToast(false)
+  }
+  const addressSame = (e) => {
+    console.log("e --->", e.target.checked);
+    if (e.target.checked) {
+      setValues({
+        ...values,
+        deliveryFirstName:values.orderingFirstName,
+        deliveryLastName:values.orderingLastName,
+        deliveryEmail:values.orderingEmail,
+        deliveryMobile:values.orderingMobile
+      });
+    }
+  }
   return (
     <>
       <Toast
@@ -532,6 +544,7 @@ const OrderDetails = ({ datas }) => {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
                             type="text"
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             value={values.orderingMobile}
                             name="orderingMobile"
@@ -573,6 +586,7 @@ const OrderDetails = ({ datas }) => {
                         id="default-checkbox"
                         type="checkbox"
                         defaultValue=""
+                        onClick={addressSame}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                       />
                       <label
@@ -601,6 +615,8 @@ const OrderDetails = ({ datas }) => {
                             name="deliveryFirstName"
                             type="text"
                             value={values?.deliveryFirstName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Tom"
                             style={{
                               border:
@@ -632,6 +648,8 @@ const OrderDetails = ({ datas }) => {
                             id="grid-last-name"
                             type="text"
                             value={values?.deliveryLastName}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
                             name="deliveryLastName"
                             placeholder="Jones"
                             style={{
@@ -713,6 +731,7 @@ const OrderDetails = ({ datas }) => {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
                             type="text"
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             value={values?.deliveryMobile}
                             name="deliveryMobile"
@@ -766,6 +785,7 @@ const OrderDetails = ({ datas }) => {
                             id="grid-password"
                             disabled
                             type="text"
+                            onBlur={handleBlur}
                             // onChange={handleChange}
                             name="address"
                             value={values?.address}
@@ -801,6 +821,7 @@ const OrderDetails = ({ datas }) => {
                             id="grid-last-name"
                             name="apartment"
                             type="text"
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             value={values?.apartment}
                             placeholder="Tom"
@@ -831,6 +852,7 @@ const OrderDetails = ({ datas }) => {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-last-name"
                             type="text"
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             value={values?.suburb}
                             name="suburb"
@@ -864,6 +886,7 @@ const OrderDetails = ({ datas }) => {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
                             type="Postcode"
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             name="postalCode"
                             value={values?.postalCode}
@@ -966,7 +989,8 @@ const OrderDetails = ({ datas }) => {
                             id="grid-password"
                             disabled
                             type="text"
-                            // onChange={handleChange}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             name="billingAddress"
                             value={values?.billingAddress}
                             autoComplete="on"
@@ -1017,6 +1041,7 @@ const OrderDetails = ({ datas }) => {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-last-name"
                             type="text"
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             name="billingSuburb"
                             value={values?.billingSuburb}
@@ -1050,6 +1075,7 @@ const OrderDetails = ({ datas }) => {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
                             type="Postcode"
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             name="billingPostalCode"
                             value={values?.billingPostalCode}
