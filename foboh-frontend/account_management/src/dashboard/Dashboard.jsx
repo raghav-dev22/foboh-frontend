@@ -44,6 +44,7 @@ function Dashboard() {
 
         dispatch(
           updateUserData({
+            ...user,
             firstName: userInfo.firstName,
             lastName: userInfo.lastName,
             email: userInfo.email,

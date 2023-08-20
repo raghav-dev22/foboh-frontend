@@ -11,55 +11,52 @@ import Toast from "../Toast";
 const OrderDetails = ({ datas }) => {
   const navigate = useNavigate();
   const [data, setCustomerDetails] = React.useState();
-  const [activeStatus, setActiveStatus] = React.useState(1)
-  const [show, setShow] = React.useState(false)
+  const [activeStatus, setActiveStatus] = React.useState(1);
+  const [show, setShow] = React.useState(false);
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastSeverity, setToastSeverity] = useState('success');
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastSeverity, setToastSeverity] = useState("success");
 
-  const [initialValues, setInitialValues] = useState(
-    {
-      id: "",
-      customerId: "",
-      businessName: "",
-      abn: "",
-      liquorLicence: "",
-      salesRepId: "",
-      pricingProfileId: "",
-      defaultPaymentMethodId: "",
-      tags: "",
-      wetLiable: true,
-      orderingFirstName: "",
-      orderingLastName: "",
-      orderingMobile: "",
-      orderingEmail: "",
-      deliveryFirstName: "",
-      deliveryLastName: "",
-      deliveryMobile: "",
-      deliveryEmail: "",
-      address: "",
-      apartment: "",
-      suburb: "",
-      postalCode: "",
-      state: "",
-      deliveryNotes: "",
-      billingAddress: "",
-      billingApartment: "",
-      billingSuburb: "",
-      billingPostalCode: "",
-      billingState: "",
-      isActive: false
-    });
+  const [initialValues, setInitialValues] = useState({
+    id: "",
+    customerId: "",
+    businessName: "",
+    abn: "",
+    liquorLicence: "",
+    salesRepId: "",
+    pricingProfileId: "",
+    defaultPaymentMethodId: "",
+    tags: "",
+    wetLiable: true,
+    orderingFirstName: "",
+    orderingLastName: "",
+    orderingMobile: "",
+    orderingEmail: "",
+    deliveryFirstName: "",
+    deliveryLastName: "",
+    deliveryMobile: "",
+    deliveryEmail: "",
+    address: "",
+    apartment: "",
+    suburb: "",
+    postalCode: "",
+    state: "",
+    deliveryNotes: "",
+    billingAddress: "",
+    billingApartment: "",
+    billingSuburb: "",
+    billingPostalCode: "",
+    billingState: "",
+    isActive: false,
+  });
   useEffect(() => {
-    callCustomerDetails()
-  }, [])
+    callCustomerDetails();
+  }, []);
   const callCustomerDetails = () => {
-    fetch(
-      `https://fobohwepapifbh.azurewebsites.net/api/Customer/${datas}`,
-      {
-        method: "GET",
-      }
-    ).then((response) => response.json())
+    fetch(`https://fobohwepapifbh.azurewebsites.net/api/Customer/${datas}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
       .then((data) => {
         console.log("Customer data --->", data.orderingFirstName);
         setInitialValues({
@@ -81,8 +78,7 @@ const OrderDetails = ({ datas }) => {
           deliveryEmail: data.deliveryEmail,
           deliveryMobile: data.deliveryMobile,
           deliveryLastName: data.deliveryLastName,
-          deliveryFirstName: data.deliveryFirstName
-
+          deliveryFirstName: data.deliveryFirstName,
         });
         setValues({
           orderingFirstName: data.orderingFirstName,
@@ -103,11 +99,11 @@ const OrderDetails = ({ datas }) => {
           deliveryEmail: data.deliveryEmail,
           deliveryMobile: data.deliveryMobile,
           deliveryLastName: data.deliveryLastName,
-          deliveryFirstName: data.deliveryFirstName
-        })
-        setCustomerDetails(data)
-      })
-  }
+          deliveryFirstName: data.deliveryFirstName,
+        });
+        setCustomerDetails(data);
+      });
+  };
 
   const onFinalSubmit = (event) => {
     event.preventDefault();
@@ -120,22 +116,19 @@ const OrderDetails = ({ datas }) => {
         },
         body: JSON.stringify(values),
       }
-
     ).then((response) => {
-      console.log("updatedd")
-      setShow(false)
-      window.alert('Customer updated successful! ')
+      console.log("updatedd");
+      setShow(false);
+      window.alert("Customer updated successful! ");
       // setToastSeverity('success');
       // setToastMessage('Customer updated successful!');
       // setOpenToast(true)
-
-    }
-    )
+    });
     // .then((data) => {
 
     // console.log("Customer update successfully --->", data);
     // })
-  }
+  };
   const {
     values,
     errors,
@@ -152,7 +145,10 @@ const OrderDetails = ({ datas }) => {
       console.log("All Vlaues>>", values);
     },
   });
-  console.log("error, handleBlur touchid", values)
+
+  console.log("errors", errors);
+  console.log("values", values);
+
   const handleInputChange = () => {
     setShow(true);
   };
@@ -173,8 +169,8 @@ const OrderDetails = ({ datas }) => {
     },
   }));
   const handleCloseToast = () => {
-    setOpenToast(false)
-  }
+    setOpenToast(false);
+  };
   return (
     <>
       <Toast
@@ -211,10 +207,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 1
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                        } text-base`}
+                      className={`${
+                        activeStatus == 1
+                          ? " text-black font-bold	"
+                          : " font-normal	 text-white"
+                      } text-base`}
                     >
                       Orders
                     </span>
@@ -245,10 +242,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 2
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                        } text-base`}
+                      className={`${
+                        activeStatus == 2
+                          ? " text-black font-bold	"
+                          : " font-normal	 text-white"
+                      } text-base`}
                     >
                       Contacts
                     </span>
@@ -279,10 +277,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 3
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                        } text-base`}
+                      className={`${
+                        activeStatus == 3
+                          ? " text-black font-bold	"
+                          : " font-normal	 text-white"
+                      } text-base`}
                     >
                       Addresses
                     </span>
@@ -313,10 +312,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 4
-                        ? " text-black font-bold	"
-                        : " font-normal	 text-white"
-                        } text-base`}
+                      className={`${
+                        activeStatus == 4
+                          ? " text-black font-bold	"
+                          : " font-normal	 text-white"
+                      } text-base`}
                     >
                       Payments
                     </span>
@@ -324,19 +324,22 @@ const OrderDetails = ({ datas }) => {
                 </div>
               </li>
             </ul>
-            {show ?
+            {show ? (
               <button
                 onClick={onFinalSubmit}
                 className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
               >
                 Save
               </button>
-              : null}
+            ) : null}
 
             <div className="p-5">
               <div
-                className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${activeStatus == 1 ? "Active active-table" : "hide-table hidden"
-                  }`}
+                className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${
+                  activeStatus == 1
+                    ? "Active active-table"
+                    : "hide-table hidden"
+                }`}
               >
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className=" border-b">
@@ -385,8 +388,11 @@ const OrderDetails = ({ datas }) => {
                 </table>
               </div>
               <div
-                className={`${activeStatus == 2 ? "Active active-table" : "hide-table hidden"
-                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                className={`${
+                  activeStatus == 2
+                    ? "Active active-table"
+                    : "hide-table hidden"
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -415,17 +421,21 @@ const OrderDetails = ({ datas }) => {
                             placeholder="Tom"
                             style={{
                               border:
-                                errors.orderingFirstName && touched.orderingFirstName && "1px solid red",
+                                errors.orderingFirstName &&
+                                touched.orderingFirstName &&
+                                "1px solid red",
                             }}
                           />
-                          {errors.orderingFirstName && touched.orderingFirstName && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                              {errors.orderingFirstName}
-                            </p>
-                          )}
-                          {errors.orderingFirstName && touched.orderingFirstName && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-                          )}
+                          {errors.orderingFirstName &&
+                            touched.orderingFirstName && (
+                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                                {errors.orderingFirstName}
+                              </p>
+                            )}
+                          {errors.orderingFirstName &&
+                            touched.orderingFirstName && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                            )}
                         </div>
                         <div className="w-full relative md:w-1/2 px-3">
                           <label
@@ -445,17 +455,21 @@ const OrderDetails = ({ datas }) => {
                             placeholder="Jones"
                             style={{
                               border:
-                                errors.orderingLastName && touched.orderingLastName && "1px solid red",
+                                errors.orderingLastName &&
+                                touched.orderingLastName &&
+                                "1px solid red",
                             }}
                           />
-                          {errors.orderingLastName && touched.orderingLastName && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                              {errors.orderingLastName}
-                            </p>
-                          )}
-                          {errors.orderingLastName && touched.orderingLastName && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-                          )}
+                          {errors.orderingLastName &&
+                            touched.orderingLastName && (
+                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                                {errors.orderingLastName}
+                              </p>
+                            )}
+                          {errors.orderingLastName &&
+                            touched.orderingLastName && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                            )}
                         </div>
                       </div>
                       <div className="flex flex-wrap -mx-3 mb-5">
@@ -478,7 +492,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="devidjond45@gmail.com"
                             style={{
                               border:
-                                errors.orderingEmail && touched.orderingEmail && "1px solid red",
+                                errors.orderingEmail &&
+                                touched.orderingEmail &&
+                                "1px solid red",
                             }}
                           />
                           {errors.orderingEmail && touched.orderingEmail && (
@@ -517,12 +533,20 @@ const OrderDetails = ({ datas }) => {
                             id="grid-password"
                             type="text"
                             onChange={handleChange}
-                            value={values?.orderingMobile}
+                            value={values.orderingMobile}
                             name="orderingMobile"
                             placeholder="0412 345 678"
+                            onKeyPress={(event) => {
+                              const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
                             style={{
                               border:
-                                errors.orderingMobile && touched.orderingMobile && "1px solid red",
+                                errors.orderingMobile &&
+                                touched.orderingMobile &&
+                                "1px solid red",
                             }}
                           />
                           {errors.orderingMobile && touched.orderingMobile && (
@@ -580,17 +604,21 @@ const OrderDetails = ({ datas }) => {
                             placeholder="Tom"
                             style={{
                               border:
-                                errors.deliveryFirstName && touched.deliveryFirstName && "1px solid red",
+                                errors.deliveryFirstName &&
+                                touched.deliveryFirstName &&
+                                "1px solid red",
                             }}
                           />
-                          {errors.deliveryFirstName && touched.deliveryFirstName && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                              {errors.deliveryFirstName}
-                            </p>
-                          )}
-                          {errors.deliveryFirstName && touched.deliveryFirstName && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-                          )}
+                          {errors.deliveryFirstName &&
+                            touched.deliveryFirstName && (
+                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                                {errors.deliveryFirstName}
+                              </p>
+                            )}
+                          {errors.deliveryFirstName &&
+                            touched.deliveryFirstName && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                            )}
                         </div>
                         <div className="w-full relative md:w-1/2 px-3">
                           <label
@@ -608,17 +636,21 @@ const OrderDetails = ({ datas }) => {
                             placeholder="Jones"
                             style={{
                               border:
-                                errors.deliveryLastName && touched.deliveryLastName && "1px solid red",
+                                errors.deliveryLastName &&
+                                touched.deliveryLastName &&
+                                "1px solid red",
                             }}
                           />
-                          {errors.deliveryLastName && touched.deliveryLastName && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                              {errors.deliveryLastName}
-                            </p>
-                          )}
-                          {errors.deliveryLastName && touched.deliveryLastName && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-                          )}
+                          {errors.deliveryLastName &&
+                            touched.deliveryLastName && (
+                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                                {errors.deliveryLastName}
+                              </p>
+                            )}
+                          {errors.deliveryLastName &&
+                            touched.deliveryLastName && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                            )}
                         </div>
                       </div>
                       <div className="flex flex-wrap -mx-3 mb-5">
@@ -641,7 +673,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="devidjond45@gmail.com"
                             style={{
                               border:
-                                errors.deliveryEmail && touched.deliveryEmail && "1px solid red",
+                                errors.deliveryEmail &&
+                                touched.deliveryEmail &&
+                                "1px solid red",
                             }}
                           />
                           {errors.deliveryEmail && touched.deliveryEmail && (
@@ -685,7 +719,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="0412 345 678"
                             style={{
                               border:
-                                errors.deliveryMobile && touched.deliveryMobile && "1px solid red",
+                                errors.deliveryMobile &&
+                                touched.deliveryMobile &&
+                                "1px solid red",
                             }}
                           />
                           {errors.deliveryMobile && touched.deliveryMobile && (
@@ -703,8 +739,11 @@ const OrderDetails = ({ datas }) => {
                 </div>
               </div>
               <div
-                className={`${activeStatus == 3 ? "Active active-table" : "hide-table hidden"
-                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                className={`${
+                  activeStatus == 3
+                    ? "Active active-table"
+                    : "hide-table hidden"
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -734,7 +773,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="126 Juliett Street"
                             style={{
                               border:
-                                errors.address && touched.address && "1px solid red",
+                                errors.address &&
+                                touched.address &&
+                                "1px solid red",
                             }}
                           />
                           {errors.address && touched.address && (
@@ -765,7 +806,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="Tom"
                             style={{
                               border:
-                                errors.apartment && touched.apartment && "1px solid red",
+                                errors.apartment &&
+                                touched.apartment &&
+                                "1px solid red",
                             }}
                           />
                           {errors.apartment && touched.apartment && (
@@ -794,7 +837,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="Jones"
                             style={{
                               border:
-                                errors.suburb && touched.suburb && "1px solid red",
+                                errors.suburb &&
+                                touched.suburb &&
+                                "1px solid red",
                             }}
                           />
                           {errors.suburb && touched.suburb && (
@@ -825,7 +870,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="2204"
                             style={{
                               border:
-                                errors.postalCode && touched.postalCode && "1px solid red",
+                                errors.postalCode &&
+                                touched.postalCode &&
+                                "1px solid red",
                             }}
                           />
                           {errors.postalCode && touched.postalCode && (
@@ -892,7 +939,6 @@ const OrderDetails = ({ datas }) => {
                         id="default-checkbox"
                         type="checkbox"
                         defaultValue=""
-
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                       />
                       <label
@@ -927,7 +973,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="126 Juliett Street"
                             style={{
                               border:
-                                errors.billingAddress && touched.billingAddress && "1px solid red",
+                                errors.billingAddress &&
+                                touched.billingAddress &&
+                                "1px solid red",
                             }}
                           />
                           {errors.billingAddress && touched.billingAddress && (
@@ -975,7 +1023,9 @@ const OrderDetails = ({ datas }) => {
                             placeholder="Jones"
                             style={{
                               border:
-                                errors.billingSuburb && touched.billingSuburb && "1px solid red",
+                                errors.billingSuburb &&
+                                touched.billingSuburb &&
+                                "1px solid red",
                             }}
                           />
                           {errors.billingSuburb && touched.billingSuburb && (
@@ -1006,17 +1056,21 @@ const OrderDetails = ({ datas }) => {
                             placeholder="2204"
                             style={{
                               border:
-                                errors.billingPostalCode && touched.billingPostalCode && "1px solid red",
+                                errors.billingPostalCode &&
+                                touched.billingPostalCode &&
+                                "1px solid red",
                             }}
                           />
-                          {errors.billingPostalCode && touched.billingPostalCode && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                              {errors.billingPostalCode}
-                            </p>
-                          )}
-                          {errors.billingPostalCode && touched.billingPostalCode && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-                          )}
+                          {errors.billingPostalCode &&
+                            touched.billingPostalCode && (
+                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                                {errors.billingPostalCode}
+                              </p>
+                            )}
+                          {errors.billingPostalCode &&
+                            touched.billingPostalCode && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                            )}
                         </div>
                         <div className="w-full relative  px-3">
                           <label
@@ -1043,8 +1097,11 @@ const OrderDetails = ({ datas }) => {
               </div>
 
               <div
-                className={`${activeStatus == 4 ? "Active active-table" : " hide-table hidden"
-                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                className={`${
+                  activeStatus == 4
+                    ? "Active active-table"
+                    : " hide-table hidden"
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -1261,9 +1318,8 @@ const OrderDetails = ({ datas }) => {
               </div>
             </div>
           </div>
-        </form >
-
-      </div >
+        </form>
+      </div>
     </>
   );
 };
