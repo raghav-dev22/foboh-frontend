@@ -12,6 +12,19 @@ function CustomerAddress({
 
   
   console.log("contact address>>",errors,touched)
+  const sameAddresses=(e)=>{
+    console.log("e --->", e.target.checked);
+    if (e.target.checked) {
+      setValues({
+        ...values,
+        billingAddress:values?.address,
+        billingApartment:values?.apartment,
+        billingSuburb:values.suburb,
+        billingPostalCode:values.postalCode,
+        billingState:values.state,
+      });
+    }
+  }
   return (
     <>
       <div className="  ">
@@ -184,19 +197,19 @@ function CustomerAddress({
                 className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                 placeholder="Leave a comment..."
                 defaultValue={""}
-                style={{
-                  border:
-                    errors.deliveryNotes && touched.deliveryNotes && "1px solid red",
-                }}
+                // style={{
+                //   border:
+                //     errors.deliveryNotes && touched.deliveryNotes && "1px solid red",
+                // }}
               />
-              {errors.deliveryNotes && touched.deliveryNotes && (
+              {/* {errors.deliveryNotes && touched.deliveryNotes && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryNotes}
                 </p>
               )}
               {errors.deliveryNotes && touched.deliveryNotes && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-              )}
+              )} */}
             </div>
           </div>
           <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
@@ -211,6 +224,7 @@ function CustomerAddress({
                   id="default-checkbox"
                   type="checkbox"
                   defaultValue=""
+                  onClick={sameAddresses}
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                 />
                 <h5 className="text-base font-normal">
@@ -232,20 +246,23 @@ function CustomerAddress({
                 id="grid-last-name"
                 type="text"
                 placeholder="126 Juliett Street"
-                name="address"
-                // style={{
-                //   border:
-                //     errors.orderingFirstName && touched.orderingFirstName && "1px solid red",
-                // }}
+                value={values?.billingAddress}
+                name="billingAddress"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{
+                  border:
+                    errors.billingAddress && touched.billingAddress && "1px solid red",
+                }}
               />
-              {/* {errors.orderingFirstName && touched.orderingFirstName && (
+              {errors.billingAddress && touched.billingAddress && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.orderingFirstName}
+                  {errors.billingAddress}
                 </p>
               )}
-              {errors.orderingFirstName && touched.orderingFirstName && (
+              {errors.billingAddress && touched.billingAddress && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-              )} */}
+              )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
               <label
@@ -259,10 +276,10 @@ function CustomerAddress({
                 id="grid-last-name"
                 type="text"
                 onBlur={handleBlur}
-                value={values.billingAddress}
+                value={values.billingApartment}
                 onChange={handleChange}
                 placeholder="Jones"
-                name="billingAddress"
+                name="billingApartment"
               />
             </div>
           </div>
