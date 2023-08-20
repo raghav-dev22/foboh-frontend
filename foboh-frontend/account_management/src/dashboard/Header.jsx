@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -7,6 +7,8 @@ const Header = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -29,7 +31,32 @@ const Header = () => {
     setDropDown(true);
   };
 
-  useEffect(() => {}, []);
+  const handleBlur = () => {
+    // Close the dropdown when focus is lost on the entire component
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, []);
 
   const handleLogOut = () => {
     localStorage.removeItem("email");
@@ -129,11 +156,10 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <div className="relative dropdown">
+              <div className="relative dropdown" ref={dropdownRef}>
                 <div
                   className="flex lg:gap-4 gap-2 items-center cursor-pointer	"
-                  onClick={toggleDropdown}
-                >
+                  onClick={toggleDropdown} >
                   <div className="">
                     <h6 className="text-sm	 font-bold text-white">
                       {user.firstName}
