@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "better-react-carousel";
 import axios from "axios";
+import swal from "sweetalert";
 function TopRatedSection({ count, setCount, setAddData, addData }) {
   const [CartData, setCartData] = useState([]);
   const data = () => {
@@ -9,10 +10,17 @@ function TopRatedSection({ count, setCount, setAddData, addData }) {
       setCartData(resp.data);
     });
   };
+  console.log(CartData, "CartDataCartData");
 
   const [addItem, setAddItem] = useState([]);
   const addCart = (item) => {
-    console.log(item, "item");
+    // if (CartData.includes(item)) {
+    //   swal("this item is already in cart");
+    // } else {
+    //   console.log(false);
+    //   setAddData([...addItem, item]);
+    //   setCount(count + 1);
+    // }
     setAddData([...addItem, item]);
     setCount(count + 1);
   };
@@ -66,7 +74,7 @@ function TopRatedSection({ count, setCount, setAddData, addData }) {
                       </h2>
                     </div>
                     <div
-                      className="py-3	lg:px-7 px-3	rounded-md	 bg-[#563FE3] w-fit mx-auto"
+                      className="py-3	lg:px-7 px-3	rounded-md	 bg-[#563FE3] w-fit mx-auto cursor-pointer"
                       onClick={() => {
                         addCart(item);
                       }}

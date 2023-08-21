@@ -27,6 +27,7 @@ function Signup() {
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
         console.log(values.email, "signup");
+        
       },
     });
   console.log(values.email, "values");
