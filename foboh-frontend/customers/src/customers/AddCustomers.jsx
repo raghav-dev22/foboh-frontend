@@ -17,7 +17,6 @@ const TABLE_HEAD = [
 ];
 function AddCustomers() {
   const navigate = useNavigate();
-  const [isDivVisible, setIsDivVisible] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [tableRecords, setTableRecords] = useState([]);
   const[prevCustomer,setPrevCustomer]=useState([]);
@@ -126,6 +125,8 @@ function AddCustomers() {
            setProducts={setTableRecords}
            products={tableRecords}
            prevProducts={prevCustomer}
+           totalPages={setTotalPages}
+
           />
         </div>
         <div className="pt-6 px-6 relative">

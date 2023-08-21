@@ -226,7 +226,7 @@ function Organisation() {
     const orgId = localStorage.getItem(
       "organisationId")
     fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${user.organisationId}`,
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${orgId}`,
       {
         method: "GET",
       }
