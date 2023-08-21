@@ -225,13 +225,13 @@ const Header = () => {
               // onClick={toggleDropdown}
             >
               <div className="">
-                <h6 className="text-sm	 font-bold text-white">Tom Sheer</h6>
+                <h6 className="text-sm	 font-bold text-white"> {user.firstName}</h6>
                 <p className="text-xs font-normal text-lightGray">
-                  Lo-Fi Wines
+                {user.lastName}
                 </p>
               </div>
-              <div className="">
-                <img src="/assets/user.png" alt="" className="h-11	w-11" />
+              <div className="rounded-full overflow-hidden">
+                <img src={user.imageUrl || "/assets/user.png"} alt="" className="h-11	w-11" />
               </div>
               <div className="">
                 <img src="/assets/arrow.png" alt="" />

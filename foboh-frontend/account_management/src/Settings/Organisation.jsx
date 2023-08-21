@@ -27,34 +27,6 @@ export const options = [
   { value: 2345, label: "Non-Alcoholic Beverage" },
 ];
 
-const initialValues = {
-  tradingName: "",
-  businessName: "",
-  abn: "",
-  liquorLicence: "",
-  organisationAddress: "",
-  organisationAddressApartment: "",
-  organisationAddressSuburb: "",
-  organisationAddressPostcode: "",
-  billingAddress: "",
-  billingAddressApartment: "",
-  billingAddressSuburb: "",
-  billingAddressPostcode: "",
-  billingAddressState: "",
-  orderingContactFirstName: "",
-  orderingContactLastName: "",
-  orderingContactEmail: "",
-  orderingContactMobile: "",
-  LogisticsContactFirstName: "",
-  LogisticsContactLastName: "",
-  LogisticsContactEmail: "",
-  LogisticsContactMobile: "",
-  categories: [],
-  description: "",
-  state: "",
-  postcode: "",
-  categoryList: [],
-};
 
 function Organisation() {
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -65,6 +37,34 @@ function Organisation() {
   const [showError, setShowError] = useState();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [initialValues, setInitialValues] = useState({
+    tradingName: "",
+    businessName: "",
+    abn: "",
+    liquorLicence: "",
+    organisationAddress: "",
+    organisationAddressApartment: "",
+    organisationAddressSuburb: "",
+    organisationAddressPostcode: "",
+    billingAddress: "",
+    billingAddressApartment: "",
+    billingAddressSuburb: "",
+    billingAddressPostcode: "",
+    billingAddressState: "",
+    orderingContactFirstName: "",
+    orderingContactLastName: "",
+    orderingContactEmail: "",
+    orderingContactMobile: "",
+    LogisticsContactFirstName: "",
+    LogisticsContactLastName: "",
+    LogisticsContactEmail: "",
+    LogisticsContactMobile: "",
+    categories: [],
+    description: "",
+    state: "",
+    postcode: "",
+    categoryList: [],
+  })
 
   const {
     values,
@@ -220,6 +220,7 @@ function Organisation() {
       }
     },
   });
+  // console.log("bbbbb", errors)
 
   useEffect(() => {
     console.log("userData >>", user);
@@ -247,6 +248,39 @@ function Organisation() {
           });
 
           setLogoUri(organisationSettings.organisationlogo);
+          setInitialValues({
+            tradingName: organisationSettings.tradingName,
+            businessName: organisationSettings.businessName,
+            abn: organisationSettings.abn,
+            liquorLicence: organisationSettings.liquorLicense,
+            organisationAddress: organisationSettings.organisationAddress,
+            organisationAddressApartment: organisationSettings.apartment,
+            organisationAddressSuburb: organisationSettings.suburb,
+            organisationAddressPostcode: organisationSettings.postcode,
+            billingAddress: organisationSettings.billingAddress,
+            billingAddressApartment:
+              organisationSettings.billingAddressApartment,
+            billingAddressSuburb: organisationSettings.billingAddressSuburb,
+            billingAddressPostcode: organisationSettings.billingAddressPostCode,
+            billingAddressState: organisationSettings.billingAddressState,
+            orderingContactFirstName:
+              organisationSettings.orderingContactFirstName,
+            orderingContactLastName:
+              organisationSettings.orderingContactLastName,
+            orderingContactEmail: organisationSettings.orderingContactEmail,
+            orderingContactMobile: organisationSettings.orderingContactMobile,
+            LogisticsContactFirstName:
+              organisationSettings.logisticsContactFirstName,
+            LogisticsContactLastName:
+              organisationSettings.logisticsContactLastName,
+            LogisticsContactEmail: organisationSettings.logisticsContactEmail,
+            LogisticsContactMobile: organisationSettings.logisticsContactMobile,
+            categories: organisationSettings.categories,
+            description: organisationSettings.description,
+            state: organisationSettings.state,
+            postcode: organisationSettings.postcode,
+            categoryList: categoryList,
+          });
           setValues({
             tradingName: organisationSettings.tradingName,
             businessName: organisationSettings.businessName,
@@ -389,6 +423,7 @@ function Organisation() {
 
   const handleReset = () => {
     setShow(false);
+    setValues(initialValues);
   };
 
   const handleFormChange = () => {
@@ -416,7 +451,7 @@ function Organisation() {
     <>
       <div>
         <form onChange={handleFormChange}>
-          <div className="profile-section  sm:px-11 px-5 h-custom-half overflow-y-scroll	scroll-smooth	scrollable	">
+          <div className="profile-section  sm:px-11 px-5 h-[86vh] overflow-y-scroll	scroll-smooth	scrollable	">
             {show && (
               <ProfileHeader
                 handleSubmit={handleSubmit}
@@ -433,7 +468,7 @@ function Organisation() {
                 Keep your organisation details up to date
               </p>
             </div>
-            <div className="grid lg:flex gap-5 ">
+            <div className="lg:flex gap-5 ">
               <div className=" lg:w-3/5 w-full  gap-5 h-full	 grid	  ">
                 {/* Organization Details ---START */}
                 <div className="   w-full  rounded-lg		 border border-inherit bg-white h-fit		 	  ">
@@ -457,7 +492,7 @@ function Organisation() {
                             id="grid-last-name"
                             name="tradingName"
                             type="text"
-                            placeholder="Lo-Fi Wines"
+                            placeholder="Trading name"
                             value={values.tradingName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -488,7 +523,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-last-name"
                             type="text"
-                            placeholder="LO-FI WINES PTY LTD"
+                            placeholder="Business name"
                             name="businessName"
                             value={values.businessName}
                             onChange={handleChange}
@@ -522,7 +557,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
                             type="text"
-                            placeholder="69618617344"
+                            placeholder="ABN"
                             name="abn"
                             value={values.abn}
                             onChange={handleChange}
@@ -554,10 +589,11 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
                             type="text"
-                            placeholder="LIQO10000000"
+                            placeholder="Liquor licence"
                             name="liquorLicence"
                             value={values.liquorLicence}
                             onChange={handleChange}
+                            maxLength={14}
                             onBlur={handleBlur}
                             style={{
                               border:
@@ -592,8 +628,16 @@ function Organisation() {
                             value={values.description}
                             className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                             placeholder="Leave a comment..."
+                            maxLength={256}
                             defaultValue={""}
+                            style={{
+                              border: errors.description && "1px solid red",
+                            }}
                           />
+                          {errors.description && (
+                            <p className="mt-2 mb-2 text-red-500">{errors.description}</p>
+                          )}
+                          {/* // />  */}
                           {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
                         </div>
                         <div className="w-full mt-5 px-3">
@@ -643,7 +687,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="organisationAddress"
                             type="text"
-                            placeholder="126 Juliett Street"
+                            placeholder="Address"
                             name="organisationAddress"
                             value={values.organisationAddress}
                             onChange={handleChange}
@@ -677,7 +721,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="organisationAddressApartment"
                             type="text"
-                            placeholder="Jones"
+                            placeholder="Apartment, floor etc. (optional)"
                             name="organisationAddressApartment"
                             value={values.organisationAddressApartment}
                             onChange={handleChange}
@@ -713,7 +757,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="organisationAddressSuburb"
                             type="text"
-                            placeholder="Marrickville"
+                            placeholder="Suburb"
                             name="organisationAddressSuburb"
                             value={values.organisationAddressSuburb}
                             onChange={handleChange}
@@ -747,7 +791,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="organisationAddressPostcode"
                             type="text"
-                            placeholder="2204"
+                            placeholder="Postcode"
                             name="organisationAddressPostcode"
                             value={values.organisationAddressPostcode}
                             onChange={handleChange}
@@ -849,7 +893,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="billingAddress"
                             type="text"
-                            placeholder="126 Juliett Street"
+                            placeholder="Address"
                             name="billingAddress"
                             value={values.billingAddress}
                             onChange={handleChange}
@@ -881,7 +925,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="billingAddressApartment"
                             type="text"
-                            placeholder="Jones"
+                            placeholder="Apartment, floor etc. (optional)"
                             name="billingAddressApartment"
                             value={values.billingAddressApartment}
                             onChange={handleChange}
@@ -917,7 +961,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="billingAddressSuburb"
                             type="text"
-                            placeholder="Tom"
+                            placeholder="Suburb"
                             name="billingAddressSuburb"
                             value={values.billingAddressSuburb}
                             onChange={handleChange}
@@ -951,7 +995,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="billingAddressPostcode"
                             type="text"
-                            placeholder="Jones"
+                            placeholder="Postcode"
                             name="billingAddressPostcode"
                             value={values.billingAddressPostcode}
                             onChange={handleChange}
@@ -1016,9 +1060,9 @@ function Organisation() {
                 </div>
                 {/* Billing Address ---END */}
               </div>
-              <div className="w-full lg:w-2/5  grid	 gap-5 h-full	">
+              <div className="w-full lg:w-2/5 gap-5 h-full	">
                 {/* Organization Logo ---START */}
-                <div className="w-full rounded-md border border-inherit bg-white h-full">
+                <div className="w-full rounded-md border border-inherit bg-white h-full mt-[1rem] sm:mt-0 md:mt-0 lg:mt-0">
                   <div className="border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
                     <h6 className="text-base font-medium text-green">
                       Organisation logo
@@ -1076,7 +1120,7 @@ function Organisation() {
                             accept="image/*"
                             ref={fileInputRef}
                             className="download-file w-full h-full rounded-full absolute opacity-0	"
-                            // value={imageSrc}
+                          // value={imageSrc}
                           />
                           <svg
                             width={16}
@@ -1133,7 +1177,7 @@ function Organisation() {
                 {/* Organization Logo ---END */}
 
                 {/* Ordering Contact ---START */}
-                <div className="   w-full  rounded-lg		 border border-inherit bg-white h-full	 	  ">
+                <div className="   w-full rounded-lg border border-inherit bg-white h-full my-[1rem] ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
                     <h6 className="text-base	font-medium	 text-green">
                       Ordering contact
@@ -1153,11 +1197,17 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="orderingContactFirstName"
                             type="text"
-                            placeholder="Tom"
+                            placeholder="First name"
                             name="orderingContactFirstName"
                             value={values.orderingContactFirstName}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            onKeyPress={(event) => {
+                              const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
                             style={{
                               border:
                                 errors.orderingContactFirstName &&
@@ -1187,11 +1237,17 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="orderingContactLastName"
                             type="text"
-                            placeholder="Jones"
+                            placeholder="Last name"
                             name="orderingContactLastName"
                             value={values.orderingContactLastName}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            onKeyPress={(event) => {
+                              const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
                             style={{
                               border:
                                 errors.orderingContactLastName &&
@@ -1223,7 +1279,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="orderingContactEmail"
                             type="email"
-                            placeholder="devidjond45@gmail.com"
+                            placeholder="Email"
                             name="orderingContactEmail"
                             value={values.orderingContactEmail}
                             onChange={handleChange}
@@ -1273,7 +1329,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="orderingContactMobile"
                             type="text"
-                            placeholder="0412 345 678"
+                            placeholder="Mobile No"
                             name="orderingContactMobile"
                             value={values.orderingContactMobile}
                             onChange={handleChange}
@@ -1311,7 +1367,7 @@ function Organisation() {
                 {/* Organization Contact ---END */}
 
                 {/* Logistics Contact ---START  */}
-                <div className="   w-full  rounded-lg		 border border-inherit bg-white h-full	 	  ">
+                <div className="   w-full  rounded-lg border border-inherit bg-white h-full	mb-[1rem] sm:mb-0 md:mb-0 lg:mb-0 ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
                     <h6 className="text-base	font-medium	 text-green">
                       Logistics contact
@@ -1331,7 +1387,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="LogisticsContactFirstName"
                             type="text"
-                            placeholder="Tom"
+                            placeholder="First name"
                             name="LogisticsContactFirstName"
                             value={values.LogisticsContactFirstName}
                             onChange={handleChange}
@@ -1365,7 +1421,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="LogisticsContactLastName"
                             type="text"
-                            placeholder="Jones"
+                            placeholder="Last name"
                             name="LogisticsContactLastName"
                             value={values.LogisticsContactLastName}
                             onChange={handleChange}
@@ -1401,7 +1457,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="LogisticsContactEmail"
                             type="email"
-                            placeholder="devidjond45@gmail.com"
+                            placeholder="Email"
                             name="LogisticsContactEmail"
                             value={values.LogisticsContactEmail}
                             onChange={handleChange}
@@ -1451,7 +1507,7 @@ function Organisation() {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="LogisticsContactMobile"
                             type="text"
-                            placeholder="0412 345 678"
+                            placeholder="Mobile No"
                             name="LogisticsContactMobile"
                             value={values.LogisticsContactMobile}
                             onChange={handleChange}
