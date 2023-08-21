@@ -20,6 +20,7 @@ function CustomerContact({
   errors,
   options,
   touched,
+  setValues
 }) {
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -38,6 +39,18 @@ function CustomerContact({
     },
   }));
   console.log("errors and touch on contact page",errors,touched)
+  const contactSame=(e)=>{
+    console.log("e --->", e.target.checked);
+    if (e.target.checked) {
+      setValues({
+        ...values,
+        deliveryFirstName:values.orderingFirstName,
+        deliveryLastName:values.orderingLastName,
+        deliveryEmail:values.orderingEmail,
+        deliveryMobile:values.orderingMobile
+      });
+    }
+  }
   return (
     <>
       <div className="  ">
@@ -202,6 +215,7 @@ function CustomerContact({
                   id="default-checkbox"
                   type="checkbox"
                   name="deliveryMobile"
+                  onClick={contactSame}
                   value={values.deliveryMobile}
                   defaultValue=""
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"

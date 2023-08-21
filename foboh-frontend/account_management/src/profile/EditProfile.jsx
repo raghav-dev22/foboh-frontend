@@ -60,7 +60,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
               setProfileUri(data.blob.uri);
               dispatch(updateUserData({
                 ...user,
-                imageUrl : data.blob.uri
+                imageUrl : data?.blob?.uri
               }))
             }
           })
