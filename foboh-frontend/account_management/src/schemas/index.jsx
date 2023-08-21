@@ -66,13 +66,12 @@ export const SignInSchema = Yup.object().shape({
     .email("Please enter a valid email"),
   password: Yup.string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
-
+ 
 // Personal Details Schema [User Profile]
 export const PersonalDetailsSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -99,8 +98,9 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
     .matches(/^[^\d]*$/, "Business name should not contain numbers"),
-  abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
-  liquorLicence: Yup.string().max(13, "Liquor licence cannot be more than 13 characters"),
+    abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format"),
+    liquorLicence: Yup.string().max(13, "Liquor licence cannot be more than 13 characters"),
+    description: Yup.string().max(255, "Bio cannot be more than 255 characters"),
 
   //Organization Address
   organisationAddress: Yup.string()

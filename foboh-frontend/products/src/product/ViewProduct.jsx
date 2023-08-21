@@ -914,7 +914,7 @@ function ViewProduct() {
       <ViewProductHeader productName={productName} />
       <form
         onChange={handleFormChange}
-        className="grid gap-5 lg:flex  px-6  overflow-y-auto h-96 no-scrollbar"
+        className="grid gap-5 lg:flex nikit px-6  overflow-y-auto no-scrollbar"  style={{ height: "545px" }}
       >
         {show && (
           <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
@@ -938,7 +938,7 @@ function ViewProduct() {
             </div>
           </div>
         )}
-        <div className="grid gap-5 lg:flex  px-6  overflow-y-auto h-96 no-scrollbar">
+        <div className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar" style={{ height: "545px" }}>
           <div className="w-full lg:w-2/5	 h-full	">
             <div className="grid gap-3">
               {/* Update Image ---START */}
@@ -1286,8 +1286,8 @@ function ViewProduct() {
                     </div>
                   </div>
                   {/* <ComboBoxMultiSelect/> */}
-                  <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className="w-full md:w-1/2 px-3 relative">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className="w-full  px-3 relative">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                         htmlFor="sku-code"
@@ -1334,7 +1334,7 @@ function ViewProduct() {
                         />
                       )}
                     </div>
-                    <div className="w-full md:w-1/2 px-3 relative">
+                    <div className="w-full  px-3 relative">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                         htmlFor="brand"
@@ -1368,8 +1368,8 @@ function ViewProduct() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className="  w-full md:w-1/2 px-3 relative">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className="  w-full  px-3 relative">
                       <h5 className="text-base font-medium text-green mb-3">
                         Department
                       </h5>
@@ -1389,7 +1389,7 @@ function ViewProduct() {
                         )}
                       </div>
                     </div>
-                    <div className="  w-full md:w-1/2 px-3">
+                    <div className="  w-full  px-3">
                       <h5 className="text-base font-medium text-green mb-3">
                         Category
                       </h5>
@@ -1411,8 +1411,8 @@ function ViewProduct() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className=" w-full md:w-1/2 px-3">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className=" w-full  px-3">
                       <h5 className="text-base font-medium text-green mb-3">
                         Subcategory
                       </h5>
@@ -1434,7 +1434,7 @@ function ViewProduct() {
                       </div>
                     </div>
                     {isAlcoholicBeverage && (
-                      <div className="  w-full md:w-1/2 px-3">
+                      <div className="  w-full  px-3">
                         <h5 className="text-base font-medium text-green mb-3">
                           Segment
                         </h5>
@@ -1452,9 +1452,9 @@ function ViewProduct() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                     {isWine && (
-                      <div className=" w-full md:w-1/2 px-3">
+                      <div className=" w-full  px-3">
                         <h5 className="text-base font-medium text-green mb-3">
                           Grape variety
                         </h5>
@@ -1477,7 +1477,7 @@ function ViewProduct() {
                       </div>
                     )}
                     {isWine && (
-                      <div className="w-full md:w-1/2 px-3">
+                      <div className="w-full  px-3">
                         <h5 className="text-base font-medium text-green mb-3">
                           Region
                         </h5>
@@ -1495,9 +1495,9 @@ function ViewProduct() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                     {isWine && (
-                      <div className="w-full md:w-1/2 px-3">
+                      <div className="w-full  px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="vintage"
@@ -1516,7 +1516,7 @@ function ViewProduct() {
                       </div>
                     )}
 
-                    <div className="w-full md:w-1/2 px-3">
+                    <div className="w-full  px-3">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                         htmlFor="awards"
@@ -1534,8 +1534,8 @@ function ViewProduct() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className=" w-full md:w-1/2 px-3">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className=" w-full  px-3">
                       <h5 className="text-base font-medium text-green mb-3">
                         Country
                       </h5>
@@ -1552,7 +1552,7 @@ function ViewProduct() {
                       </div>
                     </div>
                     {isAlcoholicBeverage && (
-                      <div className="w-full md:w-1/2 px-3">
+                      <div className="w-full  px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                           htmlFor="abv"
@@ -1572,8 +1572,8 @@ function ViewProduct() {
                     )}
                   </div>
 
-                  <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className="  w-full md:w-1/2 px-3">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className="  w-full  px-3">
                       <h5 className="text-base font-medium text-green mb-3">
                         Base unit of measure
                       </h5>
@@ -1593,7 +1593,7 @@ function ViewProduct() {
                   )}
                       </div>
                     </div>
-                    <div className="w-full md:w-1/2 px-3">
+                    <div className="w-full  px-3">
                       <h5 className="text-base font-medium text-green mb-3">
                         Inner unit of measure
                       </h5>
@@ -1614,7 +1614,7 @@ function ViewProduct() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-5">
+                  <div className="flex flex-nowrap -mx-3 mb-5">
                     <div className="w-full px-3">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
@@ -1639,7 +1639,7 @@ function ViewProduct() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-5">
+                  <div className="flex flex-nowrap -mx-3 mb-5">
                     <div className=" w-full px-3">
                       <label
                         htmlFor="message"
@@ -1672,7 +1672,7 @@ function ViewProduct() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-5">
+                  <div className="flex flex-nowrap -mx-3 mb-5">
                     <div className="w-full px-3">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
