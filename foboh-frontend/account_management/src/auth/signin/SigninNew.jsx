@@ -17,6 +17,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { generateUniqueKey } from "../../helpers/uniqueKey";
 import { updateUserData } from "../../Redux/Action/userSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { user_api_url } from "../../../config";
 
 const initialValues = {
   email: "",
@@ -28,8 +29,6 @@ const SigninNew = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-  const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isEmail, setIsEmail] = useState(true);
   const [isPassword, setIsPassword] = useState(true);
@@ -44,7 +43,7 @@ const SigninNew = () => {
       onSubmit: (values) => {
         setIsLoading(true);
         fetch(
-          `https://user-api-foboh.azurewebsites.net/api/User/Verify-login`,
+          `${user_api_url}/api/User/Verify-login`,
           {
             method: "POST",
             headers: {
@@ -99,7 +98,7 @@ const SigninNew = () => {
     const googleResponse = jwtDecode(response.credential);
 
     fetch(
-      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${googleResponse.email}`,
+      `${user_api_url}/api/User/get?email=${googleResponse.email}`,
       {
         method: "GET",
       }
@@ -127,7 +126,7 @@ const SigninNew = () => {
             .then((data) => {
               console.log("issuerAssignedId eq", data);
               fetch(
-                "https://user-api-foboh.azurewebsites.net/api/User/create",
+                `${user_api_url}/api/User/create`,
                 {
                   method: "POST",
                   headers: {
