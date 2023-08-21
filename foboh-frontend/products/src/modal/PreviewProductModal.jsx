@@ -167,10 +167,11 @@ function PreviewProductModal({
                     <div className="mt-2">
                       <div className="my-4 rounded-md	border-y	border-r	border-l-8	border-y-custom	border-left-blue py-3 px-4 border-r-custom	">
                         <p className="text-sm font-normal">
-                          You are importing X products into FOBOH. You have
-                          chosen to overwrite any existing products that have
-                          the same SKU. If this preview doesn’t look right
-                          please update the file and try again.
+                          You are importing {importedProducts.length} products
+                          into FOBOH. You have chosen to overwrite any existing
+                          products that have the same SKU. If this preview
+                          doesn’t look right please update the file and try
+                          again.
                         </p>
                       </div>
                     </div>
