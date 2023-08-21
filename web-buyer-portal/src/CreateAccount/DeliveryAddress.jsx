@@ -75,7 +75,6 @@ function DeliveryAddress({
             style={{
               border:
                 errors.DeliveryAddress &&
-                touched.DeliveryAddress &&
                 "1px solid red",
             }}
           />
@@ -132,7 +131,7 @@ function DeliveryAddress({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors.Suburb && touched.Suburb && "1px solid red",
+                border: errors.Suburb && "1px solid red",
               }}
             />
             {errors.Suburb &&(
@@ -159,7 +158,7 @@ function DeliveryAddress({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors.Postcode && touched.Postcode && "1px solid red",
+                border: errors.Postcode && "1px solid red",
               }}
             />
             {errors.Postcode &&(
@@ -206,7 +205,7 @@ function DeliveryAddress({
             onChange={handleChange}
             onBlur={handleBlur}
             style={{
-              border: errors.Notes && touched.Notes && "1px solid red",
+              border: errors.Notes && "1px solid red",
             }}
           />
           {errors.Notes && (

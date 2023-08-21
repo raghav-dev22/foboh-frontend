@@ -18,6 +18,9 @@ function Login() {
         console.log(values);
       },
     });
+  // const onClick = () => {
+  //   history.push("/verify-email");
+  // };
   return (
     <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center h-full">
       <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
@@ -142,16 +145,20 @@ function Login() {
 
                 {/* Submit button */}
 
+                {/* <Link to="/verify-email"> */}
                 <button
                   type="submit"
                   className="login-btn bg-custom-blue rounded-md	w-full p-2.5	"
-                  // onClick={handleSubmit}
+                  onClick={() => {
+                    // onClick();
+                  }}
                 >
                   <p className="text-white text-center font-semibold	text-sm	">
                     {" "}
                     Login
                   </p>{" "}
                 </button>
+                {/* </Link> */}
 
                 {/* Divider  */}
                 <div className="my-2 flex items-center before:mt-1 before:flex-1 before:border-t before:border-[#E9EDF4] after:mt-1 after:flex-1 after:border-t after:border-[##E9EDF4]">

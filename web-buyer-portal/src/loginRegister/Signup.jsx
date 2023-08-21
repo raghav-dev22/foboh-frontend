@@ -27,12 +27,13 @@ function Signup() {
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
         console.log(values.email, "signup");
+        
       },
     });
   console.log(values.email, "values");
   return (
     <>
-      <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center  h-full">
+      <div className=" md:bg-[#F8FAFC]  w-full flex items-center justify-center  h-full">
         <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
           <div className="w-full lg:scale-90">
             <div className="flex flex-col md:flex-row md:justify-center bg-white md:gap-12  ">
@@ -72,8 +73,8 @@ function Signup() {
                       id="name"
                       autoComplete="on"
                       value={values.name}
-                      onChange={(e) => setName(e.target.value)}
-                      // onChange={handleChange}
+                      // onChange={(e) => setName(e.target.value)}
+                      onChange={handleChange}
                       onBlur={handleBlur}
                       style={{
                         border: errors.name && touched.name && "1px solid red",
@@ -105,8 +106,8 @@ function Signup() {
                       className={`js-email `}
                       autoComplete="off"
                       value={values.email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      // onChange={handleChange}
+                      // onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleChange}
                       onBlur={handleBlur}
                       style={{
                         border:
@@ -146,8 +147,8 @@ function Signup() {
                           touched.password &&
                           "1px solid red",
                       }}
-                      // onChange={handleChange}
-                      onChange={(e) => setPwd(e.target.value)}
+                      onChange={handleChange}
+                      // onChange={(e) => setPwd(e.target.value)}
                       onBlur={handleBlur}
                       value={values.password}
                     />

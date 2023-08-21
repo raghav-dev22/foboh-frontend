@@ -159,10 +159,10 @@ select {
   bottom: 9%;
 }
 .top-rated-section .bBfHpH {
-  left: 46%;
+  left: 41%;
 }
 .top-rated-section .dZkckO {
-  right: 46%;
+  right: 41%;
 }
 .shop-section .dZkckO {
   right: -50px;
@@ -211,3 +211,17 @@ select {
   }
 }
 /* CustomCarousel.css */
+
+.cartbox-div:hover,
+.cartbox-div .cart-div,
+.cartbox-div .remove-div {
+  transition: 0.3s ease-in;
+}
+.cartbox-div:hover .cart-div {
+  transform: translateX(-15px);
+  transition: 0.3s ease-in;
+}
+.cartbox-div:hover .remove-div {
+  transform: translateX(15px);
+  transition: 0.3s ease-in;
+}

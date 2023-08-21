@@ -17,38 +17,38 @@ function PreviewModal({
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
-    const prod = importedCustomers.map((product) => {
+    const prod = importedCustomers.map((customer) => {
       return {
-        customerId: '',
-        businessName: product.businessName || "",
-        abn: product.abn,
-        liquorLicence: product.liquorLicence,
-        salesRepId: product.salesRepId,
-        pricingProfileId: product.pricingProfileId,
-        defaultPaymentMethodId: product.defaultPaymentMethodId,
+        customerId: "",
+        businessName: customer.businessName || "",
+        abn: customer.abn,
+        liquorLicence: customer.liquorLicence,
+        salesRepId: customer.salesRepId,
+        pricingProfileId: customer.pricingProfileId,
+        defaultPaymentMethodId: customer.defaultPaymentMethodId,
         defaultPaymentTerms: "",
-        tags: product.tags,
-        wetLiable: product.wetLiable,
-        orderingFirstName: product.orderingFirstName,
-        orderingLastName: product.orderingLastName,
-        orderingMobile: product.orderingMobile,
-        orderingEmail: product.orderingEmail,
-        deliveryFirstName: product.deliveryFirstName,
-        deliveryLastName: product.deliveryLastName,
-        deliveryMobile: product.deliveryMobile || "",
-        deliveryEmail: product.deliveryEmail || "",
-        address: product.address,
-        apartment: product.apartment,
-        suburb: product.suburb || "",
-        postalCode: product.postalCode,
-        state: product.state,
-        deliveryNotes: product.deliveryNotes || "",
-        billingAddress: product.billingAddress,
-        billingApartment: product.billingApartment,
-        billingSuburb: product.billingSuburb || "",
-        billingPostalCode: product.billingPostalCode || "",
-        billingState: product.billingState || "",
-        isActive: product.isActive || "",
+        tags: customer.tags,
+        wetLiable: customer.wetLiable,
+        orderingFirstName: customer.orderingFirstName,
+        orderingLastName: customer.orderingLastName,
+        orderingMobile: customer.orderingMobile,
+        orderingEmail: customer.orderingEmail,
+        deliveryFirstName: customer.deliveryFirstName,
+        deliveryLastName: customer.deliveryLastName,
+        deliveryMobile: customer.deliveryMobile || "",
+        deliveryEmail: customer.deliveryEmail || "",
+        address: customer.address,
+        apartment: customer.apartment,
+        suburb: customer.suburb || "",
+        postalCode: customer.postalCode,
+        state: customer.state,
+        deliveryNotes: customer.deliveryNotes || "",
+        billingAddress: customer.billingAddress,
+        billingApartment: customer.billingApartment,
+        billingSuburb: customer.billingSuburb || "",
+        billingPostalCode: customer.billingPostalCode || "",
+        billingState: customer.billingState || "",
+        isActive: customer.isActive || "",
       };
     });
     console.log("prod", prod);
@@ -58,44 +58,43 @@ function PreviewModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          importedCustomers.map((product) => {
+          importedCustomers.map((customer) => {
             return {
-              businessName: product.businessName || "",
-              abn:  JSON.stringify(product.abn),
-              liquorLicence: product.liquorLicence,
-              salesRepId: product.salesRepId,
-              pricingProfileId: product.pricingProfileId,
-              defaultPaymentMethodId: product.defaultPaymentMethodId,
+              businessName: customer.businessName || "",
+              abn: JSON.stringify(customer.abn),
+              liquorLicence: customer.liquorLicence,
+              salesRepId: customer.salesRepId,
+              pricingProfileId: customer.pricingProfileId,
+              defaultPaymentMethodId: customer.defaultPaymentMethodId,
               defaultPaymentTerms: "",
-              tags: product.tags,
-              wetLiable: product.wetLiable,
-              orderingFirstName: product.orderingFirstName,
-              orderingLastName: product.orderingLastName,
-              orderingMobile: JSON.stringify(product.orderingMobile),
-              orderingEmail: product.orderingEmail,
-              deliveryFirstName: product.deliveryFirstName,
-              deliveryLastName: product.deliveryLastName,
-              deliveryMobile: product.deliveryMobile || "",
-              deliveryEmail: product.deliveryEmail || "",
-              address: product.address,
-              apartment: product.apartment,
-              suburb: product.suburb || "",
-              postalCode:JSON.stringify(product.postalCode),
-              state: product.state,
-              deliveryNotes: product.deliveryNotes || "",
-              billingAddress: product.billingAddress,
-              billingApartment: product.billingApartment,
-              billingSuburb: product.billingSuburb || "",
-              billingPostalCode: product.billingPostalCode || "",
-              billingState: product.billingState || "",
-              isActive: product.isActive || true,
+              tags: customer.tags,
+              wetLiable: customer.wetLiable,
+              orderingFirstName: customer.orderingFirstName,
+              orderingLastName: customer.orderingLastName,
+              orderingMobile: JSON.stringify(customer.orderingMobile),
+              orderingEmail: customer.orderingEmail,
+              deliveryFirstName: customer.deliveryFirstName,
+              deliveryLastName: customer.deliveryLastName,
+              deliveryMobile: customer.deliveryMobile || "",
+              deliveryEmail: customer.deliveryEmail || "",
+              address: customer.address,
+              apartment: customer.apartment,
+              suburb: customer.suburb || "",
+              postalCode: JSON.stringify(customer.postalCode),
+              state: customer.state,
+              deliveryNotes: customer.deliveryNotes || "",
+              billingAddress: customer.billingAddress,
+              billingApartment: customer.billingApartment,
+              billingSuburb: customer.billingSuburb || "",
+              billingPostalCode: customer.billingPostalCode || "",
+              billingState: customer.billingState || "",
+              isActive: customer.isActive || true,
             };
           })
         ),
       }
     )
-      .then((response) => {
-      })
+      .then((response) => {})
       .catch((error) => console.log(error));
   };
   const previousModal = () => {
@@ -104,37 +103,37 @@ function PreviewModal({
     setAddedFile(null);
     setErrorData([]);
   };
-  const customerModalData = importedCustomers.map((product) => {
+  const customerModalData = importedCustomers.map((customer) => {
     return {
-      businessName: product.businessName || "",
-      abn: product.abn,
-      liquorLicence: product.liquorLicence,
-      salesRepId: product.salesRepId,
-      pricingProfileId: product.pricingProfileId,
-      defaultPaymentMethodId: product.defaultPaymentMethodId,
+      businessName: customer.businessName || "",
+      abn: customer.abn,
+      liquorLicence: customer.liquorLicence,
+      salesRepId: customer.salesRepId,
+      pricingProfileId: customer.pricingProfileId,
+      defaultPaymentMethodId: customer.defaultPaymentMethodId,
       defaultPaymentTerms: "",
-      tags: product.tags,
-      wetLiable: product.wetLiable,
-      orderingFirstName: product.orderingFirstName,
-      orderingLastName: product.orderingLastName,
-      orderingMobile: product.orderingMobile,
-      orderingEmail: product.orderingEmail,
-      deliveryFirstName: product.deliveryFirstName,
-      deliveryLastName: product.deliveryLastName,
-      deliveryMobile: product.deliveryMobile || "",
-      deliveryEmail: product.deliveryEmail || "",
-      address: product.address,
-      apartment: product.apartment,
-      suburb: product.suburb || "",
-      postalCode: product.postalCode,
-      state: product.state,
-      deliveryNotes: product.deliveryNotes || "",
-      billingAddress: product.billingAddress,
-      billingApartment: product.billingApartment,
-      billingSuburb: product.billingSuburb || "",
-      billingPostalCode: product.billingPostalCode || "",
-      billingState: product.billingState || "",
-      isActive: product.isActive || "",
+      tags: customer.tags,
+      wetLiable: customer.wetLiable,
+      orderingFirstName: customer.orderingFirstName,
+      orderingLastName: customer.orderingLastName,
+      orderingMobile: customer.orderingMobile,
+      orderingEmail: customer.orderingEmail,
+      deliveryFirstName: customer.deliveryFirstName,
+      deliveryLastName: customer.deliveryLastName,
+      deliveryMobile: customer.deliveryMobile || "",
+      deliveryEmail: customer.deliveryEmail || "",
+      address: customer.address,
+      apartment: customer.apartment,
+      suburb: customer.suburb || "",
+      postalCode: customer.postalCode,
+      state: customer.state,
+      deliveryNotes: customer.deliveryNotes || "",
+      billingAddress: customer.billingAddress,
+      billingApartment: customer.billingApartment,
+      billingSuburb: customer.billingSuburb || "",
+      billingPostalCode: customer.billingPostalCode || "",
+      billingState: customer.billingState || "",
+      isActive: customer.isActive || "",
     };
   });
   console.log(customerModalData, "customerModalData----");
@@ -188,10 +187,9 @@ function PreviewModal({
                     <div className="mt-2">
                       <div className="my-4 rounded-md	border-y	border-r	border-l-8	border-y-custom	border-left-blue py-3 px-4 border-r-custom	">
                         <p className="text-sm font-normal">
-                          You are importing X customer into FOBOH. You have
-                          chosen to overwrite any existing customer that have
-                          the same SKU. If this preview doesn’t look right
-                          please update the file and try again.
+                          You are importing {customerModalData.length} customer
+                          into FOBOH. If this preview doesn’t look right please
+                          update the file and try again.
                         </p>
                       </div>
                     </div>
@@ -209,21 +207,23 @@ function PreviewModal({
                               className="relative px-6 py-3 overflow-y-auto "
                             >
                               <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">businessName</p>
+                                <p className="text-sm font-semibold">
+                                  Business name
+                                </p>
                                 <p className="text-sm font-normal text-lightGreen">
                                   {customer.businessName}
                                 </p>
                               </div>
                               <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">Contact</p>
+                                <p className="text-sm font-semibold">Email</p>
                                 <p className="text-sm font-normal text-lightGreen">
-                                  {customer.address}
+                                  {customer.orderingEmail}
                                 </p>
                               </div>
                               <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">Region</p>
+                                <p className="text-sm font-semibold">Mobile</p>
                                 <p className="text-sm font-normal text-lightGreen">
-                                  {customer.state}
+                                  {customer.orderingMobile}
                                 </p>
                               </div>
                             </div>
