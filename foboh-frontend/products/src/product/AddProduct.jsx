@@ -385,6 +385,7 @@ function AddProduct() {
 
   const handleCategoryChange = (e) => {
     const item = e.label;
+    const itemId = e.value
 
     if (item.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
@@ -396,7 +397,7 @@ function AddProduct() {
       ...values,
       category: e,
     });
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get`, {
+    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -415,6 +416,7 @@ function AddProduct() {
 
   const handleSubCategoryChange = (e) => {
     const item = e.label;
+    const itemId = e.value
     console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
@@ -426,14 +428,14 @@ function AddProduct() {
       subcategory: e,
     });
     fetch(
-      `https://masters-api-foboh.azurewebsites.net/api/Segment/get?SubCategoryId=${e.value}`,
+      `https://masters-api-foboh.azurewebsites.net/api/Segment/get?SubCategoryId=${itemId}`,
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("segment data>>",data);
         setSegment(
           data.data.map((i) => {
             return {

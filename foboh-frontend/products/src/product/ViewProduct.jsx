@@ -358,7 +358,7 @@ function ViewProduct() {
               });
 
               setDepartment(
-                data[0].data.map((item) => {
+                data[0]?.data.map((item) => {
                   return {
                     label: item.departmentName,
                     value: item.departmentId,
@@ -367,7 +367,7 @@ function ViewProduct() {
               );
 
               setCategory(
-                data[1].data.map((item) => {
+                data[1]?.data.map((item) => {
                   return {
                     value: item.categoryId,
                     label: item.categoryName,
@@ -375,7 +375,7 @@ function ViewProduct() {
                 })
               );
               setSubCategory(
-                data[2].data.map((item) => {
+                data[2]?.data.map((item) => {
                   return {
                     value: item.subCategoryId,
                     label: item.subCategoryName,
@@ -384,7 +384,7 @@ function ViewProduct() {
               );
 
               setSegment(
-                data[3].data.map((item) => {
+                data[3]?.data.map((item) => {
                   return {
                     value: item.segmentId,
                     label: item.segmentName,
@@ -607,6 +607,7 @@ function ViewProduct() {
 
   const handleCategoryChange = (e) => {
     const item = e.label;
+    const itemId = e.value
 
     if (item.toLowerCase() === "alcoholic beverages") {
       setIsAlcoholicBeverage(true);
@@ -618,7 +619,7 @@ function ViewProduct() {
       ...values,
       category: e,
     });
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get`, {
+    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -637,6 +638,7 @@ function ViewProduct() {
 
   const handleSubCategoryChange = (e) => {
     const item = e.label;
+    const itemId = e.value
     console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
@@ -648,7 +650,7 @@ function ViewProduct() {
       subcategory: e,
     });
     fetch(
-      `https://masters-api-foboh.azurewebsites.net/api/Segment/get?SubCategoryId=${e.value}`,
+      `https://masters-api-foboh.azurewebsites.net/api/Segment/get?SubCategoryId=${itemId}`,
       {
         method: "GET",
       }
