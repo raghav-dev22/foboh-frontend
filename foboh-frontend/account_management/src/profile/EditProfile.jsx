@@ -13,9 +13,20 @@ function EditProfile({ setProfileUri, setShow, show }) {
   const fileInputRef = useRef();
 
   const handleDelete = () => {
-    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setFile([]);
     setImageSrc("");
     setProfileUri("");
+    dispatch(
+      updateUserData({
+        ...user,
+        imageUrl: null,
+      })
+    );
+   setShow(true)
+    console.log("Image deleted");
   };
 
   const handleUpdate = () => {
@@ -83,7 +94,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
     }
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive,  open } = useDropzone({
     onDrop,
   });
 
