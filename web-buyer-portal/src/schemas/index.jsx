@@ -101,12 +101,23 @@ export const stepTwoSchema = Yup.object().shape({
 });
 
 export const stepThreeSchema = Yup.object().shape({
-  FirstName: Yup.string() .min(2, "Your first name should have atleast 2 letters").required("name is required").max(50),
+  FirstName: Yup.string().min(2, "Your first name should have atleast 2 letters").required("name is required").max(50),
   LastName: Yup.string().min(2, "Your last name should have atleast 2 letters").required("last name is required").max(50),
   email: Yup.string().required("Email is required").email("Invalid is email"),
   Mobile: Yup.string().required("Mobile number is required").matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
   OrderContactState : Yup.string().required("State is required"),
 
+  //ordering
+  OrderingContactFirstName : Yup.string().min(2, "Your first name should have atleast 2 letters").required("name is required").max(50),
+  OrderingContactLastName : Yup.string().min(2, "Your last name should have atleast 2 letters").required("last name is required").max(50),
+  OrderingContactEmail : Yup.string().required("Email is required").email("Invalid is email"),
+  OrderingContactMobile : Yup.string().required("Mobile number is required").matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
+
+  //delivery
+  DeliveryContactFirstName : Yup.string().min(2, "Your first name should have atleast 2 letters").required("name is required").max(50),
+  DeliveryContactLastName : Yup.string().min(2, "Your last name should have atleast 2 letters").required("last name is required").max(50),
+  DeliveryContactEmail : Yup.string().required("Email is required").email("Invalid is email"),
+  DeliveryContactMobile : Yup.string().required("Mobile number is required").matches(/^\+\d{1,3}\s?\d{1,14}$/, "Mobile number must be a valid number"),
  });
 
 

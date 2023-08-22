@@ -123,7 +123,13 @@ function Login() {
 
                 {/* Remember me checkbox  */}
                 <div className="mb-6 flex items-center justify-between">
-                  <div className="">
+                  <div className=" flex items-center">
+                    <input
+                      id="default-checkbox"
+                      type="checkbox"
+                      value=""
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
+                    />
                     <label
                       className="text-[#637381]  font-normal md:text-sm text-xs"
                       style={{
