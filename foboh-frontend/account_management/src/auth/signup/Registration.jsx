@@ -211,7 +211,7 @@ const Registration = () => {
                   <CustomTooltip
                     placement="right"
                     arrow
-                    title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                    title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
                   >
                     <HelpIcon
                       sx={{

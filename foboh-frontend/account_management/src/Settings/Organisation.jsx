@@ -351,11 +351,18 @@ function Organisation() {
   const defaultImage = "/assets/update-user.png";
 
   const handleDelete = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    console.log("delet")
     setFile(null);
+
+    setLogoUri(""); 
     setValues({
       ...values,
       organisationlogo: "",
     });
+    setShow(true)
   };
 
   const handleUpdate = () => {
@@ -1314,7 +1321,7 @@ function Organisation() {
                             <CustomTooltip
                               placement="right"
                               arrow
-                              title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                              title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
                             >
                               <HelpIcon
                                 sx={{
@@ -1492,7 +1499,7 @@ function Organisation() {
                             <CustomTooltip
                               placement="right"
                               arrow
-                              title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                              title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
                             >
                               <HelpIcon
                                 sx={{
