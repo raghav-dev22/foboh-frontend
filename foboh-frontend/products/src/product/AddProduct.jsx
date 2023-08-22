@@ -386,7 +386,7 @@ function AddProduct() {
   const handleCategoryChange = (e) => {
     const item = e.label;
 
-    if (item.toLowerCase() === "alcoholic beverages") {
+    if (item.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
     } else {
       setIsAlcoholicBeverage(false);
@@ -1170,7 +1170,7 @@ function AddProduct() {
                         <Select
                           name="colors"
                           options={segment}
-                          isDisabled={!segment.length}
+                          // isDisabled={!segment.length}
                           value={values.segment}
                           onChange={handleSegmentChange}
                           className="basic-multi-select "

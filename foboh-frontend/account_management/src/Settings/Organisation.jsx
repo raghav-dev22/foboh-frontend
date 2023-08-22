@@ -27,6 +27,7 @@ export const options = [
   { value: 2345, label: "Non-Alcoholic Beverage" },
 ];
 
+let categoryListVar = [];
 
 function Organisation() {
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -35,6 +36,7 @@ function Organisation() {
   const [logoUri, setLogoUri] = useState("");
   const fileInputRef = useRef();
   const [showError, setShowError] = useState();
+  const [categories, setCategories] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [initialValues, setInitialValues] = useState({
@@ -64,7 +66,7 @@ function Organisation() {
     state: "",
     postcode: "",
     categoryList: [],
-  })
+  });
 
   const {
     values,
@@ -166,7 +168,7 @@ function Organisation() {
           .catch((error) => console.log(error));
       } else {
         console.log("org id", localStorage.getItem("organisationId"));
-        const orgId = localStorage.getItem("organisationId")
+        const orgId = localStorage.getItem("organisationId");
         fetch(
           `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${orgId}`,
           {
@@ -223,99 +225,135 @@ function Organisation() {
   // console.log("bbbbb", errors)
 
   useEffect(() => {
-    console.log("userData >>", user);
-    const orgId = localStorage.getItem(
-      "organisationId")
-    fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${orgId}`,
-      {
+    const orgId = localStorage.getItem("organisationId");
+    if (orgId) {
+      fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
         method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("get org --> ", data);
-        if (data.success && data.data.length === 1) {
-          const organisationSettings = data.data[0];
-          dispatch(
-            updateUserData({
-              ...user,
-              organisationId: organisationSettings.organisationID,
-            })
-          );
-          const categoryList = organisationSettings.categoryList.map((id) => {
-            return options.find((obj) => obj.value === parseInt(id));
-          });
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("categories >>", data);
+          if (data.success) {
+            const catList = data.data.map((item) => {
+              return {
+                value: item.categoryId,
+                label: item.categoryName,
+              };
+            });
+            setCategories([...catList]);
+            categoryListVar = [...catList];
+          }
+        })
+        .then(() => {
+          fetch(
+            `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${orgId}`,
+            {
+              method: "GET",
+            }
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("get org --> ", data);
+              if (data.success && data.data.length === 1) {
+                const organisationSettings = data.data[0];
+                dispatch(
+                  updateUserData({
+                    ...user,
+                    organisationId: organisationSettings.organisationID,
+                  })
+                );
+                const categoryList = organisationSettings.categoryList.map(
+                  (id) => {
+                    return categoryListVar.find((obj) => obj.value === id);
+                  }
+                );
 
-          setLogoUri(organisationSettings.organisationlogo);
-          setInitialValues({
-            tradingName: organisationSettings.tradingName,
-            businessName: organisationSettings.businessName,
-            abn: organisationSettings.abn,
-            liquorLicence: organisationSettings.liquorLicense,
-            organisationAddress: organisationSettings.organisationAddress,
-            organisationAddressApartment: organisationSettings.apartment,
-            organisationAddressSuburb: organisationSettings.suburb,
-            organisationAddressPostcode: organisationSettings.postcode,
-            billingAddress: organisationSettings.billingAddress,
-            billingAddressApartment:
-              organisationSettings.billingAddressApartment,
-            billingAddressSuburb: organisationSettings.billingAddressSuburb,
-            billingAddressPostcode: organisationSettings.billingAddressPostCode,
-            billingAddressState: organisationSettings.billingAddressState,
-            orderingContactFirstName:
-              organisationSettings.orderingContactFirstName,
-            orderingContactLastName:
-              organisationSettings.orderingContactLastName,
-            orderingContactEmail: organisationSettings.orderingContactEmail,
-            orderingContactMobile: organisationSettings.orderingContactMobile,
-            LogisticsContactFirstName:
-              organisationSettings.logisticsContactFirstName,
-            LogisticsContactLastName:
-              organisationSettings.logisticsContactLastName,
-            LogisticsContactEmail: organisationSettings.logisticsContactEmail,
-            LogisticsContactMobile: organisationSettings.logisticsContactMobile,
-            categories: organisationSettings.categories,
-            description: organisationSettings.description,
-            state: organisationSettings.state,
-            postcode: organisationSettings.postcode,
-            categoryList: categoryList,
-          });
-          setValues({
-            tradingName: organisationSettings.tradingName,
-            businessName: organisationSettings.businessName,
-            abn: organisationSettings.abn,
-            liquorLicence: organisationSettings.liquorLicense,
-            organisationAddress: organisationSettings.organisationAddress,
-            organisationAddressApartment: organisationSettings.apartment,
-            organisationAddressSuburb: organisationSettings.suburb,
-            organisationAddressPostcode: organisationSettings.postcode,
-            billingAddress: organisationSettings.billingAddress,
-            billingAddressApartment:
-              organisationSettings.billingAddressApartment,
-            billingAddressSuburb: organisationSettings.billingAddressSuburb,
-            billingAddressPostcode: organisationSettings.billingAddressPostCode,
-            billingAddressState: organisationSettings.billingAddressState,
-            orderingContactFirstName:
-              organisationSettings.orderingContactFirstName,
-            orderingContactLastName:
-              organisationSettings.orderingContactLastName,
-            orderingContactEmail: organisationSettings.orderingContactEmail,
-            orderingContactMobile: organisationSettings.orderingContactMobile,
-            LogisticsContactFirstName:
-              organisationSettings.logisticsContactFirstName,
-            LogisticsContactLastName:
-              organisationSettings.logisticsContactLastName,
-            LogisticsContactEmail: organisationSettings.logisticsContactEmail,
-            LogisticsContactMobile: organisationSettings.logisticsContactMobile,
-            categories: organisationSettings.categories,
-            description: organisationSettings.description,
-            state: organisationSettings.state,
-            postcode: organisationSettings.postcode,
-            categoryList: categoryList,
-          });
-        }
-      });
+                setLogoUri(organisationSettings.organisationlogo);
+                setInitialValues({
+                  tradingName: organisationSettings.tradingName,
+                  businessName: organisationSettings.businessName,
+                  abn: organisationSettings.abn,
+                  liquorLicence: organisationSettings.liquorLicense,
+                  organisationAddress: organisationSettings.organisationAddress,
+                  organisationAddressApartment: organisationSettings.apartment,
+                  organisationAddressSuburb: organisationSettings.suburb,
+                  organisationAddressPostcode: organisationSettings.postcode,
+                  billingAddress: organisationSettings.billingAddress,
+                  billingAddressApartment:
+                    organisationSettings.billingAddressApartment,
+                  billingAddressSuburb:
+                    organisationSettings.billingAddressSuburb,
+                  billingAddressPostcode:
+                    organisationSettings.billingAddressPostCode,
+                  billingAddressState: organisationSettings.billingAddressState,
+                  orderingContactFirstName:
+                    organisationSettings.orderingContactFirstName,
+                  orderingContactLastName:
+                    organisationSettings.orderingContactLastName,
+                  orderingContactEmail:
+                    organisationSettings.orderingContactEmail,
+                  orderingContactMobile:
+                    organisationSettings.orderingContactMobile,
+                  LogisticsContactFirstName:
+                    organisationSettings.logisticsContactFirstName,
+                  LogisticsContactLastName:
+                    organisationSettings.logisticsContactLastName,
+                  LogisticsContactEmail:
+                    organisationSettings.logisticsContactEmail,
+                  LogisticsContactMobile:
+                    organisationSettings.logisticsContactMobile,
+                  categories: organisationSettings.categories,
+                  description: organisationSettings.description,
+                  state: organisationSettings.state,
+                  postcode: organisationSettings.postcode,
+                  categoryList: categoryList,
+                });
+                setValues({
+                  tradingName: organisationSettings.tradingName,
+                  businessName: organisationSettings.businessName,
+                  abn: organisationSettings.abn,
+                  liquorLicence: organisationSettings.liquorLicense,
+                  organisationAddress: organisationSettings.organisationAddress,
+                  organisationAddressApartment: organisationSettings.apartment,
+                  organisationAddressSuburb: organisationSettings.suburb,
+                  organisationAddressPostcode: organisationSettings.postcode,
+                  billingAddress: organisationSettings.billingAddress,
+                  billingAddressApartment:
+                    organisationSettings.billingAddressApartment,
+                  billingAddressSuburb:
+                    organisationSettings.billingAddressSuburb,
+                  billingAddressPostcode:
+                    organisationSettings.billingAddressPostCode,
+                  billingAddressState: organisationSettings.billingAddressState,
+                  orderingContactFirstName:
+                    organisationSettings.orderingContactFirstName,
+                  orderingContactLastName:
+                    organisationSettings.orderingContactLastName,
+                  orderingContactEmail:
+                    organisationSettings.orderingContactEmail,
+                  orderingContactMobile:
+                    organisationSettings.orderingContactMobile,
+                  LogisticsContactFirstName:
+                    organisationSettings.logisticsContactFirstName,
+                  LogisticsContactLastName:
+                    organisationSettings.logisticsContactLastName,
+                  LogisticsContactEmail:
+                    organisationSettings.logisticsContactEmail,
+                  LogisticsContactMobile:
+                    organisationSettings.logisticsContactMobile,
+                  categories: organisationSettings.categories,
+                  description: organisationSettings.description,
+                  state: organisationSettings.state,
+                  postcode: organisationSettings.postcode,
+                  categoryList: categoryList,
+                });
+              }
+            });
+        })
+        .catch((error) => console.log(error));
+    }
+
+    console.log("userData >>", user);
   }, []);
 
   console.log(values);
@@ -379,8 +417,7 @@ function Organisation() {
         const reader = new FileReader();
         const formData = new FormData();
         formData.append("file", file);
-        const orgId = localStorage.getItem(
-          "organisationId")
+        const orgId = localStorage.getItem("organisationId");
         fetch(
           `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
           {
@@ -635,7 +672,9 @@ function Organisation() {
                             }}
                           />
                           {errors.description && (
-                            <p className="mt-2 mb-2 text-red-500">{errors.description}</p>
+                            <p className="mt-2 mb-2 text-red-500">
+                              {errors.description}
+                            </p>
                           )}
                           {/* // />  */}
                           {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
@@ -654,7 +693,8 @@ function Organisation() {
                               isMulti
                               value={values.categoryList}
                               onChange={handleCategoriesChange}
-                              options={options}
+                              isDisabled={!categories.length}
+                              options={categories}
                               className="basic-multi-select "
                               classNamePrefix="select"
                             />
@@ -1120,7 +1160,7 @@ function Organisation() {
                             accept="image/*"
                             ref={fileInputRef}
                             className="download-file w-full h-full rounded-full absolute opacity-0	"
-                          // value={imageSrc}
+                            // value={imageSrc}
                           />
                           <svg
                             width={16}
