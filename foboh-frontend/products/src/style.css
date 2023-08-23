@@ -589,3 +589,15 @@ input[type="radio"]:checked:before {
 .dZkckO {
   top: 53%;
 }
+/* .ant-skeleton-header {
+  position: absolute;
+}
+.ant-skeleton-content {
+  position: absolute;
+} */
+.custom-skeleton .ant-skeleton-paragraph {
+  margin-block-start: 12px !important;
+}
+.custom-skeleton .ant-skeleton-title {
+  margin-top: 0px !important;
+}

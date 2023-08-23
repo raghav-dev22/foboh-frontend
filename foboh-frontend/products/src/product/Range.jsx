@@ -53,9 +53,9 @@ function Range() {
         setPages(array);
       })
       .then(() => {
-        // setTimeout(() =>{
-        //   setLoading(false)
-        // },5000)
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       })
       .catch((error) => console.log(error));
   };
@@ -242,21 +242,32 @@ function Range() {
                 <tbody>
                   {products.map((product, index) => {
                     const isLast = index === products.length - 1;
-                    const classes = isLast
-                      ? "p-4"
-                      : "p-4 border-b border-blue-gray-50 ";
+                    const classes = isLast ? "p-4" : "p-4  ";
 
                     return (
-                      <Skeleton
-                        style={{
-                          padding: "10px",
-                          width: "100%",
-                        }}
-                        loading={loading}
-                        active
-                        avatar
+                      <tr
+                        key={name}
+                        style={
+                          loading
+                            ? { position: "relative", height: "85px" }
+                            : { position: "relative" }
+                        }
+                        className="border-b border-blue-gray-50"
                       >
-                        <tr key={name}>
+                        <Skeleton
+                          style={{
+                            padding: "10px",
+                            width: "95%",
+                            position: "absolute",
+                            top: "20px",
+                            left: "14px",
+                          }}
+                          paragraph={{ rows: 1 }}
+                          loading={loading}
+                          active
+                          avatar
+                          className="custom-skeleton"
+                        >
                           <td className={classes}>
                             <div className="flex items-center gap-3">
                               <input
@@ -344,8 +355,8 @@ function Range() {
                               {product.visibility ? "Visible" : "Hidden"}
                             </Typography>
                           </td>
-                        </tr>
-                      </Skeleton>
+                        </Skeleton>
+                      </tr>
                     );
                   })}
                 </tbody>

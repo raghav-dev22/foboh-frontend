@@ -13,6 +13,7 @@ import AddCustomers from "customers/AddCustomers";
 import AddCustomersDetails from "customers/AddCustomersDetails";
 import ViewCustomer from "customers/ViewCustomer";
 import BulkEdit from "products/BulkEdit";
+import CustomerBulkEdit from "customers/CustomerBulkEdit";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
 import { updateLogoURI } from "../Redux/Action/organisationLogoSlice";
@@ -146,6 +147,10 @@ function Dashboard() {
               <Route path="/view-customer-details" element={<ViewCustomer />} />
               <Route path="/add-customer/*" element={<AddCustomersDetails />} />
               <Route path="/bulk-edit" element={<BulkEdit />} />
+              <Route
+                path="/customer-bulk-edit"
+                element={<CustomerBulkEdit />}
+              />
             </Routes>
             {/* <Profile /> */}
           </div>

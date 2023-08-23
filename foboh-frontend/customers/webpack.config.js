@@ -47,7 +47,8 @@ module.exports = (_, argv) => ({
       exposes: {
         "./AddCustomers": "./src/customers/AddCustomers.jsx",
         "./AddCustomersDetails": "./src/customers/AddCustomersDetails.jsx",
-        "./ViewCustomer": "./src/customers/ViewCustomer.jsx"
+        "./ViewCustomer": "./src/customers/ViewCustomer.jsx",
+        "./CustomerBulkEdit": "./src/customers/CustomerBulkEdit.jsx",
       },
       shared: {
         ...deps,

@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "better-react-carousel";
-// import axios from "axios";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/CartSlice";
 import { fetchProduct } from "../store/ProductSlice";
 function TopRatedSection() {
   const [CartData, setCartData] = useState([]);
-  // const data = () => {
-  //   axios.get("https://fakestoreapi.com/products").then((resp) => {
-  //     console.log(resp.data);
-  //     setCartData(resp.data);
-  //   });
-  // };
-  const data = useSelector((state) => state.product);
+  const data = () => {
+    axios.get("https://fakestoreapi.com/products").then((resp) => {
+      console.log(resp.data);
+      setCartData(resp.data);
+    });
+  };
+  // const data = useSelector((state) => state.product);
   // const ProductData = [data];
   const dispatch = useDispatch();
   const addCart = (item) => {
     dispatch(add(item));
   };
   useEffect(() => {
-    dispatch(fetchProduct());
-    // data();
+    // dispatch(fetchProduct());
+    data();
   }, []);
   return (
     <>
@@ -38,7 +38,7 @@ function TopRatedSection() {
         </div>
 
         <Carousel cols={4} rows={1} gap={10} mobileBreakpoint={575} loop>
-          {data.map((item, index) => {
+          {CartData.map((item, index) => {
             return (
               <Carousel.Item>
                 <div className="border border-inherit rounded-lg">
