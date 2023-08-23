@@ -1,13 +1,17 @@
 import React from 'react'
-
+import { useNavigate } from "react-router-dom";
 
 function AddProductHeader() {
+    const navigate = useNavigate()
+
     return (
         <>
             <div className="py-6 sm:flex grid items-center justify-between px-6 gap-5">
                 <div className="flex justify-start gap-3 items-center">
                     <div className="">
-                        <img src="/assets/previousBtn.png" alt="" />
+                    <button onClick={() => navigate('/dashboard/products')} className="">
+                        <img  alt="" src="/assets/previousBtn.png"/>
+                        </button>
                     </div>
                     <h4 className=" text-2xl font-semibold	text-darkGreen">Add product  </h4>
 

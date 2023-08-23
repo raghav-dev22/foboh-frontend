@@ -3,7 +3,7 @@ import ImportProductBtn from './ImportProductBtn';
 import EditProductBtn from './EditProductBtn';
 import AddProductBtn from './AddProductBtn';
 
-function ActiveProduct({totalProducts}) {
+function ActiveProduct({totalProducts, handleBulkEdit, selectedProductsLength}) {
   return (
     <>
        <div className="py-6 sm:flex grid items-center justify-between px-6 gap-5">
@@ -15,7 +15,7 @@ function ActiveProduct({totalProducts}) {
                         </div>
                         <div className=" flex-wrap	 flex judstify-center items-center gap-2">
                            <ImportProductBtn/>
-                           <EditProductBtn/>
+                           <EditProductBtn handleBulkEdit={handleBulkEdit} selectedProductsLength={selectedProductsLength} />
                            <AddProductBtn/>
                         </div>
                     </div>
