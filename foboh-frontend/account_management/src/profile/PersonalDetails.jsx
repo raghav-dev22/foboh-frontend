@@ -216,7 +216,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
     <>
       <div
         className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white	 grid	 overflow-y-scroll	scroll-smooth	scrollable "
-        style={{ height: "380px" }}
+        style={{ height: "480px" }}
       >
         {show && (
           <ProfileHeader
@@ -242,10 +242,16 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   id="grid-last-name"
                   name="firstName"
                   type="text"
-                  placeholder="Tom"
+                  placeholder="First name"
                   value={values.firstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   style={{
                     border:
                       errors.firstName && touched.firstName && "1px solid red",
@@ -270,10 +276,16 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   id="grid-last-name"
                   type="text"
                   name="lastName"
-                  placeholder="Jones"
+                  placeholder="Last name"
                   value={values.lastName}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   style={{
                     border:
                       errors.lastName && touched.lastName && "1px solid red",
@@ -302,7 +314,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   type="email"
                   name="email"
                   autoComplete="on"
-                  placeholder="devidjond45@gmail.com"
+                  placeholder="Email"
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -330,7 +342,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   <CustomTooltip
                     placement="right"
                     arrow
-                    title="Mobile - a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                    title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
                   >
                     <HelpIcon
                       sx={{
@@ -346,7 +358,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   id="grid-password"
                   type="text"
                   name="mobile"
-                  placeholder="0412 345 678"
+                  placeholder="Mobile No"
                   value={values.mobile}
                   onChange={handleChange}
                   maxLength={20}
@@ -361,7 +373,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                     border: errors.mobile && touched.mobile && "1px solid red",
                   }}
                 />
-                {errors.email && touched.email && (
+                {errors.mobile && touched.mobile && (
                   <p className="mt-2 mb-2 text-red-500">{errors.mobile}</p>
                 )}
                 {errors.mobile && touched.mobile && (

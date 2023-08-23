@@ -26,9 +26,15 @@ function Range() {
   const [totalPages, setTotalPages] = useState(0);
   const [pageIndex, setPageIndex] = useState(1);
   const navigate = useNavigate();
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+
 
   useEffect(() => {
     getProductList(1);
+    getAllproduct()
+  }, []);
+
+  const getAllproduct = () => {
     fetch(
       `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1`,
       {
@@ -46,9 +52,7 @@ function Range() {
         setPages(array);
       })
       .catch((error) => console.log(error));
-  }, []);
-
-
+  }
 
   const getProductList = (values) => {
     if (childRef.current) {
@@ -57,23 +61,67 @@ function Range() {
     }
   };
 
-  
+  const handleSelectAllChange = (e) => {
+    console.log("flag >>", e);
+    const checked = e.target.checked
+    checked ? setSelectedProducts([...products]) : setSelectedProducts([])
+    setIsBulkEdit(true);
+    if (!checked) {
+      setIsBulkEdit(false)
+    }
+    console.log("selected products >>", selectedProducts);
+  };
+
 
   const handleBulkEdit = () => {
     localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
     navigate("/dashboard/bulk-edit");
   };
-  const handleCheckbox = (e, product) => {
-    e.target.checked
-      ? setSelectedProducts([...selectedProducts, product])
-      : setSelectedProducts(
-          selectedProducts.filter((prod) => prod !== product)
-        );
 
-    if (selectedProducts.length > 0) {
-      setIsBulkEdit(true);
-    }
+  const handleCheckbox = (e, product) => {
+    const checked = e.target.checked;
+    const updatedSelectedProducts = checked ? [...selectedProducts, product] : selectedProducts.filter((prod) => prod !== product);
+    setSelectedProducts(updatedSelectedProducts);
+    setIsBulkEdit(updatedSelectedProducts.length > 1);
+    console.log("selected products >>", selectedProducts);
   };
+
+  // visibility handle 
+  const handleBulkVisibility = (name) => {
+
+    fetch(
+      `https://product-api-foboh.azurewebsites.net/api/Product/bulkupdate`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          selectedProducts.map((product) => {
+            return {
+              productId: product.productId,
+              title: product.title,
+              skUcode: product.skUcode,
+              configuration: product.configuration,
+              globalPrice: product.salePrice,
+              buyPrice: product.buyPrice,
+              availableQty: product.stockAlertLevel,
+              visibility: name === 'visible' ? true : false,
+              productStatus: product.productStatus,
+            };
+          })
+        ),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("response data:", data);
+        setIsBulkEdit(false)
+        getAllproduct()
+      })
+      .catch((error) => console.log(error));
+  };
+
 
   const stockStatus = (availableQty, stockThreshold) => {
     if (availableQty === 0) {
@@ -137,7 +185,7 @@ function Range() {
   return (
     <>
       <ActiveProduct totalProducts={totalProducts} />
-      <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
+      <div className="   " style={{ height: "100%" }}>
         <div className="box-3 px-6 ">
           <SearchProduct
             ref={childRef}
@@ -149,7 +197,9 @@ function Range() {
           />
         </div>
         <div className="pt-6 px-6 relative">
-          <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
+          <div className="box-4 relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white"
+            style={{ height: "435px" }}
+          >
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead>
@@ -159,7 +209,8 @@ function Range() {
                         <input
                           id="default-checkbox"
                           type="checkbox"
-                          defaultValue=""
+                          // defaultValue=""
+                          onChange={(e) => handleSelectAllChange(e)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />
                       </div>
@@ -197,6 +248,7 @@ function Range() {
                               id="default-checkbox"
                               type="checkbox"
                               name={product.title}
+                              checked={selectedProducts.includes(product) ? true : false}
                               onClick={(e) => handleCheckbox(e, product)}
                               className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                             />
@@ -299,13 +351,13 @@ function Range() {
                 </h6>
               </button>
 
-              <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <button onClick={() => handleBulkVisibility("visible")} className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
                 <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
                   Set as Visible{" "}
                 </h6>
               </button>
 
-              <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <button onClick={() => handleBulkVisibility("hidden")} className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
                 <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
                   Set as Hidden{" "}
                 </h6>

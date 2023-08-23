@@ -115,6 +115,7 @@ function BulkEdit() {
       .then((response) => response.json())
       .then((data) => {
         console.log("response data:", data);
+        localStorage.removeItem("selectedProducts")
         navigate("/dashboard/products");
       })
       .catch((error) => console.log(error));
@@ -239,7 +240,8 @@ function BulkEdit() {
         </div>
 
         <div
-          className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
+          className={`relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
+          style={{ height: "530px"}}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">

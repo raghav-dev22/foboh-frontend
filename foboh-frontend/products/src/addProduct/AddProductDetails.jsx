@@ -219,8 +219,8 @@ function AddProductDetails({ setValues, values }) {
               </div>
             </div>
             {/* <ComboBoxMultiSelect/> */}
-            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className="w-full relative md:w-1/2 px-3">
+            <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+              <div className="w-full relative px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="sku-code"
@@ -236,7 +236,7 @@ function AddProductDetails({ setValues, values }) {
                   placeholder="GOODINTCJCHARD22"
                 />
               </div>
-              <div className="w-full relative md:w-1/2 px-3">
+              <div className="w-full relative px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="brand"
@@ -253,8 +253,8 @@ function AddProductDetails({ setValues, values }) {
                 />
               </div>
             </div>
-            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className="  w-full relative md:w-1/2 px-3">
+            <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+              <div className="  w-full relative px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Department
                 </h5>
@@ -338,7 +338,7 @@ function AddProductDetails({ setValues, values }) {
                   </Combobox>
                 </div>
               </div>
-              <div className="  w-full relative md:w-1/2 px-3">
+              <div className="  w-full relative px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Category
                 </h5>
@@ -424,8 +424,8 @@ function AddProductDetails({ setValues, values }) {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className=" w-full relative md:w-1/2 px-3">
+            <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+              <div className=" w-full relative px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Subcategory
                 </h5>
@@ -509,7 +509,7 @@ function AddProductDetails({ setValues, values }) {
                   </Combobox>
                 </div>
               </div>
-              <div className="  w-full relative md:w-1/2 px-3">
+              <div className="  w-full relative px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Segment
                 </h5>
@@ -594,8 +594,8 @@ function AddProductDetails({ setValues, values }) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className=" w-full relative md:w-1/2 px-3">
+            <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+              <div className=" w-full relative px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Grape variety
                 </h5>
@@ -610,7 +610,7 @@ function AddProductDetails({ setValues, values }) {
                   />
                 </div>
               </div>
-              <div className="  w-full relative md:w-1/2 px-3">
+              <div className="  w-full relative px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Region
                 </h5>
@@ -691,8 +691,8 @@ function AddProductDetails({ setValues, values }) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className="w-full relative md:w-1/2 px-3">
+            <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+              <div className="w-full relative px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
@@ -707,7 +707,7 @@ function AddProductDetails({ setValues, values }) {
                   placeholder="2004"
                 />
               </div>
-              <div className="w-full relative md:w-1/2 px-3">
+              <div className="w-full relative px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
@@ -723,8 +723,8 @@ function AddProductDetails({ setValues, values }) {
                 />
               </div>
             </div>
-            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className=" w-full relative md:w-1/2 px-3">
+            <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+              <div className=" w-full relative px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Country
                 </h5>
@@ -808,7 +808,7 @@ function AddProductDetails({ setValues, values }) {
                   </Combobox>
                 </div>
               </div>
-              <div className="w-full relative md:w-1/2 px-3">
+              <div className="w-full relative px-3">
                 <label
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
@@ -825,8 +825,8 @@ function AddProductDetails({ setValues, values }) {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-              <div className="  w-full relative md:w-1/2 px-3">
+            <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+              <div className="  w-full relative  px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Base unit of measure
                 </h5>
@@ -910,7 +910,7 @@ function AddProductDetails({ setValues, values }) {
                   </Combobox>
                 </div>
               </div>
-              <div className="  w-full relative md:w-1/2 px-3">
+              <div className="  w-full relative  px-3">
                 <h5 className="text-base font-medium text-green mb-3">
                   Inner unit of measure
                 </h5>

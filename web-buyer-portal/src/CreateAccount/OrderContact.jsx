@@ -25,6 +25,23 @@ function OrderContact({
     })
   }
 
+  const handleCheckbox = (e) => {
+    const checked = e.target.checked
+    checked ? setValues({
+      ...values,
+      DeliveryContactFirstName : values.OrderingContactFirstName,
+      DeliveryContactLastName : values.OrderingContactLastName ,
+      DeliveryContactEmail :values.OrderingContactEmail,
+      DeliveryContactMobile :values.OrderingContactMobile,
+    }) : setValues ({
+      ...values,
+      DeliveryContactFirstName : "",
+      DeliveryContactLastName : "" ,
+      DeliveryContactEmail :"",
+      DeliveryContactMobile :"",
+    })
+  }
+
   return (
     <>
       <div className="flex flex-col justify-center">
@@ -50,38 +67,52 @@ function OrderContact({
               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="FirstName"
               type="text"
-              value={values.FirstName}
+              name="OrderingContactFirstName"
+              value={values.OrderingContactFirstName}
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
                 border:
-                  errors.FirstName && "1px solid red",
+                  errors.OrderingContactFirstName && "1px solid red",
               }}
             />
-            {errors.FirstName && (
+            {errors.OrderingContactFirstName && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors.FirstName}
+                {errors.OrderingContactFirstName}
               </p>
             )}
-            {errors.FirstName && (
+            {errors.OrderingContactFirstName && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
           <div className="w-full md:w-1/2	 px-3 relative mb-5">
             <label
               className="block  tracking-wide md:text-base text-sm	 font-medium text-[#2B4447]	 "
-              htmlFor="organisationAddressPostcode"
+              htmlFor="LastName"
             >
-              State
+              Last name
             </label>
-            <Select
-              defaultValue={selectedOption}
-              onChange={(e) => handleState(e)}
-              options={options}
+            <input
+              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="LastName"
+              type="text"
+              name="OrderingContactLastName"
+              value={values.OrderingContactLastName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              style={{
+                border:
+                  errors.OrderingContactLastName && "1px solid red",
+              }}
             />
-              {errors.OrderContactState && (
-            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.OrderContactState}</p>
-          )}
+            {errors.FirstName && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">
+                {errors.OrderingContactLastName}
+              </p>
+            )}
+            {errors.OrderingContactLastName && (
+              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+            )}
           </div>
         </div>
 
@@ -97,18 +128,19 @@ function OrderContact({
             type="email"
             id="email"
             className={`js-email `}
-            autoComplete="off"
-            value={values.email}
+            autoComplete="on"
+            value={values.OrderingContactEmail}
             onChange={handleChange}
+            name="OrderingContactEmail"
             onBlur={handleBlur}
             style={{
-              border: errors.email &&"1px solid red",
+              border: errors.OrderingContactEmail &&"1px solid red",
             }}
           />
-          {errors.email && (
-            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.email}</p>
+          {errors.OrderingContactEmail && (
+            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.OrderingContactEmail}</p>
           )}
-          {errors.email && (
+          {errors.OrderingContactEmail && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
           )}
           <label
@@ -129,18 +161,19 @@ function OrderContact({
             type="text"
             id="Mobile"
             className={`js-email `}
-            autoComplete="off"
-            value={values.Mobile}
+            autoComplete="on"
+            name="OrderingContactMobile"
+            value={values.OrderingContactMobile}
             onChange={handleChange}
             onBlur={handleBlur}
             style={{
-              border: errors.Mobile && "1px solid red",
+              border: errors.OrderingContactMobile && "1px solid red",
             }}
           />
-          {errors.Mobile && (
-            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Mobile}</p>
+          {errors.OrderingContactMobile && (
+            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.OrderingContactMobile}</p>
           )}
-          {errors.Mobile && (
+          {errors.OrderingContactMobile && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
           )}
           <label
@@ -154,7 +187,7 @@ function OrderContact({
             <input
               id="default-checkbox"
               type="checkbox"
-              value=""
+              onChange={(e)=> handleCheckbox(e)}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
             />
             {/* <CheckBoxOutlinedIcon className="text-[#147D73] cursor-pointer" /> */}
@@ -192,20 +225,21 @@ function OrderContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="FirstName"
                 type="text"
-                value={values.FirstName}
+                value={values.DeliveryContactFirstName}
+                name="DeliveryContactFirstName"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.FirstName && "1px solid red",
+                    errors.DeliveryContactFirstName && "1px solid red",
                 }}
               />
-              {errors.FirstName && (
+              {errors.DeliveryContactFirstName && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors.FirstName}
+                  {errors.DeliveryContactFirstName}
                 </p>
               )}
-              {errors.FirstName && (
+              {errors.DeliveryContactFirstName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -220,20 +254,21 @@ function OrderContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="LastName"
                 type="text"
-                value={values.LastName}
+                value={values.DeliveryContactLastName}
+                name="DeliveryContactLastName"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.LastName && "1px solid red",
+                    errors.DeliveryContactLastName && "1px solid red",
                 }}
               />
-              {errors.LastName && (
+              {errors.DeliveryContactLastName && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors.LastName}
+                  {errors.DeliveryContactLastName}
                 </p>
               )}
-              {errors.LastName && (
+              {errors.DeliveryContactLastName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -252,17 +287,18 @@ function OrderContact({
               id="email"
               className={`js-email `}
               autoComplete="off"
-              value={values.email}
+              name="DeliveryContactEmail"
+              value={values.DeliveryContactEmail}
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors.email && "1px solid red",
+                border: errors.DeliveryContactEmail && "1px solid red",
               }}
             />
-            {errors.email && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.email}</p>
+            {errors.DeliveryContactEmail && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.DeliveryContactEmail}</p>
             )}
-            {errors.email && (
+            {errors.DeliveryContactEmail && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
             <label
@@ -284,17 +320,18 @@ function OrderContact({
               id="Mobile"
               className={`js-password `}
               autoComplete="off"
-              value={values.Mobile}
+              value={values.DeliveryContactMobile}
               onChange={handleChange}
+              name="DeliveryContactMobile"
               onBlur={handleBlur}
               style={{
-                border: errors.Mobile && "1px solid red",
+                border: errors.DeliveryContactMobile && "1px solid red",
               }}
             />
-            {errors.Mobile && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Mobile}</p>
+            {errors.DeliveryContactMobile && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.DeliveryContactMobile}</p>
             )}
-            {errors.Mobile && (
+            {errors.DeliveryContactMobile && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
             <label
