@@ -1216,7 +1216,7 @@ function ViewProduct() {
                   <div className="pb-5">
                     <div className=" flex justify-between items-center mb-3">
                       <h5 className="text-green text-base font-medium">
-                        Sell when out of stack
+                        Sell when out of stock
                       </h5>
                       <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                         <input

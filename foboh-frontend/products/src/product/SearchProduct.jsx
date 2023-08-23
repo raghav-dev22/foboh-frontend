@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useState,
+  useRef,
 } from "react";
 
 import Sort from "./Sort";
@@ -47,6 +48,8 @@ const SearchProduct = forwardRef(
     const [selectedSubcatId, setSelectedSubcatId] = useState([]);
     const [itemLabel, setItemLabel] = useState("");
     const [showFilter, setShowFilter] = useState(false);
+    const dropdownRef = useRef(null);
+
 
     const FirstDropdown = () => {
       setFilterTextFirst(!filterTextFirst);
@@ -297,11 +300,32 @@ const SearchProduct = forwardRef(
     const handleFilter = () => {
       setShowFilter(!showFilter);
     };
-
+    
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setShowFilter(false);
+        }
+      };
+  
+      const handleKeydown = (event) => {
+        if (event.key === "Escape") {
+          setShowFilter(false);
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClick);
+      document.addEventListener("keydown", handleKeydown);
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClick);
+        document.removeEventListener("keydown", handleKeydown);
+      };
+    }, []);
     return (
       <>
-        <div className=" border border-inherit bg-white h-full py-3	 px-4">
-          <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center ">
+        <div className=" border border-inherit bg-white h-full py-3	 px-4" ref={dropdownRef}>
+          <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center">
             <div>
               <div className="relative 	">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -366,7 +390,7 @@ const SearchProduct = forwardRef(
             <div className="flex gap-8 relative  pt-4 flex-wrap">
               {/* <Category/> */}
 
-              <div className="relative ">
+              <div className="relative">
                 <div
                   className="flex items-center gap-2 cursor-pointer product-category-box"
                   onClick={FirstDropdown}

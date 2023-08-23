@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const sort = [
   {
@@ -37,6 +37,7 @@ const sort = [
 
 function Filter({ handleSortChange, itemLabel, filterAndSort }) {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -62,12 +63,35 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
     });
   };
 
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, []);
+
   return (
     <>
-      <div className="relative sm:w-24 w-2/4	">
+      <div className="relative sm:w-24 w-2/4" ref={dropdownRef}>
         <div
           className=" cursor-pointer h-11	w-fit px-5  shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2"
-          onClick={toggleDropdown}
+          onClick={() => setIsOpen(!isOpen)}
+          
         >
           <div className="">
             <svg
