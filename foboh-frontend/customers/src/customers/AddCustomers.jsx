@@ -19,7 +19,7 @@ function AddCustomers() {
   const navigate = useNavigate();
   const [totalPages, setTotalPages] = useState(0);
   const [tableRecords, setTableRecords] = useState([]);
-  const[prevCustomer,setPrevCustomer]=useState([]);
+  const [prevCustomer, setPrevCustomer] = useState([]);
   const [page, setPage] = React.useState(1);
   const [pages, setPages] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -54,7 +54,7 @@ function AddCustomers() {
       .then((data) => {
         console.log("customer data --->", data);
         setTableRecords(data.data);
-        setPrevCustomer(data.data)
+        setPrevCustomer(data.data);
         const array = createArrayWithNumber(data.last_page);
         setTotalPages(data.last_page);
         setPages(array);
@@ -81,15 +81,21 @@ function AddCustomers() {
     e.target.checked
       ? setSelectedProducts([...selectedProducts, product])
       : setSelectedProducts(
-        selectedProducts.filter((prod) => prod !== product)
-      );
+          selectedProducts.filter((prod) => prod !== product)
+        );
 
     if (selectedProducts.length > 0) {
       setIsBulkEdit(true);
     }
   };
+  // const handleBulkEdit = () => {
+  //   localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
+
+  // };
+
   const handleBulkEdit = () => {
     localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
+    navigate("/dashboard/customer-bulk-edit");
   };
   // const isFilter = (item) => {
   //   console.log("Filter values", item)
@@ -98,7 +104,7 @@ function AddCustomers() {
   //   }, 500);
   // };
   // const callFilterApi = (item) => {
-  
+
   //   fetch(
   //     `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter`,
   //     {
@@ -121,12 +127,11 @@ function AddCustomers() {
       <ActiveCustomers />
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
-          <SearchCustomer 
-           setProducts={setTableRecords}
-           products={tableRecords}
-           prevProducts={prevCustomer}
-           totalPages={setTotalPages}
-
+          <SearchCustomer
+            setProducts={setTableRecords}
+            products={tableRecords}
+            prevProducts={prevCustomer}
+            totalPages={setTotalPages}
           />
         </div>
         <div className="pt-6 px-6 relative">
@@ -188,13 +193,25 @@ function AddCustomers() {
                         </td>
                         <td className={classes}>
                           {item?.isActive === true ? (
-                            <div style={{background : "rgba(33, 150, 83, 0.08)", borderRadius: "30px"}} className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3">
+                            <div
+                              style={{
+                                background: "rgba(33, 150, 83, 0.08)",
+                                borderRadius: "30px",
+                              }}
+                              className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3"
+                            >
                               <p className="text-green-dark font-normal	text-sm	">
                                 Active
                               </p>
                             </div>
                           ) : (
-                            <div style={{background : "rgba(255, 167, 11, 0.08)", borderRadius: "30px"}} className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3">
+                            <div
+                              style={{
+                                background: "rgba(255, 167, 11, 0.08)",
+                                borderRadius: "30px",
+                              }}
+                              className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3"
+                            >
                               <p
                                 style={{ color: "#FFA70B" }}
                                 className="text-red-dark font-normal text-sm	"

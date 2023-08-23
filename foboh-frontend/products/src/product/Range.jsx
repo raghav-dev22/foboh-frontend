@@ -4,7 +4,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import ActiveProduct from "./ActiveProduct";
 import { useNavigate } from "react-router-dom";
 import "../style.css";
-import { Typography, CardBody, CardFooter, select } from "@material-tailwind/react";
+import {
+  Typography,
+  CardBody,
+  CardFooter,
+  select,
+} from "@material-tailwind/react";
 import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 import { PaginationNav1Presentation } from "./Pagination";
 import { Avatar, List, Skeleton, Switch } from "antd";
@@ -28,8 +33,8 @@ function Range() {
   const [pageIndex, setPageIndex] = useState(1);
   const navigate = useNavigate();
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [selected, setSlected] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [selected, setSlected] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getProductList(1);
@@ -76,7 +81,7 @@ function Range() {
     if (!checked) {
       setIsBulkEdit(false);
     }
-    console.log("selected products >>", selectedProducts,);
+    console.log("selected products >>", selectedProducts);
   };
 
   const handleBulkEdit = () => {
@@ -92,7 +97,7 @@ function Range() {
     setSelectedProducts(updatedSelectedProducts);
     setIsBulkEdit(updatedSelectedProducts.length > 1);
     console.log("selected products >>", selectedProducts);
-    setSlected(selectedProducts.length)
+    setSlected(selectedProducts.length);
   };
 
   // visibility handle
@@ -191,7 +196,11 @@ function Range() {
 
   return (
     <>
-      <ActiveProduct handleBulkEdit={handleBulkEdit} totalProducts={totalProducts} selectedProductsLength={selected} />
+      <ActiveProduct
+        handleBulkEdit={handleBulkEdit}
+        totalProducts={totalProducts}
+        selectedProductsLength={selected}
+      />
       <div className="   " style={{ height: "100%" }}>
         <div className="box-3 px-6 ">
           <SearchProduct

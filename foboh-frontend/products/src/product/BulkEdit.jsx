@@ -5,6 +5,7 @@ import AlertModal from "../modal/AlertModal";
 import Select from "react-select";
 import { useFormik } from "formik";
 import { addProductSchema } from "../schemas";
+// import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import {
   segment,
@@ -115,7 +116,7 @@ function BulkEdit() {
       .then((response) => response.json())
       .then((data) => {
         console.log("response data:", data);
-        localStorage.removeItem("selectedProducts")
+        localStorage.removeItem("selectedProducts");
         navigate("/dashboard/products");
       })
       .catch((error) => console.log(error));
@@ -241,7 +242,7 @@ function BulkEdit() {
 
         <div
           className={`relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
-          style={{ height: "530px"}}
+          style={{ height: "530px" }}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">
@@ -347,7 +348,7 @@ function BulkEdit() {
                       />
                     </td>
                     <td className={`px-6 py-4 selectId-${index}`}>
-                      <div className="w-44">
+                      <div className="w-44 flex justify-between items-center">
                         <Select
                           name="colors"
                           options={configurations}
@@ -359,9 +360,10 @@ function BulkEdit() {
                               e
                             )
                           }
-                          className="basic-multi-select-1 "
+                          className="basic-multi-select-2 "
                           classNamePrefix="select"
                         />
+                        {/* <KeyboardArrowDownIcon /> */}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -421,7 +423,7 @@ function BulkEdit() {
                           onChange={(e) =>
                             handleFieldChange(product.productId, "status", e)
                           }
-                          className="basic-multi-select-1 "
+                          className="basic-multi-select-2 "
                           classNamePrefix="select"
                         />
                       </div>

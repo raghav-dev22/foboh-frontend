@@ -191,3 +191,11 @@
 .custom-stepper .bg-gray-900 {
   background-color: #12736a;
 }
+.basic-multi-select-2 .select__control {
+  border-width: 0px !important;
+
+  /* padding: 0 !important; */
+}
+.basic-multi-select-2 .css-1u9des2-indicatorSeparator {
+  width: 0px !important;
+}
