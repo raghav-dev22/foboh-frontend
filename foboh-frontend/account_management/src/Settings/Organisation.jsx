@@ -21,7 +21,7 @@ import {
 } from "../Redux/Action/organisationLogoSlice";
 import { updateUserData } from "../Redux/Action/userSlice";
 import { styled } from "@mui/material";
-
+import { Avatar, List, Skeleton, Switch } from "antd";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -37,6 +37,7 @@ function Organisation() {
   const fileInputRef = useRef();
   const [showError, setShowError] = useState();
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [initialValues, setInitialValues] = useState({
@@ -347,10 +348,13 @@ function Organisation() {
                   postcode: organisationSettings.postcode,
                   categoryList: categoryList,
                 });
+                setLoading(false)
               }
             });
         })
         .catch((error) => console.log(error));
+    } else {
+      setLoading(false)
     }
 
     console.log("userData >>", user);
@@ -392,15 +396,15 @@ function Organisation() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-    console.log("delet")
+    console.log("delet");
     setFile(null);
 
-    setLogoUri(""); 
+    setLogoUri("");
     setValues({
       ...values,
       organisationlogo: "",
     });
-    setShow(true)
+    setShow(true);
   };
 
   const handleUpdate = () => {
@@ -521,195 +525,202 @@ function Organisation() {
                       Organisation details{" "}
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <div className="w-full ">
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="grid-last-name"
-                          >
-                            Trading name
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-last-name"
-                            name="tradingName"
-                            type="text"
-                            placeholder="Trading name"
-                            value={values.tradingName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.tradingName &&
-                                touched.tradingName &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.tradingName && touched.tradingName && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                              {errors.tradingName}
-                            </p>
-                          )}
-                          {errors.tradingName && touched.tradingName && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                          )}
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm font-medium	 "
-                            htmlFor="grid-last-name"
-                          >
-                            Business name
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-last-name"
-                            type="text"
-                            placeholder="Business name"
-                            name="businessName"
-                            value={values.businessName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.businessName &&
-                                touched.businessName &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.businessName && touched.businessName && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                              {errors.businessName}
-                            </p>
-                          )}
-                          {errors.businessName && touched.businessName && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 relative">
-                        <div className="w-full px-3">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="grid-password"
-                          >
-                            ABN
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-password"
-                            type="text"
-                            placeholder="ABN"
-                            name="abn"
-                            value={values.abn}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.abn && touched.abn && "1px solid red",
-                            }}
-                          />
-                          {errors.abn && touched.abn && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                              {errors.abn}
-                            </p>
-                          )}
-                          {errors.abn && touched.abn && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 relative">
-                        <div className="w-full px-3">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="grid-password"
-                          >
-                            Liquor licence
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-password"
-                            type="text"
-                            placeholder="Liquor licence"
-                            name="liquorLicence"
-                            value={values.liquorLicence}
-                            onChange={handleChange}
-                            maxLength={14}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.liquorLicence &&
-                                touched.liquorLicence &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.liquorLicence && touched.liquorLicence && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                              {errors.liquorLicence}
-                            </p>
-                          )}
-                          {errors.liquorLicence && touched.liquorLicence && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 relative">
-                        <div className="w-full px-3">
-                          <label
-                            htmlFor="description"
-                            className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
-                          >
-                            Description
-                          </label>
-                          <textarea
-                            id="description"
-                            rows={4}
-                            name="description"
-                            onChange={handleChange}
-                            value={values.description}
-                            className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
-                            placeholder="Leave a comment..."
-                            maxLength={256}
-                            defaultValue={""}
-                            style={{
-                              border: errors.description && "1px solid red",
-                            }}
-                          />
-                          {errors.description && (
-                            <p className="mt-2 mb-2 text-red-500">
-                              {errors.description}
-                            </p>
-                          )}
-                          {/* // />  */}
-                          {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
-                        </div>
-                        <div className="w-full mt-5 px-3">
-                          <label
-                            className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
-                            htmlFor="CategoryList"
-                          >
-                            Categories
-                          </label>
-                          <div className="w-full">
-                            <Select
-                              id="CategoryList"
-                              name="categoryList"
-                              isMulti
-                              value={values.categoryList}
-                              onChange={handleCategoriesChange}
-                              isDisabled={!categories.length}
-                              options={categories}
-                              className="basic-multi-select "
-                              classNamePrefix="select"
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <div className="px-6 py-7">
+                      <div className="w-full ">
+                        <div className="flex flex-wrap -mx-3 mb-5">
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="grid-last-name"
+                            >
+                              Trading name
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="grid-last-name"
+                              name="tradingName"
+                              type="text"
+                              placeholder="Trading name"
+                              value={values.tradingName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.tradingName &&
+                                  touched.tradingName &&
+                                  "1px solid red",
+                              }}
                             />
+                            {errors.tradingName && touched.tradingName && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                                {errors.tradingName}
+                              </p>
+                            )}
+                            {errors.tradingName && touched.tradingName && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                            )}
+                          </div>
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm font-medium	 "
+                              htmlFor="grid-last-name"
+                            >
+                              Business name
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="grid-last-name"
+                              type="text"
+                              placeholder="Business name"
+                              name="businessName"
+                              value={values.businessName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.businessName &&
+                                  touched.businessName &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.businessName && touched.businessName && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                {errors.businessName}
+                              </p>
+                            )}
+                            {errors.businessName && touched.businessName && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 relative">
+                          <div className="w-full px-3">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="grid-password"
+                            >
+                              ABN
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="grid-password"
+                              type="text"
+                              placeholder="ABN"
+                              name="abn"
+                              value={values.abn}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.abn && touched.abn && "1px solid red",
+                              }}
+                            />
+                            {errors.abn && touched.abn && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                {errors.abn}
+                              </p>
+                            )}
+                            {errors.abn && touched.abn && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 relative">
+                          <div className="w-full px-3">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="grid-password"
+                            >
+                              Liquor licence
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="grid-password"
+                              type="text"
+                              placeholder="Liquor licence"
+                              name="liquorLicence"
+                              value={values.liquorLicence}
+                              onChange={handleChange}
+                              maxLength={14}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.liquorLicence &&
+                                  touched.liquorLicence &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.liquorLicence && touched.liquorLicence && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                {errors.liquorLicence}
+                              </p>
+                            )}
+                            {errors.liquorLicence && touched.liquorLicence && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 relative">
+                          <div className="w-full px-3">
+                            <label
+                              htmlFor="description"
+                              className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
+                            >
+                              Description
+                            </label>
+                            <textarea
+                              id="description"
+                              rows={4}
+                              name="description"
+                              onChange={handleChange}
+                              value={values.description}
+                              className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
+                              placeholder="Leave a comment..."
+                              maxLength={256}
+                              defaultValue={""}
+                              style={{
+                                border: errors.description && "1px solid red",
+                              }}
+                            />
+                            {errors.description && (
+                              <p className="mt-2 mb-2 text-red-500">
+                                {errors.description}
+                              </p>
+                            )}
+                            {/* // />  */}
+                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                          </div>
+                          <div className="w-full mt-5 px-3">
+                            <label
+                              className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
+                              htmlFor="CategoryList"
+                            >
+                              Categories
+                            </label>
+                            <div className="w-full">
+                              <Select
+                                id="CategoryList"
+                                name="categoryList"
+                                isMulti
+                                value={values.categoryList}
+                                onChange={handleCategoriesChange}
+                                isDisabled={!categories.length}
+                                options={categories}
+                                className="basic-multi-select "
+                                classNamePrefix="select"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Skeleton>
                 </div>
                 {/* Organization Details ---END */}
 
@@ -720,185 +731,192 @@ function Organisation() {
                       Organisation address
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <div className="w-full ">
-                      <div className="flex flex-wrap -mx-3 mb-5 items-start">
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="organisationAddress"
-                          >
-                            Address
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="organisationAddress"
-                            type="text"
-                            placeholder="Address"
-                            name="organisationAddress"
-                            value={values.organisationAddress}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.organisationAddress &&
-                                touched.organisationAddress &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.organisationAddress &&
-                            touched.organisationAddress && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                                {errors.organisationAddress}
-                              </p>
-                            )}
-                          {errors.organisationAddress &&
-                            touched.organisationAddress && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="organisationAddressApartment"
-                          >
-                            Apartment, floor etc. (optional)
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="organisationAddressApartment"
-                            type="text"
-                            placeholder="Apartment, floor etc. (optional)"
-                            name="organisationAddressApartment"
-                            value={values.organisationAddressApartment}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.organisationAddressApartment &&
-                                touched.organisationAddressApartment &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.organisationAddressApartment &&
-                            touched.organisationAddressApartment && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.organisationAddressApartment}
-                              </p>
-                            )}
-                          {errors.organisationAddressApartment &&
-                            touched.organisationAddressApartment && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 items-start">
-                        <div className="w-full md:w-1/3	 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="organisationAddressSuburb"
-                          >
-                            Suburb
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="organisationAddressSuburb"
-                            type="text"
-                            placeholder="Suburb"
-                            name="organisationAddressSuburb"
-                            value={values.organisationAddressSuburb}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.organisationAddressSuburb &&
-                                touched.organisationAddressSuburb &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.organisationAddressSuburb &&
-                            touched.organisationAddressSuburb && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.organisationAddressSuburb}
-                              </p>
-                            )}
-                          {errors.organisationAddressSuburb &&
-                            touched.organisationAddressSuburb && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[31px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                        <div className="w-full md:w-1/3	 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="organisationAddressPostcode"
-                          >
-                            Postcode
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="organisationAddressPostcode"
-                            type="text"
-                            placeholder="Postcode"
-                            name="organisationAddressPostcode"
-                            value={values.organisationAddressPostcode}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.organisationAddressPostcode &&
-                                touched.organisationAddressPostcode &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.organisationAddressPostcode &&
-                            touched.organisationAddressPostcode && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.organisationAddressPostcode}
-                              </p>
-                            )}
-                          {errors.organisationAddressPostcode &&
-                            touched.organisationAddressPostcode && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                        <div className="w-full md:w-1/3	 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                            htmlFor="state"
-                          >
-                            State
-                          </label>
-                          <div className="relative">
-                            <select
-                              value={values.state} // Bind the selected state value to the state variable
-                              onChange={handleChange}
-                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="state"
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <div className="px-6 py-7">
+                      <div className="w-full ">
+                        <div className="flex flex-wrap -mx-3 mb-5 items-start">
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="organisationAddress"
                             >
-                              <option value={""}>Select a state</option>
-                              <option value={"NSW"}>NSW</option>
-                              <option value={"VIC"}>VIC</option>
-                              <option value={"QLD"}>QLD</option>
-                              <option value={"WA"}>WA</option>
-                              <option value={"SA"}>SA</option>
-                              <option value={"TAS"}>TAS</option>
-                              <option value={"ACT"}>ACT</option>
-                              <option value={"NT"}>NT</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                              <svg
-                                className="fill-current h-4 w-4"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
+                              Address
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="organisationAddress"
+                              type="text"
+                              placeholder="Address"
+                              name="organisationAddress"
+                              value={values.organisationAddress}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.organisationAddress &&
+                                  touched.organisationAddress &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.organisationAddress &&
+                              touched.organisationAddress && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                                  {errors.organisationAddress}
+                                </p>
+                              )}
+                            {errors.organisationAddress &&
+                              touched.organisationAddress && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="organisationAddressApartment"
+                            >
+                              Apartment, floor etc. (optional)
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="organisationAddressApartment"
+                              type="text"
+                              placeholder="Apartment, floor etc. (optional)"
+                              name="organisationAddressApartment"
+                              value={values.organisationAddressApartment}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.organisationAddressApartment &&
+                                  touched.organisationAddressApartment &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.organisationAddressApartment &&
+                              touched.organisationAddressApartment && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.organisationAddressApartment}
+                                </p>
+                              )}
+                            {errors.organisationAddressApartment &&
+                              touched.organisationAddressApartment && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 items-start">
+                          <div className="w-full md:w-1/3	 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="organisationAddressSuburb"
+                            >
+                              Suburb
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="organisationAddressSuburb"
+                              type="text"
+                              placeholder="Suburb"
+                              name="organisationAddressSuburb"
+                              value={values.organisationAddressSuburb}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.organisationAddressSuburb &&
+                                  touched.organisationAddressSuburb &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.organisationAddressSuburb &&
+                              touched.organisationAddressSuburb && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.organisationAddressSuburb}
+                                </p>
+                              )}
+                            {errors.organisationAddressSuburb &&
+                              touched.organisationAddressSuburb && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[31px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/3	 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="organisationAddressPostcode"
+                            >
+                              Postcode
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="organisationAddressPostcode"
+                              type="text"
+                              placeholder="Postcode"
+                              name="organisationAddressPostcode"
+                              value={values.organisationAddressPostcode}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.organisationAddressPostcode &&
+                                  touched.organisationAddressPostcode &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.organisationAddressPostcode &&
+                              touched.organisationAddressPostcode && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.organisationAddressPostcode}
+                                </p>
+                              )}
+                            {errors.organisationAddressPostcode &&
+                              touched.organisationAddressPostcode && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/3	 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              htmlFor="state"
+                            >
+                              State
+                            </label>
+                            <div className="relative">
+                              <select
+                                value={values.state} // Bind the selected state value to the state variable
+                                onChange={handleChange}
+                                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="state"
                               >
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                              </svg>
+                                <option value={""}>Select a state</option>
+                                <option value={"NSW"}>NSW</option>
+                                <option value={"VIC"}>VIC</option>
+                                <option value={"QLD"}>QLD</option>
+                                <option value={"WA"}>WA</option>
+                                <option value={"SA"}>SA</option>
+                                <option value={"TAS"}>TAS</option>
+                                <option value={"ACT"}>ACT</option>
+                                <option value={"NT"}>NT</option>
+                              </select>
+                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg
+                                  className="fill-current h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Skeleton>
                 </div>
                 {/* Organization Address ---END  */}
 
@@ -909,201 +927,210 @@ function Organisation() {
                       Billing address
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <div className="w-full">
-                      <div className="flex items-center mb-5">
-                        <input
-                          onChange={handleCheckbox}
-                          id="same-address"
-                          type="checkbox"
-                          name="checkbox"
-                          checked={check}
-                          defaultValue=""
-                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label
-                          htmlFor="same-address"
-                          className="ml-2 sm:text-base text-sm		 font-normal	 text-green dark:text-gray-300"
-                        >
-                          Use same address as Organisation for Billing{" "}
-                        </label>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 items-start">
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
-                            htmlFor="billingAddress"
-                          >
-                            Address
-                          </label>
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <div className="px-6 py-7">
+                      <div className="w-full">
+                        <div className="flex items-center mb-5">
                           <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="billingAddress"
-                            type="text"
-                            placeholder="Address"
-                            name="billingAddress"
-                            value={values.billingAddress}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.billingAddress &&
-                                touched.billingAddress &&
-                                "1px solid red",
-                            }}
+                            onChange={handleCheckbox}
+                            id="same-address"
+                            type="checkbox"
+                            name="checkbox"
+                            checked={check}
+                            defaultValue=""
+                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                           />
-                          {errors.billingAddress && touched.billingAddress && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                              {errors.billingAddress}
-                            </p>
-                          )}
-                          {errors.billingAddress && touched.billingAddress && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                          )}
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 relative">
                           <label
-                            className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
-                            htmlFor="billingAddressApartment"
+                            htmlFor="same-address"
+                            className="ml-2 sm:text-base text-sm		 font-normal	 text-green dark:text-gray-300"
                           >
-                            Apartment, floor etc. (optional)
+                            Use same address as Organisation for Billing{" "}
                           </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="billingAddressApartment"
-                            type="text"
-                            placeholder="Apartment, floor etc. (optional)"
-                            name="billingAddressApartment"
-                            value={values.billingAddressApartment}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.billingAddressApartment &&
-                                touched.billingAddressApartment &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.billingAddressApartment &&
-                            touched.billingAddressApartment && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.billingAddressApartment}
-                              </p>
-                            )}
-                          {errors.billingAddressApartment &&
-                            touched.billingAddressApartment && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
                         </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 items-start">
-                        <div className="w-full md:w-1/3	 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
-                            htmlFor="billingAddressSuburb"
-                          >
-                            Suburb
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="billingAddressSuburb"
-                            type="text"
-                            placeholder="Suburb"
-                            name="billingAddressSuburb"
-                            value={values.billingAddressSuburb}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.billingAddressSuburb &&
-                                touched.billingAddressSuburb &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.billingAddressSuburb &&
-                            touched.billingAddressSuburb && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.billingAddressSuburb}
-                              </p>
-                            )}
-                          {errors.billingAddressSuburb &&
-                            touched.billingAddressSuburb && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                        <div className="w-full md:w-1/3	 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
-                            htmlFor="billingAddressPostcode"
-                          >
-                            Postcode
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="billingAddressPostcode"
-                            type="text"
-                            placeholder="Postcode"
-                            name="billingAddressPostcode"
-                            value={values.billingAddressPostcode}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.billingAddressPostcode &&
-                                touched.billingAddressPostcode &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.billingAddressPostcode &&
-                            touched.billingAddressPostcode && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.billingAddressPostcode}
-                              </p>
-                            )}
-                          {errors.billingAddressPostcode &&
-                            touched.billingAddressPostcode && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                        <div className="w-full md:w-1/3	 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
-                            htmlFor="billingAddressState"
-                          >
-                            State
-                          </label>
-                          <div className="relative">
-                            <select
-                              value={values.billingAddressState} // Bind the selected state value to the state variable
-                              onChange={handleChange}
-                              name="billingAddressState"
-                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="billingAddressState"
+                        <div className="flex flex-wrap -mx-3 mb-5 items-start">
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
+                              htmlFor="billingAddress"
                             >
-                              <option value={""}>Select a state</option>
-                              <option value={"NSW"}>NSW</option>
-                              <option value={"VIC"}>VIC</option>
-                              <option value={"QLD"}>QLD</option>
-                              <option value={"WA"}>WA</option>
-                              <option value={"SA"}>SA</option>
-                              <option value={"TAS"}>TAS</option>
-                              <option value={"ACT"}>ACT</option>
-                              <option value={"NT"}>NT</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                              <svg
-                                className="fill-current h-4 w-4"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
+                              Address
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="billingAddress"
+                              type="text"
+                              placeholder="Address"
+                              name="billingAddress"
+                              value={values.billingAddress}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.billingAddress &&
+                                  touched.billingAddress &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.billingAddress &&
+                              touched.billingAddress && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                                  {errors.billingAddress}
+                                </p>
+                              )}
+                            {errors.billingAddress &&
+                              touched.billingAddress && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
+                              htmlFor="billingAddressApartment"
+                            >
+                              Apartment, floor etc. (optional)
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="billingAddressApartment"
+                              type="text"
+                              placeholder="Apartment, floor etc. (optional)"
+                              name="billingAddressApartment"
+                              value={values.billingAddressApartment}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.billingAddressApartment &&
+                                  touched.billingAddressApartment &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.billingAddressApartment &&
+                              touched.billingAddressApartment && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.billingAddressApartment}
+                                </p>
+                              )}
+                            {errors.billingAddressApartment &&
+                              touched.billingAddressApartment && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 items-start">
+                          <div className="w-full md:w-1/3	 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
+                              htmlFor="billingAddressSuburb"
+                            >
+                              Suburb
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="billingAddressSuburb"
+                              type="text"
+                              placeholder="Suburb"
+                              name="billingAddressSuburb"
+                              value={values.billingAddressSuburb}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.billingAddressSuburb &&
+                                  touched.billingAddressSuburb &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.billingAddressSuburb &&
+                              touched.billingAddressSuburb && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.billingAddressSuburb}
+                                </p>
+                              )}
+                            {errors.billingAddressSuburb &&
+                              touched.billingAddressSuburb && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/3	 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
+                              htmlFor="billingAddressPostcode"
+                            >
+                              Postcode
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="billingAddressPostcode"
+                              type="text"
+                              placeholder="Postcode"
+                              name="billingAddressPostcode"
+                              value={values.billingAddressPostcode}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.billingAddressPostcode &&
+                                  touched.billingAddressPostcode &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.billingAddressPostcode &&
+                              touched.billingAddressPostcode && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.billingAddressPostcode}
+                                </p>
+                              )}
+                            {errors.billingAddressPostcode &&
+                              touched.billingAddressPostcode && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/3	 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-sm		 font-medium	 "
+                              htmlFor="billingAddressState"
+                            >
+                              State
+                            </label>
+                            <div className="relative">
+                              <select
+                                value={values.billingAddressState} // Bind the selected state value to the state variable
+                                onChange={handleChange}
+                                name="billingAddressState"
+                                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="billingAddressState"
                               >
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                              </svg>
+                                <option value={""}>Select a state</option>
+                                <option value={"NSW"}>NSW</option>
+                                <option value={"VIC"}>VIC</option>
+                                <option value={"QLD"}>QLD</option>
+                                <option value={"WA"}>WA</option>
+                                <option value={"SA"}>SA</option>
+                                <option value={"TAS"}>TAS</option>
+                                <option value={"ACT"}>ACT</option>
+                                <option value={"NT"}>NT</option>
+                              </select>
+                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg
+                                  className="fill-current h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Skeleton>
                 </div>
                 {/* Billing Address ---END */}
               </div>
@@ -1115,111 +1142,117 @@ function Organisation() {
                       Organisation logo
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <div className="flex justify-start gap-3 items-center">
-                      <div className="update-user rounded-full">
-                        {logoUri ? (
-                          <img
-                            id="previewImage"
-                            src={logoUri || defaultImage}
-                            alt=""
-                            className="w-[187px]	h-[58px]	object-cover"
-                          />
-                        ) : (
-                          <div className="bg-[#D9D9D9] h-[58px] w-[187px]"></div>
-                        )}
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <div className="px-6 py-7">
+                      <div className="flex justify-start gap-3 items-center">
+                        <div className="update-user rounded-full">
+                          {logoUri ? (
+                            <img
+                              id="previewImage"
+                              src={logoUri || defaultImage}
+                              alt=""
+                              className="w-[187px]	h-[58px]	object-cover"
+                            />
+                          ) : (
+                            <div className="bg-[#D9D9D9] h-[58px] w-[187px]"></div>
+                          )}
+                        </div>
+                        <div className="">
+                          <h6 className="font-normal text-base text-green">
+                            Edit your logo
+                          </h6>
+                          <div className=" pt-1 flex justify-start gap-2">
+                            <p
+                              onClick={handleDelete}
+                              className="text-gray font-normal cursor-pointer text-sm"
+                            >
+                              Delete
+                            </p>
+                            <p
+                              onClick={handleUpdate}
+                              className="text-sm font-normal cursor-pointer text-lime-600"
+                            >
+                              Update
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="">
-                        <h6 className="font-normal text-base text-green">
-                          Edit your logo
-                        </h6>
-                        <div className=" pt-1 flex justify-start gap-2">
-                          <p
-                            onClick={handleDelete}
-                            className="text-gray font-normal cursor-pointer text-sm"
-                          >
-                            Delete
+                      {showError && (
+                        <p className="mt-2 mb-2 text-red-500 text-sm">
+                          Invalid file format. Please upload an image (jpg,
+                          jpeg, png, or gif).
+                        </p>
+                      )}
+                      <div
+                        {...getRootProps()}
+                        className="border-darkGreen border border-dashed	flex justify-center items-center rounded-md	h-44 w-full mt-4"
+                      >
+                        <div className="text-center ">
+                          <div className="download-icon relative mb-3 mx-auto border rounded-full border-inherit bg-white flex justify-center items-center w-10	h-10">
+                            <input
+                              {...getInputProps()}
+                              type="file"
+                              accept="image/*"
+                              ref={fileInputRef}
+                              className="download-file w-full h-full rounded-full absolute opacity-0	"
+                              // value={imageSrc}
+                            />
+                            <svg
+                              width={16}
+                              height={16}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M1.99992 9.33325C2.36811 9.33325 2.66659 9.63173 2.66659 9.99992V12.6666C2.66659 12.8434 2.73682 13.013 2.86185 13.138C2.98687 13.263 3.15644 13.3333 3.33325 13.3333H12.6666C12.8434 13.3333 13.013 13.263 13.138 13.138C13.263 13.013 13.3333 12.8434 13.3333 12.6666V9.99992C13.3333 9.63173 13.6317 9.33325 13.9999 9.33325C14.3681 9.33325 14.6666 9.63173 14.6666 9.99992V12.6666C14.6666 13.197 14.4559 13.7057 14.0808 14.0808C13.7057 14.4559 13.197 14.6666 12.6666 14.6666H3.33325C2.80282 14.6666 2.29411 14.4559 1.91904 14.0808C1.54397 13.7057 1.33325 13.197 1.33325 12.6666V9.99992C1.33325 9.63173 1.63173 9.33325 1.99992 9.33325Z"
+                                fill="#147D73"
+                              />
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M7.5286 1.52851C7.78894 1.26816 8.21106 1.26816 8.4714 1.52851L11.8047 4.86185C12.0651 5.1222 12.0651 5.54431 11.8047 5.80466C11.5444 6.06501 11.1223 6.06501 10.8619 5.80466L8 2.94273L5.13807 5.80466C4.87772 6.06501 4.45561 6.06501 4.19526 5.80466C3.93491 5.54431 3.93491 5.1222 4.19526 4.86185L7.5286 1.52851Z"
+                                fill="#147D73"
+                              />
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M7.99992 1.33325C8.36811 1.33325 8.66659 1.63173 8.66659 1.99992V9.99992C8.66659 10.3681 8.36811 10.6666 7.99992 10.6666C7.63173 10.6666 7.33325 10.3681 7.33325 9.99992V1.99992C7.33325 1.63173 7.63173 1.33325 7.99992 1.33325Z"
+                                fill="#147D73"
+                              />
+                            </svg>
+                          </div>
+
+                          {isDragActive ? (
+                            <p className="text-xs	text-gray leading-5 font-normal">
+                              Drop the files here ...
+                            </p>
+                          ) : (
+                            <p className="text-xs	text-gray leading-5 font-normal	">
+                              <span className="text-lime-600 	">
+                                Click to upload
+                              </span>{" "}
+                              or drag and drop
+                            </p>
+                          )}
+
+                          <p className="text-xs text-gray	font-normal leading-5">
+                            SVG, PNG or JPG{" "}
                           </p>
-                          <p
-                            onClick={handleUpdate}
-                            className="text-sm font-normal cursor-pointer text-lime-600"
-                          >
-                            Update
+                          <p className="text-xs text-gray	font-normal leading-5">
+                            (max, 800 X 800px)
                           </p>
                         </div>
                       </div>
                     </div>
-                    {showError && (
-                      <p className="mt-2 mb-2 text-red-500 text-sm">
-                        Invalid file format. Please upload an image (jpg, jpeg,
-                        png, or gif).
-                      </p>
-                    )}
-                    <div
-                      {...getRootProps()}
-                      className="border-darkGreen border border-dashed	flex justify-center items-center rounded-md	h-44 w-full mt-4"
-                    >
-                      <div className="text-center ">
-                        <div className="download-icon relative mb-3 mx-auto border rounded-full border-inherit bg-white flex justify-center items-center w-10	h-10">
-                          <input
-                            {...getInputProps()}
-                            type="file"
-                            accept="image/*"
-                            ref={fileInputRef}
-                            className="download-file w-full h-full rounded-full absolute opacity-0	"
-                            // value={imageSrc}
-                          />
-                          <svg
-                            width={16}
-                            height={16}
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M1.99992 9.33325C2.36811 9.33325 2.66659 9.63173 2.66659 9.99992V12.6666C2.66659 12.8434 2.73682 13.013 2.86185 13.138C2.98687 13.263 3.15644 13.3333 3.33325 13.3333H12.6666C12.8434 13.3333 13.013 13.263 13.138 13.138C13.263 13.013 13.3333 12.8434 13.3333 12.6666V9.99992C13.3333 9.63173 13.6317 9.33325 13.9999 9.33325C14.3681 9.33325 14.6666 9.63173 14.6666 9.99992V12.6666C14.6666 13.197 14.4559 13.7057 14.0808 14.0808C13.7057 14.4559 13.197 14.6666 12.6666 14.6666H3.33325C2.80282 14.6666 2.29411 14.4559 1.91904 14.0808C1.54397 13.7057 1.33325 13.197 1.33325 12.6666V9.99992C1.33325 9.63173 1.63173 9.33325 1.99992 9.33325Z"
-                              fill="#147D73"
-                            />
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M7.5286 1.52851C7.78894 1.26816 8.21106 1.26816 8.4714 1.52851L11.8047 4.86185C12.0651 5.1222 12.0651 5.54431 11.8047 5.80466C11.5444 6.06501 11.1223 6.06501 10.8619 5.80466L8 2.94273L5.13807 5.80466C4.87772 6.06501 4.45561 6.06501 4.19526 5.80466C3.93491 5.54431 3.93491 5.1222 4.19526 4.86185L7.5286 1.52851Z"
-                              fill="#147D73"
-                            />
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M7.99992 1.33325C8.36811 1.33325 8.66659 1.63173 8.66659 1.99992V9.99992C8.66659 10.3681 8.36811 10.6666 7.99992 10.6666C7.63173 10.6666 7.33325 10.3681 7.33325 9.99992V1.99992C7.33325 1.63173 7.63173 1.33325 7.99992 1.33325Z"
-                              fill="#147D73"
-                            />
-                          </svg>
-                        </div>
-
-                        {isDragActive ? (
-                          <p className="text-xs	text-gray leading-5 font-normal">
-                            Drop the files here ...
-                          </p>
-                        ) : (
-                          <p className="text-xs	text-gray leading-5 font-normal	">
-                            <span className="text-lime-600 	">
-                              Click to upload
-                            </span>{" "}
-                            or drag and drop
-                          </p>
-                        )}
-
-                        <p className="text-xs text-gray	font-normal leading-5">
-                          SVG, PNG or JPG{" "}
-                        </p>
-                        <p className="text-xs text-gray	font-normal leading-5">
-                          (max, 800 X 800px)
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  {<img src={logoUri} alt="" />}
+                  </Skeleton>
                 </div>
                 {/* Organization Logo ---END */}
 
@@ -1230,186 +1263,193 @@ function Organisation() {
                       Ordering contact
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <div className="w-full ">
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="orderingContactFirstName"
-                          >
-                            First name
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="orderingContactFirstName"
-                            type="text"
-                            placeholder="First name"
-                            name="orderingContactFirstName"
-                            value={values.orderingContactFirstName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            onKeyPress={(event) => {
-                              const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
-                              if (!allowedCharacters.test(event.key)) {
-                                event.preventDefault();
-                              }
-                            }}
-                            style={{
-                              border:
-                                errors.orderingContactFirstName &&
-                                touched.orderingContactFirstName &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.orderingContactFirstName &&
-                            touched.orderingContactFirstName && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                                {errors.orderingContactFirstName}
-                              </p>
-                            )}
-                          {errors.orderingContactFirstName &&
-                            touched.orderingContactFirstName && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="orderingContactLastName"
-                          >
-                            Last name
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="orderingContactLastName"
-                            type="text"
-                            placeholder="Last name"
-                            name="orderingContactLastName"
-                            value={values.orderingContactLastName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            onKeyPress={(event) => {
-                              const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
-                              if (!allowedCharacters.test(event.key)) {
-                                event.preventDefault();
-                              }
-                            }}
-                            style={{
-                              border:
-                                errors.orderingContactLastName &&
-                                touched.orderingContactLastName &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.orderingContactLastName &&
-                            touched.orderingContactLastName && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.orderingContactLastName}
-                              </p>
-                            )}
-                          {errors.orderingContactLastName &&
-                            touched.orderingContactLastName && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 relative">
-                        <div className="w-full px-3">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="orderingContactEmail"
-                          >
-                            Email
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="orderingContactEmail"
-                            type="email"
-                            placeholder="Email"
-                            name="orderingContactEmail"
-                            value={values.orderingContactEmail}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.orderingContactEmail &&
-                                touched.orderingContactEmail &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.orderingContactEmail &&
-                            touched.orderingContactEmail && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.orderingContactEmail}
-                              </p>
-                            )}
-                          {errors.orderingContactEmail &&
-                            touched.orderingContactEmail && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                          {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5 relative">
-                        <div className="w-full px-3">
-                          <label
-                            className="tracking-wide text-gray-700 text-base flex items-center	 font-medium	 "
-                            htmlFor="orderingContactMobile"
-                          >
-                            Mobile
-                            <CustomTooltip
-                              placement="right"
-                              arrow
-                              title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <div className="px-6 py-7">
+                      <div className="w-full ">
+                        <div className="flex flex-wrap -mx-3 mb-5">
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                              htmlFor="orderingContactFirstName"
                             >
-                              <HelpIcon
-                                sx={{
-                                  color: "#E0E0E0",
-                                  width: "20px",
-                                  marginLeft: "10px",
-                                }}
-                              />{" "}
-                            </CustomTooltip>
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="orderingContactMobile"
-                            type="text"
-                            placeholder="Mobile No"
-                            name="orderingContactMobile"
-                            value={values.orderingContactMobile}
-                            onChange={handleChange}
-                            maxLength={20}
-                            onBlur={handleBlur}
-                            onKeyPress={(event) => {
-                              const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
-                              if (!allowedCharacters.test(event.key)) {
-                                event.preventDefault();
-                              }
-                            }}
-                            style={{
-                              border:
-                                errors.orderingContactMobile &&
-                                touched.orderingContactMobile &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.orderingContactMobile &&
-                            touched.orderingContactMobile && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
-                                {errors.orderingContactMobile}
-                              </p>
-                            )}
-                          {errors.orderingContactMobile &&
-                            touched.orderingContactMobile && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                          {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                              First name
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="orderingContactFirstName"
+                              type="text"
+                              placeholder="First name"
+                              name="orderingContactFirstName"
+                              value={values.orderingContactFirstName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              onKeyPress={(event) => {
+                                const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                                if (!allowedCharacters.test(event.key)) {
+                                  event.preventDefault();
+                                }
+                              }}
+                              style={{
+                                border:
+                                  errors.orderingContactFirstName &&
+                                  touched.orderingContactFirstName &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.orderingContactFirstName &&
+                              touched.orderingContactFirstName && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                                  {errors.orderingContactFirstName}
+                                </p>
+                              )}
+                            {errors.orderingContactFirstName &&
+                              touched.orderingContactFirstName && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                              htmlFor="orderingContactLastName"
+                            >
+                              Last name
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="orderingContactLastName"
+                              type="text"
+                              placeholder="Last name"
+                              name="orderingContactLastName"
+                              value={values.orderingContactLastName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              onKeyPress={(event) => {
+                                const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                                if (!allowedCharacters.test(event.key)) {
+                                  event.preventDefault();
+                                }
+                              }}
+                              style={{
+                                border:
+                                  errors.orderingContactLastName &&
+                                  touched.orderingContactLastName &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.orderingContactLastName &&
+                              touched.orderingContactLastName && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.orderingContactLastName}
+                                </p>
+                              )}
+                            {errors.orderingContactLastName &&
+                              touched.orderingContactLastName && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 relative">
+                          <div className="w-full px-3">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                              htmlFor="orderingContactEmail"
+                            >
+                              Email
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="orderingContactEmail"
+                              type="email"
+                              placeholder="Email"
+                              name="orderingContactEmail"
+                              value={values.orderingContactEmail}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.orderingContactEmail &&
+                                  touched.orderingContactEmail &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.orderingContactEmail &&
+                              touched.orderingContactEmail && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.orderingContactEmail}
+                                </p>
+                              )}
+                            {errors.orderingContactEmail &&
+                              touched.orderingContactEmail && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 relative">
+                          <div className="w-full px-3">
+                            <label
+                              className="tracking-wide text-gray-700 text-base flex items-center	 font-medium	 "
+                              htmlFor="orderingContactMobile"
+                            >
+                              Mobile
+                              <CustomTooltip
+                                placement="right"
+                                arrow
+                                title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                              >
+                                <HelpIcon
+                                  sx={{
+                                    color: "#E0E0E0",
+                                    width: "20px",
+                                    marginLeft: "10px",
+                                  }}
+                                />{" "}
+                              </CustomTooltip>
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="orderingContactMobile"
+                              type="text"
+                              placeholder="Mobile No"
+                              name="orderingContactMobile"
+                              value={values.orderingContactMobile}
+                              onChange={handleChange}
+                              maxLength={20}
+                              onBlur={handleBlur}
+                              onKeyPress={(event) => {
+                                const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                                if (!allowedCharacters.test(event.key)) {
+                                  event.preventDefault();
+                                }
+                              }}
+                              style={{
+                                border:
+                                  errors.orderingContactMobile &&
+                                  touched.orderingContactMobile &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.orderingContactMobile &&
+                              touched.orderingContactMobile && (
+                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                  {errors.orderingContactMobile}
+                                </p>
+                              )}
+                            {errors.orderingContactMobile &&
+                              touched.orderingContactMobile && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Skeleton>
                 </div>
                 {/* Organization Contact ---END */}
 
@@ -1420,174 +1460,181 @@ function Organisation() {
                       Logistics contact
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <div className="w-full ">
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium"
-                            htmlFor="LogisticsContactFirstName"
-                          >
-                            First name
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="LogisticsContactFirstName"
-                            type="text"
-                            placeholder="First name"
-                            name="LogisticsContactFirstName"
-                            value={values.LogisticsContactFirstName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.LogisticsContactFirstName &&
-                                touched.LogisticsContactFirstName &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.LogisticsContactFirstName &&
-                            touched.LogisticsContactFirstName && (
-                              <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
-                                {errors.LogisticsContactFirstName}
-                              </p>
-                            )}
-                          {errors.LogisticsContactFirstName &&
-                            touched.LogisticsContactFirstName && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="LogisticsContactLastName"
-                          >
-                            Last name
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="LogisticsContactLastName"
-                            type="text"
-                            placeholder="Last name"
-                            name="LogisticsContactLastName"
-                            value={values.LogisticsContactLastName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.LogisticsContactLastName &&
-                                touched.LogisticsContactLastName &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.LogisticsContactLastName &&
-                            touched.LogisticsContactLastName && (
-                              <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
-                                {errors.LogisticsContactLastName}
-                              </p>
-                            )}
-                          {errors.LogisticsContactLastName &&
-                            touched.LogisticsContactLastName && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="LogisticsContactEmail"
-                          >
-                            Email
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="LogisticsContactEmail"
-                            type="email"
-                            placeholder="Email"
-                            name="LogisticsContactEmail"
-                            value={values.LogisticsContactEmail}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.LogisticsContactEmail &&
-                                touched.LogisticsContactEmail &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.LogisticsContactEmail &&
-                            touched.LogisticsContactEmail && (
-                              <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
-                                {errors.LogisticsContactEmail}
-                              </p>
-                            )}
-                          {errors.LogisticsContactEmail &&
-                            touched.LogisticsContactEmail && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                          {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full px-3 relative">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="LogisticsContactMobile"
-                          >
-                            Mobile
-                            <CustomTooltip
-                              placement="right"
-                              arrow
-                              title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <div className="px-6 py-7">
+                      <div className="w-full ">
+                        <div className="flex flex-wrap -mx-3 mb-5">
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium"
+                              htmlFor="LogisticsContactFirstName"
                             >
-                              <HelpIcon
-                                sx={{
-                                  color: "#E0E0E0",
-                                  width: "20px",
-                                  marginLeft: "10px",
-                                }}
-                              />{" "}
-                            </CustomTooltip>
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="LogisticsContactMobile"
-                            type="text"
-                            placeholder="Mobile No"
-                            name="LogisticsContactMobile"
-                            value={values.LogisticsContactMobile}
-                            onChange={handleChange}
-                            maxLength={20}
-                            onKeyPress={(event) => {
-                              const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
-                              if (!allowedCharacters.test(event.key)) {
-                                event.preventDefault();
-                              }
-                            }}
-                            onBlur={handleBlur}
-                            style={{
-                              border:
-                                errors.LogisticsContactMobile &&
-                                touched.LogisticsContactMobile &&
-                                "1px solid red",
-                            }}
-                          />
-                          {errors.LogisticsContactMobile &&
-                            touched.LogisticsContactMobile && (
-                              <p className="mt-2 mb-2 text-red-500 font-normal	text-xs	">
-                                {errors.LogisticsContactMobile}
-                              </p>
-                            )}
-                          {errors.LogisticsContactMobile &&
-                            touched.LogisticsContactMobile && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-                            )}
-                          {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                              First name
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="LogisticsContactFirstName"
+                              type="text"
+                              placeholder="First name"
+                              name="LogisticsContactFirstName"
+                              value={values.LogisticsContactFirstName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.LogisticsContactFirstName &&
+                                  touched.LogisticsContactFirstName &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.LogisticsContactFirstName &&
+                              touched.LogisticsContactFirstName && (
+                                <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
+                                  {errors.LogisticsContactFirstName}
+                                </p>
+                              )}
+                            {errors.LogisticsContactFirstName &&
+                              touched.LogisticsContactFirstName && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                              htmlFor="LogisticsContactLastName"
+                            >
+                              Last name
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="LogisticsContactLastName"
+                              type="text"
+                              placeholder="Last name"
+                              name="LogisticsContactLastName"
+                              value={values.LogisticsContactLastName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.LogisticsContactLastName &&
+                                  touched.LogisticsContactLastName &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.LogisticsContactLastName &&
+                              touched.LogisticsContactLastName && (
+                                <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
+                                  {errors.LogisticsContactLastName}
+                                </p>
+                              )}
+                            {errors.LogisticsContactLastName &&
+                              touched.LogisticsContactLastName && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5">
+                          <div className="w-full px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                              htmlFor="LogisticsContactEmail"
+                            >
+                              Email
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="LogisticsContactEmail"
+                              type="email"
+                              placeholder="Email"
+                              name="LogisticsContactEmail"
+                              value={values.LogisticsContactEmail}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.LogisticsContactEmail &&
+                                  touched.LogisticsContactEmail &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.LogisticsContactEmail &&
+                              touched.LogisticsContactEmail && (
+                                <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
+                                  {errors.LogisticsContactEmail}
+                                </p>
+                              )}
+                            {errors.LogisticsContactEmail &&
+                              touched.LogisticsContactEmail && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5">
+                          <div className="w-full px-3 relative">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                              htmlFor="LogisticsContactMobile"
+                            >
+                              Mobile
+                              <CustomTooltip
+                                placement="right"
+                                arrow
+                                title="Please use a valid prefix for an Australian mobile number. It should start with '04', '+61', or '61'."
+                              >
+                                <HelpIcon
+                                  sx={{
+                                    color: "#E0E0E0",
+                                    width: "20px",
+                                    marginLeft: "10px",
+                                  }}
+                                />{" "}
+                              </CustomTooltip>
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="LogisticsContactMobile"
+                              type="text"
+                              placeholder="Mobile No"
+                              name="LogisticsContactMobile"
+                              value={values.LogisticsContactMobile}
+                              onChange={handleChange}
+                              maxLength={20}
+                              onKeyPress={(event) => {
+                                const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+                                if (!allowedCharacters.test(event.key)) {
+                                  event.preventDefault();
+                                }
+                              }}
+                              onBlur={handleBlur}
+                              style={{
+                                border:
+                                  errors.LogisticsContactMobile &&
+                                  touched.LogisticsContactMobile &&
+                                  "1px solid red",
+                              }}
+                            />
+                            {errors.LogisticsContactMobile &&
+                              touched.LogisticsContactMobile && (
+                                <p className="mt-2 mb-2 text-red-500 font-normal	text-xs	">
+                                  {errors.LogisticsContactMobile}
+                                </p>
+                              )}
+                            {errors.LogisticsContactMobile &&
+                              touched.LogisticsContactMobile && (
+                                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+                              )}
+                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Skeleton>
                 </div>
                 {/* Logistics Contact ---END */}
               </div>

@@ -7,6 +7,7 @@ import "../style.css";
 import { Typography, CardBody, CardFooter } from "@material-tailwind/react";
 import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 import { PaginationNav1Presentation } from "./Pagination";
+import { Avatar, List, Skeleton, Switch } from "antd";
 const TABLE_HEAD = [
   "Title",
   "Code",
@@ -16,7 +17,7 @@ const TABLE_HEAD = [
   " Status",
 ];
 function Range() {
-  const childRef = useRef(null)
+  const childRef = useRef(null);
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [products, setProducts] = useState([]);
   const [prevProducts, setPrevProducts] = useState([]);
@@ -27,11 +28,11 @@ function Range() {
   const [pageIndex, setPageIndex] = useState(1);
   const navigate = useNavigate();
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getProductList(1);
-    getAllproduct()
+    getAllproduct();
   }, []);
 
   const getAllproduct = () => {
@@ -51,8 +52,13 @@ function Range() {
         setTotalPages(data.last_page);
         setPages(array);
       })
+      .then(() => {
+        // setTimeout(() =>{
+        //   setLoading(false)
+        // },5000)
+      })
       .catch((error) => console.log(error));
-  }
+  };
 
   const getProductList = (values) => {
     if (childRef.current) {
@@ -63,15 +69,14 @@ function Range() {
 
   const handleSelectAllChange = (e) => {
     console.log("flag >>", e);
-    const checked = e.target.checked
-    checked ? setSelectedProducts([...products]) : setSelectedProducts([])
+    const checked = e.target.checked;
+    checked ? setSelectedProducts([...products]) : setSelectedProducts([]);
     setIsBulkEdit(true);
     if (!checked) {
-      setIsBulkEdit(false)
+      setIsBulkEdit(false);
     }
     console.log("selected products >>", selectedProducts);
   };
-
 
   const handleBulkEdit = () => {
     localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
@@ -80,15 +85,16 @@ function Range() {
 
   const handleCheckbox = (e, product) => {
     const checked = e.target.checked;
-    const updatedSelectedProducts = checked ? [...selectedProducts, product] : selectedProducts.filter((prod) => prod !== product);
+    const updatedSelectedProducts = checked
+      ? [...selectedProducts, product]
+      : selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
     setIsBulkEdit(updatedSelectedProducts.length > 1);
     console.log("selected products >>", selectedProducts);
   };
 
-  // visibility handle 
+  // visibility handle
   const handleBulkVisibility = (name) => {
-
     fetch(
       `https://product-api-foboh.azurewebsites.net/api/Product/bulkupdate`,
       {
@@ -106,7 +112,7 @@ function Range() {
               globalPrice: product.salePrice,
               buyPrice: product.buyPrice,
               availableQty: product.stockAlertLevel,
-              visibility: name === 'visible' ? true : false,
+              visibility: name === "visible" ? true : false,
               productStatus: product.productStatus,
             };
           })
@@ -116,12 +122,11 @@ function Range() {
       .then((response) => response.json())
       .then((data) => {
         console.log("response data:", data);
-        setIsBulkEdit(false)
-        getAllproduct()
+        setIsBulkEdit(false);
+        getAllproduct();
       })
       .catch((error) => console.log(error));
   };
-
 
   const stockStatus = (availableQty, stockThreshold) => {
     if (availableQty === 0) {
@@ -197,7 +202,8 @@ function Range() {
           />
         </div>
         <div className="pt-6 px-6 relative">
-          <div className="box-4 relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white"
+          <div
+            className="box-4 relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white"
             style={{ height: "435px" }}
           >
             <CardBody className="p-0">
@@ -241,91 +247,105 @@ function Range() {
                       : "p-4 border-b border-blue-gray-50 ";
 
                     return (
-                      <tr key={name}>
-                        <td className={classes}>
-                          <div className="flex items-center gap-3">
-                            <input
-                              id="default-checkbox"
-                              type="checkbox"
-                              name={product.title}
-                              checked={selectedProducts.includes(product) ? true : false}
-                              onClick={(e) => handleCheckbox(e, product)}
-                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                            />
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center gap-3">
-                            {product.productImageUrls ? (
-                              <>
-                                <div className="">
-                                  <img
-                                    src={product.productImageUrls[0]}
-                                    alt=""
-                                    className="object-cover	"
-                                    style={{
-                                      borderRadius: "6px",
-                                      height: "40px",
-                                      width: "40px",
-                                    }}
-                                  />
-                                </div>
-                              </>
-                            ) : (
-                              <div
-                                className=" rounded-[6px] bg-[#D9D9D9]"
-                                style={{
-                                  height: "40px",
-                                  width: "40px",
-                                  borderRadius: "6px",
-                                }}
-                              ></div>
-                            )}
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div
-                            onClick={() =>
-                              navigate(
-                                `/dashboard/view-product/${product.productId}`
-                              )
-                            }
-                            className="flex items-center gap-3"
-                          >
-                            <Typography className="font-medium	md:text-base text-sm text-[#637381]">
-                              {product.title}
+                      <Skeleton
+                        style={{
+                          padding: "10px",
+                          width: "100%",
+                        }}
+                        loading={loading}
+                        active
+                        avatar
+                      >
+                        <tr key={name}>
+                          <td className={classes}>
+                            <div className="flex items-center gap-3">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                name={product.title}
+                                checked={
+                                  selectedProducts.includes(product)
+                                    ? true
+                                    : false
+                                }
+                                onClick={(e) => handleCheckbox(e, product)}
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+                            </div>
+                          </td>
+                          <td className={classes}>
+                            <div className="flex items-center gap-3">
+                              {product.productImageUrls ? (
+                                <>
+                                  <div className="">
+                                    <img
+                                      src={product.productImageUrls[0]}
+                                      alt=""
+                                      className="object-cover	"
+                                      style={{
+                                        borderRadius: "6px",
+                                        height: "40px",
+                                        width: "40px",
+                                      }}
+                                    />
+                                  </div>
+                                </>
+                              ) : (
+                                <div
+                                  className=" rounded-[6px] bg-[#D9D9D9]"
+                                  style={{
+                                    height: "40px",
+                                    width: "40px",
+                                    borderRadius: "6px",
+                                  }}
+                                ></div>
+                              )}
+                            </div>
+                          </td>
+                          <td className={classes}>
+                            <div
+                              onClick={() =>
+                                navigate(
+                                  `/dashboard/view-product/${product.productId}`
+                                )
+                              }
+                              className="flex items-center gap-3"
+                            >
+                              <Typography className="font-medium	md:text-base text-sm text-[#637381]">
+                                {product.title}
+                              </Typography>
+                            </div>
+                          </td>
+                          <td className={classes}>
+                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                              {product.skUcode}
                             </Typography>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                            {product.skUcode}
-                          </Typography>
-                        </td>
-                        <td className={`${classes} w-44`}>
-                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                            {product.configuration}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                            {`$${product.globalPrice}`}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          {stockStatus(
-                            product.availableQty,
-                            product.stockThreshold
-                          )}
-                        </td>
-                        <td className={classes}>
-                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                            {product.stockStatus}
-                            <br />
-                            {product.visibility ? "Visible" : "Hidden"}
-                          </Typography>
-                        </td>
-                      </tr>
+                          </td>
+                          <td className={`${classes} w-44`}>
+                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                              {product.configuration}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                              {`$${product.globalPrice}`}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            {stockStatus(
+                              product.availableQty,
+                              product.stockThreshold
+                            )}
+                          </td>
+                          <td className={classes}>
+                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                              {product.stockStatus}
+                              <br />
+                              {product.visibility ? "Visible" : "Hidden"}
+                            </Typography>
+                          </td>
+                        </tr>
+                      </Skeleton>
                     );
                   })}
                 </tbody>
@@ -351,13 +371,19 @@ function Range() {
                 </h6>
               </button>
 
-              <button onClick={() => handleBulkVisibility("visible")} className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <button
+                onClick={() => handleBulkVisibility("visible")}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              >
                 <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
                   Set as Visible{" "}
                 </h6>
               </button>
 
-              <button onClick={() => handleBulkVisibility("hidden")} className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+              <button
+                onClick={() => handleBulkVisibility("hidden")}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              >
                 <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
                   Set as Hidden{" "}
                 </h6>
