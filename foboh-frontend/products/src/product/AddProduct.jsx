@@ -257,7 +257,7 @@ function AddProduct() {
     }
   };
 
-  // Product Listing Handlers ---START
+  //  Handlers ---START
   const [selectedState, setSelectedState] = useState("");
 
   const regionAvailability = [
@@ -309,7 +309,7 @@ function AddProduct() {
       status: event.target.value,
     });
   };
-  // Product Listing Handlers ---END
+  //  Handlers ---END
 
   // Inventory ----START
   const handleMinimumOrderQuantity = (e) => {
@@ -746,12 +746,12 @@ function AddProduct() {
               </div>
             </label>
 
-            {/* Product Listing  */}
+            {/*   */}
             <div className="rounded-lg	border border-inherit	bg-white">
               <div className="border-b border-inherit  py-3 px-5">
                 <h5 className="font-medium	text-lg	text-green">
                   {" "}
-                  Product listing{" "}
+                  {" "}
                 </h5>
               </div>
               <div className="p-5">
@@ -943,7 +943,7 @@ function AddProduct() {
                 <div className="pb-5">
                   <div className=" flex justify-between items-center mb-3">
                     <h5 className="text-green text-base font-medium">
-                      Sell when out of stack
+                      Sell when out of stock
                     </h5>
                     <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                       <input
