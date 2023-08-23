@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "better-react-carousel";
-import axios from "axios";
-import swal from "sweetalert";
-function TopRatedSection({ count, setCount, setAddData, addData }) {
+// import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "../store/CartSlice";
+import { fetchProduct } from "../store/ProductSlice";
+function TopRatedSection() {
   const [CartData, setCartData] = useState([]);
-  const data = () => {
-    axios.get("https://fakestoreapi.com/products").then((resp) => {
-      console.log(resp.data);
-      setCartData(resp.data);
-    });
-  };
-  console.log(CartData, "CartDataCartData");
-
-  const [addItem, setAddItem] = useState([]);
+  // const data = () => {
+  //   axios.get("https://fakestoreapi.com/products").then((resp) => {
+  //     console.log(resp.data);
+  //     setCartData(resp.data);
+  //   });
+  // };
+  const data = useSelector((state) => state.product);
+  // const ProductData = [data];
+  const dispatch = useDispatch();
   const addCart = (item) => {
-    // if (CartData.includes(item)) {
-    //   swal("this item is already in cart");
-    // } else {
-    //   console.log(false);
-    //   setAddData([...addItem, item]);
-    //   setCount(count + 1);
-    // }
-    setAddData([...addItem, item]);
-    setCount(count + 1);
+    dispatch(add(item));
   };
   useEffect(() => {
-    data();
-    setAddItem(addData);
-  }, [addData]);
+    dispatch(fetchProduct());
+    // data();
+  }, []);
   return (
     <>
       <div className="top-rated-section md:w-4/5	w-full mx-auto ">
@@ -44,9 +38,7 @@ function TopRatedSection({ count, setCount, setAddData, addData }) {
         </div>
 
         <Carousel cols={4} rows={1} gap={10} mobileBreakpoint={575} loop>
-          {/* { base: 2, sm: 2, md: 3, xl: 4 } */}
-
-          {CartData.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <Carousel.Item>
                 <div className="border border-inherit rounded-lg">

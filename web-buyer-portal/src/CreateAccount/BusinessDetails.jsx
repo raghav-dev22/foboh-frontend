@@ -7,22 +7,7 @@ function BusinessDetails({
   handleChange,
   touched,
 }) {
-
   console.log("errors", errors);
-  // const initialValues = {
-  //   BusinessName: "",
-  //   ABN: "",
-  //   LiquerLicence: "",
-  // };
-
-  // const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-  //   useFormik({
-  //     initialValues: initialValues,
-  //     validationSchema: BusinessDetailsSchema,
-  //     onSubmit: (values) => {
-  //       console.log(values);
-  //     },
-  //   });
   return (
     <>
       <div className="flex flex-col justify-center">
@@ -46,15 +31,12 @@ function BusinessDetails({
               type="text"
               id="BusinessName"
               name="BusinessName"
-              //   autoComplete="on"
               className="pl-custom-left"
               value={values.BusinessName}
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border:
-                errors.BusinessName &&
-                  "1px solid red",
+                border: errors.BusinessName && "1px solid red",
               }}
             />
             {errors.BusinessName && (
@@ -62,7 +44,7 @@ function BusinessDetails({
                 {errors.BusinessName}
               </p>
             )}
-            {errors.BusinessName &&  (
+            {errors.BusinessName && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
             <div className=" absolute top-[50px] left-4">
@@ -144,18 +126,15 @@ function BusinessDetails({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border:
-                  errors.LiquerLicence &&
-                 
-                  "1px solid red",
+                border: errors.LiquerLicence && "1px solid red",
               }}
             />
-            {errors.LiquerLicence &&(
+            {errors.LiquerLicence && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.LiquerLicence}
               </p>
             )}
-            {errors.LiquerLicence &&(
+            {errors.LiquerLicence && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
 

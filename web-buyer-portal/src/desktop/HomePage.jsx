@@ -13,15 +13,10 @@ function HomePage() {
   const [addData, setAddData] = useState([]);
   return (
     <>
-      <Header count={count} addData={addData} />
+      <Header />
       <Banner />
       <ShopSection />
-      <TopRatedSection
-        count={count}
-        setCount={setCount}
-        addData={addData}
-        setAddData={setAddData}
-      />
+      <TopRatedSection />
       <ShopBrandSection />
       <Footer />
       <BottomToTop />

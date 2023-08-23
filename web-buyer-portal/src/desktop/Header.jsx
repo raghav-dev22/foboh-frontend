@@ -12,8 +12,11 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LogoutIcon from "@mui/icons-material/Logout";
-import DeleteIcon from "@mui/icons-material/Delete";
-function Header({ count, addData }) {
+
+import Cart from "./Cart";
+import { useSelector } from "react-redux";
+function Header() {
+  const selector = useSelector((items) => items.cart);
   const [wine, setWine] = useState(false);
   const [lists, setLists] = useState(false);
   const [orders, setOrders] = useState(false);
@@ -23,7 +26,6 @@ function Header({ count, addData }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
-  const [number, setNumber] = useState(0);
   const wineData = [
     { title: "All products" },
     { title: "Sparkling" },
@@ -33,18 +35,6 @@ function Header({ count, addData }) {
     { title: "Red" },
     { title: "Dessert" },
   ];
-  const removeItem = (item) => {
-    const filteredData = CARTdata.filter((CARTitem) => {
-      return CARTitem.id !== item.id;
-    });
-    setCARTData(filteredData);
-  };
-  const data = addData;
-  const [CARTdata, setCARTData] = useState([]);
-  useEffect(() => {
-    setCARTData(data);
-  }, [data]);
-  console.log(CARTdata, "CARTdataCARTdata");
   const WineDropDown = () => {
     setWine(!wine);
     setLists(false);
@@ -215,7 +205,9 @@ function Header({ count, addData }) {
           >
             <ShoppingCartIcon className="icon-svg" />
             <div className=" absolute top-[-4px] right-[-2px] cart-box w-[15px] h-[15px] rounded-full bg-[#563FE3] flex justify-center items-center">
-              <p className="text-white text-[8px] font-normal">{count}</p>
+              <p className="text-white text-[8px] font-normal">
+                {selector.length}
+              </p>
             </div>
           </div>
         </div>
@@ -516,106 +508,7 @@ function Header({ count, addData }) {
                   </div>
                 </Link>
               </div>
-              <div className="mx-5 mt-8">
-                {CARTdata.length === 0 ? (
-                  <h5 className="text-sm font-bold text-center  pt-8 mt-8 flow-root border-t border-[#CDCED6] ">
-                    Your cart is empty.
-                  </h5>
-                ) : (
-                  <>
-                    {CARTdata.map((item, index) => {
-                      return (
-                        <>
-                          <div className="box  my-4 relative cartbox-div">
-                            <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
-                              <div className="cart-img">
-                                <img
-                                  src={item.img}
-                                  alt=""
-                                  className="max-w-[80px] w-[80px] h-[80px] object-cover	"
-                                />
-                              </div>
-                              <div className="w-full flex flex-col gap-[15px]">
-                                <div className="">
-                                  <h5 className="text-sm font-bold">
-                                    Product name 123
-                                  </h5>
-                                  <p className=" text-[#666666] text-xs">
-                                    Product name 123
-                                  </p>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                  <h5 className="text-sm font-bold">
-                                    {" "}
-                                    ${item.price}
-                                  </h5>
-                                  <div className="bg-[#EEEEEE] rounded-[30px]  w-[70px] flex gap-2 justify-center items-center">
-                                    <div
-                                      className="cursor-pointer"
-                                      onClick={() => {
-                                        const _CART = CARTdata.map(
-                                          (cartItem, index) => {
-                                            return item.id === cartItem.id
-                                              ? {
-                                                  ...cartItem,
-                                                  quantity:
-                                                    cartItem.quantity > 1
-                                                      ? cartItem.quantity - 1
-                                                      : 1,
-                                                }
-                                              : cartItem;
-                                          }
-                                        );
-                                        setCARTData(_CART);
-                                      }}
-                                    >
-                                      -
-                                    </div>
-                                    <div className="text-xs">
-                                      {/* {item.quantity} */}1
-                                    </div>
-                                    <div
-                                      className="cursor-pointer	"
-                                      onClick={() => {
-                                        const _CART = CARTdata.map(
-                                          (cartItem, index) => {
-                                            return item.id === cartItem.id
-                                              ? {
-                                                  ...cartItem,
-                                                  quantity:
-                                                    cartItem.quantity + 1,
-                                                }
-                                              : cartItem;
-                                          }
-                                        );
-                                        setCARTData(_CART);
-                                      }}
-                                    >
-                                      +
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
-                              onClick={() => {
-                                removeItem(item);
-                              }}
-                            >
-                              <DeleteIcon style={{ fill: "#fff" }} />
-                            </div>
-                          </div>
-                        </>
-                      );
-                    })}
-                  </>
-                )}
-
-                {/* <h5 className="text-sm font-bold text-center  pt-8">
-                  Your cart is empty.
-                </h5> */}
-              </div>
+              <Cart />
             </div>
           </Dialog.Panel>
         </Dialog>
