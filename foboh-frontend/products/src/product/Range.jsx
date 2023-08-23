@@ -53,9 +53,9 @@ function Range() {
         setPages(array);
       })
       .then(() => {
-        // setTimeout(() =>{
-        //   setLoading(false)
-        // },5000)
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       })
       .catch((error) => console.log(error));
   };

@@ -385,7 +385,7 @@ function AddProduct() {
 
   const handleCategoryChange = (e) => {
     const item = e.label;
-    const itemId = e.value
+    const itemId = e.value;
 
     if (item.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
@@ -397,9 +397,12 @@ function AddProduct() {
       ...values,
       category: e,
     });
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`, {
-      method: "GET",
-    })
+    fetch(
+      `https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`,
+      {
+        method: "GET",
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setSubCategory(
@@ -416,7 +419,7 @@ function AddProduct() {
 
   const handleSubCategoryChange = (e) => {
     const item = e.label;
-    const itemId = e.value
+    const itemId = e.value;
     console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
@@ -435,7 +438,7 @@ function AddProduct() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("segment data>>",data);
+        console.log("segment data>>", data);
         setSegment(
           data.data.map((i) => {
             return {
@@ -662,7 +665,8 @@ function AddProduct() {
       <AddProductHeader />
       <form
         onChange={handleFormChange}
-        className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar" style={{ height: "545px" }}
+        className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar"
+        style={{ height: "545px" }}
       >
         {show && (
           <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
@@ -1459,6 +1463,7 @@ function AddProduct() {
                           e.preventDefault(); // Prevent input of non-numeric characters
                         }
                       }}
+                      onChange={handleSalePrice}
                       prefix="$"
                       value={values.salePrice}
                       onBlur={handleBlur}
@@ -1507,6 +1512,7 @@ function AddProduct() {
                           event.preventDefault();
                         }
                       }}
+                      onChange={handleBuyPrice}
                       value={values.buyPrice}
                       onBlur={handleBlur}
                       placeholder="$250.00"
