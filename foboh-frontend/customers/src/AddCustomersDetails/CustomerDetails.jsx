@@ -78,26 +78,26 @@ function CustomerDetails() {
 
   const finalHandleSubmit = (event) => {
     event.preventDefault();
-    if(values?.businessName && values.abn && values.address && values.apartment && values.billingPostalCode){
-    console.log("final vales>>>", values);
-    fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Customer added>>", data);
-        if (data.success) {
-          window.alert("Customer added successfully!")
-          navigate("/dashboard/customers/");
-        } else {
-        }
+    if (values?.businessName && values.abn && values.address && values.apartment && values.billingPostalCode) {
+      console.log("final vales>>>", values);
+      fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
       })
-      .catch((error) => console.log(error));
-    }else{
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Customer added>>", data);
+          if (data.success) {
+            window.alert("Customer added successfully!")
+            navigate("/dashboard/customers/");
+          } else {
+          }
+        })
+        .catch((error) => console.log(error));
+    } else {
       window.alert("Please fill all the filed")
     }
 
@@ -105,7 +105,7 @@ function CustomerDetails() {
   const handleCloseToast = () => {
     setOpenToast(false)
   }
-  console.log("errros",errors)
+  console.log("errros", errors)
   return (
     <>
       <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper">

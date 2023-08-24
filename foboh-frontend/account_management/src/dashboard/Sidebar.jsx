@@ -168,7 +168,9 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li className="ps-12 list-inside cursor-pointer">
-                <Link to="#" className="flex items-center w-full p-2 ">
+                <Link 
+                to="/dashboard/add-customer/customer-details" 
+                className="flex items-center w-full p-2 ">
                   <h6 className="text-base	font-medium  text-gray">
                     Add customer
                   </h6>{" "}
