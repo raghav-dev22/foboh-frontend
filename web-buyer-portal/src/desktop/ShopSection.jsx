@@ -32,8 +32,6 @@ function ShopSection() {
               rows={1}
               gap={10}
               mobileBreakpoint={0}
-              // arrowLeft
-              // loop
               scrollSnap={true}
               className="carousel"
               autoplay={3000}
@@ -41,9 +39,9 @@ function ShopSection() {
               {rangeData.map((item, index) => {
                 return (
                   <Carousel.Item>
-                    <div className="">
+                    <div className=" ">
                       <img
-                        className="w-[270px] h-[226px] object-cover rounded-md bg-[#000]"
+                        className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"
                         src="/assets/red-wine.png"
                       />
                       <div className="mt-3">

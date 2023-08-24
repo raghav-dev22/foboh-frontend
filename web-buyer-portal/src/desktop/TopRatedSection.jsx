@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/CartSlice";
 import { fetchProduct } from "../store/ProductSlice";
+
 function TopRatedSection() {
   const [CartData, setCartData] = useState([]);
   const data = () => {
