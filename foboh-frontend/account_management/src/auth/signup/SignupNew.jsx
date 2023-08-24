@@ -255,6 +255,7 @@ const SignupNew = () => {
                       <input
                         type="password"
                         id="password"
+                        maxLength={17}
                         className="js-password relative"
                         autoComplete="off"
                         placeholder="Your password"

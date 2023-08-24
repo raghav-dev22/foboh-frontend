@@ -235,7 +235,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
                 >
-                  First name
+                  First name 
                 </label>
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -247,7 +247,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   onKeyPress={(event) => {
-                    const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                    const allowedCharacters = /^[A-Za-z]*$/;
                     if (!allowedCharacters.test(event.key)) {
                       event.preventDefault();
                     }
@@ -308,7 +308,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   Email
                 </label>
                 <input
-                  className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className="appearance-none block w-full border border-gray-200 rounded-md	py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   disabled
                   type="email"
@@ -319,6 +319,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   style={{
+                    color: "gray",
                     border: errors.email && touched.email && "1px solid red",
                   }}
                 />

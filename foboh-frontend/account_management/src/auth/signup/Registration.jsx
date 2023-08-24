@@ -155,6 +155,12 @@ const Registration = () => {
                   value={values.firstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[A-Za-z0-9]*$/;
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   style={{
                     border:
                       errors.firstName && touched.firstName && "1px solid red",
@@ -185,6 +191,12 @@ const Registration = () => {
                   className="transition-all duration-[0.3s]"
                   value={values.lastName}
                   onChange={handleChange}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[A-Za-z0-9]*$/;
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   onBlur={handleBlur}
                   style={{
                     border:
@@ -265,6 +277,12 @@ const Registration = () => {
                   autoComplete="on"
                   value={values.businessName}
                   onChange={handleChange}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[A-Za-z0-9]*$/;
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                   onBlur={handleBlur}
                   style={{
                     border:

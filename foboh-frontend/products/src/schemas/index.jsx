@@ -11,8 +11,10 @@ export const addProductSchema = Yup.object().shape({
   trackInventory: Yup.boolean(),
   stockAlertLevel: Yup.string().required("Stock alert level is required"),
   title: Yup.string()
-    .required("Title is required")
-    .min(2, "Title must have at least 2 characters"),
+    .required("Please Enter Title")
+    .min(2, "Title must have at least 2 characters")
+    .max(100, "Exceeded the characters limit")
+    ,
   skuCode: Yup.string()
     .required("SKU code is required")
     .min(4, "SKU code must have at least 4 characters"),
@@ -32,7 +34,7 @@ export const addProductSchema = Yup.object().shape({
   baseUnitMeasure: Yup.object().required("Base unit measure is required"),
   innerUnitMeasure: Yup.object().required("Inner unit measure is required"),
   configuration: Yup.string(),
-  description: Yup.string(),
+  description: Yup.string().required("Please Enter Description") .max(255,"Exceeded the characters limit"),
   tags: Yup.array(),
   salePrice: Yup.string().required("Sale price is required"),
   buyPrice: Yup.string().required("Buy price is required"),
