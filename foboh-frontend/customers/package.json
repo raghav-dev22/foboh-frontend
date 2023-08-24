@@ -39,6 +39,7 @@
     "@material-tailwind/react": "^2.1.0",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.1",
+    "antd": "^5.8.4",
     "better-react-carousel": "^1.1.1",
     "dotenv": "^16.3.1",
     "formik": "^2.4.2",

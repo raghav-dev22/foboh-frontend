@@ -178,6 +178,13 @@ li {
 .list-inside:hover h6 {
   color: #147d73;
 }
+.list-inside.active h6 {
+  color: #147d73;
+  font-weight: 700;
+}
+.list-inside.active .cls-1 {
+  fill: #147d73;
+}
 .list-inside:hover .cls-1 {
   fill: #147d73;
 }
@@ -438,3 +445,4 @@ color: #fff !important;
   position: absolute;
   top: 44px;
 }
+

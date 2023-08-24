@@ -134,13 +134,13 @@ function Dashboard() {
           </div>
         </div>
         <div className="container-fluid mx-auto  h-64 sm:w-4/5 w-full ">
-          <div className="container-fluid mx-auto px-0">
+          <div className="container-fluid mx-auto px-0 sidebar">
             <Header />
             <Routes>
               <Route path="/main" element={<MainDashBoard />} />
               <Route path="/your-profile" element={<Profile />} />
               <Route path="/organisation-settings" element={<Organisation />} />
-              <Route path="/products" element={<Range />} />
+              <Route path="/products" element={<Range />}/>
               <Route path="/view-product/:id" element={<ViewProduct />} />
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/customers" element={<AddCustomers />} />
