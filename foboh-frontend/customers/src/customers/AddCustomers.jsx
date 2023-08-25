@@ -56,6 +56,7 @@ function AddCustomers() {
       .then((data) => {
         console.log("customer data --->", data);
         setTableRecords(data.data);
+        setLoading(false)
         setPrevCustomer(data.data);
         const array = createArrayWithNumber(data.last_page);
         setTotalPages(data.last_page);
@@ -123,6 +124,16 @@ function AddCustomers() {
   //       setTableRecords(data.data);
   //     });
   // };
+  const handleSelectAllChange = (e) => {
+    console.log("flag >>", e);
+    const checked = e.target.checked;
+    checked ? setSelectedProducts([...tableRecords]) : setSelectedProducts([]);
+    setIsBulkEdit(true);
+    if (!checked) {
+      setIsBulkEdit(false);
+    }
+    console.log("selected products >>", selectedProducts);
+  };
 
   return (
     <>
@@ -310,12 +321,12 @@ function AddCustomers() {
                         key={name}
                         style={
                           loading
-                            ? { position: "relative", height: "85px" }
+                            ? { position: "relative", height: "55px" }
                             : { position: "relative" }
                         }
                         className="border-b border-blue-gray-50"
                       >
-                        <Skeleton
+                        {/* <Skeleton
                           style={{
                             padding: "10px",
                             width: "95%",
@@ -328,7 +339,7 @@ function AddCustomers() {
                           active
                           avatar
                           className="custom-skeleton"
-                        >
+                        > */}
                           <td className={classes}>
                             <div className="flex items-center gap-3">
                               <input
@@ -346,77 +357,78 @@ function AddCustomers() {
                             </div>
                           </td>
                           <td className={classes}>
-                            <div className="flex items-center gap-3">
-                              {product.productImageUrls ? (
-                                <>
-                                  <div className="">
-                                    <img
-                                      src={product.productImageUrls[0]}
-                                      alt=""
-                                      className="object-cover	"
-                                      style={{
-                                        borderRadius: "6px",
-                                        height: "40px",
-                                        width: "40px",
-                                      }}
-                                    />
-                                  </div>
-                                </>
-                              ) : (
-                                <div
-                                  className=" rounded-[6px] bg-[#D9D9D9]"
-                                  style={{
-                                    height: "40px",
-                                    width: "40px",
-                                    borderRadius: "6px",
-                                  }}
-                                ></div>
-                              )}
-                            </div>
+                           
                           </td>
                           <td className={classes}>
                             <div
                               onClick={() =>
-                                navigate(
-                                  `/dashboard/view-product/${product.productId}`
-                                )
+                                handleCustomerId(product)
+                                // navigate(
+                                //   `/dashboard/view-product/${product.productId}`
+                                // )
                               }
                               className="flex items-center gap-3"
                             >
                               <Typography className="font-medium	md:text-base text-sm text-[#637381]">
-                                {product.title}
+                                {product.businessName}
+                                {/* {item?.businessName} */}
                               </Typography>
                             </div>
                           </td>
                           <td className={classes}>
                             <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.skUcode}
+                              {product.orderingEmail}
                             </Typography>
                           </td>
                           <td className={`${classes} w-44`}>
                             <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.configuration}
+                              {product.address}
+                              {product.state}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                          <td className={classes}>
+                          {product?.isActive === true ? (
+                            <div
+                              style={{
+                                background: "rgba(33, 150, 83, 0.08)",
+                                borderRadius: "30px",
+                              }}
+                              className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3"
+                            >
+                              <p className="text-green-dark font-normal	text-sm	">
+                                Active
+                              </p>
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                background: "rgba(255, 167, 11, 0.08)",
+                                borderRadius: "30px",
+                              }}
+                              className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3"
+                            >
+                              <p
+                                style={{ color: "#FFA70B" }}
+                                className="text-red-dark font-normal text-sm	"
+                              >
+                                Inactive
+                              </p>
+                            </div>
+                          )}
+                        </td>
+                          </td>
+                          <td className={classes}>
+                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                              10 
                             </Typography>
                           </td>
                           <td className={classes}>
                             <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {`$${product.globalPrice}`}
+                              ${10*20}
                             </Typography>
                           </td>
-                          <td className={classes}>
-                            {stockStatus(
-                              product.availableQty,
-                              product.stockThreshold
-                            )}
-                          </td>
-                          <td className={classes}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.stockStatus}
-                              <br />
-                              {product.visibility ? "Visible" : "Hidden"}
-                            </Typography>
-                          </td>
-                        </Skeleton>
+                        {/* </Skeleton> */}
                       </tr>
                     );
                   })}

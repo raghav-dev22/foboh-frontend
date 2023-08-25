@@ -1,12 +1,38 @@
 import React from 'react'
 
+const ordeItem=[
+    {
+        title:'Delivery address',
+        SubTitle:'576 King St, Newtown NSW 2042'
+    },
+    {
+        title:'Pricing profile',
+        SubTitle:'Plus pricing'
+    },
+    {
+        title:'ABN',
+        SubTitle:'12 345 678 910 '
+    },
+    {
+        title:'Supplier rep',
+        SubTitle:'Jessica Smith'
+    },
+    {
+        title:'Freight profile',
+        SubTitle:'Regional - NSW'
+    },
+    {
+        title:'Liquor licence',
+        SubTitle:'LIQO660011539'
+    },
+]
 function CustomerAddress() {
-    const orderItem=Array.from({ length: 6 });
+    // const orderItem=ordeItem.from({ length: 6 });
     return (
         <>
         <div className="grid gap-4 lg:grid-cols-3 grid-cols-1 px-12">
         {
-            orderItem.map((item,index)=>{
+            ordeItem.map((item,index)=>{
                 return(
                     
                     <div className={`address-box address-box-${index} bg-white rounded-lg border border-darkGreen shadow-md	 p-5`}>
@@ -17,12 +43,12 @@ function CustomerAddress() {
                                 </svg>
                             </div>
                             <h4 className="text-darkGreen font-bold	text-lg	">
-                                Delivery address
+                                {item?.title}
                             </h4>
                         </div>
                         <div className="">
                             <p className="text-green text-sm font-normal">
-                                576 King St, Newtown NSW 2042
+                            {item?.SubTitle}
                             </p>
                         </div>
                     </div>

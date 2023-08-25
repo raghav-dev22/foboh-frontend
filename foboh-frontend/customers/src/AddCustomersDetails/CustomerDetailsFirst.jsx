@@ -14,7 +14,6 @@ function CustomerDetailsFirst({
   setValues,
 }) {
 
-
   const handleSelect = (e, name) => {
     console.log(e, name);
     setValues({
@@ -42,6 +41,7 @@ function CustomerDetailsFirst({
               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-password"
               type="text"
+              maxLength={50}
               placeholder="devidjond45@gmail.com"
               name="businessName"
               value={values.businessName}
@@ -118,6 +118,7 @@ function CustomerDetailsFirst({
                   "1px solid red",
               }}
             />
+            
             {errors?.liquorLicence && touched.liquorLicence && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.liquorLicence}
@@ -137,6 +138,7 @@ function CustomerDetailsFirst({
               <Select
                 id="salesRepId"
                 name="salesRepId"
+                isMulti={true}
                 options={options}
                 value={options.find(
                   (option) => option.value === values.salesRepId
@@ -155,6 +157,7 @@ function CustomerDetailsFirst({
               <Select
                 id="pricingProfileId"
                 name="pricingProfileId"
+                isMulti={true}
                 value={options.find(
                   (option) => option.value === values.pricingProfileId
                 )}
@@ -174,6 +177,7 @@ function CustomerDetailsFirst({
             <div className=" top-16 w-full">
               <Select
                 name="defaultPaymentTerms"
+                isMulti={true}
                 options={options}
                 value={options.find(
                   (option) => option.value === values.defaultPaymentTerms
@@ -191,6 +195,7 @@ function CustomerDetailsFirst({
             <div className=" top-16 w-full">
               <Select
                 name="defaultPaymentMethodId"
+                isMulti
                 value={options.find(
                   (option) => option.value === values.defaultPaymentMethodId
                 )}
@@ -209,6 +214,7 @@ function CustomerDetailsFirst({
             <div className=" top-16 w-full">
               <Select
                 name="tags"
+                isMulti
                 value={options.find(
                   (option) => option.value === values.tags
                 )}
