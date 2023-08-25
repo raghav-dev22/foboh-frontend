@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ResetLinkCard = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const email = localStorage.getItem("email");
-  const {id} = useParams()
+  const { id } = useParams();
 
   useEffect(() => {
-    if(id !== localStorage.getItem('uniqueKey')){
-      navigate('/auth/password-reset-email')
+    if (id !== localStorage.getItem("uniqueKey")) {
+      navigate("/auth/password-reset-email");
     }
-  },[])
+  }, []);
 
   const handleEmailLink = () => {
     //Email link
@@ -18,32 +18,33 @@ const ResetLinkCard = () => {
   };
 
   const handleResetLink = () => {
-    const url = process.env.REACT_APP_URL
     //Reset Link
 
-    fetch(`https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        to: email,
-        name: localStorage.getItem("userName"),
-        mailtype: 'password-reset'
-      }),
-    })
+    fetch(
+      `https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: email,
+          name: localStorage.getItem("userName"),
+          mailtype: "password-reset",
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if(data.key){
-          localStorage.setItem('uniqueKey', data.key)
+        if (data.key) {
+          localStorage.setItem("uniqueKey", data.key);
           alert("Email sent successfully!");
         } else {
-          alert("Try to send email again")
+          alert("Try to send email again");
         }
       })
       .catch((error) => console.log(error));
-    
   };
 
   return (

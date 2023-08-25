@@ -351,7 +351,7 @@ const SearchProduct = forwardRef(
                   type="search"
                   id="default-search"
                   className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
-                  placeholder="Search Mockups, Logos..."
+                  placeholder="search product"
                   required=""
                 />
               </div>
