@@ -10,7 +10,7 @@ const sort = [
     },
   },
   {
-    label: "Date updated",
+    label: "Date added",
     key: "date",
     value: {
       asc: "Oldest first",
