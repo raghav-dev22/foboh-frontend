@@ -27,8 +27,6 @@ import {
   options,
 } from "../data";
 
-
-
 function ViewProduct() {
   const { id } = useParams();
   // console.log("product id>>",id)
@@ -85,7 +83,7 @@ function ViewProduct() {
 
   const productPromise = new Promise((resolve, reject) => {
     fetch(
-      `https://product-api-foboh.azurewebsites.net/api/Product/get?ProductId=${id}`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/${id}`,
       {
         method: "GET",
       }
@@ -154,326 +152,325 @@ function ViewProduct() {
   useEffect(() => {
     productPromise.then((data) => {
       console.log("selected product data>>", data);
-      if (data.success) {
-        console.log("product promise --->", data);
 
-        const product = data.data[0];
-        const productId = product.productId;
-        setProductName(product.title);
-        setProductId(productId);
-        const departmentId = product.departmentId;
-        const categoryId = product.categoryId;
-        const subCategoryId = product.subCategoryId;
-        const segmentId = product.segmentId;
-        const grapeVarietyName = product.variety;
-        const countryOfOrigin = product.countryOfOrigin;
-        const baseUnitMeasure = product.unitofMeasure;
-        const innerUnitMeasure = product.innerUnitofMeasure;
-        const regions = product.regionAvailability;
-        const regionName = product.region;
-        setRegions(regions);
-        // console.log("vikas tags >>",product.tags)
-        const tags = product.tags;
-        const profit = product.globalPrice - product.buyPrice;
-        const margin = (profit * 100) / product.globalPrice;
-        const wet = parseInt(product.globalPrice) * 0.29;
-        const imageUris = product.productImageUrls;
-        setProductImageUris(imageUris);
-        setCheckGST(product.gstFlag);
-        setCheckWET(product.wetFlag);
-        setSelectedState(product.productStatus);
-        setInitialValues({
-          ...values,
-          visibility: product.visibility,
-          region: product.regionAvailability,
-          minimumOrder: product.minimumOrder,
-          trackInventory: product.trackInventory,
-          stockAlertLevel: product.stockThreshold,
-          sellOutOfStock: product.sellOutOfStock,
-          title: product.title,
-          skuCode: product.skUcode,
-          brand: product.brand,
-          availableQty: product.availableQty,
-          category: product.categoryId,
-          subcategory: product.subCategoryId,
-          segment: product.segmentId,
-          grapeVariety: product.variety,
-          regionSelect: product.region,
-          vintage: product.vintage,
-          awards: product.award && product.award,
-          abv: product.abv,
-          country: product.countryOfOrigin,
-          baseUnitMeasure: product.unitofMeasure,
-          innerUnitMeasure: {},
-          configuration: product.configuration,
-          description: product.description,
-          salePrice: product.globalPrice,
-          buyPrice: product.buyPrice,
-          profit: profit,
-          margin: margin,
-          wineEqualisationTax: wet && wet.toFixed(2),
-          landedUnitCost: product.luCcost && product.luCcost.toFixed(2),
-          status: product.productStatus,
-          productImageUrls: imageUris,
-        })
-        setValues({
-          ...values,
-          visibility: product.visibility,
-          region: product.regionAvailability,
-          minimumOrder: product.minimumOrder,
-          trackInventory: product.trackInventory,
-          stockAlertLevel: product.stockThreshold,
-          sellOutOfStock: product.sellOutOfStock,
-          title: product.title,
-          skuCode: product.skUcode,
-          brand: product.brand,
-          availableQty: product.availableQty,
-          category: product.categoryId,
-          subcategory: product.subCategoryId,
-          segment: product.segmentId,
-          grapeVariety: product.variety,
-          regionSelect: product.region,
-          vintage: product.vintage,
-          awards: product.award && product.award,
-          abv: product.abv,
-          country: product.countryOfOrigin,
-          baseUnitMeasure: product.unitofMeasure,
-          innerUnitMeasure: {},
-          configuration: product.configuration,
-          description: product.description,
-          salePrice: product.globalPrice,
-          buyPrice: product.buyPrice,
-          profit: profit,
-          margin: margin,
-          wineEqualisationTax: wet && wet.toFixed(2),
-          landedUnitCost: product.luCcost && product.luCcost.toFixed(2),
-          status: product.productStatus,
-          productImageUrls: imageUris,
-        }).then(() => {
-          Promise.all([
-            departmentPromise,
-            categoryPromise,
-            subCategoryPromise,
-            segmentPromise,
-          ])
-            .then((data) => {
-              console.log("Promise all --->", data);
+      console.log("product promise --->", data);
 
-              const departmentObj = [
-                data[0].data.find((obj) => obj.departmentId === departmentId),
-              ];
+      const product = data;
+      const productId = product.productId;
+      setProductName(product.title);
+      setProductId(productId);
+      const departmentId = product.departmentId;
+      const categoryId = product.categoryId;
+      const subCategoryId = product.subCategoryId;
+      const segmentId = product.segmentId;
+      const grapeVarietyName = product.variety;
+      const countryOfOrigin = product.countryOfOrigin;
+      const baseUnitMeasure = product.unitofMeasure;
+      const innerUnitMeasure = product.innerUnitofMeasure;
+      const regions = product.regionAvailability;
+      const regionName = product.region;
+      setRegions(regions);
+      // console.log("vikas tags >>",product.tags)
+      const tags = product.tags;
+      const profit = product.globalPrice - product.buyPrice;
+      const margin = (profit * 100) / product.globalPrice;
+      const wet = parseInt(product.globalPrice) * 0.29;
+      const imageUris = product.productImageUrls;
+      setProductImageUris(imageUris);
+      setCheckGST(product.gstFlag);
+      setCheckWET(product.wetFlag);
+      setSelectedState(product.productStatus);
+      setInitialValues({
+        ...values,
+        visibility: product.visibility,
+        region: product.regionAvailability,
+        minimumOrder: product.minimumOrder,
+        trackInventory: product.trackInventory,
+        stockAlertLevel: product.stockThreshold,
+        sellOutOfStock: product.sellOutOfStock,
+        title: product.title,
+        skuCode: product.skUcode,
+        brand: product.brand,
+        availableQty: product.availableQty,
+        category: product.categoryId,
+        subcategory: product.subCategoryId,
+        segment: product.segmentId,
+        grapeVariety: product.variety,
+        regionSelect: product.region,
+        vintage: product.vintage,
+        awards: product.award && product.award,
+        abv: product.abv,
+        country: product.countryOfOrigin,
+        baseUnitMeasure: product.unitofMeasure,
+        innerUnitMeasure: {},
+        configuration: product.configuration,
+        description: product.description,
+        salePrice: product.globalPrice,
+        buyPrice: product.buyPrice,
+        profit: profit,
+        margin: margin,
+        wineEqualisationTax: wet && wet.toFixed(2),
+        landedUnitCost: product.luCcost && product.luCcost.toFixed(2),
+        status: product.productStatus,
+        productImageUrls: imageUris,
+      });
+      setValues({
+        ...values,
+        visibility: product.visibility,
+        region: product.regionAvailability,
+        minimumOrder: product.minimumOrder,
+        trackInventory: product.trackInventory,
+        stockAlertLevel: product.stockThreshold,
+        sellOutOfStock: product.sellOutOfStock,
+        title: product.title,
+        skuCode: product.skUcode,
+        brand: product.brand,
+        availableQty: product.availableQty,
+        category: product.categoryId,
+        subcategory: product.subCategoryId,
+        segment: product.segmentId,
+        grapeVariety: product.variety,
+        regionSelect: product.region,
+        vintage: product.vintage,
+        awards: product.award && product.award,
+        abv: product.abv,
+        country: product.countryOfOrigin,
+        baseUnitMeasure: product.unitofMeasure,
+        innerUnitMeasure: {},
+        configuration: product.configuration,
+        description: product.description,
+        salePrice: product.globalPrice,
+        buyPrice: product.buyPrice,
+        profit: profit,
+        margin: margin,
+        wineEqualisationTax: wet && wet.toFixed(2),
+        landedUnitCost: product.luCcost && product.luCcost.toFixed(2),
+        status: product.productStatus,
+        productImageUrls: imageUris,
+      }).then(() => {
+        Promise.all([
+          departmentPromise,
+          categoryPromise,
+          subCategoryPromise,
+          segmentPromise,
+        ])
+          .then((data) => {
+            console.log("Promise all --->", data);
 
-              const [dept] = departmentObj.map((item) => {
-                return {
-                  label: item.departmentName,
-                  value: item.departmentId,
-                };
-              });
+            const departmentObj = [
+              data[0].data.find((obj) => obj.departmentId === departmentId),
+            ];
 
-              const categoryObj = [
-                data[1].data.find((obj) => obj.categoryId === categoryId),
-              ];
+            const [dept] = departmentObj.map((item) => {
+              return {
+                label: item.departmentName,
+                value: item.departmentId,
+              };
+            });
 
-              const [cate] = categoryObj.map((item) => {
+            const categoryObj = [
+              data[1].data.find((obj) => obj.categoryId === categoryId),
+            ];
+
+            const [cate] = categoryObj.map((item) => {
+              return {
+                label: item.categoryName,
+                value: item.categoryId,
+              };
+            });
+
+            const subCategoryObj = [
+              data[2].data.find((obj) => obj.subCategoryId === subCategoryId),
+            ];
+
+            const [subCate] = subCategoryObj.map((item) => {
+              return {
+                label: item.subCategoryName,
+                value: item.subCategoryId,
+              };
+            });
+
+            const segmentObj = [
+              data[3].data.find((obj) => obj.segmentId === segmentId),
+            ];
+
+            const grapeVarietyObj = options.filter((option) =>
+              grapeVarietyName.includes(option.label)
+            );
+
+            const countryObj = country.find(
+              (country) => country.label === countryOfOrigin
+            );
+
+            const baseUnitOfMeasureObj = baseUnitOfMeasurement.find(
+              (BUM) => BUM.value === parseInt(baseUnitMeasure)
+            );
+
+            const innerUnitofMeasureObj = innerUnitOfMeasurement.find(
+              (IUM) => IUM.value === parseInt(innerUnitMeasure)
+            );
+
+            const tagsObj = options.filter((option) =>
+              tags.includes(option.label)
+            );
+            console.log("tags : --->", tagsObj);
+
+            const regionObj = region.find((rgn) => rgn.label === regionName);
+
+            console.log("region obj ---->", regionObj);
+
+            const imageUris = product.productImageUrls;
+            setProductImageUris(imageUris);
+
+            setInitialValues({
+              visibility: product.visibility,
+              region: product.regionAvailability,
+              minimumOrder: product.minimumOrder,
+              regionSelect: regionObj,
+              trackInventory: product.trackInventory,
+              stockAlertLevel: product.stockThreshold,
+              sellOutOfStock: product.sellOutOfStock,
+              title: product.title,
+              skuCode: product.skUcode,
+              availableQty: product.availableQty,
+              brand: product.brand,
+              productImageUrls: imageUris,
+              category: categoryId && cate,
+              subcategory: subCategoryId && subCate,
+              segment:
+                segmentId &&
+                segmentObj.map((item) => {
+                  return {
+                    label: item.segmentName,
+                    value: item.segmentId,
+                  };
+                }),
+              grapeVariety: grapeVarietyObj,
+              vintage: product.vintage,
+              awards: product.award,
+              abv: product.abv,
+              country: countryObj,
+              baseUnitMeasure: baseUnitOfMeasureObj,
+              innerUnitMeasure: innerUnitofMeasureObj,
+              configuration: product.configuration,
+              description: product.description,
+              tags: tagsObj,
+              salePrice: product.globalPrice,
+              buyPrice: product.buyPrice,
+              profit: profit,
+              margin: margin.toFixed(2),
+              wineEqualisationTax: wet.toFixed(2),
+              landedUnitCost: product.luCcost,
+              status: product.productStatus,
+              department: departmentId && dept,
+            });
+            setValues({
+              ...values,
+              visibility: product.visibility,
+              region: product.regionAvailability,
+              minimumOrder: product.minimumOrder,
+              regionSelect: regionObj,
+              trackInventory: product.trackInventory,
+              stockAlertLevel: product.stockThreshold,
+              sellOutOfStock: product.sellOutOfStock,
+              title: product.title,
+              skuCode: product.skUcode,
+              availableQty: product.availableQty,
+              brand: product.brand,
+              productImageUrls: imageUris,
+              category: categoryId && cate,
+              subcategory: subCategoryId && subCate,
+              segment:
+                segmentId &&
+                segmentObj.map((item) => {
+                  return {
+                    label: item.segmentName,
+                    value: item.segmentId,
+                  };
+                }),
+              grapeVariety: grapeVarietyObj,
+              vintage: product.vintage,
+              awards: product.award,
+              abv: product.abv,
+              country: countryObj,
+              baseUnitMeasure: baseUnitOfMeasureObj,
+              innerUnitMeasure: innerUnitofMeasureObj,
+              configuration: product.configuration,
+              description: product.description,
+              tags: tagsObj,
+              salePrice: product.globalPrice,
+              buyPrice: product.buyPrice,
+              profit: profit,
+              margin: margin.toFixed(2),
+              wineEqualisationTax: wet.toFixed(2),
+              landedUnitCost: product.luCcost,
+              status: product.productStatus,
+              department: departmentId && dept,
+            }).then(() => {
+              const [category] = categoryObj.map((item) => {
                 return {
                   label: item.categoryName,
                   value: item.categoryId,
                 };
               });
 
-              const subCategoryObj = [
-                data[2].data.find((obj) => obj.subCategoryId === subCategoryId),
-              ];
-
-              const [subCate] = subCategoryObj.map((item) => {
+              const [subCategory] = subCategoryObj.map((item) => {
                 return {
                   label: item.subCategoryName,
                   value: item.subCategoryId,
                 };
               });
 
-              const segmentObj = [
-                data[3].data.find((obj) => obj.segmentId === segmentId),
-              ];
+              if (category.label.toLowerCase() === "alcoholic beverages") {
+                setIsAlcoholicBeverage(true);
+              } else {
+                setIsAlcoholicBeverage(false);
+              }
 
-              const grapeVarietyObj = options.filter((option) =>
-                grapeVarietyName.includes(option.label)
-              );
+              if (subCategory.label.toLowerCase() === "wine") {
+                setIsWine(true);
+              } else {
+                setIsWine(false);
+              }
+            });
 
-              const countryObj = country.find(
-                (country) => country.label === countryOfOrigin
-              );
-
-              const baseUnitOfMeasureObj = baseUnitOfMeasurement.find(
-                (BUM) => BUM.value === parseInt(baseUnitMeasure)
-              );
-
-              const innerUnitofMeasureObj = innerUnitOfMeasurement.find(
-                (IUM) => IUM.value === parseInt(innerUnitMeasure)
-              );
-
-              const tagsObj = options.filter((option) =>
-                tags.includes(option.label)
-              );
-              console.log("tags : --->", tagsObj);
-
-              const regionObj = region.find((rgn) => rgn.label === regionName);
-
-              console.log("region obj ---->", regionObj);
-
-              const imageUris = product.productImageUrls;
-              setProductImageUris(imageUris);
-
-              setInitialValues({
-                visibility: product.visibility,
-                region: product.regionAvailability,
-                minimumOrder: product.minimumOrder,
-                regionSelect: regionObj,
-                trackInventory: product.trackInventory,
-                stockAlertLevel: product.stockThreshold,
-                sellOutOfStock: product.sellOutOfStock,
-                title: product.title,
-                skuCode: product.skUcode,
-                availableQty: product.availableQty,
-                brand: product.brand,
-                productImageUrls: imageUris,
-                category: categoryId && cate,
-                subcategory: subCategoryId && subCate,
-                segment:
-                  segmentId &&
-                  segmentObj.map((item) => {
-                    return {
-                      label: item.segmentName,
-                      value: item.segmentId,
-                    };
-                  }),
-                grapeVariety: grapeVarietyObj,
-                vintage: product.vintage,
-                awards: product.award,
-                abv: product.abv,
-                country: countryObj,
-                baseUnitMeasure: baseUnitOfMeasureObj,
-                innerUnitMeasure: innerUnitofMeasureObj,
-                configuration: product.configuration,
-                description: product.description,
-                tags: tagsObj,
-                salePrice: product.globalPrice,
-                buyPrice: product.buyPrice,
-                profit: profit,
-                margin: margin.toFixed(2),
-                wineEqualisationTax: wet.toFixed(2),
-                landedUnitCost: product.luCcost,
-                status: product.productStatus,
-                department: departmentId && dept,
+            setDepartment(
+              data[0]?.data.map((item) => {
+                return {
+                  label: item.departmentName,
+                  value: item.departmentId,
+                };
               })
-              setValues({
-                ...values,
-                visibility: product.visibility,
-                region: product.regionAvailability,
-                minimumOrder: product.minimumOrder,
-                regionSelect: regionObj,
-                trackInventory: product.trackInventory,
-                stockAlertLevel: product.stockThreshold,
-                sellOutOfStock: product.sellOutOfStock,
-                title: product.title,
-                skuCode: product.skUcode,
-                availableQty: product.availableQty,
-                brand: product.brand,
-                productImageUrls: imageUris,
-                category: categoryId && cate,
-                subcategory: subCategoryId && subCate,
-                segment:
-                  segmentId &&
-                  segmentObj.map((item) => {
-                    return {
-                      label: item.segmentName,
-                      value: item.segmentId,
-                    };
-                  }),
-                grapeVariety: grapeVarietyObj,
-                vintage: product.vintage,
-                awards: product.award,
-                abv: product.abv,
-                country: countryObj,
-                baseUnitMeasure: baseUnitOfMeasureObj,
-                innerUnitMeasure: innerUnitofMeasureObj,
-                configuration: product.configuration,
-                description: product.description,
-                tags: tagsObj,
-                salePrice: product.globalPrice,
-                buyPrice: product.buyPrice,
-                profit: profit,
-                margin: margin.toFixed(2),
-                wineEqualisationTax: wet.toFixed(2),
-                landedUnitCost: product.luCcost,
-                status: product.productStatus,
-                department: departmentId && dept,
-              }).then(() => {
-                const [category] = categoryObj.map((item) => {
-                  return {
-                    label: item.categoryName,
-                    value: item.categoryId,
-                  };
-                });
+            );
 
-                const [subCategory] = subCategoryObj.map((item) => {
-                  return {
-                    label: item.subCategoryName,
-                    value: item.subCategoryId,
-                  };
-                });
+            setCategory(
+              data[1]?.data.map((item) => {
+                return {
+                  value: item.categoryId,
+                  label: item.categoryName,
+                };
+              })
+            );
+            setSubCategory(
+              data[2]?.data.map((item) => {
+                return {
+                  value: item.subCategoryId,
+                  label: item.subCategoryName,
+                };
+              })
+            );
 
-                if (category.label.toLowerCase() === "alcoholic beverages") {
-                  setIsAlcoholicBeverage(true);
-                } else {
-                  setIsAlcoholicBeverage(false);
-                }
-
-                if (subCategory.label.toLowerCase() === "wine") {
-                  setIsWine(true);
-                } else {
-                  setIsWine(false);
-                }
-              });
-
-              setDepartment(
-                data[0]?.data.map((item) => {
-                  return {
-                    label: item.departmentName,
-                    value: item.departmentId,
-                  };
-                })
-              );
-
-              setCategory(
-                data[1]?.data.map((item) => {
-                  return {
-                    value: item.categoryId,
-                    label: item.categoryName,
-                  };
-                })
-              );
-              setSubCategory(
-                data[2]?.data.map((item) => {
-                  return {
-                    value: item.subCategoryId,
-                    label: item.subCategoryName,
-                  };
-                })
-              );
-
-              setSegment(
-                data[3]?.data.map((item) => {
-                  return {
-                    value: item.segmentId,
-                    label: item.segmentName,
-                  };
-                })
-              );
-            })
-            .catch((error) => console.log(error));
-        });
-      }
+            setSegment(
+              data[3]?.data.map((item) => {
+                return {
+                  value: item.segmentId,
+                  label: item.segmentName,
+                };
+              })
+            );
+          })
+          .catch((error) => console.log(error));
+      });
     });
   }, []);
 
@@ -496,7 +493,7 @@ function ViewProduct() {
     console.log("result", values);
     if (err.length < 1) {
       fetch(
-        `https://product-api-foboh.azurewebsites.net/api/Product/update?ProductId=${productId}`,
+        `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Update/${productId}`,
         {
           method: "PUT",
           headers: {
@@ -544,16 +541,16 @@ function ViewProduct() {
             barcodes: "string",
             esgStatus: "string",
             healthRating: "string",
-            isActive: 1,
+            isActive: true,
           }),
         }
       )
-        .then((response) => response.json())
+        .then((response) => {
+          console.log("product response >>", response);
+        })
         .then((data) => {
-          console.log(data);
-          if (data.success) {
-            setShow(false);
-          }
+          console.log("response after update>>", data);
+          setShow(false)
         })
         .catch((error) => console.log(error));
     }
@@ -687,7 +684,7 @@ function ViewProduct() {
 
   const handleCategoryChange = (e) => {
     const item = e.label;
-    const itemId = e.value
+    const itemId = e.value;
 
     if (item.toLowerCase() === "alcoholic beverages") {
       setIsAlcoholicBeverage(true);
@@ -699,9 +696,12 @@ function ViewProduct() {
       ...values,
       category: e,
     });
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`, {
-      method: "GET",
-    })
+    fetch(
+      `https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`,
+      {
+        method: "GET",
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setSubCategory(
@@ -718,7 +718,7 @@ function ViewProduct() {
 
   const handleSubCategoryChange = (e) => {
     const item = e.label;
-    const itemId = e.value
+    const itemId = e.value;
     console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
@@ -989,7 +989,7 @@ function ViewProduct() {
 
   const handleReset = () => {
     setShow(false);
-    setValues(initialValues)
+    setValues(initialValues);
   };
 
   return (
@@ -997,7 +997,8 @@ function ViewProduct() {
       <ViewProductHeader productName={productName} />
       <form
         onChange={handleFormChange}
-        className="grid gap-5 lg:flex nikit px-6  overflow-y-auto no-scrollbar" style={{ height: "545px" }}
+        className="grid gap-5 lg:flex nikit px-6  overflow-y-auto no-scrollbar"
+        style={{ height: "545px" }}
       >
         {show && (
           <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
@@ -1021,7 +1022,10 @@ function ViewProduct() {
             </div>
           </div>
         )}
-        <div className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar" style={{ height: "545px" }}>
+        <div
+          className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar"
+          style={{ height: "545px" }}
+        >
           <div className="w-full lg:w-2/5	 h-full	">
             <div className="grid gap-3">
               {/* Update Image ---START */}
@@ -1695,11 +1699,12 @@ function ViewProduct() {
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
-                        {errors.innerUnitMeasure && touched.innerUnitMeasure && (
-                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                            {errors.innerUnitMeasure}
-                          </p>
-                        )}
+                        {errors.innerUnitMeasure &&
+                          touched.innerUnitMeasure && (
+                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                              {errors.innerUnitMeasure}
+                            </p>
+                          )}
                       </div>
                     </div>
                   </div>
