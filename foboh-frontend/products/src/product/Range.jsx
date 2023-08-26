@@ -103,11 +103,13 @@ function Range() {
 
   // visibility handle
   const handleBulkVisibility = (name) => {
+    // console.log("handle visibility >>",selectedProducts);
+    // return true
 
     fetch(
-      `https://product-api-foboh.azurewebsites.net/api/Product/bulkupdate`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/UpdateProductBulkData`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -123,12 +125,16 @@ function Range() {
               availableQty: product.availableQty,
               visibility: name === "visible" ? true : false,
               productStatus: product.productStatus,
+              // sellOutOfStock: product.sellOutOfStock
             };
           })
         ),
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        console.log("response product bulk update >>", response);
+        response.json()
+      })
       .then((data) => {
         console.log("response data1:", data);
         setIsBulkEdit(false);

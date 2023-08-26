@@ -89,7 +89,7 @@ function BulkEdit() {
 
   const handleSubmit = () => {
     fetch(
-      `https://product-api-foboh.azurewebsites.net/api/Product/bulkupdate`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/UpdateProductBulkData`,
       {
         method: "PUT",
         headers: {
@@ -114,7 +114,9 @@ function BulkEdit() {
         ),
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        response.json()
+      })
       .then((data) => {
         console.log("response data:", data);
         localStorage.removeItem("selectedProducts");

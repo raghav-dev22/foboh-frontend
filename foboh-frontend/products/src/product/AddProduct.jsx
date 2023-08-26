@@ -96,7 +96,7 @@ function AddProduct() {
     onSubmit: (values) => {
       console.log(values);
 
-      fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
+      fetch("https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,7 +113,6 @@ function AddProduct() {
           configuration: values.configuration,
           brand: values.brand,
           region: values.regionSelect ? values.regionSelect.label : "",
-          sellOutOfStock: values.sellOutOfStock,
           trackInventory: values.trackInventory,
           departmentId: values.department.value,
           categoryId: values.category.value,
@@ -131,11 +130,11 @@ function AddProduct() {
           wetFlag: checkWET,
           availableQty: values.availableQty,
           stockThreshold: values.stockAlertLevel,
-
           stockStatus: values.status,
           regionAvailability: values.region,
           productStatus: values.status,
           visibility: values.visibility,
+          sellOutOfStock: values.sellOutOfStock,
           minimumOrder: values.minimumOrder,
           tags: values.tags.map((item) => {
             return item.label;
@@ -144,17 +143,16 @@ function AddProduct() {
           barcodes: "string",
           esgStatus: "string",
           healthRating: "string",
-          isActive: 1,
+          isActive: true,
         }),
       })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          if (data.success) {
+          
             console.log("Success >>>", data);
             setShow(false);
             navigate("/dashboard/products");
-          }
         })
         .catch((error) => console.log(error));
     },

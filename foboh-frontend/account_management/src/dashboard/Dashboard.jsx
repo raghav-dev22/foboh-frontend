@@ -86,6 +86,10 @@ function Dashboard() {
       .catch((error) => console.log(error));
   }, []);
 
+  const isActive = (path) => {
+    return location.pathname.startsWith(path) ? "active" : "";
+  };
+
   return (
     <>
       <div className="flex flex-no-wrap">
@@ -135,7 +139,7 @@ function Dashboard() {
         </div>
         <div className="container-fluid mx-auto  h-64 sm:w-4/5 w-full ">
           <div className="container-fluid mx-auto px-0 sidebar">
-            <Header />
+            <Header /> 
             <Routes>
               <Route path="/main" element={<MainDashBoard />} />
               <Route path="/your-profile" element={<Profile />} />

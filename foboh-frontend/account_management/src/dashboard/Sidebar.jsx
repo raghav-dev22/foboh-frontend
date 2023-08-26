@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeOption, setActiveOption] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
+  const location = useLocation();
   const logoURI = useSelector((state) => state.logo.logoURI);
+
+
+
   const ContactMenu = () => {
     setOpenMenu(!openMenu);
     setIsOpen(false);
@@ -20,10 +24,6 @@ const Sidebar = () => {
   const handleOptionClick = (option) => {
     setActiveOption(option === activeOption ? null : option);
   };
-  useEffect(() => {
-    setActiveOption('dashboard');
-  }, []); 
-
 
   return (
     <>
@@ -51,10 +51,11 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+        
         <ul className="list-disc ">
-          <li className={`ps-7 py-3 list-inside cursor-pointer ${ activeOption === 'dashboard' ? 'active' : ''}`}  onClick={() => handleOptionClick('dashboard')}>
+          <li className={`ps-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/main' ? 'active' : ''}`} >
             <div className="flex justify-start items-center gap-2">
-              <div className={`home ${activeOption === 'dashboard' ? 'active' : ''}`}>
+              <div className={`home ${location.pathname === '/dashboard/main' ? 'active' : ''}`}>
                 <svg
                   width={18}
                   height={18}
@@ -83,9 +84,9 @@ const Sidebar = () => {
               </Link>
             </div>
           </li>
-          <li className={`ps-7 py-3 list-inside cursor-pointer ${activeOption === 'Orders' ? 'active' : ''}`}  onClick={() => handleOptionClick('Orders')}>
+          <li className={`ps-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/orders' ? 'active' : ''}`}>
             <div className="flex justify-start items-center gap-2">
-              <div  className={`home ${activeOption === 'Orders' ? 'active' : ''}`}>
+              <div  className={`home ${location.pathname === '/dashboard/orders' ? 'active' : ''}`}>
                 <svg
                   width={18}
                   height={18}
@@ -119,10 +120,10 @@ const Sidebar = () => {
               <h6 className="text-base	font-medium  text-gray	">Orders</h6>
             </div>
           </li>
-          <li className={`px-7 py-3  list-inside  cursor-pointer ${activeOption === 'Customers' ? 'active' : ''}`}onClick={() =>{ContactMenu(); handleOptionClick('Customers')}}>
+          <li className={`px-7 py-3  list-inside  cursor-pointer ${location.pathname === '/dashboard/customers' || location.pathname === '/dashboard/add-customer/customer-details'  ? 'active' : ''}`}onClick={() =>{ContactMenu(); handleOptionClick('Customers')}}>
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
-                <div  className={`home ${activeOption === 'Customers' ? 'active' : ''}`}>
+                <div  className={`home ${location.pathname === '/dashboard/customers'? 'active' : ''}`}>
                   <svg
                     width={18}
                     height={18}
@@ -158,10 +159,10 @@ const Sidebar = () => {
 
               {/* </Link> */}
             </div>
-          </li>
+          </li> 
           {openMenu && (
             <ul id="dropdown-example" class="  space-y-2 ">
-              <li className="ps-12 list-inside cursor-pointer ">
+              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/customers' ? 'active' : ''}`}>
                 <Link
                   to="/dashboard/customers"
                   className="flex items-center w-full p-2 "
@@ -174,21 +175,21 @@ const Sidebar = () => {
                   <h6 className="text-base	font-medium  text-gray">Segments</h6>{" "}
                 </Link>
               </li>
-              <li className="ps-12 list-inside cursor-pointer">
+              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/add-customer/customer-details' ? 'active' : ''}`}>
                 <Link 
                 to="/dashboard/add-customer/customer-details" 
                 className="flex items-center w-full p-2 ">
                   <h6 className="text-base	font-medium  text-gray">
                     Add customer
-                  </h6>{" "}
+                  </h6>
                 </Link>
               </li>
             </ul>
           )}
-          <li className={`px-7 py-3 list-inside cursor-pointer ${activeOption === 'Products' ? 'active' : ''}`} onClick={() =>{toggleMenu();handleOptionClick('Products')}}>
+          <li className={`px-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/products' || location.pathname === '/dashboard/add-product' ? 'active' : ''}`} onClick={() =>{toggleMenu();handleOptionClick('Products')}}>
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
-                <div  className={`home ${activeOption === 'Products' ? 'active' : ''}`}>
+                <div  className={`home ${location.pathname === '/dashboard/products' ? 'active' : ''}`}>
                   <svg
                     width={18}
                     height={18}
@@ -230,7 +231,7 @@ const Sidebar = () => {
           {isOpen && (
             <>
               <ul id="dropdown-example" class="  space-y-2 ">
-                <li className="ps-12 list-inside cursor-pointer ">
+              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/products' ? 'active' : ''}`}>
                   <Link
                     to="/dashboard/products"
                     className="flex items-center w-full p-2 "
@@ -245,7 +246,7 @@ const Sidebar = () => {
                     </h6>{" "}
                   </Link>
                 </li>
-                <li className="ps-12 list-inside cursor-pointer">
+                <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/add-product' ? 'active' : ''}`}>
                   <Link
                     to="/dashboard/add-product"
                     className="flex items-center w-full p-2 "
@@ -259,7 +260,7 @@ const Sidebar = () => {
             </>
           )}
 
-          <li className={`ps-7 py-3 list-inside cursor-pointer ${activeOption === 'Pricing' ? 'active' : ''}`} onClick={() => handleOptionClick('Pricing')} >
+          <li className="ps-7 py-3 list-inside cursor-pointer" >
             <div className="flex justify-start items-center gap-2">
               <div  className={`home ${activeOption === 'Pricing' ? 'active' : ''}`}>
                 <svg
@@ -284,7 +285,7 @@ const Sidebar = () => {
       <div className="p-6">
         <div className="border-t border-inherit	">
           <ul className="list-disc ">
-            <li className={` py-3 list-inside cursor-pointer ${activeOption === 'Chat' ? 'active' : ''}`} onClick={() => handleOptionClick('Chat')}>
+            <li className="py-3 list-inside cursor-pointer">
               <div className="flex justify-start items-center gap-2">
                 <div  className={`home ${activeOption === 'Chat' ? 'active' : ''}`}>
                   <svg
@@ -306,7 +307,7 @@ const Sidebar = () => {
                 <h6 className="text-base	font-medium  text-gray	">Chat</h6>
               </div>
             </li>
-            <li className={`py-3 list-inside cursor-pointer ${activeOption === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}>
+            <li className={`py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/organisation-settings' ? 'active' : ''}`}>
               <div className="flex justify-start items-center gap-2">
                 <div  className={`home ${activeOption === 'Settings' ? 'active' : ''}`}>
                   <svg
@@ -349,7 +350,7 @@ const Sidebar = () => {
                 </Link>
               </div>
             </li>
-            <li className={`py-3 list-inside cursor-pointer ${activeOption === 'Help' ? 'active' : ''}`} onClick={() => handleOptionClick('Help')}>
+            <li className="py-3 list-inside cursor-pointer">
               <div className="flex justify-start items-center gap-2">
                 <div  className={`home ${activeOption === 'Help' ? 'active' : ''}`}>
                   <svg
