@@ -493,6 +493,7 @@ function ViewProduct() {
     e.preventDefault();
     const err = Object.values(errors);
     console.log("err val", err);
+    console.log("result", values);
     if (err.length < 1) {
       fetch(
         `https://product-api-foboh.azurewebsites.net/api/Product/update?ProductId=${productId}`,
@@ -502,44 +503,44 @@ function ViewProduct() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: values.title,
-            description: values.description,
-            award: values.awards,
+            title: values?.title,
+            description: values?.description,
+            award: values?.awards,
             articleId: 0,
-            skUcode: values.skuCode,
+            skUcode: values?.skuCode,
             productImageUrls: productImageUris,
-            unitofMeasure: values.baseUnitMeasure?.value.toString(),
-            innerUnitofMeasure: values.innerUnitMeasure?.value.toString(),
-            configuration: values.configuration,
-            brand: values.brand,
-            region: values.regionSelect ? values.regionSelect.label : "",
-            trackInventory: values.trackInventory,
-            departmentId: values.department.value,
-            categoryId: values.category.value,
-            subCategoryId: values.subcategory.value,
-            segmentId: values.segment.value ? values.segment.value : "",
-            variety: values.grapeVariety.map((item) => {
-              return item.label;
+            unitofMeasure: values?.baseUnitMeasure?.value.toString(),
+            innerUnitofMeasure: values?.innerUnitMeasure?.value.toString(),
+            configuration: values?.configuration,
+            brand: values?.brand,
+            region: values?.regionSelect ? values.regionSelect.label : "",
+            trackInventory: values?.trackInventory,
+            departmentId: values?.department?.value,
+            categoryId: values?.category?.value,
+            subCategoryId: values?.subcategory?.value,
+            segmentId: values?.segment.value ? values.segment.value : "",
+            variety: values?.grapeVariety.map((item) => {
+              return item?.label;
             }),
-            vintage: values.vintage,
-            abv: values.abv,
-            globalPrice: values.salePrice,
-            luCcost: values.landedUnitCost ? values.landedUnitCost : 0,
-            buyPrice: values.buyPrice,
+            vintage: values?.vintage,
+            abv: values?.abv,
+            globalPrice: values?.salePrice,
+            luCcost: values?.landedUnitCost ? values.landedUnitCost : 0,
+            buyPrice: values?.buyPrice,
             gstFlag: checkGST,
             wetFlag: checkWET,
-            availableQty: values.availableQty,
-            stockThreshold: values.stockAlertLevel,
-            sellOutOfStock: values.sellOutOfStock,
-            stockStatus: values.status,
-            regionAvailability: values.region,
-            productStatus: values.status,
-            visibility: values.visibility,
-            minimumOrder: values.minimumOrder,
-            tags: values.tags.map((item) => {
-              return item.label;
+            availableQty: values?.availableQty,
+            stockThreshold: values?.stockAlertLevel,
+            sellOutOfStock: values?.sellOutOfStock,
+            stockStatus: values?.status,
+            regionAvailability: values?.region,
+            productStatus: values?.status,
+            visibility: values?.visibility,
+            minimumOrder: values?.minimumOrder,
+            tags: values?.tags.map((item) => {
+              return item?.label;
             }),
-            countryOfOrigin: values.country.label,
+            countryOfOrigin: values?.country?.label,
             barcodes: "string",
             esgStatus: "string",
             healthRating: "string",

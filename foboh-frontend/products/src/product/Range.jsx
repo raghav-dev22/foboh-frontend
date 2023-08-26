@@ -103,6 +103,8 @@ function Range() {
 
   // visibility handle
   const handleBulkVisibility = (name) => {
+    // console.log("handle visibility >>",selectedProducts);
+    // return true
 
     fetch(
       `https://product-api-foboh.azurewebsites.net/api/Product/bulkupdate`,
@@ -123,6 +125,7 @@ function Range() {
               availableQty: product.availableQty,
               visibility: name === "visible" ? true : false,
               productStatus: product.productStatus,
+              // sellOutOfStock: product.sellOutOfStock
             };
           })
         ),
