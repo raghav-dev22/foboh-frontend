@@ -143,17 +143,16 @@ function AddProduct() {
           barcodes: "string",
           esgStatus: "string",
           healthRating: "string",
-          isActive: 1,
+          isActive: true,
         }),
       })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          if (data.success) {
+          
             console.log("Success >>>", data);
             setShow(false);
             navigate("/dashboard/products");
-          }
         })
         .catch((error) => console.log(error));
     },
