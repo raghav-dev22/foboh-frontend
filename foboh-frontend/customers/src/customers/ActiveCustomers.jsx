@@ -18,7 +18,7 @@ function ActiveCustomers() {
           {/* <ImportProductBtn/> */}
           <ImportCustomersBtn />
           <EditCustomerBtn />
-          <AddCustomerBtn />
+          <AddCustomerBtn title="Add Customer" />
         </div>
       </div>
     </>

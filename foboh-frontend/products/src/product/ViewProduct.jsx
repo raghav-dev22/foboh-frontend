@@ -27,42 +27,7 @@ import {
   options,
 } from "../data";
 
-const initialValues = {
-  visibility: false,
-  region: [],
-  minimumOrder: "",
-  trackInventory: false,
-  stockAlertLevel: "",
-  sellOutOfStock: false,
-  title: "",
-  skuCode: "",
-  brand: "",
-  department: "",
-  category: "",
-  subcategory: "",
-  segment: "",
-  availableQty: "",
-  grapeVariety: [],
-  regionSelect: {},
-  vintage: "",
-  awards: "",
-  abv: "",
-  country: "",
-  baseUnitMeasure: "",
-  innerUnitMeasure: "",
-  configuration: "",
-  description: "",
-  tags: [],
-  salePrice: null,
-  buyPrice: null,
-  profit: "",
-  margin: "",
-  tax: "",
-  wineEqualisationTax: "",
-  landedUnitCost: 0,
-  status: ["Active", "Inactive", "Archived"],
-  productImageUrls: [],
-};
+
 
 function ViewProduct() {
   const { id } = useParams();
@@ -80,6 +45,43 @@ function ViewProduct() {
   const [marginCopy, setMarginCopy] = useState(null);
   const [departmentObj, setDepartmentObj] = useState({});
   const [productName, setProductName] = useState("");
+
+  const [initialValues, setInitialValues] = useState({
+    visibility: false,
+    region: [],
+    minimumOrder: "",
+    trackInventory: false,
+    stockAlertLevel: "",
+    sellOutOfStock: false,
+    title: "",
+    skuCode: "",
+    brand: "",
+    department: "",
+    category: "",
+    subcategory: "",
+    segment: "",
+    availableQty: "",
+    grapeVariety: [],
+    regionSelect: {},
+    vintage: "",
+    awards: "",
+    abv: "",
+    country: "",
+    baseUnitMeasure: "",
+    innerUnitMeasure: "",
+    configuration: "",
+    description: "",
+    tags: [],
+    salePrice: null,
+    buyPrice: null,
+    profit: "",
+    margin: "",
+    tax: "",
+    wineEqualisationTax: "",
+    landedUnitCost: 0,
+    status: ["Active", "Inactive", "Archived"],
+    productImageUrls: [],
+  });
 
   const productPromise = new Promise((resolve, reject) => {
     fetch(
@@ -151,6 +153,7 @@ function ViewProduct() {
 
   useEffect(() => {
     productPromise.then((data) => {
+      console.log("selected product data>>", data);
       if (data.success) {
         console.log("product promise --->", data);
 
@@ -179,6 +182,40 @@ function ViewProduct() {
         setCheckGST(product.gstFlag);
         setCheckWET(product.wetFlag);
         setSelectedState(product.productStatus);
+        setInitialValues({
+          ...values,
+          visibility: product.visibility,
+          region: product.regionAvailability,
+          minimumOrder: product.minimumOrder,
+          trackInventory: product.trackInventory,
+          stockAlertLevel: product.stockThreshold,
+          sellOutOfStock: product.sellOutOfStock,
+          title: product.title,
+          skuCode: product.skUcode,
+          brand: product.brand,
+          availableQty: product.availableQty,
+          category: product.categoryId,
+          subcategory: product.subCategoryId,
+          segment: product.segmentId,
+          grapeVariety: product.variety,
+          regionSelect: product.region,
+          vintage: product.vintage,
+          awards: product.award && product.award,
+          abv: product.abv,
+          country: product.countryOfOrigin,
+          baseUnitMeasure: product.unitofMeasure,
+          innerUnitMeasure: {},
+          configuration: product.configuration,
+          description: product.description,
+          salePrice: product.globalPrice,
+          buyPrice: product.buyPrice,
+          profit: profit,
+          margin: margin,
+          wineEqualisationTax: wet && wet.toFixed(2),
+          landedUnitCost: product.luCcost && product.luCcost.toFixed(2),
+          status: product.productStatus,
+          productImageUrls: imageUris,
+        })
         setValues({
           ...values,
           visibility: product.visibility,
@@ -287,6 +324,48 @@ function ViewProduct() {
               const imageUris = product.productImageUrls;
               setProductImageUris(imageUris);
 
+              setInitialValues({
+                visibility: product.visibility,
+                region: product.regionAvailability,
+                minimumOrder: product.minimumOrder,
+                regionSelect: regionObj,
+                trackInventory: product.trackInventory,
+                stockAlertLevel: product.stockThreshold,
+                sellOutOfStock: product.sellOutOfStock,
+                title: product.title,
+                skuCode: product.skUcode,
+                availableQty: product.availableQty,
+                brand: product.brand,
+                productImageUrls: imageUris,
+                category: categoryId && cate,
+                subcategory: subCategoryId && subCate,
+                segment:
+                  segmentId &&
+                  segmentObj.map((item) => {
+                    return {
+                      label: item.segmentName,
+                      value: item.segmentId,
+                    };
+                  }),
+                grapeVariety: grapeVarietyObj,
+                vintage: product.vintage,
+                awards: product.award,
+                abv: product.abv,
+                country: countryObj,
+                baseUnitMeasure: baseUnitOfMeasureObj,
+                innerUnitMeasure: innerUnitofMeasureObj,
+                configuration: product.configuration,
+                description: product.description,
+                tags: tagsObj,
+                salePrice: product.globalPrice,
+                buyPrice: product.buyPrice,
+                profit: profit,
+                margin: margin.toFixed(2),
+                wineEqualisationTax: wet.toFixed(2),
+                landedUnitCost: product.luCcost,
+                status: product.productStatus,
+                department: departmentId && dept,
+              })
               setValues({
                 ...values,
                 visibility: product.visibility,
@@ -295,7 +374,7 @@ function ViewProduct() {
                 regionSelect: regionObj,
                 trackInventory: product.trackInventory,
                 stockAlertLevel: product.stockThreshold,
-                sellOutOfStock: product.stockStatus,
+                sellOutOfStock: product.sellOutOfStock,
                 title: product.title,
                 skuCode: product.skUcode,
                 availableQty: product.availableQty,
@@ -569,7 +648,7 @@ function ViewProduct() {
       ...values,
       sellOutOfStock: !values.sellOutOfStock,
     });
-    console.log(values.sellOutOfStock);
+    console.log("nikit", !values.sellOutOfStock);
   };
   // Inventory ----END
 
@@ -909,6 +988,7 @@ function ViewProduct() {
 
   const handleReset = () => {
     setShow(false);
+    setValues(initialValues)
   };
 
   return (
@@ -916,7 +996,7 @@ function ViewProduct() {
       <ViewProductHeader productName={productName} />
       <form
         onChange={handleFormChange}
-        className="grid gap-5 lg:flex nikit px-6  overflow-y-auto no-scrollbar"  style={{ height: "545px" }}
+        className="grid gap-5 lg:flex nikit px-6  overflow-y-auto no-scrollbar" style={{ height: "545px" }}
       >
         {show && (
           <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
@@ -1222,7 +1302,7 @@ function ViewProduct() {
                         <input
                           onChange={handleSellOutOfStock}
                           checked={values.sellOutOfStock}
-                          value={values.sellOutOfStock}
+                          // value={values.sellOutOfStock}
                           type="checkbox"
                           name="SellOutOfStock"
                           id="SellOutOfStock"
@@ -1530,6 +1610,12 @@ function ViewProduct() {
                         id="awards"
                         name="awards"
                         onChange={handleChange}
+                        onKeyPress={(event) => {
+                          const allowedCharacters = /^[A-Za-z0-9]*$/;
+                          if (!allowedCharacters.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
                         value={values.awards}
                         type="text"
                         placeholder="WS 93"
@@ -1589,10 +1675,10 @@ function ViewProduct() {
                           classNamePrefix="select"
                         />
                         {errors.baseUnitMeasure && touched.baseUnitMeasure && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                      {errors.baseUnitMeasure}
-                    </p>
-                  )}
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.baseUnitMeasure}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="w-full  px-3">
@@ -1609,10 +1695,10 @@ function ViewProduct() {
                           classNamePrefix="select"
                         />
                         {errors.innerUnitMeasure && touched.innerUnitMeasure && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                      {errors.innerUnitMeasure}
-                    </p>
-                  )}
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.innerUnitMeasure}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>

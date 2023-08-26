@@ -921,6 +921,7 @@ function Organisation() {
                 {/* Organization Address ---END  */}
 
                 {/* Billing Address ---START */}
+               
                 <div className="   w-full  rounded-lg		 border border-inherit bg-white h-fit		 	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
                     <h6 className="text-base	font-medium	 text-green">
@@ -935,6 +936,7 @@ function Organisation() {
                   >
                     <div className="px-6 py-7">
                       <div className="w-full">
+                      {values.state && values.organisationAddressPostcode && (
                         <div className="flex items-center mb-5">
                           <input
                             onChange={handleCheckbox}
@@ -952,6 +954,7 @@ function Organisation() {
                             Use same address as Organisation for Billing{" "}
                           </label>
                         </div>
+                        )}
                         <div className="flex flex-wrap -mx-3 mb-5 items-start">
                           <div className="w-full md:w-1/2 px-3 relative">
                             <label
@@ -1132,6 +1135,7 @@ function Organisation() {
                     </div>
                   </Skeleton>
                 </div>
+              
                 {/* Billing Address ---END */}
               </div>
               <div className="w-full lg:w-2/5 gap-5 h-full	">

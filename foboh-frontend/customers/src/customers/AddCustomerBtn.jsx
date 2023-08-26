@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-function AddCustomerBtn() {
+function AddCustomerBtn({title}) {
   const navigate = useNavigate();
   return (
     <>
@@ -23,7 +23,7 @@ function AddCustomerBtn() {
             />
           </svg>
         </div>
-        <h6 className="text-white">Add customer</h6>
+        <h6 className="text-white">{title}</h6>
       </button>
     </>
   );

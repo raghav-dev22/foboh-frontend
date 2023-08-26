@@ -21,7 +21,7 @@ export const ResetPasswordFormSchema = Yup.object().shape({
       [Yup.ref("password"), null],
       "Passwords do not match, please try again"
     ),
-});
+}); 
 
 //Sign-up Schema
 export const SignUpSchema = Yup.object().shape({
@@ -31,6 +31,7 @@ export const SignUpSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
+    .max(16, "Password is too long")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"

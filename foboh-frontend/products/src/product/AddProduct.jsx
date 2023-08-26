@@ -226,6 +226,7 @@ function AddProduct() {
 
   const handleReset = () => {
     setShow(false);
+    setValues(initialValues)
   };
 
   console.log(values);
@@ -989,6 +990,7 @@ function AddProduct() {
                     <input
                       onChange={handleChange}
                       value={values.title}
+                      maxLength={101}
                       onBlur={handleBlur}
                       style={{
                         border:
@@ -999,7 +1001,7 @@ function AddProduct() {
                       type="text"
                       name="title"
                       autoComplete="on"
-                      placeholder="Good Intentions 'Cape Jaffa' Chardonnay   "
+                      placeholder="Enter Title..."
                     />
                     {errors.title && touched.title && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
@@ -1045,7 +1047,7 @@ function AddProduct() {
                       id="sku-code"
                       name="skuCode"
                       type="text"
-                      placeholder="GOODINTCJCHARD22"
+                      placeholder="Enter SKU code..."
                     />
                     {errors.skuCode && touched.skuCode && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
@@ -1054,7 +1056,7 @@ function AddProduct() {
                     )}
                     {errors.skuCode && touched.skuCode && (
                       <ErrorOutlineIcon
-                        style={{ top: "45px" }}
+                        style={{ top: "47px" }}
                         className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
                       />
                     )}
@@ -1064,7 +1066,7 @@ function AddProduct() {
                       className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                       htmlFor="brand"
                     >
-                      Brand
+                      Brands
                     </label>
                     <input
                       onChange={handleChange}
@@ -1121,71 +1123,75 @@ function AddProduct() {
                       )}
                     </div>
                   </div>
-                  <div className="w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Category
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        name="colors"
-                        options={category}
-                        isDisabled={!category.length}
-                        onBlur={handleBlur}
-                        value={values.category}
-                        onChange={handleCategoryChange}
-                        className="basic-multi-select "
-                        classNamePrefix="select"
-                      />
-                      {errors.category && touched.category && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.category}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className=" w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Subcategory
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        name="colors"
-                        options={subCategory}
-                        onBlur={handleBlur}
-                        isDisabled={!subCategory.length}
-                        value={values.subcategory}
-                        onChange={handleSubCategoryChange}
-                        className="basic-multi-select "
-                        classNamePrefix="select"
-                      />
-                      {errors.subcategory && touched.subcategory && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.subcategory}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  {isAlcoholicBeverage && (
-                    <div className="  w-full  px-3">
+                  {values.department && (
+                    <div className="w-full  px-3">
                       <h5 className="text-base font-medium text-green mb-3">
-                        Segment
+                        Category
                       </h5>
                       <div className="w-full">
                         <Select
                           name="colors"
-                          options={segment}
-                          // isDisabled={!segment.length}
-                          value={values.segment}
-                          onChange={handleSegmentChange}
+                          options={category}
+                          isDisabled={!category.length}
+                          onBlur={handleBlur}
+                          value={values.category}
+                          onChange={handleCategoryChange}
                           className="basic-multi-select "
                           classNamePrefix="select"
                         />
+                        {errors.category && touched.category && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.category}
+                          </p>
+                        )}
                       </div>
                     </div>
                   )}
                 </div>
+                {values.category && (
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className=" w-full  px-3">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Subcategory
+                      </h5>
+                      <div className="w-full">
+                        <Select
+                          name="colors"
+                          options={subCategory}
+                          onBlur={handleBlur}
+                          isDisabled={!subCategory.length}
+                          value={values.subcategory}
+                          onChange={handleSubCategoryChange}
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                        />
+                        {errors.subcategory && touched.subcategory && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.subcategory}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    {isAlcoholicBeverage && (
+                      <div className="  w-full  px-3">
+                        <h5 className="text-base font-medium text-green mb-3">
+                          Segment
+                        </h5>
+                        <div className="w-full">
+                          <Select
+                            name="colors"
+                            options={segment}
+                            // isDisabled={!segment.length}
+                            value={values.segment}
+                            onChange={handleSegmentChange}
+                            className="basic-multi-select "
+                            classNamePrefix="select"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                   {isWine && (
                     <div className=" w-full  px-3">
@@ -1250,7 +1256,7 @@ function AddProduct() {
                     </div>
                   )}
 
-                  <div className="w-full  px-3">
+                  <div className="w-full  px-3 relative">
                     <label
                       className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                       htmlFor="awards"
@@ -1262,10 +1268,33 @@ function AddProduct() {
                       id="awards"
                       name="awards"
                       onChange={handleChange}
+                      onKeyPress={(event) => {
+                        const allowedCharacters = /^[A-Za-z0-9]*$/;
+                        if (!allowedCharacters.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
                       value={values.awards}
                       type="text"
                       placeholder="WS 93"
+                      style={{
+                          border:
+                            errors.awards &&
+                            touched.awards &&
+                            "1px solid red",
+                        }}
                     />
+                     {errors.awards && touched.awards && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.awards}
+                      </p>
+                    )}
+                    {errors.awards && touched.awards && (
+                      <ErrorOutlineIcon
+                        style={{ top: "45px" }}
+                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
@@ -1298,9 +1327,15 @@ function AddProduct() {
                         id="abv"
                         name="abv"
                         onChange={handleChange}
+                        onKeyPress={(event) => {
+                          const allowedCharacters = /^[0-9]*$/; 
+                          if (!allowedCharacters.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
                         value={values.abv}
                         type="text"
-                        placeholder="15%"
+                        placeholder="please enter ABV..."
                       />
                     </div>
                   )}
@@ -1401,6 +1436,7 @@ function AddProduct() {
                     <textarea
                       id="message"
                       rows={4}
+                      maxLength={257}
                       className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                       placeholder="Leave a comment..."
                       defaultValue={""}
@@ -1408,6 +1444,11 @@ function AddProduct() {
                       value={values.description}
                       onChange={handleChange}
                     />
+                    {errors.description && touched.description && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.description}
+                        </p>
+                      )}
                   </div>
                 </div>
                 <div className="flex flex-nowrap -mx-3 mb-5">
