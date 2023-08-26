@@ -21,7 +21,7 @@ export const ResetPasswordFormSchema = Yup.object().shape({
       [Yup.ref("password"), null],
       "Passwords do not match, please try again"
     ),
-});
+}); 
 
 //Sign-up Schema
 export const SignUpSchema = Yup.object().shape({

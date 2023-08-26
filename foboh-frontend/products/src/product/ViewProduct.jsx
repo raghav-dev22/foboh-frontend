@@ -153,6 +153,7 @@ function ViewProduct() {
 
   useEffect(() => {
     productPromise.then((data) => {
+      console.log("selected product data>>", data);
       if (data.success) {
         console.log("product promise --->", data);
 
@@ -330,7 +331,7 @@ function ViewProduct() {
                 regionSelect: regionObj,
                 trackInventory: product.trackInventory,
                 stockAlertLevel: product.stockThreshold,
-                sellOutOfStock: product.stockStatus,
+                sellOutOfStock: product.sellOutOfStock,
                 title: product.title,
                 skuCode: product.skUcode,
                 availableQty: product.availableQty,
@@ -373,7 +374,7 @@ function ViewProduct() {
                 regionSelect: regionObj,
                 trackInventory: product.trackInventory,
                 stockAlertLevel: product.stockThreshold,
-                sellOutOfStock: product.stockStatus,
+                sellOutOfStock: product.sellOutOfStock,
                 title: product.title,
                 skuCode: product.skUcode,
                 availableQty: product.availableQty,
@@ -647,7 +648,7 @@ function ViewProduct() {
       ...values,
       sellOutOfStock: !values.sellOutOfStock,
     });
-    console.log(values.sellOutOfStock);
+    console.log("nikit", !values.sellOutOfStock);
   };
   // Inventory ----END
 
@@ -1301,7 +1302,7 @@ function ViewProduct() {
                         <input
                           onChange={handleSellOutOfStock}
                           checked={values.sellOutOfStock}
-                          value={values.sellOutOfStock}
+                          // value={values.sellOutOfStock}
                           type="checkbox"
                           name="SellOutOfStock"
                           id="SellOutOfStock"
