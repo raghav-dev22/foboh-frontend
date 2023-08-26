@@ -1,31 +1,23 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ImportProductModal from "./ImportProductModal";
+// import ImportProductModal from "./ImportProductModal";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-// import Carousel from "better-react-carousel";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-// import "antd/dist/antd.css"; // Import Ant Design styles
-function PreviewProductModal({
+import Carousel from "better-react-carousel";
+function ErrorFoundModal({
   show,
   setShow,
   importedProducts,
   previous,
   setErrorData,
   setAddedFile,
+  errorData,
 }) {
-  const [activeTab, setActiveTab] = useState("PRODUCT 1");
-  console.log(activeTab, "activeTabactiveTab");
+  // const navigate = useNavigate();
   console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
-  const handleOptionChange = (event) => {
-    setActiveTab(event.target.value);
-    // const selectedOptionId = event.target.value;
-    // // Do something with the selected option id
-    // console.log(`Selected option id: ${selectedOptionId}`);
-  };
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
@@ -162,116 +154,101 @@ function PreviewProductModal({
                 <Dialog.Panel className="relative transform overflow-hidden  text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl	">
                   <div className="bg-white px-8 pb-8 pt-8 sm:p-6 sm:pb-4 rounded-t-lg">
                     <div className="sm:flex sm:items-center">
-                      <div className="">
-                        <img src="/assets/downloadBtn.png" alt="" />
+                      <div
+                        className=" w-[48px] h-[48px] rounded-full flex justify-center items-center bg-[#FED4C7]"
+                        style={{
+                          background: "#FED4C7",
+                          height: "48px",
+                          width: "48px",
+                          borderRadius: "100%",
+                          border: "4px solid #FFE9E3",
+                        }}
+                      >
+                        <WarningAmberIcon style={{ fill: "#DC3545" }} />
                       </div>
                       <div className=" text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <Dialog.Title
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Preview products
+                          Errors found
                         </Dialog.Title>
                       </div>
                     </div>
                     <div className="mt-2">
-                      <div className="my-4 rounded-md	border-y	border-r	border-l-8	border-y-custom	border-left-blue py-3 px-4 border-r-custom	">
+                      <div
+                        className="my-4 rounded-md	border-y	border-r	border-l-8	border-y-custom	border-left-red py-3 px-4 border-r-custom	"
+                        style={{ background: "#FDF5F6" }}
+                      >
                         <p className="text-sm font-normal">
-                          You are importing {importedProducts.length} products
-                          into FOBOH. You have chosen to overwrite any existing
-                          products that have the same SKU. If this preview
-                          doesn’t look right please update the file and try
-                          again.
+                          <span className="font-bold">X products</span> have
+                          errors that need correcting before importing. After
+                          you fix the errors, try importing the file again
                         </p>
                       </div>
                     </div>
-                    <div className="relative">
-                      <div style={{ width: "223px", position: "relative" }}>
-                        <KeyboardArrowDownIcon
-                          style={{
-                            position: "absolute",
-                            top: "10px",
-                            right: "12px",
-                            fill: "#637381",
-                          }}
-                        />
-                        <select
-                          onChange={handleOptionChange}
-                          style={{
-                            width: "223px",
-                            border: "none",
-                            background: "rgb(241 241 241)",
-                            borderRadius: "8px",
-                            appearance: "none",
-                            marginBottom: "10px",
-                            fontSize: "16px ",
-                            fontWeight: "700",
-                            color: "#637381",
-                          }}
-                        >
-                          {/* <KeyboardArrowDownIcon /> */}
-                          {importedProducts.map((tab, index) => (
-                            <>
-                              <option
-                                key={index}
-                                onChange={() => {
-                                  console.log(index, "click");
-                                }}
-                              >
-                                <div
-                                  key={index}
-                                  className={`text-center w-full py-2 bg-[#F8FAFC]`}
-                                  // onClick={() => setActiveTab(index)}
-                                >
-                                  {console.log(index, "{console.log(index)}")}
-                                  <p
-                                    className="text-sm font-bold text-[#147D73]"
-                                    style={{}}
-                                  >
-                                    {" "}
-                                    PRODUCT {index + 1}{" "}
-                                  </p>
-                                </div>
-                              </option>
-                            </>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="">
-                        {importedProducts.map((item, index) => (
-                          <div
-                            style={{ height: "150px" }}
-                            className={`relative px-6 py-3 overflow-y-auto 
-                            ${
-                              activeTab === `PRODUCT ${index + 1}`
-                                ? ""
-                                : "hidden"
-                            }
-                            `}
-                            id={`#tabData-${index}`}
+                    <table
+                      class="table-auto"
+                      style={{
+                        borderRadius: "8px",
+                        border: "1px solid #EEEEEE",
+                      }}
+                    >
+                      <thead
+                        style={{
+                          background: "#F9FAFB",
+                          borderBottom: "1px solid #EEEEEE",
+                        }}
+                      >
+                        <tr>
+                          <th
+                            className="font-semiBold text-sm  p-4"
+                            style={{ width: "35px" }}
                           >
-                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                              <p className="text-sm font-semibold">Title</p>
-                              <p className="text-sm font-normal text-lightGreen">
-                                {item.title}
-                              </p>
-                            </div>
-                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                              <p className="text-sm font-semibold">skUcode</p>
-                              <p className="text-sm font-normal text-lightGreen">
-                                {item.skUcode}
-                              </p>
-                            </div>
-                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                              <p className="text-sm font-semibold">brand</p>
-                              <p className="text-sm font-normal text-lightGreen">
-                                {item.brand}
-                              </p>
-                            </div>
-                          </div>
+                            {" "}
+                            Row
+                          </th>
+                          <th
+                            className="font-semiBold text-sm p-4"
+                            style={{ width: "105px" }}
+                          >
+                            Title
+                          </th>
+                          <th
+                            className="font-semiBold text-sm p-4"
+                            style={{ width: "140px" }}
+                          >
+                            Error location
+                          </th>
+                          <th
+                            className="font-semiBold text-sm p-4"
+                            style={{ width: "200px" }}
+                          >
+                            Error description
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {errorData?.map((errors, errorRow) => (
+                          <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
+                            <td className="font-medium text-sm p-4">
+                              {errorRow + 1}
+                            </td>
+                            <td className="font-normal text-sm p-4">
+                              {errors}
+                            </td>
+                            <td className="font-normal text-sm p-4">
+                              Column B: {errors}
+                            </td>
+                            <td className="font-normal text-sm p-4">
+                              Missing [{errors}], please enter a valid [{errors}
+                              ].
+                            </td>
+                          </tr>
                         ))}
-                      </div>
-                    </div>
+                        {console.log(errorData, "errorDataerrorData")}
+                      </tbody>
+                    </table>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
                     <div className="flex gap-3">
@@ -287,12 +264,11 @@ function PreviewProductModal({
                       <button
                         className="rounded-lg	bg-custom-skyBlue py-2.5	px-5 w-full"
                         type="button"
-                        onClick={showModal}
+                        onClick={() => previousModal()}
                         ref={cancelButtonRef}
                       >
                         <h5 className="text-base	font-medium text-white	">
-                          {" "}
-                          Import
+                          Reload
                         </h5>
                       </button>
                     </div>
@@ -304,12 +280,12 @@ function PreviewProductModal({
         </Dialog>
       </Transition.Root>
 
-      <ImportProductModal
+      {/* <ImportProductModal
         show={showPreviewModal}
         setShow={(set) => setShowPreviewModal(set)}
-      />
+      /> */}
     </>
   );
 }
 
-export default PreviewProductModal;
+export default ErrorFoundModal;

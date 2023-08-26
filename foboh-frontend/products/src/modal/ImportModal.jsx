@@ -2,10 +2,13 @@ import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import PreviewProductModal from "./PreviewProductModal";
 import * as XLSX from "xlsx";
-
+import { Link } from "@mui/material";
+import ErrorFoundModal from "./ErrorFoundModal";
 function ImportModal({ show, setShow }) {
   const [addedFile, setAddedFile] = useState(null);
   const [importedProducts, setImportedProducts] = useState([]);
+  // const [errorFoundProduct, setErrorFoundProduct] = useState([]);
+  const [errorFoundModal, setErrorFoundModal] = useState(false);
   const [errorData, setErrorData] = useState(null);
 
   // Function to handle the file upload
@@ -42,6 +45,8 @@ function ImportModal({ show, setShow }) {
                 dataStructure[0][index]
               ) {
                 errorData[rowIndex].push(element);
+                setErrorFoundModal(true);
+                setShow(false);
                 console.log("this requires data is not there");
               }
             });
@@ -80,6 +85,9 @@ function ImportModal({ show, setShow }) {
   const showModal = () => {
     if (addedFile && !errorData?.length) {
       setShowPreviewModal(true);
+      setShow(false);
+    } else {
+      setErrorFoundModal(true);
       setShow(false);
     }
   };
@@ -182,8 +190,13 @@ function ImportModal({ show, setShow }) {
                         <>
                           <div className="pb-4">
                             <p className="text-sm text-gray-500 text-center">
-                              Download a sample CSV template to see an example
-                              of the format required.
+                              Download a{" "}
+                              <Link to="#" className="">
+                                <span className="text-blue text-sm font-medium">
+                                  sample CSV template
+                                </span>
+                              </Link>{" "}
+                              to see an example of the format required.
                             </p>
                           </div>
                           <div className="border-darkGreen border border-dashed	flex justify-center items-center   bg-slate-100 	 rounded-md	h-44	w-full mt-2">
@@ -227,39 +240,43 @@ function ImportModal({ show, setShow }) {
                         </>
                       )}
                     </div>
-                    {errorData?.length > 0 && (
-                      <div
-                        style={{
-                          color: "red",
-                          maxHeight: "90px",
-                          background: "rgb(244 130 130 / 5%)",
-                          border: "1px solid #e11818",
-                        }}
-                        className="bg-red-100  border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 mx-6 flex-row items-center overflow-x-auto overflow-y-auto"
-                        role="alert"
-                      >
-                        {errorData?.length && (
-                          <strong className="font-semibold">
-                            Below fields missing required data
-                          </strong>
-                        )}
-                        {errorData?.map((errors, errorRow) => (
-                          <div className="flex">
-                            <span className="pr-2">{`Row ${
-                              errorRow + 3
-                            } :`}</span>
-                            {errors.map((err) => {
-                              return (
-                                <span className="block sm:inline pl-2">
-                                  {err},{" "}
-                                </span>
-                              );
-                            })}
-                            <span className="pl-2">fields.</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                    {
+                      // errorData?.length > 0
+                      //   ?
+                      // (setErrorFoundModal(true), setShow(false))
+                      // : ""
+                      // <div
+                      //   style={{
+                      //     color: "red",
+                      //     maxHeight: "90px",
+                      //     background: "rgb(244 130 130 / 5%)",
+                      //     border: "1px solid #e11818",
+                      //   }}
+                      //   className="bg-red-100  border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 mx-6 flex-row items-center overflow-x-auto overflow-y-auto"
+                      //   role="alert"
+                      // >
+                      //   {errorData?.length && (
+                      //     <strong className="font-semibold">
+                      //       Below fields missing required data
+                      //     </strong>
+                      //   )}
+                      //   {errorData?.map((errors, errorRow) => (
+                      //     <div className="flex">
+                      //       <span className="pr-2">{`Row ${
+                      //         errorRow + 3
+                      //       } :`}</span>
+                      //       {errors.map((err) => {
+                      //         return (
+                      //           <span className="block sm:inline pl-2">
+                      //             {err},{" "}
+                      //           </span>
+                      //         );
+                      //       })}
+                      //       <span className="pl-2">fields.</span>
+                      //     </div>
+                      //   ))}
+                      // </div>
+                    }
                     <div className="flex items-center ">
                       <input
                         id="default-checkbox"
@@ -314,6 +331,20 @@ function ImportModal({ show, setShow }) {
           </div>
         </Dialog>
       </Transition.Root>
+      {/* {errorData?.length > 0 && ( */}
+      {/* {errorData?.length > 0 && (
+       
+      )} */}
+      <ErrorFoundModal
+        importedProducts={importedProducts}
+        show={errorFoundModal}
+        setShow={(set) => setErrorFoundModal(set)}
+        previous={setShow}
+        errorData={errorData}
+        setErrorData={setErrorData}
+        setAddedFile={setAddedFile}
+      />
+      {/* )} */}
 
       <PreviewProductModal
         importedProducts={importedProducts}
