@@ -1,23 +1,32 @@
 // import { Fragment, useState } from "react";
 
-import React, { useState } from "react";
+import React from "react";
 import Header from "./Header";
-import Banner from "./Banner";
-import ShopSection from "./ShopSection";
-import TopRatedSection from "./TopRatedSection";
-import ShopBrandSection from "./ShopBrandSection";
+
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 import Footer from "./Footer";
 import BottomToTop from "./BottomToTop";
+import MainHomePage from "./MainHomePage";
+import MyAccount from "../MyAccount/MyAccount";
+import Profile from "../MyAccount/Profile";
+import BusinessDetails from "../MyAccount/BusinessDetails";
+import AddressDetails from "../MyAccount/AddressDetails";
+import DeliveryContact from "../MyAccount/DeliveryContact";
 function HomePage() {
-  const [count, setCount] = useState(0);
-  const [addData, setAddData] = useState([]);
   return (
     <>
       <Header />
-      <Banner />
-      <ShopSection />
-      <TopRatedSection />
-      <ShopBrandSection />
+      {/* <DeliveryContact /> */}
+      {/* <AddressDetails /> */}
+      {/* <BusinessDetails /> */}
+      {/* <Profile /> */}
+      {/* <MainHomePage /> */}
+      {/* <MyAccount /> */}
+      {/* <Routes>
+        <Route path="/home-page" element={<MainHomePage />} />
+        <Route path="/my-account" element={<MyAccount />} />
+      </Routes> */}
+
       <Footer />
       <BottomToTop />
     </>

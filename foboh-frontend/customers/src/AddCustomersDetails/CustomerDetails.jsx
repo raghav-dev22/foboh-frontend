@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { AddCustomerSchema } from "../schemas";
 import CustomerContact from "./CustomerContact";
 import CustomerAddress from "./CustomerAddress";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 import CustomerDetailsFirst from "./CustomerDetailsFirst";
 import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
@@ -51,8 +51,8 @@ function CustomerDetails() {
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastSeverity, setToastSeverity] = useState('success');
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastSeverity, setToastSeverity] = useState("success");
   const handleNext = () => {
     !isLastStep && setActiveStep((cur) => cur + 1);
   };
@@ -78,36 +78,70 @@ function CustomerDetails() {
 
   const finalHandleSubmit = (event) => {
     event.preventDefault();
-    if(values?.businessName && values.abn && values.address && values.apartment && values.billingPostalCode){
-    console.log("final vales>>>", values);
-    fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Customer added>>", data);
-        if (data.success) {
-          window.alert("Customer added successfully!")
-          navigate("/dashboard/customers/");
-        } else {
+    if (
+      values?.businessName &&
+      values.abn &&
+      values.address &&
+      values.apartment &&
+      values.billingPostalCode
+    ) {
+      console.log("final vales>>>", values);
+      fetch(
+        "https://customer-api-foboh.azurewebsites.net/api/Customer/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
         }
-      })
-      .catch((error) => console.log(error));
-    }else{
-      window.alert("Please fill all the filed")
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Customer added>>", data);
+          if (data.success) {
+            window.alert("Customer added successfully!");
+            navigate("/dashboard/customers/");
+          } else {
+          }
+        })
+        .catch((error) => console.log(error));
+    } else {
+      window.alert("Please fill all the filed");
     }
-
   };
   const handleCloseToast = () => {
-    setOpenToast(false)
-  }
-  console.log("errros",errors)
+    setOpenToast(false);
+  };
+  console.log("errros", errors);
+  const [show, setShow] = useState(false);
+  const handleFormChange = () => {
+    setShow(true);
+  };
   return (
     <>
+      {show && (
+        <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+          <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+            <div className="block">
+              <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                <button
+                  // onClick={handleReset}
+                  className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                >
+                  Cancel
+                </button>
+                <button
+                  // onClick={handleSubmit}
+                  className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                >
+                  Save
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper">
         <Stepper
           activeStep={activeStep}
@@ -170,7 +204,10 @@ function CustomerDetails() {
           </Step>
         </Stepper>
       </div>
-      <form className=" mx-auto lg:w-3/5 w-full   rounded-lg		 border border-inherit bg-white h-85	overflow-y-scroll		 flex flex-col	  ">
+      <form
+        onChange={handleFormChange}
+        className=" mx-auto lg:w-3/5 w-full   rounded-lg		 border border-inherit bg-white h-85	overflow-y-scroll		 flex flex-col	  "
+      >
         {activeStep === 0 ? (
           <CustomerDetailsFirst
             touched={touched}

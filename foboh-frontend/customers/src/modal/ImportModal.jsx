@@ -1,6 +1,7 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import PreviewModal from "./PreviewModal";
+import { Link } from "react-router-dom";
 import * as XLSX from "xlsx";
 
 function ImportModal({ show, setShow }) {
@@ -180,8 +181,14 @@ function ImportModal({ show, setShow }) {
                         <>
                           <div className="pb-4">
                             <p className="text-sm text-gray-500 text-center">
-                              Download a sample CSV template to see an example
-                              of the format required.
+                              Download a{" "}
+                              <Link
+                                to="#"
+                                className="text-blue text-sm font-medium "
+                              >
+                                sample CSV template
+                              </Link>{" "}
+                              to see an example of the format required.
                             </p>
                           </div>
                           <div className="border-darkGreen border border-dashed	flex justify-center items-center   bg-slate-100 	 rounded-md	h-44	w-full mt-2">
@@ -301,7 +308,7 @@ function ImportModal({ show, setShow }) {
                       >
                         <h5 className="text-base	font-medium text-white	">
                           {" "}
-                          Submit
+                          Upload
                         </h5>
                       </button>
                     </div>

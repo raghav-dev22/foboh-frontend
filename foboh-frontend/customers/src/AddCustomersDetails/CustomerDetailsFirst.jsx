@@ -13,8 +13,6 @@ function CustomerDetailsFirst({
   touched,
   setValues,
 }) {
-
-
   const handleSelect = (e, name) => {
     console.log(e, name);
     setValues({
@@ -23,7 +21,7 @@ function CustomerDetailsFirst({
     });
   };
 
-  console.log("all error and touch is>>", errors, touched)
+  console.log("all error and touch is>>", errors, touched);
   return (
     <form className="">
       <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -208,6 +206,15 @@ function CustomerDetailsFirst({
             <h5 className="text-base font-medium text-green mb-3">Tags</h5>
             <div className=" top-16 w-full">
               <Select
+                value={options.find((option) => option.value === values.tags)}
+                // defaultValue={[options[2], options[3]]}
+                isMulti
+                name="colors"
+                options={options}
+                className="basic-multi-select"
+                classNamePrefix="select"
+              />
+              {/* <Select
                 name="tags"
                 value={options.find(
                   (option) => option.value === values.tags
@@ -217,7 +224,7 @@ function CustomerDetailsFirst({
                 // onChange={}
                 className="basic-multi-select "
                 classNamePrefix="select"
-              />
+              /> */}
             </div>
           </div>
           <div className=" w-full relative md:w-1/2 px-3">

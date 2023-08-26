@@ -26,7 +26,6 @@ import { store } from "./Redux/store";
 // const url = process.env.REACT_APP_EXPRESS_SERVER_URL
 
 const App = () => {
-
   useEffect(() => {
     // const url = process.env.REACT_APP_URL
 
@@ -42,7 +41,6 @@ const App = () => {
       .catch((error) => console.log(error));
 
     // Fetching user profile and setting to redux store
-    
   }, []);
 
   return (
