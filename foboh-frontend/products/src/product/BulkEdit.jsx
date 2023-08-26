@@ -78,7 +78,6 @@ function BulkEdit() {
     },
   ];
 
-  const [department, setDepartment] = useState([]);
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
       initialValues: initialValues,
@@ -102,9 +101,11 @@ function BulkEdit() {
               productId: product.productId,
               title: product.title,
               skUcode: product.skuCode,
-              configuration: product.configuration.label,
+              unitofMeasure: product?.baseUnitMeasure?.label,
+              innerUnitofMeasure: product?.innerUnitMeasure?.label,
               globalPrice: product.salePrice,
               buyPrice: product.buyPrice,
+              configuration: product.configuration,
               availableQty: product.stockAlertLevel,
               visibility: product.visibility.label === "Visible" ? true : false,
               productStatus: product.status.label,
@@ -167,10 +168,9 @@ function BulkEdit() {
       return {
         title: product.title,
         skuCode: product.skUcode,
-        configuration: {
-          value: 5,
-          label: `${ium?.value} x ${bum?.label}`,
-        },
+        baseUnitMeasure: bum,
+        innerUnitMeasure: ium,
+        configuration: product.configuration,
         salePrice: product.globalPrice,
         stockAlertLevel: product.stockThreshold,
         status: state,
@@ -184,10 +184,23 @@ function BulkEdit() {
 
   const handleFieldChange = (productId, title, value) => {
     setIsUpdate(true);
+
     setValues((values) => {
       const updatedProducts = values.map((product) => {
-        if (product.productId === productId) {
-          return { ...product, [title]: value };
+        if (product.productId === productId && title === "baseUnitMeasure") {
+          return {
+            ...product,
+            baseUnitMeasure: value,
+            configuration: `${product.innerUnitMeasure.value} x ${value.label}`,
+          };
+        } else if (product.productId === productId && title === "innerUnitMeasure") {
+          return {
+            ...product,
+            innerUnitMeasure: value,
+            configuration: `${value.value} x ${product.baseUnitMeasure.label}`,
+          };
+        } else if (product.productId === productId ) {
+          return {...product,  [title]: value  }
         }
         return product;
       });
@@ -263,7 +276,13 @@ function BulkEdit() {
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base	"
                 >
-                  Configuration
+                  Base unit
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-green	font-medium text-base	"
+                >
+                  Inner unit
                 </th>
                 <th
                   scope="col"
@@ -351,12 +370,31 @@ function BulkEdit() {
                       <div className="w-44 flex justify-between items-center">
                         <Select
                           name="colors"
-                          options={configurations}
-                          value={product.configuration}
+                          options={baseUnitOfMeasurement}
+                          value={product.baseUnitMeasure}
                           onChange={(e) =>
                             handleFieldChange(
                               product.productId,
-                              "configuration",
+                              "baseUnitMeasure",
+                              e
+                            )
+                          }
+                          className="basic-multi-select-2 "
+                          classNamePrefix="select"
+                        />
+                        {/* <KeyboardArrowDownIcon /> */}
+                      </div>
+                    </td>
+                    <td className={`px-6 py-4 selectId-${index}`}>
+                      <div className="w-44 flex justify-between items-center">
+                        <Select
+                          name="colors"
+                          options={innerUnitOfMeasurement}
+                          value={product.innerUnitMeasure}
+                          onChange={(e) =>
+                            handleFieldChange(
+                              product.productId,
+                              "innerUnitMeasure",
                               e
                             )
                           }
