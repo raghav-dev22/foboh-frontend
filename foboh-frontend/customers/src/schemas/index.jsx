@@ -14,7 +14,7 @@ export const AddCustomerSchema = Yup.object().shape({
   liquorLicence: Yup.string().max(
     13,
     "Liquor licence cannot be more than 13 characters"
-  ),
+  ).required("Liquor licence is required"),
 
   //customers-contact
 
