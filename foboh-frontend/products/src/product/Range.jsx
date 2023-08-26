@@ -57,6 +57,7 @@ function Range() {
         const array = createArrayWithNumber(data.last_page); //error
         setTotalPages(data.last_page);
         setPages(array);
+        // console.log("bbbbbb", products)
       })
       .then(() => {
         setTimeout(() => {
@@ -102,6 +103,7 @@ function Range() {
 
   // visibility handle
   const handleBulkVisibility = (name) => {
+
     fetch(
       `https://product-api-foboh.azurewebsites.net/api/Product/bulkupdate`,
       {
@@ -116,9 +118,9 @@ function Range() {
               title: product.title,
               skUcode: product.skUcode,
               configuration: product.configuration,
-              globalPrice: product.salePrice,
+              globalPrice: product.globalPrice,
               buyPrice: product.buyPrice,
-              availableQty: product.stockAlertLevel,
+              availableQty: product.availableQty,
               visibility: name === "visible" ? true : false,
               productStatus: product.productStatus,
             };
@@ -128,7 +130,7 @@ function Range() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("response data:", data);
+        console.log("response data1:", data);
         setIsBulkEdit(false);
         getAllproduct();
       })
@@ -197,9 +199,9 @@ function Range() {
   return (
     <>
       <ActiveProduct
-        handleBulkEdit={handleBulkEdit}
         totalProducts={totalProducts}
-        selectedProductsLength={selected}
+        selectedProductsLength={selectedProducts.length}
+        productId = {selectedProducts[0]?.productId}
       />
       <div className="   " style={{ height: "100%" }}>
         <div className="box-3 px-6 ">
@@ -280,7 +282,7 @@ function Range() {
                           className="custom-skeleton"
                         >
                           <td className={classes}>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 cursor-pointer">
                               <input
                                 id="default-checkbox"
                                 type="checkbox"
@@ -291,19 +293,23 @@ function Range() {
                                     : false
                                 }
                                 onClick={(e) => handleCheckbox(e, product)}
-                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
                               />
                             </div>
                           </td>
                           <td className={classes}>
-                            <div className="flex items-center gap-3">
+                            <div  onClick={() =>
+                                navigate(
+                                  `/dashboard/view-product/${product.productId}`
+                                )
+                              } className="flex items-center gap-3">
                               {product.productImageUrls ? (
                                 <>
                                   <div className="">
                                     <img
                                       src={product.productImageUrls[0]}
                                       alt=""
-                                      className="object-cover	"
+                                      className="object-cover cursor-pointer	"
                                       style={{
                                         borderRadius: "6px",
                                         height: "40px",
@@ -333,7 +339,7 @@ function Range() {
                               }
                               className="flex items-center gap-3"
                             >
-                              <Typography className="font-medium	md:text-base text-sm text-[#637381]">
+                              <Typography className="font-medium	md:text-base text-sm text-[#637381] cursor-pointer">
                                 {product.title}
                               </Typography>
                             </div>

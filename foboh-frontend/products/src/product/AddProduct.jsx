@@ -1056,7 +1056,7 @@ function AddProduct() {
                     )}
                     {errors.skuCode && touched.skuCode && (
                       <ErrorOutlineIcon
-                        style={{ top: "45px" }}
+                        style={{ top: "47px" }}
                         className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
                       />
                     )}
@@ -1256,7 +1256,7 @@ function AddProduct() {
                     </div>
                   )}
 
-                  <div className="w-full  px-3">
+                  <div className="w-full  px-3 relative">
                     <label
                       className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                       htmlFor="awards"
@@ -1277,7 +1277,24 @@ function AddProduct() {
                       value={values.awards}
                       type="text"
                       placeholder="WS 93"
+                      style={{
+                          border:
+                            errors.awards &&
+                            touched.awards &&
+                            "1px solid red",
+                        }}
                     />
+                     {errors.awards && touched.awards && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.awards}
+                      </p>
+                    )}
+                    {errors.awards && touched.awards && (
+                      <ErrorOutlineIcon
+                        style={{ top: "45px" }}
+                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
