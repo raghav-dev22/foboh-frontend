@@ -3,11 +3,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import PreviewModal from "./PreviewModal";
 import { Link } from "react-router-dom";
 import * as XLSX from "xlsx";
+import ErrorFoundCustomerModal from "./ErrorFoundCustomerModal";
 
 function ImportModal({ show, setShow }) {
   const [addedFile, setAddedFile] = useState(null);
   const [importedCustomers, setImportedCustomers] = useState([]);
   const [errorData, setErrorData] = useState(null);
+  const [errorFoundModal, setErrorFoundModal] = useState(false);
 
   // Function to handle the file upload
   const handleFileUpload = (evt) => {
@@ -44,6 +46,8 @@ function ImportModal({ show, setShow }) {
               ) {
                 errorData[rowIndex].push(element);
                 console.log("this requires data is not there");
+                setErrorFoundModal(true);
+                setShow(false);
               }
             });
             return tmpObj;
@@ -319,6 +323,15 @@ function ImportModal({ show, setShow }) {
           </div>
         </Dialog>
       </Transition.Root>
+      <ErrorFoundCustomerModal
+        importedCustomers={importedCustomers}
+        show={errorFoundModal}
+        setShow={(set) => setErrorFoundModal(set)}
+        previous={setShow}
+        errorData={errorData}
+        setErrorData={setErrorData}
+        setAddedFile={setAddedFile}
+      />
 
       <PreviewModal
         show={showPreviewModal}
