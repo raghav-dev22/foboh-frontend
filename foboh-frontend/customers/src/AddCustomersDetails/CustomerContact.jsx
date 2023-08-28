@@ -38,7 +38,7 @@ function CustomerContact({
       fontWeight: 600,
     },
   }));
-  console.log("errors and touch on contact page",errors,touched)
+  console.log("errors and touch on contact page",errors)
   const contactSame=(e)=>{
     console.log("e --->", e.target.checked);
     if (e.target.checked) {
@@ -80,15 +80,15 @@ function CustomerContact({
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.orderingFirstName && touched.orderingFirstName && "1px solid red",
+                    errors.orderingFirstName &&  "1px solid red",
                 }}
               />
-              {errors.orderingFirstName && touched.orderingFirstName && (
+              {errors.orderingFirstName  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingFirstName}
                 </p>
               )}
-              {errors.orderingFirstName && touched.orderingFirstName && (
+              {errors.orderingFirstName  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -110,15 +110,15 @@ function CustomerContact({
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.orderingLastName && touched.orderingLastName && "1px solid red",
+                    errors.orderingLastName && "1px solid red",
                 }}
               />
-              {errors.orderingLastName && touched.orderingLastName && (
+              {errors.orderingLastName  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingLastName}
                 </p>
               )}
-              {errors.orderingLastName && touched.orderingLastName && (
+              {errors.orderingLastName  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -161,15 +161,15 @@ function CustomerContact({
                 }}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.orderingMobile && touched.orderingMobile && "1px solid red",
+                  border: errors.orderingMobile  && "1px solid red",
                 }}
               />
-              {errors.orderingMobile && touched.orderingMobile && (
+              {errors.orderingMobile  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingMobile}
                 </p>
               )}
-              {errors.orderingMobile && touched.orderingMobile && (
+              {errors.orderingMobile  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -190,15 +190,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.orderingEmail && touched.orderingEmail && "1px solid red",
+                  border: errors.orderingEmail  && "1px solid red",
                 }}
               />
-              {errors.orderingEmail && touched.orderingEmail && (
+              {errors.orderingEmail  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingEmail}
                 </p>
               )}
-              {errors.orderingEmail && touched.orderingEmail && (
+              {errors.orderingEmail  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -245,15 +245,15 @@ function CustomerContact({
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.deliveryFirstName && touched.deliveryFirstName && "1px solid red",
+                    errors.deliveryFirstName  && "1px solid red",
                 }}
               />
-              {errors.deliveryFirstName && touched.deliveryFirstName && (
+              {errors.deliveryFirstName  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryFirstName}
                 </p>
               )}
-              {errors.deliveryFirstName && touched.deliveryFirstName && (
+              {errors.deliveryFirstName  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -275,15 +275,15 @@ function CustomerContact({
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors.deliveryLastName && touched.deliveryLastName && "1px solid red",
+                    errors.deliveryLastName  && "1px solid red",
                 }}
               />
-              {errors.deliveryLastName && touched.deliveryLastName && (
+              {errors.deliveryLastName  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryLastName}
                 </p>
               )}
-              {errors.LastName && touched.LastName && (
+              {errors.LastName  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -320,15 +320,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.deliveryMobile && touched.deliveryMobile && "1px solid red",
+                  border: errors.deliveryMobile  && "1px solid red",
                 }}
               />
-              {errors.deliveryMobile && touched.deliveryMobile && (
+              {errors.deliveryMobile  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryMobile}
                 </p>
               )}
-              {errors.deliveryMobile && touched.deliveryMobile && (
+              {errors.deliveryMobile  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -349,15 +349,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.deliveryEmail && touched.deliveryEmail && "1px solid red",
+                  border: errors.deliveryEmail  && "1px solid red",
                 }}
               />
-              {errors.deliveryEmail && touched.deliveryEmail && (
+              {errors.deliveryEmail  && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryEmail}
                 </p>
               )}
-              {errors.deliveryEmail && touched.deliveryEmail && (
+              {errors.deliveryEmail  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>

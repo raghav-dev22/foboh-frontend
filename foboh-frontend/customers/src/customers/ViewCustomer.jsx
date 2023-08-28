@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 function ViewCustomer() {
  
   const location = useLocation()
-  console.log("params location >>", location?.state?.data)
+  // console.log("params location >>", location?.state?.data)
  
   return (
     <div className='px-6'>
