@@ -75,7 +75,7 @@ function Range() {
   };
 
   const handleSelectAllChange = (e) => {
-    console.log("flag >>", e);
+    // console.log("flag >>", e);
     const checked = e.target.checked;
     checked ? setSelectedProducts([...products]) : setSelectedProducts([]);
     setIsBulkEdit(true);

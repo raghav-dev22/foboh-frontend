@@ -43,6 +43,7 @@ function ViewProduct() {
   const [marginCopy, setMarginCopy] = useState(null);
   const [departmentObj, setDepartmentObj] = useState({});
   const [productName, setProductName] = useState("");
+  const [prevImgUrl, setPrevImgUrl] = useState([]);
 
   const [initialValues, setInitialValues] = useState({
     visibility: false,
@@ -177,11 +178,12 @@ function ViewProduct() {
       const wet = parseInt(product.globalPrice) * 0.29;
       const imageUris = product.productImageUrls;
       setProductImageUris(imageUris);
+      setPrevImgUrl(imageUris)
       setCheckGST(product.gstFlag);
       setCheckWET(product.wetFlag);
       setSelectedState(product.productStatus);
       setInitialValues({
-        ...values,
+        ...initialValues,
         visibility: product.visibility,
         region: product.regionAvailability,
         minimumOrder: product.minimumOrder,
@@ -321,7 +323,7 @@ function ViewProduct() {
 
             const imageUris = product.productImageUrls;
             setProductImageUris(imageUris);
-
+            setPrevImgUrl(imageUris)
             setInitialValues({
               visibility: product.visibility,
               region: product.regionAvailability,
@@ -492,6 +494,40 @@ function ViewProduct() {
     console.log("err val", err);
     console.log("result", values);
     if (err.length < 1) {
+      setInitialValues({
+        ...initialValues,
+        visibility: values.visibility,
+        region: values.regionAvailability,
+        minimumOrder: values.minimumOrder,
+        trackInventory: values.trackInventory,
+        stockAlertLevel: values.stockThreshold,
+        sellOutOfStock: values.sellOutOfStock,
+        title: values?.title,
+        skuCode: values.skUcode,
+        brand: values.brand,
+        availableQty: values.availableQty,
+        category: values.categoryId,
+        subcategory: values.subCategoryId,
+        segment: values.segmentId,
+        grapeVariety: values.variety,
+        regionSelect: values.region,
+        vintage: values.vintage,
+        awards: values.award && values.award,
+        abv: values.abv,
+        country: values.countryOfOrigin,
+        baseUnitMeasure: values.unitofMeasure,
+        innerUnitMeasure: values.innerUnitMeasure,
+        configuration: values.configuration,
+        description: values.description,
+        salePrice: values.globalPrice,
+        buyPrice: values.buyPrice,
+        profit: values.profit,
+        margin: values.margin,
+        wineEqualisationTax: values.wineEqualisationTax,
+        landedUnitCost: values.landedUnitCost,
+        status: values.status,
+        productImageUrls: productImageUris,
+      });
       fetch(
         `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Update/${productId}`,
         {
@@ -990,6 +1026,7 @@ function ViewProduct() {
   const handleReset = () => {
     setShow(false);
     setValues(initialValues);
+    setProductImageUris(prevImgUrl)
   };
 
   return (
@@ -1193,7 +1230,7 @@ function ViewProduct() {
                           id={region}
                           type="checkbox"
                           value={region}
-                          checked={values.region?.includes(region)}
+                          checked={values?.region?.includes(region)}
                           name="region"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                         />
@@ -1724,11 +1761,11 @@ function ViewProduct() {
                         disabled
                         value={
                           values.configuration &&
-                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                          `${values?.innerUnitMeasure?.value} x ${values?.baseUnitMeasure?.label}`
                         }
                         placeholder={
                           values.configuration &&
-                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                          `${values?.innerUnitMeasure?.value} x ${values?.baseUnitMeasure?.label}`
                         }
                       />
                     </div>
