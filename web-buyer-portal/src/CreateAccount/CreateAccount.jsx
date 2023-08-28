@@ -58,6 +58,8 @@ function CreateAccount() {
   const handleNext = () => {
     const currentValidationSchema = validationSchemas[currentStep];
     formik.validateForm().then((errors) => {
+      console.log(Object.values(errors).length, currentStep !== 2);
+
       if (currentStep !== 2 && Object.values(errors).length === 0) {
         setCurrentStep((cur) => cur + 1);
       } else if (currentStep === 2) {
@@ -65,7 +67,7 @@ function CreateAccount() {
         formik.submitForm();
       }
       console.log("res", errors);
-    });
+    }).catch(error => console.log(error))
   };
 
   const handleBack = () => {
