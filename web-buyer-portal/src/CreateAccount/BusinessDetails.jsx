@@ -1,13 +1,19 @@
 import React from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 function BusinessDetails({
   values,
   errors,
   handleBlur,
   handleChange,
   touched,
+  setValues
 }) {
-  console.log("errors", errors);
+  console.log("steponeschema", errors);
+
+
+  
+
   return (
     <>
       <div className="flex flex-col justify-center">
@@ -75,6 +81,7 @@ function BusinessDetails({
               type="text"
               id="ABN"
               className="pl-custom-left"
+              name="ABN"
               autoComplete="off"
               value={values.ABN}
               onChange={handleChange}
@@ -120,6 +127,7 @@ function BusinessDetails({
             <input
               type="text"
               id="LiquerLicence"
+              name="LiquerLicence"
               className="pl-custom-left"
               autoComplete="off"
               value={values.LiquerLicence}
