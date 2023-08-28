@@ -661,6 +661,7 @@ function ViewProduct() {
       ...values,
       department: e,
     });
+    setShow(true)
     // ?DepartmentId=${e.value}
     fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
       method: "GET",
@@ -696,6 +697,7 @@ function ViewProduct() {
       ...values,
       category: e,
     });
+    setShow(true)
     fetch(
       `https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`,
       {
@@ -729,6 +731,7 @@ function ViewProduct() {
       ...values,
       subcategory: e,
     });
+    setShow(true)
     fetch(
       `https://masters-api-foboh.azurewebsites.net/api/Segment/get?SubCategoryId=${itemId}`,
       {
@@ -755,6 +758,7 @@ function ViewProduct() {
       ...values,
       segment: e,
     });
+    setShow(true)
   };
 
   const handleregionSelectChange = (e) => {
@@ -762,6 +766,8 @@ function ViewProduct() {
       ...values,
       regionSelect: e,
     });
+    setShow(true)
+
   };
 
   const handleCountryChange = (e) => {
@@ -769,6 +775,8 @@ function ViewProduct() {
       ...values,
       country: e,
     });
+    setShow(true)
+
   };
 
   const handleGrapeVarietyChange = (e) => {
@@ -776,6 +784,7 @@ function ViewProduct() {
       ...values,
       grapeVariety: [...e],
     });
+    setShow(true)
   };
 
   const handlebaseUnitOfMeasurement = (e) => {
@@ -791,6 +800,7 @@ function ViewProduct() {
         baseUnitMeasure: e,
       });
     }
+    setShow(true)
   };
 
   const handleinnerUnitOfMeasurement = (e) => {
@@ -808,6 +818,7 @@ function ViewProduct() {
         innerUnitMeasure: e,
       });
     }
+    setShow(true)
   };
 
   const handletagsChange = (e) => {
@@ -816,6 +827,7 @@ function ViewProduct() {
       ...values,
       tags: [...e],
     });
+    setShow(true)
   };
 
   const handleSalePrice = (e) => {
@@ -839,11 +851,11 @@ function ViewProduct() {
         salePrice: salePrice,
       });
     }
+    setShow(true)
   };
 
   const handleBuyPrice = (e) => {
     const buyPrice = e.target.value;
-
     if (values.salePrice) {
       const profit = values.salePrice - buyPrice;
       setProfitCopy(profit);
@@ -862,11 +874,13 @@ function ViewProduct() {
         buyPrice: buyPrice,
       });
     }
+    setShow(true)
   };
 
   const handleGSTChange = (e) => {
     setCheckGST(!checkGST);
     console.log(checkGST);
+    setShow(true)
   };
 
   const handleWETChange = (e) => {
@@ -889,7 +903,7 @@ function ViewProduct() {
         landedUnitCost: "",
       });
     }
-
+    setShow(true)
     setCheckWET(!checkWET);
     console.log(checkWET);
   };

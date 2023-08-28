@@ -125,7 +125,6 @@ function Range() {
               availableQty: product.availableQty,
               visibility: name === "visible" ? true : false,
               productStatus: product.productStatus,
-              // sellOutOfStock: product.sellOutOfStock
             };
           })
         ),
@@ -133,11 +132,12 @@ function Range() {
     )
       .then((response) => {
         console.log("response product bulk update >>", response);
-        response.json()
+        response.json();
       })
       .then((data) => {
         console.log("response data1:", data);
         setIsBulkEdit(false);
+        setSelectedProducts([]);
         getAllproduct();
       })
       .catch((error) => console.log(error));
@@ -207,7 +207,7 @@ function Range() {
       <ActiveProduct
         totalProducts={totalProducts}
         selectedProductsLength={selectedProducts.length}
-        productId = {selectedProducts[0]?.productId}
+        productId={selectedProducts[0]?.productId}
       />
       <div className="   " style={{ height: "100%" }}>
         <div className="box-3 px-6 ">
@@ -304,11 +304,14 @@ function Range() {
                             </div>
                           </td>
                           <td className={classes}>
-                            <div  onClick={() =>
+                            <div
+                              onClick={() =>
                                 navigate(
                                   `/dashboard/view-product/${product.productId}`
                                 )
-                              } className="flex items-center gap-3">
+                              }
+                              className="flex items-center gap-3"
+                            >
                               {product.productImageUrls ? (
                                 <>
                                   <div className="">
