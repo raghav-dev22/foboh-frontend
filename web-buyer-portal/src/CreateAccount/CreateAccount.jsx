@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 function CreateAccount() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
   const [currentStep, setCurrentStep] = useState(0);
-
+  
   const formik = useFormik({
     initialValues: {
       BusinessName: "",
@@ -39,28 +39,15 @@ function CreateAccount() {
       DeliveryContactMobile :"",
     },
     validationSchema: validationSchemas[currentStep],
-    onSubmit: (values) => {
-      console.log(values, "saksii");
-      setShow(true);
-    },
   });
-
-  // const handleNext = () => {
-  //   !isLastStep && setActiveStep((cur) => cur + 1);
-  // };
   const [show, setShow] = useState(false);
-
+  
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
-
-
-
+  
   const handleNext = () => {
-    const currentValidationSchema = validationSchemas[currentStep];
     formik.validateForm().then((errors) => {
-      console.log(Object.values(errors).length, currentStep !== 2);
-
-      if (currentStep !== 2 && Object.values(errors).length === 0) {
+      if (currentStep < 2 && Object.values(errors).length === 0) {
         setCurrentStep((cur) => cur + 1);
       } else if (currentStep === 2) {
         console.log("Form submitted");
@@ -78,6 +65,9 @@ function CreateAccount() {
     else {
 
     }
+  }
+  const onSubmit=(values) => {
+    setShow(true);
   }
 
   return (
@@ -125,6 +115,7 @@ function CreateAccount() {
                     handleBlur={formik.handleBlur}
                     handleChange={formik.handleChange}
                     touched={formik.touched}
+                    setValues={formik.setValues}
                   />
                 )}
                 {currentStep === 1 && (
@@ -162,9 +153,9 @@ function CreateAccount() {
                       </p>
                     </button>
                     <Button
-                      onClick={formik.submitForm}
+                      // onClick={formik.submitForm}
                       className="login-btn bg-custom-blue rounded-md	w-36 p-3 custom-shadow"
-                    // onClick={submit}
+                      onClick={onSubmit}
                     >
                       <p className="text-white text-center font-semibold	text-sm	 ">
                         Save
@@ -210,7 +201,7 @@ function CreateAccount() {
           </div>
         </div>
       </div>
-      <SuccessModal show={show} setShow={(set) => setShow(set)} />
+      <SuccessModal show={show} setShow={setShow} />
     </>
   );
 }

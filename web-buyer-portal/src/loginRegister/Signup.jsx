@@ -9,12 +9,6 @@ function Signup() {
   const [pwd, setPwd] = useState("");
   const [email, setEmail] = useState("");
 
-  const handle = () => {
-    localStorage.setItem("Name", name);
-    localStorage.setItem("Password", pwd);
-    localStorage.setItem("Password", email);
-  };
-  console.log(handle, "handle------------------>");
   const initialValues = {
     name: "",
     email: "",
@@ -26,11 +20,11 @@ function Signup() {
       initialValues: initialValues,
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
-        console.log(values.email, "signup");
+        console.log(values, "signup");
         
       },
     });
-  console.log(values.email, "values");
+  console.log(values, "values");
   return (
     <>
       <div className=" md:bg-[#F8FAFC]  w-full flex items-center justify-center  h-full">

@@ -113,7 +113,7 @@ function PersonalDetails({ profileUri, setShow, show }) {
             imageUrl: profileUri,
             bio: values.bio,
             mobile: values.mobile,
-            organisationId: user.organisationId,
+            organisationId: localStorage.getItem('organisationId'),
             isActive: true,
           }),
         }

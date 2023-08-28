@@ -176,7 +176,7 @@ export const LoginData = {
     },
     {
       email: "jane@example.com",
-      password: "strongpass456",
+      password: "Strongpass456",
     },
     {
       email: "alice@example.com",
