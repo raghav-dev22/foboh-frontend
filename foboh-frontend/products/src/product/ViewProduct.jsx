@@ -26,6 +26,7 @@ import {
   innerUnitOfMeasurement,
   options,
 } from "../data";
+import { Skeleton } from "antd";
 
 function ViewProduct() {
   const { id } = useParams();
@@ -41,9 +42,9 @@ function ViewProduct() {
   const [salePriceCopy, setSalePriceCopy] = useState(null);
   const [profitCopy, setProfitCopy] = useState(null);
   const [marginCopy, setMarginCopy] = useState(null);
-  const [departmentObj, setDepartmentObj] = useState({});
   const [productName, setProductName] = useState("");
   const [prevImgUrl, setPrevImgUrl] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [initialValues, setInitialValues] = useState({
     visibility: false,
@@ -470,6 +471,11 @@ function ViewProduct() {
                 };
               })
             );
+          })
+          .then(() => {
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
           })
           .catch((error) => console.log(error));
       });
@@ -1079,87 +1085,110 @@ function ViewProduct() {
             <div className="grid gap-3">
               {/* Update Image ---START */}
               <div className="edit-img">
-                <img
-                  src={
-                    productImageUris
-                      ? productImageUris[0]
-                      : "/assets/inventory-img.png"
-                  }
-                  alt=""
-                  className=" w-full"
-                />
+                <Skeleton
+                  style={{ padding: "10px" }}
+                  loading={loading}
+                  active
+                  avatar
+                >
+                  <img
+                    src={
+                      productImageUris
+                        ? productImageUris[0]
+                        : "/assets/inventory-img.png"
+                    }
+                    alt=""
+                    className=" w-full"
+                  />
+                </Skeleton>
               </div>
               <div className="flex gap-3">
                 <div className="">
-                  <img
-                    src={
-                      productImageUris
-                        ? productImageUris[1]
-                        : "/assets/inventory-img.png"
-                    }
-                    alt=""
-                    className=""
-                  />
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <img
+                      src={
+                        productImageUris
+                          ? productImageUris[1]
+                          : "/assets/inventory-img.png"
+                      }
+                      alt=""
+                      className=""
+                    />
+                  </Skeleton>
                 </div>
                 <div className="">
-                  <img
-                    src={
-                      productImageUris
-                        ? productImageUris[2]
-                        : "/assets/inventory-img.png"
-                    }
-                    alt=""
-                    className=""
-                  />
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <img
+                      src={
+                        productImageUris
+                          ? productImageUris[2]
+                          : "/assets/inventory-img.png"
+                      }
+                      alt=""
+                      className=""
+                    />
+                  </Skeleton>
                 </div>
               </div>
-              <label
-                htmlFor="upload-image"
-                className="update-img-btn rounded-md	w-full py-3	bg-custom-skyBlue flex cursor-pointer justify-center"
-              >
-                <input
-                  onChange={handleImageUpload}
-                  id="upload-image"
-                  type="file"
-                  name="files[]"
-                  multiple
-                  hidden
-                />
-                <div className="flex gap-2 items-center justify-center">
-                  <div className="">
-                    <svg
-                      width={20}
-                      height={21}
-                      viewBox="0 0 20 21"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <mask
-                        id="mask0_555_25257"
-                        style={{ maskType: "alpha" }}
-                        maskUnits="userSpaceOnUse"
-                        x={0}
-                        y={0}
+              {!loading && (
+                <label
+                  htmlFor="upload-image"
+                  className="update-img-btn rounded-md	w-full py-3	bg-custom-skyBlue flex cursor-pointer justify-center"
+                >
+                  <input
+                    onChange={handleImageUpload}
+                    id="upload-image"
+                    type="file"
+                    name="files[]"
+                    multiple
+                    hidden
+                  />
+                  <div className="flex gap-2 items-center justify-center">
+                    <div className="">
+                      <svg
                         width={20}
                         height={21}
+                        viewBox="0 0 20 21"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <rect y="0.5" width={20} height={20} fill="#D9D9D9" />
-                      </mask>
-                      <g mask="url(#mask0_555_25257)">
-                        <path
-                          d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
-                          fill="white"
-                        />
-                      </g>
-                    </svg>
+                        <mask
+                          id="mask0_555_25257"
+                          style={{ maskType: "alpha" }}
+                          maskUnits="userSpaceOnUse"
+                          x={0}
+                          y={0}
+                          width={20}
+                          height={21}
+                        >
+                          <rect y="0.5" width={20} height={20} fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_555_25257)">
+                          <path
+                            d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
+                            fill="white"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                    <div className="">
+                      <h6 className="text-white font-medium	text-base	">
+                        Update images
+                      </h6>
+                    </div>
                   </div>
-                  <div className="">
-                    <h6 className="text-white font-medium	text-base	">
-                      Update images
-                    </h6>
-                  </div>
-                </div>
-              </label>
+                </label>
+              )}
               {/* Update Image ---END  */}
 
               {/* Product Listing ---START */}
@@ -1170,99 +1199,112 @@ function ViewProduct() {
                     Product listing{" "}
                   </h5>
                 </div>
-                <div className="p-5">
-                  <div className="">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Status
-                    </h5>
-                    {status.map((state, index) => (
-                      <div key={index} className="flex items-center mb-4 gap-3">
+                <Skeleton
+                  style={{ padding: "10px" }}
+                  loading={loading}
+                  active
+                  avatar
+                >
+                  <div className="p-5">
+                    <div className="">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Status
+                      </h5>
+                      {status.map((state, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center mb-4 gap-3"
+                        >
+                          <input
+                            id={state}
+                            onChange={handleStateSelection}
+                            type="checkbox"
+                            value={state}
+                            name="status"
+                            checked={selectedState === state}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor={state}
+                            className="ml-2  dark:text-gray-300"
+                          >
+                            <p className="text-sm	 font-medium text-gray">
+                              {state}
+                            </p>
+                          </label>
+                        </div>
+                      ))}
+                      {errors.status && touched.status && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.status}
+                        </p>
+                      )}
+                    </div>
+                    <div className="pb-5">
+                      <h5 className="text-base font-medium text-green mb-2">
+                        Product Visibility
+                      </h5>
+                      <p className="text-gray text-sm font-normal	">
+                        Set globally whether this product is shown to customers
+                        or not
+                      </p>
+                    </div>
+                    <div className="pb-4 flex justify-between items-center">
+                      <h5 className="text-green text-base font-medium">
+                        Visible to customers
+                      </h5>
+
+                      <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
                         <input
-                          id={state}
-                          onChange={handleStateSelection}
+                          onChange={handleVisibility}
+                          checked={values.visibility}
                           type="checkbox"
-                          value={state}
-                          name="status"
-                          checked={selectedState === state}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                          name="availability"
+                          id="toggle"
+                          className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                         />
                         <label
-                          htmlFor={state}
-                          className="ml-2  dark:text-gray-300"
-                        >
-                          <p className="text-sm	 font-medium text-gray">
-                            {state}
-                          </p>
-                        </label>
+                          htmlFor="toggle"
+                          className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                        ></label>
                       </div>
-                    ))}
-                    {errors.status && touched.status && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.status}
-                      </p>
-                    )}
-                  </div>
-                  <div className="pb-5">
-                    <h5 className="text-base font-medium text-green mb-2">
-                      Product Visibility
-                    </h5>
-                    <p className="text-gray text-sm font-normal	">
-                      Set globally whether this product is shown to customers or
-                      not
-                    </p>
-                  </div>
-                  <div className="pb-4 flex justify-between items-center">
-                    <h5 className="text-green text-base font-medium">
-                      Visible to customers
-                    </h5>
-
-                    <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
-                      <input
-                        onChange={handleVisibility}
-                        checked={values.visibility}
-                        type="checkbox"
-                        name="availability"
-                        id="toggle"
-                        className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                      />
-                      <label
-                        htmlFor="toggle"
-                        className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                      ></label>
+                    </div>
+                    <div className="">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Region availability
+                      </h5>
+                      {regionAvailability.map((region, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center mb-4 gap-3"
+                        >
+                          <input
+                            onChange={handleRegionAvailability}
+                            id={region}
+                            type="checkbox"
+                            value={region}
+                            checked={values?.region?.includes(region)}
+                            name="region"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor={region}
+                            className="ml-2  dark:text-gray-300"
+                          >
+                            <p className="text-sm	 font-medium text-gray">
+                              {region}
+                            </p>
+                          </label>
+                        </div>
+                      ))}
+                      {errors.region && touched.region && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.region}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <div className="">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Region availability
-                    </h5>
-                    {regionAvailability.map((region, index) => (
-                      <div key={index} className="flex items-center mb-4 gap-3">
-                        <input
-                          onChange={handleRegionAvailability}
-                          id={region}
-                          type="checkbox"
-                          value={region}
-                          checked={values?.region?.includes(region)}
-                          name="region"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-                        />
-                        <label
-                          htmlFor={region}
-                          className="ml-2  dark:text-gray-300"
-                        >
-                          <p className="text-sm	 font-medium text-gray">
-                            {region}
-                          </p>
-                        </label>
-                      </div>
-                    ))}
-                    {errors.region && touched.region && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.region}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                </Skeleton>
               </div>
               {/* Product Listing ---END  */}
 

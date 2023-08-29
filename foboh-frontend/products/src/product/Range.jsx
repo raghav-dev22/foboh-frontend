@@ -62,7 +62,7 @@ function Range() {
       .then(() => {
         setTimeout(() => {
           setLoading(false);
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => console.log(error));
   };
@@ -389,12 +389,14 @@ function Range() {
               </table>
             </CardBody>
             <CardFooter className="flex w-full items-center justify-between border-t border-blue-gray-50 p-4">
-              <PaginationNav1Presentation
-                totalPages={totalPages}
-                getProductList={getProductList}
-                pageIndex={pageIndex}
-                setPageIndex={setPageIndex}
-              />
+              {!loading && (
+                <PaginationNav1Presentation
+                  totalPages={totalPages}
+                  getProductList={getProductList}
+                  pageIndex={pageIndex}
+                  setPageIndex={setPageIndex}
+                />
+              )}
             </CardFooter>
           </div>
           {isBulkEdit ? (
