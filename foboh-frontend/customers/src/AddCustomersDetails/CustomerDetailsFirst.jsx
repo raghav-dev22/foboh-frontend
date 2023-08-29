@@ -49,16 +49,15 @@ function CustomerDetailsFirst({
               style={{
                 border:
                   errors?.businessName &&
-                  touched?.businessName &&
                   "1px solid red",
               }}
             />
-            {errors?.businessName && touched?.businessName && (
+            {errors?.businessName && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.businessName}
               </p>
             )}
-            {errors?.businessName && touched?.businessName && (
+            {errors?.businessName && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
             )}
           </div>
@@ -81,15 +80,15 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors?.abn && touched?.abn && "1px solid red",
+                border: errors?.abn  && "1px solid red",
               }}
             />
-            {errors?.abn && touched?.abn && (
+            {errors?.abn  && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.abn}
               </p>
             )}
-            {errors?.abn && touched?.abn && (
+            {errors?.abn  && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -113,17 +112,16 @@ function CustomerDetailsFirst({
               style={{
                 border:
                   errors?.liquorLicence &&
-                  touched?.liquorLicence &&
                   "1px solid red",
               }}
             />
             
-            {errors?.liquorLicence && touched.liquorLicence && (
+            {errors?.liquorLicence  && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.liquorLicence}
               </p>
             )}
-            {errors?.liquorLicence && touched?.liquorLicence && (
+            {errors?.liquorLicence  && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>

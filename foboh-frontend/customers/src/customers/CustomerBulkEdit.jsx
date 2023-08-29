@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
 function CustomerBulkEdit() {
+  const navigate = useNavigate();
   const values = [
     {
       jhashd: "hbhsad",
@@ -45,7 +47,7 @@ function CustomerBulkEdit() {
       <div className="py-8 flex flex-col items-start justify-start px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
           <div
-            onClick={() => navigate("/dashboard/products")}
+            onClick={() => navigate("/dashboard/customers")}
             className="cursor-pointer"
           >
             <img src="/assets/previousBtn.png" alt="" />
