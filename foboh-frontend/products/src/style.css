@@ -606,3 +606,7 @@ input[type="radio"]:checked:before {
 .custom-skeleton .ant-skeleton-title {
   margin-top: 0px !important;
 }
+
+.pr-1{
+ padding-right: 1rem;
+}
