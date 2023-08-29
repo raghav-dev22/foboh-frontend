@@ -350,7 +350,6 @@ const SearchProduct = forwardRef(
                 <input
                   onChange={handleInputChange}
                   onKeyUp={processChange}
-                  onClick={handleClearClick}
                   type="text"
                   id="default-search"
                   className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
