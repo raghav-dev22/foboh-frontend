@@ -1079,7 +1079,7 @@ function ViewProduct() {
         )}
         <div
           className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar"
-          style={{ height: "545px" }}
+          style={{ height: "545px", width: "100%" }}
         >
           <div className="w-full lg:w-2/5	 h-full	">
             <div className="grid gap-3">

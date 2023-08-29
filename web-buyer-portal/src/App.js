@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import Verifyemail from "./loginRegister/Verifyemail";
 import HomePage from "./desktop/HomePage";
 import store from "./store/Store";
+import ProductList from "./desktop/ProductList";
+
 // import MainHomePage from "./desktop/MainHomePage";
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
           <Route path="/verify-email" element={<Verifyemail />} />
           <Route path="/create-account" element={<CreateAccount />} />
           <Route exact path="/main/*" element={<HomePage />} />
+          <Route path="/product-list" element={<ProductList />} />
           {/* <Route path="/home-page-main" element={<MainHomePage />} /> */}
         </Routes>
       </Router>
