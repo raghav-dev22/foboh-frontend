@@ -178,7 +178,7 @@ function ViewProduct() {
       const wet = parseInt(product.globalPrice) * 0.29;
       const imageUris = product.productImageUrls;
       setProductImageUris(imageUris);
-      setPrevImgUrl(imageUris)
+      setPrevImgUrl(imageUris);
       setCheckGST(product.gstFlag);
       setCheckWET(product.wetFlag);
       setSelectedState(product.productStatus);
@@ -323,7 +323,7 @@ function ViewProduct() {
 
             const imageUris = product.productImageUrls;
             setProductImageUris(imageUris);
-            setPrevImgUrl(imageUris)
+            setPrevImgUrl(imageUris);
             setInitialValues({
               visibility: product.visibility,
               region: product.regionAvailability,
@@ -496,36 +496,36 @@ function ViewProduct() {
     if (err.length < 1) {
       setInitialValues({
         ...initialValues,
-        visibility: values.visibility,
-        region: values.regionAvailability,
-        minimumOrder: values.minimumOrder,
-        trackInventory: values.trackInventory,
-        stockAlertLevel: values.stockThreshold,
-        sellOutOfStock: values.sellOutOfStock,
+        visibility: values?.visibility,
+        region: values?.region,
+        minimumOrder: values?.minimumOrder,
+        trackInventory: values?.trackInventory,
+        stockAlertLevel: values?.stockAlertLevel,
+        sellOutOfStock: values?.sellOutOfStock,
         title: values?.title,
-        skuCode: values.skUcode,
-        brand: values.brand,
-        availableQty: values.availableQty,
-        category: values.categoryId,
-        subcategory: values.subCategoryId,
-        segment: values.segmentId,
+        skuCode: values?.skuCode,
+        brand: values?.brand,
+        availableQty: values?.availableQty,
+        category: values?.category,
+        subcategory: values?.subcategory,
+        segment: values?.segment,
         grapeVariety: values.variety,
         regionSelect: values.region,
         vintage: values.vintage,
-        awards: values.award && values.award,
-        abv: values.abv,
-        country: values.countryOfOrigin,
-        baseUnitMeasure: values.unitofMeasure,
-        innerUnitMeasure: values.innerUnitMeasure,
-        configuration: values.configuration,
-        description: values.description,
-        salePrice: values.globalPrice,
-        buyPrice: values.buyPrice,
-        profit: values.profit,
-        margin: values.margin,
-        wineEqualisationTax: values.wineEqualisationTax,
-        landedUnitCost: values.landedUnitCost,
-        status: values.status,
+        awards: values?.awards,
+        abv: values?.abv,
+        country: values?.country,
+        baseUnitMeasure: values?.baseUnitMeasure,
+        innerUnitMeasure: values?.innerUnitMeasure,
+        configuration: values?.configuration,
+        description: values?.description,
+        salePrice: values?.salePrice,
+        buyPrice: values?.buyPrice,
+        profit: values?.profit,
+        margin: values?.margin,
+        wineEqualisationTax: values?.wineEqualisationTax,
+        landedUnitCost: values?.landedUnitCost,
+        status: values?.status,
         productImageUrls: productImageUris,
       });
       fetch(
@@ -586,7 +586,7 @@ function ViewProduct() {
         })
         .then((data) => {
           console.log("response after update>>", data);
-          setShow(false)
+          setShow(false);
         })
         .catch((error) => console.log(error));
     }
@@ -697,7 +697,7 @@ function ViewProduct() {
       ...values,
       department: e,
     });
-    setShow(true)
+    setShow(true);
     // ?DepartmentId=${e.value}
     fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
       method: "GET",
@@ -733,7 +733,7 @@ function ViewProduct() {
       ...values,
       category: e,
     });
-    setShow(true)
+    setShow(true);
     fetch(
       `https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`,
       {
@@ -767,7 +767,7 @@ function ViewProduct() {
       ...values,
       subcategory: e,
     });
-    setShow(true)
+    setShow(true);
     fetch(
       `https://masters-api-foboh.azurewebsites.net/api/Segment/get?SubCategoryId=${itemId}`,
       {
@@ -794,7 +794,7 @@ function ViewProduct() {
       ...values,
       segment: e,
     });
-    setShow(true)
+    setShow(true);
   };
 
   const handleregionSelectChange = (e) => {
@@ -802,8 +802,7 @@ function ViewProduct() {
       ...values,
       regionSelect: e,
     });
-    setShow(true)
-
+    setShow(true);
   };
 
   const handleCountryChange = (e) => {
@@ -811,8 +810,7 @@ function ViewProduct() {
       ...values,
       country: e,
     });
-    setShow(true)
-
+    setShow(true);
   };
 
   const handleGrapeVarietyChange = (e) => {
@@ -820,7 +818,7 @@ function ViewProduct() {
       ...values,
       grapeVariety: [...e],
     });
-    setShow(true)
+    setShow(true);
   };
 
   const handlebaseUnitOfMeasurement = (e) => {
@@ -836,7 +834,7 @@ function ViewProduct() {
         baseUnitMeasure: e,
       });
     }
-    setShow(true)
+    setShow(true);
   };
 
   const handleinnerUnitOfMeasurement = (e) => {
@@ -854,7 +852,7 @@ function ViewProduct() {
         innerUnitMeasure: e,
       });
     }
-    setShow(true)
+    setShow(true);
   };
 
   const handletagsChange = (e) => {
@@ -863,7 +861,7 @@ function ViewProduct() {
       ...values,
       tags: [...e],
     });
-    setShow(true)
+    setShow(true);
   };
 
   const handleSalePrice = (e) => {
@@ -887,7 +885,7 @@ function ViewProduct() {
         salePrice: salePrice,
       });
     }
-    setShow(true)
+    setShow(true);
   };
 
   const handleBuyPrice = (e) => {
@@ -910,13 +908,13 @@ function ViewProduct() {
         buyPrice: buyPrice,
       });
     }
-    setShow(true)
+    setShow(true);
   };
 
   const handleGSTChange = (e) => {
     setCheckGST(!checkGST);
     console.log(checkGST);
-    setShow(true)
+    setShow(true);
   };
 
   const handleWETChange = (e) => {
@@ -939,7 +937,7 @@ function ViewProduct() {
         landedUnitCost: "",
       });
     }
-    setShow(true)
+    setShow(true);
     setCheckWET(!checkWET);
     console.log(checkWET);
   };
@@ -1040,7 +1038,7 @@ function ViewProduct() {
   const handleReset = () => {
     setShow(false);
     setValues(initialValues);
-    setProductImageUris(prevImgUrl)
+    setProductImageUris(prevImgUrl);
   };
 
   return (
