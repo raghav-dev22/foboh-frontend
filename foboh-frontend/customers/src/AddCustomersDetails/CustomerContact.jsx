@@ -38,9 +38,9 @@ function CustomerContact({
       fontWeight: 600,
     },
   }));
-  console.log("errors and touch on contact page",errors)
+  // console.log("errors and touch on contact page",errors)
   const contactSame=(e)=>{
-    console.log("e --->", e.target.checked);
+    // console.log("e --->", e.target.checked);
     if (e.target.checked) {
       setValues({
         ...values,
