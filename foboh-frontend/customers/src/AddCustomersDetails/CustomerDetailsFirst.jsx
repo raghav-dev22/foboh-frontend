@@ -16,10 +16,12 @@ function CustomerDetailsFirst({
 
   const handleSelect = (e, name) => {
     console.log(e, name);
+    console.log("values>>",e[0]?.value)
     setValues({
       ...values,
-      [name]: JSON.stringify(e.value),
+      [name]: JSON.stringify(e[0]?.value),
     });
+    console.log("values>>",values);
   };
 
   console.log("all error and touch is>>", errors, touched)

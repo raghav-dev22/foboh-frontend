@@ -66,29 +66,24 @@ function CustomerDetails() {
   });
   const finalHandleSubmit = (event) => {
     event.preventDefault();
-    if (values?.businessName && values.abn && values.address && values.apartment && values.billingPostalCode) {
-      console.log("final vales>>>", values);
-      fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
+    console.log("final vales>>>", formik.values);
+    fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formik.values),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Customer added>>", data);
+        if (data.success) {
+          window.alert("Customer added successfully!")
+          navigate("/dashboard/customers/");
+        } else {
+        }
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Customer added>>", data);
-          if (data.success) {
-            window.alert("Customer added successfully!")
-            navigate("/dashboard/customers/");
-          } else {
-          }
-        })
-        .catch((error) => console.log(error));
-    } else {
-      window.alert("Please fill all the filed")
-    }
-
+      .catch((error) => console.log(error));
   };
   const handleCloseToast = () => {
     setOpenToast(false)
@@ -101,7 +96,7 @@ function CustomerDetails() {
   }
   const handleNext = () => {
     formik.validateForm().then((errors) => {
-      console.log("error on submit button click>>",errors)
+      console.log("error on submit button click>>", errors)
       if (activeStep !== 2 && Object.values(errors).length === 0) {
         setActiveStep((cur) => cur + 1);
       } else if (activeStep === 2) {
@@ -110,7 +105,7 @@ function CustomerDetails() {
       }
       console.log("res", errors);
     });
- };
+  };
   const handlePrev = () => {
     if (activeStep > 0) {
       setActiveStep((cur) => cur - 1);
