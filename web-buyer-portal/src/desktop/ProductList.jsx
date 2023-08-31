@@ -3,16 +3,28 @@ import Footer from "./Footer";
 import EastIcon from "@mui/icons-material/East";
 import Header from "./Header";
 import BottomToTop from "./BottomToTop";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+// import { SliderComponent } from "@syncfusion/ej2-react-inputs";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Select from "react-select";
-import makeAnimated from "react-select/animated";
+import Slider from "@mui/material/Slider";
+// import makeAnimated from "react-select/animated";
 // import { colourOptions } from "../data";
 
+import ProductListData from "./ProductListData";
+
 const ProductList = () => {
-  const animatedComponents = makeAnimated();
+  const valuetext = (value) => {
+    return `${value}°C`;
+  };
+
+  const [value, setValue] = React.useState([20, 37]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   const [wine, setWine] = useState(false);
   const [Segment, setSegment] = useState(false);
   const [Variety, setVariety] = useState(false);
@@ -22,7 +34,16 @@ const ProductList = () => {
   const [Price, setPrice] = useState(false);
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
-  const colourOptions=[]
+
+  const colourOptions = [
+    { value: "1", label: "Opt-1" },
+    { value: "2", label: "Opt-2" },
+    { value: "3", label: "Opt-3" },
+    { value: "4", label: "Opt-4" },
+    { value: "5", label: "Opt-5" },
+    { value: "6", label: "Opt-6" },
+  ];
+
   const SortBtn = () => {
     setSort(!Sort);
   };
@@ -159,7 +180,7 @@ const ProductList = () => {
           </button>
           {Sort && (
             <>
-              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4  absolute top-[50px] right-0">
+              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4  absolute top-[50px] right-0 z-10">
                 <div className="flex justify-between items-center pb-2">
                   <h5 className="text-lg font-medium text-[#2B4447] ">
                     Alphabetical
@@ -659,7 +680,7 @@ const ProductList = () => {
               </div>
               {Price && (
                 <>
-                  <div className="flex w-full m-auto items-center py-4 justify-center">
+                  {/* <div className="flex w-full m-auto items-center py-4 justify-center">
                     <div className="py-1 relative min-w-full">
                       <div className="h-2 bg-gray-200 rounded-full">
                         <div
@@ -694,13 +715,48 @@ const ProductList = () => {
                         </div>
                       </div>
                     </div>
+                  </div> */}
+                  <div id="container">
+                    <div className="wrap">
+                      <div className="sliderwrap">
+                        <Slider
+                          getAriaLabel={() => "Temperature range"}
+                          value={value}
+                          onChange={handleChange}
+                          valueLabelDisplay="auto"
+                          getAriaValueText={valuetext}
+                        />
+                      </div>
+                      <div className="pt-4 flex justify-between items-center">
+                        <div className="box">
+                          <h5 className="text-base font-medium text-[#637381] mb-2">
+                            Min. Price
+                          </h5>
+                          <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
+                            <p className="font-normal text-sm text-[#637381]">
+                              $ {value}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="box">
+                          <h5 className="text-base font-medium text-[#637381] mb-2">
+                            Max. Price
+                          </h5>
+                          <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
+                            <p className="font-normal text-sm text-[#637381]">
+                              $ {value}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </>
               )}
             </div>
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
-                className="flex justify-between"
+                className="flex justify-between mb-3"
                 onClick={() => {
                   TagsBtn();
                 }}
@@ -710,13 +766,26 @@ const ProductList = () => {
               </div>
               {Tags && (
                 <>
-                  <input type="text" placeholder="Search|" />
-                  <Select
+                  {/* <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-                    defaultValue={[colourOptions[4], colourOptions[5]]}
+                    // defaultValue={[colourOptions[4], colourOptions[5]]}
                     isMulti
                     options={colourOptions}
+                  /> */}
+
+                  <Select
+                    options={colourOptions}
+                    isMulti
+                    defaultValue={
+                      [
+                        // colourOptions[2],
+                        // colourOptions[3],
+                        // colourOptions[4],
+                        // colourOptions[5],
+                        // colourOptions[6],
+                      ]
+                    }
                   />
                 </>
               )}
@@ -726,257 +795,8 @@ const ProductList = () => {
               <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
             </div> */}
           </div>
-          <div className="md:w-9/12		w-full mx-auto">
-            <div className="grid grid-cols-3 gap-8 grid-rows-3	">
-              <div className="">
-                <div className=" relative">
-                  <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
-                    <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
-                  </div>
-                  <img src="./assets/product.png" alt="" />
-                </div>
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-              <div className="">
-                <img src="./assets/product.png" alt="" />
-                <h4 className="text-lg font-semibold mt-3">
-                  Write Product Full Name
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  Brand name
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  12 bottle case (750ml)
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  Price: $25.08
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
-                  </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div className="md:w-9/12		w-full mx-auto h-[600px] overflow-y-scroll">
+            <ProductListData />
           </div>
         </div>
       </div>

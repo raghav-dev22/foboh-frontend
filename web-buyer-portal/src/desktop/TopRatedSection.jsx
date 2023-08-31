@@ -25,7 +25,7 @@ function TopRatedSection() {
   }, []);
   return (
     <>
-      <div className="top-rated-section md:w-4/5	w-full mx-auto ">
+      <div className="top-rated-section md:w-4/5	w-full mx-auto md:p-0 px-6  ">
         <div className="relative">
           <h2 className="text-left xl:text-center md:text-center xl:mx-0 md:mx-0 mx-3 xl:font-bold md:font-bold font-[500] text-[#212B36] xl:text-3xl md:text-3xl text-[16px]	xl:py-10 md:py-10 py-7">
             Top rated

@@ -1,12 +1,13 @@
 import React from "react";
 import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import { Link } from "react-router-dom";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const AddressDetails = () => {
   return (
     <>
-      <div className="md:w-4/5	w-full mx-auto">
+      <div className="md:w-4/5	w-full mx-auto md:p-0 px-6 ">
         <div className="flex justify-start items-center gap-3 pt-8">
           <h5 className="text-black font-medium text-base cursor-pointer">
             Home
@@ -95,10 +96,12 @@ const AddressDetails = () => {
             </div>
           </div>
         </div>
-        <div className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-md w-fit flex justify-center items-center cursor-pointer gap-2">
-          <ModeEditOutlineIcon style={{ fill: "#563FE3" }} />
-          <p className="text-base font-medium  text-[#563FE3] ">Edit</p>
-        </div>
+        <Link to="/delivery-edit">
+          <div className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-md w-fit flex justify-center items-center cursor-pointer gap-2">
+            <ModeEditOutlineIcon style={{ fill: "#563FE3" }} />
+            <p className="text-base font-medium  text-[#563FE3] ">Edit</p>
+          </div>
+        </Link>
       </div>
     </>
   );

@@ -8,6 +8,12 @@ import Verifyemail from "./loginRegister/Verifyemail";
 import HomePage from "./desktop/HomePage";
 import store from "./store/Store";
 import ProductList from "./desktop/ProductList";
+import ProductDetails from "./desktop/ProductDetails";
+import Profile from "./MyAccount/Profile";
+import AddressDetails from "./MyAccount/AddressDetails";
+import ProfileEdit from "./MyAccount/ProfileEdit";
+import DeliveryEdit from "./MyAccount/DeliveryEdit";
+// import EditProductDetails from "../../foboh-frontend/products/src/editProduct/EditProductDetails";
 
 // import MainHomePage from "./desktop/MainHomePage";
 
@@ -22,6 +28,11 @@ function App() {
           <Route path="/create-account" element={<CreateAccount />} />
           <Route exact path="/main/*" element={<HomePage />} />
           <Route path="/product-list" element={<ProductList />} />
+          <Route path="/product-details" element={<ProductDetails />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/address" element={<AddressDetails />} />
+          <Route path="/delivery-edit" element={<DeliveryEdit />} />
+          <Route path="/profile-edit" element={<ProfileEdit />} />
           {/* <Route path="/home-page-main" element={<MainHomePage />} /> */}
         </Routes>
       </Router>
