@@ -13,7 +13,7 @@ const MyAccount = () => {
           <EastIcon />
           <h5 className="text-black font-medium text-base">Account</h5>
         </div>
-        <div className=" relative md:hidden xl:hidden block pt-8">
+        <div className=" relative md:hidden xl:hidden block  ">
           <input
             type="text"
             className="roun8ded-md	font-normal text-sm placeholder:text-sm"
@@ -37,7 +37,7 @@ const MyAccount = () => {
         </div>
         <div className="flex flex-col gap-4 pb-16 ">
           <Link to="/profile">
-            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md">
+            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation">
               <div className=" 	">
                 <h5 className="text-lg font-semibold text-[#1D1E20]">
                   {" "}
@@ -53,7 +53,7 @@ const MyAccount = () => {
             </div>
           </Link>
           <Link to="/address">
-            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md">
+            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation">
               <div className=" 	">
                 <h5 className="text-lg font-semibold text-[#1D1E20]">
                   {" "}
@@ -69,7 +69,7 @@ const MyAccount = () => {
             </div>
           </Link>
           <Link to="#">
-            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md">
+            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation">
               <div className=" 	">
                 <h5 className="text-lg font-semibold text-[#1D1E20]">
                   Security

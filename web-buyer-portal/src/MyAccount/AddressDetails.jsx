@@ -2,13 +2,17 @@ import React from "react";
 import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Header from "../desktop/Header";
+import Footer from "../desktop/Footer";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const AddressDetails = () => {
   return (
     <>
-      <div className="md:w-4/5	w-full mx-auto md:p-0 px-6 ">
-        <div className="flex justify-start items-center gap-3 pt-8">
+      <Header />
+      <div className="md:w-4/5	w-full mx-auto  ">
+        <div className="md:flex hidden justify-start items-center gap-3 pt-8">
           <h5 className="text-black font-medium text-base cursor-pointer">
             Home
           </h5>
@@ -21,17 +25,26 @@ const AddressDetails = () => {
             Addresses
           </h5>
         </div>
-        <div className=" py-12">
-          <h2 className="font-bold text-4xl	 text-[#563FE3]">Addresses</h2>
+        <div className=" md:my-12 mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
+          <h2 className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
+            Addresses
+          </h2>
+          <div className="md:hidden sm:block">
+            <ArrowBackIcon
+              className="absolute top-[32%] left-[20px] "
+              style={{ fill: "#fff" }}
+            />
+          </div>
         </div>
-        <div className="md:grid-cols-3 grid sm:grid-cols-3	  gap-4">
-          <div className="rounded-md border border-[#E0E0E0]">
-            <div className="business-details bg-[#563FE3] py-2 px-4 rounded-t-md	">
-              <h5 className="text-white font-semibold text-lg">
+
+        <div className="md:grid-cols-3 grid sm:grid-cols-2	  gap-4 md:p-0 px-6  pt-0 md:pt-8">
+          <div className="rounded-md border border-[#E0E0E0] p-3 sm:p-0">
+            <div className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
+              <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                 Delivery Address
               </h5>
             </div>
-            <div className="px-4 py-5">
+            <div className="px-4 sm:py-5 pb-5">
               <div className="">
                 <h5 className="text-lg font-medium mb-2">456 King Street</h5>
                 <p className="text-sm font-normal">Newton, NSW 2304</p>
@@ -83,9 +96,9 @@ const AddressDetails = () => {
               </div>
             </div>
           </div>
-          <div className="rounded-md border border-[#E0E0E0]">
-            <div className="ordering-contact-details bg-[#563FE3] py-2 px-4 rounded-t-md	">
-              <h5 className="text-white font-semibold text-lg">
+          <div className="rounded-md border border-[#E0E0E0] sm:p-0 p-3">
+            <div className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
+              <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                 Billing Address
               </h5>
             </div>
@@ -97,12 +110,15 @@ const AddressDetails = () => {
           </div>
         </div>
         <Link to="/delivery-edit">
-          <div className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-md w-fit flex justify-center items-center cursor-pointer gap-2">
-            <ModeEditOutlineIcon style={{ fill: "#563FE3" }} />
-            <p className="text-base font-medium  text-[#563FE3] ">Edit</p>
+          <div className="md:m-0 mx-6">
+            <div className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-md sm:w-fit w-full flex justify-center items-center cursor-pointer gap-2">
+              <ModeEditOutlineIcon style={{ fill: "#563FE3" }} />
+              <p className="text-base font-medium  text-[#563FE3] ">Edit</p>
+            </div>
           </div>
         </Link>
       </div>
+      <Footer />
     </>
   );
 };

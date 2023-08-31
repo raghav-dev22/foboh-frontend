@@ -2,23 +2,29 @@ import React, { useState } from "react";
 import Footer from "./Footer";
 import EastIcon from "@mui/icons-material/East";
 import Header from "./Header";
+// import ShoppingBasketIcon from "@mui/icons-material";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import BottomToTop from "./BottomToTop";
 
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 // import { SliderComponent } from "@syncfusion/ej2-react-inputs";
-
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Select from "react-select";
 import Slider from "@mui/material/Slider";
-// import makeAnimated from "react-select/animated";
+import makeAnimated from "react-select/animated";
 // import { colourOptions } from "../data";
 import { listdata } from "../data";
 
 import ProductListData from "./ProductListData";
 
 const ProductList = () => {
-  const Data = listdata
-  console.log("data",listdata)
+  const [value, setValue] = useState([15, 65]);
+  const handleChange = (e, value) => {
+    setValue(value);
+  };
+  const Data = listdata;
+  console.log("data", listdata);
   const animatedComponents = makeAnimated();
   const [wine, setWine] = useState(false);
   const [Segment, setSegment] = useState(false);
@@ -719,7 +725,9 @@ const ProductList = () => {
                           value={value}
                           onChange={handleChange}
                           valueLabelDisplay="auto"
-                          getAriaValueText={valuetext}
+                          getAriaValueText={() => {
+                            return `${value}`;
+                          }}
                         />
                       </div>
                       <div className="pt-4 flex justify-between items-center">
@@ -729,7 +737,7 @@ const ProductList = () => {
                           </h5>
                           <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
                             <p className="font-normal text-sm text-[#637381]">
-                              $ {value}
+                              $
                             </p>
                           </div>
                         </div>
@@ -739,7 +747,7 @@ const ProductList = () => {
                           </h5>
                           <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
                             <p className="font-normal text-sm text-[#637381]">
-                              $ {value}
+                              $
                             </p>
                           </div>
                         </div>
@@ -792,39 +800,38 @@ const ProductList = () => {
           </div>
           <div className="md:w-9/12		w-full mx-auto">
             <div className="grid grid-cols-3 gap-8 grid-rows-3	">
-            {Data.map((item, index) => (
-              <div className="">
-                <div className=" relative">
-                  <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
-                    <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+              {Data.map((item, index) => (
+                <div className="">
+                  <div className=" relative">
+                    <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
+                      <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+                    </div>
+                    <img src={item.img} alt="" />
+                    {console.log(item.img, "item.img")}
                   </div>
-                  <img src={item.img} alt="" />
-                </div>
-                <h4 className="text-lg font-semibold mt-3">
-                 {item.title}
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  {item.name}
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  {item.details}
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  {item.price}
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
+                  <h4 className="text-lg font-semibold mt-3">{item.title}</h4>
+                  <p className="text-base font-medium text-[#637381] mt-2">
+                    {item.name}
+                  </p>
+                  <p className="text-base font-medium text-[#2B4447] mt-2">
+                    {item.details}
+                  </p>
+                  <h4 className="text-base font-semibold text-[#2B4447] mt-1">
+                    {item.price}
+                  </h4>
+                  <div className="flex justify-between items-center mt-2 ">
+                    <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
+                      <p className="text-[#637381] ">-</p>
+                      <p className="text-[#637381]"> 1</p>
+                      <p className="text-[#637381]">+</p>
+                    </div>
+                    <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
+                      {" "}
+                      <ShoppingBasketIcon style={{ fill: "#fff" }} />
+                      Add To Cart
+                    </button>
                   </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
                 </div>
-              </div>
               ))}
             </div>
           </div>

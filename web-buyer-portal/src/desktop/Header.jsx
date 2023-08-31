@@ -226,6 +226,23 @@ function Header() {
           }}
         />
       </header>
+      <div className=" relative md:hidden xl:hidden block mx-6 mb-4">
+        <input
+          type="text"
+          className="roun8ded-md	font-normal text-sm placeholder:text-sm"
+          placeholder="Search by product or brand"
+          style={{
+            padding: "12px 16px 12px 38px",
+            border: "0px",
+            background: "#F4F7FF",
+            margin: "0px",
+          }}
+        />
+        <SearchIcon
+          className="absolute top-1/4 left-2.5 "
+          style={{ fill: "#563FE3" }}
+        />
+      </div>
     </>
   );
 }

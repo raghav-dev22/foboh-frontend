@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import EastIcon from "@mui/icons-material/East";
-// import { Button, Form, Input, Radio } from "antd";
-// import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Header from "../desktop/Header";
+import Footer from "../desktop/Footer";
 import Select from "react-select";
 const DeliveryEdit = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -14,28 +14,40 @@ const DeliveryEdit = () => {
   ];
   return (
     <>
-      <div className="md:w-4/5	w-full mx-auto md:p-0 px-6 ">
+      <Header />
+      <div className="md:w-4/5	w-full mx-auto  ">
         <div className="md:w-4/5 w-full">
-          <div className="flex justify-start items-center gap-3 pt-8">
-            <h5 className="text-black font-medium text-base cursor-pointer">
+          <div className="  md:flex hidden justify-start items-center gap-3 pt-8">
+            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
               Home
             </h5>
             <EastIcon />
-            <h5 className="text-black font-medium text-base cursor-pointer">
+            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
               Account
             </h5>
             <EastIcon />
-            <h5 className="text-black font-medium text-base cursor-pointer">
+            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
               Profile
             </h5>
             <EastIcon />
-            <h5 className="text-black font-medium text-base cursor-pointer">
+            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
               DeliveryContact
             </h5>
           </div>
+          <div className=" md:my-12 mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
+            <h2 className="md:font-bold md:font-medium font-semibold md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
+              Edit Profile
+            </h2>
+            <div className="md:hidden sm:block">
+              <ArrowBackIcon
+                className="absolute top-[32%] left-[20px] "
+                style={{ fill: "#fff" }}
+              />
+            </div>
+          </div>
 
-          <div className="">
-            <div className=" pt-12 pb-8">
+          <div className="  md:pt-12 pb-8 px-6">
+            <div className="  pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 Delivery Address
               </h2>
@@ -44,7 +56,7 @@ const DeliveryEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Address
                 </label>
@@ -56,11 +68,11 @@ const DeliveryEdit = () => {
                   autoComplete="off"
                 />
               </div>
-              <div className="flex md:flex-nowrap flex-wrap  gap-8">
+              <div className="flex flex-nowrap   gap-8">
                 <div className="w-full mb-8">
                   <label
                     htmlFor="BusinessName"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Appartment, Floor etc.
                   </label>
@@ -75,7 +87,7 @@ const DeliveryEdit = () => {
                 <div className="w-full mb-8">
                   <label
                     htmlFor="ABN"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Suburb
                   </label>
@@ -88,11 +100,11 @@ const DeliveryEdit = () => {
                   />
                 </div>
               </div>
-              <div className="flex md:flex-nowrap flex-wrap  gap-8">
+              <div className="flex flex-nowrap   gap-8">
                 <div className="w-full mb-8">
                   <label
                     htmlFor="BusinessName"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Postcode
                   </label>
@@ -107,7 +119,7 @@ const DeliveryEdit = () => {
                 <div className="w-full mb-8">
                   <label
                     htmlFor="ABN"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     State
                   </label>
@@ -130,7 +142,7 @@ const DeliveryEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Notes
                 </label>
@@ -183,8 +195,8 @@ const DeliveryEdit = () => {
             </div>
           </div>
 
-          <div className="">
-            <div className=" pt-12 pb-8">
+          <div className="md:p-0 px-6">
+            <div className="  pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 Billing Address
               </h2>
@@ -202,7 +214,7 @@ const DeliveryEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Address
                 </label>
@@ -214,11 +226,11 @@ const DeliveryEdit = () => {
                   autoComplete="off"
                 />
               </div>
-              <div className="flex md:flex-nowrap flex-wrap  gap-8">
+              <div className="flex flex-nowrap   gap-8">
                 <div className="w-full mb-8">
                   <label
                     htmlFor="BusinessName"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Appartment, Floor etc.
                   </label>
@@ -233,7 +245,7 @@ const DeliveryEdit = () => {
                 <div className="w-full mb-8">
                   <label
                     htmlFor="ABN"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Suburb
                   </label>
@@ -246,11 +258,11 @@ const DeliveryEdit = () => {
                   />
                 </div>
               </div>
-              <div className="flex md:flex-nowrap flex-wrap  gap-8">
+              <div className="flex flex-nowrap   gap-8">
                 <div className="w-full mb-8">
                   <label
                     htmlFor="BusinessName"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Postcode
                   </label>
@@ -265,7 +277,7 @@ const DeliveryEdit = () => {
                 <div className="w-full mb-8">
                   <label
                     htmlFor="ABN"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     State{" "}
                   </label>
@@ -290,6 +302,7 @@ const DeliveryEdit = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
