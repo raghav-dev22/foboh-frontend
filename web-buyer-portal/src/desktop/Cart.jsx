@@ -140,7 +140,7 @@ const Cart = ({ open, onClose }) => {
               )}
             </div>
             <div className="flex justify-between pt-8 px-6">
-              <Link to="/cart-page">
+              <Link to="/cart">
                 <div className="border border-[#637381] rounded-md py-[12px] px-[40px]">
                   <h4 className="text-base font-medium text-[#637381]">
                     View Cart
@@ -148,7 +148,7 @@ const Cart = ({ open, onClose }) => {
                 </div>
               </Link>
               <div className="bg-[#563FE3] rounded-md py-[12px] px-[40px]">
-                <h4 className="text-base font-medium text-[#fff]">View Cart</h4>
+                <h4 className="text-base font-medium text-[#fff]">Checkout</h4>
               </div>
             </div>
           </div>

@@ -16,13 +16,13 @@ import ProductList from "./ProductList";
 function HomePage() {
   return (
     <>
-      {/* <Header /> */}
-      <ProductList />
+      <Header />
+      {/* <ProductList /> */}
       {/* <DeliveryContact /> */}
       {/* <AddressDetails /> */}
       {/* <BusinessDetails /> */}
       {/* <Profile /> */}
-      {/* <MainHomePage /> */}
+      <MainHomePage />
       {/* <MyAccount /> */}
       {/* <MainHomePage /> */}
       {/* <MyAccount /> */}
@@ -31,7 +31,7 @@ function HomePage() {
         <Route path="/my-account" element={<MyAccount />} />
       </Routes> */}
 
-      {/* <Footer /> */}
+      <Footer />
       {/* <BottomToTop /> */}
     </>
   );
