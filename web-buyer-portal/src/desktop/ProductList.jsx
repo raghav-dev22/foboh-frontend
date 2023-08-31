@@ -31,6 +31,7 @@ import { useNavigate } from "react-router";
 import { increment, decrement } from "../slices/counterSlice";
 
 import { Slider } from "antd";
+import { setProductData } from "../slices/ProductSlice";
 
 const ProductList = () => {
   const Data = listdata;
@@ -57,13 +58,14 @@ const ProductList = () => {
 
   const [Sort, setSort] = useState(false);
 
-  const [productData, setProductData] = useState([
-    {
-      product: {},
+  const productData = useSelector((state) => state.product);
 
-      quantity: 1,
-    },
-  ]);
+  // const [productData, setProductData] = useState([
+  //   {
+  //     product: {},
+  //     quantity: 1,
+  //   },
+  // ]);
 
   const [value, setValue] = useState([15, 65]);
 
@@ -84,15 +86,14 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    setProductData(
+    dispatch(setProductData(
       Data.map((item) => {
         return {
           product: item,
-
           quantity: 0,
         };
       })
-    );
+    ))
   }, []);
 
   const WineBtn = () => {
@@ -239,36 +240,25 @@ const ProductList = () => {
     setPrice(false);
   };
 
-  const handleIncrementDecrement = (id, name) => {
-    if (name === "decrement") {
-      setProductData(
-        productData.map((item) => {
-          if (item.product.id === id) {
-            return {
-              ...item,
+  const handleIncrementDecrement = (id, actionType) => {
+    const updatedProductData = productData.map((item) => {
+      if (item.product.id === id) {
+        if (actionType === 'decrement' && item.quantity > 1) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        } else if (actionType === 'increment') {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+      }
+      return item;
+    });
 
-              quantity: item.quantity - 1,
-            };
-          } else {
-            return item;
-          }
-        })
-      );
-    } else {
-      setProductData(
-        productData.map((item) => {
-          if (item.product.id === id) {
-            return {
-              ...item,
-
-              quantity: item.quantity + 1,
-            };
-          } else {
-            return item;
-          }
-        })
-      );
-    }
+    dispatch(setProductData(updatedProductData));
   };
 
   const handleChange = (e, value) => {
