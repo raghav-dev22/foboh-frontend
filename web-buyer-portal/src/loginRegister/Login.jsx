@@ -3,24 +3,31 @@ import { Link } from "react-router-dom";
 import { LoginSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
+import { buyers } from "../data";
+import { useNavigate } from "react-router-dom";
+
 
 function Login() {
   const initialValues = {
     email: "",
     password: "",
   };
-
+  const navigate = useNavigate();
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: LoginSchema,
-      onSubmit: (values) => {
-        console.log(values);
-      },
-    });
-  // const onClick = () => {
-  //   history.push("/verify-email");
-  // };
+  useFormik({
+    initialValues: initialValues,
+    validationSchema: LoginSchema,
+    onSubmit: (values) => {
+      const foundBuyer = buyers.find((buyer) => buyer.email === values.email);
+      if (foundBuyer) {
+        console.log("Login successful", foundBuyer);
+        // localStorage.setItem("createData", JSON.stringify(foundBuyer));
+        // navigate("/create-account");
+      } else {
+        console.log("Login failed");
+      }
+    },
+  });
   return (
     <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center h-full">
       <div className="lg:container container-fluid mx-auto lg:px-6  px-0">

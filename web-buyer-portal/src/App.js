@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import Verifyemail from "./loginRegister/Verifyemail";
 import HomePage from "./desktop/HomePage";
 import store from "./store/Store";
+import MainHomePage from "./desktop/MainHomePage";
 // import MainHomePage from "./desktop/MainHomePage";
 
 function App() {

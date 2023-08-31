@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Select from "react-select";
+import { options } from "../data";
 
 function DeliveryAddress({
-  values,
   errors,
   handleBlur,
   handleChange,
   touched,
   setValues,
+  values
 }) {
   console.log("errorsdddd", errors);
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+
+  
   const [selectedOption, setSelectedOption] = useState(null);
   // const initialValues = {
   //   DeliveryAddress: "",
@@ -176,6 +174,7 @@ function DeliveryAddress({
               defaultValue={selectedOption}
               onChange={(e) => handleState(e)}
               options={options}
+              value={values.DeliveryAddressState}
             />
             {errors.Notes && (
               <p className="mt-2 mb-2 text-red-500 text-xs">

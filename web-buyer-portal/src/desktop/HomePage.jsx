@@ -20,7 +20,7 @@ function HomePage() {
       {/* <AddressDetails /> */}
       {/* <BusinessDetails /> */}
       {/* <Profile /> */}
-      {/* <MainHomePage /> */}
+      <MainHomePage />
       {/* <MyAccount /> */}
       {/* <Routes>
         <Route path="/home-page" element={<MainHomePage />} />
