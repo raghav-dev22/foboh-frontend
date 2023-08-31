@@ -9,17 +9,17 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { add } from "../slices/CartSlice";
-// import { colourOptions } from "../data";
 import { listdata } from "../data";
 import { useNavigate } from "react-router";
 import { increment, decrement } from '../slices/counterSlice';
+import { Slider } from "antd";
 
 
 const ProductList = () => {
   const Data = listdata
-  console.log("data",listdata)
+  console.log("data", listdata)
   const animatedComponents = makeAnimated();
   const [wine, setWine] = useState(false);
   const [Segment, setSegment] = useState(false);
@@ -31,11 +31,12 @@ const ProductList = () => {
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
   const [productData, setProductData] = useState([{
-    product : {},
-    quantity : 1,
+    product: {},
+    quantity: 1,
   }])
-  const navigate  = useNavigate()
-  const colourOptions=[]
+  const [value, setValue] = useState([15, 65]);
+  const navigate = useNavigate()
+  const colourOptions = []
   const SortBtn = () => {
     setSort(!Sort);
   };
@@ -52,11 +53,11 @@ const ProductList = () => {
       Data.map(item => {
         return {
           product: item,
-          quantity : 0
+          quantity: 0
         }
       })
     )
-  },[])
+  }, [])
 
   const WineBtn = () => {
     setWine(!wine);
@@ -144,32 +145,35 @@ const ProductList = () => {
     setPrice(false);
   };
 
-
   const handleIncrementDecrement = (id, name) => {
-    if(name === "decrement") {
-      setProductData(productData.map(item =>{
-        if(item.product.id === id) {
+    if (name === "decrement") {
+      setProductData(productData.map(item => {
+        if (item.product.id === id) {
           return {
             ...item,
-            quantity : item.quantity - 1
+            quantity: item.quantity - 1
           }
         } else {
           return item
         }
-    }))
+      }))
     } else {
-        setProductData(productData.map(item =>{
-          if(item.product.id === id) {
-            return {
-              ...item,
-              quantity : item.quantity + 1
-            }
-          } else {
-            return item
+      setProductData(productData.map(item => {
+        if (item.product.id === id) {
+          return {
+            ...item,
+            quantity: item.quantity + 1
           }
+        } else {
+          return item
+        }
       }))
     }
   }
+
+  const handleChange = (e, value) => {
+    setValue(value);
+  };
 
   return (
     <>
@@ -718,37 +722,40 @@ const ProductList = () => {
               </div>
               {Price && (
                 <>
-                  <div className="flex w-full m-auto items-center py-4 justify-center">
-                    <div className="py-1 relative min-w-full">
-                      <div className="h-2 bg-gray-200 rounded-full">
-                        <div
-                          className="absolute h-2 rounded-full bg-teal-600 w-0"
-                          style={{ width: "24.1935%", left: "11.2903%" }}
+                  <div id="container">
+                    <div className="wrap">
+                      <div className="sliderwrap">
+                        <Slider
+                          getAriaLabel={() => "Temperature range"}
+                          value={value}
+                          onChange={handleChange}
+                          valueLabelDisplay="auto"
+                          getAriaValueText={() => {
+                            return `${value}`;
+
+                          }}
+
                         />
-                        <div
-                          className="absolute h-4 flex items-center justify-center w-4 rounded-full bg-white shadow border border-gray-300 -ml-2 top-0 cursor-pointer"
-                          unselectable="on"
-                          onselectstart="return false;"
-                          style={{ left: "11.2903%" }}
-                        >
-                          <div className="relative -mt-2 w-1">
-                            <div
-                              className="absolute z-40 opacity-100 bottom-100 mb-2 left-0 min-w-full"
-                              style={{ marginLeft: "-25px" }}
-                            ></div>
+                      </div>
+                      <div className="pt-4 flex justify-between items-center">
+                        <div className="box">
+                          <h5 className="text-base font-medium text-[#637381] mb-2">
+                            Min. Price
+                          </h5>
+                          <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
+                            <p className="font-normal text-sm text-[#637381]">
+                              $ {value}
+                            </p>
                           </div>
                         </div>
-                        <div
-                          className="absolute h-4 flex items-center justify-center w-4 rounded-full bg-white shadow border border-gray-300 -ml-2 top-0 cursor-pointer"
-                          unselectable="on"
-                          onselectstart="return false;"
-                          style={{ left: "35.4839%" }}
-                        >
-                          <div className="relative -mt-2 w-1">
-                            <div
-                              className="absolute z-40 opacity-100 bottom-100 mb-2 left-0 min-w-full"
-                              style={{ marginLeft: "-25px" }}
-                            ></div>
+                        <div className="box">
+                          <h5 className="text-base font-medium text-[#637381] mb-2">
+                            Max. Price
+                          </h5>
+                          <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
+                            <p className="font-normal text-sm text-[#637381]">
+                              $ {value}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -787,42 +794,42 @@ const ProductList = () => {
           </div>
           <div className="md:w-9/12		w-full mx-auto">
             <div className="grid grid-cols-3 gap-8 grid-rows-3	">
-            {productData.map((item, index) => (
-              <div className="">
-                <div className=" relative">
-                  <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
-                    <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+              {productData.map((item, index) => (
+                <div className="">
+                  <div className=" relative">
+                    <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
+                      <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+                    </div>
+                    <img src={item.product?.img} alt="" onClick={() => navigate(`/product-details/${item.product.id}`)} />
                   </div>
-                  <img src={item.product?.img} alt="" onClick={() => navigate(`/product-details/${item.product.id}`)} />
-                </div>
-                <h4 onClick={() => navigate(`/product-details/${item.product.id}`)} className="text-lg font-semibold mt-3">
-                 {item.product?.title}
-                </h4>
-                <p className="text-base font-medium text-[#637381] mt-2">
-                  {item.product?.name}
-                </p>
-                <p className="text-base font-medium text-[#2B4447] mt-2">
-                  {item.product?.details}
-                </p>
-                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  {item.product?.price}
-                </h4>
-                <div className="flex justify-between items-center mt-2 ">
-                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381]"  onClick={() => handleIncrementDecrement(item.product.id, "decrement")}>-</p>
-                    <p className="text-[#637381]"> {item.quantity}</p>
-                    <p className="text-[#637381] " onClick={() => handleIncrementDecrement(item.product.id, "increment")}>+</p>
+                  <h4 onClick={() => navigate(`/product-details/${item.product.id}`)} className="text-lg font-semibold mt-3">
+                    {item.product?.title}
+                  </h4>
+                  <p className="text-base font-medium text-[#637381] mt-2">
+                    {item.product?.name}
+                  </p>
+                  <p className="text-base font-medium text-[#2B4447] mt-2">
+                    {item.product?.details}
+                  </p>
+                  <h4 className="text-base font-semibold text-[#2B4447] mt-1">
+                    {item.product?.price}
+                  </h4>
+                  <div className="flex justify-between items-center mt-2 ">
+                    <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
+                      <p className="text-[#637381]" onClick={() => handleIncrementDecrement(item.product.id, "decrement")}>-</p>
+                      <p className="text-[#637381]"> {item.quantity}</p>
+                      <p className="text-[#637381] " onClick={() => handleIncrementDecrement(item.product.id, "increment")}>+</p>
+                    </div>
+                    <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2"
+                      onClick={() => {
+                        addCart(item);
+                      }}>
+                      {" "}
+                      <ShoppingBasketIcon style={{ fill: "#fff" }} />
+                      Add To Cart
+                    </button>
                   </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2"
-                    onClick={() => {
-                    addCart(item);
-                  }}>
-                    {" "}
-                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
-                    Add To Cart
-                  </button>
                 </div>
-              </div>
               ))}
             </div>
           </div>
