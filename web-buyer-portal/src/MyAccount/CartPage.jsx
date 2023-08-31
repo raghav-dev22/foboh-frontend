@@ -8,6 +8,7 @@ import Footer from "../desktop/Footer";
 import Select from "react-select";
 import CheckIcon from "@mui/icons-material/Check";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useSelector } from "react-redux";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const CartPage = () => {
@@ -29,6 +30,8 @@ const CartPage = () => {
       label: "4",
     },
   ];
+  const CARTdata = useSelector((items) => items.cart);
+
   return (
     <>
       <Header />
@@ -57,8 +60,114 @@ const CartPage = () => {
             />
           </div>
         </div>
-        <div className="flex  justify-between flex-wrap md:px-0 px-6">
-          <div className="md:w-[55%] w-full	">
+        <div className="flex  justify-between flex-wrap md:px-0 px-6 overflow-scroll">
+          <div className="md:w-[55%] w-full overflow-scroll h-[540px] mb-[2rem]">
+            <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
+              <div className="">
+                <img
+                  src="/assets/product.png"
+                  alt=""
+                  className="w-[150px]  object-cover	rounded-md"
+                />
+              </div>
+              <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">
+                <div>
+                  <div className="flex justify-between w-full gap-3">
+                    <h4 className="text-lg font-semibold text-[#2B4447]">
+                      Write Product Full Name
+                    </h4>
+                    <div className="">
+                      <div className="border border-inherit rounded-md flex justify-center items-center gap-2  p-2">
+                        <p className="pl-2 text-sm font-normal text-[#2B4447]">
+                          1
+                        </p>
+                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                      </div>
+                      {/* <Select
+                    defaultValue={GroupedOption[1]}
+                    options={GroupedOption}
+                    // formatGroupLabel={formatGroupLabel}
+                  /> */}
+                    </div>
+                    <h4 className="text-lg text-[#2B4447] font-semibold">
+                      $369
+                    </h4>
+                  </div>
+
+                  <div className="">
+                    <p className="text-base font-medium text-[#637381]">
+                      Quantity - 1
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="flex gap-2 items-center">
+                    <div className="rounded-full w-[14px] h-[14px] border border-[#637381] flex justify-center items-center">
+                      <CheckIcon style={{ fill: "#637381", width: "8px" }} />
+                    </div>
+                    <p className="text-sm font-normal text-[#637381]">
+                      Available In Stock
+                    </p>
+                  </div>
+                  <Link to="#">
+                    <p className="text-[#DC3545] text-sm font-medium">Remove</p>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
+              <div className="">
+                <img
+                  src="/assets/product.png"
+                  alt=""
+                  className="w-[150px]  object-cover	rounded-md"
+                />
+              </div>
+              <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">
+                <div>
+                  <div className="flex justify-between w-full gap-3">
+                    <h4 className="text-lg font-semibold text-[#2B4447]">
+                      Write Product Full Name
+                    </h4>
+                    <div className="">
+                      <div className="border border-inherit rounded-md flex justify-center items-center gap-2  p-2">
+                        <p className="pl-2 text-sm font-normal text-[#2B4447]">
+                          1
+                        </p>
+                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                      </div>
+                      {/* <Select
+                    defaultValue={GroupedOption[1]}
+                    options={GroupedOption}
+                    // formatGroupLabel={formatGroupLabel}
+                  /> */}
+                    </div>
+                    <h4 className="text-lg text-[#2B4447] font-semibold">
+                      $369
+                    </h4>
+                  </div>
+
+                  <div className="">
+                    <p className="text-base font-medium text-[#637381]">
+                      Quantity - 1
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="flex gap-2 items-center">
+                    <div className="rounded-full w-[14px] h-[14px] border border-[#637381] flex justify-center items-center">
+                      <CheckIcon style={{ fill: "#637381", width: "8px" }} />
+                    </div>
+                    <p className="text-sm font-normal text-[#637381]">
+                      Available In Stock
+                    </p>
+                  </div>
+                  <Link to="#">
+                    <p className="text-[#DC3545] text-sm font-medium">Remove</p>
+                  </Link>
+                </div>
+              </div>
+            </div>
             <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
               <div className="">
                 <img
