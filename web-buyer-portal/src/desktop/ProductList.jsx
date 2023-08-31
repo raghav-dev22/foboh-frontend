@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import EastIcon from "@mui/icons-material/East";
 import Header from "./Header";
@@ -9,8 +9,13 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { useDispatch,useSelector } from "react-redux";
+import { add } from "../slices/CartSlice";
 // import { colourOptions } from "../data";
 import { listdata } from "../data";
+import { useNavigate } from "react-router";
+import { increment, decrement } from '../slices/counterSlice';
+
 
 const ProductList = () => {
   const Data = listdata
@@ -25,10 +30,34 @@ const ProductList = () => {
   const [Price, setPrice] = useState(false);
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
+  const [productData, setProductData] = useState([{
+    product : {},
+    quantity : 1,
+  }])
+  const navigate  = useNavigate()
   const colourOptions=[]
   const SortBtn = () => {
     setSort(!Sort);
   };
+  //  for redux
+  const dispatch = useDispatch();
+
+  const addCart = (item) => {
+    dispatch(add(item));
+  };
+
+
+  useEffect(() => {
+    setProductData(
+      Data.map(item => {
+        return {
+          product: item,
+          quantity : 0
+        }
+      })
+    )
+  },[])
+
   const WineBtn = () => {
     setWine(!wine);
     setSegment(false);
@@ -42,7 +71,6 @@ const ProductList = () => {
   const SegmentBtn = () => {
     setSegment(!Segment);
     setWine(false);
-
     setVariety(false);
     setCountry(false);
     setRegion(false);
@@ -115,6 +143,34 @@ const ProductList = () => {
     setAvailability(false);
     setPrice(false);
   };
+
+
+  const handleIncrementDecrement = (id, name) => {
+    if(name === "decrement") {
+      setProductData(productData.map(item =>{
+        if(item.product.id === id) {
+          return {
+            ...item,
+            quantity : item.quantity - 1
+          }
+        } else {
+          return item
+        }
+    }))
+    } else {
+        setProductData(productData.map(item =>{
+          if(item.product.id === id) {
+            return {
+              ...item,
+              quantity : item.quantity + 1
+            }
+          } else {
+            return item
+          }
+      }))
+    }
+  }
+
   return (
     <>
       <Header />
@@ -731,33 +787,36 @@ const ProductList = () => {
           </div>
           <div className="md:w-9/12		w-full mx-auto">
             <div className="grid grid-cols-3 gap-8 grid-rows-3	">
-            {Data.map((item, index) => (
+            {productData.map((item, index) => (
               <div className="">
                 <div className=" relative">
                   <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
                     <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
                   </div>
-                  <img src={item.img} alt="" />
+                  <img src={item.product?.img} alt="" onClick={() => navigate(`/product-details/${item.product.id}`)} />
                 </div>
-                <h4 className="text-lg font-semibold mt-3">
-                 {item.title}
+                <h4 onClick={() => navigate(`/product-details/${item.product.id}`)} className="text-lg font-semibold mt-3">
+                 {item.product?.title}
                 </h4>
                 <p className="text-base font-medium text-[#637381] mt-2">
-                  {item.name}
+                  {item.product?.name}
                 </p>
                 <p className="text-base font-medium text-[#2B4447] mt-2">
-                  {item.details}
+                  {item.product?.details}
                 </p>
                 <h4 className="text-base font-semibold text-[#2B4447] mt-1">
-                  {item.price}
+                  {item.product?.price}
                 </h4>
                 <div className="flex justify-between items-center mt-2 ">
                   <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                    <p className="text-[#637381] ">-</p>
-                    <p className="text-[#637381]"> 1</p>
-                    <p className="text-[#637381]">+</p>
+                    <p className="text-[#637381]"  onClick={() => handleIncrementDecrement(item.product.id, "decrement")}>-</p>
+                    <p className="text-[#637381]"> {item.quantity}</p>
+                    <p className="text-[#637381] " onClick={() => handleIncrementDecrement(item.product.id, "increment")}>+</p>
                   </div>
-                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
+                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2"
+                    onClick={() => {
+                    addCart(item);
+                  }}>
                     {" "}
                     <ShoppingBasketIcon style={{ fill: "#fff" }} />
                     Add To Cart

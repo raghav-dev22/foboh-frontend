@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Carousel from "better-react-carousel";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../store/CartSlice";
-import { fetchProduct } from "../store/ProductSlice";
+import { add } from "../slices/CartSlice";
+import { fetchProduct } from "../slices/ProductSlice";
 
 function TopRatedSection() {
   const [CartData, setCartData] = useState([]);

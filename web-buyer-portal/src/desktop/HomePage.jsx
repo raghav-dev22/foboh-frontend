@@ -20,13 +20,8 @@ function HomePage() {
       {/* <AddressDetails /> */}
       {/* <BusinessDetails /> */}
       {/* <Profile /> */}
-<<<<<<< HEAD
-      <MainHomePage />
-      {/* <MyAccount /> */}
-=======
       {/* <MainHomePage /> */}
       <MyAccount />
->>>>>>> c13859315e82b6ffb6b503c680de7ba855ba1f65
       {/* <Routes>
         <Route path="/home-page" element={<MainHomePage />} />
         <Route path="/my-account" element={<MyAccount />} />
