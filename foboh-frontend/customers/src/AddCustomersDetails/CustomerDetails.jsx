@@ -111,9 +111,7 @@ function CustomerDetails() {
       setActiveStep((cur) => cur - 1);
       formik.setErrors({})
     }
-    else {
-
-    }
+    else {}
     // !isFirstStep && setActiveStep((cur) => cur - 1);
   };
   const handleSubmit = () => {
