@@ -1,3 +1,5 @@
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 export const Cart = {
   productCart: [
     {
@@ -249,3 +251,17 @@ export const options = [
   { value: "strawberry", label: "Strawberry" },
   { value: "vanilla", label: "Vanilla" },
 ];
+
+
+export const listdata = [
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {img: "./assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+
+]
