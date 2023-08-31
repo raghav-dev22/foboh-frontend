@@ -13,6 +13,7 @@ import Profile from "./MyAccount/Profile";
 import AddressDetails from "./MyAccount/AddressDetails";
 import ProfileEdit from "./MyAccount/ProfileEdit";
 import DeliveryEdit from "./MyAccount/DeliveryEdit";
+import CartPage from "./MyAccount/CartPage";
 // import EditProductDetails from "../../foboh-frontend/products/src/editProduct/EditProductDetails";
 
 // import MainHomePage from "./desktop/MainHomePage";
@@ -33,6 +34,7 @@ function App() {
           <Route path="/address" element={<AddressDetails />} />
           <Route path="/delivery-edit" element={<DeliveryEdit />} />
           <Route path="/profile-edit" element={<ProfileEdit />} />
+          <Route path="/cart" element={<CartPage />} />
           {/* <Route path="/home-page-main" element={<MainHomePage />} /> */}
         </Routes>
       </Router>

@@ -12,23 +12,27 @@ import Profile from "../MyAccount/Profile";
 import BusinessDetails from "../MyAccount/ProfileEdit";
 import AddressDetails from "../MyAccount/AddressDetails";
 import DeliveryContact from "../MyAccount/DeliveryEdit";
+import ProductList from "./ProductList";
 function HomePage() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
+      <ProductList />
       {/* <DeliveryContact /> */}
       {/* <AddressDetails /> */}
       {/* <BusinessDetails /> */}
       {/* <Profile /> */}
       {/* <MainHomePage /> */}
-      <MyAccount />
+      {/* <MyAccount /> */}
+      {/* <MainHomePage /> */}
+      {/* <MyAccount /> */}
       {/* <Routes>
         <Route path="/home-page" element={<MainHomePage />} />
         <Route path="/my-account" element={<MyAccount />} />
       </Routes> */}
 
-      <Footer />
-      <BottomToTop />
+      {/* <Footer /> */}
+      {/* <BottomToTop /> */}
     </>
   );
 }

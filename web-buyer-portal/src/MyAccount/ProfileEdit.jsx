@@ -1,5 +1,8 @@
 import React from "react";
 import EastIcon from "@mui/icons-material/East";
+import Header from "../desktop/Header";
+import Footer from "../desktop/Footer";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import { Button, Form, Input, Radio } from "antd";
 // import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -7,9 +10,10 @@ import EastIcon from "@mui/icons-material/East";
 const ProfileEdit = () => {
   return (
     <>
-      <div className="md:w-4/5	w-full mx-auto md:p-0 px-6 ">
+      <Header />
+      <div className="md:w-4/5	w-full mx-auto ">
         <div className="md:w-4/5 w-full">
-          <div className="flex justify-start items-center gap-3 pt-8">
+          <div className="md:flex hidden justify-start items-center gap-3 pt-8">
             <h5 className="text-black font-medium text-base cursor-pointer">
               Home
             </h5>
@@ -26,8 +30,19 @@ const ProfileEdit = () => {
               BusinessDetails
             </h5>
           </div>
-          <div className="">
-            <div className=" pt-12 pb-8">
+          <div className=" md:my-12 mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
+            <h2 className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
+              Edit Profile
+            </h2>
+            <div className="md:hidden sm:block">
+              <ArrowBackIcon
+                className="absolute top-[32%] left-[20px] "
+                style={{ fill: "#fff" }}
+              />
+            </div>
+          </div>
+          <div className="md:p-0 px-6">
+            <div className=" md:pt-12 pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 BusinessDetails
               </h2>
@@ -36,21 +51,15 @@ const ProfileEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="BusinessName"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
-                  Business name
+                  Business name *
                 </label>
                 <input
                   type="text"
                   id="BusinessName"
                   name="BusinessName"
                   className="pl-custom-left"
-                  //   value={values.BusinessName}
-                  //   onChange={handleChange}
-                  //   onBlur={handleBlur}
-                  //   style={{
-                  //     border: errors.BusinessName && "1px solid red",
-                  //   }}
                 />
 
                 <div className=" absolute top-[50px] left-4">
@@ -72,9 +81,9 @@ const ProfileEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="ABN"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
-                  ABN
+                  ABN *
                 </label>
 
                 <input
@@ -82,19 +91,8 @@ const ProfileEdit = () => {
                   id="ABN"
                   className="pl-custom-left"
                   autoComplete="off"
-                  //   value={values.ABN}
-                  //   onChange={handleChange}
-                  //   onBlur={handleBlur}
-                  //   style={{
-                  //     border: errors.ABN && "1px solid red",
-                  //   }}
                 />
-                {/* {errors.ABN && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.ABN}</p>
-            )}
-            {errors.ABN && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-            )} */}
+
                 <div className=" absolute top-[50px] left-4">
                   <svg
                     width="14"
@@ -118,7 +116,7 @@ const ProfileEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Liquor licence{" "}
                   <span className="text-sm font-normal">Optional</span>
@@ -129,21 +127,7 @@ const ProfileEdit = () => {
                   id="LiquerLicence"
                   className="pl-custom-left"
                   autoComplete="off"
-                  //   value={values.LiquerLicence}
-                  //   onChange={handleChange}
-                  //   onBlur={handleBlur}
-                  //   style={{
-                  //     border: errors.LiquerLicence && "1px solid red",
-                  //   }}
                 />
-                {/* {errors.LiquerLicence && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors.LiquerLicence}
-              </p>
-            )}
-            {errors.LiquerLicence && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-            )} */}
 
                 <div className=" absolute top-[50px] left-4">
                   <svg
@@ -166,18 +150,18 @@ const ProfileEdit = () => {
               </div>
             </div>
           </div>
-          <div className="">
-            <div className=" pt-12 pb-8">
+          <div className=" md:p-0 px-6">
+            <div className="   pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 Ordering Contact
               </h2>
             </div>
             <div className="">
-              <div className="flex md:flex-nowrap flex-wrap  gap-8">
+              <div className="flex flex-nowrap   gap-8">
                 <div className="w-full mb-8">
                   <label
                     htmlFor="BusinessName"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     First Name
                   </label>
@@ -192,7 +176,7 @@ const ProfileEdit = () => {
                 <div className="w-full mb-8">
                   <label
                     htmlFor="ABN"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Last Name
                   </label>
@@ -209,7 +193,7 @@ const ProfileEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Email
                   <span className="text-sm font-normal">
@@ -229,7 +213,7 @@ const ProfileEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Mobile
                 </label>
@@ -244,18 +228,18 @@ const ProfileEdit = () => {
             </div>
           </div>
 
-          <div className="">
-            <div className=" pt-12 pb-8">
+          <div className=" md:p-0 px-6">
+            <div className=" pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 Ordering Contact
               </h2>
             </div>
             <div className="">
-              <div className="flex md:flex-nowrap flex-wrap  gap-8">
+              <div className="flex flex-nowrap   gap-8">
                 <div className="w-full mb-8">
                   <label
                     htmlFor="BusinessName"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     First Name
                   </label>
@@ -270,7 +254,7 @@ const ProfileEdit = () => {
                 <div className="w-full mb-8">
                   <label
                     htmlFor="ABN"
-                    className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Last Name
                   </label>
@@ -287,7 +271,7 @@ const ProfileEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Email
                 </label>
@@ -302,7 +286,7 @@ const ProfileEdit = () => {
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 font-medium text-[#1D1E20]"
+                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Mobile
                 </label>
@@ -326,6 +310,7 @@ const ProfileEdit = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
