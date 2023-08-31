@@ -111,9 +111,7 @@ function CustomerDetails() {
       setActiveStep((cur) => cur - 1);
       formik.setErrors({})
     }
-    else {
-
-    }
+    else {}
     // !isFirstStep && setActiveStep((cur) => cur - 1);
   };
   const handleSubmit = () => {
@@ -121,28 +119,6 @@ function CustomerDetails() {
   }
   return (
     <>
-      {show && (
-        <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-          <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
-            <div className="block">
-              <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                <button
-                  // onClick={handleReset}
-                  className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-                >
-                  Cancel
-                </button>
-                <button
-                  // onClick={handleSubmit}
-                  className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-                >
-                  Save
-                </button>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
       <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper">
         {isUpdate && (
           <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">

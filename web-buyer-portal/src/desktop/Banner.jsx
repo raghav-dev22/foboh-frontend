@@ -10,7 +10,7 @@ function Banner() {
             <img src="/assets/SUPPLIERLOGO.png" alt="" />
           </div>
         </div> */}
-        <div className=" relative md:hidden xl:hidden block">
+        {/* <div className=" relative md:hidden xl:hidden block">
           <input
             type="text"
             className="roun8ded-md	font-normal text-sm placeholder:text-sm"
@@ -26,7 +26,7 @@ function Banner() {
             className="absolute top-1/4 left-2.5 "
             style={{ fill: "#563FE3" }}
           />
-        </div>
+        </div> */}
         <div className="md:w-2/5 w-full	">
           <h5 className="text-[#000] xl:text-[#563FE3] md:text-[#563FE3] xl:text-start md:text-start text-center font-semibold	text-2xl mb-3 xl:text-xl md:text-xl	">
             Hello [first name] 👋

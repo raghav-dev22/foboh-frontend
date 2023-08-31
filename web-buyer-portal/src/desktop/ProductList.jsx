@@ -1,175 +1,265 @@
 import React, { useEffect, useState } from "react";
-import Footer from "./Footer";
-import EastIcon from "@mui/icons-material/East";
-import Header from "./Header";
-import BottomToTop from "./BottomToTop";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
-import { useDispatch, useSelector } from "react-redux";
-import { add } from "../slices/CartSlice";
-import { listdata } from "../data";
-import { useNavigate } from "react-router";
-import { increment, decrement } from '../slices/counterSlice';
-import { Slider } from "antd";
 
+import Footer from "./Footer";
+
+import EastIcon from "@mui/icons-material/East";
+
+import Header from "./Header";
+
+import BottomToTop from "./BottomToTop";
+
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
+import Select from "react-select";
+
+import makeAnimated from "react-select/animated";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { add } from "../slices/CartSlice";
+
+import { listdata } from "../data";
+
+import { useNavigate } from "react-router";
+
+import { increment, decrement } from "../slices/counterSlice";
+
+import { Slider } from "antd";
+import { setProductData } from "../slices/ProductSlice";
 
 const ProductList = () => {
-  const Data = listdata
-  console.log("data", listdata)
+  const Data = listdata;
+
+  console.log("data", listdata);
+
   const animatedComponents = makeAnimated();
+
   const [wine, setWine] = useState(false);
+
   const [Segment, setSegment] = useState(false);
+
   const [Variety, setVariety] = useState(false);
+
   const [Country, setCountry] = useState(false);
+
   const [Region, setRegion] = useState(false);
+
   const [Availability, setAvailability] = useState(false);
+
   const [Price, setPrice] = useState(false);
+
   const [Tags, setTags] = useState(false);
+
   const [Sort, setSort] = useState(false);
-  const [productData, setProductData] = useState([{
-    product: {},
-    quantity: 1,
-  }])
+
+  const productData = useSelector((state) => state.product);
+
+  // const [productData, setProductData] = useState([
+  //   {
+  //     product: {},
+  //     quantity: 1,
+  //   },
+  // ]);
+
   const [value, setValue] = useState([15, 65]);
-  const navigate = useNavigate()
-  const colourOptions = []
+
+  const navigate = useNavigate();
+
+  const colourOptions = [];
+
   const SortBtn = () => {
     setSort(!Sort);
   };
+
   //  for redux
+
   const dispatch = useDispatch();
 
   const addCart = (item) => {
     dispatch(add(item));
   };
 
-
   useEffect(() => {
-    setProductData(
-      Data.map(item => {
+    dispatch(setProductData(
+      Data.map((item) => {
         return {
           product: item,
-          quantity: 0
-        }
+          quantity: 0,
+        };
       })
-    )
-  }, [])
+    ))
+  }, []);
 
   const WineBtn = () => {
     setWine(!wine);
+
     setSegment(false);
+
     setVariety(false);
+
     setCountry(false);
+
     setRegion(false);
+
     setAvailability(false);
+
     setPrice(false);
+
     setTags(false);
   };
+
   const SegmentBtn = () => {
     setSegment(!Segment);
+
     setWine(false);
+
     setVariety(false);
+
     setCountry(false);
+
     setRegion(false);
+
     setAvailability(false);
+
     setPrice(false);
+
     setTags(false);
   };
+
   const VarietyBtn = () => {
     setVariety(!Variety);
+
     setWine(false);
+
     setSegment(false);
 
     setCountry(false);
+
     setRegion(false);
+
     setAvailability(false);
+
     setPrice(false);
+
     setTags(false);
   };
+
   const CountryBtn = () => {
     setCountry(!Country);
+
     setWine(false);
+
     setSegment(false);
+
     setVariety(false);
 
     setRegion(false);
+
     setAvailability(false);
+
     setPrice(false);
+
     setTags(false);
   };
+
   const RegionBtn = () => {
     setRegion(!Region);
+
     setWine(false);
+
     setSegment(false);
+
     setVariety(false);
+
     setCountry(false);
 
     setAvailability(false);
+
     setPrice(false);
+
     setTags(false);
   };
+
   const AvailabilityBtn = () => {
     setAvailability(!Availability);
+
     setWine(false);
+
     setSegment(false);
+
     setVariety(false);
+
     setCountry(false);
+
     setRegion(false);
 
     setPrice(false);
+
     setTags(false);
   };
+
   const PriceBtn = () => {
     setPrice(!Price);
+
     setWine(false);
+
     setSegment(false);
+
     setVariety(false);
+
     setCountry(false);
+
     setRegion(false);
+
     setAvailability(false);
 
     setTags(false);
   };
+
   const TagsBtn = () => {
     setTags(!Tags);
+
     setWine(false);
+
     setSegment(false);
+
     setVariety(false);
+
     setCountry(false);
+
     setRegion(false);
+
     setAvailability(false);
+
     setPrice(false);
   };
 
-  const handleIncrementDecrement = (id, name) => {
-    if (name === "decrement") {
-      setProductData(productData.map(item => {
-        if (item.product.id === id) {
+  const handleIncrementDecrement = (id, actionType) => {
+    const updatedProductData = productData.map((item) => {
+      if (item.product.id === id) {
+        if (actionType === 'decrement' && item.quantity > 1) {
           return {
             ...item,
-            quantity: item.quantity - 1
-          }
-        } else {
-          return item
-        }
-      }))
-    } else {
-      setProductData(productData.map(item => {
-        if (item.product.id === id) {
+            quantity: item.quantity - 1,
+          };
+        } else if (actionType === 'increment') {
           return {
             ...item,
-            quantity: item.quantity + 1
-          }
-        } else {
-          return item
+            quantity: item.quantity + 1,
+          };
         }
-      }))
-    }
-  }
+      }
+      return item;
+    });
+
+    dispatch(setProductData(updatedProductData));
+  };
 
   const handleChange = (e, value) => {
     setValue(value);
@@ -179,27 +269,36 @@ const ProductList = () => {
     <>
       <Header />
 
-      {/* <div className="w-1/5	  overflow-y-scroll		  ">jdjijijdj</div> */}
-      <div className="md:w-[85%] w-full md:p-0 px-6 mx-auto	">
+      {/* <div className="w-1/5   overflow-y-scroll     ">jdjijijdj</div> */}
+
+      <div className="md:w-[85%] w-full md:p-0 px-6 mx-auto ">
         <div className="flex justify-start items-center gap-3 py-8">
           <h5 className="text-black font-medium text-base cursor-pointer">
             Home
           </h5>
+
           <EastIcon />
+
           <h5 className="text-black font-medium text-base cursor-pointer">
             Account
           </h5>
+
           <EastIcon />
+
           <h5 className="text-black font-medium text-base cursor-pointer">
             Profile
           </h5>
+
           <EastIcon />
+
           <h5 className="text-black font-medium text-base cursor-pointer">
             DeliveryContact
           </h5>
         </div>
+
         <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between">
           <p className="font-semibold text-lg">Red Wine</p>
+
           <button
             className="border border-[#E7E7E7] rounded-md px-[13px] py-[8px] flex items-center justify-center gap-2"
             onClick={() => {
@@ -218,8 +317,10 @@ const ProductList = () => {
                 fill="#637381"
               />
             </svg>
+
             <p className="text-base font-normal text-[#2B4447]">Sort</p>
           </button>
+
           {Sort && (
             <>
               <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4  absolute top-[50px] right-0">
@@ -227,8 +328,10 @@ const ProductList = () => {
                   <h5 className="text-lg font-medium text-[#2B4447] ">
                     Alphabetical
                   </h5>
+
                   <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                 </div>
+
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3">
                     <input
@@ -237,12 +340,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-3">
                     <input
                       id="default-checkbox"
@@ -250,6 +355,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -257,10 +363,13 @@ const ProductList = () => {
                     </label>
                   </div>
                 </div>
+
                 <div className="flex justify-between items-center pt-4">
                   <h5 className="text-lg font-medium text-[#2B4447] ">Price</h5>
+
                   <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                 </div>
+
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3">
                     <input
@@ -269,12 +378,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-3">
                     <input
                       id="default-checkbox"
@@ -282,6 +393,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -293,10 +405,12 @@ const ProductList = () => {
             </>
           )}
         </div>
+
         <div className="flex flex-no-wrap py-8">
-          <div className="w-1/4		  overflow-y-scroll	 pr-12 py-4	  ">
+          <div className="w-1/4     overflow-y-scroll  pr-12 py-4   ">
             <div className="flex items-center gap-2 pb-3">
               <FilterAltIcon style={{ fill: "#fff", stroke: "#2B4447" }} />
+
               <h5 className="text-2xl font-semibold text-[#2B4447]">Filter</h5>
             </div>
 
@@ -308,11 +422,14 @@ const ProductList = () => {
                 }}
               >
                 <h5 className="text-lg font-medium text-[#2B4447]">Wine</h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {wine && (
                 <>
                   <input type="text" placeholder="Search|" />
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -320,12 +437,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -333,12 +452,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -346,12 +467,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -359,6 +482,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -368,6 +492,7 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
@@ -376,11 +501,14 @@ const ProductList = () => {
                 }}
               >
                 <h5 className="text-lg font-medium text-[#2B4447]">Segment</h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {Segment && (
                 <>
                   <input type="text" placeholder="Search|" />
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -388,12 +516,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -401,12 +531,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -414,12 +546,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -427,6 +561,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -436,6 +571,7 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
@@ -444,11 +580,14 @@ const ProductList = () => {
                 }}
               >
                 <h5 className="text-lg font-medium text-[#2B4447]">Variety</h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {Variety && (
                 <>
                   <input type="text" placeholder="Search|" />
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -456,12 +595,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -469,12 +610,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -482,12 +625,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -495,6 +640,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -504,6 +650,7 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
@@ -512,11 +659,14 @@ const ProductList = () => {
                 }}
               >
                 <h5 className="text-lg font-medium text-[#2B4447]">Country</h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {Country && (
                 <>
                   <input type="text" placeholder="Search|" />
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -524,12 +674,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -537,12 +689,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -550,12 +704,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -563,6 +719,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -572,6 +729,7 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
@@ -582,11 +740,14 @@ const ProductList = () => {
                 <h5 className="text-lg font-medium text-[#2B4447]">
                   Region availability
                 </h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {Availability && (
                 <>
                   <input type="text" placeholder="Search|" />
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -594,12 +755,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -607,12 +770,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -620,12 +785,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -633,6 +800,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -642,6 +810,7 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
@@ -650,11 +819,14 @@ const ProductList = () => {
                 }}
               >
                 <h5 className="text-lg font-medium text-[#2B4447]">Region</h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {Region && (
                 <>
                   <input type="text" placeholder="Search|" />
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -662,12 +834,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -675,12 +849,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -688,12 +864,14 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
                       </h5>
                     </label>
                   </div>
+
                   <div className="flex items-center mt-5">
                     <input
                       id="default-checkbox"
@@ -701,6 +879,7 @@ const ProductList = () => {
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
+
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
                         Option-1
@@ -710,6 +889,7 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
@@ -718,8 +898,10 @@ const ProductList = () => {
                 }}
               >
                 <h5 className="text-lg font-medium text-[#2B4447]">Price</h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {Price && (
                 <>
                   <div id="container">
@@ -732,26 +914,28 @@ const ProductList = () => {
                           valueLabelDisplay="auto"
                           getAriaValueText={() => {
                             return `${value}`;
-
                           }}
-
                         />
                       </div>
+
                       <div className="pt-4 flex justify-between items-center">
                         <div className="box">
                           <h5 className="text-base font-medium text-[#637381] mb-2">
                             Min. Price
                           </h5>
+
                           <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
                             <p className="font-normal text-sm text-[#637381]">
                               $ {value}
                             </p>
                           </div>
                         </div>
+
                         <div className="box">
                           <h5 className="text-base font-medium text-[#637381] mb-2">
                             Max. Price
                           </h5>
+
                           <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
                             <p className="font-normal text-sm text-[#637381]">
                               $ {value}
@@ -764,6 +948,7 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
@@ -772,11 +957,14 @@ const ProductList = () => {
                 }}
               >
                 <h5 className="text-lg font-medium text-[#2B4447]">Tags</h5>
+
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+
               {Tags && (
                 <>
                   <input type="text" placeholder="Search|" />
+
                   <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
@@ -787,43 +975,84 @@ const ProductList = () => {
                 </>
               )}
             </div>
+
             {/* <div className="flex justify-between py-4 border-b border-[#E7E7E7]">
+
               <h5 className="text-lg font-medium text-[#2B4447]">Segment</h5>
+
               <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+
             </div> */}
           </div>
-          <div className="md:w-9/12		w-full mx-auto">
-            <div className="grid grid-cols-3 gap-8 grid-rows-3	">
+
+          <div className="md:w-9/12   w-full mx-auto">
+            <div className="grid grid-cols-3 gap-8 grid-rows-3  ">
               {productData.map((item, index) => (
                 <div className="">
                   <div className=" relative">
                     <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
                       <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
                     </div>
-                    <img src={item.product?.img} alt="" onClick={() => navigate(`/product-details/${item.product.id}`)} />
+
+                    <img
+                      src={item.product?.img}
+                      alt=""
+                      onClick={() =>
+                        navigate(`/product-details/${item.product.id}`)
+                      }
+                    />
                   </div>
-                  <h4 onClick={() => navigate(`/product-details/${item.product.id}`)} className="text-lg font-semibold mt-3">
+
+                  <h4
+                    onClick={() =>
+                      navigate(`/product-details/${item.product.id}`)
+                    }
+                    className="text-lg font-semibold mt-3"
+                  >
                     {item.product?.title}
                   </h4>
+
                   <p className="text-base font-medium text-[#637381] mt-2">
                     {item.product?.name}
                   </p>
+
                   <p className="text-base font-medium text-[#2B4447] mt-2">
                     {item.product?.details}
                   </p>
+
                   <h4 className="text-base font-semibold text-[#2B4447] mt-1">
                     {item.product?.price}
                   </h4>
+
                   <div className="flex justify-between items-center mt-2 ">
                     <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                      <p className="text-[#637381]" onClick={() => handleIncrementDecrement(item.product.id, "decrement")}>-</p>
+                      <p
+                        className="text-[#637381]"
+                        onClick={() =>
+                          handleIncrementDecrement(item.product.id, "decrement")
+                        }
+                      >
+                        -
+                      </p>
+
                       <p className="text-[#637381]"> {item.quantity}</p>
-                      <p className="text-[#637381] " onClick={() => handleIncrementDecrement(item.product.id, "increment")}>+</p>
+
+                      <p
+                        className="text-[#637381] "
+                        onClick={() =>
+                          handleIncrementDecrement(item.product.id, "increment")
+                        }
+                      >
+                        +
+                      </p>
                     </div>
-                    <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2"
+
+                    <button
+                      className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2"
                       onClick={() => {
                         addCart(item);
-                      }}>
+                      }}
+                    >
                       {" "}
                       <ShoppingBasketIcon style={{ fill: "#fff" }} />
                       Add To Cart
@@ -835,7 +1064,9 @@ const ProductList = () => {
           </div>
         </div>
       </div>
+
       <Footer />
+
       <BottomToTop />
     </>
   );

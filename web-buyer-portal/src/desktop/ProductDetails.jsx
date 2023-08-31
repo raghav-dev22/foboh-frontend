@@ -13,24 +13,43 @@ import Slider from "@mui/material/Slider";
 // import makeAnimated from "react-select/animated";
 // import { colourOptions } from "../data";
 import { listdata } from "../data";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../slices/CartSlice";
-import { increment, decrement } from '../slices/counterSlice';
-
-
-
+import { increment, decrement } from "../slices/counterSlice";
+import { setProductData } from "../slices/ProductSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const product = listdata.find((item) => item.id === (+id));
-  console.log("getProduct",product.img);
- 
+  const products = useSelector((state) => state.product);
+
+  const productData = products.find((item) => item.product?.id === +id);
+  console.log("prod >>", productData);
   // for add to card redux
   const dispatch = useDispatch();
-  const counterValue = useSelector((state) => state?.counter?.value);
   const addCart = (product) => {
     dispatch(add(product));
+  };
+
+  const handleIncrementDecrement = (id, actionType) => {
+    const updatedProductData = products.map((item) => {
+      if (item.product.id === id) {
+        if (actionType === "decrement" && item.quantity > 1) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        } else if (actionType === "increment") {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+      }
+      return item;
+    });
+
+    dispatch(setProductData(updatedProductData));
   };
 
   return (
@@ -49,32 +68,38 @@ const ProductDetails = () => {
         <div className="flex flex-nowrap gap-8">
           <div className="w-full lg:w-2/5	 h-full	">
             <div className="grid gap-5">
-            <div>
-              <img src={product.img} alt="" className="img-fluid" />
-            </div>
+              <div>
+                <img
+                  src={productData.product?.img}
+                  alt=""
+                  className="img-fluid"
+                />
+              </div>
               <div className="grid grid-cols-3 gap-5">
-                <img src={product.img} alt="" />
-                <img src={product.img} alt="" />
-                <img src={product.img} alt="" />
+                <img src={productData.product?.img} alt="" />
+                <img src={productData.product?.img} alt="" />
+                <img src={productData.product?.img} alt="" />
               </div>
             </div>
           </div>
           <div className=" lg:w-3/5 w-full   h-full	 grid gap-1	  p-4">
             <h1 className="text-[28px] text-[#2B4447] font-bold">
               {" "}
-              {product.title}
+              {productData.product?.title}
             </h1>
-            <h5 className="text-lg font-medium text-[#637381]">{product.name}</h5>
+            <h5 className="text-lg font-medium text-[#637381]">
+              {productData.product?.name}
+            </h5>
             <div className="flex  items-center gap-2">
               <h5 className="text-lg font-medium text-[#2B4447]">
-              {product.details}{" "}
+                {productData.product?.details}{" "}
               </h5>
               <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
               <h5 className="text-lg font-medium text-[#2B4447]">750ml</h5>
             </div>
             <div className="flex items-center gap-3">
               <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5>
-              <h5 className="text-lg font-semibold">$369</h5>
+              <h5 className="text-lg font-semibold">{productData.product?.price}</h5>
             </div>
             <div className="py-3">
               <p className="text-sm font-normal text-[#637381] leading-[25px]">
@@ -85,14 +110,35 @@ const ProductDetails = () => {
             </div>
             <div className="flex  justify-between md:w-[365px] w-full items-center py-2 ">
               <div className="border border-[#E7E7E7] py-[10px] px-[20px] rounded-md flex justify-center items-center gap-3">
-                <p className="text-[#637381] " onClick={() => dispatch(decrement())}>-</p>
-                <p className="text-[#637381]"> {counterValue} </p>
-                <p className="text-[#637381]" onClick={() => dispatch(increment())}>+</p>
+                <p
+                  className="text-[#637381] "
+                  onClick={() =>
+                    handleIncrementDecrement(
+                      productData.product.id,
+                      "decrement"
+                    )
+                  }
+                >
+                  -
+                </p>
+                <p className="text-[#637381]"> {productData.quantity} </p>
+                <p
+                  className="text-[#637381]"
+                  onClick={() =>
+                    handleIncrementDecrement(
+                      productData.product.id,
+                      "increment"
+                    )
+                  }
+                >
+                  +
+                </p>
               </div>
-              <button className=" bg-[#563FE3] rounded-md py-[10px] px-[28px] text-sm font-medium text-white flex justify-center items-center gap-2"
-               onClick={() => {
-                    addCart(product);
-                  }}
+              <button
+                className=" bg-[#563FE3] rounded-md py-[10px] px-[28px] text-sm font-medium text-white flex justify-center items-center gap-2"
+                onClick={() => {
+                  addCart(productData);
+                }}
               >
                 {" "}
                 <ShoppingBasketIcon style={{ fill: "#fff" }} />
@@ -205,7 +251,6 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-        
       </div>
 
       <Footer />
