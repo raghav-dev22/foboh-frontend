@@ -1,7 +1,6 @@
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-
 function Banner() {
   return (
     <>
@@ -36,21 +35,31 @@ function Banner() {
             Welcome to [Supplier name]
           </h1>
           <div className="bg-[#563FE3] xl:bg-[unset] md:bg-[unset] xl:mx-0 md:mx-0 mx-[2rem] xl:p-0 md:p-0 p-5 rounded-xl">
-          <p className="text-[#fff] xl:text-[#637381] md:text-[#637381] font-normal text-base mb-3">
-            Browse our range, select your favourites and manage your orders and
-            payments all in one place
-          </p>
-          <div className="mt-2 text-center xl:text-start md:text-start">
-            <button className=" bg-[#fff] xl:bg-[#563FE3] md:bg-[#563FE3] py-2.5	px-7	rounded-3xl">
-              <p className="text-[#563FE3] xl:text-white md:text-white font-semibold text-base">Shop now</p>
-            </button>
-          </div>
+            <p className="text-[#fff] xl:text-[#637381] md:text-[#637381] font-normal text-base mb-3">
+              Browse our range, select your favourites and manage your orders
+              and payments all in one place
+            </p>
+            <div className="mt-2 text-center xl:text-start md:text-start">
+              <button className=" bg-[#fff] xl:bg-[#563FE3] md:bg-[#563FE3] py-2.5	px-7	rounded-3xl">
+                <p className="text-[#563FE3] xl:text-white md:text-white font-semibold text-base">
+                  Shop now
+                </p>
+              </button>
+            </div>
           </div>
         </div>
         <div className="md:w-2/5	 w-full justify-center md:flex hidden	">
           <div className="logo relative">
-            <img src="/assets/SUPPLIERLOGO.png" alt="" className="mt-0 mr-0 mb-0 ml-[40px]" />
-            <img src="/assets/hero-main.png" className="absolute top-[12px] max-w-[22rem] me-[9rem]" alt="" />
+            <img
+              src="/assets/SUPPLIERLOGO.png"
+              alt=""
+              className="mt-0 mr-0 mb-0 ml-[40px]"
+            />
+            <img
+              src="/assets/hero-main.png"
+              className="absolute top-[12px] max-w-[22rem] me-[9rem]"
+              alt=""
+            />
           </div>
         </div>
       </div>

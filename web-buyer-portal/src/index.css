@@ -225,3 +225,16 @@ select {
   transform: translateX(15px);
   transition: 0.3s ease-in;
 }
+.sliderwrap .css-eg0mwd-MuiSlider-thumb {
+  height: 15px;
+  width: 15px;
+  border: 1px solid #563fe3;
+  background-color: #f1f4ff;
+}
+.sliderwrap .css-14pt78w-MuiSlider-rail {
+  background-color: #ededed;
+}
+
+.sliderwrap .css-1gv0vcd-MuiSlider-track {
+  background-color: #563fe3;
+}
