@@ -16,7 +16,7 @@ const Cart = ({ open, onClose }) => {
     dispatch(remove(cartItem));
   };
   console.log(CARTdata, "CARTdata");
-  return (
+  return ( 
     <>
       <Dialog
         as="div"

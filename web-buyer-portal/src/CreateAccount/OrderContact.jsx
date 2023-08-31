@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
+
 function OrderContact({
   values,
   errors,
@@ -10,11 +11,7 @@ function OrderContact({
   touched,
   setValues
 }) {
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleState = (e) => {

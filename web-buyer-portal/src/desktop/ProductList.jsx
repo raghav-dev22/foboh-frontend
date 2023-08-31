@@ -12,19 +12,14 @@ import Select from "react-select";
 import Slider from "@mui/material/Slider";
 // import makeAnimated from "react-select/animated";
 // import { colourOptions } from "../data";
+import { listdata } from "../data";
 
 import ProductListData from "./ProductListData";
 
 const ProductList = () => {
-  const valuetext = (value) => {
-    return `${value}°C`;
-  };
-
-  const [value, setValue] = React.useState([20, 37]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const Data = listdata
+  console.log("data",listdata)
+  const animatedComponents = makeAnimated();
   const [wine, setWine] = useState(false);
   const [Segment, setSegment] = useState(false);
   const [Variety, setVariety] = useState(false);
@@ -795,8 +790,43 @@ const ProductList = () => {
               <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
             </div> */}
           </div>
-          <div className="md:w-9/12		w-full mx-auto h-[600px] overflow-y-scroll">
-            <ProductListData />
+          <div className="md:w-9/12		w-full mx-auto">
+            <div className="grid grid-cols-3 gap-8 grid-rows-3	">
+            {Data.map((item, index) => (
+              <div className="">
+                <div className=" relative">
+                  <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
+                    <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+                  </div>
+                  <img src={item.img} alt="" />
+                </div>
+                <h4 className="text-lg font-semibold mt-3">
+                 {item.title}
+                </h4>
+                <p className="text-base font-medium text-[#637381] mt-2">
+                  {item.name}
+                </p>
+                <p className="text-base font-medium text-[#2B4447] mt-2">
+                  {item.details}
+                </p>
+                <h4 className="text-base font-semibold text-[#2B4447] mt-1">
+                  {item.price}
+                </h4>
+                <div className="flex justify-between items-center mt-2 ">
+                  <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
+                    <p className="text-[#637381] ">-</p>
+                    <p className="text-[#637381]"> 1</p>
+                    <p className="text-[#637381]">+</p>
+                  </div>
+                  <button className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2">
+                    {" "}
+                    <ShoppingBasketIcon style={{ fill: "#fff" }} />
+                    Add To Cart
+                  </button>
+                </div>
+              </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

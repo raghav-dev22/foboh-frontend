@@ -22,6 +22,8 @@ function HomePage() {
       {/* <Profile /> */}
       {/* <MainHomePage /> */}
       <MyAccount />
+      {/* <MainHomePage /> */}
+      {/* <MyAccount /> */}
       {/* <Routes>
         <Route path="/home-page" element={<MainHomePage />} />
         <Route path="/my-account" element={<MyAccount />} />

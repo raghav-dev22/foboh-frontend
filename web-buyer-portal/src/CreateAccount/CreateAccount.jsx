@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Stepper, Step, Button } from "@material-tailwind/react";
 import BusinessDetails from "./BusinessDetails";
@@ -7,10 +7,15 @@ import OrderContact from "./OrderContact";
 import SuccessModal from "../modal/SuccessModal";
 import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
 
+//Need to be deleted after api integration
+import { options } from "../data";
+
 import { useFormik } from "formik";
 
 function CreateAccount() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
+  const buyer = JSON.parse(localStorage.getItem('createData'))
+  console.log("data",buyer)
   const [currentStep, setCurrentStep] = useState(0);
   
   const formik = useFormik({
@@ -70,6 +75,34 @@ function CreateAccount() {
     setShow(true);
   }
 
+ useEffect(() => {
+  formik.setValues({
+    BusinessName: buyer.BusinessName,
+      ABN: buyer.ABN,
+      LiquerLicence: buyer.LiquerLicence,
+      DeliveryAddress: buyer.DeliveryAddress,
+      Apartment: buyer.Apartment,
+      Suburb: buyer.Suburb,
+      Postcode: buyer.Postcode,
+      Notes: buyer.Notes,
+      FirstName: buyer.FirstName,
+      LastName: buyer.LastName,
+      email: buyer.email,
+      Mobile: buyer.Mobile,
+      DeliveryAddressState: options.find(state => state.value === buyer.DeliveryAddressState),
+      OrderContactState: options.find(state => state.value === buyer.OrderContactState),
+      OrderingContactFirstName : buyer.OrderingContactFirstName,
+      OrderingContactLastName : buyer.OrderingContactLastName,
+      OrderingContactEmail : buyer.OrderingContactEmail,
+      OrderingContactMobile : buyer.OrderingContactMobile,
+      DeliveryContactFirstName : buyer.DeliveryContactFirstName,
+      DeliveryContactLastName : buyer.DeliveryContactLastName ,
+      DeliveryContactEmail :buyer.DeliveryContactEmail,
+      DeliveryContactMobile :buyer.DeliveryContactMobile,
+  })
+  
+ }, [])
+
   return (
     <>
       <div className=" bg-[#F8FAFC]  w-full flex items-center justify-center top-0 left-0 bottom-0 right-0 h-full">
@@ -120,6 +153,7 @@ function CreateAccount() {
                 )}
                 {currentStep === 1 && (
                   <DeliveryAddress
+                  
                     values={formik.values}
                     errors={formik.errors}
                     handleBlur={formik.handleBlur}
