@@ -29,7 +29,7 @@ function App() {
           <Route path="/create-account" element={<CreateAccount />} />
           <Route exact path="/main/*" element={<HomePage />} />
           <Route path="/product-list" element={<ProductList />} />
-          <Route path="/product-details" element={<ProductDetails />} />
+          <Route path="/product-details/:id" element={<ProductDetails />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/address" element={<AddressDetails />} />
           <Route path="/delivery-edit" element={<DeliveryEdit />} />
