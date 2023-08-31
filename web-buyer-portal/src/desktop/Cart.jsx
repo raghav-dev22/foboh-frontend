@@ -5,7 +5,7 @@ import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { remove } from "../store/CartSlice";
+import { remove } from "../slices/CartSlice";
 
 const Cart = ({ open, onClose }) => {
   const dispatch = useDispatch((item) => {

@@ -1,12 +1,13 @@
 import React from "react";
 import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import { Link } from "react-router-dom";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Profile = () => {
   return (
     <>
-      <div className="md:w-4/5	w-full mx-auto">
+      <div className="md:w-4/5	w-full mx-auto md:p-0 px-6">
         <div className="flex justify-start items-center gap-3 pt-8">
           <h5 className="text-black font-medium text-base cursor-pointer">
             Home
@@ -24,8 +25,8 @@ const Profile = () => {
           <h2 className="font-bold text-4xl	 text-[#563FE3]">Profile</h2>
         </div>
         <div className="md:grid-cols-3 grid sm:grid-cols-3	  gap-4">
-          <div className="rounded-md border border-[#E0E0E0]">
-            <div className="business-details bg-[#563FE3] py-2 px-4 rounded-t-md	">
+          <div className="rounded-[5px] border border-[#E0E0E0]">
+            <div className="business-details bg-[#563FE3] py-2 px-4 rounded-t-[5px]	">
               <h5 className="text-white font-semibold text-lg">
                 Business Details
               </h5>
@@ -36,8 +37,8 @@ const Profile = () => {
               <p className="text-sm font-normal">LIQ: LIQP770016926</p>
             </div>
           </div>
-          <div className="rounded-md border border-[#E0E0E0]">
-            <div className="ordering-contact-details bg-[#563FE3] py-2 px-4 rounded-t-md	">
+          <div className="rounded-[5px] border border-[#E0E0E0]">
+            <div className="ordering-contact-details bg-[#563FE3] py-2 px-4 rounded-t-[5px]	">
               <h5 className="text-white font-semibold text-lg">
                 Ordering Contact
               </h5>
@@ -48,8 +49,8 @@ const Profile = () => {
               <p className="text-sm font-normal">LIQ: LIQP770016926</p>
             </div>
           </div>
-          <div className="rounded-md border border-[#E0E0E0]">
-            <div className="delivery-contact-details bg-[#563FE3] py-2 px-4 rounded-t-md	">
+          <div className="rounded-[5px] border border-[#E0E0E0]">
+            <div className="delivery-contact-details bg-[#563FE3] py-2 px-4 rounded-t-[5px]	">
               <h5 className="text-white font-semibold text-lg">
                 Delivery Contact
               </h5>
@@ -61,10 +62,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-md w-fit flex justify-center items-center cursor-pointer gap-2">
-          <ModeEditOutlineIcon style={{ fill: "#563FE3" }} />
-          <p className="text-base font-medium  text-[#563FE3] ">Edit</p>
-        </div>
+        <Link to="/profile-edit">
+          <button className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-[5px] w-fit flex justify-center items-center cursor-pointer gap-2">
+            <ModeEditOutlineIcon style={{ fill: "#563FE3" }} />
+            <p className="text-base font-medium  text-[#563FE3] ">Edit</p>
+          </button>
+        </Link>
       </div>
     </>
   );

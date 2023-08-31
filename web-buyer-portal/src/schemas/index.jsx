@@ -61,7 +61,7 @@ export const stepTwoSchema = Yup.object().shape({
     .required("Notes is required")
     .min(2, "Notes should have atleast 2 letters")
     .max(50),
-  DeliveryAddressState: Yup.string().required("State is required"),
+  DeliveryAddressState: Yup.mixed().required("State is required"),
 });
 
 export const stepThreeSchema = Yup.object().shape({

@@ -29,7 +29,7 @@ function ShopBrandSection() {
             view all
           </a>
         </div>
-        <div className="grid grid-rows-2	md:grid-cols-3	 sm:grid-cols-2  md:w-4/5	w-full mx-auto gap-8">
+        <div className="grid grid-rows-2	md:grid-cols-3	 sm:grid-cols-2  md:w-4/5	w-full mx-auto md:p-0 px-6 gap-8">
           {BrandData.map((item, index) => {
             return (
               <div className="rounded-lg	shadow-md	bg-white w-full py-12">

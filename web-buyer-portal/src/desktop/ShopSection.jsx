@@ -19,7 +19,7 @@ function ShopSection() {
   return (
     <>
       <div className="shop-section xl:bg-[#F8FAFC] md:bg-[#F8FAFC] bg-unset">
-        <div className="md:w-4/5	w-full mx-auto">
+        <div className="md:w-4/5	w-full mx-auto md:p-0 px-6 ">
           <h2 className="text-center font-bold text-[#212B36] text-3xl	py-10 hidden sm:block xl:block md:block">
             Shop the range
           </h2>

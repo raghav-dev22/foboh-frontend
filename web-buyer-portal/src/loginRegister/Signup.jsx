@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { SignUpSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
+import { buyers } from "../data";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -14,17 +16,24 @@ function Signup() {
     email: "",
     password: "",
   };
-
+  const navigate = useNavigate();
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
-        console.log(values, "signup");
-        
+        const foundBuyer = buyers.find((buyer) => buyer.email === values.email);
+        if (foundBuyer) {
+          console.log("signup successful", foundBuyer);
+          localStorage.setItem("createData", JSON.stringify(foundBuyer));
+          localStorage.setItem("password", (values.password));
+          navigate("/create-account");
+        } else {
+          console.log("Login failed");
+        }
       },
     });
-  console.log(values, "values");
+  // console.log(values, "values");
   return (
     <>
       <div className=" md:bg-[#F8FAFC]  w-full flex items-center justify-center  h-full">
