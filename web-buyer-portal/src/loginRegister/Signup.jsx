@@ -26,7 +26,7 @@ function Signup() {
         if (foundBuyer) {
           console.log("signup successful", foundBuyer);
           localStorage.setItem("createData", JSON.stringify(foundBuyer));
-          localStorage.setItem("password", (values.password));
+          localStorage.setItem("password", values.password);
           navigate("/create-account");
         } else {
           console.log("Login failed");
@@ -107,7 +107,7 @@ function Signup() {
                       type="email"
                       id="email"
                       className={`js-email `}
-                      autoComplete="off"
+                      autoComplete="on"
                       value={values.email}
                       // onChange={(e) => setEmail(e.target.value)}
                       onChange={handleChange}
