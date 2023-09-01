@@ -246,3 +246,15 @@ select {
   box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 23%);
   background: #fff;
 }
+.react-tabs__tab {
+  border-radius: 5px !important;
+}
+.react-tabs__tab--selected {
+  background-color: #563fe321 !important;
+}
+.react-tabs__tab--selected svg {
+  fill: #563fe3 !important;
+}
+.react-tabs__tab--selected h5 {
+  color: #563fe3;
+}

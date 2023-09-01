@@ -14,10 +14,9 @@ const DeliveryEdit = () => {
   ];
   return (
     <>
-      <Header />
       <div className="md:w-4/5	w-full mx-auto  ">
         <div className="md:w-4/5 w-full">
-          <div className="  md:flex hidden justify-start items-center gap-3 pt-8">
+          {/* <div className="  md:flex hidden justify-start items-center gap-3 pt-8">
             <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
               Home
             </h5>
@@ -33,9 +32,9 @@ const DeliveryEdit = () => {
             <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
               DeliveryContact
             </h5>
-          </div>
-          <div className=" md:my-12 mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
-            <h2 className="md:font-bold md:font-medium font-semibold md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
+          </div> */}
+          <div className="  mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
+            <h2 className="md:font-bold font-semibold md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
               Edit Profile
             </h2>
             <div className="md:hidden sm:block">
@@ -46,7 +45,7 @@ const DeliveryEdit = () => {
             </div>
           </div>
 
-          <div className="  md:pt-12 pb-8 px-6">
+          <div className="  md:px-0 pb-8 px-6">
             <div className="  pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 Delivery Address
@@ -302,7 +301,6 @@ const DeliveryEdit = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

@@ -58,7 +58,7 @@ const CartPage = () => {
           </div>
         </div>
         <div className="flex  justify-between flex-wrap md:px-0 px-6">
-          <div className="md:w-[55%] w-full	">
+          <div className="lg:w-[55%] w-full	">
             <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
               <div className="">
                 <img
@@ -67,13 +67,13 @@ const CartPage = () => {
                   className="w-[150px]  object-cover	rounded-md"
                 />
               </div>
-              <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">
+              <div className="flex flex-col justify-center  md:gap-12 gap-8  h-full py-3 w-full">
                 <div>
                   <div className="flex justify-between w-full gap-3">
                     <h4 className="text-lg font-semibold text-[#2B4447]">
                       Write Product Full Name
                     </h4>
-                    <div className="">
+                    <div className=" md:block hidden">
                       <div className="border border-inherit rounded-md flex justify-center items-center gap-2  p-2">
                         <p className="pl-2 text-sm font-normal text-[#2B4447]">
                           1
@@ -120,14 +120,14 @@ const CartPage = () => {
                   className="w-[150px]  object-cover	rounded-md"
                 />
               </div>
-              <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">
+              <div className="flex flex-col justify-center md:gap-12 gap-8 h-full py-3 w-full">
                 <div>
                   <div className="flex justify-between w-full gap-3">
                     <h4 className="text-lg font-semibold text-[#2B4447]">
                       Write Product Full Name
                     </h4>
-                    <div className="">
-                      <div className="border border-inherit rounded-md flex justify-center items-center gap-2  p-2">
+                    <div className=" md:block hidden">
+                      <div className="border border-inherit rounded-md  justify-center items-center gap-2 flex   p-2">
                         <p className="pl-2 text-sm font-normal text-[#2B4447]">
                           1
                         </p>
@@ -166,7 +166,7 @@ const CartPage = () => {
               </div>
             </div>
           </div>
-          <div className="md:w-[35%]	w-full">
+          <div className="lg:w-[35%]	w-full">
             <div className="bg-[#FBFAFF] p-5">
               <h2 className="text-xl font-semibold text-[#2B4447] ">
                 Order Summary

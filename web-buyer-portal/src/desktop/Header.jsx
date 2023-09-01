@@ -45,7 +45,7 @@ function Header() {
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             onClick={() => setMobileMenuOpen(true)}
           >
-            <span className="sr-only">Open main menu</span>
+            {/* <span className="sr-only">Open main menu</span> */}
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
@@ -116,7 +116,7 @@ function Header() {
 
                     <ul className="dropdown-content pt-3">
                       <Link
-                        to="#"
+                        to="/home/product-list"
                         className="focus-visible:outline-offset-0 focus-visible:outline-0		"
                       >
                         <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2">
@@ -149,21 +149,25 @@ function Header() {
                           Payments
                         </h6>
                       </li>
-                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
-                        <AccountCircleIcon style={{ fill: "#637381" }} />
-                        <h6 className="text-sm font-medium		text-[#637381]">
-                          Account
-                        </h6>
-                      </li>
+                      <Link to="/home/account">
+                        <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                          <AccountCircleIcon style={{ fill: "#637381" }} />
+                          <h6 className="text-sm font-medium		text-[#637381]">
+                            Account
+                          </h6>
+                        </li>
+                      </Link>
                     </ul>
                   </div>
                   <ul className="dropdown-content pb-3">
-                    <li className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2">
-                      <LogoutIcon style={{ fill: "#FF5757" }} />
-                      <h6 className="text-sm font-medium text-[#FF5757]">
-                        Logout
-                      </h6>
-                    </li>
+                    <Link to="/">
+                      <li className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2">
+                        <LogoutIcon style={{ fill: "#FF5757" }} />
+                        <h6 className="text-sm font-medium text-[#FF5757]">
+                          Logout
+                        </h6>
+                      </li>
+                    </Link>
                   </ul>
                 </div>
               </div>

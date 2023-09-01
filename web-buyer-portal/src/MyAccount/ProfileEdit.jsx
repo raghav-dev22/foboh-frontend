@@ -10,10 +10,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const ProfileEdit = () => {
   return (
     <>
-      <Header />
       <div className="md:w-4/5	w-full mx-auto ">
         <div className="md:w-4/5 w-full">
-          <div className="md:flex hidden justify-start items-center gap-3 pt-8">
+          {/* <div className="md:flex hidden justify-start items-center gap-3 pt-8">
             <h5 className="text-black font-medium text-base cursor-pointer">
               Home
             </h5>
@@ -29,8 +28,8 @@ const ProfileEdit = () => {
             <h5 className="text-black font-medium text-base cursor-pointer">
               BusinessDetails
             </h5>
-          </div>
-          <div className=" md:my-12 mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
+          </div> */}
+          <div className=" mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
             <h2 className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
               Edit Profile
             </h2>
@@ -42,7 +41,7 @@ const ProfileEdit = () => {
             </div>
           </div>
           <div className="md:p-0 px-6">
-            <div className=" md:pt-12 pb-8">
+            <div className="pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 BusinessDetails
               </h2>
@@ -310,7 +309,6 @@ const ProfileEdit = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

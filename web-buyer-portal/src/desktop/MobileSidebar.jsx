@@ -103,7 +103,7 @@ const MobileSidebar = ({ onClose, open }) => {
         className="md:hidden"
         open={open}
         onClose={onClose}
-        onBlur={onClose}
+        // onBlur={onClose}
       >
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
