@@ -280,19 +280,7 @@ const ProductList = () => {
           <EastIcon />
 
           <h5 className="text-black font-medium text-base cursor-pointer">
-            Account
-          </h5>
-
-          <EastIcon />
-
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Profile
-          </h5>
-
-          <EastIcon />
-
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            DeliveryContact
+            Products
           </h5>
         </div>
 
@@ -323,7 +311,7 @@ const ProductList = () => {
 
           {Sort && (
             <>
-              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4  absolute top-[50px] right-0">
+              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50  absolute top-[50px] right-0">
                 <div className="flex justify-between items-center pb-2">
                   <h5 className="text-lg font-medium text-[#2B4447] ">
                     Alphabetical
@@ -997,6 +985,7 @@ const ProductList = () => {
                     <img
                       src={item.product?.img}
                       alt=""
+                      className="cursor-pointer"
                       onClick={() =>
                         navigate(`/product-details/${item.product.id}`)
                       }
@@ -1007,7 +996,7 @@ const ProductList = () => {
                     onClick={() =>
                       navigate(`/product-details/${item.product.id}`)
                     }
-                    className="text-lg font-semibold mt-3"
+                    className="text-lg font-semibold mt-3 cursor-pointer"
                   >
                     {item.product?.title}
                   </h4>
@@ -1027,7 +1016,7 @@ const ProductList = () => {
                   <div className="flex justify-between items-center mt-2 ">
                     <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
                       <p
-                        className="text-[#637381]"
+                        className="text-[#637381] cursor-pointer"
                         onClick={() =>
                           handleIncrementDecrement(item.product.id, "decrement")
                         }
@@ -1038,7 +1027,7 @@ const ProductList = () => {
                       <p className="text-[#637381]"> {item.quantity}</p>
 
                       <p
-                        className="text-[#637381] "
+                        className="text-[#637381] cursor-pointer"
                         onClick={() =>
                           handleIncrementDecrement(item.product.id, "increment")
                         }

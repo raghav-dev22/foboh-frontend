@@ -70,36 +70,38 @@ const ProductDetails = () => {
             <div className="grid gap-5">
               <div>
                 <img
-                  src={productData.product?.img}
+                  src={productData?.product?.img}
                   alt=""
                   className="img-fluid"
                 />
               </div>
               <div className="grid grid-cols-3 gap-5">
-                <img src={productData.product?.img} alt="" />
-                <img src={productData.product?.img} alt="" />
-                <img src={productData.product?.img} alt="" />
+                <img src={productData?.product?.img} alt="" />
+                <img src={productData?.product?.img} alt="" />
+                <img src={productData?.product?.img} alt="" />
               </div>
             </div>
           </div>
           <div className=" lg:w-3/5 w-full   h-full	 grid gap-1	  p-4">
             <h1 className="text-[28px] text-[#2B4447] font-bold">
               {" "}
-              {productData.product?.title}
+              {productData?.product?.title}
             </h1>
             <h5 className="text-lg font-medium text-[#637381]">
-              {productData.product?.name}
+              {productData?.product?.name}
             </h5>
             <div className="flex  items-center gap-2">
               <h5 className="text-lg font-medium text-[#2B4447]">
-                {productData.product?.details}{" "}
+                {productData?.product?.details}{" "}
               </h5>
               <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
               <h5 className="text-lg font-medium text-[#2B4447]">750ml</h5>
             </div>
             <div className="flex items-center gap-3">
               <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5>
-              <h5 className="text-lg font-semibold">{productData.product?.price}</h5>
+              <h5 className="text-lg font-semibold">
+                {productData?.product?.price}
+              </h5>
             </div>
             <div className="py-3">
               <p className="text-sm font-normal text-[#637381] leading-[25px]">
@@ -111,22 +113,22 @@ const ProductDetails = () => {
             <div className="flex  justify-between md:w-[365px] w-full items-center py-2 ">
               <div className="border border-[#E7E7E7] py-[10px] px-[20px] rounded-md flex justify-center items-center gap-3">
                 <p
-                  className="text-[#637381] "
+                  className="text-[#637381] cursor-pointer"
                   onClick={() =>
                     handleIncrementDecrement(
-                      productData.product.id,
+                      productData?.product.id,
                       "decrement"
                     )
                   }
                 >
                   -
                 </p>
-                <p className="text-[#637381]"> {productData.quantity} </p>
+                <p className="text-[#637381]"> {productData?.quantity} </p>
                 <p
-                  className="text-[#637381]"
+                  className="text-[#637381] cursor-pointer"
                   onClick={() =>
                     handleIncrementDecrement(
-                      productData.product.id,
+                      productData?.product.id,
                       "increment"
                     )
                   }
@@ -151,50 +153,46 @@ const ProductDetails = () => {
                   Vintage:
                 </p>
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Type:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Alchohol Level:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Awards:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Wine Style:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Country:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Region:
                 </p>
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Serving Temperature:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Taste:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  ABV:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  SKU:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
+                  Grape Variety
                 </p>
               </div>
               <div className="">
@@ -202,50 +200,46 @@ const ProductDetails = () => {
                   Vintage name
                 </p>
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Type name
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Alcohol level
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Awards
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Wine style
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Country
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Region name
                 </p>
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Temperature
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Taste
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  ABV
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  SKU
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Grape variety
                 </p>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Popover, Dialog } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import MenuIcon from "./MenuIcon";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -23,6 +23,7 @@ function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
+  const navigate = useNavigate();
 
   // const userDropdown = () => {
   //   setShowUser(!showUser);
@@ -32,6 +33,11 @@ function Header() {
       setScroll(window.scrollY > 50);
     });
   }, []);
+
+  const handleLogout = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <div
@@ -158,7 +164,10 @@ function Header() {
                     </ul>
                   </div>
                   <ul className="dropdown-content pb-3">
-                    <li className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2">
+                    <li
+                      onClick={handleLogout}
+                      className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2"
+                    >
                       <LogoutIcon style={{ fill: "#FF5757" }} />
                       <h6 className="text-sm font-medium text-[#FF5757]">
                         Logout
@@ -191,9 +200,9 @@ function Header() {
         >
           <Popover.Group className=" md:flex md:gap-x-12">
             <Popover className="relative"></Popover>
-            <Link to="#">
+            <Link to="/product-list">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
-                Product
+                Products
               </h6>
             </Link>
             <Link to="#">
