@@ -34,7 +34,7 @@ function Login() {
       if (foundBuyer) {
         console.log("Login successful", foundBuyer);
         // localStorage.setItem("createData", JSON.stringify(foundBuyer));
-        navigate("/home-page-main");
+        navigate("main/home-page-main");
       } else {
         console.log("Login failed");
       }

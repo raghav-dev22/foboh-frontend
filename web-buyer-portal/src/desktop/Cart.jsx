@@ -77,6 +77,9 @@ const Cart = ({ open, onClose }) => {
                                   {" "}
                                   {item.product?.price}
                                 </h5>
+                                <p className=" text-[#666666] text-xs mx-3">
+                                Qty-{item.quantity}
+                                </p>
                               </div>
                             </div>
                           </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
@@ -11,9 +11,13 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDetails from "../desktop/ProductDetails";
 import { remove, updateQuantity } from "../slices/CartSlice";
+import { timeline } from "@material-tailwind/react";
+import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const CartPage = () => {
+  const [totalCost, setTotleCost] = useState(0)
+  const exchangeRate = 74.5;
   const GroupedOption = [
     {
       value: "1",
@@ -33,7 +37,7 @@ const CartPage = () => {
     },
   ];
   const CARTdata = useSelector((items) => items.cart);
-
+//  console.log(CARTdata[0].quantity, "lsited")
   const dispatch = useDispatch();
   const removeItem = (cartItem) => {
     dispatch(remove(cartItem));
@@ -42,6 +46,28 @@ const CartPage = () => {
   const handleIncrementDecrement = (id, actionType) => {
     dispatch(updateQuantity({ id, actionType }));
   };
+  const convertToINR = (usdPrice) => {
+    return usdPrice * exchangeRate;
+  };
+  const calculateTotalCost = () => {
+    let total = 0;
+    CARTdata.forEach((item) => {
+      const productPrice = removeDollarAndConvertToInteger(item?.product?.price)
+      const productPriceINR = convertToINR(productPrice);
+      const quantity = parseInt(item.quantity) ;
+      total += productPriceINR * quantity;
+      
+      console.log("hdgfj",total)
+    });
+    return total;
+  };
+  
+  useEffect(() => {
+    const newTotal = calculateTotalCost();
+    setTotleCost(newTotal.toFixed(2));
+    console.log("Total Cost:",  totalCost);
+
+  }, [CARTdata]);
 
   return (
     <>
@@ -158,7 +184,7 @@ const CartPage = () => {
                   <h5 className="text-sm font-medium text-[#2B4447]">
                     Subtotal
                   </h5>
-                  <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
+                  <h5 className="text-sm font-medium text-[#2B4447]">{totalCost}</h5>
                 </div>
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                   <h5 className="text-sm font-medium text-[#2B4447]">

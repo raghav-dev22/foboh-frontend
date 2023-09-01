@@ -22,7 +22,7 @@ import makeAnimated from "react-select/animated";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { add } from "../slices/CartSlice";
+import { add, updateQuantity } from "../slices/CartSlice";
 
 import { listdata } from "../data";
 
@@ -80,10 +80,35 @@ const ProductList = () => {
   //  for redux
 
   const dispatch = useDispatch();
+  const CARTdata = useSelector((items) => items.cart);
 
-  const addCart = (item) => {
-    dispatch(add(item));
+
+  // const addCart = (id,itemData, actionType) => {
+  //   if(CARTdata.length > 0) {
+  //     CARTdata.map(item => {
+  //       item.product?.id === (id) ? dispatch(updateQuantity({ id, actionType })) : dispatch(add(itemData))
+  //     })
+  //   }
+  //    else {
+  //     dispatch(add(itemData))
+  //   }
+  // };
+  const addCart = (id, itemData, actionType) => {
+    if (CARTdata.length > 0) {
+      CARTdata.forEach(item => {
+        if (item.product?.id === id) {
+          dispatch(updateQuantity({ id, actionType }));
+        }
+      });
+        const isNewProduct = !CARTdata.some(item => item.product?.id === id);
+      if (isNewProduct) {
+        dispatch(add(itemData));
+      }
+    } else {
+      dispatch(add(itemData));
+    }
   };
+  
 
   useEffect(() => {
     dispatch(setProductData(
@@ -1039,7 +1064,7 @@ const ProductList = () => {
                     <button
                       className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] text-sm font-medium text-white flex justify-center items-center gap-2"
                       onClick={() => {
-                        addCart(item);
+                        addCart(item?.product?.id,item, 'increment');
                       }}
                     >
                       {" "}

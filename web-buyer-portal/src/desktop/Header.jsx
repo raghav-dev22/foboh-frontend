@@ -155,12 +155,12 @@ function Header() {
                           Payments
                         </h6>
                       </li>
-                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                      <Link to={"/account-details"} className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
                         <AccountCircleIcon style={{ fill: "#637381" }} />
                         <h6 className="text-sm font-medium		text-[#637381]">
                           Account
                         </h6>
-                      </li>
+                      </Link>
                     </ul>
                   </div>
                   <ul className="dropdown-content pb-3">
