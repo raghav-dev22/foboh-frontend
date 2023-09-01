@@ -5,10 +5,13 @@ import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Header from "../desktop/Header";
 import Footer from "../desktop/Footer";
+import { useSelector } from "react-redux";
 
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Profile = () => {
+
+  const buyer = useSelector((state) => state.buyer)
   return (
     <>
       <Header />
@@ -45,9 +48,9 @@ const Profile = () => {
               </h5>
             </div>
             <div className="px-4 sm:py-5 pb-5">
-              <h5 className="text-lg font-medium mb-3">Business Name</h5>
-              <p className="text-sm font-normal">ABN: 90 000 000 000</p>
-              <p className="text-sm font-normal">LIQ: LIQP770016926</p>
+              <h5 className="text-lg font-medium mb-3">{buyer?.BusinessName}</h5>
+              <p className="text-sm font-normal">{buyer?.ABN}</p>
+              <p className="text-sm font-normal">{buyer?.LiquerLicence}</p>
             </div>
           </div>
           <div className="rounded-[5px] border border-[#E0E0E0]">
@@ -57,9 +60,9 @@ const Profile = () => {
               </h5>
             </div>
             <div className="px-4 sm:py-5 pb-5">
-              <h5 className="text-lg font-medium mb-3">Jessica Smith</h5>
-              <p className="text-sm font-normal">email@email.com.au</p>
-              <p className="text-sm font-normal">LIQ: LIQP770016926</p>
+              <h5 className="text-lg font-medium mb-3">{buyer?.OrderingContactFirstName}</h5>
+              <p className="text-sm font-normal">{buyer?.OrderingContactEmail}</p>
+              <p className="text-sm font-normal">{buyer?.LiquerLicence}</p>
             </div>
           </div>
           <div className="rounded-[5px] border border-[#E0E0E0]">
@@ -69,9 +72,9 @@ const Profile = () => {
               </h5>
             </div>
             <div className="px-4 sm:py-5 pb-5">
-              <h5 className="text-lg font-medium mb-3">First Name Last Name</h5>
-              <p className="text-sm font-normal">email@email.com.cu</p>
-              <p className="text-sm font-normal">0400 000 000</p>
+              <h5 className="text-lg font-medium mb-3">{buyer?.deliveryContactFirstName}{buyer?.deliveryContactLastName}</h5>
+              <p className="text-sm font-normal">{buyer?.deliveryContactEmail}</p>
+              <p className="text-sm font-normal">{buyer?.deliveryContactMobile}</p>
             </div>
           </div>
         </div>
