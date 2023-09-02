@@ -25,8 +25,15 @@ import { store } from "./Redux/store";
 
 // const url = process.env.REACT_APP_EXPRESS_SERVER_URL
 
-const App = () => {
+const Root = () => {
+  const navigate = useNavigate();
   useEffect(() => {
+    const email = localStorage.getItem("email");
+    if (!email) {
+      navigate("/auth/sign-in");
+    } else {
+      navigate("/dashboard/main");
+    }
     // const url = process.env.REACT_APP_URL
 
     // Getting token from server
@@ -42,36 +49,41 @@ const App = () => {
 
     // Fetching user profile and setting to redux store
   }, []);
+  return (
+    <Routes>
+      <Route exact path="/dashboard/*" element={<Dashboard />} />
+      {/* <Route path="/dashboard/Profile" element={<Profile/>}/> */}
+      {/* <Route path="/dashboard/Organisation" element={<Organisation/>}/> */}
+      <Route path="/auth/sign-in" element={<SigninNew />} />
+      <Route path="/auth/sign-up" element={<SignupNew />} />
+      <Route
+        path="/auth/password-reset-email"
+        element={<ResetPasswordEmail />}
+      />
+      <Route
+        path="/auth/password-reset-form/:id"
+        element={<ResetPasswordForm />}
+      />
+      <Route path="/auth/reset-link/:id" element={<ResetLinkCard />} />
+      <Route
+        path="/auth/registration-email/:id"
+        element={<RegistrationEmail />}
+      />
+      <Route path="/auth/registration/:id" element={<Registration />} />
+      <Route
+        path="/auth/password-reset-success"
+        element={<PasswordResetSuccess />}
+      />
+      <Route path="/dashboard/my-account" element={<MyAccount />} />
+    </Routes>
+  );
+};
 
+const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Routes>
-          <Route exact path="/dashboard/*" element={<Dashboard />} />
-          {/* <Route path="/dashboard/Profile" element={<Profile/>}/> */}
-          {/* <Route path="/dashboard/Organisation" element={<Organisation/>}/> */}
-          <Route path="/auth/sign-in" element={<SigninNew />} />
-          <Route path="/auth/sign-up" element={<SignupNew />} />
-          <Route
-            path="/auth/password-reset-email"
-            element={<ResetPasswordEmail />}
-          />
-          <Route
-            path="/auth/password-reset-form/:id"
-            element={<ResetPasswordForm />}
-          />
-          <Route path="/auth/reset-link/:id" element={<ResetLinkCard />} />
-          <Route
-            path="/auth/registration-email/:id"
-            element={<RegistrationEmail />}
-          />
-          <Route path="/auth/registration/:id" element={<Registration />} />
-          <Route
-            path="/auth/password-reset-success"
-            element={<PasswordResetSuccess />}
-          />
-          <Route path="/dashboard/my-account" element={<MyAccount />} />
-        </Routes>
+        <Root />
       </Router>
     </Provider>
   );
