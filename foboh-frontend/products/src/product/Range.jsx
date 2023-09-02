@@ -72,6 +72,8 @@ function Range() {
       console.log("values>>", values);
       childRef.current.handleFilterPagination(values);
     }
+    setSelectedProducts([])
+    setIsBulkEdit(false)
   };
 
   const handleSelectAllChange = (e) => {
@@ -234,6 +236,11 @@ function Range() {
                         <input
                           id="default-checkbox"
                           type="checkbox"
+                          checked={
+                                  selectedProducts.length === 9
+                                    ? true
+                                    : false
+                                }
                           // defaultValue=""
                           onChange={(e) => handleSelectAllChange(e)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
@@ -434,7 +441,9 @@ function Range() {
                   setIsBulkEdit(false);
                 }}
               >
+                <div onClick={()=> setSelectedProducts([])}>
                 <CloseIcon />
+                </div>
               </div>
             </div>
           ) : (

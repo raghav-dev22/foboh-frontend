@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  Navigate,
 } from "react-router-dom";
 import ReactDOM from "react-dom";
 
@@ -31,8 +32,6 @@ const Root = () => {
     const email = localStorage.getItem("email");
     if (!email) {
       navigate("/auth/sign-in");
-    } else {
-      navigate("/dashboard/main");
     }
     // const url = process.env.REACT_APP_URL
 
@@ -52,6 +51,7 @@ const Root = () => {
   return (
     <Routes>
       <Route exact path="/dashboard/*" element={<Dashboard />} />
+      <Route path="*" element={<Navigate to="/dashboard/main" replace />} />
       {/* <Route path="/dashboard/Profile" element={<Profile/>}/> */}
       {/* <Route path="/dashboard/Organisation" element={<Organisation/>}/> */}
       <Route path="/auth/sign-in" element={<SigninNew />} />
