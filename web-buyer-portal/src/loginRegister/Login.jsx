@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { LoginSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
@@ -7,6 +7,14 @@ import { buyers } from "../data";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateField } from "../slices/buyerSlice";
+import {
+  CheckBox,
+  CheckBoxOutlineBlank,
+  Visibility,
+  VisibilityOffOutlined,
+} from "@mui/icons-material";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+
 
 
 
@@ -18,6 +26,7 @@ function Login() {
     password: "",
   };
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
   useFormik({
     initialValues: initialValues,
@@ -40,6 +49,10 @@ function Login() {
       }
     },
   });
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+    console.log(showPassword)
+  };
   return (
     <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center h-full">
       <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
@@ -109,7 +122,7 @@ function Login() {
                   </label>
                   <div className="inset-y-0 right-0 flex items-center">
                     <input
-                      type={"password"}
+                      type={showPassword ? "text" : "password"}
                       id="password"
                       className={`js-password 
                       }`}
@@ -125,10 +138,18 @@ function Login() {
                       onBlur={handleBlur}
                       value={values.password}
                     />
-                    <label
-                      className="opacity-[0.5] mb-[5px] rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
-                      htmlFor="password"
-                    ></label>
+                      <label
+                        style={{ zIndex: "50" }}
+                        className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
+                        htmlFor="password"
+                        onClick={handleTogglePassword}
+                      >
+                        {showPassword ? (
+                          <Visibility fontSize="small" />
+                        ) : (
+                          <VisibilityOffOutlinedIcon fontSize="small" />
+                        )}
+                      </label>
                   </div>
                   {errors.password && touched.password && (
                     <p className="mt-2 mb-2 text-red-500 text-xs">

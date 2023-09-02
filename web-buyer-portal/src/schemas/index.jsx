@@ -5,14 +5,17 @@ export const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email")
     .required("Please enter your email."),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string().required("Password is required").matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+    "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+  ),
 });
 
 //Sign-in Schema
 export const SignUpSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "Your first name should have atleast 2 letters")
-    .required("name is required")
+    .required("Name is required")
     .max(50),
 
   email: Yup.string().required("Email is required").email("Invalid is email"),
