@@ -5,6 +5,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
 import { buyers } from "../data";
 import { useNavigate } from "react-router-dom";
+import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -138,7 +139,7 @@ function Signup() {
                     >
                       Your password
                     </label>
-
+                    <div className="inset-y-0 right-0 flex items-center">
                     <input
                       type="password"
                       id="password"
@@ -155,6 +156,15 @@ function Signup() {
                       onBlur={handleBlur}
                       value={values.password}
                     />
+                    </div>
+                    {!errors.password && values.password && (
+                      <p className="mt-2 mb-2 text-green-500">
+                        Your password is strong.
+                      </p>
+                    )}
+                    {!errors.password && values.password && (
+                      <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                    )}
                     {errors.password && touched.password && (
                       <p className="mt-2 mb-2 text-red-500 text-xs">
                         {errors.password}
