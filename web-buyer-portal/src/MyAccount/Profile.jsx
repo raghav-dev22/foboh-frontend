@@ -7,8 +7,15 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Header from "../desktop/Header";
+import Footer from "../desktop/Footer";
+import { useSelector } from "react-redux";
+
+// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Profile = () => {
+
+  const buyer = useSelector((state) => state.buyer)
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto md:p-0 mb-8 ">

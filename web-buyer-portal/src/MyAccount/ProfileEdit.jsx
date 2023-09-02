@@ -3,11 +3,15 @@ import EastIcon from "@mui/icons-material/East";
 import Header from "../desktop/Header";
 import Footer from "../desktop/Footer";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useSelector } from "react-redux";
 // import { Button, Form, Input, Radio } from "antd";
 // import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const ProfileEdit = () => {
+  const buyer = useSelector((state) => state.buyer)
+  console.log(buyer)
+
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto ">
@@ -59,6 +63,7 @@ const ProfileEdit = () => {
                   id="BusinessName"
                   name="BusinessName"
                   className="pl-custom-left"
+                  value={buyer.BusinessName}
                 />
 
                 <div className=" absolute top-[50px] left-4">
@@ -88,6 +93,7 @@ const ProfileEdit = () => {
                 <input
                   type="text"
                   id="ABN"
+                  value={buyer.ABN}
                   className="pl-custom-left"
                   autoComplete="off"
                 />
@@ -124,6 +130,7 @@ const ProfileEdit = () => {
                 <input
                   type="text"
                   id="LiquerLicence"
+                  value={buyer.LiquerLicence}
                   className="pl-custom-left"
                   autoComplete="off"
                 />
@@ -168,6 +175,7 @@ const ProfileEdit = () => {
                     type="text"
                     id="BusinessName"
                     name="BusinessName"
+                    value={buyer.firstName}
                     className="pl-custom-left"
                   />
                 </div>
@@ -185,6 +193,7 @@ const ProfileEdit = () => {
                     id="ABN"
                     className="pl-custom-left"
                     autoComplete="off"
+                    value={buyer.lastName}
                   />
                 </div>
               </div>
@@ -205,6 +214,7 @@ const ProfileEdit = () => {
                   id="LiquerLicence"
                   className="pl-custom-left "
                   autoComplete="off"
+                  value={buyer.email}
                   disabled
                   style={{ background: "#F1EFEF" }}
                 />
@@ -222,6 +232,7 @@ const ProfileEdit = () => {
                   id="LiquerLicence"
                   className="pl-custom-left"
                   autoComplete="off"
+                  value={buyer.Mobile}
                 />
               </div>
             </div>
@@ -247,6 +258,7 @@ const ProfileEdit = () => {
                     id="BusinessName"
                     name="BusinessName"
                     className="pl-custom-left"
+                    value={buyer.orderingContactFirstName}
                   />
                 </div>
 
@@ -263,6 +275,7 @@ const ProfileEdit = () => {
                     id="ABN"
                     className="pl-custom-left"
                     autoComplete="off"
+                    value={buyer.orderingContactLastName}
                   />
                 </div>
               </div>
@@ -280,6 +293,7 @@ const ProfileEdit = () => {
                   id="LiquerLicence"
                   className="pl-custom-left"
                   autoComplete="off"
+                  value={buyer.orderingContactEmail}
                 />
               </div>
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
@@ -295,6 +309,7 @@ const ProfileEdit = () => {
                   id="LiquerLicence"
                   className="pl-custom-left"
                   autoComplete="off"
+                  value={buyer.Mobile}
                 />
               </div>
             </div>

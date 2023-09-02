@@ -98,17 +98,17 @@ function BulkEdit() {
         body: JSON.stringify(
           values.map((product) => {
             return {
-              productId: product.productId,
-              title: product.title,
-              skUcode: product.skuCode,
+              productId: product?.productId,
+              title: product?.title,
+              skUcode: product?.skuCode,
               unitofMeasure: product?.baseUnitMeasure?.label,
               innerUnitofMeasure: product?.innerUnitMeasure?.label,
-              globalPrice: product.salePrice,
-              buyPrice: product.buyPrice,
-              configuration: product.configuration,
-              availableQty: product.stockAlertLevel,
-              visibility: product.visibility.label === "Visible" ? true : false,
-              productStatus: product.status.label,
+              globalPrice: product?.salePrice,
+              buyPrice: product?.buyPrice,
+              configuration: product?.configuration,
+              availableQty: product?.stockAlertLevel,
+              visibility: product?.visibility?.label === "Visible" ? true : false,
+              productStatus: product?.status?.label,
             };
           })
         ),
@@ -143,24 +143,24 @@ function BulkEdit() {
     const selectedProductsValue = selectedProducts.map((product) => {
       const [state] = status.filter(
         (state) =>
-          state.label.toLowerCase() === product.stockStatus.toLowerCase()
+          state?.label.toLowerCase() === product?.productStatus.toLowerCase()
       );
 
-      const visibleFlag = product.visibility;
+      const visibleFlag = product?.visibility;
 
       const [visible] = visibility.filter((visibilityObj) => {
         if (visibleFlag) {
-          return visibilityObj.label.toLowerCase() === "visible";
+          return visibilityObj?.label.toLowerCase() === "visible";
         } else {
-          return visibilityObj.label.toLowerCase() === "hidden";
+          return visibilityObj?.label.toLowerCase() === "hidden";
         }
       });
 
       const bum = baseUnitOfMeasurement.find(
-        (bumObj) => bumObj.value.toString() === product.unitofMeasure
+        (bumObj) => bumObj?.value.toString() === product.unitofMeasure
       );
       const ium = innerUnitOfMeasurement.find(
-        (iumObj) => iumObj.value.toString() === product.innerUnitofMeasure
+        (iumObj) => iumObj?.value.toString() === product.innerUnitofMeasure
       );
       console.log("bum --->", bum);
       console.log("ium --->", ium);
@@ -168,16 +168,16 @@ function BulkEdit() {
       const configuration = {};
 
       return {
-        title: product.title,
-        skuCode: product.skUcode,
+        title: product?.title,
+        skuCode: product?.skUcode,
         baseUnitMeasure: bum,
         innerUnitMeasure: ium,
-        configuration: product.configuration,
-        salePrice: product.globalPrice,
-        stockAlertLevel: product.stockThreshold,
+        configuration: product?.configuration,
+        salePrice: product?.globalPrice,
+        stockAlertLevel: product?.stockThreshold,
         status: state,
         visibility: visible,
-        productId: product.productId,
+        productId: product?.productId,
       };
     });
 
@@ -193,13 +193,13 @@ function BulkEdit() {
           return {
             ...product,
             baseUnitMeasure: value,
-            configuration: `${product.innerUnitMeasure.value} x ${value.label}`,
+            configuration: `${product?.innerUnitMeasure?.value} x ${value?.label}`,
           };
         } else if (product.productId === productId && title === "innerUnitMeasure") {
           return {
             ...product,
             innerUnitMeasure: value,
-            configuration: `${value.value} x ${product.baseUnitMeasure.label}`,
+            configuration: `${value?.value} x ${product?.baseUnitMeasure?.label}`,
           };
         } else if (product.productId === productId ) {
           return {...product,  [title]: value  }
