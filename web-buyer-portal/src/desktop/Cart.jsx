@@ -58,7 +58,7 @@ const Cart = ({ open, onClose }) => {
                           <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
                             <div className="cart-img">
                               <img
-                                src={item.img}
+                                src={item.product?.img}
                                 alt=""
                                 className="max-w-[80px] w-[80px] h-[80px] object-cover	"
                               />
@@ -66,68 +66,24 @@ const Cart = ({ open, onClose }) => {
                             <div className="w-full flex flex-col gap-[15px]">
                               <div className="">
                                 <h5 className="text-sm font-bold">
-                                  Product name 123
+                                  {item.product?.title}
                                 </h5>
                                 <p className=" text-[#666666] text-xs">
-                                  Product name 123
+                                  {item.product?.name}
                                 </p>
                               </div>
                               <div className="flex justify-between items-center">
                                 <h5 className="text-sm font-bold">
                                   {" "}
-                                  ${item.price}
+                                  {item.product?.price}
                                 </h5>
-                                <div className="bg-[#EEEEEE] rounded-[30px]  w-[70px] flex gap-2 justify-center items-center">
-                                  <div
-                                    className="cursor-pointer"
-                                    onClick={() => {
-                                      const _CART = CARTdata.map(
-                                        (cartItem, index) => {
-                                          return item.id === cartItem.id
-                                            ? {
-                                                ...cartItem,
-                                                quantity:
-                                                  cartItem.quantity > 1
-                                                    ? cartItem.quantity - 1
-                                                    : 1,
-                                              }
-                                            : cartItem;
-                                        }
-                                      );
-                                      // setCARTData(_CART);
-                                    }}
-                                  >
-                                    -
-                                  </div>
-                                  <div className="text-xs">
-                                    {/* {item.quantity} */}1
-                                  </div>
-                                  <div
-                                    className="cursor-pointer	"
-                                    onClick={() => {
-                                      const _CART = CARTdata.map(
-                                        (cartItem, index) => {
-                                          return item.id === cartItem.id
-                                            ? {
-                                                ...cartItem,
-                                                quantity: cartItem.quantity + 1,
-                                              }
-                                            : cartItem;
-                                        }
-                                      );
-                                      // setCARTData(_CART);
-                                    }}
-                                  >
-                                    +
-                                  </div>
-                                </div>
                               </div>
                             </div>
                           </div>
                           <div
                             className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
                             onClick={() => {
-                              removeItem(item.id);
+                              removeItem(item.product?.id);
                             }}
                           >
                             <DeleteIcon style={{ fill: "#fff" }} />

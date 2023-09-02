@@ -17,17 +17,39 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../slices/CartSlice";
 import { increment, decrement } from "../slices/counterSlice";
+import { setProductData } from "../slices/ProductSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const product = listdata.find((item) => item.id === +id);
-  console.log("getProduct", product.img);
+  const products = useSelector((state) => state.product);
 
+  const productData = products.find((item) => item.product?.id === +id);
+  console.log("prod >>", productData);
   // for add to card redux
   const dispatch = useDispatch();
-  const counterValue = useSelector((state) => state?.counter?.value);
   const addCart = (product) => {
     dispatch(add(product));
+  };
+
+  const handleIncrementDecrement = (id, actionType) => {
+    const updatedProductData = products.map((item) => {
+      if (item.product.id === id) {
+        if (actionType === "decrement" && item.quantity > 1) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        } else if (actionType === "increment") {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+      }
+      return item;
+    });
+
+    dispatch(setProductData(updatedProductData));
   };
 
   return (
@@ -45,35 +67,41 @@ const ProductDetails = () => {
         </div> */}
         <div className="flex md:flex-nowrap flex-wrap gap-8">
           <div className="w-full lg:w-2/5	 h-full	">
-            <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
+            <div className="grid gap-5">
               <div>
-                <img src={product.img} alt="" className="w-full " />
+                <img
+                  src={productData?.product?.img}
+                  alt=""
+                  className="img-fluid"
+                />
               </div>
-              <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
-                <img src={product.img} alt="" />
-                <img src={product.img} alt="" />
-                <img src={product.img} alt="" />
+              <div className="grid grid-cols-3 gap-5">
+                <img src={productData?.product?.img} alt="" />
+                <img src={productData?.product?.img} alt="" />
+                <img src={productData?.product?.img} alt="" />
               </div>
             </div>
           </div>
           <div className=" lg:w-3/5 w-full   h-full	 grid gap-1	  p-4">
             <h1 className="text-[28px] text-[#2B4447] font-bold">
               {" "}
-              {product.title}
+              {productData?.product?.title}
             </h1>
             <h5 className="text-lg font-medium text-[#637381]">
-              {product.name}
+              {productData?.product?.name}
             </h5>
             <div className="flex  items-center gap-2">
               <h5 className="text-lg font-medium text-[#2B4447]">
-                {product.details}{" "}
+                {productData?.product?.details}{" "}
               </h5>
               <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
               <h5 className="text-lg font-medium text-[#2B4447]">750ml</h5>
             </div>
             <div className="flex items-center gap-3">
               <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5>
-              <h5 className="text-lg font-semibold">$369</h5>
+              <h5 className="text-lg font-semibold">
+                {productData?.product?.price}
+              </h5>
             </div>
             <div className="py-3">
               <p className="text-sm font-normal text-[#637381] leading-[25px]">
@@ -85,15 +113,25 @@ const ProductDetails = () => {
             <div className="flex  justify-between md:w-[365px] w-full items-center py-2 ">
               <div className="border border-[#E7E7E7] py-[10px] px-[20px] rounded-md flex justify-center items-center gap-3">
                 <p
-                  className="text-[#637381] "
-                  onClick={() => dispatch(decrement())}
+                  className="text-[#637381] cursor-pointer"
+                  onClick={() =>
+                    handleIncrementDecrement(
+                      productData?.product.id,
+                      "decrement"
+                    )
+                  }
                 >
                   -
                 </p>
-                <p className="text-[#637381]"> {counterValue} </p>
+                <p className="text-[#637381]"> {productData?.quantity} </p>
                 <p
-                  className="text-[#637381]"
-                  onClick={() => dispatch(increment())}
+                  className="text-[#637381] cursor-pointer"
+                  onClick={() =>
+                    handleIncrementDecrement(
+                      productData?.product.id,
+                      "increment"
+                    )
+                  }
                 >
                   +
                 </p>
@@ -101,7 +139,7 @@ const ProductDetails = () => {
               <button
                 className=" bg-[#563FE3] rounded-md py-[10px] px-[28px] text-sm font-medium text-white flex justify-center items-center gap-2"
                 onClick={() => {
-                  addCart(product);
+                  addCart(productData);
                 }}
               >
                 {" "}
@@ -119,7 +157,7 @@ const ProductDetails = () => {
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Alcohol Level:
+                  Alchohol Level:
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
@@ -154,7 +192,7 @@ const ProductDetails = () => {
                 </p>
 
                 <p className="text-base font-normal text-[#2B4447] py-2">
-                  Grape variety:
+                  Grape Variety
                 </p>
               </div>
               <div className="">
@@ -162,46 +200,46 @@ const ProductDetails = () => {
                   Vintage name
                 </p>
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Type name
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Alcohol level
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Awards
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Wine style
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Country
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Region name
                 </p>
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Temperature
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  Taste
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  ABV
                 </p>
 
                 <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Vintage name
+                  SKU
+                </p>
+
+                <p className="text-base font-semibold text-[#2B4447] py-2">
+                  Grape variety
                 </p>
               </div>
             </div>

@@ -5,9 +5,14 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
 import { buyers } from "../data";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateField } from "../slices/buyerSlice";
+
 
 
 function Login() {
+  const dispatch = useDispatch();
+
   const initialValues = {
     email: "",
     password: "",
@@ -19,10 +24,17 @@ function Login() {
     validationSchema: LoginSchema,
     onSubmit: (values) => {
       const foundBuyer = buyers.find((buyer) => buyer.email === values.email);
+
+      for (const [field, value] of Object.entries(foundBuyer)) {
+        dispatch(updateField({ field, value }));
+      }
+  
+
+
       if (foundBuyer) {
         console.log("Login successful", foundBuyer);
         // localStorage.setItem("createData", JSON.stringify(foundBuyer));
-        // navigate("/create-account");
+        navigate("/home-page-main");
       } else {
         console.log("Login failed");
       }

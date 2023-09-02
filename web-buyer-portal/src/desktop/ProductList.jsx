@@ -25,6 +25,7 @@ import { useNavigate } from "react-router";
 import counterSlice, { increment, decrement } from "../slices/counterSlice";
 
 import { Slider } from "antd";
+import { setProductData } from "../slices/ProductSlice";
 
 const ProductList = () => {
   const Data = listdata;
@@ -51,13 +52,8 @@ const ProductList = () => {
 
   const [Sort, setSort] = useState(false);
 
-  const [productData, setProductData] = useState([
-    {
-      product: {},
+  const productData = useSelector((state) => state.product);
 
-      quantity: 1,
-    },
-  ]);
   const wineProduct = [
     {
       title: " Option-1",
@@ -161,15 +157,14 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    setProductData(
+    dispatch(setProductData(
       Data.map((item) => {
         return {
           product: item,
-
           quantity: 0,
         };
       })
-    );
+    ))
   }, []);
 
   const WineBtn = () => {
@@ -316,36 +311,25 @@ const ProductList = () => {
     setPrice(false);
   };
 
-  const handleIncrementDecrement = (id, name) => {
-    if (name === "decrement") {
-      setProductData(
-        productData.map((item) => {
-          if (item.product.id === id) {
-            return {
-              ...item,
+  const handleIncrementDecrement = (id, actionType) => {
+    const updatedProductData = productData.map((item) => {
+      if (item.product.id === id) {
+        if (actionType === 'decrement' && item.quantity > 1) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        } else if (actionType === 'increment') {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+      }
+      return item;
+    });
 
-              quantity: item.quantity - 1,
-            };
-          } else {
-            return item;
-          }
-        })
-      );
-    } else {
-      setProductData(
-        productData.map((item) => {
-          if (item.product.id === id) {
-            return {
-              ...item,
-
-              quantity: item.quantity + 1,
-            };
-          } else {
-            return item;
-          }
-        })
-      );
-    }
+    dispatch(setProductData(updatedProductData));
   };
 
   const handleChange = (e, value) => {
@@ -367,19 +351,7 @@ const ProductList = () => {
           <EastIcon />
 
           <h5 className="text-black font-medium text-base cursor-pointer">
-            Account
-          </h5>
-
-          <EastIcon />
-
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Profile
-          </h5>
-
-          <EastIcon />
-
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            DeliveryContact
+            Products
           </h5>
         </div> */}
 
@@ -410,7 +382,7 @@ const ProductList = () => {
 
           {Sort && (
             <>
-              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4  absolute top-[50px] right-0 z-10">
+              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50  absolute top-[50px] right-0">
                 <div className="flex justify-between items-center pb-2">
                   <h5 className="text-lg font-medium text-[#2B4447] ">
                     Alphabetical
@@ -824,6 +796,7 @@ const ProductList = () => {
                     <img
                       src={item.product?.img}
                       alt=""
+                      className="cursor-pointer"
                       onClick={() =>
                         navigate(`/home/product-details/${item.product.id}`)
                       }
@@ -834,7 +807,7 @@ const ProductList = () => {
                     onClick={() =>
                       navigate(`/home/product-details/${item.product.id}`)
                     }
-                    className="md:text-lg text-base font-semibold mt-3"
+                    className="text-lg font-semibold mt-3 cursor-pointer"
                   >
                     {item.product?.title}
                   </h4>
@@ -854,7 +827,7 @@ const ProductList = () => {
                   <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
                     <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
                       <p
-                        className="text-[#637381] text-sm"
+                        className="text-[#637381] cursor-pointer"
                         onClick={() =>
                           handleIncrementDecrement(item.product.id, "decrement")
                         }
@@ -868,7 +841,7 @@ const ProductList = () => {
                       </p>
 
                       <p
-                        className="text-[#637381] text-sm "
+                        className="text-[#637381] cursor-pointer"
                         onClick={() =>
                           handleIncrementDecrement(item.product.id, "increment")
                         }

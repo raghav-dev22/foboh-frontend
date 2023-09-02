@@ -1,7 +1,12 @@
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSelector } from "react-redux";
 
 function Banner() {
+  const buyer = useSelector((state) => state.buyer);
+
+  console.log("buyer", buyer);
+
   return (
     <>
       <div className="banner flex flex-wrap xl:py-6 md:py-6 py-3 items-center justify-center h-[461px] md:p-0 p-6">
@@ -29,7 +34,7 @@ function Banner() {
         </div> */}
         <div className="md:w-2/5 w-full	">
           <h5 className="text-[#000] xl:text-[#563FE3] md:text-[#563FE3] xl:text-start md:text-start text-center font-semibold	text-2xl mb-3 xl:text-xl md:text-xl	">
-            Hello [first name] 👋
+            Hello {buyer.name || ["first name"]} 👋
           </h5>
           <h1 className="xl:font-bold md:font-bold text-xl text-[#8F959E]	xl:text-[#212B36] md:text-[#212B36] mb-3 xl:text-4xl md:text-3xl  xl:text-start md:text-start text-center">
             Welcome to [Supplier name]

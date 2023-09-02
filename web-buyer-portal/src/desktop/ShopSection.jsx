@@ -2,9 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Carousel from "better-react-carousel";
 import { Range } from "../data";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ShopSection() {
   const [rangeData, setRangeData] = useState([]);
+  const navigate = useNavigate();
+
   const data = () => {
     axios.get("https://fakestoreapi.com/products").then((resp) => {
       console.log(resp.data);
@@ -59,7 +62,10 @@ function ShopSection() {
             </Carousel>
           </div>
           <div className="text-center py-10  hidden sm:block xl:block md:block">
-            <div className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto">
+            <div
+              onClick={() => navigate("/product-list")}
+              className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto cursor-pointer"
+            >
               <h6 className="font-semibold text-white text-center text-base">
                 Explore all products
               </h6>
