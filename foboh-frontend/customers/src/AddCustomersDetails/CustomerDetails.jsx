@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { AddCustomerSchema } from "../schemas";
 import CustomerContact from "./CustomerContact";
 import CustomerAddress from "./CustomerAddress";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 import CustomerDetailsFirst from "./CustomerDetailsFirst";
 import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
@@ -111,9 +111,7 @@ function CustomerDetails() {
       setActiveStep((cur) => cur - 1);
       formik.setErrors({})
     }
-    else {
-
-    }
+    else {}
     // !isFirstStep && setActiveStep((cur) => cur - 1);
   };
   const handleSubmit = () => {

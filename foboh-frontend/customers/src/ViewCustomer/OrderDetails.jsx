@@ -169,20 +169,20 @@ const OrderDetails = ({ datas }) => {
     },
   }));
   const handleCloseToast = () => {
-    setOpenToast(false)
-  }
+    setOpenToast(false);
+  };
   const addressSame = (e) => {
     console.log("e --->", e.target.checked);
     if (e.target.checked) {
       setValues({
         ...values,
-        deliveryFirstName:values.orderingFirstName,
-        deliveryLastName:values.orderingLastName,
-        deliveryEmail:values.orderingEmail,
-        deliveryMobile:values.orderingMobile
+        deliveryFirstName: values.orderingFirstName,
+        deliveryLastName: values.orderingLastName,
+        deliveryEmail: values.orderingEmail,
+        deliveryMobile: values.orderingMobile,
       });
     }
-  }
+  };
   return (
     <>
       <Toast
@@ -1063,7 +1063,7 @@ const OrderDetails = ({ datas }) => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+                      <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                         <div className="w-full relative  px-3">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "

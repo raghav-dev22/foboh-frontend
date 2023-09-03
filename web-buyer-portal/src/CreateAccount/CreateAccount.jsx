@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Stepper, Step, Button } from "@material-tailwind/react";
 import BusinessDetails from "./BusinessDetails";
@@ -7,12 +7,17 @@ import OrderContact from "./OrderContact";
 import SuccessModal from "../modal/SuccessModal";
 import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
 
+//Need to be deleted after api integration
+import { options } from "../data";
+
 import { useFormik } from "formik";
 
 function CreateAccount() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
+  const buyer = JSON.parse(localStorage.getItem('createData'))
+  console.log("data",buyer)
   const [currentStep, setCurrentStep] = useState(0);
-
+  
   const formik = useFormik({
     initialValues: {
       BusinessName: "",
@@ -39,33 +44,22 @@ function CreateAccount() {
       DeliveryContactMobile :"",
     },
     validationSchema: validationSchemas[currentStep],
-    onSubmit: (values) => {
-      console.log(values, "saksii");
-      setShow(true);
-    },
   });
-
-  // const handleNext = () => {
-  //   !isLastStep && setActiveStep((cur) => cur + 1);
-  // };
   const [show, setShow] = useState(false);
-
+  
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
-
-
-
+  
   const handleNext = () => {
-    const currentValidationSchema = validationSchemas[currentStep];
     formik.validateForm().then((errors) => {
-      if (currentStep !== 2 && Object.values(errors).length === 0) {
+      if (currentStep < 2 && Object.values(errors).length === 0) {
         setCurrentStep((cur) => cur + 1);
       } else if (currentStep === 2) {
         console.log("Form submitted");
         formik.submitForm();
       }
       console.log("res", errors);
-    });
+    }).catch(error => console.log(error))
   };
 
   const handleBack = () => {
@@ -77,6 +71,37 @@ function CreateAccount() {
 
     }
   }
+  const onSubmit=(values) => {
+    setShow(true);
+  }
+
+ useEffect(() => {
+  formik.setValues({
+    BusinessName: buyer.BusinessName,
+      ABN: buyer.ABN,
+      LiquerLicence: buyer.LiquerLicence,
+      DeliveryAddress: buyer.DeliveryAddress,
+      Apartment: buyer.Apartment,
+      Suburb: buyer.Suburb,
+      Postcode: buyer.Postcode,
+      Notes: buyer.Notes,
+      FirstName: buyer.FirstName,
+      LastName: buyer.LastName,
+      email: buyer.email,
+      Mobile: buyer.Mobile,
+      DeliveryAddressState: options.find(state => state.value === buyer.DeliveryAddressState),
+      OrderContactState: options.find(state => state.value === buyer.OrderContactState),
+      OrderingContactFirstName : buyer.OrderingContactFirstName,
+      OrderingContactLastName : buyer.OrderingContactLastName,
+      OrderingContactEmail : buyer.OrderingContactEmail,
+      OrderingContactMobile : buyer.OrderingContactMobile,
+      DeliveryContactFirstName : buyer.DeliveryContactFirstName,
+      DeliveryContactLastName : buyer.DeliveryContactLastName ,
+      DeliveryContactEmail :buyer.DeliveryContactEmail,
+      DeliveryContactMobile :buyer.DeliveryContactMobile,
+  })
+  
+ }, [])
 
   return (
     <>
@@ -123,10 +148,12 @@ function CreateAccount() {
                     handleBlur={formik.handleBlur}
                     handleChange={formik.handleChange}
                     touched={formik.touched}
+                    setValues={formik.setValues}
                   />
                 )}
                 {currentStep === 1 && (
                   <DeliveryAddress
+                  
                     values={formik.values}
                     errors={formik.errors}
                     handleBlur={formik.handleBlur}
@@ -160,9 +187,9 @@ function CreateAccount() {
                       </p>
                     </button>
                     <Button
-                      onClick={formik.submitForm}
+                      // onClick={formik.submitForm}
                       className="login-btn bg-custom-blue rounded-md	w-36 p-3 custom-shadow"
-                    // onClick={submit}
+                      onClick={onSubmit}
                     >
                       <p className="text-white text-center font-semibold	text-sm	 ">
                         Save
@@ -208,7 +235,7 @@ function CreateAccount() {
           </div>
         </div>
       </div>
-      <SuccessModal show={show} setShow={(set) => setShow(set)} />
+      <SuccessModal show={show} setShow={setShow} />
     </>
   );
 }

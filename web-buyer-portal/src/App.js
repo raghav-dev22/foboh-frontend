@@ -13,11 +13,11 @@ function App() {
     <Provider store={store}>
       <Router>
         <Routes>
+          <Route exact path="/home/*" element={<HomePage />} />
           <Route path="/" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/verify-email" element={<Verifyemail />} />
           <Route path="/create-account" element={<CreateAccount />} />
-          <Route path="/home-page" element={<HomePage />} />
         </Routes>
       </Router>
     </Provider>

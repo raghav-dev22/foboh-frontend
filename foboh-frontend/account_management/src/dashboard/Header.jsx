@@ -59,12 +59,7 @@ const Header = () => {
   }, []);
 
   const handleLogOut = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
-    localStorage.removeItem("mailNickname");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("token");
-    localStorage.removeItem("ccrn");
+    localStorage.clear();
     navigate("/auth/sign-in");
   };
 
@@ -159,7 +154,8 @@ const Header = () => {
               <div className="relative dropdown" ref={dropdownRef}>
                 <div
                   className="flex lg:gap-4 gap-2 items-center cursor-pointer	"
-                  onClick={toggleDropdown} >
+                  onClick={toggleDropdown}
+                >
                   <div className="">
                     <h6 className="text-sm	 font-bold text-white">
                       {user.firstName}
@@ -225,13 +221,20 @@ const Header = () => {
               // onClick={toggleDropdown}
             >
               <div className="">
-                <h6 className="text-sm	 font-bold text-white"> {user.firstName}</h6>
+                <h6 className="text-sm	 font-bold text-white">
+                  {" "}
+                  {user.firstName}
+                </h6>
                 <p className="text-xs font-normal text-lightGray">
-                {user.lastName}
+                  {user.lastName}
                 </p>
               </div>
               <div className="rounded-full overflow-hidden">
-                <img src={user.imageUrl || "/assets/user.png"} alt="" className="h-11	w-11" />
+                <img
+                  src={user.imageUrl || "/assets/user.png"}
+                  alt=""
+                  className="h-11	w-11"
+                />
               </div>
               <div className="">
                 <img src="/assets/arrow.png" alt="" />

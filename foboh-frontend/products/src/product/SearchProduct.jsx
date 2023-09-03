@@ -115,7 +115,8 @@ const SearchProduct = forwardRef(
     }, []);
 
     const handleInputChange = (e) => {
-      setInput(e.target.value);
+      console.log("events >>",e);
+      setInput(e.target.value)
     };
 
     // Debouce function
@@ -164,7 +165,6 @@ const SearchProduct = forwardRef(
       }
     }
     const processChange = debounce((name) => saveInput(name));
-
     useImperativeHandle(ref, () => ({
       handleFilterPagination(pageNumber) {
         console.log("handleFilterPagination");
@@ -322,13 +322,15 @@ const SearchProduct = forwardRef(
         document.removeEventListener("keydown", handleKeydown);
       };
     }, []);
+
+
     return (
       <>
         <div className=" border border-inherit bg-white h-full py-3	 px-4" ref={dropdownRef}>
           <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center">
             <div>
               <div className="relative 	">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-1 pointer-events-none">
                   <svg
                     className="w-4 h-4 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -346,14 +348,15 @@ const SearchProduct = forwardRef(
                   </svg>
                 </div>
                 <input
-                  onKeyUp={processChange}
                   onChange={handleInputChange}
-                  type="search"
+                  onKeyUp={processChange}
+                  type="text"
                   id="default-search"
                   className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                   placeholder="search product"
                   required=""
                 />
+                
               </div>
             </div>
             <div className="flex justify-center items-center gap-2">

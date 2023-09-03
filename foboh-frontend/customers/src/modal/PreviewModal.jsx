@@ -2,7 +2,7 @@ import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportCustomerModal from "./ImportCustomerModal";
 import Carousel from "better-react-carousel";
-
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 function PreviewModal({
   show,
   setShow,
@@ -14,6 +14,13 @@ function PreviewModal({
   console.log("imported data>>", importedCustomers);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("CUSTOMER 1");
+  const handleOptionChange = (event) => {
+    setActiveTab(event.target.value);
+    // const selectedOptionId = event.target.value;
+    // // Do something with the selected option id
+    // console.log(`Selected option id: ${selectedOptionId}`);
+  };
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
@@ -193,44 +200,92 @@ function PreviewModal({
                         </p>
                       </div>
                     </div>
-                    <Carousel cols={1} rows={1} gap={10} mobileBreakpoint={0}>
-                      {customerModalData.map((customer, index) => {
-                        return (
-                          <Carousel.Item>
-                            <div className="text-center w-full py-2 bg-[#F8FAFC]">
-                              <p className="text-sm font-bold text-[#147D73]">
-                                CUSTOMER {index + 1}
+                    <div className="relative">
+                      <div style={{ width: "223px", position: "relative" }}>
+                        <KeyboardArrowDownIcon
+                          style={{
+                            position: "absolute",
+                            top: "10px",
+                            right: "12px",
+                            fill: "#637381",
+                          }}
+                        />
+                        <select
+                          onChange={handleOptionChange}
+                          style={{
+                            width: "223px",
+                            border: "none",
+                            background: "rgb(241 241 241)",
+                            borderRadius: "8px",
+                            appearance: "none",
+                            marginBottom: "10px",
+                            fontSize: "16px ",
+                            fontWeight: "700",
+                            color: "#637381",
+                          }}
+                        >
+                          {/* <KeyboardArrowDownIcon /> */}
+                          {customerModalData.map((tab, index) => (
+                            <>
+                              <option
+                                key={index}
+                                onChange={() => {
+                                  console.log(index, "click");
+                                }}
+                              >
+                                <div
+                                  key={index}
+                                  className={`text-center w-full py-2 bg-[#F8FAFC]`}
+                                  // onClick={() => setActiveTab(index)}
+                                >
+                                  {console.log(index, "{console.log(index)}")}
+                                  <p
+                                    className="text-sm font-bold text-[#147D73]"
+                                    style={{}}
+                                  >
+                                    {" "}
+                                    CUSTOMER {index + 1}{" "}
+                                  </p>
+                                </div>
+                              </option>
+                            </>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="">
+                        {customerModalData.map((item, index) => (
+                          <div
+                            style={{ height: "150px" }}
+                            className={`relative px-6 py-3 overflow-y-auto   ${
+                              activeTab === `CUSTOMER ${index + 1}`
+                                ? ""
+                                : "hidden"
+                            }`}
+                          >
+                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                              <p className="text-sm font-semibold">
+                                Business name
+                              </p>
+                              <p className="text-sm font-normal text-lightGreen">
+                                {item.businessName}
                               </p>
                             </div>
-                            <div
-                              style={{ height: "150px" }}
-                              className="relative px-6 py-3 overflow-y-auto "
-                            >
-                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">
-                                  Business name
-                                </p>
-                                <p className="text-sm font-normal text-lightGreen">
-                                  {customer.businessName}
-                                </p>
-                              </div>
-                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">Email</p>
-                                <p className="text-sm font-normal text-lightGreen">
-                                  {customer.orderingEmail}
-                                </p>
-                              </div>
-                              <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                                <p className="text-sm font-semibold">Mobile</p>
-                                <p className="text-sm font-normal text-lightGreen">
-                                  {customer.orderingMobile}
-                                </p>
-                              </div>
+                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                              <p className="text-sm font-semibold">Email</p>
+                              <p className="text-sm font-normal text-lightGreen">
+                                {item.orderingEmail}
+                              </p>
                             </div>
-                          </Carousel.Item>
-                        );
-                      })}
-                    </Carousel>
+                            <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
+                              <p className="text-sm font-semibold">Mobile</p>
+                              <p className="text-sm font-normal text-lightGreen">
+                                {item.orderingMobile}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
                     <div className="flex gap-3">

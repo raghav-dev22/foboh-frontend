@@ -543,6 +543,9 @@ input[type="radio"]:checked:before {
 .border-left-blue {
   border-left-color: #4a6cf7;
 }
+.border-left-red {
+  border-left-color: #dc3545;
+}
 .border-y-custom {
   border-top-color: #e7e7e7;
   border-bottom-color: #e7e7e7;
@@ -602,4 +605,8 @@ input[type="radio"]:checked:before {
 }
 .custom-skeleton .ant-skeleton-title {
   margin-top: 0px !important;
+}
+
+.pr-1{
+ padding-right: 1rem;
 }

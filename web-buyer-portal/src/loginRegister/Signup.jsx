@@ -3,34 +3,38 @@ import { Link } from "react-router-dom";
 import { SignUpSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
+import { buyers } from "../data";
+import { useNavigate } from "react-router-dom";
+import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 
 function Signup() {
   const [name, setName] = useState("");
   const [pwd, setPwd] = useState("");
   const [email, setEmail] = useState("");
 
-  const handle = () => {
-    localStorage.setItem("Name", name);
-    localStorage.setItem("Password", pwd);
-    localStorage.setItem("Password", email);
-  };
-  console.log(handle, "handle------------------>");
   const initialValues = {
     name: "",
     email: "",
     password: "",
   };
-
+  const navigate = useNavigate();
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
-        console.log(values.email, "signup");
-        
+        const foundBuyer = buyers.find((buyer) => buyer.email === values.email);
+        if (foundBuyer) {
+          console.log("signup successful", foundBuyer);
+          localStorage.setItem("createData", JSON.stringify(foundBuyer));
+          localStorage.setItem("password", values.password);
+          navigate("/create-account");
+        } else {
+          console.log("Login failed");
+        }
       },
     });
-  console.log(values.email, "values");
+  // console.log(values, "values");
   return (
     <>
       <div className=" md:bg-[#F8FAFC]  w-full flex items-center justify-center  h-full">
@@ -104,7 +108,7 @@ function Signup() {
                       type="email"
                       id="email"
                       className={`js-email `}
-                      autoComplete="off"
+                      autoComplete="on"
                       value={values.email}
                       // onChange={(e) => setEmail(e.target.value)}
                       onChange={handleChange}
@@ -135,7 +139,7 @@ function Signup() {
                     >
                       Your password
                     </label>
-
+                    <div className="inset-y-0 right-0 flex items-center">
                     <input
                       type="password"
                       id="password"
@@ -152,6 +156,15 @@ function Signup() {
                       onBlur={handleBlur}
                       value={values.password}
                     />
+                    </div>
+                    {!errors.password && values.password && (
+                      <p className="mt-2 mb-2 text-green-500">
+                        Your password is strong.
+                      </p>
+                    )}
+                    {!errors.password && values.password && (
+                      <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                    )}
                     {errors.password && touched.password && (
                       <p className="mt-2 mb-2 text-red-500 text-xs">
                         {errors.password}

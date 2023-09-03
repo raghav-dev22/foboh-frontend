@@ -1,3 +1,5 @@
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 export const Cart = {
   productCart: [
     {
@@ -176,7 +178,7 @@ export const LoginData = {
     },
     {
       email: "jane@example.com",
-      password: "strongpass456",
+      password: "Strongpass456",
     },
     {
       email: "alice@example.com",
@@ -185,3 +187,103 @@ export const LoginData = {
     // Add more dummy data entries as needed
   ],
 };
+
+// Buyer
+
+export const buyers = [
+  {
+    name: "nikit",
+    email: "nikitkumawat@gmail.com",
+    BusinessName: "hgh",
+    ABN: "00000000000",
+    LiquerLicence: "bnvnhhgyu",
+    DeliveryAddress: "nbj",
+    Apartment: "hgfgjfh",
+    Suburb: "kjhgkjh",
+    Postcode: "0000",
+    Notes: "jgyu",
+    DeliveryAddressState: "chocolate",
+    FirstName: "Nikit",
+    LastName: "Kumawat",
+    Mobile: "+919057221504",
+    OrderContactState: "chocolate",
+    OrderingContactFirstName: "hfhgfh",
+    OrderingContactLastName: "jgughj",
+    OrderingContactEmail: "nikitkumawat@gmail.com",
+    OrderingContactMobile: "+919057221504",
+    DeliveryContactFirstName: "ygygu",
+    DeliveryContactLastName: "iuyugli",
+    DeliveryContactEmail: "hjfkhj",
+    DeliveryContactMobile: "+919057221504",
+  },
+  {
+    name: "nikit1",
+    email: "nikitkumawat1@gmail.com",
+    password: "nikit@12345",
+    BusinessName: "hgh",
+    ABN: "0000000000",
+    LiquerLicence: "bnvnh",
+    DeliveryAddress: "nbj",
+    Apartment: "hgfgjfh",
+    Suburb: "kjhgkjh",
+    Postcode: "0000",
+    Notes: "jgyu",
+    DeliveryAddressState: "chocolate",
+    FirstName: "Nikit1",
+    LastName: "Kumawat",
+    Mobile: "+919057221504",
+    OrderContactState: "chocolate",
+    OrderingContactFirstName: "hfhgfh",
+    OrderingContactLastName: "jgughj",
+    OrderingContactEmail: "nikitkumawat1@gmail.com",
+    OrderingContactMobile: "+919057221504",
+    DeliveryContactFirstName: "ygygu",
+    DeliveryContactLastName: "iuyugli",
+    DeliveryContactEmail: "hjfkhj",
+    DeliveryContactMobile: "+919057221504",
+  },
+  {
+    name: "Ragahv Saini",
+    email: "raghavsaini30795@gmail.com",
+    password: "Raghav@1849",
+    BusinessName: "hgh",
+    ABN: "00000000000",
+    LiquerLicence: "bnvnh",
+    DeliveryAddress: "nbj",
+    Apartment: "hgfgjfh",
+    Suburb: "kjhgkjh",
+    Postcode: "0000",
+    Notes: "jgyu",
+    DeliveryAddressState: "chocolate",
+    FirstName: "Nikit1",
+    LastName: "Kumawat",
+    Mobile: "+61(02)89876544",
+    OrderContactState: "chocolate",
+    OrderingContactFirstName: "hfhgfh",
+    OrderingContactLastName: "jgughj",
+    OrderingContactEmail: "raghavsaini30795@gmail.com",
+    OrderingContactMobile: "+61289876544",
+    DeliveryContactFirstName: "ygygu",
+    DeliveryContactLastName: "iuyugli",
+    DeliveryContactEmail: "raghavsaini30795@gmail.com",
+    DeliveryContactMobile: "0414 570 776",
+  },
+];
+
+export const options = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
+
+export const listdata = [
+  {id: 1, img: "/assets/product.png", title:"Write Product Full Name1", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 2, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 3, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 4, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 5, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 6, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 7, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 8, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+  {id: 9, img: "/assets/product.png", title:"Write Product Full Name", name: " Brand name", details: "12 bottle case (750ml)",price: "Price: $25.08"},
+]

@@ -42,19 +42,16 @@ const SigninNew = () => {
       validationSchema: SignInSchema,
       onSubmit: (values) => {
         setIsLoading(true);
-        fetch(
-          `${user_api_url}/api/User/Verify-login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: values.email,
-              password: values.password,
-            }),
-          }
-        )
+        fetch(`${user_api_url}/api/User/Verify-login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+        })
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
@@ -97,12 +94,9 @@ const SigninNew = () => {
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);
 
-    fetch(
-      `${user_api_url}/api/User/get?email=${googleResponse.email}`,
-      {
-        method: "GET",
-      }
-    )
+    fetch(`${user_api_url}/api/User/get?email=${googleResponse.email}`, {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         let randomPassword = generateUniqueKey();
@@ -126,30 +120,27 @@ const SigninNew = () => {
             .then((response) => response.json())
             .then((data) => {
               console.log("issuerAssignedId eq", data);
-              fetch(
-                `${user_api_url}/api/User/create`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    firstName: googleResponse.given_name,
-                    lastName: googleResponse.family_name,
-                    email: googleResponse.email,
-                    password: "",
-                    status: true,
-                    role: "",
-                    meta: "",
-                    adId: "",
-                    imageUrl: "",
-                    bio: "",
-                    mobile: "",
-                    organisationId: "",
-                    isActive: true,
-                  }),
-                }
-              )
+              fetch(`${user_api_url}/api/User/create`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  firstName: googleResponse.given_name,
+                  lastName: googleResponse.family_name,
+                  email: googleResponse.email,
+                  password: "",
+                  status: true,
+                  role: "",
+                  meta: "",
+                  adId: "",
+                  imageUrl: "",
+                  bio: "",
+                  mobile: "",
+                  organisationId: "",
+                  isActive: true,
+                }),
+              })
                 .then((response) => response.json())
                 .then((data) => {
                   if (data.success) {

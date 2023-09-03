@@ -62,7 +62,7 @@ function Range() {
       .then(() => {
         setTimeout(() => {
           setLoading(false);
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => console.log(error));
   };
@@ -72,10 +72,12 @@ function Range() {
       console.log("values>>", values);
       childRef.current.handleFilterPagination(values);
     }
+    setSelectedProducts([])
+    setIsBulkEdit(false)
   };
 
   const handleSelectAllChange = (e) => {
-    console.log("flag >>", e);
+    // console.log("flag >>", e);
     const checked = e.target.checked;
     checked ? setSelectedProducts([...products]) : setSelectedProducts([]);
     setIsBulkEdit(true);
@@ -125,7 +127,6 @@ function Range() {
               availableQty: product.availableQty,
               visibility: name === "visible" ? true : false,
               productStatus: product.productStatus,
-              // sellOutOfStock: product.sellOutOfStock
             };
           })
         ),
@@ -133,11 +134,12 @@ function Range() {
     )
       .then((response) => {
         console.log("response product bulk update >>", response);
-        response.json()
+        response.json();
       })
       .then((data) => {
         console.log("response data1:", data);
         setIsBulkEdit(false);
+        setSelectedProducts([]);
         getAllproduct();
       })
       .catch((error) => console.log(error));
@@ -207,7 +209,7 @@ function Range() {
       <ActiveProduct
         totalProducts={totalProducts}
         selectedProductsLength={selectedProducts.length}
-        productId = {selectedProducts[0]?.productId}
+        productId={selectedProducts[0]?.productId}
       />
       <div className="   " style={{ height: "100%" }}>
         <div className="box-3 px-6 ">
@@ -234,6 +236,11 @@ function Range() {
                         <input
                           id="default-checkbox"
                           type="checkbox"
+                          checked={
+                                  selectedProducts.length === 9
+                                    ? true
+                                    : false
+                                }
                           // defaultValue=""
                           onChange={(e) => handleSelectAllChange(e)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
@@ -304,11 +311,14 @@ function Range() {
                             </div>
                           </td>
                           <td className={classes}>
-                            <div  onClick={() =>
+                            <div
+                              onClick={() =>
                                 navigate(
                                   `/dashboard/view-product/${product.productId}`
                                 )
-                              } className="flex items-center gap-3">
+                              }
+                              className="flex items-center gap-3"
+                            >
                               {product.productImageUrls ? (
                                 <>
                                   <div className="">
@@ -386,12 +396,14 @@ function Range() {
               </table>
             </CardBody>
             <CardFooter className="flex w-full items-center justify-between border-t border-blue-gray-50 p-4">
-              <PaginationNav1Presentation
-                totalPages={totalPages}
-                getProductList={getProductList}
-                pageIndex={pageIndex}
-                setPageIndex={setPageIndex}
-              />
+              {!loading && (
+                <PaginationNav1Presentation
+                  totalPages={totalPages}
+                  getProductList={getProductList}
+                  pageIndex={pageIndex}
+                  setPageIndex={setPageIndex}
+                />
+              )}
             </CardFooter>
           </div>
           {isBulkEdit ? (
@@ -429,7 +441,9 @@ function Range() {
                   setIsBulkEdit(false);
                 }}
               >
+                <div onClick={()=> setSelectedProducts([])}>
                 <CloseIcon />
+                </div>
               </div>
             </div>
           ) : (

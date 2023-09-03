@@ -2,7 +2,12 @@ import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportProductModal from "./ImportProductModal";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import Carousel from "better-react-carousel";
+// import Carousel from "better-react-carousel";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { removePercentageFromString } from "../helpers/removePercentageToString";
+import { splitRegions } from "../helpers/splitRegions";
+
+// import "antd/dist/antd.css"; // Import Ant Design styles
 function PreviewProductModal({
   show,
   setShow,
@@ -11,11 +16,18 @@ function PreviewProductModal({
   setErrorData,
   setAddedFile,
 }) {
-  // const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("PRODUCT 1");
+  console.log(activeTab, "activeTabactiveTab");
   console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
+  const handleOptionChange = (event) => {
+    setActiveTab(event.target.value);
+    // const selectedOptionId = event.target.value;
+    // // Do something with the selected option id
+    // console.log(`Selected option id: ${selectedOptionId}`);
+  };
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
@@ -57,49 +69,56 @@ function PreviewProductModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           importedProducts.map((product) => {
+            const abv = removePercentageFromString(product?.abv.toString());
+            const regionAvailability = splitRegions(
+              product?.regionAvailability
+            );
+            const productImageUrls = splitRegions(product?.productImageUrls);
+            const variety = splitRegions(product?.variety);
+            const tags = splitRegions(product?.tags);
+
             return {
-              title: product.title,
-              description: product.description,
-              productImage: product.productImageUrls,
-              globalPrice: parseInt(product.globalPrice),
+              title: product?.title,
+              description: product?.description,
+              productImage: product?.productImageUrls ? productImageUrls : [],
+              globalPrice: parseInt(product?.globalPrice),
               createdBy: "string",
               articleID: 0,
-              skUcode: product.skUcode,
-              unitofMeasure: product.unitofMeasure,
+              skUcode: product?.skUcode,
+              unitofMeasure: product?.unitofMeasure,
               configuration: "",
-              brand: product.brand,
-              departmentId: product.departmentId,
-              innerUnitofMeasure: "",
-              award: "",
-              categoryId: product.categoryID,
-              subCategoryId: product.subCategoryId,
-              segmentId: product.segmentId,
-              variety: product.variety ? product.variety.split(",") : [],
-              vintage: product.vintage,
-              abv: 0,
-              luCcost: product.luCcost ? parseInt(product.luCcost) : 0,
-              buyPrice: product.buyPrice ? parseInt(product.buyPrice) : 0,
+              brand: product?.brand,
+              departmentId: product?.departmentId,
+              innerUnitofMeasure: product?.innerUnitofMeasure,
+              award: product?.awards,
+              categoryId: product?.categoryID,
+              subCategoryId: product?.subCategoryId,
+              segmentId: product?.segmentId,
+              variety: product?.variety ? variety : [],
+              vintage: product?.vintage,
+              abv: abv,
+              luCcost: product?.luCcost,
+              buyPrice: product?.buyPrice,
               gstFlag: product.gstFlag === 1 ? true : false,
               wetFlag: product.wetFlag === 1 ? true : false,
-              trackInventory: true,
-              region: "string",
-              availableQty: 0,
-              stockThreshold: 0,
-              stockStatus: "string",
-              regionAvailability: ["string"],
-              productStatus: "string",
-              visibility: true,
-              minimumOrder: 0,
-              tags: ["string"],
-              countryOfOrigin: "string",
+              trackInventory: product.trackInventory === 1 ? true : false,
+              region: product?.region,
+              availableQty: product?.availableQty,
+              stockThreshold: product?.stockThreshold,
+              stockStatus: product?.stockStatus,
+              regionAvailability: product?.regionAvailability
+                ? regionAvailability
+                : [],
+              productStatus: product?.productStatus,
+              visibility: product?.visibility === "Visible" ? true : false,
+              sellOutOfStock: product?.Sell_when_OOS === 1 ? true : false,
+              minimumOrder: product?.minimumOrder,
+              tags: product?.tags ? tags : [],
+              countryOfOrigin: product?.countryOfOrigin,
               barcodes: "string",
               esgStatus: "string",
               healthRating: "string",
               isActive: true,
-              category: "string",
-              subCategory: "string",
-              stock: "string",
-              status: true,
             };
           })
         ),
@@ -175,53 +194,93 @@ function PreviewProductModal({
                         </p>
                       </div>
                     </div>
-                    <Carousel cols={1} rows={1} gap={10} mobileBreakpoint={0}>
-                      {importedProducts.map((product, index) => (
-                        <Carousel.Item>
-                          <div className="text-center w-full py-2 bg-[#F8FAFC]">
-                            <p className="text-sm font-bold text-[#147D73]">
-                              PRODUCT {index + 1}
-                            </p>
-                          </div>
+                    <div className="relative">
+                      <div style={{ width: "223px", position: "relative" }}>
+                        <KeyboardArrowDownIcon
+                          style={{
+                            position: "absolute",
+                            top: "10px",
+                            right: "12px",
+                            fill: "#637381",
+                          }}
+                        />
+                        <select
+                          onChange={handleOptionChange}
+                          style={{
+                            width: "223px",
+                            border: "none",
+                            background: "rgb(241 241 241)",
+                            borderRadius: "8px",
+                            appearance: "none",
+                            marginBottom: "10px",
+                            fontSize: "16px ",
+                            fontWeight: "700",
+                            color: "#637381",
+                          }}
+                        >
+                          {/* <KeyboardArrowDownIcon /> */}
+                          {importedProducts.map((tab, index) => (
+                            <>
+                              <option
+                                key={index}
+                                onChange={() => {
+                                  console.log(index, "click");
+                                }}
+                              >
+                                <div
+                                  key={index}
+                                  className={`text-center w-full py-2 bg-[#F8FAFC]`}
+                                  // onClick={() => setActiveTab(index)}
+                                >
+                                  {console.log(index, "{console.log(index)}")}
+                                  <p
+                                    className="text-sm font-bold text-[#147D73]"
+                                    style={{}}
+                                  >
+                                    {" "}
+                                    PRODUCT {index + 1}{" "}
+                                  </p>
+                                </div>
+                              </option>
+                            </>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="">
+                        {importedProducts.map((item, index) => (
                           <div
                             style={{ height: "150px" }}
-                            className="relative px-6 py-3 overflow-y-auto "
+                            className={`relative px-6 py-3 overflow-y-auto 
+                            ${
+                              activeTab === `PRODUCT ${index + 1}`
+                                ? ""
+                                : "hidden"
+                            }
+                            `}
+                            id={`#tabData-${index}`}
                           >
                             <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
                               <p className="text-sm font-semibold">Title</p>
                               <p className="text-sm font-normal text-lightGreen">
-                                {product.title}
+                                {item.title}
                               </p>
                             </div>
                             <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
                               <p className="text-sm font-semibold">skUcode</p>
                               <p className="text-sm font-normal text-lightGreen">
-                                {product.skUcode}
+                                {item.skUcode}
                               </p>
                             </div>
                             <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
                               <p className="text-sm font-semibold">brand</p>
                               <p className="text-sm font-normal text-lightGreen">
-                                {product.brand}
+                                {item.brand}
                               </p>
                             </div>
                           </div>
-                        </Carousel.Item>
-                      ))}
-                    </Carousel>
-                    {/* <div
-                      style={{ height: "100px" }}
-                      className="relative px-6 py-3 overflow-y-auto "
-                    >
-                      {importedProducts.map((product) => (
-                        <div className="flex justify-between items-center py-3 px-3 border-inherit border-y">
-                          <p className="text-sm font-semibold">Title</p>
-                          <p className="text-sm font-normal text-lightGreen">
-                            {product.title}{" "}
-                          </p>
-                        </div>
-                      ))}
-                    </div> */}
+                        ))}
+                      </div>
+                    </div>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
                     <div className="flex gap-3">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -8,6 +8,8 @@ import AddProduct from "./product/AddProduct";
 import BulkEdit from "./product/BulkEdit";
 
 const App = () => {
+  
+
   return (
       <Router>
         <Routes>
