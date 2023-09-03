@@ -15,7 +15,7 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
-  customerId: "",
+  buyerId: "",
   businessName: "",
   abn: "",
   liquorLicence: "",
