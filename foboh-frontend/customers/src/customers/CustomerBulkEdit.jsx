@@ -1,9 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
 function CustomerBulkEdit() {
   const navigate = useNavigate();
+  const [selectedData,setSelectedData]=useState([]);
+  useLayoutEffect(() => {
+    getDatafromLocal()
+  }, [])
+  const getDatafromLocal = async() => {
+    const data=await localStorage.getItem('selectedCustomers');
+    if(data){
+      setSelectedData(JSON.parse(data))
+    }
+  }
   const values = [
     {
       jhashd: "hbhsad",
@@ -113,7 +123,7 @@ function CustomerBulkEdit() {
               </tr>
             </thead>
             <tbody>
-              {values.map((product, index) => {
+              {selectedData.map((product, index) => {
                 return (
                   <tr
                     key={index.toString()}

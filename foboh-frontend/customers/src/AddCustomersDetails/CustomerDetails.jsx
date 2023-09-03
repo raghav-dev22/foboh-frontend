@@ -24,6 +24,7 @@ const initialValues = {
   defaultPaymentMethodId: "",
   defaultPaymentTerms: "",
   tags: "",
+  organisationId:localStorage.getItem('organisationId')||"",
   wetLiable: true,
   orderingFirstName: "",
   orderingLastName: "",
@@ -60,8 +61,8 @@ function CustomerDetails() {
     initialValues: initialValues,
     validationSchema: validationSchemas[activeStep],
     onSubmit: (values) => {
-      console.log("its working or not");
-      console.log("All Vlaues>>", values);
+      // console.log("its working or not");
+      // console.log("All Vlaues>>", values);
     },
   });
   const finalHandleSubmit = (event) => {
