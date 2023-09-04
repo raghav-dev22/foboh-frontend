@@ -99,7 +99,7 @@ const Cart = ({ open, onClose }) => {
               )}
             </div>
             <div className="flex justify-between pt-8 px-6">
-              <Link to="/cart">
+              <Link to="/home/cart">
                 <div className="border border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
                   <h4 className="text-base font-medium text-[#637381]">
                     View Cart
@@ -115,6 +115,6 @@ const Cart = ({ open, onClose }) => {
       </Dialog>
     </>
   );
-};
+}; 
 
 export default Cart;

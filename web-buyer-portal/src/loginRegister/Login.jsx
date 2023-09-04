@@ -37,13 +37,11 @@ function Login() {
       for (const [field, value] of Object.entries(foundBuyer)) {
         dispatch(updateField({ field, value }));
       }
-  
-
 
       if (foundBuyer) {
         console.log("Login successful", foundBuyer);
         // localStorage.setItem("createData", JSON.stringify(foundBuyer));
-        navigate("main/home-page-main");
+        navigate("/home-page");
       } else {
         console.log("Login failed");
       }

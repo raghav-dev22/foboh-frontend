@@ -1,10 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Header from "../desktop/Header";
 import Footer from "../desktop/Footer";
 import Select from "react-select";
+import { DeliveryBillingSchema } from "../schemas"
+import { useFormik } from "formik";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useSelector } from "react-redux";
+
+
+const initialValues = {
+  DeliveryAddress: "",
+  Apartment: "",
+  Suburb: "",
+  Postcode: "",
+  Notes: "",
+  DeliveryAddressState: "",
+  // billingaddress 
+  BillingAddress: "",
+  BillingApartment: "",
+  BillingSuburb: "",
+  BillingPostcode: "",
+  BillingNotes: "",
+  BillingAddressState: "",
+};
+
 const DeliveryEdit = () => {
+  const buyer = useSelector((state) => state.buyer)
+  console.log(buyer, "hhhh")
   const [selectedOption, setSelectedOption] = useState(null);
 
   const options = [
@@ -12,27 +36,40 @@ const DeliveryEdit = () => {
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
+  const { values, errors, handleBlur, handleChange, handleSubmit, setValues, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: DeliveryBillingSchema,
+      onSubmit: (values) => {
+        console.log(values)
+      },
+    });
+  useEffect(() => {
+    setValues(buyer)
+  }, [])
+
+
+
+const handleBillingState = (e, name) => {
+
+  if (name === 'BillingAddressState'){
+    setValues({
+      ...values,
+       BillingAddressState : e
+    })
+  } else {
+    setValues({
+      ...values,
+      DeliveryAddressState : e
+    })
+  }
+  }
+
+
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto  ">
         <div className="md:w-4/5 w-full">
-          {/* <div className="  md:flex hidden justify-start items-center gap-3 pt-8">
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              Home
-            </h5>
-            <EastIcon />
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              Account
-            </h5>
-            <EastIcon />
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              Profile
-            </h5>
-            <EastIcon />
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              DeliveryContact
-            </h5>
-          </div> */}
           <div className="  mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
             <h2 className="md:font-bold font-semibold md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
               Edit Profile
@@ -63,12 +100,26 @@ const DeliveryEdit = () => {
                 <input
                   type="text"
                   id="LiquerLicence"
-                  className="pl-custom-left "
+                  name="DeliveryAddress"
+                  className="pl-custom-left"
+                  value={values.DeliveryAddress}
                   autoComplete="off"
+                  onChange={handleChange}
+                  style={{
+                    border: errors.DeliveryAddress && "1px solid red",
+                  }}
                 />
+                {errors.DeliveryAddress && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.DeliveryAddress}
+                  </p>
+                )}
+                {errors.DeliveryAddress && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
-              <div className="flex flex-nowrap   gap-8">
-                <div className="w-full mb-8">
+              <div className="flex flex-nowrap  gap-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="BusinessName"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -77,13 +128,26 @@ const DeliveryEdit = () => {
                   </label>
                   <input
                     type="text"
-                    id="BusinessName"
-                    name="BusinessName"
+                    id="Apartment"
+                    name="Apartment"
+                    value={values.Apartment}
+                    onChange={handleChange}
                     className="pl-custom-left"
+                    style={{
+                      border: errors.Apartment && "1px solid red",
+                    }}
                   />
+                  {errors.Apartment && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.Apartment}
+                    </p>
+                  )}
+                  {errors.Apartment && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
                 </div>
 
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="ABN"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -93,14 +157,28 @@ const DeliveryEdit = () => {
 
                   <input
                     type="text"
-                    id="ABN"
+                    id="Suburb"
                     className="pl-custom-left"
+                    name="Suburb"
+                    value={values.Suburb}
+                    onChange={handleChange}
                     autoComplete="off"
+                    style={{
+                      border: errors.Suburb && "1px solid red",
+                    }}
                   />
+                  {errors.Suburb && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.Suburb}
+                    </p>
+                  )}
+                  {errors.Suburb && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
                 </div>
               </div>
-              <div className="flex flex-nowrap   gap-8">
-                <div className="w-full mb-8">
+              <div className="flex flex-nowrap ap-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="BusinessName"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -109,10 +187,23 @@ const DeliveryEdit = () => {
                   </label>
                   <input
                     type="text"
-                    id="BusinessName"
-                    name="BusinessName"
+                    id="Postcode"
+                    value={values.Postcode}
+                    onChange={handleChange}
+                    name="Postcode"
                     className="pl-custom-left"
+                    style={{
+                      border: errors.Postcode && "1px solid red",
+                    }}
                   />
+                  {errors.Postcode && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.Postcode}
+                    </p>
+                  )}
+                  {errors.Postcode && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
                 </div>
 
                 <div className="w-full mb-8">
@@ -131,10 +222,18 @@ const DeliveryEdit = () => {
                 /> */}
                   <Select
                     defaultValue={selectedOption}
-                    onChange={setSelectedOption}
+                    onChange={(e) => handleBillingState(e,'DeliveryAddressState' )}
+                    name="DeliveryAddressState"
                     options={options}
-                    className=""
+                    style={{
+                      border: errors.DeliveryAddressState && "1px solid red",
+                    }}
                   />
+                  {errors.DeliveryAddressState && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.DeliveryAddressState}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -148,11 +247,25 @@ const DeliveryEdit = () => {
 
                 <input
                   type="text"
-                  id="LiquerLicence"
-                  className="pl-custom-left "
+                  id="Notes"
+                  className="pl-custom-left"
+                  name="Notes"
+                  value={values.Notes}
+                  onChange={handleChange}
                   autoComplete="off"
                   placeholder="Delivery instructions"
+                  style={{
+                    border: errors.Notes && "1px solid red",
+                  }}
                 />
+                {errors.Notes && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.Notes}
+                  </p>
+                )}
+                {errors.Notes && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
                 <div className="absolute top-[46px] left-[12px]">
                   <svg
                     width={20}
@@ -221,12 +334,25 @@ const DeliveryEdit = () => {
                 <input
                   type="text"
                   id="LiquerLicence"
+                  name="BillingAddress"
                   className="pl-custom-left"
+                  onChange={handleChange}
                   autoComplete="off"
+                  style={{
+                    border: errors.BillingAddress && "1px solid red",
+                  }}
                 />
+                {errors.BillingAddress && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.BillingAddress}
+                  </p>
+                )}
+                {errors.BillingAddress && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
               <div className="flex flex-nowrap   gap-8">
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="BusinessName"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -236,12 +362,24 @@ const DeliveryEdit = () => {
                   <input
                     type="text"
                     id="BusinessName"
-                    name="BusinessName"
+                    name="BillingApartment"
+                    onChange={handleChange}
                     className="pl-custom-left"
+                    style={{
+                      border: errors.BillingApartment && "1px solid red",
+                    }}
                   />
+                  {errors.BillingApartment && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.BillingApartment}
+                    </p>
+                  )}
+                  {errors.BillingApartment && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
                 </div>
 
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="ABN"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -252,13 +390,26 @@ const DeliveryEdit = () => {
                   <input
                     type="text"
                     id="ABN"
+                    name="BillingSuburb"
                     className="pl-custom-left"
+                    onChange={handleChange}
                     autoComplete="off"
+                    style={{
+                      border: errors.BillingSuburb && "1px solid red",
+                    }}
                   />
+                  {errors.BillingSuburb && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.BillingSuburb}
+                    </p>
+                  )}
+                  {errors.BillingSuburb && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
                 </div>
               </div>
-              <div className="flex flex-nowrap   gap-8">
-                <div className="w-full mb-8">
+              <div className="flex flex-nowrap gap-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="BusinessName"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -268,12 +419,25 @@ const DeliveryEdit = () => {
                   <input
                     type="text"
                     id="BusinessName"
-                    name="BusinessName"
+                    name="BillingPostcode"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     className="pl-custom-left"
+                    style={{
+                      border: errors.BillingPostcode && "1px solid red",
+                    }}
                   />
+                  {errors.BillingPostcode && touched.BillingPostcode && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.BillingPostcode}
+                    </p>
+                  )}
+                  {errors.BillingPostcode && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
                 </div>
 
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="ABN"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -283,10 +447,20 @@ const DeliveryEdit = () => {
 
                   <Select
                     defaultValue={selectedOption}
-                    onChange={setSelectedOption}
+                    onChange={(e) => handleBillingState(e, 'BillingAddressState')}
+                    name="BillingAddressState"
+                    value={values.BillingAddressState}
                     options={options}
                     className=""
+                    style={{
+                      border: errors.BillingAddressState && "1px solid red",
+                    }}
                   />
+                  {errors.BillingAddressState && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.BillingAddressState}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -294,7 +468,9 @@ const DeliveryEdit = () => {
               <button className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
                 Cancel
               </button>
-              <button className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal">
+              <button className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+                onClick={handleSubmit}
+              >
                 Save
               </button>
             </div>

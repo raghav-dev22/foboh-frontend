@@ -11,14 +11,14 @@ function OrderContact({
   touched,
   setValues
 }) {
-  
+
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleState = (e) => {
     console.log("state", e);
     setValues({
       ...values,
-      OrderContactState : e.value
+      OrderContactState: e.value
     })
   }
 
@@ -26,16 +26,16 @@ function OrderContact({
     const checked = e.target.checked
     checked ? setValues({
       ...values,
-      DeliveryContactFirstName : values.OrderingContactFirstName,
-      DeliveryContactLastName : values.OrderingContactLastName ,
-      DeliveryContactEmail :values.OrderingContactEmail,
-      DeliveryContactMobile :values.OrderingContactMobile,
-    }) : setValues ({
+      DeliveryContactFirstName: values.OrderingContactFirstName,
+      DeliveryContactLastName: values.OrderingContactLastName,
+      DeliveryContactEmail: values.OrderingContactEmail,
+      DeliveryContactMobile: values.OrderingContactMobile,
+    }) : setValues({
       ...values,
-      DeliveryContactFirstName : "",
-      DeliveryContactLastName : "" ,
-      DeliveryContactEmail :"",
-      DeliveryContactMobile :"",
+      DeliveryContactFirstName: "",
+      DeliveryContactLastName: "",
+      DeliveryContactEmail: "",
+      DeliveryContactMobile: "",
     })
   }
 
@@ -68,6 +68,17 @@ function OrderContact({
               value={values.OrderingContactFirstName}
               onChange={handleChange}
               onBlur={handleBlur}
+              onKeyPress={(event) => {
+
+                const allowedCharacters = /^[A-Za-z]*$/;
+
+                if (!allowedCharacters.test(event.key)) {
+
+                  event.preventDefault();
+
+                }
+
+              }}
               style={{
                 border:
                   errors.OrderingContactFirstName && "1px solid red",
@@ -97,6 +108,17 @@ function OrderContact({
               value={values.OrderingContactLastName}
               onChange={handleChange}
               onBlur={handleBlur}
+              onKeyPress={(event) => {
+
+                const allowedCharacters = /^[A-Za-z]*$/;
+
+                if (!allowedCharacters.test(event.key)) {
+
+                  event.preventDefault();
+
+                }
+
+              }}
               style={{
                 border:
                   errors.OrderingContactLastName && "1px solid red",
@@ -131,7 +153,7 @@ function OrderContact({
             name="OrderingContactEmail"
             onBlur={handleBlur}
             style={{
-              border: errors.OrderingContactEmail &&"1px solid red",
+              border: errors.OrderingContactEmail && "1px solid red",
             }}
           />
           {errors.OrderingContactEmail && (
@@ -184,7 +206,7 @@ function OrderContact({
             <input
               id="default-checkbox"
               type="checkbox"
-              onChange={(e)=> handleCheckbox(e)}
+              onChange={(e) => handleCheckbox(e)}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
             />
             {/* <CheckBoxOutlinedIcon className="text-[#147D73] cursor-pointer" /> */}
@@ -226,6 +248,17 @@ function OrderContact({
                 name="DeliveryContactFirstName"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                onKeyPress={(event) => {
+
+                  const allowedCharacters = /^[A-Za-z]*$/;
+
+                  if (!allowedCharacters.test(event.key)) {
+
+                    event.preventDefault();
+
+                  }
+
+                }}
                 style={{
                   border:
                     errors.DeliveryContactFirstName && "1px solid red",
@@ -255,6 +288,17 @@ function OrderContact({
                 name="DeliveryContactLastName"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                onKeyPress={(event) => {
+
+                  const allowedCharacters = /^[A-Za-z]*$/;
+
+                  if (!allowedCharacters.test(event.key)) {
+
+                    event.preventDefault();
+
+                  }
+
+                }}
                 style={{
                   border:
                     errors.DeliveryContactLastName && "1px solid red",

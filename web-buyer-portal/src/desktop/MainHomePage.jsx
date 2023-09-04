@@ -4,6 +4,9 @@ import ShopSection from "./ShopSection";
 import TopRatedSection from "./TopRatedSection";
 import ShopBrandSection from "./ShopBrandSection";
 import { useSelector } from "react-redux";
+import Header from "./Header";
+import Footer from "./Footer";
+import BottomToTop from "./BottomToTop";
 const MainHomePage = () => {
   const buyer = useSelector((state) => state.buyer);
 
@@ -11,12 +14,13 @@ const MainHomePage = () => {
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Banner />
       <ShopSection />
       <TopRatedSection />
       <ShopBrandSection />
-      {/* <Footer /> */}
+      <Footer />
+      <BottomToTop />
     </>
   );
 };
