@@ -63,7 +63,7 @@ function ShopSection() {
           </div>
           <div className="text-center py-10  hidden sm:block xl:block md:block">
             <div
-              onClick={() => navigate("/product-list")}
+              onClick={() => navigate("/home/product-list")}
               className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto cursor-pointer"
             >
               <h6 className="font-semibold text-white text-center text-base">

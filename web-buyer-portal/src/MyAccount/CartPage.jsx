@@ -71,7 +71,7 @@ const CartPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
         <div className="justify-start items-center gap-3 pt-8 md:flex hidden">
           <h5 className="text-black font-medium text-base cursor-pointer">
@@ -213,7 +213,7 @@ const CartPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
