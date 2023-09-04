@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import SearchProduct from "./SearchProduct";
 import CloseIcon from "@mui/icons-material/Close";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 import ActiveProduct from "./ActiveProduct";
 import { useNavigate } from "react-router-dom";
 import "../style.css";
@@ -35,6 +36,7 @@ function Range() {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [selected, setSlected] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isSearchResult, setisSearchResult] = useState(true);
 
   useEffect(() => {
     getProductList(1);
@@ -68,12 +70,13 @@ function Range() {
   };
 
   const getProductList = (values) => {
+    setLoading(true);
     if (childRef.current) {
       console.log("values>>", values);
       childRef.current.handleFilterPagination(values);
     }
-    setSelectedProducts([])
-    setIsBulkEdit(false)
+    setSelectedProducts([]);
+    setIsBulkEdit(false);
   };
 
   const handleSelectAllChange = (e) => {
@@ -215,8 +218,10 @@ function Range() {
         <div className="box-3 px-6 ">
           <SearchProduct
             ref={childRef}
+            setLoading={setLoading}
             pageIndex={pageIndex}
             setPageIndex={setPageIndex}
+            setisSearchResult={setisSearchResult}
             setProducts={setProducts}
             products={products}
             prevProducts={prevProducts}
@@ -236,11 +241,7 @@ function Range() {
                         <input
                           id="default-checkbox"
                           type="checkbox"
-                          checked={
-                                  selectedProducts.length === 9
-                                    ? true
-                                    : false
-                                }
+                          checked={selectedProducts.length === 9 ? true : false}
                           // defaultValue=""
                           onChange={(e) => handleSelectAllChange(e)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
@@ -250,6 +251,7 @@ function Range() {
                     <th scope="col" className="p-4 border-y">
                       <div className="flex items-center"></div>
                     </th>
+
                     {TABLE_HEAD.map((head) => (
                       <th
                         key={head}
@@ -265,137 +267,145 @@ function Range() {
                     ))}
                   </tr>
                 </thead>
-                <tbody>
-                  {products.map((product, index) => {
-                    const isLast = index === products.length - 1;
-                    const classes = isLast ? "p-4" : "p-4  ";
+                {isSearchResult && (
+                  <tbody>
+                    {products.map((product, index) => {
+                      const isLast = index === products.length - 1;
+                      const classes = isLast ? "p-4" : "p-4  ";
 
-                    return (
-                      <tr
-                        key={name}
-                        style={
-                          loading
-                            ? { position: "relative", height: "85px" }
-                            : { position: "relative" }
-                        }
-                        className="border-b border-blue-gray-50"
-                      >
-                        <Skeleton
-                          style={{
-                            padding: "10px",
-                            width: "95%",
-                            position: "absolute",
-                            top: "20px",
-                            left: "14px",
-                          }}
-                          paragraph={{ rows: 1 }}
-                          loading={loading}
-                          active
-                          avatar
-                          className="custom-skeleton"
+                      return (
+                        <tr
+                          key={name}
+                          style={
+                            loading
+                              ? { position: "relative", height: "85px" }
+                              : { position: "relative" }
+                          }
+                          className="border-b border-blue-gray-50"
                         >
-                          <td className={classes}>
-                            <div className="flex items-center gap-3 cursor-pointer">
-                              <input
-                                id="default-checkbox"
-                                type="checkbox"
-                                name={product.title}
-                                checked={
-                                  selectedProducts.includes(product)
-                                    ? true
-                                    : false
+                          <Skeleton
+                            style={{
+                              padding: "10px",
+                              width: "95%",
+                              position: "absolute",
+                              top: "20px",
+                              left: "14px",
+                            }}
+                            paragraph={{ rows: 1 }}
+                            loading={loading}
+                            active
+                            avatar
+                            className="custom-skeleton"
+                          >
+                            <td className={classes}>
+                              <div className="flex items-center gap-3 cursor-pointer">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  name={product.title}
+                                  checked={
+                                    selectedProducts.includes(product)
+                                      ? true
+                                      : false
+                                  }
+                                  onClick={(e) => handleCheckbox(e, product)}
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
+                                />
+                              </div>
+                            </td>
+                            <td className={classes}>
+                              <div
+                                onClick={() =>
+                                  navigate(
+                                    `/dashboard/view-product/${product.productId}`
+                                  )
                                 }
-                                onClick={(e) => handleCheckbox(e, product)}
-                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
-                              />
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <div
-                              onClick={() =>
-                                navigate(
-                                  `/dashboard/view-product/${product.productId}`
-                                )
-                              }
-                              className="flex items-center gap-3"
-                            >
-                              {product.productImageUrls ? (
-                                <>
-                                  <div className="">
-                                    <img
-                                      src={product.productImageUrls[0]}
-                                      alt=""
-                                      className="object-cover cursor-pointer	"
-                                      style={{
-                                        borderRadius: "6px",
-                                        height: "40px",
-                                        width: "40px",
-                                      }}
-                                    />
-                                  </div>
-                                </>
-                              ) : (
-                                <div
-                                  className=" rounded-[6px] bg-[#D9D9D9]"
-                                  style={{
-                                    height: "40px",
-                                    width: "40px",
-                                    borderRadius: "6px",
-                                  }}
-                                ></div>
-                              )}
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <div
-                              onClick={() =>
-                                navigate(
-                                  `/dashboard/view-product/${product.productId}`
-                                )
-                              }
-                              className="flex items-center gap-3"
-                            >
-                              <Typography className="font-medium	md:text-base text-sm text-[#637381] cursor-pointer">
-                                {product.title}
+                                className="flex items-center gap-3"
+                              >
+                                {product.productImageUrls ? (
+                                  <>
+                                    <div className="">
+                                      <img
+                                        src={product.productImageUrls[0]}
+                                        alt=""
+                                        className="object-cover cursor-pointer	"
+                                        style={{
+                                          borderRadius: "6px",
+                                          height: "40px",
+                                          width: "40px",
+                                        }}
+                                      />
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div
+                                    className=" rounded-[6px] bg-[#D9D9D9]"
+                                    style={{
+                                      height: "40px",
+                                      width: "40px",
+                                      borderRadius: "6px",
+                                    }}
+                                  ></div>
+                                )}
+                              </div>
+                            </td>
+                            <td className={classes}>
+                              <div
+                                onClick={() =>
+                                  navigate(
+                                    `/dashboard/view-product/${product.productId}`
+                                  )
+                                }
+                                className="flex items-center gap-3"
+                              >
+                                <Typography className="font-medium	md:text-base text-sm text-[#637381] cursor-pointer">
+                                  {product.title}
+                                </Typography>
+                              </div>
+                            </td>
+                            <td className={classes}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                {product.skUcode}
                               </Typography>
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.skUcode}
-                            </Typography>
-                          </td>
-                          <td className={`${classes} w-44`}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.configuration}
-                            </Typography>
-                          </td>
-                          <td className={classes}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {`$${product.globalPrice}`}
-                            </Typography>
-                          </td>
-                          <td className={classes}>
-                            {stockStatus(
-                              product.availableQty,
-                              product.stockThreshold
-                            )}
-                          </td>
-                          <td className={classes}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.stockStatus}
-                              <br />
-                              {product.visibility ? "Visible" : "Hidden"}
-                            </Typography>
-                          </td>
-                        </Skeleton>
-                      </tr>
-                    );
-                  })}
-                </tbody>
+                            </td>
+                            <td className={`${classes} w-44`}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                {product.configuration}
+                              </Typography>
+                            </td>
+                            <td className={classes}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                {`$${product.globalPrice}`}
+                              </Typography>
+                            </td>
+                            <td className={classes}>
+                              {stockStatus(
+                                product.availableQty,
+                                product.stockThreshold
+                              )}
+                            </td>
+                            <td className={classes}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                {product.stockStatus}
+                                <br />
+                                {product.visibility ? "Visible" : "Hidden"}
+                              </Typography>
+                            </td>
+                          </Skeleton>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                )}
               </table>
             </CardBody>
-            <CardFooter className="flex w-full items-center justify-between border-t border-blue-gray-50 p-4">
+            <CardFooter
+              className={
+                isSearchResult
+                  ? "flex w-full items-center justify-between border-t border-blue-gray-50 p-4"
+                  : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
+              }
+            >
               {!loading && (
                 <PaginationNav1Presentation
                   totalPages={totalPages}
@@ -403,6 +413,17 @@ function Range() {
                   pageIndex={pageIndex}
                   setPageIndex={setPageIndex}
                 />
+              )}
+              {isSearchResult && (
+                <div
+                  style={{
+                    marginTop: "30px",
+                  }}
+                  className="text-center mt-7"
+                >
+                  <SearchOffIcon fontSize="large" />
+                  <p className="font-semibold">No Result Found</p>
+                </div>
               )}
             </CardFooter>
           </div>
@@ -441,8 +462,8 @@ function Range() {
                   setIsBulkEdit(false);
                 }}
               >
-                <div onClick={()=> setSelectedProducts([])}>
-                <CloseIcon />
+                <div onClick={() => setSelectedProducts([])}>
+                  <CloseIcon />
                 </div>
               </div>
             </div>

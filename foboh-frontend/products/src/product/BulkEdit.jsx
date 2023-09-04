@@ -91,7 +91,7 @@ function BulkEdit() {
     fetch(
       `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/UpdateProductBulkData`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },

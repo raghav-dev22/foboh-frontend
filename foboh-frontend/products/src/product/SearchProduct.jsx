@@ -36,7 +36,18 @@ let filterAndSort = {
 };
 
 const SearchProduct = forwardRef(
-  ({ pageIndex, setPageIndex, setProducts, products, prevProducts }, ref) => {
+  (
+    {
+      pageIndex,
+      setPageIndex,
+      setProducts,
+      products,
+      prevProducts,
+      setLoading,
+      setisSearchResult
+    },
+    ref
+  ) => {
     const [Open, setOpen] = useState(false);
     const [filterTextFirst, setFilterTextFirst] = useState(false);
     const [filterTextSecond, setFilterTextSecond] = useState(false);
@@ -49,7 +60,6 @@ const SearchProduct = forwardRef(
     const [itemLabel, setItemLabel] = useState("");
     const [showFilter, setShowFilter] = useState(false);
     const dropdownRef = useRef(null);
-
 
     const FirstDropdown = () => {
       setFilterTextFirst(!filterTextFirst);
@@ -115,8 +125,8 @@ const SearchProduct = forwardRef(
     }, []);
 
     const handleInputChange = (e) => {
-      console.log("events >>",e);
-      setInput(e.target.value)
+      console.log("events >>", e);
+      setInput(e.target.value);
     };
 
     // Debouce function
@@ -144,6 +154,7 @@ const SearchProduct = forwardRef(
           .then((response) => response.json())
           .then((data) => {
             setProducts(data.data);
+            setLoading(false);
             console.log("filter data table", data.data);
           })
           .catch((error) => console.log(error));
@@ -157,7 +168,12 @@ const SearchProduct = forwardRef(
           .then((respose) => respose.json())
           .then((data) => {
             if (!data.status) {
-              setProducts(data.data);
+              if (data?.data?.length > 0){
+                setisSearchResult(true)
+                setProducts(data.data);
+              } else {
+                setisSearchResult(false)
+              }
             } else {
               setProducts(prevProducts);
             }
@@ -300,33 +316,38 @@ const SearchProduct = forwardRef(
     const handleFilter = () => {
       setShowFilter(!showFilter);
     };
-    
+
     useEffect(() => {
       const handleClick = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
           setShowFilter(false);
         }
       };
-  
+
       const handleKeydown = (event) => {
         if (event.key === "Escape") {
           setShowFilter(false);
         }
       };
-  
+
       document.addEventListener("mousedown", handleClick);
       document.addEventListener("keydown", handleKeydown);
-  
+
       return () => {
         document.removeEventListener("mousedown", handleClick);
         document.removeEventListener("keydown", handleKeydown);
       };
     }, []);
 
-
     return (
       <>
-        <div className=" border border-inherit bg-white h-full py-3	 px-4" ref={dropdownRef}>
+        <div
+          className=" border border-inherit bg-white h-full py-3	 px-4"
+          ref={dropdownRef}
+        >
           <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center">
             <div>
               <div className="relative 	">
@@ -356,7 +377,6 @@ const SearchProduct = forwardRef(
                   placeholder="search product"
                   required=""
                 />
-                
               </div>
             </div>
             <div className="flex justify-center items-center gap-2">
