@@ -47,14 +47,14 @@ function AddCustomers() {
   const callApi =(item)=> {
     // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=1
     fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=1`,
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=${item}`,
       {
         method: "GET",
       },
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("customer data --->", data);
+        // console.log("customer data --->", data);
         setTableRecords(data.data);
         setLoading(false)
         setPrevCustomer(data.data);

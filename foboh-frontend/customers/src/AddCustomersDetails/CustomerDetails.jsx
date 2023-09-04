@@ -15,6 +15,7 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
+
   buyerId: "",
   businessName: "",
   abn: "",
@@ -22,9 +23,8 @@ const initialValues = {
   salesRepId: "",
   pricingProfileId: "",
   defaultPaymentMethodId: "",
-  defaultPaymentTerms: "",
   tags: "",
-  organisationId:localStorage.getItem('organisationId')||"",
+  organisationId: "",
   wetLiable: true,
   orderingFirstName: "",
   orderingLastName: "",
@@ -45,8 +45,41 @@ const initialValues = {
   billingSuburb: "",
   billingPostalCode: "",
   billingState: "",
-  isActive: 0,
-};
+  isActive: true
+}
+
+//   buyerId: "",
+//   businessName: "",
+//   abn: "",
+//   liquorLicence: "",
+//   salesRepId: "",
+//   pricingProfileId: "",
+//   defaultPaymentMethodId: "",
+//   defaultPaymentTerms: "",
+//   tags: "",
+//   organisationId: localStorage.getItem('organisationId') || "",
+//   wetLiable: true,
+//   orderingFirstName: "",
+//   orderingLastName: "",
+//   orderingMobile: "",
+//   orderingEmail: "",
+//   deliveryFirstName: "",
+//   deliveryLastName: "",
+//   deliveryMobile: "",
+//   deliveryEmail: "",
+//   address: "",
+//   apartment: "",
+//   suburb: "",
+//   postalCode: "",
+//   state: "",
+//   deliveryNotes: "",
+//   billingAddress: "",
+//   billingApartment: "",
+//   billingSuburb: "",
+//   billingPostalCode: "",
+//   billingState: "",
+//   isActive: 0,
+// };
 function CustomerDetails() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
   const navigate = useNavigate();
@@ -68,7 +101,10 @@ function CustomerDetails() {
   const finalHandleSubmit = (event) => {
     event.preventDefault();
     console.log("final vales>>>", formik.values);
-    fetch("https://customer-api-foboh.azurewebsites.net/api/Customer/create", {
+    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create
+    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create
+    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create
+    fetch("https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -78,11 +114,11 @@ function CustomerDetails() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer added>>", data);
-        if (data.success) {
-          window.alert("Customer added successfully!")
-          navigate("/dashboard/customers/");
-        } else {
-        }
+        // if (data.success) {
+        window.alert("Customer added successfully!")
+        navigate("/dashboard/customers/");
+        // } else {
+        // }
       })
       .catch((error) => console.log(error));
   };
@@ -112,7 +148,7 @@ function CustomerDetails() {
       setActiveStep((cur) => cur - 1);
       formik.setErrors({})
     }
-    else {}
+    else { }
     // !isFirstStep && setActiveStep((cur) => cur - 1);
   };
   const handleSubmit = () => {

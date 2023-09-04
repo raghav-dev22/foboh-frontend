@@ -19,7 +19,7 @@ const OrderDetails = ({ datas }) => {
 
   const [initialValues, setInitialValues] = useState({
     id: "",
-    customerId: "",
+    buyerId: "",
     businessName: "",
     abn: "",
     liquorLicence: "",
@@ -53,7 +53,8 @@ const OrderDetails = ({ datas }) => {
     callCustomerDetails();
   }, []);
   const callCustomerDetails = () => {
-    fetch(`https://fobohwepapifbh.azurewebsites.net/api/Customer/${datas}`, {
+    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/6191384906
+    fetch(`https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/${datas}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -107,8 +108,9 @@ const OrderDetails = ({ datas }) => {
 
   const onFinalSubmit = (event) => {
     event.preventDefault();
+    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/6191384906
     fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/${data?.customerId}`,
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/${datas}`,
       {
         method: "PUT",
         headers: {
