@@ -7,11 +7,11 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 function Footer() {
   return (
     <>
-      <div className="footer h-full bg-[#563FE3] p-10  grid lg:grid-cols-1 md:grid-cols-2 sm:grid-cols-1  hidden xl:block md:block relative">
+      <div className="footer h-full bg-[#563FE3] p-10  grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 relative">
         <img src="./assets/Ellipse1.png" alt="" className="absolute right-[204px] top-0" />
         <img src="./assets/Ellipse2.png" alt="" className="absolute bottom-0 left-[180px]" />
 
-        <div className="text-center relative">
+        <div className="text-start md:text-start lg:text-center xl:text-center relative">
           <h1 className="text-white text-sm font-[400] my-1">powered by </h1>
             <a href=""><i><img src="./assets/FOBOHicon.svg" alt="" className="text-center absolute right-[44%]" /></i></a>
           </div>
@@ -27,7 +27,7 @@ function Footer() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 lg:justify-between md:justify-end sm:justify-start md:gap-0 gap-5 lg:items-center items-start lg:mt-5 mt-0">
+        <div className="grid lg:grid-cols-3 lg:justify-between sm:justify-start md:gap-0 gap-5 lg:items-center items-start lg:mt-5 mt-0">
           <div className="flex  gap-3   items-end">
             <div className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon">
               <InstagramIcon />
@@ -40,7 +40,7 @@ function Footer() {
             </div>
           </div>
          
-          <div className="text-center">
+          <div className="text-start md:text-start xl:text-center">
             <p className="text-sm font-bold text-[#BBB2F4]">
               © 2023 — Copyright — Supplier name
             </p>

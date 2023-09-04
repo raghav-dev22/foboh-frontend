@@ -1,6 +1,7 @@
 import React from "react";
 import Order from "./Order";
-import Link from "antd/es/typography/Link";
+// import Link from "antd/es/typography/Link";
+import {Link} from "react-router-dom";
 
 const CheckOut = () => {
   return (

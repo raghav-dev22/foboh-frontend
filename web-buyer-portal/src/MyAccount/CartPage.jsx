@@ -17,28 +17,9 @@ import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
 
 const CartPage = () => {
   const [totalCost, setTotleCost] = useState(0);
-  const exchangeRate = 74.5;
-  const GroupedOption = [
-    {
-      value: "1",
-      label: "1",
-    },
-    {
-      value: "2",
-      label: "2",
-    },
-    {
-      value: "3",
-      label: "3",
-    },
-    {
-      value: "4",
-      label: "4",
-    },
-  ];
   const CARTdata = useSelector((items) => items.cart);
-  //  console.log(CARTdata[0].quantity, "lsited")
   const dispatch = useDispatch();
+
   const removeItem = (cartItem) => {
     dispatch(remove(cartItem));
   };
@@ -46,22 +27,21 @@ const CartPage = () => {
   const handleIncrementDecrement = (id, actionType) => {
     dispatch(updateQuantity({ id, actionType }));
   };
-  const convertToINR = (usdPrice) => {
-    return usdPrice * exchangeRate;
-  };
+
   const calculateTotalCost = () => {
     let total = 0;
     CARTdata.forEach((item) => {
       const productPrice = removeDollarAndConvertToInteger(
         item?.product?.price
       );
-      const productPriceINR = convertToINR(productPrice);
+      const productPriceINR = productPrice;
       const quantity = parseInt(item.quantity);
       total += productPriceINR * quantity;
 
       console.log("hdgfj", total);
     });
     return total;
+
   };
 
   useEffect(() => {
@@ -196,7 +176,7 @@ const CartPage = () => {
                     Subtotal
                   </h5>
                   <h5 className="text-sm font-medium text-[#2B4447]">
-                    {totalCost}
+                    ${totalCost}
                   </h5>
                 </div>
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
