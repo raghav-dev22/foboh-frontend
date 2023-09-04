@@ -14,13 +14,19 @@ function CustomerDetailsFirst({
   setValues,
 }) {
   const handleSelect = (e, name) => {
-    console.log(e, name);
-    console.log("values>>",e[0]?.value)
-    setValues({
-      ...values,
-      [name]: JSON.stringify(e[0]?.value),
-    });
-    console.log("values>>",values);
+    console.log("selected tags>>>>...", e, name);
+    if (name === 'tags') {
+      setValues({
+        ...values,
+        tags: e.map((option) => JSON.stringify(option.value)),
+      });
+    } else {
+      setValues({
+        ...values,
+        [name]: JSON.stringify(e[0]?.value),
+      });
+    }
+    console.log("all values>>",values)
   };
 
   console.log("all error and touch is>>", errors, touched);
@@ -82,15 +88,15 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors?.abn  && "1px solid red",
+                border: errors?.abn && "1px solid red",
               }}
             />
-            {errors?.abn  && (
+            {errors?.abn && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.abn}
               </p>
             )}
-            {errors?.abn  && (
+            {errors?.abn && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -117,13 +123,13 @@ function CustomerDetailsFirst({
                   "1px solid red",
               }}
             />
-            
-            {errors?.liquorLicence  && (
+
+            {errors?.liquorLicence && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.liquorLicence}
               </p>
             )}
-            {errors?.liquorLicence  && (
+            {errors?.liquorLicence && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -211,7 +217,7 @@ function CustomerDetailsFirst({
           <div className=" w-full relative md:w-1/2 px-3">
             <h5 className="text-base font-medium text-green mb-3">Tags</h5>
             <div className=" top-16 w-full">
-              <Select
+              {/* <Select
                 value={options.find((option) => option.value === values.tags)}
                 // defaultValue={[options[2], options[3]]}
                 isMulti
@@ -219,8 +225,8 @@ function CustomerDetailsFirst({
                 options={options}
                 className="basic-multi-select"
                 classNamePrefix="select"
-              />
-              {/* <Select
+              /> */}
+              <Select
                 name="tags"
                 isMulti
                 value={options.find(
@@ -231,7 +237,7 @@ function CustomerDetailsFirst({
                 // onChange={}
                 className="basic-multi-select "
                 classNamePrefix="select"
-              /> */}
+              />
             </div>
           </div>
           <div className=" w-full relative md:w-1/2 px-3">

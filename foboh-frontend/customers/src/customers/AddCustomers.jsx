@@ -39,13 +39,13 @@ function AddCustomers() {
   const handleInputChange = (event) => {
     const newValue = event.target.value;
     setInputValue(newValue);
-    // Call the debounced function
     handleDebounce(newValue);
   };
   useEffect(() => {
     callApi(1);
   }, []);
   const callApi =(item)=> {
+    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=1
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=${item}`,
       {
@@ -54,7 +54,7 @@ function AddCustomers() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("customer data --->", data);
+        // console.log("customer data --->", data);
         setTableRecords(data.data);
         setLoading(false)
         setPrevCustomer(data.data);
@@ -91,39 +91,11 @@ function AddCustomers() {
       setIsBulkEdit(true);
     }
   };
-  // const handleBulkEdit = () => {
-  //   localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
-
-  // };
-
   const handleBulkEdit = () => {
     localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
     navigate("/dashboard/customer-bulk-edit");
   };
-  // const isFilter = (item) => {
-  //   console.log("Filter values", item)
-  //   const debounceTimeout = setTimeout(() => {
-  //     callFilterApi(item);
-  //   }, 500);
-  // };
-  // const callFilterApi = (item) => {
-
-  //   fetch(
-  //     `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter`,
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(item),
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("user data --->", data);
-  //       setTableRecords(data.data);
-  //     });
-  // };
+ 
   const handleSelectAllChange = (e) => {
     console.log("flag >>", e);
     const checked = e.target.checked;
@@ -149,135 +121,6 @@ function AddCustomers() {
         </div>
         <div className="pt-6 px-6 relative">
           <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
-            {/* <CardBody className="p-0">
-              <table className="w-full min-w-max table-auto text-left">
-                <thead>
-                  <tr>
-                  <th scope="col" className="p-4 border-y">
-                      <div className="flex items-center">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          onChange={(e) => handleSelectAllChange(e)}
-                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                        />
-                      </div>
-                    </th>
-                    {TABLE_HEAD.map((head) => (
-                      <th
-                        key={head}
-                        className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                      >
-                        <Typography
-                          variant="small"
-                          className="font-medium leading-none text-base text-[#2B4447]"
-                        >
-                          {head}
-                        </Typography>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableRecords.map((item, index) => {
-                    const isLast = index === tableRecords.length - 1;
-                    const classes = isLast
-                      ? "p-4"
-                      : "p-4 border-b border-blue-gray-50";
-
-                    return (
-                      <tr key={name}>
-                        <td className={classes}>
-                          <div className="flex items-center gap-3">
-                            <input
-                              id="default-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              onClick={(e) => handleCheckbox(e, item)}
-                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <div onClick={() => handleCustomerId(item)}>
-                              <Typography className="font-medium	md:text-base text-sm text-[#637381]">
-                                {item?.businessName}
-                              </Typography>
-                            </div>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                            {item?.orderingEmail}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                            {item?.address}
-                            {item?.state}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          {item?.isActive === true ? (
-                            <div
-                              style={{
-                                background: "rgba(33, 150, 83, 0.08)",
-                                borderRadius: "30px",
-                              }}
-                              className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3"
-                            >
-                              <p className="text-green-dark font-normal	text-sm	">
-                                Active
-                              </p>
-                            </div>
-                          ) : (
-                            <div
-                              style={{
-                                background: "rgba(255, 167, 11, 0.08)",
-                                borderRadius: "30px",
-                              }}
-                              className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3"
-                            >
-                              <p
-                                style={{ color: "#FFA70B" }}
-                                className="text-red-dark font-normal text-sm	"
-                              >
-                                Inactive
-                              </p>
-                            </div>
-                          )}
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center gap-3">
-                            <div className="flex flex-col">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal capitalize"
-                              >
-                                {10} orders
-                              </Typography>
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal opacity-70"
-                              >
-                              </Typography>
-                            </div>
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70"
-                          >
-                            ${10 * 10}
-                          </Typography>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </CardBody> */}
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead>
@@ -287,7 +130,6 @@ function AddCustomers() {
                         <input
                           id="default-checkbox"
                           type="checkbox"
-                          // defaultValue=""
                           onChange={(e) => handleSelectAllChange(e)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />

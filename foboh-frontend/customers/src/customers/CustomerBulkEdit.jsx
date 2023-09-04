@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-
 function CustomerBulkEdit() {
   const navigate = useNavigate();
+  const [selectedData,setSelectedData]=useState([]);
+  useLayoutEffect(() => {
+    getDatafromLocal()
+  }, [])
+  const getDatafromLocal = async() => {
+    const data=await localStorage.getItem('selectedCustomers');
+    if(data){
+      setSelectedData(JSON.parse(data))
+    }
+  }
   const values = [
     {
       jhashd: "hbhsad",
@@ -41,7 +50,6 @@ function CustomerBulkEdit() {
       jhashd: "hbhsad",
     },
   ];
-
   return (
     <>
       <div className="py-8 flex flex-col items-start justify-start px-6 gap-5">
@@ -113,7 +121,8 @@ function CustomerBulkEdit() {
               </tr>
             </thead>
             <tbody>
-              {values.map((product, index) => {
+              {selectedData.map((product, index) => {
+                console.log("Name is>>",product)
                 return (
                   <tr
                     key={index.toString()}
@@ -127,7 +136,7 @@ function CustomerBulkEdit() {
                         <input
                           type="text"
                           name="title"
-                          value="hnisdh"
+                          value={product.businessName}
                           // onChange={(e) =>
                           //   handleFieldChange(
                           //     product.productId,
@@ -150,7 +159,7 @@ function CustomerBulkEdit() {
                       <input
                         type="text"
                         name="skuCode"
-                        value="hjhjsxn"
+                        value={product?.orderingEmail}
                         // onChange={(e) =>
                         //   handleFieldChange(
                         //     product.productId,
@@ -173,7 +182,7 @@ function CustomerBulkEdit() {
                         <Select
                           name="colors"
                           // options={configurations}
-                          value="jnsjdh"
+                          value={product.state}
                           // onChange={(e) =>
                           //   handleFieldChange(
                           //     product.productId,
@@ -230,7 +239,7 @@ function CustomerBulkEdit() {
                 outline-none dark:placeholder-[#A0AEC0] 
                   text-[#656e7b]
               "
-                        placeholder="test@gmail.com"
+                        placeholder={product?.orderingEmail}
                         required=""
                       />
                     </td>
@@ -240,9 +249,6 @@ function CustomerBulkEdit() {
                           name="colors"
                           options={status}
                           value={product.status}
-                          // onChange={(e) =>
-                          //   handleFieldChange(product.productId, "status", e)
-                          // }
                           className="basic-multi-select-2 "
                           classNamePrefix="select"
                         />
