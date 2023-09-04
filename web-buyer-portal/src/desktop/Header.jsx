@@ -25,9 +25,6 @@ function Header() {
   const [scroll, setScroll] = useState(false);
   const navigate = useNavigate();
 
-  // const userDropdown = () => {
-  //   setShowUser(!showUser);
-  // };
   useEffect(() => {
     window.addEventListener("scroll", () => {
       setScroll(window.scrollY > 50);
@@ -51,7 +48,6 @@ function Header() {
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             onClick={() => setMobileMenuOpen(true)}
           >
-            {/* <span className="sr-only">Open main menu</span> */}
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>

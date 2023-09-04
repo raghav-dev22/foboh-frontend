@@ -123,4 +123,38 @@ export const stepThreeSchema = Yup.object().shape({
 
 // Delivery Address Schema
 
+export const DeliveryEditAddressSchema = Yup.object().shape({
+  DeliveryAddress: Yup.string()
+    .min(2, "Delivery address should have atleast 2 letters")
+    .max(50)
+    .required("Delivery address is required"),
+  Apartment: Yup.string()
+    .required("Apartment is required")
+    .min(2, "Suburb should have atleast 2 letters")
+    .max(50),
+  Postcode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
+  Notes: Yup.string()
+    .required("Notes is required")
+    .min(2, "Notes should have atleast 2 letters")
+    .max(50),
+});
+export const BillingEditAddressSchema = Yup.object().shape({
+  BillingAddress: Yup.string()
+    .min(2, "Billing address should have atleast 2 letters")
+    .max(50)
+    .required("Billing address is required"),
+  Apartment: Yup.string()
+    .required("Apartment is required")
+    .min(2, "Suburb should have atleast 2 letters")
+    .max(50),
+  Postcode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
+  Notes: Yup.string()
+    .required("Notes is required")
+    .min(2, "Notes should have atleast 2 letters")
+    .max(50),
+});
 // ordering contact Schema

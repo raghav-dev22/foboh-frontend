@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import EastIcon from "@mui/icons-material/East";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Header from "../desktop/Header";
-import Footer from "../desktop/Footer";
+import { useFormik } from "formik";
 import Select from "react-select";
+import { DeliveryEditAddressSchema } from "../schemas";
 const DeliveryEdit = () => {
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+  };
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: DeliveryEditAddressSchema,
+      onSubmit: (values) => {
+        console.log(values);
+      },
+    });
   const [selectedOption, setSelectedOption] = useState(null);
 
   const options = [
@@ -16,23 +28,6 @@ const DeliveryEdit = () => {
     <>
       <div className="md:w-4/5	w-full mx-auto  ">
         <div className="md:w-4/5 w-full">
-          {/* <div className="  md:flex hidden justify-start items-center gap-3 pt-8">
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              Home
-            </h5>
-            <EastIcon />
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              Account
-            </h5>
-            <EastIcon />
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              Profile
-            </h5>
-            <EastIcon />
-            <h5 className="text-black md:font-medium font-semibold text-base cursor-pointer">
-              DeliveryContact
-            </h5>
-          </div> */}
           <div className="  mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
             <h2 className="md:font-bold font-semibold md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
               Edit Profile
@@ -51,7 +46,7 @@ const DeliveryEdit = () => {
                 Delivery Address
               </h2>
             </div>
-            <div className="">
+            <form className="" onSubmit={handleSubmit}>
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
@@ -65,6 +60,13 @@ const DeliveryEdit = () => {
                   id="LiquerLicence"
                   className="pl-custom-left "
                   autoComplete="off"
+                  value={values.name}
+                  // onChange={(e) => setName(e.target.value)}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{
+                    border: errors.name && touched.name && "1px solid red",
+                  }}
                 />
               </div>
               <div className="flex flex-nowrap   gap-8">
@@ -191,7 +193,7 @@ const DeliveryEdit = () => {
                   </svg>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
 
           <div className="md:p-0 px-6">

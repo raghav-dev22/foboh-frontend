@@ -78,7 +78,7 @@ const Cart = ({ open, onClose }) => {
                                   {item.product?.price}
                                 </h5>
                                 <p className=" text-[#666666] text-xs mx-3">
-                                Qty-{item.quantity}
+                                  Qty-{item.quantity}
                                 </p>
                               </div>
                             </div>
@@ -99,16 +99,20 @@ const Cart = ({ open, onClose }) => {
               )}
             </div>
             <div className="flex justify-between pt-8 px-6">
-              <Link to="/cart">
+              <Link to="/home/cart">
                 <div className="border border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
                   <h4 className="text-base font-medium text-[#637381]">
                     View Cart
                   </h4>
                 </div>
               </Link>
-              <div className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
-                <h4 className="text-base font-medium text-[#fff]">Checkout</h4>
-              </div>
+              <Link to="/home/delivery">
+                <div className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
+                  <h4 className="text-base font-medium text-[#fff]">
+                    Checkout
+                  </h4>
+                </div>
+              </Link>
             </div>
           </div>
         </Dialog.Panel>
