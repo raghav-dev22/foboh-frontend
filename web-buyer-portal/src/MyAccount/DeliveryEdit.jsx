@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Header from "../desktop/Header";
-import Footer from "../desktop/Footer";
+import { useFormik } from "formik";
 import Select from "react-select";
 import { DeliveryBillingSchema } from "../schemas"
-import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
 
@@ -88,7 +86,7 @@ const handleBillingState = (e, name) => {
                 Delivery Address
               </h2>
             </div>
-            <div className="">
+            <form className="" onSubmit={handleSubmit}>
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="LiquerLicence"
@@ -304,7 +302,7 @@ const handleBillingState = (e, name) => {
                   </svg>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
 
           <div className="md:p-0 px-6">

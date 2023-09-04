@@ -153,7 +153,6 @@ const ProductList = () => {
   const dispatch = useDispatch();
   const CARTdata = useSelector((items) => items.cart);
 
-
   // const addCart = (id,itemData, actionType) => {
   //   if(CARTdata.length > 0) {
   //     CARTdata.map(item => {
@@ -166,12 +165,12 @@ const ProductList = () => {
   // };
   const addCart = (id, itemData, actionType) => {
     if (CARTdata.length > 0) {
-      CARTdata.forEach(item => {
+      CARTdata.forEach((item) => {
         if (item.product?.id === id) {
           dispatch(updateQuantity({ id, actionType }));
         }
       });
-        const isNewProduct = !CARTdata.some(item => item.product?.id === id);
+      const isNewProduct = !CARTdata.some((item) => item.product?.id === id);
       if (isNewProduct) {
         dispatch(add(itemData));
       }
@@ -179,17 +178,18 @@ const ProductList = () => {
       dispatch(add(itemData));
     }
   };
-  
 
   useEffect(() => {
-    dispatch(setProductData(
-      Data.map((item) => {
-        return {
-          product: item,
-          quantity: 0,
-        };
-      })
-    ))
+    dispatch(
+      setProductData(
+        Data.map((item) => {
+          return {
+            product: item,
+            quantity: 0,
+          };
+        })
+      )
+    );
   }, []);
 
   const WineBtn = () => {
@@ -339,12 +339,12 @@ const ProductList = () => {
   const handleIncrementDecrement = (id, actionType) => {
     const updatedProductData = productData.map((item) => {
       if (item.product.id === id) {
-        if (actionType === 'decrement' && item.quantity > 1) {
+        if (actionType === "decrement" && item.quantity > 1) {
           return {
             ...item,
             quantity: item.quantity - 1,
           };
-        } else if (actionType === 'increment') {
+        } else if (actionType === "increment") {
           return {
             ...item,
             quantity: item.quantity + 1,
@@ -381,8 +381,12 @@ const ProductList = () => {
         </div> */}
 
         <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between">
-          <p className="font-semibold text-lg">Red Wine</p>
-
+          <div className="">
+            <p className="font-semibold md:text-2xl text-xl">Red Wine</p>
+            <p className="text-sm font-normal text-[#637381]">
+              ({productData.length} Products)
+            </p>
+          </div>
           <button
             className="border border-[#E7E7E7] rounded-md px-[13px] py-[8px] flex items-center justify-center gap-2"
             onClick={() => {
@@ -409,7 +413,7 @@ const ProductList = () => {
             <>
               <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50  absolute top-[50px] right-0">
                 <div className="flex justify-between items-center pb-2">
-                  <h5 className="text-lg font-medium text-[#2B4447] ">
+                  <h5 className="text-base font-medium text-[#2B4447] ">
                     Alphabetical
                   </h5>
 
@@ -449,7 +453,9 @@ const ProductList = () => {
                 </div>
 
                 <div className="flex justify-between items-center pt-4">
-                  <h5 className="text-lg font-medium text-[#2B4447] ">Price</h5>
+                  <h5 className="text-base font-medium text-[#2B4447] ">
+                    Price
+                  </h5>
 
                   <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                 </div>
@@ -495,7 +501,9 @@ const ProductList = () => {
             <div className="flex items-center gap-2 pb-3">
               <FilterAltIcon style={{ fill: "#fff", stroke: "#2B4447" }} />
 
-              <h5 className="text-2xl font-semibold text-[#2B4447]">Filter</h5>
+              <h5 className="text-[20px] font-semibold text-[#2B4447]">
+                Filter
+              </h5>
             </div>
 
             <div className=" py-4 border-b border-[#E7E7E7]">
@@ -505,7 +513,7 @@ const ProductList = () => {
                   WineBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">Wine</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">Wine</h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -542,7 +550,9 @@ const ProductList = () => {
                   SegmentBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">Segment</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">
+                  Segment
+                </h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -579,7 +589,9 @@ const ProductList = () => {
                   VarietyBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">Variety</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">
+                  Variety
+                </h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -616,7 +628,9 @@ const ProductList = () => {
                   CountryBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">Country</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">
+                  Country
+                </h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -653,7 +667,7 @@ const ProductList = () => {
                   AvailabilityBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">
+                <h5 className="text-base font-medium text-[#2B4447]">
                   Region availability
                 </h5>
 
@@ -692,7 +706,7 @@ const ProductList = () => {
                   RegionBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">Region</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">Region</h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -729,7 +743,7 @@ const ProductList = () => {
                   PriceBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">Price</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">Price</h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -788,7 +802,7 @@ const ProductList = () => {
                   TagsBtn();
                 }}
               >
-                <h5 className="text-lg font-medium text-[#2B4447]">Tags</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">Tags</h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -878,7 +892,7 @@ const ProductList = () => {
                     <button
                       className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2"
                       onClick={() => {
-                        addCart(item?.product?.id,item, 'increment');
+                        addCart(item?.product?.id, item, "increment");
                       }}
                     >
                       {" "}

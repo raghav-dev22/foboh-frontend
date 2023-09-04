@@ -66,23 +66,23 @@ const ProductDetails = () => {
           </h5>
         </div> */}
         <div className="flex md:flex-nowrap flex-wrap gap-8">
-          <div className="w-full lg:w-2/5	 h-full	">
-            <div className="grid gap-5">
+          <div className="w-full md:w-2/5	 h-full	">
+            <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
               <div>
                 <img
                   src={productData?.product?.img}
                   alt=""
-                  className="img-fluid"
+                  className="w-full"
                 />
               </div>
-              <div className="grid grid-cols-3 gap-5">
+              <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
                 <img src={productData?.product?.img} alt="" />
                 <img src={productData?.product?.img} alt="" />
                 <img src={productData?.product?.img} alt="" />
               </div>
             </div>
           </div>
-          <div className=" lg:w-3/5 w-full   h-full	 grid gap-1	  p-4">
+          <div className=" md:w-3/5 w-full   h-full	 grid gap-1	  p-4">
             <h1 className="text-[28px] text-[#2B4447] font-bold">
               {" "}
               {productData?.product?.title}
