@@ -406,7 +406,7 @@ function Range() {
                   : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
               }
             >
-              {!loading && (
+              {!loading && isSearchResult &&  (
                 <PaginationNav1Presentation
                   totalPages={totalPages}
                   getProductList={getProductList}
@@ -414,7 +414,7 @@ function Range() {
                   setPageIndex={setPageIndex}
                 />
               )}
-              {isSearchResult && (
+              {!isSearchResult && (
                 <div
                   style={{
                     marginTop: "30px",
