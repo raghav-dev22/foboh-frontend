@@ -19,47 +19,27 @@ import DeliveryEdit from "../MyAccount/DeliveryEdit";
 import CartPage from "../MyAccount/CartPage";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import Link from "antd/es/typography/Link";
+import { Breadcrumb } from "antd";
 
-const routes = [
-  { path: "/home/my-account", breadcrumb: "Account" },
-  { path: "/home/address-details", breadcrumb: "Example 2" },
-];
 function HomePage() {
-  const breadcrumbs = useBreadcrumbs(routes);
   const location = useLocation();
-  console.log(breadcrumbs, "breadcrumbs");
+  const pathSegments = location.pathname.split('/home/').filter(segment => segment.trim() !== '');
+const title =[
+  {
+    title: <a href="/home-page">home</a>,
+  },
+  {
+    title: <a href="">{pathSegments}</a>,
+  },
+]
 
   return (
     <>
       <Header />
       <div className="md:w-4/5	w-full mx-auto md:px-0 px-6 md:flex gap-3 py-8 hidden ">
-        {breadcrumbs.map(({ match, breadcrumb }) => {
-          return (
-            <Link
-              key={match.url}
-              to={match.url}
-              className={
-                match.pathname === location.pathname ? "active" : "inactive"
-              }
-            >
-              <div className="flex gap-3 items-center">
-                <h5
-                  className="text-black font-medium text-base cursor-pointer m-0"
-                  style={{ margin: "0px" }}
-                >
-                  {breadcrumb}
-                </h5>
-                <h5
-                  className="text-black font-medium text-base cursor-pointer m-0"
-                  style={{ margin: "0px" }}
-                >
-                  /
-                </h5>
-              </div>
-              {console.log(breadcrumb, "md:w-4/5	w-full mx-auto md:p-0 px-6")}
-            </Link>
-          );
-        })}
+      <Breadcrumb
+    items={title}
+  />
       </div>
       <Routes>
         {/* <Route path="/home-page" element={<MainHomePage />} /> */}
@@ -70,7 +50,6 @@ function HomePage() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/account*" element={<MyAccount />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/home-page" element={<MainHomePage />} />
         <Route path="/product-details/:id" element={<ProductDetails />} />
         <Route path="/delivery-edit" element={<DeliveryEdit />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />

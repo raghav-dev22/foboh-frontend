@@ -1,19 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import EastIcon from "@mui/icons-material/East";
 import Header from "../desktop/Header";
 import Footer from "../desktop/Footer";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useSelector } from "react-redux";
+import { ProfileEditSchema } from "../schemas"
+import { useFormik } from "formik";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 // import { Button, Form, Input, Radio } from "antd";
 // import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
+const initialValues = {
+  BusinessName: "",
+  ABN: "",
+  LiquerLicence: "",
+  OrderingContactFirstName: "",
+  OrderingContactLastName: "",
+  OrderingContactEmail: "",
+  OrderingContactMobile: "",
+  DeliveryContactFirstName: "",
+  DeliveryContactLastName: "",
+  DeliveryContactEmail: "",
+  DeliveryContactMobile: "",
+};
+
+
 const ProfileEdit = () => {
+
   const buyer = useSelector((state) => state.buyer)
-  console.log(buyer)
+  const { values, errors, handleBlur, handleChange, handleSubmit, setValues, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: ProfileEditSchema,
+      onSubmit: (values) => {
+        console.log(values)
+      },
+    });
+  useEffect(() => {
+    setValues(buyer)
+  }, [])
+  console.log("error>>", values)
+
 
   return (
     <>
+
       <div className="md:w-4/5	w-full mx-auto ">
         <div className="md:w-4/5 w-full">
           {/* <div className="md:flex hidden justify-start items-center gap-3 pt-8">
@@ -33,7 +65,7 @@ const ProfileEdit = () => {
               BusinessDetails
             </h5>
           </div> */}
-          <div className=" mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
+          <div className=" md:my-12 mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
             <h2 className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
               Edit Profile
             </h2>
@@ -45,7 +77,7 @@ const ProfileEdit = () => {
             </div>
           </div>
           <div className="md:p-0 px-6">
-            <div className="pb-8">
+            <div className=" md:pt-12 pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
                 BusinessDetails
               </h2>
@@ -59,13 +91,24 @@ const ProfileEdit = () => {
                   Business name *
                 </label>
                 <input
+                  onChange={handleChange}
                   type="text"
                   id="BusinessName"
                   name="BusinessName"
                   className="pl-custom-left"
-                  value={buyer.BusinessName}
+                  value={values.BusinessName}
+                  style={{
+                    border: errors.BusinessName && "1px solid red",
+                  }}
                 />
-
+                {errors.BusinessName && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.BusinessName}
+                  </p>
+                )}
+                {errors.BusinessName && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
                 <div className=" absolute top-[50px] left-4">
                   <svg
                     width="16"
@@ -92,12 +135,35 @@ const ProfileEdit = () => {
 
                 <input
                   type="text"
+                  onChange={handleChange}
                   id="ABN"
-                  value={buyer.ABN}
+                  name="ABN"
+                  value={values.ABN}
                   className="pl-custom-left"
                   autoComplete="off"
-                />
+                  onKeyPress={(event) => {
 
+                    const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
+
+                    if (!allowedCharacters.test(event.key)) {
+
+                      event.preventDefault();
+
+                    }
+
+                  }}
+                  style={{
+                    border: errors.ABN && "1px solid red",
+                  }}
+                />
+                {errors.ABN && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.ABN}
+                  </p>
+                )}
+                {errors.ABN && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
                 <div className=" absolute top-[50px] left-4">
                   <svg
                     width="14"
@@ -129,11 +195,24 @@ const ProfileEdit = () => {
 
                 <input
                   type="text"
+                  onChange={handleChange}
+                  name="LiquerLicence"
                   id="LiquerLicence"
-                  value={buyer.LiquerLicence}
+                  value={values.LiquerLicence}
                   className="pl-custom-left"
                   autoComplete="off"
+                  style={{
+                    border: errors.LiquerLicence && "1px solid red",
+                  }}
                 />
+                {errors.LiquerLicence && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.LiquerLicence}
+                  </p>
+                )}
+                {errors.LiquerLicence && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
 
                 <div className=" absolute top-[50px] left-4">
                   <svg
@@ -164,7 +243,7 @@ const ProfileEdit = () => {
             </div>
             <div className="">
               <div className="flex flex-nowrap   gap-8">
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="BusinessName"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -173,14 +252,37 @@ const ProfileEdit = () => {
                   </label>
                   <input
                     type="text"
+                    onChange={handleChange}
                     id="BusinessName"
-                    name="BusinessName"
-                    value={buyer.firstName}
+                    name="OrderingContactFirstName"
+                    value={values.OrderingContactFirstName}
                     className="pl-custom-left"
+                    onKeyPress={(event) => {
+
+                      const allowedCharacters = /^[A-Za-z]*$/;
+
+                      if (!allowedCharacters.test(event.key)) {
+
+                        event.preventDefault();
+
+                      }
+
+                    }}
+                    style={{
+                      border: errors.OrderingContactFirstName && "1px solid red",
+                    }}
                   />
+                  {errors.OrderingContactFirstName && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.OrderingContactFirstName}
+                    </p>
+                  )}
+                  {errors.OrderingContactFirstName && (
+              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+            )}
                 </div>
 
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="ABN"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -191,10 +293,34 @@ const ProfileEdit = () => {
                   <input
                     type="text"
                     id="ABN"
+                    onChange={handleChange}
+                    name="OrderingContactLastName"
                     className="pl-custom-left"
                     autoComplete="off"
-                    value={buyer.lastName}
+                    value={values.OrderingContactLastName}
+                    onKeyPress={(event) => {
+
+                      const allowedCharacters = /^[A-Za-z]*$/;
+
+                      if (!allowedCharacters.test(event.key)) {
+
+                        event.preventDefault();
+
+                      }
+
+                    }}
+                    style={{
+                      border: errors.OrderingContactLastName && "1px solid red",
+                    }}
                   />
+                  {errors.OrderingContactLastName && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.OrderingContactLastName}
+                    </p>
+                  )}
+                  {errors.OrderingContactLastName && (
+              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+            )}
                 </div>
               </div>
 
@@ -210,14 +336,26 @@ const ProfileEdit = () => {
                 </label>
 
                 <input
-                  type="text"
+                  type="email"
+                  onChange={handleChange}
                   id="LiquerLicence"
+                  name="OrderingContactEmail"
                   className="pl-custom-left "
                   autoComplete="off"
-                  value={buyer.email}
+                  value={values.OrderingContactEmail}
                   disabled
-                  style={{ background: "#F1EFEF" }}
+                  style={{
+                    border: errors.OrderingContactEmail && "1px solid red",
+                  }}
                 />
+                {errors.OrderingContactEmail && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.OrderingContactEmail}
+                  </p>
+                )}
+                {errors.OrderingContactEmail && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
@@ -229,11 +367,31 @@ const ProfileEdit = () => {
 
                 <input
                   type="text"
+                  onChange={handleChange}
                   id="LiquerLicence"
+                  name="OrderingContactMobile"
                   className="pl-custom-left"
                   autoComplete="off"
-                  value={buyer.Mobile}
+                  value={values.OrderingContactMobile}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[0-9+]*$/;
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+
+                  }}
+                  style={{
+                    border: errors.OrderingContactMobile && "1px solid red",
+                  }}
                 />
+                {errors.OrderingContactMobile && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.OrderingContactMobile}
+                  </p>
+                )}
+                {errors.OrderingContactMobile && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
             </div>
           </div>
@@ -241,12 +399,12 @@ const ProfileEdit = () => {
           <div className=" md:p-0 px-6">
             <div className=" pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
-                Ordering Contact
+                Delivery Contact
               </h2>
             </div>
             <div className="">
               <div className="flex flex-nowrap   gap-8">
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="BusinessName"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -255,14 +413,37 @@ const ProfileEdit = () => {
                   </label>
                   <input
                     type="text"
+                    onChange={handleChange}
                     id="BusinessName"
-                    name="BusinessName"
+                    name="DeliveryContactFirstName"
                     className="pl-custom-left"
-                    value={buyer.orderingContactFirstName}
+                    value={values.DeliveryContactFirstName}
+                    onKeyPress={(event) => {
+
+                      const allowedCharacters = /^[A-Za-z]*$/;
+
+                      if (!allowedCharacters.test(event.key)) {
+
+                        event.preventDefault();
+
+                      }
+
+                    }}
+                    style={{
+                      border: errors.DeliveryContactFirstName && "1px solid red",
+                    }}
                   />
+                  {errors.DeliveryContactFirstName && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.DeliveryContactFirstName}
+                    </p>
+                  )}
+                  {errors.DeliveryContactFirstName && (
+              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+            )}
                 </div>
 
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 relative">
                   <label
                     htmlFor="ABN"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
@@ -272,11 +453,35 @@ const ProfileEdit = () => {
 
                   <input
                     type="text"
+                    onChange={handleChange}
+                    name="DeliveryContactLastName"
                     id="ABN"
                     className="pl-custom-left"
                     autoComplete="off"
-                    value={buyer.orderingContactLastName}
+                    value={values.DeliveryContactLastName}
+                    onKeyPress={(event) => {
+
+                      const allowedCharacters = /^[A-Za-z]*$/;
+
+                      if (!allowedCharacters.test(event.key)) {
+
+                        event.preventDefault();
+
+                      }
+
+                    }}
+                    style={{
+                      border: errors.DeliveryContactLastName && "1px solid red",
+                    }}
                   />
+                  {errors.DeliveryContactLastName && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.DeliveryContactLastName}
+                    </p>
+                  )}
+                  {errors.DeliveryContactLastName && (
+              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+            )}
                 </div>
               </div>
 
@@ -289,12 +494,25 @@ const ProfileEdit = () => {
                 </label>
 
                 <input
-                  type="text"
+                  type="email"
+                  onChange={handleChange}
+                  name="DeliveryContactEmail"
                   id="LiquerLicence"
                   className="pl-custom-left"
                   autoComplete="off"
-                  value={buyer.orderingContactEmail}
+                  value={values.DeliveryContactEmail}
+                  style={{
+                    border: errors.DeliveryContactEmail && "1px solid red",
+                  }}
                 />
+                {errors.DeliveryContactEmail && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.DeliveryContactEmail}
+                  </p>
+                )}
+                {errors.DeliveryContactEmail && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
@@ -306,24 +524,47 @@ const ProfileEdit = () => {
 
                 <input
                   type="text"
+                  onChange={handleChange}
+                  name="DeliveryContactMobile"
                   id="LiquerLicence"
                   className="pl-custom-left"
                   autoComplete="off"
-                  value={buyer.Mobile}
+                  value={values.DeliveryContactMobile}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[0-9+]*$/;
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+
+                  }}
+                  style={{
+                    border: errors.DeliveryContactMobile && "1px solid red",
+                  }}
                 />
+                {errors.DeliveryContactMobile && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs">
+                    {errors.DeliveryContactMobile}
+                  </p>
+                )}
+                {errors.DeliveryContactMobile && (
+                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                )}
               </div>
             </div>
             <div className="flex gap-8 pt-5 pb-16">
               <button className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
                 Cancel
               </button>
-              <button className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal">
+              <button className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+                onClick={handleSubmit}
+              >
                 Save
               </button>
             </div>
           </div>
         </div>
       </div>
+
     </>
   );
 };
