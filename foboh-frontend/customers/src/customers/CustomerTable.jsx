@@ -37,7 +37,7 @@ function CustomerTable({tableRecords}) {
 
               <h5
                 onClick={() => handleCustomerId(item)}
-                className="font-normal	 whitespace-no-wrap text-gray">
+                className="font-normal	 whitespace-no-wrap text-gray cursor-pointer">
                 {" "}
                 {item?.BusinessName}
               </h5>

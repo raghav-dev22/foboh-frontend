@@ -209,7 +209,7 @@ function AddCustomers() {
                               //   `/dashboard/view-product/${product.productId}`
                               // )
                             }
-                            className="flex items-center gap-3"
+                            className="flex items-center gap-3 cursor-pointer"
                           >
                             <Typography className="font-medium	md:text-base text-sm text-[#637381]">
                               {product.businessName}
