@@ -27,6 +27,8 @@ function AddCustomers() {
   const [inputValue, setInputValue] = useState("");
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [pageIndex, setPageIndex] = useState(1);
+
   let timeoutId;
   const handleDebounce = (value) => {
     clearTimeout(timeoutId);
@@ -117,6 +119,8 @@ function AddCustomers() {
             products={tableRecords}
             prevProducts={prevCustomer}
             totalPages={setTotalPages}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
           />
         </div>
         <div className="pt-6 px-6 relative">
@@ -281,6 +285,8 @@ function AddCustomers() {
               <PaginationCustomer
                 totalPages={totalPages}
                 getProductList={callApi}
+                pageIndex={pageIndex}
+                setPageIndex={setPageIndex}
               />
             </CardFooter>
           </div>

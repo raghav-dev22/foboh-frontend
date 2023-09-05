@@ -90,8 +90,7 @@ function PaginationNav1({
   );
 }
 
-function PaginationCustomer({ totalPages, getProductList }) {
-  const [pageIndex, setPageIndex] = useState(1);
+function PaginationCustomer({ totalPages, getProductList, pageIndex, setPageIndex }) {
   const pageCount = totalPages;
 
   return (

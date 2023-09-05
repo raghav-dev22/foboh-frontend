@@ -3,7 +3,28 @@ import React, { useEffect } from "react";
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
 
-function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
+let filterAndSort = {
+  filter: {
+    businessName: "",
+    status: true,
+    postCode: "",
+    state: "",
+    page: 0,
+  },
+  sort: {
+    sortBy: "",
+    sortOrder: "asc",
+  },
+};
+
+function SearchCustomer({
+  products,
+  setProducts,
+  prevProducts,
+  totalPages,
+  pageIndex,
+  setPageIndex,
+}) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
     { label: "Active", value: "Active" },
@@ -12,30 +33,47 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
   const [First, setFirst] = useState(false);
   const [Second, setSecond] = useState(false);
   const [Third, setThird] = useState(false);
-  const [pincode, setPinCode] = React.useState('');
+  const [pincode, setPinCode] = React.useState("");
   const [search, setSearch] = React.useState();
   const [selectArray, setSelectedArray] = React.useState([]);
   const [isActiveChecked, setIsActiveChecked] = React.useState(false);
-  const [isInactiveChecked, setIsInactiveChecked] = React.useState(true)
-  const jsonIs = {
-    filter: {
-      "businessName": "",
-      "status": true,
-      "postCode": pincode,
-      "state": selectArray,
-      "page": 0
-    },
-    sort: {
-      "sortBy": "",
-      "sortOrder": "asc"
-    }
-  }
+  const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
+  const [itemLabel, setItemLabel] = useState("");
+
+  
+
+  const handleSortChange = (sortBy, sortOrder) => {
+    // Handling pagination
+    const newFilter = {
+      ...filterAndSort.filter,
+      page: pageIndex,
+    };
+
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+    };
+
+    console.log(sortBy, sortOrder);
+    setItemLabel(sortBy);
+
+    filterAndSort = {
+      ...filterAndSort,
+      sort: {
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      },
+    };
+
+    // processChange("filterAndSort");
+    console.log("val", filterAndSort);
+  };
 
   const addState = (item) => {
     console.log(item, "item");
     if (!selectArray.includes(item)) {
       setSelectedArray([...selectArray, item]);
-      saveInput('filterAndSort')
+      saveInput("filterAndSort");
     }
   };
 
@@ -58,42 +96,39 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
   };
 
   const filterClick = () => {
-
-    isFilter(jsonIs)
-  }
+    isFilter(filterAndSort);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log("values is>", name, value)
+    console.log("values is>", name, value);
     switch (name) {
-      case 'search':
-        setSearch(value)
+      case "search":
+        setSearch(value);
         break;
-      case 'pincode':
-        setPinCode(value)
+      case "pincode":
+        setPinCode(value);
         saveInput("filterAndSort");
       default:
         break;
     }
-
-  }
+  };
 
   const toggleCheckbox = (name, e) => {
     switch (name) {
-      case 'active':
-        setIsActiveChecked(true)
-        setIsInactiveChecked(false)
-        filterClick()
+      case "active":
+        setIsActiveChecked(true);
+        setIsInactiveChecked(false);
+        filterClick();
         break;
-      case 'inactive':
-        setIsActiveChecked(false)
-        setIsInactiveChecked(true)
-        filterClick()
+      case "inactive":
+        setIsActiveChecked(false);
+        setIsInactiveChecked(true);
+        filterClick();
       default:
         break;
     }
-
-  }
+  };
 
   function debounce(func, timeout = 1000) {
     let timer;
@@ -114,19 +149,19 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(jsonIs),
+          body: JSON.stringify(filterAndSort),
         }
       )
         .then((response) => response.json())
         .then((data) => {
-          totalPages(data.total)
+          totalPages(data.total);
           console.log("filter customer table", data.data);
           setProducts(data.data);
         })
         .catch((error) => console.log(error));
     } else {
       fetch(
-        `https://fobohwepapifbh.azurewebsites.net/api/Customer/SearchByName?search=${search}&page=1`,
+        `https://fobohwepapifbh.azurewebsites.net/api/Customer/SearchByName?search=${search}`,
         {
           method: "GET",
         }
@@ -134,35 +169,32 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
         .then((respose) => respose.json())
         .then((data) => {
           if (!data.status) {
-            totalPages(data.total)
-            console.log('search data on filter >>', data)
+            totalPages(data.total);
+            console.log("search data on filter >>", data);
             setProducts(data.data);
           } else {
             setProducts(prevProducts);
           }
         });
     }
-  }
-
+  };
   const handleInputChange1 = (e) => {
     const { name, value } = e.target;
     if (value?.length > 0) {
-      setPinCode(value)
+      setPinCode(value);
       saveInput("filterAndSort");
     } else {
-      setProducts(prevProducts)
+      setProducts(prevProducts);
     }
-  }
-  const toggleCategory=()=>{
-
-  }
+  };
+  const toggleCategory = () => {};
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
         <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center ">
           <div>
             <div className="relative 	">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-1 pointer-events-none">
                 <svg
                   className="w-4 h-4 text-gray-500 dark:text-gray-400"
                   aria-hidden="true"
@@ -180,15 +212,14 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
                 </svg>
               </div>
               <input
-                type="search"
+                type="text"
                 id="default-search"
                 className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
-                placeholder="Search Mockups, Logos..."
-                required=""
-                name="search"
+                placeholder="search customer"
+                name="text"
                 onKeyUp={saveInput}
                 onChange={handleInputChange}
-              // onChange={(e) => SetpinCode(e.target.value)}
+                // onChange={(e) => SetpinCode(e.target.value)
               />
             </div>
           </div>
@@ -213,7 +244,11 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
             </div>
-            <FilterCustomer />
+            <FilterCustomer
+              filterAndSort={filterAndSort}
+              handleSortChange={handleSortChange}
+              itemLabel={itemLabel}
+            />
           </div>
         </div>
         <div className="flex gap-8 relative  pt-4 flex-wrap">
@@ -230,7 +265,7 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
             {First && (
               <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
                 <ul className="dropdown-content 	 ">
-                {status.map((sts) => (
+                  {status.map((sts) => (
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
                         <input
