@@ -3,10 +3,9 @@ import EastIcon from "@mui/icons-material/East";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useFormik } from "formik";
 import Select from "react-select";
-import { DeliveryBillingSchema } from "../schemas"
+import { DeliveryBillingSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
-
 
 const initialValues = {
   DeliveryAddress: "",
@@ -15,7 +14,7 @@ const initialValues = {
   Postcode: "",
   Notes: "",
   DeliveryAddressState: "",
-  // billingaddress 
+  // billingaddress
   BillingAddress: "",
   BillingApartment: "",
   BillingSuburb: "",
@@ -25,8 +24,8 @@ const initialValues = {
 };
 
 const DeliveryEdit = () => {
-  const buyer = useSelector((state) => state.buyer)
-  console.log(buyer, "hhhh")
+  const buyer = useSelector((state) => state.buyer);
+  console.log(buyer, "hhhh");
   const [selectedOption, setSelectedOption] = useState(null);
 
   const options = [
@@ -34,35 +33,38 @@ const DeliveryEdit = () => {
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
-  const { values, errors, handleBlur, handleChange, handleSubmit, setValues, touched } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: DeliveryBillingSchema,
-      onSubmit: (values) => {
-        console.log(values)
-      },
-    });
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    setValues,
+    touched,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: DeliveryBillingSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
   useEffect(() => {
-    setValues(buyer)
-  }, [])
+    setValues(buyer);
+  }, []);
 
-
-
-const handleBillingState = (e, name) => {
-
-  if (name === 'BillingAddressState'){
-    setValues({
-      ...values,
-       BillingAddressState : e
-    })
-  } else {
-    setValues({
-      ...values,
-      DeliveryAddressState : e
-    })
-  }
-  }
-
+  const handleBillingState = (e, name) => {
+    if (name === "BillingAddressState") {
+      setValues({
+        ...values,
+        BillingAddressState: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        DeliveryAddressState: e,
+      });
+    }
+  };
 
   return (
     <>
@@ -175,7 +177,7 @@ const handleBillingState = (e, name) => {
                   )}
                 </div>
               </div>
-              <div className="flex flex-nowrap ap-8">
+              <div className="flex flex-nowrap gap-8">
                 <div className="w-full mb-8 relative">
                   <label
                     htmlFor="BusinessName"
@@ -220,7 +222,9 @@ const handleBillingState = (e, name) => {
                 /> */}
                   <Select
                     defaultValue={selectedOption}
-                    onChange={(e) => handleBillingState(e,'DeliveryAddressState' )}
+                    onChange={(e) =>
+                      handleBillingState(e, "DeliveryAddressState")
+                    }
                     name="DeliveryAddressState"
                     options={options}
                     style={{
@@ -445,7 +449,9 @@ const handleBillingState = (e, name) => {
 
                   <Select
                     defaultValue={selectedOption}
-                    onChange={(e) => handleBillingState(e, 'BillingAddressState')}
+                    onChange={(e) =>
+                      handleBillingState(e, "BillingAddressState")
+                    }
                     name="BillingAddressState"
                     value={values.BillingAddressState}
                     options={options}
@@ -466,7 +472,8 @@ const handleBillingState = (e, name) => {
               <button className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
                 Cancel
               </button>
-              <button className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+              <button
+                className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
                 onClick={handleSubmit}
               >
                 Save
