@@ -30,6 +30,7 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
       "sortOrder": "asc"
     }
   }
+
   const addState = (item) => {
     console.log(item, "item");
     if (!selectArray.includes(item)) {
@@ -37,16 +38,19 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
       saveInput('filterAndSort')
     }
   };
+
   const DropDownFirst = () => {
     setFirst(!First);
     setSecond(false);
     setThird(false);
   };
+
   const DropDownSecond = () => {
     setFirst(false);
     setSecond(!Second);
     setThird(false);
   };
+
   const DropDownThird = () => {
     setFirst(false);
     setSecond(false);
@@ -57,6 +61,7 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
 
     isFilter(jsonIs)
   }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log("values is>", name, value)
@@ -72,6 +77,7 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
     }
 
   }
+
   const toggleCheckbox = (name, e) => {
     switch (name) {
       case 'active':
@@ -88,6 +94,7 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
     }
 
   }
+
   function debounce(func, timeout = 1000) {
     let timer;
     return (...args) => {
@@ -97,6 +104,7 @@ function SearchCustomer({ products, setProducts, prevProducts,totalPages }) {
       }, timeout);
     };
   }
+
   const saveInput = (name) => {
     if (name === "filterAndSort") {
       fetch(
