@@ -287,12 +287,11 @@ export const DeliveryAddressSchema = Yup.object().shape({
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
-  Mobile: Yup.string()
-    .required("Mobile number is required")
-    .matches(
-      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-      "Mobile number must be a valid Australian mobile number"
-    ),
+  Mobile: Yup.string().required("Mobile number is required"),
+  // .matches(
+  //   /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+  //   "Mobile number must be a valid Australian mobile number"
+  // ),
   State: Yup.mixed().required("State is required"),
   BusinessName: Yup.string()
     .min(2, "Your business name should have atleast 2 letters")
@@ -312,11 +311,10 @@ export const DeliveryAddressSchema = Yup.object().shape({
   DeliveryInstruction: Yup.string()
     .required("Delivery Instruction/Notes is required")
     .max(50),
-  DeliveryContact: Yup.string()
-    .required("Mobile number is required")
-    .matches(
-      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-      "Mobile number must be a valid Australian mobile number"
-    ),
+  DeliveryContact: Yup.string().required("Mobile number is required"),
+  // .matches(
+  //   /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+  //   "Mobile number must be a valid Australian mobile number"
+  // ),
 });
 // ordering contact Schema
