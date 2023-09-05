@@ -106,7 +106,7 @@ const Cart = ({ open, onClose }) => {
                   </h4>
                 </div>
               </Link>
-              <Link to="/home/delivery">
+              <Link to="/home/check-out">
                 <div className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
                   <h4 className="text-base font-medium text-[#fff]">
                     Checkout
@@ -119,6 +119,6 @@ const Cart = ({ open, onClose }) => {
       </Dialog>
     </>
   );
-}; 
+};
 
 export default Cart;

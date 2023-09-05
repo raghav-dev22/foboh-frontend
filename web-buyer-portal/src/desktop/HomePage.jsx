@@ -26,23 +26,23 @@ import Payment from "../MyAccount/Payment";
 
 function HomePage() {
   const location = useLocation();
-  const pathSegments = location.pathname.split('/home/').filter(segment => segment.trim() !== '');
-const title =[
-  {
-    title: <a href="/home-page">home</a>,
-  },
-  {
-    title: <a href="">{pathSegments}</a>,
-  },
-]
+  const pathSegments = location.pathname
+    .split("/home/")
+    .filter((segment) => segment.trim() !== "");
+  const title = [
+    {
+      title: <a href="/home-page">home</a>,
+    },
+    {
+      title: <a href="">{pathSegments}</a>,
+    },
+  ];
 
   return (
     <>
       <Header />
       <div className="md:w-4/5	w-full mx-auto md:px-0 px-6 md:flex gap-3 py-8 hidden ">
-      <Breadcrumb
-    items={title}
-  />
+        <Breadcrumb items={title} />
       </div>
       <Routes>
         {/* <Route path="/home-page" element={<MainHomePage />} /> */}

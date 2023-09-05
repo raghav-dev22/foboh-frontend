@@ -1,22 +1,10 @@
-import React, { useState } from "react";
-// import Footer from "./Footer";
-// import EastIcon from "@mui/icons-material/East";
-// import Header from "./Header";
-// import BottomToTop from "./BottomToTop";
+import React from "react";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-// import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-// import FilterAltIcon from "@mui/icons-material/FilterAlt";
-// import { SliderComponent } from "@syncfusion/ej2-react-inputs";
-// import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-// import Select from "react-select";
-// import Slider from "@mui/material/Slider";
-// import makeAnimated from "react-select/animated";
-// import { colourOptions } from "../data";
-import { listdata } from "../data";
+// import { listdata } from "../data";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../slices/CartSlice";
-import { increment, decrement } from "../slices/counterSlice";
+// import { increment, decrement } from "../slices/counterSlice";
 import { setProductData } from "../slices/ProductSlice";
 
 const ProductDetails = () => {

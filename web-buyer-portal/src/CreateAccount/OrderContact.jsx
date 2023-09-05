@@ -2,42 +2,42 @@ import React, { useState } from "react";
 import Select from "react-select";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-
 function OrderContact({
   values,
   errors,
   handleBlur,
   handleChange,
   touched,
-  setValues
+  setValues,
 }) {
-
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleState = (e) => {
     console.log("state", e);
     setValues({
       ...values,
-      OrderContactState: e.value
-    })
-  }
+      OrderContactState: e.value,
+    });
+  };
 
   const handleCheckbox = (e) => {
-    const checked = e.target.checked
-    checked ? setValues({
-      ...values,
-      DeliveryContactFirstName: values.OrderingContactFirstName,
-      DeliveryContactLastName: values.OrderingContactLastName,
-      DeliveryContactEmail: values.OrderingContactEmail,
-      DeliveryContactMobile: values.OrderingContactMobile,
-    }) : setValues({
-      ...values,
-      DeliveryContactFirstName: "",
-      DeliveryContactLastName: "",
-      DeliveryContactEmail: "",
-      DeliveryContactMobile: "",
-    })
-  }
+    const checked = e.target.checked;
+    checked
+      ? setValues({
+          ...values,
+          DeliveryContactFirstName: values.OrderingContactFirstName,
+          DeliveryContactLastName: values.OrderingContactLastName,
+          DeliveryContactEmail: values.OrderingContactEmail,
+          DeliveryContactMobile: values.OrderingContactMobile,
+        })
+      : setValues({
+          ...values,
+          DeliveryContactFirstName: "",
+          DeliveryContactLastName: "",
+          DeliveryContactEmail: "",
+          DeliveryContactMobile: "",
+        });
+  };
 
   return (
     <>
@@ -69,19 +69,14 @@ function OrderContact({
               onChange={handleChange}
               onBlur={handleBlur}
               onKeyPress={(event) => {
-
                 const allowedCharacters = /^[A-Za-z]*$/;
 
                 if (!allowedCharacters.test(event.key)) {
-
                   event.preventDefault();
-
                 }
-
               }}
               style={{
-                border:
-                  errors.OrderingContactFirstName && "1px solid red",
+                border: errors.OrderingContactFirstName && "1px solid red",
               }}
             />
             {errors.OrderingContactFirstName && (
@@ -109,19 +104,14 @@ function OrderContact({
               onChange={handleChange}
               onBlur={handleBlur}
               onKeyPress={(event) => {
-
                 const allowedCharacters = /^[A-Za-z]*$/;
 
                 if (!allowedCharacters.test(event.key)) {
-
                   event.preventDefault();
-
                 }
-
               }}
               style={{
-                border:
-                  errors.OrderingContactLastName && "1px solid red",
+                border: errors.OrderingContactLastName && "1px solid red",
               }}
             />
             {errors.FirstName && (
@@ -157,7 +147,9 @@ function OrderContact({
             }}
           />
           {errors.OrderingContactEmail && (
-            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.OrderingContactEmail}</p>
+            <p className="mt-2 mb-2 text-red-500 text-xs">
+              {errors.OrderingContactEmail}
+            </p>
           )}
           {errors.OrderingContactEmail && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
@@ -190,7 +182,9 @@ function OrderContact({
             }}
           />
           {errors.OrderingContactMobile && (
-            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.OrderingContactMobile}</p>
+            <p className="mt-2 mb-2 text-red-500 text-xs">
+              {errors.OrderingContactMobile}
+            </p>
           )}
           {errors.OrderingContactMobile && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
@@ -249,19 +243,14 @@ function OrderContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 onKeyPress={(event) => {
-
                   const allowedCharacters = /^[A-Za-z]*$/;
 
                   if (!allowedCharacters.test(event.key)) {
-
                     event.preventDefault();
-
                   }
-
                 }}
                 style={{
-                  border:
-                    errors.DeliveryContactFirstName && "1px solid red",
+                  border: errors.DeliveryContactFirstName && "1px solid red",
                 }}
               />
               {errors.DeliveryContactFirstName && (
@@ -289,19 +278,14 @@ function OrderContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 onKeyPress={(event) => {
-
                   const allowedCharacters = /^[A-Za-z]*$/;
 
                   if (!allowedCharacters.test(event.key)) {
-
                     event.preventDefault();
-
                   }
-
                 }}
                 style={{
-                  border:
-                    errors.DeliveryContactLastName && "1px solid red",
+                  border: errors.DeliveryContactLastName && "1px solid red",
                 }}
               />
               {errors.DeliveryContactLastName && (
@@ -337,7 +321,9 @@ function OrderContact({
               }}
             />
             {errors.DeliveryContactEmail && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.DeliveryContactEmail}</p>
+              <p className="mt-2 mb-2 text-red-500 text-xs">
+                {errors.DeliveryContactEmail}
+              </p>
             )}
             {errors.DeliveryContactEmail && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
@@ -370,7 +356,9 @@ function OrderContact({
               }}
             />
             {errors.DeliveryContactMobile && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.DeliveryContactMobile}</p>
+              <p className="mt-2 mb-2 text-red-500 text-xs">
+                {errors.DeliveryContactMobile}
+              </p>
             )}
             {errors.DeliveryContactMobile && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
