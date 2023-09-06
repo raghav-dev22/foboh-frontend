@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
 
@@ -8,8 +7,8 @@ let filterAndSort = {
     businessName: "",
     status: true,
     postCode: "",
-    state: "",
-    page: 0,
+    state: [],
+    page: 1,
   },
   sort: {
     sortBy: "",
@@ -27,7 +26,7 @@ function SearchCustomer({
 }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
-    { label: "Active", value: "Active" },
+    { label: "Active", value: "active" },
     { label: "Inactive", value: "inactive" },
   ];
   const [First, setFirst] = useState(false);
@@ -39,8 +38,6 @@ function SearchCustomer({
   const [isActiveChecked, setIsActiveChecked] = React.useState(false);
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
   const [itemLabel, setItemLabel] = useState("");
-
-  
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -65,15 +62,47 @@ function SearchCustomer({
       },
     };
 
+    processChange("filterAndSort");
     // processChange("filterAndSort");
     console.log("val", filterAndSort);
   };
 
   const addState = (item) => {
     console.log(item, "item");
-    if (!selectArray.includes(item)) {
-      setSelectedArray([...selectArray, item]);
-      saveInput("filterAndSort");
+    if (!filterAndSort.filter.state.includes(item)) {
+      // Clone the filter object to avoid mutating the state directly
+      const updatedFilter = {
+        ...filterAndSort.filter,
+        state: [...filterAndSort.filter.state, item],
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: updatedFilter,
+      };
+
+      // Update the filterAndSort object with the new state
+
+      console.log("debou >>", filterAndSort);
+      // Save input here if needed
+      processChange("filterAndSort");
+    } else {
+      const updatedState = filterAndSort.filter.state.filter(
+        (state) => state !== item
+      );
+
+      // Clone the filter object and update the state array
+      const updatedFilter = {
+        ...filterAndSort.filter,
+        state: updatedState,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: updatedFilter,
+      };
+      console.log("debou >>", filterAndSort);
+      processChange("filterAndSort");
     }
   };
 
@@ -103,12 +132,16 @@ function SearchCustomer({
     const { name, value } = e.target;
     console.log("values is>", name, value);
     switch (name) {
-      case "search":
-        setSearch(value);
+      case "text":
+        filterAndSort.filter.businessName = value;
+        console.log("businessName", filterAndSort.filter.businessName);
+        processChange(name);
         break;
       case "pincode":
+        filterAndSort.filter.postCode = value;
         setPinCode(value);
-        saveInput("filterAndSort");
+        // saveInput("filterAndSort");
+        processChange("filterAndSort");
       default:
         break;
     }
@@ -140,7 +173,11 @@ function SearchCustomer({
     };
   }
 
+  const processChange = debounce((name) => saveInput(name));
+
   const saveInput = (name) => {
+    console.log("debounce val >>", filterAndSort);
+
     if (name === "filterAndSort") {
       fetch(
         "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter",
@@ -160,15 +197,16 @@ function SearchCustomer({
         })
         .catch((error) => console.log(error));
     } else {
+      let search = filterAndSort?.filter?.businessName;
       fetch(
-        `https://fobohwepapifbh.azurewebsites.net/api/Customer/SearchByName?search=${search}`,
+        `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/SearchByName?search=${search}`,
         {
           method: "GET",
         }
       )
         .then((respose) => respose.json())
         .then((data) => {
-          if (!data.status) {
+          if (search) {
             totalPages(data.total);
             console.log("search data on filter >>", data);
             setProducts(data.data);
@@ -187,7 +225,9 @@ function SearchCustomer({
       setProducts(prevProducts);
     }
   };
-  const toggleCategory = () => {};
+  const toggleCategory = (e,status) => {
+
+  };
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -316,14 +356,13 @@ function SearchCustomer({
                               onClick={() => {
                                 addState(item);
                               }}
-                              defaultChecked=""
-                              id="checked-checkbox"
+                              id={item}
                               type="checkbox"
                               defaultValue=""
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
-                              htmlFor="checked-checkbox"
+                              htmlFor={item}
                               className="ml-2 text-sm font-medium text-gray"
                             >
                               {item}
@@ -370,12 +409,13 @@ function SearchCustomer({
                 <input
                   type="search"
                   id="default-search"
+                  maxLength={4}
                   className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                   placeholder="4739"
                   name="pincode"
                   required=""
                   value={pincode}
-                  onChange={handleInputChange1}
+                  onChange={handleInputChange}
                 />
               </div>
             )}
