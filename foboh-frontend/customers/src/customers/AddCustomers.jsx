@@ -62,6 +62,8 @@ function AddCustomers() {
         setTotalPages(data.last_page);
         setPages(array);
       });
+      console.log(tableRecords, "data1")
+
   };
   const handleCustomerId = (item) => {
     navigate(`/dashboard/view-customer-details/`, { state: { data: item } });

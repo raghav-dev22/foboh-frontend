@@ -283,7 +283,7 @@ function CustomerContact({
                   {errors.deliveryLastName}
                 </p>
               )}
-              {errors.LastName  && (
+              {errors.deliveryLastName  && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>

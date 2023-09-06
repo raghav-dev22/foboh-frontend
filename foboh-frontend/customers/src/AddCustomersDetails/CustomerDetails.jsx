@@ -17,11 +17,12 @@ export const options = [
 const initialValues = {
 
   buyerId: "",
-  businessName: "",
+  businessName: "", 
   abn: "",
   liquorLicence: "",
   salesRepId: "",
   pricingProfileId: "",
+  defaultPaymentTerms: "",
   defaultPaymentMethodId: "",
   tags: "",
   organisationId: "",
@@ -94,16 +95,12 @@ function CustomerDetails() {
     initialValues: initialValues,
     validationSchema: validationSchemas[activeStep],
     onSubmit: (values) => {
-      // console.log("its working or not");
-      // console.log("All Vlaues>>", values);
+      console.log("All Vlaues>>", values);
     },
   });
-  const finalHandleSubmit = (event) => {
-    event.preventDefault();
-    console.log("final vales>>>", formik.values);
-    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create
-    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create
-    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create
+  const handleSubmit = () => {
+    console.log(">>>>>>>>>>>");
+    // e.preventDefault();
     fetch("https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create", {
       method: "POST",
       headers: {
@@ -114,11 +111,8 @@ function CustomerDetails() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer added>>", data);
-        // if (data.success) {
         window.alert("Customer added successfully!")
         navigate("/dashboard/customers/");
-        // } else {
-        // }
       })
       .catch((error) => console.log(error));
   };
@@ -136,11 +130,11 @@ function CustomerDetails() {
       console.log("error on submit button click>>", errors)
       if (activeStep !== 2 && Object.values(errors).length === 0) {
         setActiveStep((cur) => cur + 1);
-      } else if (activeStep === 2) {
+      } else if (activeStep === 2  && Object.values(errors).length === 0 && Object.values(formik.values).some(value => value ==! null || value ==! "") ) {
         console.log("Form submitted");
         formik.submitForm();
+        handleSubmit();
       }
-      console.log("res", errors);
     });
   };
   const handlePrev = () => {
@@ -148,12 +142,9 @@ function CustomerDetails() {
       setActiveStep((cur) => cur - 1);
       formik.setErrors({})
     }
-    else { }
-    // !isFirstStep && setActiveStep((cur) => cur - 1);
   };
-  const handleSubmit = () => {
+ 
 
-  }
   return (
     <>
       <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper">
@@ -183,7 +174,7 @@ function CustomerDetails() {
           }}
           isFirstStep={(value) => setIsFirstStep(value)}
         >
-          <Step onClick={() => setActiveStep(0)}>
+          <Step onClick={handleNext}>
             <h5 className="text-xs text-white font-normal flex justify-center items-center">
               1
             </h5>
@@ -201,7 +192,7 @@ function CustomerDetails() {
               </Typography>
             </div>
           </Step>
-          <Step onClick={() => setActiveStep(1)}>
+          <Step onClick={handleNext}>
             <h5 className="text-xs text-white font-normal flex justify-center items-center">
               2
             </h5>
@@ -218,7 +209,7 @@ function CustomerDetails() {
               </Typography>
             </div>
           </Step>
-          <Step onClick={() => setActiveStep(2)}>
+          <Step onClick={handleNext}>
             <h5 className="text-xs text-white font-normal flex justify-center items-center">
               3
             </h5>
@@ -283,7 +274,8 @@ function CustomerDetails() {
           {isLastStep ? (
             <Button
               className="py-3.5 px-7 rounded-md	bg-custom-skyBlue	"
-              onClick={finalHandleSubmit}
+              onClick={handleNext}
+              // onClick={{ finalHandleSubmit(); handleNext(); }}
             >
               Submit
             </Button>

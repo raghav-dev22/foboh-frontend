@@ -9,6 +9,7 @@ import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
 import Toast from "../Toast";
 const OrderDetails = ({ datas }) => {
+  console.log(datas, ">>id")
   const navigate = useNavigate();
   const [data, setCustomerDetails] = React.useState();
   const [activeStatus, setActiveStatus] = React.useState(1);
@@ -16,17 +17,19 @@ const OrderDetails = ({ datas }) => {
   const [openToast, setOpenToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastSeverity, setToastSeverity] = useState("success");
-
+  const [isUpdate, setIsUpDate] = useState(false)
   const [initialValues, setInitialValues] = useState({
-    id: "",
-    buyerId: "",
+    createdBy: "",
     businessName: "",
     abn: "",
     liquorLicence: "",
     salesRepId: "",
     pricingProfileId: "",
     defaultPaymentMethodId: "",
-    tags: "",
+    tags: [
+      ""
+    ],
+    organisationId: "",
     wetLiable: true,
     orderingFirstName: "",
     orderingLastName: "",
@@ -47,7 +50,8 @@ const OrderDetails = ({ datas }) => {
     billingSuburb: "",
     billingPostalCode: "",
     billingState: "",
-    isActive: false,
+    isActive: true
+
   });
   useEffect(() => {
     callCustomerDetails();
@@ -61,27 +65,43 @@ const OrderDetails = ({ datas }) => {
       .then((data) => {
         console.log("Customer data --->", data.orderingFirstName);
         setInitialValues({
+          ...initialValues,
+          createdBy: data.createdBy,
+          businessName: data.businessName,
+          abn: data.abn,
+          liquorLicence: data.liquorLicence,
+          salesRepId: data.salesRepId,
+          pricingProfileId: data.pricingProfileId,
+          defaultPaymentMethodId: data.defaultPaymentMethodId,
+          tags: [
+            data.tags
+          ],
+          organisationId: data.organisationId,
+          wetLiable: true,
           orderingFirstName: data.orderingFirstName,
           orderingLastName: data.orderingLastName,
           orderingMobile: data.orderingMobile,
           orderingEmail: data.orderingEmail,
+          deliveryFirstName: data.deliveryFirstName,
+          deliveryLastName: data.deliveryLastName,
+          deliveryMobile: data.deliveryMobile,
+          deliveryEmail: data.deliveryEmail,
           address: data.address,
           apartment: data.apartment,
           suburb: data.suburb,
-          billingState: data.billingState,
-          billingPostalCode: data.billingPostalCode,
-          billingSuburb: data.billingSuburb,
-          billingApartment: data.billingApartment,
+          postalCode: data.postalCode,
+          state: data.state,
           deliveryNotes: data.deliveryNotes,
           billingAddress: data.billingAddress,
-          state: data.state,
-          postalCode: data.postalCode,
-          deliveryEmail: data.deliveryEmail,
-          deliveryMobile: data.deliveryMobile,
-          deliveryLastName: data.deliveryLastName,
-          deliveryFirstName: data.deliveryFirstName,
+          billingApartment: data.billingApartment,
+          billingSuburb: data.billingSuburb,
+          billingPostalCode: data.billingPostalCode,
+          billingState: data.billingState,
+          isActive: true
+
         });
         setValues({
+          ...values,
           orderingFirstName: data.orderingFirstName,
           orderingLastName: data.orderingLastName,
           orderingMobile: data.orderingMobile,
@@ -101,12 +121,16 @@ const OrderDetails = ({ datas }) => {
           deliveryMobile: data.deliveryMobile,
           deliveryLastName: data.deliveryLastName,
           deliveryFirstName: data.deliveryFirstName,
+          businessName: data.businessName,
+          abn: data.abn,
+          liquorLicence: data.liquorLicence
         });
         setCustomerDetails(data);
       });
   };
 
   const onFinalSubmit = (event) => {
+    console.log(datas, "data")
     event.preventDefault();
     // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/6191384906
     fetch(
@@ -119,17 +143,10 @@ const OrderDetails = ({ datas }) => {
         body: JSON.stringify(values),
       }
     ).then((response) => {
-      console.log("updatedd");
+      console.log("updatedd", data);
       setShow(false);
       window.alert("Customer updated successful! ");
-      // setToastSeverity('success');
-      // setToastMessage('Customer updated successful!');
-      // setOpenToast(true)
     });
-    // .then((data) => {
-
-    // console.log("Customer update successfully --->", data);
-    // })
   };
   const {
     values,
@@ -143,8 +160,6 @@ const OrderDetails = ({ datas }) => {
     initialValues: initialValues,
     validationSchema: AddCustomerSchema,
     onSubmit: (values) => {
-      console.log("its working or not");
-      console.log("All Vlaues>>", values);
     },
   });
 
@@ -185,6 +200,10 @@ const OrderDetails = ({ datas }) => {
       });
     }
   };
+
+  const handleCancel = () => {
+    setIsUpDate(false)
+  }
   return (
     <>
       <Toast
@@ -221,11 +240,10 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${
-                        activeStatus == 1
+                      className={`${activeStatus == 1
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                      } text-base`}
+                        } text-base`}
                     >
                       Orders
                     </span>
@@ -256,11 +274,10 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${
-                        activeStatus == 2
+                      className={`${activeStatus == 2
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                      } text-base`}
+                        } text-base`}
                     >
                       Contacts
                     </span>
@@ -291,11 +308,10 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${
-                        activeStatus == 3
+                      className={`${activeStatus == 3
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                      } text-base`}
+                        } text-base`}
                     >
                       Addresses
                     </span>
@@ -326,11 +342,10 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${
-                        activeStatus == 4
+                      className={`${activeStatus == 4
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                      } text-base`}
+                        } text-base`}
                     >
                       Payments
                     </span>
@@ -339,21 +354,33 @@ const OrderDetails = ({ datas }) => {
               </li>
             </ul>
             {show ? (
-              <button
-                onClick={onFinalSubmit}
-                className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-              >
-                Save
-              </button>
+              <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+                <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+                  <div className="block">
+                    <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                      <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={onFinalSubmit}
+                        className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                      >
+                        Save
+                      </button>
+                    </nav>
+                  </div>
+                </div>
+              </div>
             ) : null}
 
             <div className="p-5">
               <div
-                className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${
-                  activeStatus == 1
+                className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${activeStatus == 1
                     ? "Active active-table"
                     : "hide-table hidden"
-                }`}
+                  }`}
               >
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className=" border-b">
@@ -402,11 +429,10 @@ const OrderDetails = ({ datas }) => {
                 </table>
               </div>
               <div
-                className={`${
-                  activeStatus == 2
+                className={`${activeStatus == 2
                     ? "Active active-table"
                     : "hide-table hidden"
-                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -760,11 +786,10 @@ const OrderDetails = ({ datas }) => {
                 </div>
               </div>
               <div
-                className={`${
-                  activeStatus == 3
+                className={`${activeStatus == 3
                     ? "Active active-table"
                     : "hide-table hidden"
-                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -1125,11 +1150,10 @@ const OrderDetails = ({ datas }) => {
               </div>
 
               <div
-                className={`${
-                  activeStatus == 4
+                className={`${activeStatus == 4
                     ? "Active active-table"
                     : " hide-table hidden"
-                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">

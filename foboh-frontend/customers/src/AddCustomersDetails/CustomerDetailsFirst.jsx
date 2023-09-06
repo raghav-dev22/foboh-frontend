@@ -29,7 +29,6 @@ function CustomerDetailsFirst({
     console.log("all values>>",values)
   };
 
-  console.log("all error and touch is>>", errors, touched);
   return (
     <form className="">
       <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -49,7 +48,7 @@ function CustomerDetailsFirst({
               id="grid-password"
               type="text"
               maxLength={50}
-              placeholder="devidjond45@gmail.com"
+              placeholder="Business Name"
               name="businessName"
               value={values.businessName}
               onChange={handleChange}
@@ -151,7 +150,18 @@ function CustomerDetailsFirst({
                 onChange={(e) => handleSelect(e, "salesRepId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
-              />
+                style={{
+                border:
+                  errors?.salesRepId &&
+                  "1px solid red",
+              }}
+            />
+
+            {errors?.salesRepId && (
+              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                {errors?.salesRepId}
+              </p>
+            )}
             </div>
           </div>
           <div className="  w-full relative md:w-1/2 px-3">
@@ -170,7 +180,18 @@ function CustomerDetailsFirst({
                 onChange={(e) => handleSelect(e, "pricingProfileId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
-              />
+                style={{
+                border:
+                  errors?.pricingProfileId &&
+                  "1px solid red",
+              }}
+            />
+
+            {errors?.pricingProfileId && (
+              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                {errors?.pricingProfileId}
+              </p>
+            )}
             </div>
           </div>
         </div>
@@ -190,7 +211,18 @@ function CustomerDetailsFirst({
                 onChange={(e) => handleSelect(e, "defaultPaymentTerms")}
                 className="basic-multi-select "
                 classNamePrefix="select"
-              />
+                style={{
+                border:
+                  errors?.defaultPaymentTerms &&
+                  "1px solid red",
+              }}
+            />
+
+            {errors?.defaultPaymentTerms && (
+              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                {errors?.defaultPaymentTerms}
+              </p>
+            )}
             </div>
           </div>
           <div className="  w-full relative md:w-1/2 px-3">
@@ -208,7 +240,18 @@ function CustomerDetailsFirst({
                 onChange={(e) => handleSelect(e, "defaultPaymentMethodId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
-              />
+                style={{
+                border:
+                  errors?.defaultPaymentMethodId &&
+                  "1px solid red",
+              }}
+            />
+
+            {errors?.defaultPaymentMethodId && (
+              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                {errors?.defaultPaymentMethodId}
+              </p>
+            )}
             </div>
           </div>
         </div>
@@ -237,7 +280,18 @@ function CustomerDetailsFirst({
                 // onChange={}
                 className="basic-multi-select "
                 classNamePrefix="select"
-              />
+                style={{
+                border:
+                  errors?.tags &&
+                  "1px solid red",
+              }}
+            />
+
+            {errors?.tags && (
+              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                {errors?.tags}
+              </p>
+            )}
             </div>
           </div>
           <div className=" w-full relative md:w-1/2 px-3">

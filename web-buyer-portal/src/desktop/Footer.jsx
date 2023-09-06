@@ -15,8 +15,7 @@ function Footer() {
           <h1 className="text-white text-sm font-[400] my-1">powered by </h1>
             <a href=""><i><img src="./assets/FOBOHicon.svg" alt="" className="text-center absolute right-[44%]" /></i></a>
           </div>
-
-
+          
         <div className="">
           <p className="font-[500] text-sm text-white mb-5">Contact us</p>
           <p className="font-normal text-sm text-[#BBB2F4] mb-5">
