@@ -151,7 +151,7 @@ function SearchCustomer({
 
     const updatedFilter = {
       ...filterAndSort.filter,
-      status: isChecked ? value : "",
+      status: isChecked ? value : false,
     };
 
     // Update the filterAndSort object with the new filter object
@@ -161,7 +161,7 @@ function SearchCustomer({
     };
 
     // Save input here if needed
-    saveInput("filterAndSort");
+    processChange("filterAndSort");
   };
 
   const toggleCheckbox = (name, e) => {
@@ -272,7 +272,7 @@ function SearchCustomer({
                 className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                 placeholder="search customer"
                 name="text"
-                onKeyUp={processChange("filterAndSort")}
+                onKeyUp={() => processChange("filterAndSort")}
                 onChange={handleInputChange}
                 // onChange={(e) => SetpinCode(e.target.value)
               />
@@ -437,7 +437,7 @@ function SearchCustomer({
                     name="pincode"
                     required=""
                     value={pincode}
-                    onKeyUp={processChange("filterAndSort")}
+                    onKeyUp={() => processChange("filterAndSort")}
                     onChange={handleInputChange}
                   />
                 </div>
