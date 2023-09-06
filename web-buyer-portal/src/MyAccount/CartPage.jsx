@@ -41,7 +41,6 @@ const CartPage = () => {
       console.log("hdgfj", total);
     });
     return total;
-
   };
 
   useEffect(() => {
@@ -54,19 +53,7 @@ const CartPage = () => {
     <>
       {/* <Header /> */}
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
-        {/* <div className="justify-start items-center gap-3 pt-8 md:flex hidden">
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Home
-          </h5>
-          <EastIcon />
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Products
-          </h5>
-          <EastIcon />
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Cart Page
-          </h5>
-        </div> */}
+        
         <div className="  mb-12 md:bg-white  bg-[#563FE3] md:p-0 p-4 relative">
           <h2 className="md:font-semibold font-medium md:text-2xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
             My Cart
@@ -198,7 +185,7 @@ const CartPage = () => {
                   <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
                 </div>
               </div>
-              <Link to="/home/check-out">
+              <Link to="/home/payment-page/check-out">
                 <button className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white">
                   {" "}
                   Checkout

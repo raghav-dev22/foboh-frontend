@@ -23,6 +23,9 @@ import { Breadcrumb } from "antd";
 import CheckOut from "../MyAccount/CheckOut";
 import Delivery from "../MyAccount/Delivery";
 import Payment from "../MyAccount/Payment";
+// import PaymentPage from "../PaymentPage/PaymentDetail";
+import PaymentDetail from "../PaymentPage/PaymentDetail";
+// import PaymentPage from "../PaymentPage/paymentPage";
 
 function HomePage() {
   const location = useLocation();
@@ -58,7 +61,9 @@ function HomePage() {
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/check-out" element={<CheckOut />} />
         <Route path="/delivery" element={<Delivery />} />
-        <Route path="/payment" element={<Payment />} />
+        {/* <Route path="/payment" element={<Payment />} /> */}
+        <Route path="/payment-page*" element={<PaymentDetail />} />
+        {/* <Route path="/payment-page" element={<PaymentPage />} /> */}
       </Routes>
 
       <Footer />

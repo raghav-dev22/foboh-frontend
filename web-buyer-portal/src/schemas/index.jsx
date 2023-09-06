@@ -257,7 +257,7 @@ export const BillingAddressSchema = Yup.object().shape({
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
-  BillingState: Yup.mixed().required("State is required"),
+  State: Yup.mixed().required("State is required"),
 });
 export const DeliveryAddressSchema = Yup.object().shape({
   FirstName: Yup.string()
