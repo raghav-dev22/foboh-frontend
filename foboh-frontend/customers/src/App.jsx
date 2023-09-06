@@ -13,7 +13,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/customers" element={<AddCustomers />} />
-        <Route path="/view-customer-details" element={<ViewCustomer />} />
+        <Route path="/view-customer-details/:id" element={<ViewCustomer />} />
         <Route path="/customer-app" element={<CustomerDetails />} />
         <Route path="/customer-bulk-edit" element={<CustomerBulkEdit />} />
       </Routes>

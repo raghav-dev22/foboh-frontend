@@ -10,7 +10,6 @@ function CustomerAddress({
   setValues
 }) {
 
-  
   console.log("contact address>>",errors,touched)
   const sameAddresses=(e)=>{
     console.log("e --->", e.target.checked);
@@ -56,7 +55,7 @@ function CustomerAddress({
                 placeholder="126 Juliett Street"
                 style={{
                   border:
-                    errors.address  && "1px solid red",
+                    errors.address &&  "1px solid red",
                 }}
               />
               {errors.address  && (
@@ -65,7 +64,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.address  && (
-                <ErrorOutlineIcon style={{alignSelf:'center',top:42}} className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
@@ -84,7 +83,19 @@ function CustomerAddress({
                 onChange={handleChange}
                 placeholder="Jones"
                 name="apartment"
+                style={{
+                  border:
+                    errors.apartment &&  "1px solid red",
+                }}
               />
+              {errors.apartment  && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.apartment}
+                </p>
+              )}
+              {errors.apartment  && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 items-start">
@@ -280,7 +291,19 @@ function CustomerAddress({
                 onChange={handleChange}
                 placeholder="Jones"
                 name="billingApartment"
+                style={{
+                  border:
+                    errors.billingApartment  && "1px solid red",
+                }}
               />
+              {errors.billingApartment && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.billingApartment}
+                </p>
+              )}
+              {errors.billingApartment  && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 items-start">
