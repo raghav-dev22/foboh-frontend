@@ -26,8 +26,8 @@ function SearchCustomer({
 }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
-    { label: "Active", value: "active" },
-    { label: "Inactive", value: "inactive" },
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
   ];
   const [First, setFirst] = useState(false);
   const [Second, setSecond] = useState(false);
@@ -38,6 +38,7 @@ function SearchCustomer({
   const [isActiveChecked, setIsActiveChecked] = React.useState(false);
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
   const [itemLabel, setItemLabel] = useState("");
+  const [isFilter, setIsFilter] = useState(false);
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -135,16 +136,32 @@ function SearchCustomer({
       case "text":
         filterAndSort.filter.businessName = value;
         console.log("businessName", filterAndSort.filter.businessName);
-        processChange(name);
         break;
       case "pincode":
         filterAndSort.filter.postCode = value;
         setPinCode(value);
-        // saveInput("filterAndSort");
-        processChange("filterAndSort");
+      // saveInput("filterAndSort");
       default:
         break;
     }
+  };
+
+  const toggleCategory = (e, value, category) => {
+    const isChecked = e.target.checked;
+
+    const updatedFilter = {
+      ...filterAndSort.filter,
+      status: isChecked ? value : "",
+    };
+
+    // Update the filterAndSort object with the new filter object
+    filterAndSort = {
+      ...filterAndSort,
+      filter: updatedFilter,
+    };
+
+    // Save input here if needed
+    saveInput("filterAndSort");
   };
 
   const toggleCheckbox = (name, e) => {
@@ -225,9 +242,7 @@ function SearchCustomer({
       setProducts(prevProducts);
     }
   };
-  const toggleCategory = (e,status) => {
 
-  };
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -257,7 +272,7 @@ function SearchCustomer({
                 className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
                 placeholder="search customer"
                 name="text"
-                onKeyUp={saveInput}
+                onKeyUp={processChange("filterAndSort")}
                 onChange={handleInputChange}
                 // onChange={(e) => SetpinCode(e.target.value)
               />
@@ -265,7 +280,10 @@ function SearchCustomer({
           </div>
           <div className="flex justify-center items-center gap-2">
             {/* <Filter/> */}
-            <div className="h-11	w-fit px-5 shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2">
+            <div
+              onClick={() => setIsFilter(!isFilter)}
+              className="h-11	w-fit px-5 shadow-md cursor-pointer	border  border-inherit rounded-md flex items-center justify-center gap-2"
+            >
               <div className="">
                 <svg
                   width={18}
@@ -291,89 +309,93 @@ function SearchCustomer({
             />
           </div>
         </div>
-        <div className="flex gap-8 relative  pt-4 flex-wrap">
-          <div className="relative">
-            <div
-              className="flex items-center gap-2 product-category-box cursor-pointer"
-              onClick={DropDownFirst}
-            >
-              <h5 className={`text-base font-medium	text-gray `}>Status</h5>
-              <div className={`arrow-${First}`}>
-                <img src="/assets/dropdownArrow.png" alt="" />
-              </div>
-            </div>
-            {First && (
-              <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
-                <ul className="dropdown-content 	 ">
-                  {status.map((sts) => (
-                    <li className="py-2.5	px-4	">
-                      <div className="flex items-center">
-                        <input
-                          id={sts.value}
-                          type="checkbox"
-                          value={sts.value}
-                          onClick={(e) =>
-                            toggleCategory(e, sts.value, "status")
-                          }
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label
-                          htmlFor={sts.value}
-                          className="ml-2 text-sm font-medium text-gray"
-                        >
-                          {sts.label}
-                        </label>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-          {/* <CustomerState /> */}
-          <div className="relative">
-            <div
-              className="flex items-center gap-2 product-category-box cursor-pointer"
-              onClick={DropDownSecond}
-            >
-              <h5 className="text-base font-medium	text-gray">State</h5>
-              <div className={`arrow-${Second}`}>
-                <img src="/assets/dropdownArrow.png" alt="" />
-              </div>
-            </div>
-            {Second && (
+        {isFilter && (
+          <div className="flex gap-8 relative  pt-4 flex-wrap">
+            <div className="relative">
               <div
-                className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	 overflow-y-scroll py-3	"
-                style={{ height: "175px" }}
+                className="flex items-center gap-2 product-category-box cursor-pointer"
+                onClick={DropDownFirst}
               >
-                <ul className="dropdown-content 	 ">
-                  {State.map((item, index) => {
-                    return (
-                      <>
-                        <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
-                            <input
-                              onClick={() => {
-                                addState(item);
-                              }}
-                              id={item}
-                              type="checkbox"
-                              defaultValue=""
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor={item}
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              {item}
-                            </label>
-                          </div>
-                        </li>
-                      </>
-                    );
-                  })}
+                <h5 className={`text-base font-medium	text-gray `}>Status</h5>
+                <div className={`arrow-${First}`}>
+                  <img src="/assets/dropdownArrow.png" alt="" />
+                </div>
+              </div>
+              {First && (
+                <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit py-3	">
+                  <ul className="dropdown-content 	 ">
+                    {status.map((sts) => (
+                      <li className="py-2.5	px-4	">
+                        <div className="flex items-center">
+                          <input
+                            id={sts.label}
+                            checked={
+                              filterAndSort?.filter?.status === sts.value
+                            }
+                            type="checkbox"
+                            value={sts.value}
+                            onClick={(e) =>
+                              toggleCategory(e, sts.value, "status")
+                            }
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor={sts.label}
+                            className="ml-2 text-sm font-medium text-gray"
+                          >
+                            {sts.label}
+                          </label>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+            {/* <CustomerState /> */}
+            <div className="relative">
+              <div
+                className="flex items-center gap-2 product-category-box cursor-pointer"
+                onClick={DropDownSecond}
+              >
+                <h5 className="text-base font-medium	text-gray">State</h5>
+                <div className={`arrow-${Second}`}>
+                  <img src="/assets/dropdownArrow.png" alt="" />
+                </div>
+              </div>
+              {Second && (
+                <div
+                  className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	 overflow-y-scroll py-3	"
+                  style={{ height: "175px" }}
+                >
+                  <ul className="dropdown-content 	 ">
+                    {State.map((item, index) => {
+                      return (
+                        <>
+                          <li className="py-2.5	px-4	">
+                            <div className="flex items-center">
+                              <input
+                                onClick={() => {
+                                  addState(item);
+                                }}
+                                id={item}
+                                type="checkbox"
+                                defaultValue=""
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <label
+                                htmlFor={item}
+                                className="ml-2 text-sm font-medium text-gray"
+                              >
+                                {item}
+                              </label>
+                            </div>
+                          </li>
+                        </>
+                      );
+                    })}
 
-                  {/* <li className="py-2.5	px-4	">
+                    {/* <li className="py-2.5	px-4	">
                     <div className="flex items-center">
                       <input
                         defaultChecked=""
@@ -390,39 +412,41 @@ function SearchCustomer({
                       </label>
                     </div>
                   </li> */}
-                </ul>
-              </div>
-            )}
-          </div>
-          <div className="relative">
-            <div
-              className="flex items-center gap-2 product-category-box cursor-pointer"
-              onClick={DropDownThird}
-            >
-              <h5 className="text-base font-medium	text-gray">Postcode</h5>
-              <div className={`arrow-${Third}`}>
-                <img src="/assets/dropdownArrow.png" alt="" />
-              </div>
+                  </ul>
+                </div>
+              )}
             </div>
-            {Third && (
-              <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit 	">
-                <input
-                  type="search"
-                  id="default-search"
-                  maxLength={4}
-                  className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
-                  placeholder="4739"
-                  name="pincode"
-                  required=""
-                  value={pincode}
-                  onChange={handleInputChange}
-                />
+            <div className="relative">
+              <div
+                className="flex items-center gap-2 product-category-box cursor-pointer"
+                onClick={DropDownThird}
+              >
+                <h5 className="text-base font-medium	text-gray">Postcode</h5>
+                <div className={`arrow-${Third}`}>
+                  <img src="/assets/dropdownArrow.png" alt="" />
+                </div>
               </div>
-            )}
+              {Third && (
+                <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit 	">
+                  <input
+                    type="search"
+                    id="default-search"
+                    maxLength={4}
+                    className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
+                    placeholder="4739"
+                    name="pincode"
+                    required=""
+                    value={pincode}
+                    onKeyUp={processChange("filterAndSort")}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              )}
+            </div>
+            {/* <CustomerPostCode /> */}
+            {/* <CustomerVisibility/> */}
           </div>
-          {/* <CustomerPostCode /> */}
-          {/* <CustomerVisibility/> */}
-        </div>
+        )}
       </div>
     </>
   );
