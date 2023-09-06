@@ -31,7 +31,7 @@ const Payment = () => {
     // localStorage.removeItem(keyToRemove);
     // const removeLocalStorageButton = localStorage.removeItem("myKey");
     // setValue(removeLocalStorageButton);
-    // console.log(value, "--values--");
+    console.log(value, "--values--");
   };
   const [save, setSave] = useState(false);
   const [value, setValue] = useState();
