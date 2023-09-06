@@ -14,14 +14,14 @@ select {
   padding: 12px 20px;
   align-items: center;
   flex-shrink: 0;
-  color: #a0aec0;
+  /* color: #a0aec0; */
   font-weight: 400;
   font-size: 16px;
   font-family: "Inter";
   line-height: 140%;
   width: 100%;
   outline: 0;
-  color: #000;
+  /* color: #000; */
   border-radius: 6px;
   border: 1px solid #e2e8f0;
   background: #fff;
