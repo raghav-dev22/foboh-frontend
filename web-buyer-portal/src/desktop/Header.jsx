@@ -32,6 +32,7 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
+    localStorage.clear()
     navigate("/");
   };
 
@@ -198,7 +199,7 @@ function Header() {
         >
           <Popover.Group className=" md:flex md:gap-x-12">
             <Popover className="relative"></Popover>
-            <Link to="/product-list">
+            <Link to="/home/product-list">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
                 Products
               </h6>

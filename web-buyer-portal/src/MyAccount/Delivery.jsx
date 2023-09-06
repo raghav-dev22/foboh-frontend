@@ -115,7 +115,7 @@ const Delivery = () => {
           >
             Continue to Payment
           </button>
-          <Link to="/home/check-out">
+          <Link to="/home/payment-page/check-out">
             <p className="text-[#637381] text-base font-semibold mt-4">
               Return to Details
             </p>
