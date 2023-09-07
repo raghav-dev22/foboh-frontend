@@ -13,7 +13,7 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-import Cart from "./Cart";
+import Cart from "../CartPage/Cart";
 import { useSelector } from "react-redux";
 import MobileSidebar from "./MobileSidebar";
 function Header() {

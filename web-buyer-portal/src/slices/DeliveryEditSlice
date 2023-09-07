@@ -1,0 +1,33 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  DeliveryAddress: "",
+  Apartment: "",
+  City: "",
+  Postcode: "",
+  Notes: "",
+  DeliveryAddressState: "",
+  Country: "",
+  BillingAddress: "",
+  BillingApartment: "",
+  BillingCity: "",
+  BillingPostcode: "",
+  BillingNotes: "",
+  BillingAddressState: "",
+};
+
+const deliveryEditSlice = createSlice({
+  name: "deliveryEdit",
+  initialState,
+  reducers: {
+    updateField: (state, action) => {
+      const { field, value } = action.payload;
+      state[field] = value;
+    },
+    resetBuyer: () => initialState,
+  },
+});
+
+export const { updateField, resetBuyer } = deliveryEditSlice.actions;
+
+export default deliveryEditSlice.reducer;
