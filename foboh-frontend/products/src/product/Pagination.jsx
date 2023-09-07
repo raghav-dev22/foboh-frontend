@@ -28,6 +28,7 @@ function PaginationNav1({
   pageCount,
   pageIndex,
   onPageChange,
+  canPrevPage
 }) {
   const renderPageLinks = useCallback(() => {
     if (pageCount === 0) return null;
@@ -101,8 +102,8 @@ function PaginationNav1Presentation({ totalPages, getProductList, pageIndex, set
   return (
     <PaginationNav1
       gotoPage={setPageIndex}
-      canPreviousPage={pageIndex > 0}
-      canNextPage={pageIndex < pageCount - 1}
+      canPreviousPage={pageIndex > 1}
+      canNextPage={pageIndex < pageCount}
       pageCount={pageCount}
       pageIndex={pageIndex}
       onPageChange={(newPageIndex) => {

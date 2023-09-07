@@ -214,7 +214,7 @@ function Range() {
         selectedProductsLength={selectedProducts.length}
         productId={selectedProducts[0]?.productId}
       />
-      <div className="   " style={{ height: "100%" }}>
+      <div className="" style={{ height: "100%" }}>
         <div className="box-3 px-6 ">
           <SearchProduct
             ref={childRef}
@@ -225,6 +225,7 @@ function Range() {
             setProducts={setProducts}
             products={products}
             prevProducts={prevProducts}
+            setTotalPages={setTotalPages}
           />
         </div>
         <div className="pt-6 px-6 relative">
@@ -304,9 +305,7 @@ function Range() {
                                   type="checkbox"
                                   name={product.title}
                                   checked={
-                                    selectedProducts.includes(product)
-                                      ? true
-                                      : false
+                                    selectedProducts.includes(product)  
                                   }
                                   onClick={(e) => handleCheckbox(e, product)}
                                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
@@ -406,7 +405,7 @@ function Range() {
                   : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
               }
             >
-              {!loading && isSearchResult &&  (
+              {!loading && isSearchResult && (
                 <PaginationNav1Presentation
                   totalPages={totalPages}
                   getProductList={getProductList}
@@ -427,50 +426,50 @@ function Range() {
               )}
             </CardFooter>
           </div>
-          {isBulkEdit ? (
-            <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
-              <button
-                onClick={handleBulkEdit}
-                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
-              >
-                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
-                  Bulk edit{" "}
-                </h6>
-              </button>
+        </div>
+        {isBulkEdit ? (
+          <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
+            <button
+              onClick={handleBulkEdit}
+              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+            >
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
+                Bulk edit{" "}
+              </h6>
+            </button>
 
-              <button
-                onClick={() => handleBulkVisibility("visible")}
-                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
-              >
-                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                  Set as Visible{" "}
-                </h6>
-              </button>
+            <button
+              onClick={() => handleBulkVisibility("visible")}
+              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+            >
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                Set as Visible{" "}
+              </h6>
+            </button>
 
-              <button
-                onClick={() => handleBulkVisibility("hidden")}
-                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
-              >
-                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                  Set as Hidden{" "}
-                </h6>
-              </button>
+            <button
+              onClick={() => handleBulkVisibility("hidden")}
+              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+            >
+              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                Set as Hidden{" "}
+              </h6>
+            </button>
 
-              <div
-                className="cursor-pointer"
-                onClick={() => {
-                  setIsBulkEdit(false);
-                }}
-              >
-                <div onClick={() => setSelectedProducts([])}>
-                  <CloseIcon />
-                </div>
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setIsBulkEdit(false);
+              }}
+            >
+              <div onClick={() => setSelectedProducts([])}>
+                <CloseIcon />
               </div>
             </div>
-          ) : (
-            ""
-          )}
-        </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

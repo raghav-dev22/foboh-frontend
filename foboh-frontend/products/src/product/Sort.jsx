@@ -35,6 +35,8 @@ const sort = [
   },
 ];
 
+
+
 function Filter({ handleSortChange, itemLabel, filterAndSort }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -91,7 +93,6 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
         <div
           className=" cursor-pointer h-11	w-fit px-5  shadow-md	border  border-inherit rounded-md flex items-center justify-center gap-2"
           onClick={() => setIsOpen(!isOpen)}
-          
         >
           <div className="">
             <svg
@@ -119,7 +120,7 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
                       <input
                         defaultChecked=""
                         id={item.label}
-                        type="radio"
+                        type="checkbox"
                         name="filterTextFirst"
                         checked={filterAndSort.sort.sortBy === item.key}
                         onChange={() =>
@@ -145,11 +146,11 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
                 <ul className="border-t border-inherit">
                   <li className="flex items-center py-2.5 px-4">
                     <input
-                      type="radio"
+                      type="checkbox"
                       value={"asc"}
-                      checked={filterAndSort.sort.sortOrder === "asc"}
+                      checked={filterAndSort?.sort?.sortOrder === "asc"}
                       onChange={() =>
-                        handleSortChange(filterAndSort.sort.sortBy, "asc")
+                        handleSortChange(filterAndSort?.sort?.sortBy, "asc")
                       }
                       className="w-4 h-4 text-lightGreen bg-gray-100 border-gray-300 rounded relative dark:bg-gray-700 dark:border-gray-600"
                       id="asc"
@@ -169,7 +170,7 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
                         <h5 className="text-base font-medium text-gray whitespace-nowrap">
                           {
                             sort.find(
-                              (item) => item.key === filterAndSort.sort.sortBy
+                              (item) => item.key === filterAndSort?.sort?.sortBy
                             ).value.asc
                           }
                         </h5>
@@ -178,7 +179,7 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
                   </li>
                   <li className="flex items-center py-2.5 px-4">
                     <input
-                      type="radio"
+                      type="checkbox"
                       className="w-4 h-4 text-lightGreen bg-gray-100 border-gray-300 rounded relative dark:bg-gray-700 dark:border-gray-600"
                       id="desc"
                       value={"desc"}

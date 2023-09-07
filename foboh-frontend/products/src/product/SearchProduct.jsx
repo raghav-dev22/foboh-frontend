@@ -44,7 +44,8 @@ const SearchProduct = forwardRef(
       products,
       prevProducts,
       setLoading,
-      setisSearchResult
+      setisSearchResult,
+      setTotalPages,
     },
     ref
   ) => {
@@ -124,6 +125,10 @@ const SearchProduct = forwardRef(
         });
     }, []);
 
+    const updatedFilterAndSort = () => {
+      return filterAndSort;
+    };
+
     const handleInputChange = (e) => {
       console.log("events >>", e);
       setInput(e.target.value);
@@ -153,9 +158,16 @@ const SearchProduct = forwardRef(
         )
           .then((response) => response.json())
           .then((data) => {
-            setProducts(data.data);
+            if (data?.data?.length > 0) {
+              setisSearchResult(true);
+              setProducts(data.data);
+              setTotalPages(data.last_page);
+            } else {
+              setisSearchResult(false);
+              setTotalPages(0);
+            }
             setLoading(false);
-            console.log("filter data table", data.data);
+            console.log("filter data table", data);
           })
           .catch((error) => console.log(error));
       } else {
@@ -168,11 +180,13 @@ const SearchProduct = forwardRef(
           .then((respose) => respose.json())
           .then((data) => {
             if (!data.status) {
-              if (data?.data?.length > 0){
-                setisSearchResult(true)
+              if (data?.data?.length > 0) {
+                setisSearchResult(true);
                 setProducts(data.data);
+                setTotalPages(data.last_page);
               } else {
-                setisSearchResult(false)
+                setisSearchResult(false);
+                setTotalPages(0);
               }
             } else {
               setProducts(prevProducts);
@@ -301,12 +315,14 @@ const SearchProduct = forwardRef(
       console.log(sortBy, sortOrder);
       setItemLabel(sortBy);
 
+      const newSort = {
+        sortOrder: sortOrder,
+        sortBy: sortBy,
+      };
+
       filterAndSort = {
         ...filterAndSort,
-        sort: {
-          sortBy: sortBy,
-          sortOrder: sortOrder,
-        },
+        sort: newSort,
       };
 
       processChange("filterAndSort");
@@ -403,6 +419,7 @@ const SearchProduct = forwardRef(
                 <h6 className="text-base	font-normal	text-gray">Filter</h6>
               </div>
               <Sort
+                updatedFilterAndSort={updatedFilterAndSort}
                 filterAndSort={filterAndSort}
                 itemLabel={itemLabel}
                 handleSortChange={handleSortChange}
@@ -418,7 +435,7 @@ const SearchProduct = forwardRef(
                   className="flex items-center gap-2 cursor-pointer product-category-box"
                   onClick={FirstDropdown}
                 >
-                  <h5 className="text-base font-medium	text-gray">
+                  <h5 className="text-base font-mediumtext-gray">
                     Sub-category
                   </h5>
                   <div className="">
@@ -443,6 +460,9 @@ const SearchProduct = forwardRef(
                                     "category"
                                   )
                                 }
+                                checked={filterAndSort.filter.category.includes(
+                                  category.categoryId
+                                          )}
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                               />
                               <label
@@ -470,6 +490,9 @@ const SearchProduct = forwardRef(
                                               "subcategory"
                                             )
                                           }
+                                          checked={filterAndSort.filter.subcategory.includes(
+                                            subcat.id
+                                          )}
                                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                                         />
                                         <label
@@ -492,7 +515,7 @@ const SearchProduct = forwardRef(
               </div>
               <div className="relative">
                 <div
-                  className="flex items-center gap-2 product-category-box"
+                  className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={SecondDropdown}
                 >
                   <h5 className="text-base font-medium	text-gray">Stock</h5>
@@ -517,6 +540,9 @@ const SearchProduct = forwardRef(
                                   "stock"
                                 )
                               }
+                              checked={filterAndSort.filter.stock.includes(
+                                ele.value
+                              )}
                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
@@ -534,7 +560,7 @@ const SearchProduct = forwardRef(
               </div>
               <div className="relative">
                 <div
-                  className="flex items-center gap-2 product-category-box"
+                  className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={ThirdDropdown}
                 >
                   <h5 className="text-base font-medium	text-gray">Status</h5>
@@ -552,6 +578,9 @@ const SearchProduct = forwardRef(
                               id={sts.value}
                               type="checkbox"
                               value={sts.value}
+                              checked={filterAndSort.filter.productStatus.includes(
+                                sts.value
+                              )}
                               onClick={(e) =>
                                 toggleCategoryAndSubcategory(
                                   e,
@@ -576,7 +605,7 @@ const SearchProduct = forwardRef(
               </div>
               <div className="relative">
                 <div
-                  className="flex items-center gap-2 product-category-box"
+                  className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={ForthDropdown}
                 >
                   <h5 className="text-base font-medium	text-gray">Visibility</h5>
