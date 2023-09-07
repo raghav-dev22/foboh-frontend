@@ -5,9 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./loginRegister/Signup";
 import { Provider } from "react-redux";
 import Verifyemail from "./loginRegister/Verifyemail";
-import HomePage from "./desktop/HomePage";
+import HomePage from "./HomePage/HomePage";
 import store from "./store/Store";
-import MainHomePage from "./desktop/MainHomePage";
+import MainHomePage from "./HomePage/MainHomePage";
 
 function App() {
   return (

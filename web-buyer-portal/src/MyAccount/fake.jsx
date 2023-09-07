@@ -4,7 +4,7 @@ import Header from "../main/Header";
 import Footer from "../main/Footer";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useSelector } from "react-redux";
-import { ProfileEditSchema } from "../schemas";
+import { DeliveryBillingSchema } from "../schemas";
 import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
@@ -13,20 +13,22 @@ import { useNavigate } from "react-router-dom";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const initialValues = {
-  BusinessName: "",
-  ABN: "",
-  LiquerLicence: "",
-  OrderingContactFirstName: "",
-  OrderingContactLastName: "",
-  OrderingContactEmail: "",
-  OrderingContactMobile: "",
-  DeliveryContactFirstName: "",
-  DeliveryContactLastName: "",
-  DeliveryContactEmail: "",
-  DeliveryContactMobile: "",
+  DeliveryAddress: "",
+  Apartment: "",
+  City: "",
+  Postcode: "",
+  Notes: "",
+  DeliveryAddressState: "",
+  Country: "",
+  BillingAddress: "",
+  BillingApartment: "",
+  BillingCity: "",
+  BillingPostcode: "",
+  BillingNotes: "",
+  BillingAddressState: "",
 };
 
-const ProfileEdit = () => {
+const DeliveryEdit = () => {
   const navigate = useNavigate();
   const buyer = useSelector((state) => state.buyer);
   const {
@@ -39,7 +41,7 @@ const ProfileEdit = () => {
     touched,
   } = useFormik({
     initialValues: initialValues,
-    validationSchema: ProfileEditSchema,
+    validationSchema: DeliveryBillingSchema,
     onSubmit: (values) => {
       console.log(values);
       localStorage.setItem("profileEdit", JSON.stringify(values));
@@ -69,34 +71,34 @@ const ProfileEdit = () => {
           <div className="md:p-0 px-6">
             <div className=" md:pt-12 pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
-                BusinessDetails
+                Delivery Address
               </h2>
             </div>
             <div className="">
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
-                  htmlFor="BusinessName"
+                  htmlFor="DeliveryAddress"
                   className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
-                  Business name *
+                  Address *
                 </label>
                 <input
                   onChange={handleChange}
                   type="text"
-                  id="BusinessName"
-                  name="BusinessName"
+                  id="DeliveryAddress"
+                  name="DeliveryAddress"
                   className="pl-custom-left"
-                  value={values.BusinessName}
+                  value={values.DeliveryAddress}
                   style={{
-                    border: errors.BusinessName && "1px solid red",
+                    border: errors.DeliveryAddress && "1px solid red",
                   }}
                 />
-                {errors.BusinessName && (
+                {errors.DeliveryAddress && (
                   <p className="mt-2 mb-2 text-red-500 text-xs">
-                    {errors.BusinessName}
+                    {errors.DeliveryAddress}
                   </p>
                 )}
-                {errors.BusinessName && (
+                {errors.DeliveryAddress && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                 )}
                 <div className=" absolute top-[50px] left-4">
@@ -537,4 +539,4 @@ const ProfileEdit = () => {
   );
 };
 
-export default ProfileEdit;
+export default DeliveryEdit;

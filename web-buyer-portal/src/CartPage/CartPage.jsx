@@ -3,13 +3,13 @@ import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Header from "../desktop/Header";
-import Footer from "../desktop/Footer";
+import Header from "../main/Header";
+import Footer from "../main/Footer";
 import Select from "react-select";
 import CheckIcon from "@mui/icons-material/Check";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch, useSelector } from "react-redux";
-import ProductDetails from "../desktop/ProductDetails";
+import ProductDetails from "../ProductPage/ProductDetails";
 import { remove, updateQuantity } from "../slices/CartSlice";
 import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
@@ -53,7 +53,6 @@ const CartPage = () => {
     <>
       {/* <Header /> */}
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
-        
         <div className="  mb-12 md:bg-white  bg-[#563FE3] md:p-0 p-4 relative">
           <h2 className="md:font-semibold font-medium md:text-2xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
             My Cart

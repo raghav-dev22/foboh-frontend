@@ -148,9 +148,9 @@ export const ProfileEditSchema = Yup.object().shape({
     .min(2, "Your last name should have atleast 2 letters")
     .required("last name is required")
     .max(50),
-  OrderingContactEmail: Yup.string()
-    .required("Email is required")
-    .email("Invalid is email"),
+  // OrderingContactEmail: Yup.string()
+  //   .required("Email is required")
+  //   .email("Invalid is email"),
   OrderingContactMobile: Yup.string()
     .required("Mobile number is required")
     .matches(
@@ -188,9 +188,9 @@ export const DeliveryBillingSchema = Yup.object().shape({
     .required("Apartment is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
-  Suburb: Yup.string()
-    .required("Suburb is required")
-    .min(2, "Suburb should have atleast 2 letters")
+  City: Yup.string()
+    .required("City is required")
+    .min(2, "City should have atleast 2 letters")
     .max(50),
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
@@ -200,6 +200,10 @@ export const DeliveryBillingSchema = Yup.object().shape({
     .min(2, "Notes should have atleast 2 letters")
     .max(50),
   DeliveryAddressState: Yup.mixed().required("State is required"),
+  Country: Yup.string()
+    .required("Country is required")
+    .min(2, "Country should have atleast 2 letters")
+    .max(50),
   // billing
   BillingAddress: Yup.string()
     .min(2, "Delivery address should have atleast 2 letters")
@@ -209,9 +213,13 @@ export const DeliveryBillingSchema = Yup.object().shape({
     .required("Apartment is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
-  BillingSuburb: Yup.string()
-    .required("Suburb is required")
-    .min(2, "Suburb should have atleast 2 letters")
+  // State: Yup.string()
+  //   .required("Apartment is required")
+  //   .min(2, "State should have atleast 2 letters")
+  //   .max(50),
+  BillingCity: Yup.string()
+    .required("City is required")
+    .min(2, "City should have atleast 2 letters")
     .max(50),
   BillingPostcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")

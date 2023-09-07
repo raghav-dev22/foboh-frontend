@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 // import Order from "./Order";
-import Order from "../MyAccount/Order";
+import Order from "../CartPage/Order";
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import CheckOut from "../MyAccount/CheckOut";
-import Delivery from "../MyAccount/Delivery";
-import Payment from "../MyAccount/Payment";
+import CheckOut from "./CheckOut";
+import Delivery from "./Delivery";
+import Payment from "./Payment";
 const PaymentDetail = () => {
   return (
     <>

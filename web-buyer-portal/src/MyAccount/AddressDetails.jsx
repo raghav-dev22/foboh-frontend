@@ -3,8 +3,8 @@ import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Header from "../desktop/Header";
-import Footer from "../desktop/Footer";
+import Header from "../main/Header";
+import Footer from "../main/Footer";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const AddressDetails = () => {

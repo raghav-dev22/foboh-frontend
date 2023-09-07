@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Order from "./Order";
+import Order from "../CartPage/Order";
 import Link from "react-router-dom";
 import { useFormik } from "formik";
 import { DeliveryAddressSchema } from "../schemas";

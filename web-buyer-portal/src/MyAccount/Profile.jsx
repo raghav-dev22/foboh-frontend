@@ -7,43 +7,20 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Header from "../desktop/Header";
-import Footer from "../desktop/Footer";
+import Header from "../main/Header";
+import Footer from "../main/Footer";
 import { useSelector } from "react-redux";
 
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Profile = () => {
-
-  const buyer = useSelector((state) => state.buyer)
+  const profileEdit = JSON.parse(localStorage.getItem("profileEdit"));
+  const deliveryEdit = JSON.parse(localStorage.getItem("deliveryEdit"));
+  // localStorage.getItem("deliveryEdit", JSON.stringify(values));
+  const buyer = useSelector((state) => state.buyer);
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto md:p-0 mb-8 ">
-        {/* <div className="justify-start items-center gap-3 py-8 md:flex hidden ">
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Home
-          </h5>
-          <EastIcon />
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Account
-          </h5>
-          <EastIcon />
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Profile
-          </h5>
-        </div> */}
-        {/* <div className=" md:my-12 mb-12 md:bg-white  bg-[#563FE3] md:p-0 p-4 relative">
-          <h2 className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
-            Profile
-          </h2>
-          <div className="md:hidden sm:block">
-            <ArrowBackIcon
-              className="absolute top-[32%] left-[20px] "
-              style={{ fill: "#fff" }}
-            />
-          </div>
-        </div> */}
-
         <Tabs className="md:flex justify-between">
           <TabList className="md:w-[25%]	w-full flex flex-col md:p-0 px-6">
             <Tab style={{ border: "none", margin: "5px 0" }}>
@@ -116,10 +93,14 @@ const Profile = () => {
                     </h5>{" "}
                   </div>{" "}
                   <div className="px-4 sm:py-5 pb-5">
-                    <h5 className="text-lg font-medium mb-3">Business Name</h5>
-                    <p className="text-sm font-normal">ABN: 90 000 000 000</p>
+                    <h5 className="text-lg font-medium mb-3">
+                      {profileEdit?.BusinessName}
+                    </h5>
                     <p className="text-sm font-normal">
-                      LIQ: LIQP770016926
+                      ABN: {profileEdit?.ABN}
+                    </p>
+                    <p className="text-sm font-normal">
+                      LIQ: {profileEdit?.LiquerLicence}
                     </p>{" "}
                   </div>{" "}
                 </div>{" "}
@@ -132,10 +113,13 @@ const Profile = () => {
                     </h5>{" "}
                   </div>{" "}
                   <div className="px-4 sm:py-5 pb-5">
-                    <h5 className="text-lg font-medium mb-3">Jessica Smith</h5>
+                    <h5 className="text-lg font-medium mb-3">
+                      {profileEdit?.OrderingContactFirstName}{" "}
+                      {profileEdit?.OrderingContactLastName}
+                    </h5>
                     <p className="text-sm font-normal">email@email.com.au</p>
                     <p className="text-sm font-normal">
-                      LIQ: LIQP770016926
+                      {profileEdit?.DeliveryContactMobile}
                     </p>{" "}
                   </div>{" "}
                 </div>{" "}
@@ -150,10 +134,13 @@ const Profile = () => {
                   <div className="px-4 sm:py-5 pb-5">
                     {" "}
                     <h5 className="text-lg font-medium mb-3">
-                      First Name Last Name
+                      {profileEdit?.DeliveryContactFirstName}{" "}
+                      {profileEdit?.DeliveryContactLastName}
                     </h5>
                     <p className="text-sm font-normal">email@email.com.cu</p>
-                    <p className="text-sm font-normal">0400 000 000</p>{" "}
+                    <p className="text-sm font-normal">
+                      {profileEdit?.DeliveryContactMobile}
+                    </p>{" "}
                   </div>{" "}
                 </div>{" "}
               </div>
@@ -164,12 +151,6 @@ const Profile = () => {
                   <h2 className=" font-semibold  text-2xl	text-[#563FE3]  text-left ">
                     Address
                   </h2>
-                  {/* <div className="md:hidden sm:block">
-                    <ArrowBackIcon
-                      className="absolute top-[32%] left-[20px] "
-                      style={{ fill: "#fff" }}
-                    />
-                  </div> */}
                 </div>
                 <Link to="/home/delivery-edit" className="">
                   <div className="">
@@ -192,10 +173,14 @@ const Profile = () => {
                   <div className="px-4 sm:py-5 pb-5">
                     <div className="">
                       <h5 className="text-lg font-medium mb-2">
-                        456 King Street
+                        {deliveryEdit?.DeliveryAddress}
                       </h5>
-                      <p className="text-sm font-normal">Newton, NSW 2304</p>
-                      <p className="text-sm font-normal">Australia</p>
+                      <p className="text-sm font-normal">
+                        {deliveryEdit?.Apartment}
+                      </p>
+                      <p className="text-sm font-normal">
+                        {deliveryEdit?.DeliveryAddressState}
+                      </p>
                     </div>
                     <div className=" mt-5">
                       <h5 className="text-lg font-medium mb-2">Notes</h5>
@@ -237,7 +222,7 @@ const Profile = () => {
                         </svg>
 
                         <p className="text-sm font-normal">
-                          Add delivery instruction here
+                          {deliveryEdit?.Notes}
                         </p>
                       </div>
                     </div>
@@ -250,6 +235,7 @@ const Profile = () => {
                     </h5>
                   </div>
                   <div className="px-4 py-5">
+
                     <h5 className="text-lg font-medium mb-2">
                       No billing address found
                     </h5>

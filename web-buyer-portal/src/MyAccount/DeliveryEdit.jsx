@@ -6,28 +6,31 @@ import Select from "react-select";
 import { DeliveryBillingSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
+import { json } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   DeliveryAddress: "",
   Apartment: "",
-  Suburb: "",
+  City: "",
   Postcode: "",
   Notes: "",
   DeliveryAddressState: "",
-  // billingaddress
+  Country: "",
   BillingAddress: "",
   BillingApartment: "",
-  BillingSuburb: "",
+  BillingCity: "",
   BillingPostcode: "",
   BillingNotes: "",
   BillingAddressState: "",
 };
 
 const DeliveryEdit = () => {
+  const navigate = useNavigate();
   const buyer = useSelector((state) => state.buyer);
-  console.log(buyer, "hhhh");
+  // console.log(buyer, "hhhh");
   const [selectedOption, setSelectedOption] = useState(null);
-
+  const [cart, setCart] = useState();
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
@@ -46,11 +49,20 @@ const DeliveryEdit = () => {
     validationSchema: DeliveryBillingSchema,
     onSubmit: (values) => {
       console.log(values);
+      localStorage.setItem("deliveryEdit", JSON.stringify(cart));
+      navigate("/home/profile");
+      setCart(values);
+      console.log(cart, "flag>>");
     },
   });
   useEffect(() => {
     setValues(buyer);
   }, []);
+  console.log("error>>", values);
+
+  const handleSubmitBtn = (e) => {
+    navigate("/home/profile");
+  };
 
   const handleBillingState = (e, name) => {
     if (name === "BillingAddressState") {
@@ -66,6 +78,11 @@ const DeliveryEdit = () => {
     }
   };
 
+  // const handleData = () => {
+  //   // console.log(values, "kkk");
+  //   navigate("/home/profile");
+  //   localStorage.setItem("deliveryEdit", JSON.stringify(values));
+  // };
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto  ">
@@ -88,10 +105,10 @@ const DeliveryEdit = () => {
                 Delivery Address
               </h2>
             </div>
-            <form className="" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="">
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
-                  htmlFor="LiquerLicence"
+                  htmlFor="DeliveryAddress"
                   className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Address
@@ -99,7 +116,7 @@ const DeliveryEdit = () => {
 
                 <input
                   type="text"
-                  id="LiquerLicence"
+                  id="DeliveryAddress"
                   name="DeliveryAddress"
                   className="pl-custom-left"
                   value={values.DeliveryAddress}
@@ -121,7 +138,7 @@ const DeliveryEdit = () => {
               <div className="flex flex-nowrap  gap-8">
                 <div className="w-full mb-8 relative">
                   <label
-                    htmlFor="BusinessName"
+                    htmlFor="Apartment"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Appartment, Floor etc.
@@ -146,41 +163,40 @@ const DeliveryEdit = () => {
                     <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                   )}
                 </div>
-
-                <div className="w-full mb-8 relative">
-                  <label
-                    htmlFor="ABN"
-                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
-                  >
-                    Suburb
-                  </label>
-
-                  <input
-                    type="text"
-                    id="Suburb"
-                    className="pl-custom-left"
-                    name="Suburb"
-                    value={values.Suburb}
-                    onChange={handleChange}
-                    autoComplete="off"
-                    style={{
-                      border: errors.Suburb && "1px solid red",
-                    }}
-                  />
-                  {errors.Suburb && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs">
-                      {errors.Suburb}
-                    </p>
-                  )}
-                  {errors.Suburb && (
-                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                  )}
-                </div>
               </div>
               <div className="flex flex-nowrap gap-8">
                 <div className="w-full mb-8 relative">
                   <label
-                    htmlFor="BusinessName"
+                    htmlFor="City"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
+                  >
+                    City
+                  </label>
+
+                  <input
+                    type="text"
+                    id="City"
+                    className="pl-custom-left"
+                    name="City"
+                    value={values.City}
+                    onChange={handleChange}
+                    autoComplete="off"
+                    style={{
+                      border: errors.City && "1px solid red",
+                    }}
+                  />
+                  {errors.City && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.City}
+                    </p>
+                  )}
+                  {errors.City && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
+                </div>
+                <div className="w-full mb-8 relative">
+                  <label
+                    htmlFor="Postcode"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     Postcode
@@ -205,28 +221,25 @@ const DeliveryEdit = () => {
                     <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                   )}
                 </div>
+              </div>
 
-                <div className="w-full mb-8">
+              <div className="flex flex-nowrap gap-8">
+                <div className="w-full mb-8 relative">
                   <label
-                    htmlFor="ABN"
+                    htmlFor="DeliveryAddressState"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
                     State
                   </label>
 
-                  {/* <input
-                  type="text"
-                  id="ABN"
-                  className="pl-custom-left"
-                  autoComplete="off"
-                /> */}
-                  <Select
-                    defaultValue={selectedOption}
-                    onChange={(e) =>
-                      handleBillingState(e, "DeliveryAddressState")
-                    }
+                  <input
+                    type="text"
+                    id="DeliveryAddressState"
+                    className="pl-custom-left"
                     name="DeliveryAddressState"
-                    options={options}
+                    value={values.DeliveryAddressState}
+                    onChange={handleChange}
+                    autoComplete="off"
                     style={{
                       border: errors.DeliveryAddressState && "1px solid red",
                     }}
@@ -236,12 +249,41 @@ const DeliveryEdit = () => {
                       {errors.DeliveryAddressState}
                     </p>
                   )}
+                  {errors.DeliveryAddressState && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
+                </div>
+                <div className="w-full mb-8 relative">
+                  <label
+                    htmlFor="Country"
+                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
+                  >
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    id="Country"
+                    value={values.Country}
+                    onChange={handleChange}
+                    name="Country"
+                    className="pl-custom-left"
+                    style={{
+                      border: errors.Country && "1px solid red",
+                    }}
+                  />
+                  {errors.Country && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs">
+                      {errors.Country}
+                    </p>
+                  )}
+                  {errors.Country && (
+                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                  )}
                 </div>
               </div>
-
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
-                  htmlFor="LiquerLicence"
+                  htmlFor="Notes"
                   className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
                   Notes
@@ -306,179 +348,193 @@ const DeliveryEdit = () => {
                   </svg>
                 </div>
               </div>
-            </form>
-          </div>
 
-          <div className="md:p-0 px-6">
-            <div className="  pb-8">
-              <h2 className="font-bold text-xl	 text-[#563FE3]">
-                Billing Address
-              </h2>
-            </div>
-
-            <div className="">
-              <div className={`relative mb-8 `} data-te-input-wrapper-init>
-                <label className="md:w-2/3 flex items-center ">
-                  <input className="mr-2 leading-tight" type="checkbox" />
-                  <span className="text-sm font-normal text-[#2B4447]">
-                    Billing same as delivery address
-                  </span>
-                </label>
-              </div>
-              <div className={`relative mb-8 `} data-te-input-wrapper-init>
-                <label
-                  htmlFor="LiquerLicence"
-                  className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
-                >
-                  Address
-                </label>
-
-                <input
-                  type="text"
-                  id="LiquerLicence"
-                  name="BillingAddress"
-                  className="pl-custom-left"
-                  onChange={handleChange}
-                  autoComplete="off"
-                  style={{
-                    border: errors.BillingAddress && "1px solid red",
-                  }}
-                />
-                {errors.BillingAddress && (
-                  <p className="mt-2 mb-2 text-red-500 text-xs">
-                    {errors.BillingAddress}
-                  </p>
-                )}
-                {errors.BillingAddress && (
-                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                )}
-              </div>
-              <div className="flex flex-nowrap   gap-8">
-                <div className="w-full mb-8 relative">
-                  <label
-                    htmlFor="BusinessName"
-                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
-                  >
-                    Appartment, Floor etc.
-                  </label>
-                  <input
-                    type="text"
-                    id="BusinessName"
-                    name="BillingApartment"
-                    onChange={handleChange}
-                    className="pl-custom-left"
-                    style={{
-                      border: errors.BillingApartment && "1px solid red",
-                    }}
-                  />
-                  {errors.BillingApartment && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs">
-                      {errors.BillingApartment}
-                    </p>
-                  )}
-                  {errors.BillingApartment && (
-                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                  )}
+              <div className="">
+                <div className="  pb-8">
+                  <h2 className="font-bold text-xl	 text-[#563FE3]">
+                    Billing Address
+                  </h2>
                 </div>
 
-                <div className="w-full mb-8 relative">
+                <div className={`relative mb-8 `} data-te-input-wrapper-init>
+                  <label className="md:w-2/3 flex items-center ">
+                    <input className="mr-2 leading-tight" type="checkbox" />
+                    <span className="text-sm font-normal text-[#2B4447]">
+                      Billing same as delivery address
+                    </span>
+                  </label>
+                </div>
+                <div className={`relative mb-8 `} data-te-input-wrapper-init>
                   <label
-                    htmlFor="ABN"
+                    htmlFor="BillingAddress"
                     className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                   >
-                    Suburb
+                    Address
                   </label>
 
                   <input
                     type="text"
-                    id="ABN"
-                    name="BillingSuburb"
+                    id="BillingAddress"
+                    name="BillingAddress"
                     className="pl-custom-left"
                     onChange={handleChange}
                     autoComplete="off"
                     style={{
-                      border: errors.BillingSuburb && "1px solid red",
+                      border: errors.BillingAddress && "1px solid red",
                     }}
                   />
-                  {errors.BillingSuburb && (
+                  {errors.BillingAddress && (
                     <p className="mt-2 mb-2 text-red-500 text-xs">
-                      {errors.BillingSuburb}
+                      {errors.BillingAddress}
                     </p>
                   )}
-                  {errors.BillingSuburb && (
+                  {errors.BillingAddress && (
                     <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                   )}
                 </div>
-              </div>
-              <div className="flex flex-nowrap gap-8">
-                <div className="w-full mb-8 relative">
-                  <label
-                    htmlFor="BusinessName"
-                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
-                  >
-                    Postcode
-                  </label>
-                  <input
-                    type="text"
-                    id="BusinessName"
-                    name="BillingPostcode"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className="pl-custom-left"
-                    style={{
-                      border: errors.BillingPostcode && "1px solid red",
-                    }}
-                  />
-                  {errors.BillingPostcode && touched.BillingPostcode && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs">
-                      {errors.BillingPostcode}
-                    </p>
-                  )}
-                  {errors.BillingPostcode && (
-                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                  )}
-                </div>
+                <div className="flex flex-nowrap   gap-8">
+                  <div className="w-full mb-8 relative">
+                    <label
+                      htmlFor="BusinessName"
+                      className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
+                    >
+                      Appartment, Floor etc.
+                    </label>
+                    <input
+                      type="text"
+                      id="BusinessName"
+                      name="BillingApartment"
+                      onChange={handleChange}
+                      className="pl-custom-left"
+                      style={{
+                        border: errors.BillingApartment && "1px solid red",
+                      }}
+                    />
+                    {errors.BillingApartment && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs">
+                        {errors.BillingApartment}
+                      </p>
+                    )}
+                    {errors.BillingApartment && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                    )}
+                  </div>
 
-                <div className="w-full mb-8 relative">
-                  <label
-                    htmlFor="ABN"
-                    className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
-                  >
-                    State{" "}
-                  </label>
+                  <div className="w-full mb-8 relative">
+                    <label
+                      htmlFor="BillingCity"
+                      className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
+                    >
+                      City
+                    </label>
 
-                  <Select
-                    defaultValue={selectedOption}
-                    onChange={(e) =>
-                      handleBillingState(e, "BillingAddressState")
-                    }
-                    name="BillingAddressState"
-                    value={values.BillingAddressState}
-                    options={options}
-                    className=""
-                    style={{
-                      border: errors.BillingAddressState && "1px solid red",
-                    }}
-                  />
-                  {errors.BillingAddressState && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs">
-                      {errors.BillingAddressState}
-                    </p>
-                  )}
+                    <input
+                      type="text"
+                      id="BillingCity"
+                      name="BillingCity"
+                      className="pl-custom-left"
+                      onChange={handleChange}
+                      autoComplete="off"
+                      style={{
+                        border: errors.BillingCity && "1px solid red",
+                      }}
+                    />
+                    {errors.BillingCity && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs">
+                        {errors.BillingCity}
+                      </p>
+                    )}
+                    {errors.BillingCity && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-nowrap gap-8">
+                  <div className="w-full mb-8 relative">
+                    <label
+                      htmlFor="BillingPostcode"
+                      className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
+                    >
+                      Postcode
+                    </label>
+                    <input
+                      type="text"
+                      id="BillingPostcode"
+                      name="BillingPostcode"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className="pl-custom-left"
+                      style={{
+                        border: errors.BillingPostcode && "1px solid red",
+                      }}
+                    />
+                    {errors.BillingPostcode && touched.BillingPostcode && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs">
+                        {errors.BillingPostcode}
+                      </p>
+                    )}
+                    {errors.BillingPostcode && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                    )}
+                  </div>
+
+                  <div className="w-full mb-8 relative">
+                    <label
+                      htmlFor="BillingAddressState"
+                      className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
+                    >
+                      State{" "}
+                    </label>
+                    {/* <input
+                        type="text"
+                        id="BusinessName"
+                        name="BillingAddressState"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="pl-custom-left"
+                        style={{
+                          border: errors.BillingAddressState && "1px solid red",
+                        }}
+                      /> */}
+                    <input
+                      // defaultValue={selectedOption}
+                      type="text"
+                      id="BillingAddressState"
+                      // onChange={(e) =>
+                      //   handleBillingState(e, "BillingAddressState")
+                      // }
+                      onChange={handleChange}
+                      name="BillingAddressState"
+                      value={values.BillingAddressState}
+                      // options={options}
+                      className=""
+                      style={{
+                        border: errors.BillingAddressState && "1px solid red",
+                      }}
+                    />
+                    {errors.BillingAddressState && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs">
+                        {errors.BillingAddressState}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex gap-8 pt-5 pb-16">
-              <button className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
-                Cancel
-              </button>
-              <button
-                className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
-                onClick={handleSubmit}
-              >
-                Save
-              </button>
-            </div>
+
+              <div className="flex gap-8 pt-5 pb-16">
+                <button className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
+                  Cancel
+                </button>
+                <button
+                  // type="submit"
+                  onClick={handleSubmitBtn}
+                  type="submit"
+                  className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

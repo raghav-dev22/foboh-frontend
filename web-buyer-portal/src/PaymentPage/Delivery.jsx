@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Order from "./Order";
+import Order from "../CartPage/Order";
 import { Link, useNavigate } from "react-router-dom";
 const Delivery = () => {
   const [isDisabled, setIsDisabled] = useState(true);
