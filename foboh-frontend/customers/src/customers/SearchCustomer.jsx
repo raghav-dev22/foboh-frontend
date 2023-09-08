@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
-
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 let filterAndSort = {
   filter: {
     businessName: "",
@@ -23,6 +24,7 @@ function SearchCustomer({
   totalPages,
   pageIndex,
   setPageIndex,
+  setisSearchResult
 }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
@@ -33,12 +35,13 @@ function SearchCustomer({
   const [Second, setSecond] = useState(false);
   const [Third, setThird] = useState(false);
   const [pincode, setPinCode] = React.useState("");
-  const [search, setSearch] = React.useState();
+  const [search, setSearch] = React.useState(0);
   const [selectArray, setSelectedArray] = React.useState([]);
   const [isActiveChecked, setIsActiveChecked] = React.useState(false);
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
   const [itemLabel, setItemLabel] = useState("");
   const [isFilter, setIsFilter] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -111,6 +114,7 @@ function SearchCustomer({
     setFirst(!First);
     setSecond(false);
     setThird(false);
+   
   };
 
   const DropDownSecond = () => {
@@ -148,7 +152,7 @@ function SearchCustomer({
 
   const toggleCategory = (e, value, category) => {
     const isChecked = e.target.checked;
-
+    
     const updatedFilter = {
       ...filterAndSort.filter,
       status: isChecked ? value : false,
@@ -158,8 +162,8 @@ function SearchCustomer({
     filterAndSort = {
       ...filterAndSort,
       filter: updatedFilter,
+      
     };
-
     // Save input here if needed
     processChange("filterAndSort");
   };
@@ -208,9 +212,16 @@ function SearchCustomer({
       )
         .then((response) => response.json())
         .then((data) => {
-          totalPages(data.total);
-          console.log("filter customer table", data.data);
-          setProducts(data.data);
+          if(data?.data?.length > 0){
+            totalPages(data.total);
+            console.log("filter customer table", data.data);
+            setProducts(data.data);
+            setSearch(data.data.length)
+            setisSearchResult(true);
+          }else {
+            setisSearchResult(false);
+            totalPages(0);
+          }
         })
         .catch((error) => console.log(error));
     } else {
@@ -225,9 +236,11 @@ function SearchCustomer({
         .then((data) => {
           if (search) {
             totalPages(data.total);
+            setisSearchResult(true);
             console.log("search data on filter >>", data);
             setProducts(data.data);
           } else {
+            setisSearchResult(false);
             setProducts(prevProducts);
           }
         });
@@ -243,8 +256,34 @@ function SearchCustomer({
     }
   };
 
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsFilter(false);
+      }
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === "Escape") {
+        setIsFilter(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, []);
+
   return (
     <>
+     {/* ref={dropdownRef} */}
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
         <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center ">
           <div>
@@ -283,22 +322,15 @@ function SearchCustomer({
             <div
               onClick={() => setIsFilter(!isFilter)}
               className="h-11	w-fit px-5 shadow-md cursor-pointer	border  border-inherit rounded-md flex items-center justify-center gap-2"
+              // ref={dropdownRef}
             >
               <div className="">
-                <svg
-                  width={18}
-                  height={18}
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M1.13131 2.44682C1.2458 2.2053 1.4931 2.05078 1.76513 2.05078H15.7395C16.0115 2.05078 16.2588 2.2053 16.3733 2.44682C16.4878 2.68833 16.4487 2.97292 16.273 3.17621L10.8485 9.45426V15.044C10.8485 15.281 10.7231 15.5011 10.5171 15.6257C10.3111 15.7503 10.0539 15.7616 9.83727 15.6556L7.0424 14.2879C6.80569 14.1721 6.65616 13.9353 6.65616 13.6763V9.45426L1.23161 3.17621C1.05596 2.97292 1.01682 2.68833 1.13131 2.44682ZM3.27108 3.41848L7.8884 8.76229C7.99507 8.88574 8.0536 9.04219 8.0536 9.20387V13.2536L9.45103 13.9375V9.20387C9.45103 9.04219 9.50956 8.88574 9.61623 8.76229L14.2335 3.41848H3.27108Z"
-                    fill="#637381"
-                  />
-                </svg>
+              {search === 0 && ( 
+                <FilterAltOutlinedIcon style={{fill: "#2a2626d1"}} />
+              )}
+                {search > 0 && ( 
+                <FilterAltIcon  style={{fill: "#2a2626d1"}} />
+                )}
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
             </div>
@@ -368,11 +400,11 @@ function SearchCustomer({
                   className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	 overflow-y-scroll py-3	"
                   style={{ height: "175px" }}
                 >
-                  <ul className="dropdown-content 	 ">
+                  <ul className="dropdown-content">
                     {State.map((item, index) => {
                       return (
                         <>
-                          <li className="py-2.5	px-4	">
+                          <li className="py-2.5	px-4">
                             <div className="flex items-center">
                               <input
                                 onClick={() => {

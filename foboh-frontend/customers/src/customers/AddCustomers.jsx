@@ -6,6 +6,7 @@ import SearchCustomer from "./SearchCustomer";
 import { Typography, CardBody, CardFooter } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { PaginationCustomer } from "./PaginationCustomer";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
 import { Skeleton } from "@mui/material";
 const TABLE_HEAD = [
@@ -29,6 +30,8 @@ function AddCustomers() {
   const [loading, setLoading] = useState(true);
   const [pageIndex, setPageIndex] = useState(1);
   const [selected, setSlected] = useState(0);
+  const [isSearchResult, setisSearchResult] = useState(true);
+
 
 
   let timeoutId;
@@ -46,7 +49,7 @@ function AddCustomers() {
     handleDebounce(newValue);
   };
   useEffect(() => {
-    callApi(1);
+    callApi(1); 
   }, []);
   const callApi =(item)=> {
     // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=1
@@ -128,6 +131,7 @@ function AddCustomers() {
             products={tableRecords}
             prevProducts={prevCustomer}
             totalPages={setTotalPages}
+            setisSearchResult={setisSearchResult}
             pageIndex={pageIndex}
             setPageIndex={setPageIndex}
           />
@@ -166,6 +170,7 @@ function AddCustomers() {
                     ))}
                   </tr>
                 </thead>
+                {isSearchResult && (
                 <tbody>
                   {tableRecords.map((product, index) => {
                     const isLast = index === products.length - 1;
@@ -288,15 +293,35 @@ function AddCustomers() {
                     );
                   })}
                 </tbody>
+                )}
               </table>
             </CardBody>
-            <CardFooter className="flex w-full items-center justify-between border-t border-blue-gray-50 p-4">
+            <CardFooter 
+             className={
+                isSearchResult
+                  ? "flex w-full items-center justify-between border-t border-blue-gray-50 p-4"
+                  : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
+              }
+            >
+            {!loading && isSearchResult && (
               <PaginationCustomer
                 totalPages={totalPages}
                 getProductList={callApi}
                 pageIndex={pageIndex}
                 setPageIndex={setPageIndex}
               />
+               )}
+               {!isSearchResult && (
+                <div
+                  style={{
+                    marginTop: "30px",
+                  }}
+                  className="text-center mt-7"
+                >
+                  <SearchOffIcon fontSize="large" />
+                  <p className="font-semibold">No Result Found</p>
+                </div>
+              )}
             </CardFooter>
           </div>
         </div>
