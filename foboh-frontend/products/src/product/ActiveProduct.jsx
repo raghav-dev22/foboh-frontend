@@ -21,6 +21,6 @@ function ActiveProduct({totalProducts, selectedProductsLength, productId}) {
                     </div>
     </>
   )
-}
+} 
 
 export default ActiveProduct

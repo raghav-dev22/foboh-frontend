@@ -12,7 +12,7 @@ function EditProductBtn({ selectedProductsLength, productId}) {
     <>
     {selectedProductsLength === 1 &&
      ( <button
-        type="button"
+        type="button" 
         onClick={() => navigate(`/dashboard/view-product/${productId}`)}
         className="border-darkGreen shadow-md border rounded	w-32	h-10	flex justify-center items-center text-base	font-medium	"
       >

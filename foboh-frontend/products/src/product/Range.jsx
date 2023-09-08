@@ -97,9 +97,7 @@ function Range() {
 
   const handleCheckbox = (e, product) => {
     const checked = e.target.checked;
-    const updatedSelectedProducts = checked
-      ? [...selectedProducts, product]
-      : selectedProducts.filter((prod) => prod !== product);
+    const updatedSelectedProducts = checked? [...selectedProducts, product]: selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
     setIsBulkEdit(updatedSelectedProducts.length > 1);
     console.log("selected products >>", selectedProducts);
@@ -207,7 +205,7 @@ function Range() {
     }
   };
 
-  return (
+  return (  
     <>
       <ActiveProduct
         totalProducts={totalProducts}

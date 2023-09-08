@@ -28,6 +28,8 @@ function AddCustomers() {
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pageIndex, setPageIndex] = useState(1);
+  const [selected, setSlected] = useState(0);
+
 
   let timeoutId;
   const handleDebounce = (value) => {
@@ -84,17 +86,19 @@ function AddCustomers() {
         setTableRecords(data.data);
       });
   };
-  const handleCheckbox = (e, product) => {
-    e.target.checked
-      ? setSelectedProducts([...selectedProducts, product])
-      : setSelectedProducts(
-        selectedProducts.filter((prod) => prod !== product)
-      );
 
-    if (selectedProducts.length > 0) {
-      setIsBulkEdit(true);
-    }
+
+  
+  const handleCheckbox = (e, product) => {
+    const checked = e.target.checked;
+    const updatedSelectedProducts = checked? [...selectedProducts, product]: selectedProducts.filter((prod) => prod !== product);
+    setSelectedProducts(updatedSelectedProducts);
+    setIsBulkEdit(updatedSelectedProducts.length > 1);
+    console.log("selected products >>", selectedProducts);
+    setSlected(selectedProducts.length);
   };
+
+
   const handleBulkEdit = () => {
     localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
     navigate("/dashboard/customer-bulk-edit");
@@ -113,7 +117,10 @@ function AddCustomers() {
 
   return (
     <>
-      <ActiveCustomers />
+      <ActiveCustomers
+        selectedProductsLength={selectedProducts.length}
+        product={selectedProducts[0]}
+       />
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchCustomer

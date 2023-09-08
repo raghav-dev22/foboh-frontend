@@ -56,7 +56,7 @@ function PreviewModal({
         billingPostalCode: customer.billingPostalCode || "",
         billingState: customer.billingState || "",
         isActive: customer.isActive || "",
-      };
+      }; 
     });
     console.log("prod", prod);
     fetch(
@@ -102,7 +102,7 @@ function PreviewModal({
       }
     )
       .then((response) => {})
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error, "csv"));
   };
   const previousModal = () => {
     setShowPreviewModal(false);

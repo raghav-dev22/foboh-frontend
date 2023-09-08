@@ -6,6 +6,8 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { BillingAddressSchema } from "../schemas";
 import { useFormik } from "formik";
 const Payment = () => {
+  const [save, setSave] = useState(false);
+  const [value, setValue] = useState();
   const initialValues = {
     FirstName: "",
     LastName: "",
@@ -17,24 +19,22 @@ const Payment = () => {
     Mobile: "",
     State: "",
   };
+  
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
-      validationSchema: BillingAddressSchema,
+      validationSchema: save? null : BillingAddressSchema,
       onSubmit: (values) => {
         setValue(values);
         console.log(values, "values--->");
       },
     });
+
   const billingBtn = () => {
     setSave(false);
-    // localStorage.removeItem(keyToRemove);
-    // const removeLocalStorageButton = localStorage.removeItem("myKey");
-    // setValue(removeLocalStorageButton);
     console.log(value, "--values--");
   };
-  const [save, setSave] = useState(false);
-  const [value, setValue] = useState();
+  
   const addressBtn = () => {
     setSave(true);
     const storedValue = JSON.parse(localStorage.getItem("myKey"));

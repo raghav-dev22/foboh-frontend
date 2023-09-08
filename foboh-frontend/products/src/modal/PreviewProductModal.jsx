@@ -125,8 +125,12 @@ function PreviewProductModal({
       }
     )
       .then((response) => {
+        return response.json()
         // navigation logic here
         // console.log("Bulk-import-data-response->", response);
+      })
+      .then(data => {
+        console.log("import data response >>", data);
       })
       .catch((error) => console.log(error));
   };
@@ -322,3 +326,8 @@ function PreviewProductModal({
 }
 
 export default PreviewProductModal;
+
+
+
+
+
