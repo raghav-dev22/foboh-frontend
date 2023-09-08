@@ -4,7 +4,7 @@ import ImportCustomersBtn from './ImportCustomersBtn';
 import EditCustomerBtn from './EditCustomerBtn';
 import AddCustomerBtn from './AddCustomerBtn';
 
-function ActiveCustomers() {
+function ActiveCustomers({selectedProductsLength, product}) {
   return (
     <>
       <div className="py-6 sm:flex grid items-center justify-between px-6 gap-5">
@@ -17,9 +17,9 @@ function ActiveCustomers() {
         <div className=" flex-wrap	 flex judstify-center items-center gap-3">
           {/* <ImportProductBtn/> */}
           <ImportCustomersBtn />
-          <EditCustomerBtn />
+          <EditCustomerBtn  selectedProductsLength={selectedProductsLength} item={product} />
           <AddCustomerBtn title="Add Customer" />
-        </div>
+        </div> 
       </div>
     </>
   )

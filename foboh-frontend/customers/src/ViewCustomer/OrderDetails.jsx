@@ -197,6 +197,11 @@ const OrderDetails = ({ datas }) => {
         deliveryLastName: values.orderingLastName,
         deliveryEmail: values.orderingEmail,
         deliveryMobile: values.orderingMobile,
+        billingApartment: values.apartment,
+        billingAddress: values.address,
+        billingSuburb: values.suburb,
+        billingPostalCode: values.postalCode,
+        billingState: values.state
       });
     }
   };
@@ -515,7 +520,7 @@ const OrderDetails = ({ datas }) => {
                       <div className="flex flex-wrap -mx-3 mb-5">
                         <div className="w-full relative px-3">
                           <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                            className="block  tracking-wide text-gray-700 text-base	 font-medium"
                             htmlFor="grid-password"
                           >
                             Email
@@ -810,10 +815,10 @@ const OrderDetails = ({ datas }) => {
                           <input
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
-                            disabled
+                            // disabled
                             type="text"
                             onBlur={handleBlur}
-                            // onChange={handleChange}
+                            onChange={handleChange}
                             name="address"
                             value={values?.address}
                             autoComplete="on"
@@ -946,11 +951,26 @@ const OrderDetails = ({ datas }) => {
                             id="grid-password"
                             type="Postcode"
                             name="state"
-                            disabled={true}
-                            // onChange={handleChange}
+                            // disabled={true}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             value={values?.state}
                             placeholder="2204"
+                            style={{
+                              border:
+                                errors.state &&
+                                touched.state &&
+                                "1px solid red",
+                            }}
                           />
+                          {errors.state && touched.state && (
+                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                              {errors.state}
+                            </p>
+                          )}
+                          {errors.state && touched.state && (
+                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                          )}
                         </div>
                       </div>
 
@@ -985,10 +1005,11 @@ const OrderDetails = ({ datas }) => {
                     </h6>
 
                     <div className="flex items-center  gap-1 md:w-1/2 w-full">
-                      <input
+                    <input
                         id="default-checkbox"
                         type="checkbox"
                         defaultValue=""
+                        onClick={addressSame}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                       />
                       <label
@@ -1014,7 +1035,7 @@ const OrderDetails = ({ datas }) => {
                           <input
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
-                            disabled
+                            // disabled
                             type="text"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -1055,7 +1076,22 @@ const OrderDetails = ({ datas }) => {
                             value={values?.billingApartment}
                             type="text"
                             placeholder="Tom"
+                            onBlur={handleBlur}
+                            style={{
+                              border:
+                                errors.billingApartment &&
+                                touched.billingApartment &&
+                                "1px solid red",
+                            }}
                           />
+                          {errors.billingApartment && touched.billingApartment && (
+                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                              {errors.billingApartment}
+                            </p>
+                          )}
+                          {errors.billingApartment && touched.billingApartment && (
+                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                          )}
                         </div>
                         <div className="w-full relative md:w-1/2 px-3">
                           <label
@@ -1122,7 +1158,7 @@ const OrderDetails = ({ datas }) => {
                             )}
                           {errors.billingPostalCode &&
                             touched.billingPostalCode && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[49px] right-5 transition-all duration-[0.3s] " />
                             )}
                         </div>
                         <div className="w-full relative  px-3">
@@ -1136,12 +1172,29 @@ const OrderDetails = ({ datas }) => {
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
                             type="Postcode"
-                            disabled={true}
                             name="billingState"
+                            // disabled={true}
                             onChange={handleChange}
-                            value={data?.billingState}
+                            onBlur={handleBlur}
+                            value={values?.billingState}
                             placeholder="2204"
+                            style={{
+                              border:
+                                errors.billingState &&
+                                touched.billingState &&
+                                "1px solid red",
+                            }}
                           />
+                          {errors.billingState &&
+                            touched.billingState && (
+                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                                {errors.billingState}
+                              </p>
+                            )}
+                          {errors.billingState &&
+                            touched.billingState && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[45px] right-5 transition-all duration-[0.3s] " />
+                            )}
                         </div>
                       </div>
                     </form>

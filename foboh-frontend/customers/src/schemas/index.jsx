@@ -55,22 +55,43 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("Address is required"),
 
+    apartment: Yup.string()
+    .min(2, "Apartment should have atleast 2 letters")
+    .max(50)
+    .required("Apartment is required"),
+
   suburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
     .max(50)
     .required("suburb is required"),
 
-  postalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+  postalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode").required("postcode is required"),
+
   deliveryNotes: Yup.string()
     .min(2, "postalCode should have atleast 5 letters")
     .max(50)
     .required("postalCode name is required"),
+    state: Yup.mixed().required("State is required"),
+
+
+
+    billingAddress: Yup.string()
+    .min(2, "Address should have atleast 2 letters")
+    .max(50)
+    .required("Address is required"),
+
+    billingApartment: Yup.string()
+    .min(2, "Address should have atleast 2 letters")
+    .max(50)
+    .required("Address is required"),
+
   billingSuburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
     .max(50)
     .required("suburb  is required"),
 
-  billingPostalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+  billingPostalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode").required("postcode is required"),
+  billingState: Yup.mixed().required("State is required"),
 });
 
 // export const addProductSchema = Yup.object().shape({
