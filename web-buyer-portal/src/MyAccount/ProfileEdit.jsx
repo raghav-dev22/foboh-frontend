@@ -69,7 +69,7 @@ const ProfileEdit = () => {
           <div className="md:p-0 px-6">
             <div className=" md:pt-12 pb-8">
               <h2 className="font-bold text-xl	 text-[#563FE3]">
-                BusinessDetails
+                Business Details
               </h2>
             </div>
             <div className="">
@@ -306,7 +306,7 @@ const ProfileEdit = () => {
                   htmlFor="LiquerLicence"
                   className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
-                  Email
+                  Email {" "}
                   <span className="text-sm font-normal">
                     This can’t be changed
                   </span>
