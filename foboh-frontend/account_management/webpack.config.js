@@ -1,10 +1,15 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const deps = require("./package.json").dependencies;
+const {
+  productsUrl,
+  customersUrl,
+  accountManagementUrl,
+} = require("../config");
 
 module.exports = (_, argv) => ({
   output: {
-    publicPath: "http://localhost:3000/",
+    publicPath: `${accountManagementUrl}/`,
   },
 
   resolve: {
@@ -44,10 +49,8 @@ module.exports = (_, argv) => ({
       name: "account_management",
       filename: "remoteEntry.js",
       remotes: {
-        products:
-          "products@http://localhost:3001/remoteEntry.js",
-        customers:
-          "customers@http://localhost:3002/remoteEntry.js",
+        products: `products@${productsUrl}/remoteEntry.js`,
+        customers: `customers@${customersUrl}/remoteEntry.js`,
       },
       exposes: {},
       shared: {

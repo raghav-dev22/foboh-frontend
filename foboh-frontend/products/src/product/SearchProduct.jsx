@@ -435,7 +435,7 @@ const SearchProduct = forwardRef(
                   className="flex items-center gap-2 cursor-pointer product-category-box"
                   onClick={FirstDropdown}
                 >
-                  <h5 className="text-base font-mediumtext-gray">
+                  <h5 className="text-base font-medium text-gray">
                     Sub-category
                   </h5>
                   <div className="">
@@ -462,7 +462,7 @@ const SearchProduct = forwardRef(
                                 }
                                 checked={filterAndSort.filter.category.includes(
                                   category.categoryId
-                                          )}
+                                )}
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                               />
                               <label
