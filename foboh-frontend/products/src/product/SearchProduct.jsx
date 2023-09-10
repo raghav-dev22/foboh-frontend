@@ -394,7 +394,7 @@ const SearchProduct = forwardRef(
                   required=""
                 />
               </div>
-            </div>
+            </div> 
             <div className="flex justify-center items-center gap-2">
               <div
                 onClick={handleFilter}
