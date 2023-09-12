@@ -14,8 +14,6 @@ import { useFormik } from "formik";
 
 function CreateAccount() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
-  const buyer = JSON.parse(localStorage.getItem('createData'))
-  console.log("data",buyer)
   const [currentStep, setCurrentStep] = useState(0);
   
   const formik = useFormik({
@@ -153,7 +151,6 @@ function CreateAccount() {
                 )}
                 {currentStep === 1 && (
                   <DeliveryAddress
-                  
                     values={formik.values}
                     errors={formik.errors}
                     handleBlur={formik.handleBlur}
@@ -221,7 +218,6 @@ function CreateAccount() {
                       </p>
                     </button>
                   </div>
-
                 )}
               </form>
               <div className="  md:basis-1/2  hidden md:block ">
