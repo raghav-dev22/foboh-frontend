@@ -1,8 +1,12 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { Children, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import Select from "react-select";
 function CustomerBulkEdit() {
   const navigate = useNavigate();
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [defaultPaymentTerm, setDefaultPaymentTerm] = useState('');
+  const [isUpdate, setIsUpdate] = useState(false);
   const [selectedData,setSelectedData]=useState([]);
   useLayoutEffect(() => {
     getDatafromLocal()
@@ -13,45 +17,98 @@ function CustomerBulkEdit() {
       setSelectedData(JSON.parse(data))
     }
   }
-  const values = [
+
+  const initialValues = [
     {
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-    },
-    {
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-    },
-    {
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-    },
-    {
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-    },
-    {
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-    },
-    {
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-    },
-    {
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
-      jhashd: "hbhsad",
+      supplierRep: {},
+      pricingProfile: {},
+      freightProfile: {},
+      defaultPaymentMethod: {},
+      defaultPaymenterm: {},
     },
   ];
+
+  useEffect(() => {
+      axios
+        .get('https://masters-api-foboh.azurewebsites.net/api/PaymentMethods')
+        .then((response) => {
+          setPaymentMethods(response.data.map(method => {
+            return {
+              label: method.name,
+              value : method.paymentMethodId
+            }
+          }));
+        })
+        .catch((error) => {
+          console.error('Error fetching PaymentMethods:', error);
+        });
+   
+      axios
+      .get('https://masters-api-foboh.azurewebsites.net/api/DefaultPaymentTerm')
+      .then((response) => {
+        setDefaultPaymentTerm(response.data.map(payment =>{
+          return{
+            label: payment.paymentTermName,
+            value: payment.id
+          }
+        }));
+      })
+      .catch((error) => {
+        console.error('Error fetching DefaultPaymentTerm:', error);
+      });
+ 
+      const selectedProductsValue = selectedData.map((customer) => {
+
+        return {
+    
+          supplierRep: product?.supplierRep,
+    
+          pricingProfile: product?.pricingProfile,
+    
+          freightProfile: product?.freightProfile,
+    
+          defaultPaymentMethod: product?.defaultPaymentMethod,
+    
+          defaultPaymenterm: product?.defaultPaymenterm,
+    
+        };
+    
+      });
+  }, []); 
+  
+  const handleFieldChange = (productId, title, value) => {
+    setIsUpdate(true);
+  };
+  const handleCancle = () => {
+    setIsUpdate(false)
+ };
+  
+
+
   return (
     <>
+      {isUpdate && (
+        <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+          <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+            <div className="block">
+              <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  onClick={handleCancle}
+                >
+                  Cancel
+                </button>
+                <button
+                  // onClick={handleSubmit}
+                  className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                >
+                  Save
+                </button>
+              </nav>
+            </div>
+          </div>
+          {/* <AlertModal show={show} setShow={(set) => setShow(set)} /> */}
+        </div>
+      )}
       <div className="py-8 flex flex-col items-start justify-start px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
           <div
@@ -80,49 +137,36 @@ function CustomerBulkEdit() {
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base"
                 >
-                  Name
+                  supplier rep
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base	"
                 >
-                  Contact
+                  pricing profile
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base	"
                 >
-                  Region
+                 freight profile
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base	"
                 >
-                  Status
+                  default payment method
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base	"
                 >
-                  Orders{" "}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-green	font-medium text-base	"
-                >
-                  Amount spent
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-green	font-medium text-base	"
-                >
-                  Visibility
+                  default payment term
                 </th>
               </tr>
             </thead>
             <tbody>
               {selectedData.map((product, index) => {
-                console.log("Name is>>",product)
                 return (
                   <tr
                     key={index.toString()}
@@ -132,50 +176,42 @@ function CustomerBulkEdit() {
                       scope="row"
                       className=" whitespace-nowrap dark:text-white"
                     >
-                      <td className="px-6 py-4">
-                        <input
-                          type="text"
-                          name="title"
-                          value={product.businessName}
-                          // onChange={(e) =>
-                          //   handleFieldChange(
-                          //     product.productId,
-                          //     "title",
-                          //     e.target.value
-                          //   )
-                          // }
-                          id="title"
-                          className="mt-0   border-0	w-44	 transition duration-[0.3s]  bg-white  sm:text-sm rounded-[8px]
-              flex flex-col  items-center 
-             p-0
-                outline-none dark:placeholder-[#A0AEC0] 
-                  text-[#656e7b]
-              "
-                          placeholder="Good Intentions 'Cape Jaffa' Chardonnay"
+                    <td className={`px-6 py-4 selectId-${index}`}>
+                      <div className="w-44">
+                        <Select
+                          name="colors"
+                          // options={configurations}
+                          value={product.state}
+                          onChange={(e) =>
+                            handleFieldChange(
+                              product.productId,
+                              "configuration",
+                              e
+                            )
+                          }
+                          className="basic-multi-select-2 "
+                          classNamePrefix="select"
                         />
-                      </td>
+                      </div>
+                    </td>
                     </th>
-                    <td className="px-6 py-4">
-                      <input
-                        type="text"
-                        name="skuCode"
-                        value={product?.orderingEmail}
-                        // onChange={(e) =>
-                        //   handleFieldChange(
-                        //     product.productId,
-                        //     "skuCode",
-                        //     e.target.value
-                        //   )
-                        // }
-                        id="skuCode"
-                        className="mt-0  border-0	w-44	 transition duration-[0.3s]  bg-white  sm:text-sm rounded-[8px]
-              flex flex-col px-[20px] items-center 
-              p-0
-                outline-none dark:placeholder-[#A0AEC0] 
-                  text-[#656e7b]
-              "
-                        placeholder="GOODINTC22"
-                      />
+                    <td className={`px-6 py-4 selectId-${index}`}>
+                      <div className="w-44">
+                        <Select
+                          name="colors"
+                          // options={configurations}
+                          value={product.state}
+                          onChange={(e) =>
+                            handleFieldChange(
+                              product.productId,
+                              "configuration",
+                              e
+                            )
+                          }
+                          className="basic-multi-select-2 "
+                          classNamePrefix="select"
+                        />
+                      </div>
                     </td>
                     <td className={`px-6 py-4 selectId-${index}`}>
                       <div className="w-44">
@@ -183,88 +219,54 @@ function CustomerBulkEdit() {
                           name="colors"
                           // options={configurations}
                           value={product.state}
-                          // onChange={(e) =>
-                          //   handleFieldChange(
-                          //     product.productId,
-                          //     "configuration",
-                          //     e
-                          //   )
-                          // }
+                          onChange={(e) =>
+                            handleFieldChange(
+                              product.productId,
+                              "configuration",
+                              e
+                            )
+                          }
                           className="basic-multi-select-2 "
                           classNamePrefix="select"
                         />
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <input
-                        type="text"
-                        name="salePrice"
-                        value={product.salePrice}
-                        // onChange={(e) =>
-                        //   handleFieldChange(
-                        //     product.productId,
-                        //     "salePrice",
-                        //     e.target.value
-                        //   )
-                        // }
-                        id="salePrice"
-                        className="mt-0  border-0	w-44	 transition duration-[0.3s]  bg-white  sm:text-sm rounded-[8px]
-              flex flex-col px-[20px] items-center 
-              p-0
-                outline-none dark:placeholder-[#A0AEC0] 
-                  text-[#656e7b]
-              "
-                        placeholder="$330.00"
-                        required=""
-                      />
-                    </td>
-
-                    <td className="px-6 py-4">
-                      {" "}
-                      <input
-                        type="text"
-                        name="stockAlertLevel"
-                        id="stockAlertLevel"
-                        value={product.stockAlertLevel}
-                        // onChange={(e) =>
-                        //   handleFieldChange(
-                        //     product.productId,
-                        //     "stockAlertLevel",
-                        //     e.target.value
-                        //   )
-                        // }
-                        className="mt-0  border-0 w-44 transition duration-[0.3s]  bg-white  sm:text-sm rounded-[8px]
-              flex flex-col px-[20px] items-center 
-              p-0
-                outline-none dark:placeholder-[#A0AEC0] 
-                  text-[#656e7b]
-              "
-                        placeholder={product?.orderingEmail}
-                        required=""
-                      />
-                    </td>
-                    <td className="px-6 py-4 relative ">
+                    <td className={`px-6 py-4 selectId-${index}`}>
                       <div className="w-44">
                         <Select
                           name="colors"
-                          options={status}
-                          value={product.status}
+                          // options={configurations}
+                          options={paymentMethods}
+                          onChange={(e) =>
+                            handleFieldChange(
+                              product.productId,
+                              "configuration",
+                              e
+                            )
+                          }
                           className="basic-multi-select-2 "
                           classNamePrefix="select"
                         />
                       </div>
                     </td>
-                    <td className="px-6 py-4 ">
-                      <Select
-                        name="colors"
-                        // options={visibility}
-                        value="jhnsd"
-                        // onChange={(e) =>
-                        //   handleFieldChange(product.productId, "visibility", e)
-                        // }
-                        className="basic-multi-select-1 "
-                        classNamePrefix="select"
-                      />
+
+                    <td className={`px-6 py-4 selectId-${index}`}>
+                      <div className="w-44">
+                        <Select
+                          name="colors"
+                          options={defaultPaymentTerm}
+                          value={product.state}
+                          onChange={(e) =>
+                            handleFieldChange(
+                              product.productId,
+                              "configuration",
+                              e
+                            )
+                          }
+                          className="basic-multi-select-2 "
+                          classNamePrefix="select"
+                        />
+                      </div>
                     </td>
                   </tr>
                 );
@@ -277,3 +279,5 @@ function CustomerBulkEdit() {
   );
 }
 export default CustomerBulkEdit;
+// https://masters-api-foboh.azurewebsites.net/api/PaymentMethods
+// https://masters-api-foboh.azurewebsites.net/api/DefaultPaymentTerm

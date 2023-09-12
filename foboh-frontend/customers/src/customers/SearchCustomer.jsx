@@ -42,6 +42,9 @@ function SearchCustomer({
   const [itemLabel, setItemLabel] = useState("");
   const [isFilter, setIsFilter] = useState(false);
   const dropdownRef = useRef(null);
+  const firstDropdownRef = useRef(null);
+  const secondDropdownRef = useRef(null);
+  const thirdDropdownRef = useRef(null);
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -136,6 +139,9 @@ function SearchCustomer({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log("values is>", name, value);
+    // if(value === 0){
+    //   saveInput()
+    // }
     switch (name) {
       case "text":
         filterAndSort.filter.businessName = value;
@@ -258,11 +264,23 @@ function SearchCustomer({
 
   useEffect(() => {
     const handleClick = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current &&!dropdownRef.current.contains(event.target)) {
         setIsFilter(false);
+      }
+      if (
+        (secondDropdownRef.current && !secondDropdownRef.current.contains(event.target))
+      ) {
+        setSecond(false);
+      }
+     if (
+        (firstDropdownRef.current && !firstDropdownRef.current.contains(event.target))
+      ) {
+        setFirst(false);
+      }
+      if (
+        (thirdDropdownRef.current && !thirdDropdownRef.current.contains(event.target))
+      ) {
+        setThird(false);
       }
     };
 
@@ -283,7 +301,6 @@ function SearchCustomer({
 
   return (
     <>
-     {/* ref={dropdownRef} */}
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
         <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center ">
           <div>
@@ -343,7 +360,7 @@ function SearchCustomer({
         </div>
         {isFilter && (
           <div className="flex gap-8 relative  pt-4 flex-wrap">
-            <div className="relative">
+            <div className="relative" ref={firstDropdownRef}>
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
                 onClick={DropDownFirst}
@@ -385,7 +402,7 @@ function SearchCustomer({
               )}
             </div>
             {/* <CustomerState /> */}
-            <div className="relative">
+            <div className="relative" ref={secondDropdownRef}>
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
                 onClick={DropDownSecond}
@@ -448,7 +465,7 @@ function SearchCustomer({
                 </div>
               )}
             </div>
-            <div className="relative">
+            <div className="relative" ref={thirdDropdownRef}>
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
                 onClick={DropDownThird}

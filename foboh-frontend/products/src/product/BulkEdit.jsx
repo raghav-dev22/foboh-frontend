@@ -212,7 +212,9 @@ function BulkEdit() {
 
   console.log("values", values);
 
-  const handleIsUpdate = () => {};
+  const handleCancle = () => {
+     setIsUpdate(false)
+  };
 
   return (
     <>
@@ -221,7 +223,9 @@ function BulkEdit() {
           <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
             <div className="block">
               <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+                <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                onClick={handleCancle}
+                >
                   Cancel
                 </button>
                 <button
