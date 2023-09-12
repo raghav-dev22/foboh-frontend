@@ -15,7 +15,7 @@ import { useFormik } from "formik";
 function CreateAccount() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
   const [currentStep, setCurrentStep] = useState(0);
-  
+
   const formik = useFormik({
     initialValues: {
       BusinessName: "",
@@ -29,77 +29,148 @@ function CreateAccount() {
       FirstName: "",
       LastName: "",
       email: "",
+      password: "",
       Mobile: "",
       DeliveryAddressState: "",
       OrderContactState: "",
-      OrderingContactFirstName : "",
-      OrderingContactLastName : "",
-      OrderingContactEmail : "",
-      OrderingContactMobile : "",
-      DeliveryContactFirstName : "",
-      DeliveryContactLastName : "" ,
-      DeliveryContactEmail :"",
-      DeliveryContactMobile :"",
+      OrderingContactFirstName: "",
+      OrderingContactLastName: "",
+      OrderingContactEmail: "",
+      OrderingContactMobile: "",
+      DeliveryContactFirstName: "",
+      DeliveryContactLastName: "",
+      DeliveryContactEmail: "",
+      DeliveryContactMobile: "",
     },
     validationSchema: validationSchemas[currentStep],
   });
   const [show, setShow] = useState(false);
-  
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
-  
+
   const handleNext = () => {
-    formik.validateForm().then((errors) => {
-      if (currentStep < 2 && Object.values(errors).length === 0) {
-        setCurrentStep((cur) => cur + 1);
-      } else if (currentStep === 2) {
-        console.log("Form submitted");
-        formik.submitForm();
-      }
-      console.log("res", errors);
-    }).catch(error => console.log(error))
+    formik
+      .validateForm()
+      .then((errors) => {
+        if (currentStep < 2 && Object.values(errors).length === 0) {
+          setCurrentStep((cur) => cur + 1);
+        } else if (currentStep === 2) {
+          console.log("Form submitted");
+          formik.submitForm();
+        }
+        console.log("res", errors);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep((cur) => cur - 1);
-      formik.setErrors({})
+      formik.setErrors({});
+    } else {
     }
-    else {
+  };
+  const onSubmit = (values) => {
+    fetch(`https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/create`, {
+      method: "POST",
+      headers : {
+        "Content-Type": 'application/json',
+      },
+      body: JSON.stringify({
 
-    }
-  }
-  const onSubmit=(values) => {
+      })
+    })
     setShow(true);
-  }
+  };
 
- useEffect(() => {
-  formik.setValues({
-    BusinessName: buyer.BusinessName,
-      ABN: buyer.ABN,
-      LiquerLicence: buyer.LiquerLicence,
-      DeliveryAddress: buyer.DeliveryAddress,
-      Apartment: buyer.Apartment,
-      Suburb: buyer.Suburb,
-      Postcode: buyer.Postcode,
-      Notes: buyer.Notes,
-      FirstName: buyer.FirstName,
-      LastName: buyer.LastName,
-      email: buyer.email,
-      Mobile: buyer.Mobile,
-      DeliveryAddressState: options.find(state => state.value === buyer.DeliveryAddressState),
-      OrderContactState: options.find(state => state.value === buyer.OrderContactState),
-      OrderingContactFirstName : buyer.OrderingContactFirstName,
-      OrderingContactLastName : buyer.OrderingContactLastName,
-      OrderingContactEmail : buyer.OrderingContactEmail,
-      OrderingContactMobile : buyer.OrderingContactMobile,
-      DeliveryContactFirstName : buyer.DeliveryContactFirstName,
-      DeliveryContactLastName : buyer.DeliveryContactLastName ,
-      DeliveryContactEmail :buyer.DeliveryContactEmail,
-      DeliveryContactMobile :buyer.DeliveryContactMobile,
-  })
-  
- }, [])
+  useEffect(() => {
+    const buyer = JSON.parse(localStorage.getItem("buyerData"));
+    const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
+
+    formik.setValues({
+      buyerId: buyer?.buyerId,
+      salesRepId : "",
+      pricingProfileId : "",
+      defaultPaymentMethodId  : "",
+      BusinessName: buyerCred?.name,
+      ABN: buyer?.abn,
+      LiquerLicence: buyer?.liquorLicence,
+      DeliveryAddress: buyer?.address,
+      Apartment: buyer?.apartment,
+      Suburb: buyer?.suburb,
+      Postcode: buyer?.postalCode,
+      Notes: buyer?.deliveryNotes,
+      FirstName: buyer?.deliveryFirstName,
+      LastName: buyer?.deliveryLastName,
+      email: buyerCred?.email,
+      password: buyerCred?.password,
+      Mobile: buyer?.deliveryMobile,
+      DeliveryAddressState: options.find(
+        (state) => state?.value === buyer?.state
+      ),
+      OrderContactState: options.find(
+        (state) => state?.value === buyer?.billingState
+      ),
+      OrderingContactFirstName: buyer?.orderingFirstName,
+      OrderingContactLastName: buyer?.orderingLastName,
+      OrderingContactEmail: buyer?.orderingEmail,
+      OrderingContactMobile: buyer?.orderingMobile,
+      DeliveryContactFirstName: buyer?.deliveryFirstName,
+      DeliveryContactLastName: buyer?.deliveryLastName,
+      DeliveryContactEmail: buyer?.deliveryEmail,
+      DeliveryContactMobile: buyer?.deliveryMobile,
+
+
+        // ----------
+
+        {
+          "buyerId": "string",
+          "businessName": "string",
+          "abn": "string",
+          "liquorLicence": "string",
+          "salesRepId": "string",
+          "pricingProfileId": "string",
+          "defaultPaymentMethodId": "string",
+          "organisationId": "string",
+          "tags": [
+            "string"
+          ],
+          "wetLiable": true,
+          "orderingFirstName": "string",
+          "orderingLastName": "string",
+          "orderingMobile": "string",
+          "orderingEmail": "string",
+          "deliveryFirstName": "string",
+          "deliveryLastName": "string",
+          "deliveryMobile": "string",
+          "deliveryEmail": "string",
+          "address": "string",
+          "apartment": "string",
+          "suburb": "string",
+          "postalCode": "string",
+          "state": "string",
+          "deliveryNotes": "string",
+          "billingAddress": "string",
+          "billingApartment": "string",
+          "billingSuburb": "string",
+          "billingPostalCode": "string",
+          "billingState": "string",
+          "isActive": true,
+          "password": "string",
+          "status": true,
+          "role": "string",
+          "meta": "string",
+          "adId": "string",
+          "imageUrl": "string",
+          "bio": "string",
+          "mobile": "string",
+          "createdBy": "string"
+        }
+
+
+    });
+  }, []);
 
   return (
     <>
@@ -207,8 +278,9 @@ function CreateAccount() {
                       </button>
                     )}
                     <button
-                      className={`login-btn bg-custom-blue rounded-md p-3 custom-shadow mx-1 ${currentStep === 0 ? "w-full" : "w-36"
-                        }`}
+                      className={`login-btn bg-custom-blue rounded-md p-3 custom-shadow mx-1 ${
+                        currentStep === 0 ? "w-full" : "w-36"
+                      }`}
                       type="button"
                       onClick={handleNext}
                       disabled={!formik.isValid || formik.isSubmitting}

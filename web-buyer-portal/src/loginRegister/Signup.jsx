@@ -8,9 +8,8 @@ import { useNavigate } from "react-router-dom";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 
 function Signup() {
-  const [name, setName] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [email, setEmail] = useState("");
+  
+  const [isValidUser, setIsValidUser] = useState(false)
 
   const initialValues = {
     name: "",
@@ -23,17 +22,34 @@ function Signup() {
       initialValues: initialValues,
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
-        const foundBuyer = buyers.find((buyer) => buyer.email === values.email);
-        if (foundBuyer) {
-          console.log("signup successful", foundBuyer);
-          localStorage.setItem("createData", JSON.stringify(foundBuyer));
-          localStorage.setItem("password", values.password);
-          navigate("/create-account");
-        } else {
-          console.log("Login failed");
-        }
+
+        fetch(`https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyers?email=${values.email}`, {
+          method : "GET",
+        }).then(response => response.json())
+        .then(data => {
+          console.log("response", data);
+          if(data.success) {
+            localStorage.setItem("buyerCred", JSON.stringify(values))
+            localStorage.setItem("buyerData", JSON.stringify(data.data[0]))
+            navigate("/create-account");
+          } else {
+            setIsValidUser(true)
+          }
+        }).catch(error => console.log(error))
+
+        // if (foundBuyer) {
+        //   console.log("signup successful", foundBuyer);
+        //   localStorage.setItem("createData", JSON.stringify(foundBuyer));
+        //   localStorage.setItem("password", values.password);
+        //   navigate("/create-account");
+        // } else {
+        //   console.log("Login failed");
+        // }
       },
     });
+
+  console.log("vals", values);
+
   // console.log(values, "values");
   return (
     <>
@@ -140,22 +156,22 @@ function Signup() {
                       Your password
                     </label>
                     <div className="inset-y-0 right-0 flex items-center">
-                    <input
-                      type="password"
-                      id="password"
-                      className={`js-password `}
-                      autoComplete="off"
-                      style={{
-                        border:
-                          errors.password &&
-                          touched.password &&
-                          "1px solid red",
-                      }}
-                      onChange={handleChange}
-                      // onChange={(e) => setPwd(e.target.value)}
-                      onBlur={handleBlur}
-                      value={values.password}
-                    />
+                      <input
+                        type="password"
+                        id="password"
+                        className={`js-password `}
+                        autoComplete="off"
+                        style={{
+                          border:
+                            errors.password &&
+                            touched.password &&
+                            "1px solid red",
+                        }}
+                        onChange={handleChange}
+                        // onChange={(e) => setPwd(e.target.value)}
+                        onBlur={handleBlur}
+                        value={values.password}
+                      />
                     </div>
                     {!errors.password && values.password && (
                       <p className="mt-2 mb-2 text-green-500">
@@ -166,13 +182,20 @@ function Signup() {
                       <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
                     {errors.password && touched.password && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs">
+                      <p className="mt-2 mb-2 text-red-500">
                         {errors.password}
                       </p>
                     )}
                     {errors.password && touched.password && (
                       <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
+                    {
+                      isValidUser && (
+                        <p className="mt-2 mb-2 text-red-500">
+                        This buyer is not registered, try with other account.
+                      </p>
+                      )
+                    }
                     <label
                       className="opacity-[0.5] mb-[5px] rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
                       htmlFor="password"
@@ -185,7 +208,7 @@ function Signup() {
                         id="default-checkbox"
                         type="checkbox"
                         value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
                         className="text-[#637381]  font-normal md:text-sm text-xs"
@@ -201,9 +224,6 @@ function Signup() {
                     </div>
 
                     {/* Forgot password link  */}
-                    <p className="md:text-sm text-xs text-custom-blue cursor-pointer transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
-                      Forgot password?
-                    </p>
                   </div>
 
                   {/* Submit button */}

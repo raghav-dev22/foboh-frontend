@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Select from "react-select";
 import { options } from "../data";
@@ -9,13 +9,32 @@ function DeliveryAddress({
   handleChange,
   touched,
   setValues,
-  values
+  values,
 }) {
   console.log("errorsdddd", errors);
+  const [states, setStates] = useState([]);
 
+  useEffect(() => {
+    fetch(
+      "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/PopulateState",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setStates(
+          data.map((state) => {
+            return {
+              label: state.stateName,
+              value: state.id,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-  
-  const [selectedOption, setSelectedOption] = useState(null);
   // const initialValues = {
   //   DeliveryAddress: "",
   //   Apartment: "",
@@ -37,7 +56,7 @@ function DeliveryAddress({
     console.log("state", e);
     setValues({
       ...values,
-      DeliveryAddressState: e.value,
+      DeliveryAddressState: e,
     });
   };
 
@@ -171,9 +190,8 @@ function DeliveryAddress({
               State
             </label>
             <Select
-              defaultValue={selectedOption}
               onChange={(e) => handleState(e)}
-              options={options}
+              options={states}
               value={values.DeliveryAddressState}
             />
             {errors.Notes && (
@@ -183,7 +201,7 @@ function DeliveryAddress({
             )}
           </div>
         </div>
-        <div className={`relative mb-5 `} data-te-input-wrapper-init>
+        <div className={`relative mb-5`} data-te-input-wrapper-init>
           <label
             htmlFor="Notes"
             className="md:text-base text-sm	 font-medium text-[#2B4447]"
