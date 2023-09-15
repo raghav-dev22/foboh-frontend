@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { BillingAddressSchema } from "../schemas";
 import { useFormik } from "formik";
+import Select from "react-select";
 
 function DeliveryAddress() {
   const [value, setValue] = useState();
@@ -72,21 +73,27 @@ function DeliveryAddress() {
           </div>
           <div className="flex md:flex-nowrap gap-4">
             <div className="w-full   mb-3 md:mb-0">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="City"
+              <Select
                 type="text"
-                placeholder="City"
+                defaultValue={`state`}
+                id="City"
+                // onChange={(e) => handleBillingState(e, "City")}
+                name="City"
                 value={storedValue.City}
+                // options={stateOptions}
+                className=""
               />
             </div>
             <div className="w-full   mb-3">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="State"
+              <Select
                 type="text"
-                placeholder="State/Teritory"
+                defaultValue={`state`}
+                id="State"
+                // onChange={(e) => handleBillingState(e, "State")}
+                name="State"
                 value={storedValue.State}
+                // options={stateOptions}
+                className=""
               />
             </div>
           </div>
@@ -116,7 +123,7 @@ function DeliveryAddress() {
           // onClick={handleSubmit}
           className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
         >
-          Pay Now
+          Save
         </button>
       </form>
     </>

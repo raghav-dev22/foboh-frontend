@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./loginRegister/Signup";
 import { Provider } from "react-redux";
 import Verifyemail from "./loginRegister/Verifyemail";
+import VerifyPassword from "./loginRegister/VerifyPassword";
 import HomePage from "./HomePage/HomePage";
 import store from "./store/Store";
 import MainHomePage from "./HomePage/MainHomePage";
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/verify-email" element={<Verifyemail />} />
+          <Route path="/verify-password" element={<VerifyPassword />} />
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/home-page" element={<MainHomePage />} />
         </Routes>

@@ -59,6 +59,7 @@ function HomePage() {
       <Routes>
         {/* <Route path="/home-page" element={<MainHomePage />} /> */}
         <Route path="/product-list" element={<ProductList />} />
+        
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />

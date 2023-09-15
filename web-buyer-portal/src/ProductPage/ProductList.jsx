@@ -9,14 +9,16 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-import Select from "react-select";
-
+import SearchIcon from "@mui/icons-material/Search";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import Select from "react-select";
+import { Select, Space } from "antd";
 import makeAnimated from "react-select/animated";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { add, updateQuantity } from "../slices/CartSlice";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { listdata } from "../data";
 
@@ -26,8 +28,45 @@ import counterSlice, { increment, decrement } from "../slices/counterSlice";
 
 import { Slider } from "antd";
 import { setProductData } from "../slices/ProductSlice";
+import { Pagination } from "antd";
+import { Checkbox } from "antd";
+import { button } from "@material-tailwind/react";
 
 const ProductList = () => {
+  const onChangeCheckBox = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
+  // const options = [];
+  // for (let i = 10; i < 36; i++) {
+  //   options.push({
+  //     value: i.toString(36) + i,
+  //     label: i.toString(36) + i,
+  //   });
+  // }
+  const { Option } = Select;
+  const handleChangeOption = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const itemRender = (_, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <a className="border-[#E7E7E7] border rounded-[8px] py- px-5 flex justify-center items-center gap-3">
+          <ArrowBackIcon style={{ width: "22px" }} />
+          Previous
+        </a>
+        // <a>Previous</a>
+      );
+    }
+    if (type === "next") {
+      return (
+        <a className="border-[#E7E7E7] border rounded-[8px] py- px-5 flex justify-center items-center gap-3">
+          Next
+          <ArrowForwardIcon style={{ width: "22px" }} />
+        </a>
+      );
+    }
+    return originalElement;
+  };
   const Data = listdata;
 
   console.log("data", listdata);
@@ -125,6 +164,20 @@ const ProductList = () => {
     },
   ];
   const RegionData = [
+    {
+      title: " Option-1",
+    },
+    {
+      title: " Option-2",
+    },
+    {
+      title: " Option-3",
+    },
+    {
+      title: " Option-4",
+    },
+  ];
+  const TagsProduct = [
     {
       title: " Option-1",
     },
@@ -520,25 +573,58 @@ const ProductList = () => {
 
               {wine && (
                 <>
-                  <input type="text" placeholder="Search|" />
-                  {wineProduct.map((item) => {
-                    return (
-                      <div className="flex items-center mt-5">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                        />
+                  <div className="relative">
+                    <SearchIcon
+                      className="absolute top-[22px] right-[8px] z-10"
+                      style={{ fill: "#d9d9db" }}
+                    />
+                    <Select
+                      // mode="tags"
+                      // defaultValue={["china"]}
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="Search|"
+                      className=""
+                      // onChange={handleChange}
+                      optionLabelProp="label"
+                      onChange={handleChangeOption}
+                      // options={options}
+                      open={true}
+                    >
+                      {wineProduct.map((item) => {
+                        return (
+                          <>
+                            <Option value={item.title} label={item.title}>
+                              <div className="my-1 flex items-center ">
+                                {/* <Checkbox
+                                  className="w-4 h-4"
+                                  onChange={onChangeCheckBox}
+                                /> */}
+                                {/* <input
+                                    id="default-checkbox"
+                                    type="checkbox"
+                                    defaultValue=""
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                                  /> */}
 
-                        <label htmlFor="default-checkbox" className="ml-2 ">
-                          <h5 className="text-base font-normal text-[#637381]">
-                            {item.title}
-                          </h5>
-                        </label>
-                      </div>
-                    );
-                  })}
+                                <label
+                                  htmlFor="default-checkbox"
+                                  className="ml-2 "
+                                >
+                                  <h5 className="text-base font-normal text-[#637381]">
+                                    {item.title}
+                                  </h5>
+                                </label>
+                                {/* </Checkbox> */}
+                              </div>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </>
               )}
             </div>
@@ -559,25 +645,56 @@ const ProductList = () => {
 
               {Segment && (
                 <>
-                  <input type="text" placeholder="Search|" />
-                  {SegmentProduct.map((item) => {
-                    return (
-                      <div className="flex items-center mt-5">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                        />
-
-                        <label htmlFor="default-checkbox" className="ml-2 ">
-                          <h5 className="text-base font-normal text-[#637381]">
-                            {item.title}
-                          </h5>
-                        </label>
-                      </div>
-                    );
-                  })}
+                  <div className="relative">
+                    <SearchIcon
+                      className="absolute top-[22px] right-[8px] z-10"
+                      style={{ fill: "#d9d9db" }}
+                    />
+                    <Select
+                      // mode="tags"
+                      // defaultValue={["china"]}
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="Search|"
+                      className=""
+                      // onChange={handleChange}
+                      optionLabelProp="label"
+                      onChange={handleChangeOption}
+                      // options={options}
+                      open={true}
+                    >
+                      {SegmentProduct.map((item) => {
+                        return (
+                          <>
+                            <Option value={item.title} label={item.title}>
+                              <div className="flex items-center my-1">
+                                {/* <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  defaultValue=""
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                                /> */}
+                                {/* <Checkbox
+                                  className="w-4 h-4"
+                                  onChange={onChangeCheckBox}
+                                /> */}
+                                <label
+                                  htmlFor="default-checkbox"
+                                  className="ml-2 "
+                                >
+                                  <h5 className="text-base font-normal text-[#637381]">
+                                    {item.title}
+                                  </h5>
+                                </label>
+                              </div>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </>
               )}
             </div>
@@ -598,25 +715,57 @@ const ProductList = () => {
 
               {Variety && (
                 <>
-                  <input type="text" placeholder="Search|" />
-                  {varietyProduct.map((item) => {
-                    return (
-                      <div className="flex items-center mt-5">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                        />
+                  <div className="relative">
+                    <SearchIcon
+                      className="absolute top-[22px] right-[8px] z-10"
+                      style={{ fill: "#d9d9db" }}
+                    />
+                    <Select
+                      // mode="tags"
+                      // defaultValue={["china"]}
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="Search|"
+                      className=""
+                      // onChange={handleChange}
+                      optionLabelProp="label"
+                      onChange={handleChangeOption}
+                      // options={options}
+                      open={true}
+                    >
+                      {varietyProduct.map((item) => {
+                        return (
+                          <>
+                            <Option value={item.title} label={item.title}>
+                              <div className="flex items-center my-1">
+                                {/* <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  defaultValue=""
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                                /> */}
+                                {/* <Checkbox
+                                  className="w-4 h-4"
+                                  onChange={onChangeCheckBox}
+                                /> */}
 
-                        <label htmlFor="default-checkbox" className="ml-2 ">
-                          <h5 className="text-base font-normal text-[#637381]">
-                            {item.title}
-                          </h5>
-                        </label>
-                      </div>
-                    );
-                  })}
+                                <label
+                                  htmlFor="default-checkbox"
+                                  className="ml-2 "
+                                >
+                                  <h5 className="text-base font-normal text-[#637381]">
+                                    {item.title}
+                                  </h5>
+                                </label>
+                              </div>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </>
               )}
             </div>
@@ -637,25 +786,57 @@ const ProductList = () => {
 
               {Country && (
                 <>
-                  <input type="text" placeholder="Search|" />
-                  {countryData.map((item) => {
-                    return (
-                      <div className="flex items-center mt-5">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                        />
+                  <div className="relative">
+                    <SearchIcon
+                      className="absolute top-[22px] right-[8px] z-10"
+                      style={{ fill: "#d9d9db" }}
+                    />
+                    <Select
+                      // mode="tags"
+                      // defaultValue={["china"]}
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="Search|"
+                      className=""
+                      // onChange={handleChange}
+                      optionLabelProp="label"
+                      onChange={handleChangeOption}
+                      // options={options}
+                      open={true}
+                    >
+                      {countryData.map((item) => {
+                        return (
+                          <>
+                            <Option value={item.title} label={item.title}>
+                              <div className="flex items-center my-1">
+                                {/* <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  defaultValue=""
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                                /> */}
+                                {/* <Checkbox
+                                  className="w-4 h-4"
+                                  onChange={onChangeCheckBox}
+                                /> */}
 
-                        <label htmlFor="default-checkbox" className="ml-2 ">
-                          <h5 className="text-base font-normal text-[#637381]">
-                            {item.title}
-                          </h5>
-                        </label>
-                      </div>
-                    );
-                  })}
+                                <label
+                                  htmlFor="default-checkbox"
+                                  className="ml-2 "
+                                >
+                                  <h5 className="text-base font-normal text-[#637381]">
+                                    {item.title}
+                                  </h5>
+                                </label>
+                              </div>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </>
               )}
             </div>
@@ -676,25 +857,57 @@ const ProductList = () => {
 
               {Availability && (
                 <>
-                  <input type="text" placeholder="Search|" />
-                  {availabilityData.map((item) => {
-                    return (
-                      <div className="flex items-center mt-5">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                        />
+                  <div className="relative">
+                    <SearchIcon
+                      className="absolute top-[22px] right-[8px] z-10"
+                      style={{ fill: "#d9d9db" }}
+                    />
+                    <Select
+                      // mode="tags"
+                      // defaultValue={["china"]}
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="Search|"
+                      className=""
+                      // onChange={handleChange}
+                      optionLabelProp="label"
+                      onChange={handleChangeOption}
+                      // options={options}
+                      open={true}
+                    >
+                      {availabilityData.map((item) => {
+                        return (
+                          <>
+                            <Option value={item.title} label={item.title}>
+                              <div className="flex items-center my-1">
+                                {/* <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  defaultValue=""
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                                /> */}
+                                {/* <Checkbox
+                                  className="w-4 h-4"
+                                  onChange={onChangeCheckBox}
+                                /> */}
 
-                        <label htmlFor="default-checkbox" className="ml-2 ">
-                          <h5 className="text-base font-normal text-[#637381]">
-                            Option-1
-                          </h5>
-                        </label>
-                      </div>
-                    );
-                  })}
+                                <label
+                                  htmlFor="default-checkbox"
+                                  className="ml-2 "
+                                >
+                                  <h5 className="text-base font-normal text-[#637381]">
+                                    {item.title}
+                                  </h5>
+                                </label>
+                              </div>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </>
               )}
             </div>
@@ -713,25 +926,56 @@ const ProductList = () => {
 
               {Region && (
                 <>
-                  <input type="text" placeholder="Search|" />
-                  {RegionData.map((item) => {
-                    return (
-                      <div className="flex items-center mt-5">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                        />
-
-                        <label htmlFor="default-checkbox" className="ml-2 ">
-                          <h5 className="text-base font-normal text-[#637381]">
-                            {item.title}
-                          </h5>
-                        </label>
-                      </div>
-                    );
-                  })}
+                  <div className="relative">
+                    <SearchIcon
+                      className="absolute top-[22px] right-[8px] z-10"
+                      style={{ fill: "#d9d9db" }}
+                    />
+                    <Select
+                      // mode="tags"
+                      // defaultValue={["china"]}
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="Search|"
+                      className=""
+                      // onChange={handleChange}
+                      optionLabelProp="label"
+                      onChange={handleChangeOption}
+                      // options={options}
+                      open={true}
+                    >
+                      {RegionData.map((item) => {
+                        return (
+                          <>
+                            <Option value={item.title} label={item.title}>
+                              <div className="flex items-center my-1">
+                                {/* <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  defaultValue=""
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                                /> */}
+                                {/* <Checkbox
+                                  className="w-4 h-4"
+                                  onChange={onChangeCheckBox}
+                                /> */}
+                                <label
+                                  htmlFor="default-checkbox"
+                                  className="ml-2 "
+                                >
+                                  <h5 className="text-base font-normal text-[#637381]">
+                                    {item.title}
+                                  </h5>
+                                </label>
+                              </div>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </>
               )}
             </div>
@@ -809,15 +1053,53 @@ const ProductList = () => {
 
               {Tags && (
                 <>
-                  <input type="text" placeholder="Search|" />
+                  <div className="relative">
+                    <SearchIcon
+                      className="absolute top-[22px] right-[8px] z-10"
+                      style={{ fill: "#d9d9db" }}
+                    />
+                    <Select
+                      // mode="tags"
+                      // defaultValue={["china"]}
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="Search|"
+                      className=""
+                      // onChange={handleChange}
+                      optionLabelProp="label"
+                      onChange={handleChangeOption}
+                      // options={options}
+                      open={true}
+                    >
+                      {TagsProduct.map((item) => {
+                        return (
+                          <>
+                            <Option value={item.title} label={item.title}>
+                              <div className="flex items-center my-1">
+                                {/* <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  defaultValue=""
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                                /> */}
 
-                  <Select
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
-                    defaultValue={[colourOptions[4], colourOptions[5]]}
-                    isMulti
-                    options={colourOptions}
-                  />
+                                <label
+                                  htmlFor="default-checkbox"
+                                  className="ml-2 "
+                                >
+                                  <h5 className="text-base font-normal text-[#637381]">
+                                    {item.title}
+                                  </h5>
+                                </label>
+                              </div>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </>
               )}
             </div>
@@ -905,6 +1187,15 @@ const ProductList = () => {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="mt-8">
+              <Pagination
+                // itemActiveBg={"#F8FAFC"}
+                showSizeChanger={false}
+                total={500}
+                itemRender={itemRender}
+                className="flex justify-between items-center"
+              />
             </div>
           </div>
         </div>

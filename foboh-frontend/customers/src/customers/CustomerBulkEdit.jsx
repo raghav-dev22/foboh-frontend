@@ -3,16 +3,16 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 function CustomerBulkEdit() {
   const navigate = useNavigate();
-  const [selectedData,setSelectedData]=useState([]);
+  const [selectedData, setSelectedData] = useState([]);
   useLayoutEffect(() => {
-    getDatafromLocal()
-  }, [])
-  const getDatafromLocal = async() => {
-    const data=await localStorage.getItem('selectedCustomers');
-    if(data){
-      setSelectedData(JSON.parse(data))
+    getDatafromLocal();
+  }, []);
+  const getDatafromLocal = async () => {
+    const data = await localStorage.getItem("selectedCustomers");
+    if (data) {
+      setSelectedData(JSON.parse(data));
     }
-  }
+  };
   const values = [
     {
       jhashd: "hbhsad",
@@ -70,8 +70,8 @@ function CustomerBulkEdit() {
           </div>
         </div>
         <div
-          className={`relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
-          style={{ height: "530px" }}
+          className={`relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
+          style={{ height: "412px" }}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">
@@ -122,7 +122,7 @@ function CustomerBulkEdit() {
             </thead>
             <tbody>
               {selectedData.map((product, index) => {
-                console.log("Name is>>",product)
+                console.log("Name is>>", product);
                 return (
                   <tr
                     key={index.toString()}

@@ -30,7 +30,6 @@ function AddCustomers() {
   const [pageIndex, setPageIndex] = useState(1);
   const [selected, setSlected] = useState(0);
 
-
   let timeoutId;
   const handleDebounce = (value) => {
     clearTimeout(timeoutId);
@@ -48,26 +47,25 @@ function AddCustomers() {
   useEffect(() => {
     callApi(1);
   }, []);
-  const callApi =(item)=> {
+  const callApi = (item) => {
     // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=1
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=${item}`,
       {
         method: "GET",
-      },
+      }
     )
       .then((response) => response.json())
       .then((data) => {
         // console.log("customer data --->", data);
         setTableRecords(data.data);
-        setLoading(false)
+        setLoading(false);
         setPrevCustomer(data.data);
         const array = createArrayWithNumber(data.last_page);
         setTotalPages(data.last_page);
         setPages(array);
       });
-      console.log(tableRecords, "data1")
-
+    console.log(tableRecords, "data1");
   };
   const handleCustomerId = (item) => {
     navigate(`/dashboard/view-customer-details/`, { state: { data: item } });
@@ -87,23 +85,22 @@ function AddCustomers() {
       });
   };
 
-
-  
   const handleCheckbox = (e, product) => {
     const checked = e.target.checked;
-    const updatedSelectedProducts = checked? [...selectedProducts, product]: selectedProducts.filter((prod) => prod !== product);
+    const updatedSelectedProducts = checked
+      ? [...selectedProducts, product]
+      : selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
     setIsBulkEdit(updatedSelectedProducts.length > 1);
     console.log("selected products >>", selectedProducts);
     setSlected(selectedProducts.length);
   };
 
-
   const handleBulkEdit = () => {
     localStorage.setItem("selectedCustomers", JSON.stringify(selectedProducts));
     navigate("/dashboard/customer-bulk-edit");
   };
- 
+
   const handleSelectAllChange = (e) => {
     console.log("flag >>", e);
     const checked = e.target.checked;
@@ -120,7 +117,7 @@ function AddCustomers() {
       <ActiveCustomers
         selectedProductsLength={selectedProducts.length}
         product={selectedProducts[0]}
-       />
+      />
       <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
         <div className="box-3 px-6 ">
           <SearchCustomer
@@ -133,7 +130,7 @@ function AddCustomers() {
           />
         </div>
         <div className="pt-6 px-6 relative">
-          <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
+          <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead>
@@ -211,13 +208,11 @@ function AddCustomers() {
                             />
                           </div>
                         </td>
-                        <td className={classes}>
-
-                        </td>
+                        <td className={classes}></td>
                         <td className={classes}>
                           <div
-                            onClick={() =>
-                              handleCustomerId(product)
+                            onClick={
+                              () => handleCustomerId(product)
                               // navigate(
                               //   `/dashboard/view-product/${product.productId}`
                               // )

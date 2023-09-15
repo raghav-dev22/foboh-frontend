@@ -46,8 +46,9 @@ const ProfileEdit = () => {
       navigate("/home/profile");
     },
   });
+
   useEffect(() => {
-    setValues(buyer);
+    // setValues(buyer);
   }, []);
   console.log("error>>", values);
 
@@ -306,7 +307,7 @@ const ProfileEdit = () => {
                   htmlFor="LiquerLicence"
                   className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
-                  Email {" "}
+                  Email{" "}
                   <span className="text-sm font-normal">
                     This can’t be changed
                   </span>

@@ -8,6 +8,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
 import { json } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import DeliveryEditForm from "./DeliveryEditForm";
 
 const initialValues = {
   DeliveryAddress: "",
@@ -31,11 +32,86 @@ const DeliveryEdit = () => {
   // console.log(buyer, "hhhh");
   const [selectedOption, setSelectedOption] = useState(null);
   const [cart, setCart] = useState();
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
+  const stateOptions = [
+    { label: "Victoria", value: "option1" },
+    { label: "Queensland", value: "option2" },
+    { label: "Western Australia", value: "option3" },
   ];
+  const countryOptions = [
+    { label: "Victoria", value: "option1" },
+    { label: "Queensland", value: "option2" },
+    { label: "Western Australia", value: "option3" },
+  ];
+  const cityOptions = [
+    { label: "Ballina", value: "option1" },
+    { label: "Balranald	", value: "option2" },
+    { label: "Batemans Bay", value: "option3" },
+  ];
+  const handleBillingAddress = (e, name) => {
+    if (name === "handleBillingAddress") {
+      setValues({
+        ...values,
+        handleBillingAddress: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        handleBillingAddress: e,
+      });
+    }
+  };
+  const handleDeliveryCity = (e, name) => {
+    if (name === "City") {
+      setValues({
+        ...values,
+        City: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        City: e,
+      });
+    }
+  };
+  const handleDeliveryState = (e, name) => {
+    if (name === "State") {
+      setValues({
+        ...values,
+        State: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        State: e,
+      });
+    }
+  };
+  const handleBillingCity = (e, name) => {
+    if (name === "BillingCity") {
+      setValues({
+        ...values,
+        BillingCity: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        BillingCity: e,
+      });
+    }
+  };
+  const handleDeliveryCountry = (e, name) => {
+    if (name === "State") {
+      setValues({
+        ...values,
+        State: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        State: e,
+      });
+    }
+  };
   const {
     values,
     errors,
@@ -77,12 +153,11 @@ const DeliveryEdit = () => {
       });
     }
   };
-
-  // const handleData = () => {
-  //   // console.log(values, "kkk");
-  //   navigate("/home/profile");
-  //   localStorage.setItem("deliveryEdit", JSON.stringify(values));
-  // };
+  const [isChecked, setIsChecked] = useState(false);
+  const toggleCheckbox = () => {
+    setIsChecked(!isChecked);
+  };
+  console.log(isChecked, "toggleCheckbox");
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto  ">
@@ -105,7 +180,8 @@ const DeliveryEdit = () => {
                 Delivery Address
               </h2>
             </div>
-            <form onSubmit={handleSubmit} className="">
+            <DeliveryEditForm />
+            {/* <form onSubmit={handleSubmit} className="">
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label
                   htmlFor="DeliveryAddress"
@@ -173,14 +249,15 @@ const DeliveryEdit = () => {
                     City
                   </label>
 
-                  <input
+                  <Select
                     type="text"
+                    placeholder="City"
                     id="City"
-                    className="pl-custom-left"
+                    onChange={(e) => handleDeliveryCity(e, "City")}
                     name="City"
                     value={values.City}
-                    onChange={handleChange}
-                    autoComplete="off"
+                    options={cityOptions}
+                    className=""
                     style={{
                       border: errors.City && "1px solid red",
                     }}
@@ -232,14 +309,18 @@ const DeliveryEdit = () => {
                     State
                   </label>
 
-                  <input
+                  <Select
                     type="text"
+                    defaultValue={`DeliveryAddressState`}
+                    placeholder="DeliveryAddressState"
                     id="DeliveryAddressState"
-                    className="pl-custom-left"
+                    onChange={(e) =>
+                      handleDeliveryState(e, "DeliveryAddressState")
+                    }
                     name="DeliveryAddressState"
                     value={values.DeliveryAddressState}
-                    onChange={handleChange}
-                    autoComplete="off"
+                    options={stateOptions}
+                    className=""
                     style={{
                       border: errors.DeliveryAddressState && "1px solid red",
                     }}
@@ -260,13 +341,16 @@ const DeliveryEdit = () => {
                   >
                     Country
                   </label>
-                  <input
+                  <Select
                     type="text"
+                    defaultValue={`Country`}
+                    placeholder="Country"
                     id="Country"
-                    value={values.Country}
-                    onChange={handleChange}
+                    onChange={(e) => handleDeliveryCountry(e, "Country")}
                     name="Country"
-                    className="pl-custom-left"
+                    value={values.Country}
+                    options={countryOptions}
+                    className=""
                     style={{
                       border: errors.Country && "1px solid red",
                     }}
@@ -358,7 +442,12 @@ const DeliveryEdit = () => {
 
                 <div className={`relative mb-8 `} data-te-input-wrapper-init>
                   <label className="md:w-2/3 flex items-center ">
-                    <input className="mr-2 leading-tight" type="checkbox" />
+                    <input
+                      className="mr-2 leading-tight"
+                      type="checkbox"
+                      checked={isChecked}
+                      onClick={toggleCheckbox}
+                    />
                     <span className="text-sm font-normal text-[#2B4447]">
                       Billing same as delivery address
                     </span>
@@ -377,6 +466,12 @@ const DeliveryEdit = () => {
                     id="BillingAddress"
                     name="BillingAddress"
                     className="pl-custom-left"
+                    // value={values.BillingAddress}
+                    value={
+                      isChecked
+                        ? "values.BillingAddress"
+                        : "values.DeliveryAddress"
+                    }
                     onChange={handleChange}
                     autoComplete="off"
                     style={{
@@ -427,18 +522,20 @@ const DeliveryEdit = () => {
                     >
                       City
                     </label>
-
-                    <input
+                    <Select
                       type="text"
+                      placeholder="City"
                       id="BillingCity"
+                      onChange={(e) => handleBillingCity(e, "BillingCity")}
                       name="BillingCity"
-                      className="pl-custom-left"
-                      onChange={handleChange}
-                      autoComplete="off"
+                      value={values.BillingCity}
+                      options={cityOptions}
+                      className=""
                       style={{
                         border: errors.BillingCity && "1px solid red",
                       }}
                     />
+
                     {errors.BillingCity && (
                       <p className="mt-2 mb-2 text-red-500 text-xs">
                         {errors.BillingCity}
@@ -485,28 +582,17 @@ const DeliveryEdit = () => {
                     >
                       State{" "}
                     </label>
-                    {/* <input
-                        type="text"
-                        id="BusinessName"
-                        name="BillingAddressState"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="pl-custom-left"
-                        style={{
-                          border: errors.BillingAddressState && "1px solid red",
-                        }}
-                      /> */}
-                    <input
-                      // defaultValue={selectedOption}
+
+                    <Select
                       type="text"
+                      placeholder="City"
                       id="BillingAddressState"
-                      // onChange={(e) =>
-                      //   handleBillingState(e, "BillingAddressState")
-                      // }
-                      onChange={handleChange}
+                      onChange={(e) =>
+                        handleBillingAddress(e, "BillingAddressState")
+                      }
                       name="BillingAddressState"
                       value={values.BillingAddressState}
-                      // options={options}
+                      options={cityOptions}
                       className=""
                       style={{
                         border: errors.BillingAddressState && "1px solid red",
@@ -534,7 +620,7 @@ const DeliveryEdit = () => {
                   Save
                 </button>
               </div>
-            </form>
+            </form> */}
           </div>
         </div>
       </div>

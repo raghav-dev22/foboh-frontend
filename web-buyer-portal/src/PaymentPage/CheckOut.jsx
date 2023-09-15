@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import { DeliveryAddressSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 const CheckOut = () => {
   const navigate = useNavigate();
   const [data, setData] = useState();
@@ -25,17 +26,60 @@ const CheckOut = () => {
     DeliveryInstruction: "",
     DeliveryContact: "",
   };
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: DeliveryAddressSchema,
-      onSubmit: (values) => {
-        setData(values);
-        console.log(data, "hhhhhh");
-        localStorage.setItem("myKey", JSON.stringify(values));
-        navigate("/home/payment-page/delivery");
-      },
-    });
+  const stateOptions = [
+    { label: "Victoria", value: "option1" },
+    { label: "Queensland", value: "option2" },
+    { label: "Western Australia", value: "option3" },
+  ];
+  const cityOptions = [
+    { label: "Ballina", value: "option1" },
+    { label: "Balranald	", value: "option2" },
+    { label: "Batemans Bay", value: "option3" },
+  ];
+  const handleBillingCity = (e, name) => {
+    if (name === "City") {
+      setValues({
+        ...values,
+        City: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        City: e,
+      });
+    }
+  };
+  const handleBillingState = (e, name) => {
+    if (name === "State") {
+      setValues({
+        ...values,
+        State: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        State: e,
+      });
+    }
+  };
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    setValues,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: DeliveryAddressSchema,
+    onSubmit: (values) => {
+      setData(values);
+      console.log(data, "hhhhhh");
+      localStorage.setItem("myKey", JSON.stringify(values));
+      navigate("/home/payment-page/delivery");
+    },
+  });
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -199,7 +243,7 @@ const CheckOut = () => {
                   </div>
                 </div>
                 <div className="flex md:flex-nowrap gap-4">
-                  <div className="w-full  relative mb-3 md:mb-0">
+                  <div className="w-full  relative mb-3 ">
                     <input
                       className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                       id="Company"
@@ -249,48 +293,64 @@ const CheckOut = () => {
                   </div>
                 </div>
                 <div className="flex md:flex-nowrap gap-4">
-                  <div className="w-full  relative mb-3 md:mb-0">
-                    <input
+                  <div className="w-full   mb-3 md:mb-0">
+                    {/* <input
                       className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                       id="City"
                       type="text"
-                      placeholder="City"
+                      placeholder="City, Suite, etc"
                       value={values.City}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       style={{
                         border: errors.City && touched.City && "1px solid red",
                       }}
-                    />
-                    {errors.City && touched.City && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs">
-                        {errors.City}
-                      </p>
-                    )}
-                    {errors.City && touched.City && (
-                      <ErrorOutlineIcon className="absolute text-red-500 top-[22px] right-3 transition-all duration-[0.3s]" />
-                    )}
-                  </div>
-                  <div className="w-full relative  mb-3">
-                    <input
-                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                      id="State"
-                      placeholder="State/Teritory"
-                      value={values.State}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+                    /> */}
+                    <Select
+                      type="text"
+                      placeholder="City"
+                      id="City"
+                      onChange={(e) => handleBillingCity(e, "City")}
+                      name="City"
+                      value={values.City}
+                      options={cityOptions}
+                      className=""
                       style={{
-                        border:
-                          errors.State && touched.State && "1px solid red",
+                        border: errors.City && "1px solid red",
                       }}
                     />
-                    {errors.State && touched.State && (
+                    {errors?.City && touched?.City && (
                       <p className="mt-2 mb-2 text-red-500 text-xs">
-                        {errors.State}
+                        {errors?.City}
                       </p>
                     )}
-                    {errors.State && touched.State && (
-                      <ErrorOutlineIcon className="absolute text-red-500 top-[22px] right-3 transition-all duration-[0.3s]" />
+                    {errors?.City && touched?.City && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
+                    )}
+                  </div>
+                  <div className="w-full   mb-3">
+                    <Select
+                      type="text"
+                      defaultValue={`state`}
+                      placeholder="State"
+                      id="State"
+                      onChange={(e) => handleBillingState(e, "State")}
+                      name="State"
+                      value={values.State}
+                      options={stateOptions}
+                      className=""
+                      style={{
+                        border: errors.State && "1px solid red",
+                      }}
+                    />
+
+                    {errors?.State && touched?.State && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs">
+                        {errors?.State}
+                      </p>
+                    )}
+                    {errors?.State && touched?.State && (
+                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
                   </div>
                 </div>

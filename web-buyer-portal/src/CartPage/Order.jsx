@@ -14,8 +14,43 @@ import ProductDetails from "../ProductPage/ProductDetails";
 import { remove, updateQuantity } from "../slices/CartSlice";
 import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
+import AppliedCoupon from "../modal/AppliedCoupon";
 
 const Order = () => {
+  const [show, setShow] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const [applied, setApplied] = useState(false);
+  const [bg, setBg] = useState("#000");
+  const [color, setColor] = useState();
+  const [invalid, setInvalid] = useState("");
+  const promoCodes = {
+    CODE001: "CODE001",
+    CODE002: "CODE002",
+    CODE003: "CODE003",
+    CODE004: "CODE004",
+  };
+  const handlePromoCodeChange = (e) => {
+    setPromoCode(e.target.value);
+  };
+
+  const applyPromoCode = () => {
+    if (promoCode === promoCodes.CODE001) {
+      setColor("#563FE3");
+      setBg("#563FE3");
+      setApplied(true);
+      setInvalid("");
+      setShow(true);
+    } else if (promoCode === promoCodes.CODE003) {
+      setBg("#000");
+      setInvalid("This code is expired.");
+    } else if (promoCode === promoCodes.CODE004) {
+      setBg("#000");
+      setInvalid("This code has already been applied.");
+    } else {
+      setInvalid("This code is invalid.");
+      setBg("#000");
+    }
+  };
   const [totalCost, setTotleCost] = useState(0);
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
@@ -107,6 +142,30 @@ const Order = () => {
         </>
       )}
 
+      <div className="pt-5">
+        <h4 className="text-lg font-semibold text-[#2B4447]">
+          Promotional Code
+        </h4>
+        <div className="relative">
+          <input
+            className={`placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-[${color}] `}
+            id="grid-first-name"
+            type="text"
+            placeholder="Promotional Code"
+            value={promoCode}
+            onChange={handlePromoCodeChange}
+          />
+          <button
+            className={`bg-[${bg}] absolute top-0 right-0 h-full w-[65px] flex justify-center items-center rounded-r-[8px]`}
+            onClick={applyPromoCode}
+          >
+            <ChevronRightIcon style={{ fill: "#fff" }} />
+          </button>
+
+          <AppliedCoupon show={show} setShow={setShow} />
+        </div>
+        <p className="text-[#E94444] text-sm font-normal mt-2">{invalid}</p>
+      </div>
       <div className="py-4">
         <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
           <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
@@ -127,22 +186,6 @@ const Order = () => {
             Order total
           </h5>
           <h5 className="text-base font-semibold text-[#2B4447]">$60.00</h5>
-        </div>
-      </div>
-      <div className="pt-5">
-        <h4 className="text-lg font-semibold text-[#2B4447]">
-          Promotional Code
-        </h4>
-        <div className="relative">
-          <input
-            className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-            id="grid-first-name"
-            type="text"
-            placeholder="Promotional Code"
-          />
-          <div className=" bg-[#9A9A9A] absolute top-0 right-0 h-full w-[65px] flex justify-center items-center rounded-r-[8px]">
-            <ChevronRightIcon style={{ fill: "#fff" }} />
-          </div>
         </div>
       </div>
 
