@@ -10,22 +10,19 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 
-const initialValues = [
-  {
-    supplierRep: {},
-    pricingProfile: {},
-    freightProfile: {},
-    defaultPaymentMethod: {},
-    defaultPaymenterm: {},
-  },
-];
-
 function CustomerBulkEdit() {
   const navigate = useNavigate();
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [defaultPaymentTerm, setDefaultPaymentTerm] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
-  const [selectedData, setSelectedData] = useState([]);
+  const [initialValues, setInitialValues] = useState([
+    {
+      customerId: "",
+      pricingProfile: {},
+      defaultPaymentMethod: {},
+      defaultPaymenterms: {},
+    },
+  ]);
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
@@ -35,17 +32,39 @@ function CustomerBulkEdit() {
       },
     });
 
-  useLayoutEffect(() => {
-    getDatafromLocal();
-  }, []);
-  const getDatafromLocal = async () => {
-    const data = await localStorage.getItem("selectedCustomers");
+  console.log("vals", values);
+
+  const getDatafromLocal = () => {
+    const data = localStorage.getItem("selectedCustomers");
     if (data) {
-      setSelectedData(JSON.parse(data));
+      const selectedData = JSON.parse(data);
+
+      const selectedCustomersValue = selectedData.map((customer) => {
+        const dpm = options.find(
+          (item) => item.value === +customer?.defaultPaymentMethodId
+        );
+        const pp = options.find(
+          (item) => item.value === +customer?.pricingProfileId
+        );
+        const dpt = options.find(
+          (item) => item.value === customer?.defaultPaymentermId
+        );
+
+        return {
+          customerId: customer?.buyerId,
+          pricingProfile: pp || {},
+          defaultPaymentMethod: dpm || {},
+          defaultPaymenterms: dpt || {},
+        };
+      });
+      setInitialValues(selectedCustomersValue);
+      setValues(selectedCustomersValue);
     }
   };
 
   useEffect(() => {
+    getDatafromLocal();
+
     axios
       .get("https://masters-api-foboh.azurewebsites.net/api/PaymentMethods")
       .then((response) => {
@@ -77,23 +96,42 @@ function CustomerBulkEdit() {
       .catch((error) => {
         console.error("Error fetching DefaultPaymentTerm:", error);
       });
-
-    const selectedProductsValue = selectedData.map((customer) => {
-      return {
-        supplierRep: product?.supplierRep,
-        pricingProfile: product?.pricingProfile,
-        freightProfile: product?.freightProfile,
-        defaultPaymentMethod: product?.defaultPaymentMethod,
-        defaultPaymenterm: product?.defaultPaymenterm,
-      };
-      setValues(selectedProductsValue);
-    });
   }, []);
 
-  const handleFieldChange = (productId, title, value) => {
+  const handleFieldChange = (customerId, title, value) => {
     setIsUpdate(true);
+    setValues((values) => {
+      const updatedCustomer = values.map((customer) => {
+        if (customer.customerId === customerId && title === "pricingProfile") {
+          return {
+            ...customer,
+            pricingProfile: value,
+          };
+        } else if (
+          customer.customerId === customerId &&
+          title === "defaultPaymentMethod"
+        ) {
+          return {
+            ...customer,
+            defaultPaymentMethod: value,
+          };
+        } else if (
+          customer.customerId === customerId &&
+          title === "defaultPaymenterms"
+        ) {
+          return {
+            ...customer,
+            defaultPaymenterms: value,
+          };
+        }
+        return customer;
+      });
+      return updatedCustomer;
+    });
   };
+
   const handleCancle = () => {
+    setValues(initialValues)
     setIsUpdate(false);
   };
 
@@ -148,76 +186,42 @@ function CustomerBulkEdit() {
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-green	font-medium text-base"
+                  className="px-6 py-3 text-green	font-medium text-base	"
                 >
-                  supplier rep
+                  Pricing profile
+                </th>
+
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-green	font-medium text-base	"
+                >
+                  Default payment methods
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base	"
                 >
-                  pricing profile
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-green	font-medium text-base	"
-                >
-                  freight profile
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-green	font-medium text-base	"
-                >
-                  default payment method
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-green	font-medium text-base	"
-                >
-                  default payment term
+                  Default payment terms
                 </th>
               </tr>
             </thead>
             <tbody>
-              {selectedData.map((product, index) => {
+              {values.map((customer, index) => {
                 return (
                   <tr
                     key={index.toString()}
                     className={`bg-white border-b  dark:border-gray-700   tableNo-${index}`}
                   >
-                    <th
-                      scope="row"
-                      className=" whitespace-nowrap dark:text-white"
-                    >
-                      <td className={`px-6 py-4 selectId-${index}`}>
-                        <div className="w-44">
-                          <Select
-                            name="colors"
-                            options={options}
-                            value={product.state}
-                            onChange={(e) =>
-                              handleFieldChange(
-                                product.productId,
-                                "configuration",
-                                e
-                              )
-                            }
-                            className="basic-multi-select-2 "
-                            classNamePrefix="select"
-                          />
-                        </div>
-                      </td>
-                    </th>
                     <td className={`px-6 py-4 selectId-${index}`}>
                       <div className="w-44">
                         <Select
                           name="colors"
                           options={options}
-                          value={product.state}
+                          value={customer?.pricingProfile}
                           onChange={(e) =>
                             handleFieldChange(
-                              product.productId,
-                              "configuration",
+                              customer.customerId,
+                              "pricingProfile",
                               e
                             )
                           }
@@ -226,34 +230,17 @@ function CustomerBulkEdit() {
                         />
                       </div>
                     </td>
+
                     <td className={`px-6 py-4 selectId-${index}`}>
                       <div className="w-44">
                         <Select
                           name="colors"
-                          options={options}
-                          value={product.state}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              product.productId,
-                              "configuration",
-                              e
-                            )
-                          }
-                          className="basic-multi-select-2 "
-                          classNamePrefix="select"
-                        />
-                      </div>
-                    </td>
-                    <td className={`px-6 py-4 selectId-${index}`}>
-                      <div className="w-44">
-                        <Select
-                          name="colors"
-                          // options={configurations}
                           options={paymentMethods}
+                          value={customer?.defaultPaymentMethod}
                           onChange={(e) =>
                             handleFieldChange(
-                              product.productId,
-                              "configuration",
+                              customer.customerId,
+                              "defaultPaymentMethod",
                               e
                             )
                           }
@@ -268,11 +255,11 @@ function CustomerBulkEdit() {
                         <Select
                           name="colors"
                           options={defaultPaymentTerm}
-                          value={product.state}
+                          value={customer?.defaultPaymenterms}
                           onChange={(e) =>
                             handleFieldChange(
-                              product.productId,
-                              "configuration",
+                              customer.customerId,
+                              "defaultPaymenterms",
                               e
                             )
                           }

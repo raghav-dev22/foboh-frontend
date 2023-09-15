@@ -180,7 +180,7 @@ function BulkEdit() {
         productId: product?.productId,
       };
     });
-
+    
     setValues(selectedProductsValue);
   }, []);
 
