@@ -33,7 +33,6 @@ const Payment = () => {
   };
   const [openDetails, setOpenDetails] = useState(false);
 
-  const [change, setChange] = useState(false);
   const [editContact, setEditContact] = useState(false);
   return (
     <>
@@ -486,33 +485,7 @@ const Payment = () => {
           </div>
 
           <div className="py-4">
-            <div className="flex items-center mb-4">
-              <input
-                defaultChecked=""
-                id="default-checkbox"
-                type="checkbox"
-                defaultValue=""
-                name="default-radio"
-                onClick={() => {
-                  setChange(!change);
-                }}
-                // onClick={() => {
-                //   addressBtn();
-                // }}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-                // style={{
-                //   boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                // }}
-              />
-
-              <label
-                htmlFor="radio-3"
-                className="ml-4 text-base font-normal text-[#2B4447] dark:text-gray-300"
-              >
-                Same as delivery address
-              </label>
-            </div>
-            {change === true ? <DeliveryAddress /> : <BillingAddress />}
+            <BillingAddress />
           </div>
         </div>
       </div>

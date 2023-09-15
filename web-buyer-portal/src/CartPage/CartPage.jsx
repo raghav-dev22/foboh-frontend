@@ -184,7 +184,7 @@ const CartPage = () => {
                   <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
                 </div>
               </div>
-              <Link to="/home/payment-page/check-out">
+              <Link to="/home/payment-page/payment">
                 <button className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white">
                   {" "}
                   Checkout

@@ -178,8 +178,8 @@ function CustomerBulkEdit() {
           </div>
         </div>
         <div
-          className={`relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
-          style={{ height: "530px" }}
+          className={`relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
+          style={{ height: "412px" }}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">

@@ -303,3 +303,19 @@ select {
   > .ant-tabs-nav::before {
   border-bottom: none !important;
 }
+.ant-select-selector {
+  border-radius: 6px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #fff;
+  margin-top: 10px;
+  padding: 10px 20px !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  box-shadow: none !important;
+}
+.ant-select-arrow {
+  display: none !important;
+}
+:where(.css-dev-only-do-not-override-17a39f8).ant-select-dropdown {
+  box-shadow: none !important;
+}

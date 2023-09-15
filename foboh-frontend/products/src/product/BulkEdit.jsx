@@ -109,7 +109,8 @@ function BulkEdit() {
               buyPrice: product?.buyPrice,
               configuration: product?.configuration,
               availableQty: product?.stockAlertLevel,
-              visibility: product?.visibility?.label === "Visible" ? true : false,
+              visibility:
+                product?.visibility?.label === "Visible" ? true : false,
               productStatus: product?.status?.label,
             };
           })
@@ -117,7 +118,7 @@ function BulkEdit() {
       }
     )
       .then((response) => {
-        response.json()
+        response.json();
       })
       .then((data) => {
         console.log("response data:", data);
@@ -199,14 +200,17 @@ function BulkEdit() {
             baseUnitMeasure: value,
             configuration: `${product?.innerUnitMeasure?.value} x ${value?.label}`,
           };
-        } else if (product.productId === productId && title === "innerUnitMeasure") {
+        } else if (
+          product.productId === productId &&
+          title === "innerUnitMeasure"
+        ) {
           return {
             ...product,
             innerUnitMeasure: value,
             configuration: `${value?.value} x ${product?.baseUnitMeasure?.label}`,
           };
-        } else if (product.productId === productId ) {
-          return {...product,  [title]: value  }
+        } else if (product.productId === productId) {
+          return { ...product, [title]: value };
         }
         return product;
       });
@@ -265,8 +269,8 @@ function BulkEdit() {
         </div>
 
         <div
-          className={`relative custom-scroll-bar overflow-x-scroll overflow-y-auto  shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full `}
-          style={{ height: "530px" }}
+          className={`relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
+          style={{ height: "412px" }}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">

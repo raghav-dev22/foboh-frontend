@@ -11,6 +11,7 @@ import {
 import Signup from "./loginRegister/Signup";
 import { Provider } from "react-redux";
 import Verifyemail from "./loginRegister/Verifyemail";
+import VerifyPassword from "./loginRegister/VerifyPassword";
 import HomePage from "./HomePage/HomePage";
 import store from "./store/Store";
 import MainHomePage from "./HomePage/MainHomePage";

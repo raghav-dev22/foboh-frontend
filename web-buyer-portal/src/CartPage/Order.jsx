@@ -20,6 +20,8 @@ const Order = () => {
   const [show, setShow] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [applied, setApplied] = useState(false);
+  const [bg, setBg] = useState("#000");
+  const [color, setColor] = useState();
   const [invalid, setInvalid] = useState("");
   const promoCodes = {
     CODE001: "CODE001",
@@ -33,15 +35,20 @@ const Order = () => {
 
   const applyPromoCode = () => {
     if (promoCode === promoCodes.CODE001) {
+      setColor("#563FE3");
+      setBg("#563FE3");
       setApplied(true);
       setInvalid("");
       setShow(true);
     } else if (promoCode === promoCodes.CODE003) {
+      setBg("#000");
       setInvalid("This code is expired.");
     } else if (promoCode === promoCodes.CODE004) {
+      setBg("#000");
       setInvalid("This code has already been applied.");
     } else {
       setInvalid("This code is invalid.");
+      setBg("#000");
     }
   };
   const [totalCost, setTotleCost] = useState(0);
@@ -141,7 +148,7 @@ const Order = () => {
         </h4>
         <div className="relative">
           <input
-            className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+            className={`placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-[${color}] `}
             id="grid-first-name"
             type="text"
             placeholder="Promotional Code"
@@ -149,7 +156,7 @@ const Order = () => {
             onChange={handlePromoCodeChange}
           />
           <button
-            className=" bg-[#9A9A9A] absolute top-0 right-0 h-full w-[65px] flex justify-center items-center rounded-r-[8px]"
+            className={`bg-[${bg}] absolute top-0 right-0 h-full w-[65px] flex justify-center items-center rounded-r-[8px]`}
             onClick={applyPromoCode}
           >
             <ChevronRightIcon style={{ fill: "#fff" }} />
