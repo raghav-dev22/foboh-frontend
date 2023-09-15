@@ -67,32 +67,22 @@ const ProductList = () => {
     }
     return originalElement;
   };
-  const Data = listdata;
+  // const Data = listdata;
 
-  console.log("data", listdata);
+  // console.log("data", listdata);
 
   const animatedComponents = makeAnimated();
-
   const [wine, setWine] = useState(false);
-
   const [Segment, setSegment] = useState(false);
-
   const [Variety, setVariety] = useState(false);
-
   const [Country, setCountry] = useState(false);
-
   const [Region, setRegion] = useState(false);
-
   const [Availability, setAvailability] = useState(false);
-
   const [Price, setPrice] = useState(false);
-
   const [Tags, setTags] = useState(false);
-
   const [Sort, setSort] = useState(false);
-
+  const [page, setPage] = useState(1)
   const productData = useSelector((state) => state.product);
-
   const wineProduct = [
     {
       title: " Option-1",
@@ -219,11 +209,11 @@ const ProductList = () => {
   const addCart = (id, itemData, actionType) => {
     if (CARTdata.length > 0) {
       CARTdata.forEach((item) => {
-        if (item.product?.id === id) {
+        if (item.product?.productId === id) {
           dispatch(updateQuantity({ id, actionType }));
         }
       });
-      const isNewProduct = !CARTdata.some((item) => item.product?.id === id);
+      const isNewProduct = !CARTdata.some((item) => item.product?.productId === id);
       if (isNewProduct) {
         dispatch(add(itemData));
       }
@@ -232,18 +222,51 @@ const ProductList = () => {
     }
   };
 
+  const onShowSizeChange = (current, pageSize) => {
+    console.log("page", current, pageSize);
+    setPage(current)
+  };
+
+  // useEffect(() => {
+  //   dispatch(
+  //     setProductData(
+  //       Data.map((item) => {
+  //         return {
+  //           product: item,
+  //           quantity: 0,
+  //         };
+  //       })
+  //     )
+  //   );
+  // }, []);
   useEffect(() => {
-    dispatch(
-      setProductData(
-        Data.map((item) => {
-          return {
-            product: item,
-            quantity: 0,
-          };
-        })
-      )
-    );
-  }, []);
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}`;
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(
+          setProductData(
+            data.data.map((item) => {
+              return {
+                product: item,
+                quantity: 0,
+              };
+            })
+          )
+        );
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+
+  }, [page]);
+
+  console.log(productData, "products data")
 
   const WineBtn = () => {
     setWine(!wine);
@@ -391,7 +414,7 @@ const ProductList = () => {
 
   const handleIncrementDecrement = (id, actionType) => {
     const updatedProductData = productData.map((item) => {
-      if (item.product.id === id) {
+      if (item?.product?.productId === id) {
         if (actionType === "decrement" && item.quantity > 1) {
           return {
             ...item,
@@ -1113,36 +1136,42 @@ const ProductList = () => {
                     <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
                       <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
                     </div>
-
-                    <img
-                      src={item.product?.img}
-                      alt=""
-                      className="cursor-pointer"
-                      onClick={() =>
-                        navigate(`/home/product-details/${item.product.id}`)
-                      }
-                    />
+                    <div className="h-[150px] bg-[#c3c3c3]">
+                      <img
+                        src={item?.product?.productImageUrls}
+                        alt=""
+                        className="cursor-pointer w-full h-full object-cover"
+                        onClick={() =>
+                          navigate(`/home/product-details/${item?.product?.productId}`)
+                        }
+                      />
+                    </div>
                   </div>
-
                   <h4
                     onClick={() =>
-                      navigate(`/home/product-details/${item.product.id}`)
+                      navigate(`/home/product-details/${item?.product?.productId}`)
                     }
                     className="text-lg font-semibold mt-3 cursor-pointer"
                   >
-                    {item.product?.title}
+                    {item?.product?.title}
+                  </h4>
+                  <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
+                    {item?.product?.brand}
                   </h4>
 
-                  <p className="md:text-base text-sm font-medium text-[#637381] mt-2">
-                    {item.product?.name}
-                  </p>
-
-                  <p className="md:text-base text-sm font-medium text-[#2B4447] mt-2">
-                    {item.product?.details}
+                  <p className="md:text-base text-sm font-medium text-[#637381] mt-2"
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: "25ch",
+                    }}
+                  >
+                    {item?.product?.description}
                   </p>
 
                   <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                    {item.product?.price}
+                    {item?.product?.buyPrice}
                   </h4>
 
                   <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
@@ -1150,7 +1179,7 @@ const ProductList = () => {
                       <p
                         className="text-[#637381] cursor-pointer"
                         onClick={() =>
-                          handleIncrementDecrement(item.product.id, "decrement")
+                          handleIncrementDecrement(item?.product?.productId, "decrement")
                         }
                       >
                         -
@@ -1158,13 +1187,13 @@ const ProductList = () => {
 
                       <p className="text-[#637381] md:text-sm text-[10px]">
                         {" "}
-                        {item.quantity}
+                        {item?.quantity}
                       </p>
 
                       <p
                         className="text-[#637381] cursor-pointer"
                         onClick={() =>
-                          handleIncrementDecrement(item.product.id, "increment")
+                          handleIncrementDecrement(item?.product?.productId, "increment")
                         }
                       >
                         +
@@ -1174,13 +1203,13 @@ const ProductList = () => {
                     <button
                       className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2"
                       onClick={() => {
-                        addCart(item?.product?.id, item, "increment");
+                        addCart(item?.product?.productId, item, "increment");
                       }}
                     >
                       {" "}
                       <ShoppingBasketIcon
                         style={{ fill: "#fff", width: "16px" }}
-                        // className="md:w-full w-[12px]"
+                      // className="md:w-full w-[12px]"
                       />
                       Add To Cart
                     </button>
@@ -1193,6 +1222,8 @@ const ProductList = () => {
                 // itemActiveBg={"#F8FAFC"}
                 showSizeChanger={false}
                 total={500}
+                onChange={onShowSizeChange}
+                // onShowSizeChange={onShowSizeChange}
                 itemRender={itemRender}
                 className="flex justify-between items-center"
               />

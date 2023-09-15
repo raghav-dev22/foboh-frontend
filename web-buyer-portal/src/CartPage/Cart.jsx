@@ -59,7 +59,7 @@ const Cart = ({ open, onClose }) => {
                           <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
                             <div className="cart-img">
                               <img
-                                src={item.product?.img}
+                                src={item.product?.productImageUrls}
                                 alt=""
                                 className="max-w-[80px] w-[80px] h-[80px] object-cover	"
                               />
@@ -70,13 +70,13 @@ const Cart = ({ open, onClose }) => {
                                   {item.product?.title}
                                 </h5>
                                 <p className=" text-[#666666] text-xs">
-                                  {item.product?.name}
+                                  {item.product?.description}
                                 </p>
                               </div>
                               <div className="flex justify-between items-center">
                                 <h5 className="text-sm font-bold">
                                   {" "}
-                                  {item.product?.price}
+                                  {item?.product?.buyPrice}
                                 </h5>
                                 <p className=" text-[#666666] text-xs mx-3">
                                   Qty-{item.quantity}

@@ -20,7 +20,7 @@ function ShopSection() {
       .then((data) => {
         const limitedProducts = (data.data).slice(0, 8);
         setProducts(limitedProducts);
-        console.log(limitedProducts, "products data")
+        console.log(data.data, "products data")
       })
       .catch((error) => {
         console.error('There was a problem with the fetch operation:', error);
