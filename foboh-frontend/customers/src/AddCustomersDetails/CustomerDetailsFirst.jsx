@@ -18,12 +18,12 @@ function CustomerDetailsFirst({
     if (name === 'tags') {
       setValues({
         ...values,
-        tags: e.map((option) => JSON.stringify(option.value)),
+        tags: e,
       });
     } else {
       setValues({
         ...values,
-        [name]: JSON.stringify(e[0]?.value),
+        [name]: e,
       });
     }
     console.log("all values>>",values)
@@ -144,9 +144,7 @@ function CustomerDetailsFirst({
                 name="salesRepId"
                 isMulti={true}
                 options={options}
-                value={options.find(
-                  (option) => option.value === values.salesRepId
-                )}
+                value={values?.salesRepId}
                 onChange={(e) => handleSelect(e, "salesRepId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -173,9 +171,10 @@ function CustomerDetailsFirst({
                 id="pricingProfileId"
                 name="pricingProfileId"
                 isMulti={true}
-                value={options.find(
-                  (option) => option.value === values.pricingProfileId
-                )}
+                // value={options.find(
+                //   (option) => option.value === values.pricingProfileId
+                // )}
+                value={values?.pricingProfileId}
                 options={options}
                 onChange={(e) => handleSelect(e, "pricingProfileId")}
                 className="basic-multi-select "
@@ -205,9 +204,10 @@ function CustomerDetailsFirst({
                 name="defaultPaymentTerms"
                 isMulti={true}
                 options={options}
-                value={options.find(
-                  (option) => option.value === values.defaultPaymentTerms
-                )}
+                // value={options.find(
+                //   (option) => option.value === values.defaultPaymentTerms
+                // )}
+                value={values?.defaultPaymentTerms}
                 onChange={(e) => handleSelect(e, "defaultPaymentTerms")}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -233,9 +233,10 @@ function CustomerDetailsFirst({
               <Select
                 name="defaultPaymentMethodId"
                 isMulti
-                value={options.find(
-                  (option) => option.value === values.defaultPaymentMethodId
-                )}
+                // value={options.find(
+                //   (option) => option.value === values.defaultPaymentMethodId
+                // )}
+                value={values?.defaultPaymentMethodId}
                 options={options}
                 onChange={(e) => handleSelect(e, "defaultPaymentMethodId")}
                 className="basic-multi-select "
@@ -272,9 +273,10 @@ function CustomerDetailsFirst({
               <Select
                 name="tags"
                 isMulti
-                value={options.find(
-                  (option) => option.value === values.tags
-                )}
+                // value={options.find(
+                //   (option) => option.value === values.tags
+                // )}
+                value={values?.tags}
                 options={options}
                 onChange={(e) => handleSelect(e, "tags")}
                 // onChange={}

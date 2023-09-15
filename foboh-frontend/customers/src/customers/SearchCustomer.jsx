@@ -3,6 +3,7 @@ import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import { Select, Space } from 'antd';
 let filterAndSort = {
   filter: {
     businessName: "",
@@ -41,10 +42,15 @@ function SearchCustomer({
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
   const [itemLabel, setItemLabel] = useState("");
   const [isFilter, setIsFilter] = useState(false);
-  const dropdownRef = useRef(null);
   const firstDropdownRef = useRef(null);
   const secondDropdownRef = useRef(null);
   const thirdDropdownRef = useRef(null);
+  const { Option } = Select;
+
+
+  const handleChange = (value) => {
+    console.log("Value >>", value);
+  };
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -74,13 +80,14 @@ function SearchCustomer({
     console.log("val", filterAndSort);
   };
 
-  const addState = (item) => {
-    console.log(item, "item");
-    if (!filterAndSort.filter.state.includes(item)) {
+  const addState = (value) => {
+    console.log(value,"item");
+
+    const newState = value
       // Clone the filter object to avoid mutating the state directly
       const updatedFilter = {
         ...filterAndSort.filter,
-        state: [...filterAndSort.filter.state, item],
+        state: newState,
       };
 
       filterAndSort = {
@@ -92,32 +99,15 @@ function SearchCustomer({
 
       console.log("debou >>", filterAndSort);
       // Save input here if needed
-      processChange("filterAndSort");
-    } else {
-      const updatedState = filterAndSort.filter.state.filter(
-        (state) => state !== item
-      );
-
-      // Clone the filter object and update the state array
-      const updatedFilter = {
-        ...filterAndSort.filter,
-        state: updatedState,
-      };
-
-      filterAndSort = {
-        ...filterAndSort,
-        filter: updatedFilter,
-      };
-      console.log("debou >>", filterAndSort);
-      processChange("filterAndSort");
-    }
+    
+    processChange("filterAndSort");
   };
 
   const DropDownFirst = () => {
     setFirst(!First);
     setSecond(false);
     setThird(false);
-   
+
   };
 
   const DropDownSecond = () => {
@@ -158,7 +148,7 @@ function SearchCustomer({
 
   const toggleCategory = (e, value, category) => {
     const isChecked = e.target.checked;
-    
+
     const updatedFilter = {
       ...filterAndSort.filter,
       status: isChecked ? value : false,
@@ -168,7 +158,7 @@ function SearchCustomer({
     filterAndSort = {
       ...filterAndSort,
       filter: updatedFilter,
-      
+
     };
     // Save input here if needed
     processChange("filterAndSort");
@@ -218,13 +208,13 @@ function SearchCustomer({
       )
         .then((response) => response.json())
         .then((data) => {
-          if(data?.data?.length > 0){
+          if (data?.data?.length > 0) {
             totalPages(data.total);
             console.log("filter customer table", data.data);
             setProducts(data.data);
             setSearch(data.data.length)
             setisSearchResult(true);
-          }else {
+          } else {
             setisSearchResult(false);
             totalPages(0);
           }
@@ -264,15 +254,15 @@ function SearchCustomer({
 
   useEffect(() => {
     const handleClick = (event) => {
-      if (dropdownRef.current &&!dropdownRef.current.contains(event.target)) {
-        setIsFilter(false);
-      }
+      // if (dropdownRef.current &&!dropdownRef.current.contains(event.target)) {
+      //   setIsFilter(false);
+      // }
       if (
         (secondDropdownRef.current && !secondDropdownRef.current.contains(event.target))
       ) {
         setSecond(false);
       }
-     if (
+      if (
         (firstDropdownRef.current && !firstDropdownRef.current.contains(event.target))
       ) {
         setFirst(false);
@@ -298,6 +288,7 @@ function SearchCustomer({
       document.removeEventListener("keydown", handleKeydown);
     };
   }, []);
+ 
 
   return (
     <>
@@ -330,7 +321,7 @@ function SearchCustomer({
                 name="text"
                 onKeyUp={() => processChange("filterAndSort")}
                 onChange={handleInputChange}
-                // onChange={(e) => SetpinCode(e.target.value)
+              // onChange={(e) => SetpinCode(e.target.value)
               />
             </div>
           </div>
@@ -339,14 +330,14 @@ function SearchCustomer({
             <div
               onClick={() => setIsFilter(!isFilter)}
               className="h-11	w-fit px-5 shadow-md cursor-pointer	border  border-inherit rounded-md flex items-center justify-center gap-2"
-              // ref={dropdownRef}
+            // ref={dropdownRef}
             >
               <div className="">
-              {search === 0 && ( 
-                <FilterAltOutlinedIcon style={{fill: "#2a2626d1"}} />
-              )}
-                {search > 0 && ( 
-                <FilterAltIcon  style={{fill: "#2a2626d1"}} />
+                {search === 0 && (
+                  <FilterAltOutlinedIcon style={{ fill: "#2a2626d1" }} />
+                )}
+                {search > 0 && (
+                  <FilterAltIcon style={{ fill: "#2a2626d1" }} />
                 )}
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
@@ -401,8 +392,10 @@ function SearchCustomer({
                 </div>
               )}
             </div>
-            {/* <CustomerState /> */}
-            <div className="relative" ref={secondDropdownRef}>
+            
+            <div className="relative"
+            // ref={secondDropdownRef}
+            >
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
                 onClick={DropDownSecond}
@@ -411,13 +404,13 @@ function SearchCustomer({
                 <div className={`arrow-${Second}`}>
                   <img src="/assets/dropdownArrow.png" alt="" />
                 </div>
-              </div>
+                </div>
               {Second && (
                 <div
-                  className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	 overflow-y-scroll py-3	"
+                  className=" z-10	left-0   w-60 absolute product-dropdown rounded-lg	 overflow-y-scroll py-3	"
                   style={{ height: "175px" }}
                 >
-                  <ul className="dropdown-content">
+                  {/* <ul className="dropdown-content">
                     {State.map((item, index) => {
                       return (
                         <>
@@ -443,25 +436,28 @@ function SearchCustomer({
                         </>
                       );
                     })}
-
-                    {/* <li className="py-2.5	px-4	">
-                    <div className="flex items-center">
-                      <input
-                        defaultChecked=""
-                        id="checked-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checked-checkbox"
-                        className="ml-2 text-sm font-medium text-gray"
-                      >
-                        Hidden
-                      </label>
-                    </div>
-                  </li> */}
-                  </ul>
+                  </ul> */}
+                  <Select
+                    mode="multiple"
+                    style={{
+                      width: '100%',
+                    }}
+                    placeholder="select one country"
+                    onChange={addState}
+                    optionLabelProp="label"
+                     open={true}
+                  >
+                    {State.map((item, index) => {
+                      return(
+                        <>
+                    <Option value={item} label={item}>
+                    <Space>{item}</Space>
+                      </Option>
+                      </>
+                      )
+                    })}
+                  </Select>
+                  {/* ant */}
                 </div>
               )}
             </div>

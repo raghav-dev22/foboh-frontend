@@ -10,7 +10,7 @@ import SearchOffIcon from "@mui/icons-material/SearchOff";
 import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
 import { Skeleton } from "@mui/material";
 const TABLE_HEAD = [
-  "Name",
+  "Business Name",
   "Contact",
   "Region",
   "Status",

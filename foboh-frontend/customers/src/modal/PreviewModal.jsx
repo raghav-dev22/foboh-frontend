@@ -3,6 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import ImportCustomerModal from "./ImportCustomerModal";
 import Carousel from "better-react-carousel";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Alert, Space, Spin } from 'antd';
+
 function PreviewModal({
   show,
   setShow,
@@ -15,6 +17,7 @@ function PreviewModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [activeTab, setActiveTab] = useState("CUSTOMER 1");
+  const [loading, setLoading] = useState(false); // Initialize as true to show the spinner initially
   const handleOptionChange = (event) => {
     setActiveTab(event.target.value);
     // const selectedOptionId = event.target.value;
@@ -28,7 +31,7 @@ function PreviewModal({
       return {
         customerId: "",
         businessName: customer.businessName || "",
-        abn: customer.abn,
+        abn: customer.abn || "",
         liquorLicence: customer.liquorLicence,
         salesRepId: customer.salesRepId,
         pricingProfileId: customer.pricingProfileId,
@@ -57,51 +60,56 @@ function PreviewModal({
         billingState: customer.billingState || "",
         isActive: customer.isActive || "",
       }; 
-    });
+    }); 
     console.log("prod", prod);
+    setLoading(true)
     fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateUpdateBulkData`,
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateBulkData`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           importedCustomers.map((customer) => {
             return {
-              businessName: customer.businessName || "",
-              abn: JSON.stringify(customer.abn),
-              liquorLicence: customer.liquorLicence,
-              salesRepId: customer.salesRepId,
-              pricingProfileId: customer.pricingProfileId,
-              defaultPaymentMethodId: customer.defaultPaymentMethodId,
+              businessName: customer?.businessName || "",
+              abn: customer?.abn.toString() || "",
+              liquorLicence: customer?.liquorLicence,
+              salesRepId: customer?.salesRepId,
+              pricingProfileId: customer?.pricingProfileId,
+              defaultPaymentMethodId: customer?.defaultPaymentMethodId,
               defaultPaymentTerms: "",
-              tags: customer.tags,
-              wetLiable: customer.wetLiable,
-              orderingFirstName: customer.orderingFirstName,
-              orderingLastName: customer.orderingLastName,
-              orderingMobile: JSON.stringify(customer.orderingMobile),
-              orderingEmail: customer.orderingEmail,
-              deliveryFirstName: customer.deliveryFirstName,
-              deliveryLastName: customer.deliveryLastName,
-              deliveryMobile: customer.deliveryMobile || "",
-              deliveryEmail: customer.deliveryEmail || "",
-              address: customer.address,
-              apartment: customer.apartment,
-              suburb: customer.suburb || "",
-              postalCode: JSON.stringify(customer.postalCode),
-              state: customer.state,
-              deliveryNotes: customer.deliveryNotes || "",
-              billingAddress: customer.billingAddress,
-              billingApartment: customer.billingApartment,
-              billingSuburb: customer.billingSuburb || "",
-              billingPostalCode: customer.billingPostalCode || "",
-              billingState: customer.billingState || "",
-              isActive: customer.isActive || true,
-            };
+              tags: customer?.tags,
+              wetLiable: customer?.wetLiable,
+              orderingFirstName: customer?.orderingFirstName,
+              orderingLastName: customer?.orderingLastName,
+              orderingMobile: customer?.orderingMobile.toString() || "",
+              orderingEmail: customer?.orderingEmail,
+              deliveryFirstName: customer?.deliveryFirstName,
+              deliveryLastName: customer?.deliveryLastName,
+              deliveryMobile: customer?.deliveryMobile || "",
+              deliveryEmail: customer?.deliveryEmail || "",
+              address: customer?.address,
+              apartment: customer?.apartment,
+              suburb: customer?.suburb || "",
+              postalCode: customer?.postalCode.toString() || "",
+              state: customer?.state,
+              deliveryNotes: customer?.deliveryNotes || "",
+              billingAddress: customer?.billingAddress,
+              billingApartment: customer?.billingApartment,
+              billingSuburb: customer?.billingSuburb || "",
+              billingPostalCode: customer?.billingPostalCode || "",
+              billingState: customer?.billingState || "",
+              isActive: customer?.isActive || true,
+            }
           })
         ),
       }
     )
-      .then((response) => {})
+      .then((response) => response.json())
+      .then(data => {
+        setLoading(false)
+        console.log(data, "customer bulk");
+      })
       .catch((error) => console.log(error, "csv"));
   };
   const previousModal = () => {
@@ -319,7 +327,16 @@ function PreviewModal({
           </div>
         </Dialog>
       </Transition.Root>
-
+      {/* {loading && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-[#00000021] bg-opacity-75 backdrop-blur-md">
+          <Spin spinning={true} size="large"
+          style={{
+            marginLeft: "16rem",
+            width: "35px",
+          }}
+           />
+        </div>
+      )} */}
       <ImportCustomerModal
         show={showPreviewModal}
         setShow={(set) => setShowPreviewModal(set)}

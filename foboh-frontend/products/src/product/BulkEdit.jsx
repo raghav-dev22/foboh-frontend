@@ -21,6 +21,45 @@ import { useNavigate } from "react-router-dom";
 function BulkEdit() {
   const [productTable, setProductTable] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [initialValues, setInitialValues]= useState(
+    [
+      {
+        visibility: false,
+        region: [],
+        minimumOrder: "",
+        trackInventory: false,
+        stockAlertLevel: "",
+        sellOutOfStock: false,
+        title: "",
+        skuCode: "",
+        productId: "",
+        brand: "",
+        department: "",
+        category: "",
+        subcategory: "",
+        segment: "",
+        grapeVariety: [],
+        regionSelect: "",
+        vintage: "",
+        awards: "",
+        abv: "",
+        country: "",
+        baseUnitMeasure: {},
+        innerUnitMeasure: {},
+        configuration: "",
+        description: "",
+        tags: [],
+        salePrice: null,
+        buyPrice: null,
+        profit: "",
+        margin: "",
+        tax: "",
+        wineEqualisationTax: "",
+        landedUnitCost: "",
+        status: ["Active", "Inactive", "Archived"],
+      },
+    ]
+  )
   const navigate = useNavigate();
 
   const status = [
@@ -40,43 +79,6 @@ function BulkEdit() {
       region: e,
     });
   };
-  const initialValues = [
-    {
-      visibility: false,
-      region: [],
-      minimumOrder: "",
-      trackInventory: false,
-      stockAlertLevel: "",
-      sellOutOfStock: false,
-      title: "",
-      skuCode: "",
-      productId: "",
-      brand: "",
-      department: "",
-      category: "",
-      subcategory: "",
-      segment: "",
-      grapeVariety: [],
-      regionSelect: "",
-      vintage: "",
-      awards: "",
-      abv: "",
-      country: "",
-      baseUnitMeasure: {},
-      innerUnitMeasure: {},
-      configuration: "",
-      description: "",
-      tags: [],
-      salePrice: null,
-      buyPrice: null,
-      profit: "",
-      margin: "",
-      tax: "",
-      wineEqualisationTax: "",
-      landedUnitCost: "",
-      status: ["Active", "Inactive", "Archived"],
-    },
-  ];
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
@@ -180,7 +182,9 @@ function BulkEdit() {
         productId: product?.productId,
       };
     });
-    
+
+
+    setInitialValues(selectedProductsValue)
     setValues(selectedProductsValue);
   }, []);
 
@@ -214,6 +218,7 @@ function BulkEdit() {
 
   const handleCancle = () => {
      setIsUpdate(false)
+     setValues(initialValues)
   };
 
   return (
@@ -260,7 +265,7 @@ function BulkEdit() {
         </div>
 
         <div
-          className={`relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
+          className={`relative custom-scroll-bar overflow-x-scroll overflow-y-auto  shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full `}
           style={{ height: "530px" }}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

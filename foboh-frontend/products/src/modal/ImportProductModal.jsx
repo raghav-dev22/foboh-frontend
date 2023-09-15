@@ -1,17 +1,27 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportComplete from "./ImportComplete";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
-function ImportProductModal({ show, setShow }) {
+
+function ImportProductModal({ show, setShow, error, loader }) {
   const remove = () => {
-    setShow(false);
-    setShowCompleteModal(true);
+    if(error.length === 0){
+      setShow(false);
+      setShowCompleteModal(true);
+    }else{
+      setShow(false);
+    }
+   
   };
   const cancelButtonRef = useRef(null);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [showError, setShowError] = useState(false);
 
+  console.log(error, "model error")
   return (
     <>
+    
       <Transition.Root show={show} as={Fragment}>
         <Dialog
           as="div"
@@ -19,6 +29,7 @@ function ImportProductModal({ show, setShow }) {
           initialFocus={cancelButtonRef}
           onClose={setShow}
         >
+      
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -42,7 +53,9 @@ function ImportProductModal({ show, setShow }) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
+              
                 <Dialog.Panel className="relative transform overflow-hidden  text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl	">
+               {error?.length === 0 && (
                   <div className="bg-white px-8 pb-8 pt-6 sm:p-6 sm:pb-4 rounded-t-lg">
                     <div className="sm:flex sm:items-center">
                       <div className="">
@@ -57,55 +70,139 @@ function ImportProductModal({ show, setShow }) {
                         </Dialog.Title>
                       </div>
                     </div>
+                   
+                      <div className="mt-2">
+                        <p className="text-sm text-green  font-semibold">
+                          We are currently importing your products into FOBOH..
+                        </p>
+                      </div>
 
-                    <div className="mt-2">
-                      <p className="text-sm text-green  font-semibold">
-                        We are currently importing your products into FOBOH..
-                      </p>
-                    </div>
+                   
                   </div>
+                  )}
+                  {error?.length > 0 && (
+                  <div className="bg-white px-8 pb-8 pt-8 sm:p-6 sm:pb-4 rounded-t-lg"
+                  style={{ maxHeight: '451px', overflowY: 'scroll' }}
+                  >
+                    <div className="sm:flex sm:items-center">
+                      <div
+                        className=" w-[48px] h-[48px] rounded-full flex justify-center items-center bg-[#FED4C7]"
+                        style={{
+                          background: "#FED4C7",
+                          height: "48px",
+                          width: "48px",
+                          borderRadius: "100%",
+                          border: "4px solid #FFE9E3",
+                        }}
+                      >
+                        <WarningAmberIcon style={{ fill: "#DC3545" }} />
+                      </div>
+                      <div className=" text-center sm:ml-4 sm:mt-0 sm:text-left">
+                        <Dialog.Title
+                          as="h3"
+                          className="text-base font-semibold leading-6 text-gray-900"
+                        >
+                          Errors found
+                        </Dialog.Title>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div
+                        className="my-4 rounded-md	border-y	border-r	border-l-8	border-y-custom	border-left-red py-3 px-4 border-r-custom	"
+                        style={{ background: "#FDF5F6" }}
+                      >
+                        <p className="text-sm font-normal">
+                          <span className="font-bold">X products</span> have
+                          errors that need correcting before importing. After
+                          you fix the errors, try importing the file again
+                        </p>
+                      </div>
+                    </div>
+                    <table
+                      class="table-auto"
+                      style={{
+                        borderRadius: "8px",
+                        border: "1px solid #EEEEEE",
+                        width: "100%"
+                      }}
+                    >
+                      <thead
+                        style={{
+                          background: "#F9FAFB",
+                          borderBottom: "1px solid #EEEEEE",
+                        }}
+                      >
+                        <tr>
+                          <th
+                            className="font-semiBold text-sm  p-4"
+                            style={{ width: "35px" }}
+                          >
+                            {" "}
+                            Row
+                          </th>
+                          <th
+                            className="font-semiBold text-sm p-4"
+                            style={{ width: "105px" }}
+                          >
+                            Title
+                          </th>
+                          <th
+                            className="font-semiBold text-sm p-4"
+                            style={{ width: "200px" }}
+                          >
+                            Error description
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {error.map((err, index) => (
+                          <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
+                            <td className="font-medium text-sm p-4">
+                              {index + 1}
+                            </td>
+                            <td className="font-normal text-sm p-4">
+                            {err?.productName}
+                            </td>
+                            <td className="font-normal text-sm p-4">
+                              {err?.error}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  )}
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-center items-center sm:justify-between pb-6 px-8 ">
-                    <p className="text-gray text-sm font-medium">
+                    <p className="text-gray text-sm font-medium" 
+                    style={{marginTop: "1rem"}}
+                    >
                       This could take some time to complete. In the meantime,
                       you can close this dialog box and continue working.
                     </p>
-
-                    {/* <Carousel className="rounded-xl">
-                        <p className="text-gray text-sm font-medium">
-                          This could take some time to complete. In the
-                          meantime, you can close this dialog box and continue
-                          working.
-                        </p>
-                        <p className="text-gray text-sm font-medium">
-                          This could take some time to complete. In the
-                          meantime, you can close this dialog box and continue
-                          working.
-                        </p>
-                        <p className="text-gray text-sm font-medium">
-                          This could take some time to complete. In the
-                          meantime, you can close this dialog box and continue
-                          working.
-                        </p>
-                      </Carousel> */}
-
-                    <div className="flex gap-3">
+                    <div className="flex gap-3"
+                    style={{marginTop: "1rem"}}
+                    >
                       <button
-                        className=" rounded-lg	border border-inherit py-2.5	px-5 w-full"
+                      className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
                         type="button"
                         onClick={() => remove()}
                       >
-                        <h5 className="text-base	font-medium text-green	">
+                        <h5 className="text-white md:font-semibold md:text-base  text-sm font-medium">
                           Close
                         </h5>
                       </button>
                     </div>
                   </div>
                 </Dialog.Panel>
+               
               </Transition.Child>
             </div>
           </div>
+         
         </Dialog>
       </Transition.Root>
+
+   
       <ImportComplete
         show={showCompleteModal}
         setShow={(set) => setShowCompleteModal(set)}
