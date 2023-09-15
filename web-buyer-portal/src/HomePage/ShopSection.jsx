@@ -5,20 +5,29 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function ShopSection() {
-  const [rangeData, setRangeData] = useState([]);
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  const data = () => {
-    axios.get("https://fakestoreapi.com/products").then((resp) => {
-      console.log(resp.data);
-      setRangeData(resp.data);
-    });
-  };
   useEffect(() => {
-    data();
+    const apiUrl = 'https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll';
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const limitedProducts = (data.data).slice(0, 8);
+        setProducts(limitedProducts);
+        console.log(limitedProducts, "products data")
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
   }, []);
-
-  // const RangeData = Range.productRanges;
+ 
+  
   return (
     <>
       <div className="shop-section xl:bg-[#F8FAFC] md:bg-[#F8FAFC] bg-unset">
@@ -39,20 +48,21 @@ function ShopSection() {
               className="carousel"
               autoplay={3000}
             >
-              {rangeData.map((item, index) => {
+              {
+                products.map((product) => {
                 return (
                   <Carousel.Item>
                     <div className=" ">
                       <img
                         className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"
-                        src="/assets/red-wine.png"
+                        src={product.productImageUrls}
                       />
                       <div className="mt-3">
                         <h2 className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm  ">
-                          red
+                          {product.title}
                         </h2>
                         <p className="text-[#637381] text-center text-sm md:block hidden">
-                          X products
+                          {product.description}
                         </p>
                       </div>
                     </div>

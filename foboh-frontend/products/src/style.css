@@ -610,3 +610,8 @@ input[type="radio"]:checked:before {
 .pr-1{
  padding-right: 1rem;
 }
+
+.ant-spin-dot-item{
+  background-color: #12564f !important;
+}
+

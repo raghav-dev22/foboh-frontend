@@ -7,6 +7,8 @@ import React, {
 } from "react";
 
 import Sort from "./Sort";
+import { Select, Space } from 'antd';
+
 
 const stock = [
   { label: "In Stock", value: "inStock" },
@@ -60,7 +62,15 @@ const SearchProduct = forwardRef(
     const [selectedSubcatId, setSelectedSubcatId] = useState([]);
     const [itemLabel, setItemLabel] = useState("");
     const [showFilter, setShowFilter] = useState(false);
-    const dropdownRef = useRef(null);
+    const firstDropdownRef = useRef(null);
+    const secondDropdownRef = useRef(null);
+    const thirdDropdownRef = useRef(null);
+    const fourthDropdownRef = useRef(null);
+    const { Option } = Select;
+
+    const handleChange = (e, value, name) => {
+      console.log(e, value, name);
+    };
 
     const FirstDropdown = () => {
       setFilterTextFirst(!filterTextFirst);
@@ -216,10 +226,10 @@ const SearchProduct = forwardRef(
       console.log(id, name);
 
       // Handling pagination
+      
 
       if (name === "category") {
         setOpen(!Open);
-
         const newCategoryIds = e.target.checked
           ? [...filterAndSort.filter.category, id]
           : filterAndSort.filter.category.filter((catId) => catId !== id);
@@ -234,11 +244,7 @@ const SearchProduct = forwardRef(
           filter: newFilter,
         };
       } else if (name === "subcategory") {
-        const newSubcategoryIds = e.target.checked
-          ? [...filterAndSort.filter.subcategory, id]
-          : filterAndSort.filter.subcategory.filter(
-              (subcatId) => subcatId !== id
-            );
+        const newSubcategoryIds =  e      
 
         const newFilter = {
           ...filterAndSort.filter,
@@ -253,8 +259,8 @@ const SearchProduct = forwardRef(
         const newStockValues = e.target.checked
           ? [...filterAndSort.filter.stock, id]
           : filterAndSort.filter.stock.filter(
-              (stockValue) => stockValue !== id
-            );
+            (stockValue) => stockValue !== id
+          );
 
         console.log("stock", newStockValues);
 
@@ -271,8 +277,8 @@ const SearchProduct = forwardRef(
         const newStatusValues = e.target.checked
           ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
           : filterAndSort.filter.productStatus.filter(
-              (statusValue) => statusValue !== id
-            );
+            (statusValue) => statusValue !== id
+          );
 
         const newFilter = {
           ...filterAndSort.filter,
@@ -336,12 +342,27 @@ const SearchProduct = forwardRef(
     useEffect(() => {
       const handleClick = (event) => {
         if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target)
+          (secondDropdownRef.current && !secondDropdownRef.current.contains(event.target))
         ) {
-          setShowFilter(false);
+          setFilterTextSecond(false);
+
         }
-      };
+        if (
+          (firstDropdownRef.current && !firstDropdownRef.current.contains(event.target))
+        ) {
+          setFilterTextFirst(false);
+        }
+        if (
+          (thirdDropdownRef.current && !thirdDropdownRef.current.contains(event.target))
+        ) {
+          setFilterTextThird(false);
+        }
+        if (
+          (fourthDropdownRef.current && !fourthDropdownRef.current.contains(event.target))
+        ) {
+          setFilterTextForth(false);
+        }
+      }
 
       const handleKeydown = (event) => {
         if (event.key === "Escape") {
@@ -361,9 +382,7 @@ const SearchProduct = forwardRef(
     return (
       <>
         <div
-          className=" border border-inherit bg-white h-full py-3	 px-4"
-          ref={dropdownRef}
-        >
+          className=" border border-inherit bg-white h-full py-3	 px-4">
           <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center">
             <div>
               <div className="relative 	">
@@ -394,7 +413,7 @@ const SearchProduct = forwardRef(
                   required=""
                 />
               </div>
-            </div> 
+            </div>
             <div className="flex justify-center items-center gap-2">
               <div
                 onClick={handleFilter}
@@ -430,7 +449,9 @@ const SearchProduct = forwardRef(
             <div className="flex gap-8 relative  pt-4 flex-wrap">
               {/* <Category/> */}
 
-              <div className="relative">
+              <div className="relative" 
+              // ref={firstDropdownRef}
+              >
                 <div
                   className="flex items-center gap-2 cursor-pointer product-category-box"
                   onClick={FirstDropdown}
@@ -472,48 +493,41 @@ const SearchProduct = forwardRef(
                                 {category.categoryName}
                               </label>
                             </div>
+                            {filterAndSort.filter.category.includes(
+                                  category.categoryId) && (
                             <ul className="dropdown-content">
-                              {category.subcategory.map((subcat) => (
-                                <>
-                                  {filterAndSort.filter.category.includes(
-                                    category.categoryId
-                                  ) && (
-                                    <li className="py-2.5	px-4	">
-                                      <div className="flex items-center">
-                                        <input
-                                          id={subcat.id}
-                                          type="checkbox"
-                                          onClick={(e) =>
-                                            toggleCategoryAndSubcategory(
-                                              e,
-                                              subcat.id,
-                                              "subcategory"
-                                            )
-                                          }
-                                          checked={filterAndSort.filter.subcategory.includes(
-                                            subcat.id
-                                          )}
-                                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                                        />
-                                        <label
-                                          htmlFor={subcat.id}
-                                          className="ml-2 text-sm font-medium text-gray cursor-pointer"
-                                        >
-                                          {subcat.name}
-                                        </label>
-                                      </div>
-                                    </li>
-                                  )}
-                                </>
-                              ))}
+                              <Select
+                                mode="multiple"
+                                style={{
+                                  width: '100%',
+                                }}
+                                placeholder="select one country"
+                                onChange={(e, value) =>toggleCategoryAndSubcategory(e,value,"subcategory")}
+                                optionLabelProp="label"
+                              //  open={true}
+                              >
+                                {category.subcategory.map((subcat, i) => (
+                                  <>
+                                    {filterAndSort.filter.category.includes(
+                                      category.categoryId
+                                    ) && (
+                                        <Option value={subcat.id} label={subcat.name} key={i}>
+                                          <Space>{subcat.name}</Space>
+                                        </Option>
+                                      )}
+                                  </>
+                                ))}
+                              </Select>
+
                             </ul>
+                            )}
                           </li>
                         ))}
                     </ul>
                   </div>
                 )}
               </div>
-              <div className="relative">
+              <div className="relative" ref={secondDropdownRef}>
                 <div
                   className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={SecondDropdown}
@@ -558,7 +572,7 @@ const SearchProduct = forwardRef(
                   </div>
                 )}
               </div>
-              <div className="relative">
+              <div className="relative" ref={thirdDropdownRef}>
                 <div
                   className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={ThirdDropdown}
@@ -603,7 +617,7 @@ const SearchProduct = forwardRef(
                   </div>
                 )}
               </div>
-              <div className="relative">
+              <div className="relative" ref={fourthDropdownRef}>
                 <div
                   className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={ForthDropdown}

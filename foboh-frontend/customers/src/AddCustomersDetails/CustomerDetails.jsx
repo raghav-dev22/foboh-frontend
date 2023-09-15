@@ -20,11 +20,11 @@ const initialValues = {
   businessName: "", 
   abn: "",
   liquorLicence: "",
-  salesRepId: "",
+  salesRepId: {},
   pricingProfileId: "",
   defaultPaymentTerms: "",
   defaultPaymentMethodId: "",
-  tags: "",
+  tags: {},
   organisationId: "",
   wetLiable: true,
   orderingFirstName: "",
@@ -39,13 +39,13 @@ const initialValues = {
   apartment: "",
   suburb: "",
   postalCode: "",
-  state: "",
+  state: {},
   deliveryNotes: "",
   billingAddress: "",
   billingApartment: "",
   billingSuburb: "",
   billingPostalCode: "",
-  billingState: "",
+  billingState: {},
   isActive: true
 }
 
@@ -124,6 +124,7 @@ function CustomerDetails() {
   }
   const handleCancel = () => {
     setIsUpDate(false)
+    formik.setValues(initialValues)
   }
   const handleNext = () => {
     formik.validateForm().then((errors) => {

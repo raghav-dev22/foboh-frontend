@@ -124,50 +124,7 @@ function CreateAccount() {
 
         // ----------
 
-        {
-          "buyerId": "string",
-          "businessName": "string",
-          "abn": "string",
-          "liquorLicence": "string",
-          "salesRepId": "string",
-          "pricingProfileId": "string",
-          "defaultPaymentMethodId": "string",
-          "organisationId": "string",
-          "tags": [
-            "string"
-          ],
-          "wetLiable": true,
-          "orderingFirstName": "string",
-          "orderingLastName": "string",
-          "orderingMobile": "string",
-          "orderingEmail": "string",
-          "deliveryFirstName": "string",
-          "deliveryLastName": "string",
-          "deliveryMobile": "string",
-          "deliveryEmail": "string",
-          "address": "string",
-          "apartment": "string",
-          "suburb": "string",
-          "postalCode": "string",
-          "state": "string",
-          "deliveryNotes": "string",
-          "billingAddress": "string",
-          "billingApartment": "string",
-          "billingSuburb": "string",
-          "billingPostalCode": "string",
-          "billingState": "string",
-          "isActive": true,
-          "password": "string",
-          "status": true,
-          "role": "string",
-          "meta": "string",
-          "adId": "string",
-          "imageUrl": "string",
-          "bio": "string",
-          "mobile": "string",
-          "createdBy": "string"
-        }
-
+       
 
     });
   }, []);
