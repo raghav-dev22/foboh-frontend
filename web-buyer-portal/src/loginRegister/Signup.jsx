@@ -8,8 +8,7 @@ import { useNavigate } from "react-router-dom";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 
 function Signup() {
-  
-  const [isValidUser, setIsValidUser] = useState(false)
+  const [isValidBuyer, setIsValidBuyer] = useState(true);
 
   const initialValues = {
     name: "",
@@ -22,33 +21,61 @@ function Signup() {
       initialValues: initialValues,
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
-
-        fetch(`https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyers?email=${values.email}`, {
-          method : "GET",
-        }).then(response => response.json())
-        .then(data => {
-          console.log("response", data);
-          if(data.success) {
-            localStorage.setItem("buyerCred", JSON.stringify(values))
-            localStorage.setItem("buyerData", JSON.stringify(data.data[0]))
-            navigate("/create-account");
-          } else {
-            setIsValidUser(true)
+        fetch(
+          `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyers?email=${values.email}`,
+          {
+            method: "GET",
           }
-        }).catch(error => console.log(error))
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Customer data", data);
+            if (data.success) {
+              // sendVerificationMail();
 
-        // if (foundBuyer) {
-        //   console.log("signup successful", foundBuyer);
-        //   localStorage.setItem("createData", JSON.stringify(foundBuyer));
-        //   localStorage.setItem("password", values.password);
-        //   navigate("/create-account");
-        // } else {
-        //   console.log("Login failed");
-        // }
+              const buyerCred = {
+                name: values.name,
+                email: values.email,
+                password: values.password,
+              };
+              localStorage.setItem("buyerCred", JSON.stringify(buyerCred));
+              localStorage.setItem("buyerData", JSON.stringify(data?.data[0]));
+              navigate("/create-account");
+            } else {
+              setIsValidBuyer(false);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       },
     });
 
-  console.log("vals", values);
+  const sendVerificationMail = () => {
+    fetch(
+      `https://notificationapi-multimedia.azurewebsites.net/api/notify/sendNotification`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          notificationType: "wbp-emailverification",
+          recieverId: values?.email,
+          recieverName: values?.name,
+          priority: 255,
+          mediaChannel: "email",
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem("uniqueKey", data.key);
+        alert("Email sent successfully!");
+      })
+      .catch((error) => console.log(error));
+  };
 
   // console.log(values, "values");
   return (
@@ -178,6 +205,12 @@ function Signup() {
                         Your password is strong.
                       </p>
                     )}
+                    {!isValidBuyer && (
+                      <p className="mt-2 mb-2 text-red-500">
+                        This buyer is not registered, please try again with
+                        different account.
+                      </p>
+                    )}
                     {!errors.password && values.password && (
                       <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
@@ -189,13 +222,6 @@ function Signup() {
                     {errors.password && touched.password && (
                       <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
-                    {
-                      isValidUser && (
-                        <p className="mt-2 mb-2 text-red-500">
-                        This buyer is not registered, try with other account.
-                      </p>
-                      )
-                    }
                     <label
                       className="opacity-[0.5] mb-[5px] rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
                       htmlFor="password"
@@ -208,7 +234,7 @@ function Signup() {
                         id="default-checkbox"
                         type="checkbox"
                         value=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
                         className="text-[#637381]  font-normal md:text-sm text-xs"

@@ -14,13 +14,10 @@ const MainHomePage = () => {
 
   return (
     <>
-      <Header />
       <Banner />
       <ShopSection />
       <TopRatedSection />
       <ShopBrandSection />
-      <Footer />
-      <BottomToTop />
     </>
   );
 };

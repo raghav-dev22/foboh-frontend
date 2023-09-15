@@ -206,12 +206,12 @@ export const DeliveryBillingSchema = Yup.object().shape({
     .max(50),
   // billing
   BillingAddress: Yup.string()
-    .min(2, "Delivery address should have atleast 2 letters")
+    .min(2, "Billing address should have atleast 2 letters")
     .max(50)
-    .required("Delivery address is required"),
+    .required("Billing address is required"),
   BillingApartment: Yup.string()
     .required("Apartment is required")
-    .min(2, "Suburb should have atleast 2 letters")
+    .min(2, "Apartment should have atleast 2 letters")
     .max(50),
   // State: Yup.string()
   //   .required("Apartment is required")
@@ -250,11 +250,11 @@ export const BillingAddressSchema = Yup.object().shape({
     .max(50),
   Apartment: Yup.string()
     .required("Apartment is required")
-    .min(2, "Suburb should have atleast 2 letters")
+    .min(2, "Apartment should have atleast 2 letters")
     .max(50),
   City: Yup.string()
-    .required("Apartment is required")
-    .min(2, "Suburb should have atleast 2 letters")
+    .required("City is required")
+    .min(2, "City should have atleast 2 letters")
     .max(50),
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
@@ -286,12 +286,9 @@ export const DeliveryAddressSchema = Yup.object().shape({
     .max(50),
   Apartment: Yup.string()
     .required("Apartment is required")
-    .min(2, "Suburb should have atleast 2 letters")
+    .min(2, "Apartment should have atleast 2 letters")
     .max(50),
-  City: Yup.string()
-    .required("Apartment is required")
-    .min(2, "Suburb should have atleast 2 letters")
-    .max(50),
+  City: Yup.object().required("City is required"),
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
@@ -326,3 +323,36 @@ export const DeliveryAddressSchema = Yup.object().shape({
   // ),
 });
 // ordering contact Schema
+export const ContactSchema = Yup.object().shape({
+  FirstName: Yup.string()
+    .min(2, "Your first name should have atleast 2 letters")
+    .required("name is required")
+    .max(50),
+  LastName: Yup.string()
+    .min(2, "Your last name should have atleast 2 letters")
+    .required("last name is required")
+    .max(50),
+  email: Yup.string()
+    .email("Please enter a valid email")
+    .required("Please enter your email."),
+  Mobile: Yup.string().required("Mobile number is required"),
+});
+export const DeliveryAddressEditSchema = Yup.object().shape({
+  Apartment: Yup.string()
+    .min(2, "Your Apartment should have atleast 2 letters")
+    .required("Apartment is required")
+    .max(50),
+  Address: Yup.string()
+    .min(2, "Your Address should have atleast 2 letters")
+    .required("Address is required")
+    .max(50),
+  City: Yup.mixed().required("City is required"),
+  State: Yup.mixed().required("state is required"),
+
+  Postcode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
+  DeliveryInstruction: Yup.string()
+    .required("Delivery Instruction/Notes is required")
+    .max(50),
+});

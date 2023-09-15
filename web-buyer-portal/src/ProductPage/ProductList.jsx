@@ -26,8 +26,18 @@ import counterSlice, { increment, decrement } from "../slices/counterSlice";
 
 import { Slider } from "antd";
 import { setProductData } from "../slices/ProductSlice";
+import { Pagination } from "antd";
 
 const ProductList = () => {
+  const itemRender = (_, type, originalElement) => {
+    if (type === "prev") {
+      return <a>Previous</a>;
+    }
+    if (type === "next") {
+      return <a>Next</a>;
+    }
+    return originalElement;
+  };
   const Data = listdata;
 
   console.log("data", listdata);
@@ -905,6 +915,14 @@ const ProductList = () => {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="mt-8">
+              <Pagination
+                itemActiveBg={"#F8FAFC"}
+                total={500}
+                itemRender={itemRender}
+                className="flex justify-between items-center"
+              />
             </div>
           </div>
         </div>

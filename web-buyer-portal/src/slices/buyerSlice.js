@@ -16,6 +16,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   mobile: "",
+  organisationId : "",
   orderContactState: "",
   orderingContactFirstName: "",
   orderingContactLastName: "",
@@ -32,8 +33,8 @@ const buyerSlice = createSlice({
   initialState,
   reducers: {
     updateField: (state, action) => {
-      const { field, value } = action.payload;
-      state[field] = value;
+      // Merge the action payload with the current state to update multiple fields at once
+      Object.assign(state, action.payload);
     },
     resetBuyer: () => initialState,
   },

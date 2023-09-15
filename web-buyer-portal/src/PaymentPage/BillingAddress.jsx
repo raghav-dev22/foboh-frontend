@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { BillingAddressSchema } from "../schemas";
 import { useFormik } from "formik";
-
+import Select from "react-select";
 function BillingAddress() {
   const initialValues = {
     FirstName: "",
@@ -16,16 +16,58 @@ function BillingAddress() {
     Mobile: "",
     State: "",
   };
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: BillingAddressSchema,
-      onSubmit: (values) => {
-        // setValue(values);
-        console.log(values, "values--->");
-      },
-    });
-
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    setValues,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: BillingAddressSchema,
+    onSubmit: (values) => {
+      // setValue(values);
+      console.log(values, "values--->");
+    },
+  });
+  const stateOptions = [
+    { label: "Victoria", value: "option1" },
+    { label: "Queensland	", value: "option2" },
+    { label: "Western Australia", value: "option3" },
+  ];
+  const cityOptions = [
+    { label: "	Ballina", value: "option1" },
+    { label: "Balranald	", value: "option2" },
+    { label: "Batemans Bay", value: "option3" },
+  ];
+  const handleBillingCity = (e, name) => {
+    if (name === "City") {
+      setValues({
+        ...values,
+        City: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        City: e,
+      });
+    }
+  };
+  const handleBillingState = (e, name) => {
+    if (name === "State") {
+      setValues({
+        ...values,
+        State: e,
+      });
+    } else {
+      setValues({
+        ...values,
+        State: e,
+      });
+    }
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -157,16 +199,18 @@ function BillingAddress() {
           </div>
           <div className="flex md:flex-nowrap gap-4">
             <div className="w-full   mb-3 md:mb-0">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="City"
+              <Select
                 type="text"
+                // defaultValue={`state`}
                 placeholder="City"
-                value={values?.City}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                id="City"
+                onChange={(e) => handleBillingCity(e, "City")}
+                name="City"
+                value={values.City}
+                options={cityOptions}
+                className=""
                 style={{
-                  border: errors?.City && touched?.City && "1px solid red",
+                  border: errors.City && "1px solid red",
                 }}
               />
               {errors?.City && touched?.City && (
@@ -177,24 +221,27 @@ function BillingAddress() {
               )}
             </div>
             <div className="w-full   mb-3">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="State"
+              <Select
                 type="text"
-                placeholder="State/Teritory"
-                value={values?.State}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                defaultValue={`state`}
+                placeholder="state"
+                id="State"
+                onChange={(e) => handleBillingState(e, "State")}
+                name="State"
+                value={values.State}
+                options={stateOptions}
+                className=""
                 style={{
-                  border: errors?.State && touched?.State && "1px solid red",
+                  border: errors.State && "1px solid red",
                 }}
               />
+
               {errors?.State && touched?.State && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
                   {errors?.State}
                 </p>
               )}
-              {errors?.BillingState && touched?.BillingState && (
+              {errors?.State && touched?.State && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -252,7 +299,7 @@ function BillingAddress() {
           // onClick={handleSubmit}
           className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
         >
-          Pay Now
+          Save
         </button>
       </form>
     </>

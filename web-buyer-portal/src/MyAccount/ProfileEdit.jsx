@@ -46,8 +46,21 @@ const ProfileEdit = () => {
       navigate("/home/profile");
     },
   });
+
   useEffect(() => {
-    setValues(buyer);
+    setValues({
+      BusinessName: buyer?.businessName,
+      ABN: buyer?.abn,
+      LiquerLicence: buyer?.liquorLicence,
+      OrderingContactFirstName: buyer?.orderingContactFirstName,
+      OrderingContactLastName: buyer?.orderingContactLastName,
+      OrderingContactEmail: buyer?.orderingContactEmail,
+      OrderingContactMobile: buyer?.orderingContactMobile,
+      DeliveryContactFirstName: buyer?.deliveryContactFirstName,
+      DeliveryContactLastName: buyer?.deliveryContactLastName,
+      DeliveryContactEmail: buyer?.deliveryContactEmail,
+      DeliveryContactMobile: buyer?.deliveryContactMobile,
+    });
   }, []);
   console.log("error>>", values);
 
@@ -306,33 +319,33 @@ const ProfileEdit = () => {
                   htmlFor="LiquerLicence"
                   className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
                 >
-                  Email {" "}
+                  Email{" "}
                   <span className="text-sm font-normal">
                     This can’t be changed
                   </span>
                 </label>
-                
+
                 <input
                   type="email"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                   id="LiquerLicence"
                   name="OrderingContactEmail"
                   className="pl-custom-left "
                   autoComplete="off"
-                  // value={values.OrderingContactEmail}
+                  value={values.OrderingContactEmail}
                   disabled
-                  // style={{
-                  //   border: errors.OrderingContactEmail && "1px solid red",
-                  // }}
+                  style={{
+                    border: errors.OrderingContactEmail && "1px solid red",
+                  }}
                 />
-                {/* {errors.OrderingContactEmail && (
+                {errors.OrderingContactEmail && (
                   <p className="mt-2 mb-2 text-red-500 text-xs">
                     {errors.OrderingContactEmail}
                   </p>
                 )}
                 {errors.OrderingContactEmail && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                )} */}
+                )}
               </div>
               <div className={`relative mb-8 `} data-te-input-wrapper-init>
                 <label

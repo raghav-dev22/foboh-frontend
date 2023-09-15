@@ -1,11 +1,9 @@
 import React, { useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useNavigate } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
 
-function SuccessModal({ show, setShow }) {
+function AppliedCoupon({ show, setShow }) {
   const cancelButtonRef = useRef(null);
-  const navigate = useNavigate();
-
   return (
     <>
       <Transition appear show={show} as={Fragment}>
@@ -38,32 +36,34 @@ function SuccessModal({ show, setShow }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden md:rounded-2xl rounded-se-3xl rounded-tl-3xl	 bg-white px-6 py-14 text-left  align-middle shadow-xl transition-all flex flex-col justify-center gap-6">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-[#563FE3] text-2xl	font-bold	text-center"
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden md:rounded-2xl rounded-se-3xl rounded-tl-3xl	 bg-white px-[75px] py-8 text-center  align-middle shadow-xl transition-all flex flex-col justify-center gap-4 relative">
+                  <button
+                    onClick={() => setShow(false)}
+                    className="absolute top-[15px] right-[15px]"
                   >
-                    Success 🎉
-                  </Dialog.Title>
-
-                  <p className="text-sm font-normal text-[#637381] text-center ">
-                    Your account has now been created.
-                  </p>
-                  <p className="text-sm font-normal text-[#637381] text-center ">
-                    Follow the prompt below to proceed to the <br /> homepage.
-                  </p>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      onClick={() => navigate("/home-page")}
-                      className="login-btn bg-custom-blue rounded-md	w-full p-3 shadow-md"
+                    <CloseIcon />
+                  </button>
+                  <div className="">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-[#563FE3] mx-auto text-xl	font-semibold	text-center border-dashed border-2	w-fit px-[20px] py-[8px] border-[#563FE3]"
                     >
-                      <p className="text-white text-center font-semibold	text-sm	">
-                        Continue
-                      </p>
-                    </button>
+                      CODE001
+                    </Dialog.Title>
                   </div>
+
+                  <h5 className="text-lg font-semibold text-[#2B4447] text-center ">
+                    Coupon has been
+                    <br />
+                    <span className="text-[#563FE3]">
+                      successfully applied{" "}
+                    </span>
+                    to your
+                    <br />1 Item.
+                  </h5>
+                  <p className="text-base    font-medium text-[#2B4447] text-center ">
+                    Please note discount may not apply to all items.
+                  </p>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -74,4 +74,4 @@ function SuccessModal({ show, setShow }) {
   );
 }
 
-export default SuccessModal;
+export default AppliedCoupon;

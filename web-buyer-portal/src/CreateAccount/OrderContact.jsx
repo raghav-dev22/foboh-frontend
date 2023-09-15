@@ -9,6 +9,7 @@ function OrderContact({
   handleChange,
   touched,
   setValues,
+  isBuyerExist,
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -358,6 +359,12 @@ function OrderContact({
             {errors.DeliveryContactMobile && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.DeliveryContactMobile}
+              </p>
+            )}
+
+            {isBuyerExist && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">
+                Buyer already exist, please try again with other email.
               </p>
             )}
             {errors.DeliveryContactMobile && (

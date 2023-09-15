@@ -15,7 +15,6 @@ import {
 } from "@mui/icons-material";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
-
 function Login() {
   const dispatch = useDispatch();
 
@@ -23,33 +22,41 @@ function Login() {
     email: "",
     password: "",
   };
-
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-  useFormik({
-    initialValues: initialValues,
-    validationSchema: LoginSchema,
-    onSubmit: (values) => {
-      const foundBuyer = buyers.find((buyer) => buyer.email === values.email);
-
-      for (const [field, value] of Object.entries(foundBuyer)) {
-        dispatch(updateField({ field, value }));
-      }
-
-      if (foundBuyer) {
-        console.log("Login successful", foundBuyer);
-        // localStorage.setItem("createData", JSON.stringify(foundBuyer));
-        navigate("/home-page");
-      } else {
-        console.log("Login failed");
-      }
-    },
-  });
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: LoginSchema,
+      onSubmit: (values) => {
+        fetch(
+          "https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/Verify-login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: values.email,
+              password: values.password,
+            }),
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Buyer response", data);
+            if (data.success) {
+              localStorage.setItem("buyerInfo", JSON.stringify(data.data));
+              localStorage.setItem("email", data.data.deliveryEmail);
+              navigate("/home-page");
+            }
+          })
+          .catch((error) => console.log(error));
+      },
+    });
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
-    console.log(showPassword)
+    console.log(showPassword);
   };
   return (
     <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center h-full">
@@ -136,26 +143,23 @@ function Login() {
                       onBlur={handleBlur}
                       value={values.password}
                     />
-                      <label
-                        style={{ zIndex: "50" }}
-                        className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
-                        htmlFor="password"
-                        onClick={handleTogglePassword}
-                      >
-                        {showPassword ? (
-                          <Visibility fontSize="small" />
-                        ) : (
-                          <VisibilityOffOutlinedIcon fontSize="small" />
-                        )}
-                      </label>
+                    <label
+                      style={{ zIndex: "50" }}
+                      className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
+                      htmlFor="password"
+                      onClick={handleTogglePassword}
+                    >
+                      {showPassword ? (
+                        <Visibility fontSize="small" />
+                      ) : (
+                        <VisibilityOffOutlinedIcon fontSize="small" />
+                      )}
+                    </label>
                   </div>
                   {errors.password && touched.password && (
                     <p className="mt-2 mb-2 text-red-500 text-xs">
                       {errors.password}
                     </p>
-                  )}
-                  {errors.password && touched.password && (
-                    <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                   )}
                 </div>
 
