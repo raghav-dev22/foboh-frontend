@@ -130,7 +130,10 @@ function AddCustomers() {
           />
         </div>
         <div className="pt-6 px-6 relative">
-          <div className="box-4 relative overflow-x-auto overflow-y-auto h-[250px] custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white">
+          <div
+            className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
+            style={{ height: "290px" }}
+          >
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead>
@@ -302,13 +305,13 @@ function AddCustomers() {
               className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
             >
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
-                Bulk edit{" "}
+                Bulk edit
               </h6>
             </button>
 
             <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                Set as Visible{" "}
+                Set as Visible
               </h6>
             </button>
 

@@ -97,7 +97,9 @@ function Range() {
 
   const handleCheckbox = (e, product) => {
     const checked = e.target.checked;
-    const updatedSelectedProducts = checked? [...selectedProducts, product]: selectedProducts.filter((prod) => prod !== product);
+    const updatedSelectedProducts = checked
+      ? [...selectedProducts, product]
+      : selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
     setIsBulkEdit(updatedSelectedProducts.length > 1);
     console.log("selected products >>", selectedProducts);
@@ -205,7 +207,7 @@ function Range() {
     }
   };
 
-  return (  
+  return (
     <>
       <ActiveProduct
         totalProducts={totalProducts}
@@ -228,8 +230,8 @@ function Range() {
         </div>
         <div className="pt-6 px-6 relative">
           <div
-            className="box-4 relative overflow-x-auto overflow-y-auto no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white"
-            style={{ height: "435px" }}
+            className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
+            style={{ height: "294px" }}
           >
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -302,9 +304,7 @@ function Range() {
                                   id="default-checkbox"
                                   type="checkbox"
                                   name={product.title}
-                                  checked={
-                                    selectedProducts.includes(product)  
-                                  }
+                                  checked={selectedProducts.includes(product)}
                                   onClick={(e) => handleCheckbox(e, product)}
                                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
                                 />
