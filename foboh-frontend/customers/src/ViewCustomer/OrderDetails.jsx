@@ -9,7 +9,7 @@ import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
 import Toast from "../Toast";
 const OrderDetails = ({ datas }) => {
-  console.log(datas, ">>id")
+  console.log(datas, ">>id");
   const navigate = useNavigate();
   const [data, setCustomerDetails] = React.useState();
   const [activeStatus, setActiveStatus] = React.useState(1);
@@ -17,7 +17,7 @@ const OrderDetails = ({ datas }) => {
   const [openToast, setOpenToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastSeverity, setToastSeverity] = useState("success");
-  const [isUpdate, setIsUpDate] = useState(false)
+  const [isUpdate, setIsUpDate] = useState(false);
   const [initialValues, setInitialValues] = useState({
     createdBy: "",
     businessName: "",
@@ -26,9 +26,7 @@ const OrderDetails = ({ datas }) => {
     salesRepId: "",
     pricingProfileId: "",
     defaultPaymentMethodId: "",
-    tags: [
-      ""
-    ],
+    tags: [""],
     organisationId: "",
     wetLiable: true,
     orderingFirstName: "",
@@ -50,17 +48,19 @@ const OrderDetails = ({ datas }) => {
     billingSuburb: "",
     billingPostalCode: "",
     billingState: "",
-    isActive: true
-
+    isActive: true,
   });
   useEffect(() => {
     callCustomerDetails();
   }, []);
   const callCustomerDetails = () => {
     // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/6191384906
-    fetch(`https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/${datas}`, {
-      method: "GET",
-    })
+    fetch(
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/${datas}`,
+      {
+        method: "GET",
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer data --->", data.orderingFirstName);
@@ -73,9 +73,7 @@ const OrderDetails = ({ datas }) => {
           salesRepId: data.salesRepId,
           pricingProfileId: data.pricingProfileId,
           defaultPaymentMethodId: data.defaultPaymentMethodId,
-          tags: [
-            data.tags
-          ],
+          tags: [data.tags],
           organisationId: data.organisationId,
           wetLiable: true,
           orderingFirstName: data.orderingFirstName,
@@ -97,8 +95,7 @@ const OrderDetails = ({ datas }) => {
           billingSuburb: data.billingSuburb,
           billingPostalCode: data.billingPostalCode,
           billingState: data.billingState,
-          isActive: true
-
+          isActive: true,
         });
         setValues({
           ...values,
@@ -123,14 +120,14 @@ const OrderDetails = ({ datas }) => {
           deliveryFirstName: data.deliveryFirstName,
           businessName: data.businessName,
           abn: data.abn,
-          liquorLicence: data.liquorLicence
+          liquorLicence: data.liquorLicence,
         });
         setCustomerDetails(data);
       });
   };
 
   const onFinalSubmit = (event) => {
-    console.log(datas, "data")
+    console.log(datas, "data");
     event.preventDefault();
     // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/6191384906
     fetch(
@@ -159,8 +156,7 @@ const OrderDetails = ({ datas }) => {
   } = useFormik({
     initialValues: initialValues,
     validationSchema: AddCustomerSchema,
-    onSubmit: (values) => {
-    },
+    onSubmit: (values) => {},
   });
 
   console.log("errors", errors);
@@ -201,14 +197,14 @@ const OrderDetails = ({ datas }) => {
         billingAddress: values.address,
         billingSuburb: values.suburb,
         billingPostalCode: values.postalCode,
-        billingState: values.state
+        billingState: values.state,
       });
     }
   };
 
   const handleCancel = () => {
-    setIsUpDate(false)
-  }
+    setIsUpDate(false);
+  };
   return (
     <>
       <Toast
@@ -245,10 +241,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 1
+                      className={`${
+                        activeStatus == 1
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                        } text-base`}
+                      } text-base`}
                     >
                       Orders
                     </span>
@@ -279,10 +276,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 2
+                      className={`${
+                        activeStatus == 2
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                        } text-base`}
+                      } text-base`}
                     >
                       Contacts
                     </span>
@@ -313,10 +311,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 3
+                      className={`${
+                        activeStatus == 3
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                        } text-base`}
+                      } text-base`}
                     >
                       Addresses
                     </span>
@@ -347,10 +346,11 @@ const OrderDetails = ({ datas }) => {
                   </svg>
                   <div className="flex items-center">
                     <span
-                      className={`${activeStatus == 4
+                      className={`${
+                        activeStatus == 4
                           ? " text-black font-bold	"
                           : " font-normal	 text-white"
-                        } text-base`}
+                      } text-base`}
                     >
                       Payments
                     </span>
@@ -363,7 +363,8 @@ const OrderDetails = ({ datas }) => {
                 <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
                   <div className="block">
                     <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                      <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                      <button
+                        className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
                         onClick={handleCancel}
                       >
                         Cancel
@@ -382,10 +383,11 @@ const OrderDetails = ({ datas }) => {
 
             <div className="p-5">
               <div
-                className={`relative overflow-x-auto overflow-y-auto h-80 no-scrollbar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${activeStatus == 1
+                className={`relative overflow-x-auto overflow-y-auto h-80 custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${
+                  activeStatus == 1
                     ? "Active active-table"
                     : "hide-table hidden"
-                  }`}
+                }`}
               >
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className=" border-b">
@@ -434,10 +436,11 @@ const OrderDetails = ({ datas }) => {
                 </table>
               </div>
               <div
-                className={`${activeStatus == 2
+                className={`${
+                  activeStatus == 2
                     ? "Active active-table"
                     : "hide-table hidden"
-                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -791,10 +794,11 @@ const OrderDetails = ({ datas }) => {
                 </div>
               </div>
               <div
-                className={`${activeStatus == 3
+                className={`${
+                  activeStatus == 3
                     ? "Active active-table"
                     : "hide-table hidden"
-                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
@@ -1005,7 +1009,7 @@ const OrderDetails = ({ datas }) => {
                     </h6>
 
                     <div className="flex items-center  gap-1 md:w-1/2 w-full">
-                    <input
+                      <input
                         id="default-checkbox"
                         type="checkbox"
                         defaultValue=""
@@ -1084,14 +1088,16 @@ const OrderDetails = ({ datas }) => {
                                 "1px solid red",
                             }}
                           />
-                          {errors.billingApartment && touched.billingApartment && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                              {errors.billingApartment}
-                            </p>
-                          )}
-                          {errors.billingApartment && touched.billingApartment && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-                          )}
+                          {errors.billingApartment &&
+                            touched.billingApartment && (
+                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                                {errors.billingApartment}
+                              </p>
+                            )}
+                          {errors.billingApartment &&
+                            touched.billingApartment && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                            )}
                         </div>
                         <div className="w-full relative md:w-1/2 px-3">
                           <label
@@ -1185,16 +1191,14 @@ const OrderDetails = ({ datas }) => {
                                 "1px solid red",
                             }}
                           />
-                          {errors.billingState &&
-                            touched.billingState && (
-                              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                                {errors.billingState}
-                              </p>
-                            )}
-                          {errors.billingState &&
-                            touched.billingState && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[45px] right-5 transition-all duration-[0.3s] " />
-                            )}
+                          {errors.billingState && touched.billingState && (
+                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                              {errors.billingState}
+                            </p>
+                          )}
+                          {errors.billingState && touched.billingState && (
+                            <ErrorOutlineIcon className="absolute text-red-500 top-[45px] right-5 transition-all duration-[0.3s] " />
+                          )}
                         </div>
                       </div>
                     </form>
@@ -1203,10 +1207,11 @@ const OrderDetails = ({ datas }) => {
               </div>
 
               <div
-                className={`${activeStatus == 4
+                className={`${
+                  activeStatus == 4
                     ? "Active active-table"
                     : " hide-table hidden"
-                  } grid lg:grid-cols-2 grid-cols-1 gap-4`}
+                } grid lg:grid-cols-2 grid-cols-1 gap-4`}
               >
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
