@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Profile = () => {
-  const profileEdit = JSON.parse(localStorage.getItem("profileEdit"));
   const deliveryEdit = JSON.parse(localStorage.getItem("deliveryEdit"));
   // localStorage.getItem("deliveryEdit", JSON.stringify(values));
   const buyer = useSelector((state) => state.buyer);
@@ -94,13 +93,13 @@ const Profile = () => {
                   </div>{" "}
                   <div className="px-4 sm:py-5 pb-5">
                     <h5 className="text-lg font-medium mb-3">
-                      {profileEdit?.BusinessName}
+                      {buyer?.businessName}
                     </h5>
                     <p className="text-sm font-normal">
-                      ABN: {profileEdit?.ABN}
+                      ABN: {buyer?.abn}
                     </p>
                     <p className="text-sm font-normal">
-                      LIQ: {profileEdit?.LiquerLicence}
+                      LIQ: {buyer?.liquorLicence}
                     </p>{" "}
                   </div>{" "}
                 </div>{" "}
@@ -114,12 +113,14 @@ const Profile = () => {
                   </div>{" "}
                   <div className="px-4 sm:py-5 pb-5">
                     <h5 className="text-lg font-medium mb-3">
-                      {profileEdit?.OrderingContactFirstName}{" "}
-                      {profileEdit?.OrderingContactLastName}
+                      {buyer?.orderingContactFirstName}{" "}
+                      {buyer?.orderingContactLastName}
                     </h5>
-                    <p className="text-sm font-normal">email@email.com.au</p>
                     <p className="text-sm font-normal">
-                      {profileEdit?.DeliveryContactMobile}
+                      {buyer?.orderingContactEmail}
+                    </p>
+                    <p className="text-sm font-normal">
+                      {buyer?.orderingContactMobile}
                     </p>{" "}
                   </div>{" "}
                 </div>{" "}
@@ -134,12 +135,14 @@ const Profile = () => {
                   <div className="px-4 sm:py-5 pb-5">
                     {" "}
                     <h5 className="text-lg font-medium mb-3">
-                      {profileEdit?.DeliveryContactFirstName}{" "}
-                      {profileEdit?.DeliveryContactLastName}
+                      {buyer?.deliveryContactFirstName}{" "}
+                      {buyer?.deliveryContactLastName}
                     </h5>
-                    <p className="text-sm font-normal">email@email.com.cu</p>
                     <p className="text-sm font-normal">
-                      {profileEdit?.DeliveryContactMobile}
+                      {buyer?.deliveryContactEmail}
+                    </p>
+                    <p className="text-sm font-normal">
+                      {buyer?.deliveryContactMobile}
                     </p>{" "}
                   </div>{" "}
                 </div>{" "}

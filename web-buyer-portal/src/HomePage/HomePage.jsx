@@ -29,6 +29,7 @@ import PaymentDetail from "../PaymentPage/PaymentDetail";
 import { useDispatch } from "react-redux";
 // import PaymentPage from "../PaymentPage/paymentPage";
 import { updateField } from "../slices/buyerSlice";
+import { updateSetting } from "../slices/organisationSlice";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ function HomePage() {
         name: buyer?.businessName,
         email: buyer?.deliveryEmail,
         password: "",
+        brn: buyer?.brn,
+        cbrn: buyer?.cbrn,
         businessName: buyer?.businessName,
         abn: buyer?.abn,
         liquorLicence: buyer?.liquorLicence,
@@ -53,7 +56,7 @@ function HomePage() {
         firstName: buyer?.deliveryFirstName,
         lastName: buyer?.deliveryLastName,
         mobile: buyer?.mobile,
-        organisationId : buyer?.organisationId,
+        organisationId: buyer?.organisationId,
         orderContactState: buyer?.orderingState,
         orderingContactFirstName: buyer?.orderingFirstName,
         orderingContactLastName: buyer?.orderingLastName,
@@ -65,6 +68,23 @@ function HomePage() {
         deliveryContactMobile: buyer?.deliveryMobile,
       })
     );
+
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${buyer?.organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Organisation response", data);
+        if (data.success && data?.data.length === 1) {
+          const org = data?.data[0];
+          dispatch(updateSetting(org));
+        }
+      })
+      .catch((error) => console.log(error));
+      
   }, []);
 
   const location = useLocation();
@@ -99,7 +119,7 @@ function HomePage() {
       <Routes>
         <Route path="/main" element={<MainHomePage />} />
         <Route path="/product-list" element={<ProductList />} />
-        
+
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />

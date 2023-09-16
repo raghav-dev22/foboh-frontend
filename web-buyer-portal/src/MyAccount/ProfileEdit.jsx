@@ -1,34 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 import Header from "../main/Header";
 import Footer from "../main/Footer";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProfileEditSchema } from "../schemas";
 import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
+import { updateField } from "../slices/buyerSlice";
 // import { Button, Form, Input, Radio } from "antd";
 // import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
-const initialValues = {
-  BusinessName: "",
-  ABN: "",
-  LiquerLicence: "",
-  OrderingContactFirstName: "",
-  OrderingContactLastName: "",
-  OrderingContactEmail: "",
-  OrderingContactMobile: "",
-  DeliveryContactFirstName: "",
-  DeliveryContactLastName: "",
-  DeliveryContactEmail: "",
-  DeliveryContactMobile: "",
-};
-
 const ProfileEdit = () => {
   const navigate = useNavigate();
+
   const buyer = useSelector((state) => state.buyer);
+  const dispatch = useDispatch();
+  const [initialValues, setInitialValues] = useState({
+    BusinessName: "",
+    ABN: "",
+    LiquerLicence: "",
+    OrderingContactFirstName: "",
+    OrderingContactLastName: "",
+    OrderingContactEmail: "",
+    OrderingContactMobile: "",
+    DeliveryContactFirstName: "",
+    DeliveryContactLastName: "",
+    DeliveryContactEmail: "",
+    DeliveryContactMobile: "",
+  });
+
   const {
     values,
     errors,
@@ -42,13 +45,76 @@ const ProfileEdit = () => {
     validationSchema: ProfileEditSchema,
     onSubmit: (values) => {
       console.log(values);
-      localStorage.setItem("profileEdit", JSON.stringify(values));
-      navigate("/home/profile");
+
+      const cbrn = buyer?.cbrn;
+
+      fetch(
+        `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/Buyer-ProfileUpdate?cbrn=${cbrn}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            businessName: values?.BusinessName,
+            abn: values?.ABN,
+            liquorLicence: values?.LiquerLicence,
+            orderingFirstName: values?.OrderingContactFirstName,
+            orderingLastName: values?.OrderingContactLastName,
+            orderingEmail: values?.OrderingContactEmail,
+            orderingMobile: values?.OrderingContactMobile,
+            deliveryFirstName: values?.DeliveryContactFirstName,
+            deliveryLastName: values?.DeliveryContactLastName,
+            deliveryMobile: values?.DeliveryContactMobile,
+            deliveryEmail: values?.DeliveryContactEmail,
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response update", data);
+          if (data.success) {
+            dispatch(
+              updateField({
+                ...buyer,
+                businessName: values?.BusinessName,
+                abn: values?.ABN,
+                liquorLicence: values?.LiquerLicence,
+                orderingContactFirstName: values?.OrderingContactFirstName,
+                orderingContactLastName: values?.OrderingContactLastName,
+                orderingContactEmail: values?.OrderingContactEmail,
+                orderingContactMobile: values?.OrderingContactMobile,
+                deliveryContactFirstName: values?.DeliveryContactFirstName,
+                deliveryContactLastName: values?.DeliveryContactLastName,
+                deliveryContactEmail: values?.DeliveryContactEmail,
+                deliveryContactMobile: values?.DeliveryContactMobile,
+              })
+            );
+            navigate("/home/profile");
+          }
+        })
+        .catch((error) => console.log(error));
     },
   });
 
+  const handleCancel = () => {
+    setValues(initialValues);
+  };
+
   useEffect(() => {
     setValues({
+      BusinessName: buyer?.businessName,
+      ABN: buyer?.abn,
+      LiquerLicence: buyer?.liquorLicence,
+      OrderingContactFirstName: buyer?.orderingContactFirstName,
+      OrderingContactLastName: buyer?.orderingContactLastName,
+      OrderingContactEmail: buyer?.orderingContactEmail,
+      OrderingContactMobile: buyer?.orderingContactMobile,
+      DeliveryContactFirstName: buyer?.deliveryContactFirstName,
+      DeliveryContactLastName: buyer?.deliveryContactLastName,
+      DeliveryContactEmail: buyer?.deliveryContactEmail,
+      DeliveryContactMobile: buyer?.deliveryContactMobile,
+    });
+
+    setInitialValues({
       BusinessName: buyer?.businessName,
       ABN: buyer?.abn,
       LiquerLicence: buyer?.liquorLicence,
@@ -533,7 +599,10 @@ const ProfileEdit = () => {
               </div>
             </div>
             <div className="flex gap-8 pt-5 pb-16">
-              <button className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
+              <button
+                onClick={handleCancel}
+                className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+              >
                 Cancel
               </button>
               <button

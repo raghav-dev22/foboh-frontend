@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "./Banner";
 import ShopSection from "./ShopSection";
 import TopRatedSection from "./TopRatedSection";
@@ -9,6 +9,10 @@ import Footer from "../main/Footer";
 import BottomToTop from "../main/BottomToTop";
 const MainHomePage = () => {
   const buyer = useSelector((state) => state.buyer);
+
+  useEffect(() => {
+    
+  }, [])
 
   console.log("buyer", buyer);
 
