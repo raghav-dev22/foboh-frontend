@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 function Banner() {
   const buyer = useSelector((state) => state.buyer);
+  const organisation = useSelector((state) => state.organisation);
 
   console.log("buyer", buyer);
 
@@ -36,7 +37,7 @@ function Banner() {
             Hello {buyer?.name || ["first name"]} 👋
           </h5>
           <h1 className="xl:font-bold md:font-bold text-xl text-[#8F959E]	xl:text-[#212B36] md:text-[#212B36] mb-3 xl:text-4xl md:text-3xl  xl:text-start md:text-start text-center">
-            Welcome to [Supplier name]
+            Welcome to {organisation?.businessName || ["Supplier name"]}
           </h1>
           <div className="bg-[#563FE3] xl:bg-[unset] md:bg-[unset] xl:mx-0 md:mx-0 mx-[2rem] xl:p-0 md:p-0 p-5 rounded-xl">
             <p className="text-[#fff] xl:text-[#637381] md:text-[#637381] font-normal text-base mb-3">
@@ -54,16 +55,25 @@ function Banner() {
         </div>
         <div className="md:w-2/5	 w-full justify-center md:flex hidden	">
           <div className="logo relative">
-            <img
-              src="/assets/SUPPLIERLOGO.png"
-              alt=""
-              className="mt-0 mr-0 mb-0 ml-[40px]"
-            />
-            <img
+            {(
+              <img
+                // src={organisation?.organisationlogo}
+                src="https://fbhdevomsstre.blob.core.windows.net/organizationimages/null.png"
+                alt="organisationlogo"
+                className="mt-0 mr-0 mb-0 ml-[40px] max-h-[150px] w-full object-contain"
+              />
+            ) || (
+              <img
+                src="/assets/SUPPLIERLOGO.png"
+                alt=""
+                className="mt-0 mr-0 mb-0 ml-[40px]"
+              />
+            )}
+            {/* <img
               src="/assets/hero-main.png"
               className="absolute top-[12px] max-w-[22rem] me-[9rem]"
               alt=""
-            />
+            /> */}
           </div>
         </div>
       </div>

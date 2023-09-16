@@ -4,6 +4,7 @@ import buyerReducer from "../slices/buyerSlice";
 import counterReducer from "../slices/counterSlice";
 import productReducer from "../slices/ProductSlice";
 import DeliveryEditReducer from "../slices/DeliveryEditSlice";
+import organisationReducer from "../slices/organisationSlice";
 
 const Store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const Store = configureStore({
     buyer: buyerReducer,
     counter: counterReducer,
     product: productReducer,
+    organisation: organisationReducer,
   },
 });
 export default Store;

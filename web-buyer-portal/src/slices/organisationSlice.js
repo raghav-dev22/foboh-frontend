@@ -1,5 +1,5 @@
 // organizationSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   abn: "",
@@ -31,11 +31,11 @@ const initialState = {
   postcode: "",
   state: "",
   suburb: null,
-  tradingName: ""
+  tradingName: "",
 };
 
-const organizationSlice = createSlice({
-  name: 'organization',
+const organisationSlice = createSlice({
+  name: "organisation",
   initialState,
   reducers: {
     updateSetting: (state, action) => {
@@ -47,6 +47,6 @@ const organizationSlice = createSlice({
   },
 });
 
-export const { updateSetting } = organizationSlice.actions;
+export const { updateSetting } = organisationSlice.actions;
 
-export default organizationSlice.reducer;
+export default organisationSlice.reducer;

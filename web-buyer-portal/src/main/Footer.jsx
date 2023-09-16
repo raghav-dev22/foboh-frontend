@@ -3,8 +3,13 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import { useSelector } from "react-redux";
 
 function Footer() {
+  const organisation = useSelector((state) => state.organisation);
+
+
+
   return (
     <>
       <div className="footer h-full bg-[#563FE3] p-10  grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 relative">
@@ -41,7 +46,7 @@ function Footer() {
          
           <div className="text-start md:text-start xl:text-center">
             <p className="text-sm font-bold text-[#BBB2F4]">
-              © 2023 — Copyright — Supplier name
+              © 2023 — Copyright — {organisation.businessName || 'Supplier name'}
             </p>
             <p className="text-[14px] font-[400] text-[#BBB2F4] my-2">
             Liquor Licence:  LIQP770016926
