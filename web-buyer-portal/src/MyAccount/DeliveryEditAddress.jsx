@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import Select from "react-select";
 import { DeliveryAddressEditSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useSelector } from "react-redux";
 // import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
@@ -15,6 +16,15 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
     Postcode: "",
     DeliveryInstruction: "",
   };
+
+  const buyer = useSelector((state) => state.buyer)
+
+  useEffect(() => {
+    setValues({
+      
+    })
+  }, [])
+
 
   //   const navigate = useNavigate();
   //   const [cart, setCart] = useState();

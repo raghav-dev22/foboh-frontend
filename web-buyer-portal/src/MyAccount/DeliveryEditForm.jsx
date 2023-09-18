@@ -27,25 +27,48 @@ const DeliveryEditForm = () => {
   };
 
   const navigate = useNavigate();
-  const buyer = useSelector((state) => state.buyer);
   // console.log(buyer, "hhhh");
   const [selectedOption, setSelectedOption] = useState(null);
   const [cart, setCart] = useState();
+  const buyer = useSelector((state) => state.buyer);
+
   const stateOptions = [
     { label: "Victoria", value: "option1" },
     { label: "Queensland", value: "option2" },
     { label: "Western Australia", value: "option3" },
   ];
+
   const countryOptions = [
     { label: "Victoria", value: "option1" },
     { label: "Queensland", value: "option2" },
     { label: "Western Australia", value: "option3" },
   ];
+
   const cityOptions = [
     { label: "Ballina", value: "option1" },
     { label: "Balranald	", value: "option2" },
     { label: "Batemans Bay", value: "option3" },
   ];
+
+  useEffect(() => {
+
+    setValues({
+      DeliveryAddress: buyer?.deliveryAddress,
+      Apartment: buyer?.apartment,
+      City: buyer?.city,
+      Postcode: "",
+      Notes: "",
+      DeliveryAddressState: "",
+      Country: "",
+      BillingAddress: "",
+      BillingApartment: "",
+      BillingCity: "",
+      BillingPostcode: "",
+      BillingNotes: "",
+      BillingAddressState: "",
+    });
+  }, []);
+
   const handleBillingAddress = (e, name) => {
     if (name === "handleBillingAddress") {
       setValues({
@@ -59,6 +82,7 @@ const DeliveryEditForm = () => {
       });
     }
   };
+
   const handleDeliveryCity = (e, name) => {
     if (name === "City") {
       setValues({
@@ -173,8 +197,8 @@ const DeliveryEditForm = () => {
             id="DeliveryAddress"
             name="DeliveryAddress"
             className="pl-custom-left"
-            value={values.DeliveryAddress}
-            autoComplete="off"
+            value={values?.DeliveryAddress}
+            autoComplete="on"
             onChange={handleChange}
             style={{
               border: errors.DeliveryAddress && "1px solid red",

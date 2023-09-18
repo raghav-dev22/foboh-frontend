@@ -95,9 +95,7 @@ const Profile = () => {
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.businessName}
                     </h5>
-                    <p className="text-sm font-normal">
-                      ABN: {buyer?.abn}
-                    </p>
+                    <p className="text-sm font-normal">ABN: {buyer?.abn}</p>
                     <p className="text-sm font-normal">
                       LIQ: {buyer?.liquorLicence}
                     </p>{" "}
@@ -176,13 +174,11 @@ const Profile = () => {
                   <div className="px-4 sm:py-5 pb-5">
                     <div className="">
                       <h5 className="text-lg font-medium mb-2">
-                        {deliveryEdit?.DeliveryAddress}
+                        {buyer?.deliveryAddress}
                       </h5>
+                      <p className="text-sm font-normal">{buyer?.apartment}</p>
                       <p className="text-sm font-normal">
-                        {deliveryEdit?.Apartment}
-                      </p>
-                      <p className="text-sm font-normal">
-                        {deliveryEdit?.DeliveryAddressState}
+                        {buyer?.deliveryAddressState}
                       </p>
                     </div>
                     <div className=" mt-5">
@@ -224,9 +220,7 @@ const Profile = () => {
                           </g>
                         </svg>
 
-                        <p className="text-sm font-normal">
-                          {deliveryEdit?.Notes}
-                        </p>
+                        <p className="text-sm font-normal">{buyer?.Notes}</p>
                       </div>
                     </div>
                   </div>
@@ -238,10 +232,18 @@ const Profile = () => {
                     </h5>
                   </div>
                   <div className="px-4 py-5">
-
-                    <h5 className="text-lg font-medium mb-2">
-                      No billing address found
-                    </h5>
+                    <div className="">
+                      <h5 className="text-lg font-medium mb-2">
+                        {buyer?.billingContactAddress ||
+                          "No billing address found"}
+                      </h5>
+                      <p className="text-sm font-normal">
+                        {buyer?.billingContactApartment}
+                      </p>
+                      <p className="text-sm font-normal">
+                        {buyer?.billingContactState}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

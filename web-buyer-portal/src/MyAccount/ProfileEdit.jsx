@@ -9,13 +9,13 @@ import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import { updateField } from "../slices/buyerSlice";
+import { setBuyerValues } from "../helpers/setBuyerValues";
 // import { Button, Form, Input, Radio } from "antd";
 // import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
-
   const buyer = useSelector((state) => state.buyer);
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({
@@ -100,6 +100,9 @@ const ProfileEdit = () => {
   };
 
   useEffect(() => {
+    const buyerData = (localStorage.getItem("buyerInfo"));
+    setBuyerValues(buyerData, dispatch, updateField);
+
     setValues({
       BusinessName: buyer?.businessName,
       ABN: buyer?.abn,

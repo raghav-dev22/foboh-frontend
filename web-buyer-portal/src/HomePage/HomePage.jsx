@@ -30,44 +30,16 @@ import { useDispatch } from "react-redux";
 // import PaymentPage from "../PaymentPage/paymentPage";
 import { updateField } from "../slices/buyerSlice";
 import { updateSetting } from "../slices/organisationSlice";
+import { setBuyerValues } from "../helpers/setBuyerValues";
 
 function HomePage() {
   const dispatch = useDispatch();
 
+  
+
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
-    console.log("buyer", buyer);
-    dispatch(
-      updateField({
-        name: buyer?.businessName,
-        email: buyer?.deliveryEmail,
-        password: "",
-        brn: buyer?.brn,
-        cbrn: buyer?.cbrn,
-        businessName: buyer?.businessName,
-        abn: buyer?.abn,
-        liquorLicence: buyer?.liquorLicence,
-        deliveryAddress: buyer?.address,
-        apartment: buyer?.apartment,
-        suburb: buyer?.suburb,
-        postcode: buyer?.postalCode,
-        notes: buyer?.deliveryNotes,
-        deliveryAddressState: buyer?.state,
-        firstName: buyer?.deliveryFirstName,
-        lastName: buyer?.deliveryLastName,
-        mobile: buyer?.mobile,
-        organisationId: buyer?.organisationId,
-        orderContactState: buyer?.orderingState,
-        orderingContactFirstName: buyer?.orderingFirstName,
-        orderingContactLastName: buyer?.orderingLastName,
-        orderingContactEmail: buyer?.orderingEmail,
-        orderingContactMobile: buyer?.orderingMobile,
-        deliveryContactFirstName: buyer?.deliveryFirstName,
-        deliveryContactLastName: buyer?.deliveryLastName,
-        deliveryContactEmail: buyer?.deliveryEmail,
-        deliveryContactMobile: buyer?.deliveryMobile,
-      })
-    );
+    setBuyerValues(buyer, dispatch, updateField)
 
     fetch(
       `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${buyer?.organisationId}`,
@@ -119,7 +91,6 @@ function HomePage() {
       <Routes>
         <Route path="/main" element={<MainHomePage />} />
         <Route path="/product-list" element={<ProductList />} />
-
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />

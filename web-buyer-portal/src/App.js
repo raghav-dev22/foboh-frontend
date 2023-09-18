@@ -36,6 +36,9 @@ const RouterComponent = () => {
     if (!email) {
       navigate("/");
     }
+
+    
+
   }, []);
 
   return (

@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   name: "",
   email: "",
-  cbrn : "",
-  brn : "",
+  cbrn: "",
+  brn: "",
   password: "",
   businessName: "",
   abn: "",
@@ -18,7 +18,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   mobile: "",
-  organisationId : "",
+  organisationId: "",
   orderContactState: "",
   orderingContactFirstName: "",
   orderingContactLastName: "",
@@ -28,6 +28,11 @@ const initialState = {
   deliveryContactLastName: "",
   deliveryContactEmail: "",
   deliveryContactMobile: "",
+  billingContactAddress: "",
+  billingContactApartment: "",
+  billingContactPostalCode: "",
+  billingContactState: "",
+  billingContactSuburb: "",
 };
 
 const buyerSlice = createSlice({
