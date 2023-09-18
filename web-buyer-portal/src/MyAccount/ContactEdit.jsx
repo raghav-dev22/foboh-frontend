@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { ContactSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
+import CallIcon from "@mui/icons-material/Call";
 
 const initialValues = {
   FirstName: "",
@@ -41,22 +42,33 @@ const ContactEdit = ({ setEditContact, editContact }) => {
   return (
     <>
       <div className="  md:px-0 pb-4 px-6">
-        <div className="  pb-4">
-          <h2 className="font-bold text-xl	 text-[#2B4447]">Contact</h2>
+        <div className="flex  items-center gap-1.5 pb-6">
+          <CallIcon style={{ fill: "#2B4447" }} className="w-[18px] h-[18px]" />
+          <h5 className="text-lg font-semibold text-[#2B4447]">
+            Delivery Contact
+          </h5>
         </div>
+
         <form onSubmit={handleSubmit} className="">
           <div className="flex flex-nowrap  gap-8">
             <div className="w-full mb-4 relative">
+              <label
+                htmlFor=""
+                className="text-base font-normal text-[#2B4447]"
+              >
+                First Name
+              </label>
               <input
                 type="text"
                 id="FirstName"
                 name="FirstName"
                 value={values.FirstName}
-                placeholder="First Name"
+                // placeholder="First Name"
                 onChange={handleChange}
                 className=""
                 style={{
                   border: errors.FirstName && "1px solid red",
+                  background: "#F8F8F8",
                 }}
               />
               {errors.FirstName && (
@@ -65,12 +77,18 @@ const ContactEdit = ({ setEditContact, editContact }) => {
                 </p>
               )}
               {errors.FirstName && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
             <div className="w-full mb-4 relative">
+              <label
+                htmlFor=""
+                className="text-base font-normal text-[#2B4447]"
+              >
+                Last Name
+              </label>
               <input
-                placeholder="Last Name"
+                // placeholder="Last Name"
                 type="text"
                 id="LastName"
                 name="LastName"
@@ -79,6 +97,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
                 className=""
                 style={{
                   border: errors.LastName && "1px solid red",
+                  background: "#F8F8F8",
                 }}
               />
               {errors.LastName && (
@@ -87,15 +106,21 @@ const ContactEdit = ({ setEditContact, editContact }) => {
                 </p>
               )}
               {errors.LastName && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
           </div>
           <div className="flex flex-nowrap gap-8">
             <div className="w-full mb-4 relative">
+              <label
+                htmlFor=""
+                className="text-base font-normal text-[#2B4447]"
+              >
+                Email
+              </label>
               <input
                 type="text"
-                placeholder="Email"
+                // placeholder="Email"
                 id="email"
                 name="email"
                 value={values.email}
@@ -103,29 +128,37 @@ const ContactEdit = ({ setEditContact, editContact }) => {
                 className=""
                 style={{
                   border: errors.email && "1px solid red",
+                  background: "#F8F8F8",
                 }}
               />
               {errors.email && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">{errors.email}</p>
               )}
               {errors.email && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
           </div>
 
           <div className="flex flex-nowrap gap-8">
             <div className="w-full mb-4 relative">
+              <label
+                htmlFor=""
+                className="text-base font-normal text-[#2B4447]"
+              >
+                Phone no.{" "}
+              </label>
               <input
                 type="text"
                 id="Mobile"
-                placeholder="Phone no."
+                // placeholder="Phone no."
                 name="Mobile"
                 value={values.Mobile}
                 onChange={handleChange}
-                className=""
+                className="border border-[#E0E0E0] "
                 style={{
                   border: errors.Mobile && "1px solid red",
+                  background: "#F8F8F8",
                 }}
               />
               {errors.Mobile && (
@@ -134,7 +167,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
                 </p>
               )}
               {errors.Mobile && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
           </div>

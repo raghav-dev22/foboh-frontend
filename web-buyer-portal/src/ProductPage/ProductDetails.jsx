@@ -11,38 +11,52 @@ import { useEffect } from "react";
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
- const [selectData, setSelectData] = useState({
-  product : {},
-  quantity : 1
- })
+  const [selectData, setSelectData] = useState({
+    product: {},
+    quantity: 1,
+  });
   const productData = products.find((item) => item?.product?.productId === +id);
   // for add to card redux
   const dispatch = useDispatch();
   const addCart = (product) => {
     dispatch(add(product));
   };
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  const images = [
+    `${selectData?.product?.productImageUrls}`,
+    `${selectData?.product?.productImageUrls}`,
+    `${selectData?.product?.productImageUrls}`,
+    // Add more image URLs here
+  ];
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
+
+  const handleClosePreview = () => {
+    setSelectedImage(null);
+  };
   useEffect(() => {
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getByProductId?ProductId=${id}`;
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
         setSelectData({
-          product : data.data[0],
-          quantity : 1
+          product: data.data[0],
+          quantity: 1,
         });
-        console.log(data.data[0], " slectedsproductsdata")
+        console.log(data.data[0], " slectedsproductsdata");
       })
       .catch((error) => {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error("There was a problem with the fetch operation:", error);
       });
   }, []);
-
 
   const handleIncrementDecrement = (id, actionType) => {
     const updatedProductData = products.map((item) => {
@@ -72,18 +86,47 @@ const ProductDetails = () => {
         <div className="flex md:flex-nowrap flex-wrap gap-8">
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
-            {/* {productData.map((item, index) => ( */}
-              <div>
-                <img
-                  src={selectData?.product?.productImageUrls}
-                  alt=""
-                  className="w-full"
-                />
-              </div>
+              {/* {productData.map((item, index) => ( */}
+              {selectedImage && (
+                <div className="bg-[#C4C4C4] rounded-md">
+                  <img
+                    src={selectedImage}
+                    alt="Selected Image"
+                    className="mix-blend-multiply"
+                  />
+                </div>
+              )}
+
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
-                <img src={selectData?.product?.img} alt="" />
-                <img src={selectData?.product?.img} alt="" />
-                <img src={selectData?.product?.img} alt="" />
+                {images.map((image, index) => (
+                  <div className="bg-[#C4C4C4] rounded-md">
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Image ${index}`}
+                      onClick={() => handleImageClick(image)}
+                      className="mix-blend-multiply"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div>
+                {/* <div className="image-container">
+                  {images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Image ${index}`}
+                      onClick={() => handleImageClick(image)}
+                    />
+                  ))}
+                </div> */}
+                {/* {selectedImage && (
+                  <div className="image-preview">
+                    <button onClick={handleClosePreview}>Close</button>
+                    <img src={selectedImage} alt="Selected Image" />
+                  </div>
+                )} */}
               </div>
             </div>
           </div>
@@ -101,7 +144,7 @@ const ProductDetails = () => {
               </h5> */}
               <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
               <h5 className="text-lg font-medium text-[#2B4447]">
-              {selectData?.product?.configuration}{" "}
+                {selectData?.product?.configuration}{" "}
               </h5>
             </div>
             <div className="flex items-center gap-3">
@@ -112,7 +155,7 @@ const ProductDetails = () => {
             </div>
             <div className="py-3">
               <p className="text-sm font-normal text-[#637381] leading-[25px]">
-              {selectData?.product?.description}
+                {selectData?.product?.description}
               </p>
             </div>
             <div className="flex  justify-between md:w-[365px] w-full items-center py-2 ">
@@ -153,99 +196,56 @@ const ProductDetails = () => {
               </button>
             </div>
             <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
-              <div className="">
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Vintage:
-                </p>
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Type:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Alchohol Level:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Awards:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Wine Style:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Country:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Region:
-                </p>
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Serving Temperature:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Taste:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  ABV:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  SKU:
-                </p>
-
-                <p className="text-base font-normal text-[#2B4447] py-2">
-                  Grape Variety
-                </p>
+              <div>
+                <div className="">
+                  <p className="text-base font-normal text-[#2B4447] py-2">
+                    Country:
+                  </p>
+                  <p className="text-base font-normal text-[#2B4447] py-2">
+                    Segment:
+                  </p>
+                </div>
+                <div className="">
+                  <p className="text-base font-normal text-[#2B4447] py-2">
+                    Vintage:
+                  </p>
+                  <p className="text-base font-normal text-[#2B4447] py-2">
+                    Awards:
+                  </p>
+                  <p className="text-base font-normal text-[#2B4447] py-2">
+                    Region:
+                  </p>
+                  <p className="text-base font-normal text-[#2B4447] py-2">
+                    Grape variety:
+                  </p>
+                </div>
               </div>
               <div className="">
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                {selectData?.product?.vintage}
-                </p>
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Type name
-                </p>
+                <div className="">
+                  <p className="text-base font-semibold text-[#2B4447] py-2">
+                    Country
+                  </p>
+                  <p className="text-base font-semibold text-[#2B4447] py-2">
+                    Segment
+                  </p>
+                </div>
+                <div>
+                  <p className="text-base font-semibold text-[#2B4447] py-2">
+                    Vintage name
+                  </p>
 
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Alcohol level
-                </p>
+                  <p className="text-base font-semibold text-[#2B4447] py-2">
+                    Awards
+                  </p>
 
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                {selectData?.product?.award}
-                </p>
+                  <p className="text-base font-semibold text-[#2B4447] py-2">
+                    Region name
+                  </p>
 
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Wine style
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                {selectData?.product?.countryOfOrigin}
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                {selectData?.product?.region}
-                </p>
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Temperature
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                  Taste
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                {selectData?.product?.abv}
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                {selectData?.product?.skUcode}
-                </p>
-
-                <p className="text-base font-semibold text-[#2B4447] py-2">
-                {selectData?.product?.variety}
-                </p>
+                  <p className="text-base font-semibold text-[#2B4447] py-2">
+                    Grape variety
+                  </p>
+                </div>
               </div>
             </div>
           </div>

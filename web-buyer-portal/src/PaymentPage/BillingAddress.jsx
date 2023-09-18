@@ -183,7 +183,7 @@ function BillingAddress() {
             </div>
           </div>
           <div className="flex md:flex-nowrap gap-4">
-            <div className="w-full   mb-3 relative md:mb-0 relative">
+            <div className="w-full   mb-3  md:mb-0 relative">
               <input
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Company"

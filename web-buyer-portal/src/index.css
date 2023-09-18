@@ -319,3 +319,6 @@ select {
 :where(.css-dev-only-do-not-override-17a39f8).ant-select-dropdown {
   box-shadow: none !important;
 }
+.custom-bg .css-13cymwt-control {
+  background-color: #f8f8f8;
+}

@@ -66,9 +66,7 @@ const Order = () => {
   const calculateTotalCost = () => {
     let total = 0;
     CARTdata.forEach((item) => {
-      const productPrice = removeDollarAndConvertToInteger(
-        item?.product?.price
-      );
+      const productPrice = item?.product?.price;
       const productPriceINR = productPrice;
       const quantity = parseInt(item.quantity);
       total += productPriceINR * quantity;
@@ -95,13 +93,14 @@ const Order = () => {
           {" "}
           {CARTdata.map((item, index) => (
             <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
-              <div className="">
+              <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                 <img
-                  src={item.product?.img}
+                  src={item.product?.productImageUrls}
                   alt=""
                   className="w-[150px]  object-cover	rounded-md"
                 />
               </div>
+
               <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">
                 <div>
                   <div className="flex justify-between w-full gap-3">
@@ -122,8 +121,8 @@ const Order = () => {
                 </div>
                 <div className="flex justify-between">
                   <div className="flex gap-2 items-center">
-                    <div className="rounded-full w-[14px] h-[14px] border border-[#637381] flex justify-center items-center">
-                      <CheckIcon style={{ fill: "#637381", width: "8px" }} />
+                    <div className="rounded-full w-[14px] h-[14px] border border-[#009900] flex justify-center items-center">
+                      <CheckIcon style={{ fill: "#009900", width: "8px" }} />
                     </div>
                     <p className="text-sm font-normal text-[#637381]">
                       Available In Stock

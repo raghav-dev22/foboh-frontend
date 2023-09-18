@@ -57,7 +57,7 @@ const Cart = ({ open, onClose }) => {
                       <>
                         <div className="box  my-4 relative cartbox-div">
                           <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
-                            <div className="cart-img">
+                            <div className="max-w-[80px] w-[80px] h-[80px]  bg-[#c3c3c3]">
                               <img
                                 src={item.product?.productImageUrls}
                                 alt=""
@@ -69,7 +69,15 @@ const Cart = ({ open, onClose }) => {
                                 <h5 className="text-sm font-bold">
                                   {item.product?.title}
                                 </h5>
-                                <p className=" text-[#666666] text-xs">
+                                <p
+                                  className=" text-[#666666] text-xs"
+                                  style={{
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    maxWidth: "25ch",
+                                  }}
+                                >
                                   {item.product?.description}
                                 </p>
                               </div>

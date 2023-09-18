@@ -4,6 +4,7 @@ import Select from "react-select";
 import { DeliveryAddressEditSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 // import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
@@ -88,44 +89,57 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
 
   return (
     <>
-      <div className="  pb-4">
-        <h2 className="font-bold text-xl	 text-[#2B4447]">Delivery Address</h2>
+      <div className="flex  items-center gap-1.5  pb-4">
+        <HomeRoundedIcon
+          style={{ fill: "#2B4447" }}
+          className="w-[18px] h-[18px]"
+        />
+        <h5 className="text-lg font-semibold text-[#2B4447]">
+          Delivery Address
+        </h5>
       </div>
+
       <form onSubmit={handleSubmit} className="">
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+              Address
+            </label>
             <input
               type="text"
               id="Address"
-              placeholder="Street Address"
               value={values.Address}
               onChange={handleChange}
               name="Address"
               className=""
               style={{
                 border: errors.Address && "1px solid red",
+                background: "#F8F8F8",
               }}
             />
             {errors.Address && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Address}</p>
             )}
             {errors.Address && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+              <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
         </div>
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+              Apartment etc
+            </label>
             <input
               type="text"
               id="Apartment"
-              placeholder="Apartment, Suite, etc"
               value={values.Apartment}
               onChange={handleChange}
               name="Apartment"
               className=""
               style={{
                 border: errors.Apartment && "1px solid red",
+                background: "#F8F8F8",
               }}
             />
             {errors.Apartment && (
@@ -134,45 +148,51 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
               </p>
             )}
             {errors.Apartment && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+              <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
           <div className="w-full mb-4 relative">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+              City
+            </label>
             <Select
               type="text"
               defaultValue={`Country`}
-              placeholder="City"
               id="City"
               onChange={(e) => handleDeliveryCity(e, "City")}
               name="City"
               value={values.City}
               options={cityOptions}
-              className=""
+              className="custom-bg"
               style={{
                 border: errors.City && "1px solid red",
+                background: "#F8F8F8",
               }}
             />
             {errors.City && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.City}</p>
             )}
             {errors.City && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+              <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
         </div>
 
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+              Postcode
+            </label>
             <input
               type="text"
               id="Postcode"
-              placeholder="Postcode"
               value={values.Postcode}
               onChange={handleChange}
               name="Postcode"
               className=""
               style={{
                 border: errors.Postcode && "1px solid red",
+                background: "#F8F8F8",
               }}
             />
             {errors.Postcode && (
@@ -181,33 +201,39 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
               </p>
             )}
             {errors.Postcode && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+              <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
           <div className="w-full mb-4 relative">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+              State
+            </label>
             <Select
               type="text"
-              placeholder="State/Teritory"
               id="State"
               onChange={(e) => handleDeliveryState(e, "State")}
               name="State"
               value={values.State}
               options={stateOptions}
-              className=""
+              className="custom-bg"
               style={{
                 border: errors.State && "1px solid red",
+                background: "#F8F8F8",
               }}
             />
             {errors.State && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.State}</p>
             )}
             {errors.State && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+              <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
         </div>
 
         <div className={`relative mb-4 `} data-te-input-wrapper-init>
+          <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+            Delivery Instruction/Notes
+          </label>
           <input
             type="text"
             id="DeliveryInstruction"
@@ -216,9 +242,9 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             value={values.DeliveryInstruction}
             onChange={handleChange}
             autoComplete="off"
-            placeholder="Delivery Instruction/Notes"
             style={{
               border: errors.DeliveryInstruction && "1px solid red",
+              background: "#F8F8F8",
             }}
           />
           {errors.DeliveryInstruction && (
@@ -227,7 +253,7 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             </p>
           )}
           {errors.DeliveryInstruction && (
-            <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+            <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
           )}
         </div>
 
