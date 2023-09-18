@@ -31,9 +31,7 @@ const CartPage = () => {
   const calculateTotalCost = () => {
     let total = 0;
     CARTdata.forEach((item) => {
-      const productPrice = removeDollarAndConvertToInteger(
-        item?.product?.price
-      );
+      const productPrice = item?.product?.price;
       const productPriceINR = productPrice;
       const quantity = parseInt(item.quantity);
       total += productPriceINR * quantity;
@@ -74,9 +72,9 @@ const CartPage = () => {
               <>
                 {CARTdata.map((item, index) => (
                   <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
-                    <div className="">
+                    <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                       <img
-                        src={item.product?.img}
+                        src={item.product?.productImageUrls}
                         alt=""
                         className="w-[150px]  object-cover	rounded-md"
                       />
@@ -100,9 +98,6 @@ const CartPage = () => {
                               >
                                 -
                               </p>
-
-                              {/* <p className="text-[#637381]"> {item.quantity}</p> */}
-
                               <p
                                 className="text-[#637381] cursor-pointer "
                                 onClick={() =>
@@ -117,7 +112,7 @@ const CartPage = () => {
                             </div>
                           </div>
                           <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
-                            {item.product?.price}
+                            {item.product?.buyPrice}
                           </h4>
                         </div>
 
