@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import BillingAddress from "./BillingAddress";
 import DeliveryAddress from "./DeliveryAddress";
@@ -10,6 +10,40 @@ import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AppleIcon from "@mui/icons-material/Apple";
+import {
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardCvcElement,
+  CardExpiryElement,
+} from "@stripe/react-stripe-js";
+import useResponsiveFontSize from "./useResponsiveFontSize";
+
+const useOptions = () => {
+  const fontSize = useResponsiveFontSize();
+  const options = useMemo(
+    () => ({
+      style: {
+        base: {
+          fontSize,
+          color: "#424770",
+          letterSpacing: "0.025em",
+          fontFamily: "Source Code Pro, monospace",
+          "::placeholder": {
+            color: "#aab7c4",
+          },
+          backgroundColor: "#F8F8F8",
+        },
+        invalid: {
+          color: "#9e2146",
+        },
+      },
+    }),
+    [fontSize]
+  );
+
+  return options;
+};
 
 const Payment = () => {
   const EditContactValue = JSON.parse(localStorage.getItem("ContactEdit"));
@@ -21,9 +55,10 @@ const Payment = () => {
     setActiveKey(key);
   };
   const { TabPane } = Tabs;
-
   const [isChecked, setIsChecked] = useState(false);
   const [cardDetails, setCardDetails] = useState(false);
+  const [cardHolderName, setCardHolderName] = useState("");
+  const [cardErrors, setCardErrors] = useState({});
 
   // Function to handle checkbox change event
   const handleCheckboxChange = () => {
@@ -34,9 +69,33 @@ const Payment = () => {
   const openTab = () => {
     setOpenDetails(!openDetails);
   };
-  const [openDetails, setOpenDetails] = useState(false);
 
+  const [openDetails, setOpenDetails] = useState(false);
   const [editContact, setEditContact] = useState(false);
+
+  const stripe = useStripe();
+  const elements = useElements();
+  const options = useOptions();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet. Make sure to disable
+      // form submission until Stripe.js has loaded.
+      return;
+    }
+
+    const payload = await stripe.createPaymentMethod({
+      type: "card",
+      card: elements.getElement(CardNumberElement),
+      billing_details: {
+        name: cardHolderName, // Use the cardholder's name from the input field
+      },
+    });
+    console.log("[PaymentMethod]", payload);
+  };
+
   return (
     <>
       <div className="">
@@ -381,23 +440,28 @@ const Payment = () => {
                     <>
                       <div className=" py-5 px-4">
                         <div
-                          className={`relative mb-4  `}
+                          className={`relative mb-4 `}
                           data-te-input-wrapper-init
                         >
-                          <label
-                            htmlFor=""
-                            className="text-[#2B4447] font-normal text-sm"
-                          >
-                            Card Number
+                          <label>
+                            Card number
+                            <CardNumberElement
+                              options={options}
+                              onChange={(event) => {
+                                setCardErrors({
+                                  ...cardErrors,
+                                  [event.elementType]: event.error,
+                                });
+                                console.log(
+                                  "CardNumberElement [change]",
+                                  event
+                                );
+                              }}
+                            />
                           </label>
-                          <input
-                            type="text"
-                            id="LiquerLicence"
-                            className=" "
-                            autoComplete="off"
-                            // placeholder="Card Number"
-                            style={{ background: "#F8F8F8" }}
-                          />
+                          <p className="mt-2 mb-2 text-red-500 text-xs">
+                            {cardErrors?.cardNumber?.message}
+                          </p>
                           <div className="absolute top-[44px] right-[10px]">
                             <LockOpenIcon style={{ fill: "#979797" }} />
                           </div>
@@ -407,7 +471,7 @@ const Payment = () => {
                           data-te-input-wrapper-init
                         >
                           <label
-                            htmlFor=""
+                            htmlFor="LiquerLicence"
                             className="text-[#2B4447] font-normal text-sm"
                           >
                             Name on Card
@@ -416,7 +480,10 @@ const Payment = () => {
                             type="text"
                             id="LiquerLicence"
                             className=" "
-                            autoComplete="off"
+                            onChange={(e) => {
+                              setCardHolderName(e.target.value);
+                            }}
+                            autoComplete="on"
                             // placeholder="Name on Card"
                             style={{ background: "#F8F8F8" }}
                           />
@@ -426,42 +493,49 @@ const Payment = () => {
                             className={`relative mb-4 `}
                             data-te-input-wrapper-init
                           >
-                            <label
-                              htmlFor=""
-                              className="text-[#2B4447] font-normal text-sm"
-                            >
-                              Expiration Date (MM/YY)
+                            <label>
+                              Expiration date
+                              <CardExpiryElement
+                                options={options}
+                                onChange={(event) => {
+                                  setCardErrors({
+                                    ...cardErrors,
+                                    [event?.elementType]: event?.error,
+                                  });
+                                  console.log(
+                                    "CardNumberElement [change]",
+                                    event
+                                  );
+                                }}
+                              />
                             </label>
-                            <input
-                              type="text"
-                              id="LiquerLicence"
-                              className=" "
-                              autoComplete="off"
-                              style={{ background: "#F8F8F8" }}
-                              // placeholder="Expiration Date (MM/YY)"
-                            />
+                            <p className="mt-2 mb-2 text-red-500 text-xs">
+                              {cardErrors?.cardExpiry?.message}
+                            </p>
                           </div>
                           <div
                             className={`relative mb-4 `}
                             data-te-input-wrapper-init
                           >
-                            <label
-                              htmlFor=""
-                              className="text-[#2B4447] font-normal text-base"
-                            >
-                              cvv
+                            <label>
+                              CVC
+                              <CardCvcElement
+                                options={options}
+                                onChange={(event) => {
+                                  setCardErrors({
+                                    ...cardErrors,
+                                    [event.elementType]: event.error,
+                                  });
+                                  console.log(
+                                    "CardNumberElement [change]",
+                                    event
+                                  );
+                                }}
+                              />
                             </label>
-                            <input
-                              type="text"
-                              id="LiquerLicence"
-                              className=" "
-                              autoComplete="off"
-                              style={{ background: "#F8F8F8" }}
-                              // placeholder="cvv"
-                            />
-                            <div className="absolute top-[44px] right-[10px]">
-                              <ErrorOutlineIcon style={{ fill: "#979797" }} />
-                            </div>
+                            <p className="mt-2 mb-2 text-red-500 text-xs">
+                              {cardErrors?.cardCvc?.message}
+                            </p>
                           </div>
                         </div>
 
@@ -581,7 +655,9 @@ const Payment = () => {
             </Tabs>
             {/* <Tabs defaultActiveKey="1" items={items} onChange={onChange} /> */}
           </div>
-
+          <button onClick={handleSubmit}>
+            Submit
+          </button>
           <div className="py-4">
             <BillingAddress />
           </div>

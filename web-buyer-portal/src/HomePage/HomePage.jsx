@@ -32,14 +32,14 @@ import { updateField } from "../slices/buyerSlice";
 import { updateSetting } from "../slices/organisationSlice";
 import { setBuyerValues } from "../helpers/setBuyerValues";
 
+
+
 function HomePage() {
   const dispatch = useDispatch();
 
-  
-
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
-    setBuyerValues(buyer, dispatch, updateField)
+    setBuyerValues(buyer, dispatch, updateField);
 
     fetch(
       `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${buyer?.organisationId}`,
@@ -56,7 +56,6 @@ function HomePage() {
         }
       })
       .catch((error) => console.log(error));
-      
   }, []);
 
   const location = useLocation();

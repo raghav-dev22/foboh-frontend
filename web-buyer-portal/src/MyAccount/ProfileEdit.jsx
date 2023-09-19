@@ -9,15 +9,15 @@ import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import { updateField } from "../slices/buyerSlice";
-import { setBuyerValues } from "../helpers/setBuyerValues";
+import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
 // import { Button, Form, Input, Radio } from "antd";
 // import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
-  const buyer = useSelector((state) => state.buyer);
   const dispatch = useDispatch();
+  const { buyerId, cbrn } = JSON.parse(localStorage.getItem("buyerInfo"));
   const [initialValues, setInitialValues] = useState({
     BusinessName: "",
     ABN: "",
@@ -46,8 +46,6 @@ const ProfileEdit = () => {
     onSubmit: (values) => {
       console.log(values);
 
-      const cbrn = buyer?.cbrn;
-
       fetch(
         `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/Buyer-ProfileUpdate?cbrn=${cbrn}`,
         {
@@ -72,22 +70,22 @@ const ProfileEdit = () => {
         .then((data) => {
           console.log("Response update", data);
           if (data.success) {
-            dispatch(
-              updateField({
-                ...buyer,
-                businessName: values?.BusinessName,
-                abn: values?.ABN,
-                liquorLicence: values?.LiquerLicence,
-                orderingContactFirstName: values?.OrderingContactFirstName,
-                orderingContactLastName: values?.OrderingContactLastName,
-                orderingContactEmail: values?.OrderingContactEmail,
-                orderingContactMobile: values?.OrderingContactMobile,
-                deliveryContactFirstName: values?.DeliveryContactFirstName,
-                deliveryContactLastName: values?.DeliveryContactLastName,
-                deliveryContactEmail: values?.DeliveryContactEmail,
-                deliveryContactMobile: values?.DeliveryContactMobile,
-              })
-            );
+            // dispatch(
+            //   updateField({
+            //     ...buyer,
+            //     businessName: values?.BusinessName,
+            //     abn: values?.ABN,
+            //     liquorLicence: values?.LiquerLicence,
+            //     orderingContactFirstName: values?.OrderingContactFirstName,
+            //     orderingContactLastName: values?.OrderingContactLastName,
+            //     orderingContactEmail: values?.OrderingContactEmail,
+            //     orderingContactMobile: values?.OrderingContactMobile,
+            //     deliveryContactFirstName: values?.DeliveryContactFirstName,
+            //     deliveryContactLastName: values?.DeliveryContactLastName,
+            //     deliveryContactEmail: values?.DeliveryContactEmail,
+            //     deliveryContactMobile: values?.DeliveryContactMobile,
+            //   })
+            // );
             navigate("/home/profile");
           }
         })
@@ -100,36 +98,25 @@ const ProfileEdit = () => {
   };
 
   useEffect(() => {
-    const buyerData = (localStorage.getItem("buyerInfo"));
-    setBuyerValues(buyerData, dispatch, updateField);
+    getBuyerValues(buyerId)
+      .then((buyerData) => {
+        console.log("buyerData", buyerData);
 
-    setValues({
-      BusinessName: buyer?.businessName,
-      ABN: buyer?.abn,
-      LiquerLicence: buyer?.liquorLicence,
-      OrderingContactFirstName: buyer?.orderingContactFirstName,
-      OrderingContactLastName: buyer?.orderingContactLastName,
-      OrderingContactEmail: buyer?.orderingContactEmail,
-      OrderingContactMobile: buyer?.orderingContactMobile,
-      DeliveryContactFirstName: buyer?.deliveryContactFirstName,
-      DeliveryContactLastName: buyer?.deliveryContactLastName,
-      DeliveryContactEmail: buyer?.deliveryContactEmail,
-      DeliveryContactMobile: buyer?.deliveryContactMobile,
-    });
-
-    setInitialValues({
-      BusinessName: buyer?.businessName,
-      ABN: buyer?.abn,
-      LiquerLicence: buyer?.liquorLicence,
-      OrderingContactFirstName: buyer?.orderingContactFirstName,
-      OrderingContactLastName: buyer?.orderingContactLastName,
-      OrderingContactEmail: buyer?.orderingContactEmail,
-      OrderingContactMobile: buyer?.orderingContactMobile,
-      DeliveryContactFirstName: buyer?.deliveryContactFirstName,
-      DeliveryContactLastName: buyer?.deliveryContactLastName,
-      DeliveryContactEmail: buyer?.deliveryContactEmail,
-      DeliveryContactMobile: buyer?.deliveryContactMobile,
-    });
+        setValues({
+          BusinessName: buyerData?.businessName,
+          ABN: buyerData?.abn,
+          LiquerLicence: buyerData?.liquorLicence,
+          OrderingContactFirstName: buyerData?.orderingFirstName,
+          OrderingContactLastName: buyerData?.orderingLastName,
+          OrderingContactEmail: buyerData?.orderingEmail,
+          OrderingContactMobile: buyerData?.orderingMobile,
+          DeliveryContactFirstName: buyerData?.deliveryFirstName,
+          DeliveryContactLastName: buyerData?.deliveryLastName,
+          DeliveryContactEmail: buyerData?.deliveryEmail,
+          DeliveryContactMobile: buyerData?.deliveryMobile,
+        });
+      })
+      .catch((error) => console.log(error));
   }, []);
   console.log("error>>", values);
 

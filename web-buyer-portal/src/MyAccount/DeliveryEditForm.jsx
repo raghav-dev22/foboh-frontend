@@ -8,6 +8,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
 import { json } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { getBuyerValues } from "../helpers/setBuyerValues";
 
 const DeliveryEditForm = () => {
   const initialValues = {
@@ -30,7 +31,6 @@ const DeliveryEditForm = () => {
   // console.log(buyer, "hhhh");
   const [selectedOption, setSelectedOption] = useState(null);
   const [cart, setCart] = useState();
-  const buyer = useSelector((state) => state.buyer);
 
   const stateOptions = [
     { label: "Victoria", value: "option1" },
@@ -50,91 +50,6 @@ const DeliveryEditForm = () => {
     { label: "Batemans Bay", value: "option3" },
   ];
 
-  useEffect(() => {
-
-    setValues({
-      DeliveryAddress: buyer?.deliveryAddress,
-      Apartment: buyer?.apartment,
-      City: buyer?.city,
-      Postcode: "",
-      Notes: "",
-      DeliveryAddressState: "",
-      Country: "",
-      BillingAddress: "",
-      BillingApartment: "",
-      BillingCity: "",
-      BillingPostcode: "",
-      BillingNotes: "",
-      BillingAddressState: "",
-    });
-  }, []);
-
-  const handleBillingAddress = (e, name) => {
-    if (name === "handleBillingAddress") {
-      setValues({
-        ...values,
-        handleBillingAddress: e,
-      });
-    } else {
-      setValues({
-        ...values,
-        handleBillingAddress: e,
-      });
-    }
-  };
-
-  const handleDeliveryCity = (e, name) => {
-    if (name === "City") {
-      setValues({
-        ...values,
-        City: e,
-      });
-    } else {
-      setValues({
-        ...values,
-        City: e,
-      });
-    }
-  };
-  const handleDeliveryState = (e, name) => {
-    if (name === "State") {
-      setValues({
-        ...values,
-        State: e,
-      });
-    } else {
-      setValues({
-        ...values,
-        State: e,
-      });
-    }
-  };
-  const handleBillingCity = (e, name) => {
-    if (name === "BillingCity") {
-      setValues({
-        ...values,
-        BillingCity: e,
-      });
-    } else {
-      setValues({
-        ...values,
-        BillingCity: e,
-      });
-    }
-  };
-  const handleDeliveryCountry = (e, name) => {
-    if (name === "State") {
-      setValues({
-        ...values,
-        State: e,
-      });
-    } else {
-      setValues({
-        ...values,
-        State: e,
-      });
-    }
-  };
   const {
     values,
     errors,
@@ -154,32 +69,130 @@ const DeliveryEditForm = () => {
       console.log(cart, "flag>>");
     },
   });
+
   useEffect(() => {
-    setValues(buyer);
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+
+    getBuyerValues(buyerId).then((buyer) => {
+      const deliveryCity = cityOptions.find(
+        (city) => city.label === buyer?.suburb
+      );
+
+      const billingCity = cityOptions.find(
+        (city) => city.label === buyer?.billingSuburb
+      );
+
+      const deliveryState = stateOptions.find(
+        (state) => state.label === buyer?.state
+      );
+
+      const billingState = stateOptions.find(
+        (state) => state.label === buyer?.billingState
+      );
+
+      setValues({
+        DeliveryAddress: buyer?.address,
+        Apartment: buyer?.apartment,
+        City: deliveryCity,
+        Postcode: buyer?.postalCode,
+        Notes: buyer?.deliveryNotes,
+        DeliveryAddressState: deliveryState,
+        Country: "",
+        BillingAddress: buyer?.billingAddress,
+        BillingApartment: buyer?.billingApartment,
+        BillingCity: billingCity,
+        BillingPostcode: buyer?.billingPostalCode,
+        BillingNotes: "",
+        BillingAddressState: billingState,
+      });
+    });
   }, []);
-  console.log("error>>", values);
 
-  const handleSubmitBtn = (e) => {
-    navigate("/home/profile");
-  };
-
-  const handleBillingState = (e, name) => {
-    if (name === "BillingAddressState") {
+  const handleSelect = (e, name) => {
+    if (name === "City") {
       setValues({
         ...values,
-        BillingAddressState: e,
+        City: e,
       });
-    } else {
+    } else if (name === "DeliveryAddressState") {
       setValues({
         ...values,
         DeliveryAddressState: e,
       });
+    } else if (name === "BillingCity") {
+      setValues({
+        ...values,
+        BillingCity: e,
+      });
+    } else if (name === "BillingAddressState") {
+      setValues({
+        ...values,
+        BillingCity: e,
+      });
     }
   };
-  const [isChecked, setIsChecked] = useState(false);
-  const toggleCheckbox = () => {
-    setIsChecked(!isChecked);
+
+  console.log("error>>", values);
+
+  const handleSubmitBtn = (e) => {
+    const { cbrn } = JSON.parse(localStorage.getItem("buyerInfo"));
+    console.log("cbrn", cbrn);
+
+    fetch(
+      `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/Buyer-AddressUpdate?cbrn=${cbrn}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          address: values?.DeliveryAddress,
+          apartment: values?.Apartment,
+          suburb: values?.City?.label,
+          postalCode: values?.Postcode,
+          state: values?.DeliveryAddressState?.label,
+          deliveryNotes: values?.Notes,
+          billingAddress: values?.BillingAddress,
+          billingApartment: values?.BillingApartment,
+          billingSuburb: values?.BillingCity?.label,
+          billingPostalCode: values?.BillingPostcode,
+          billingState: values?.BillingAddressState?.label,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Buyer address update", data);
+        navigate("/home/profile");
+      })
+      .catch((error) => console.log(error));
   };
+
+  const [isChecked, setIsChecked] = useState(false);
+  const toggleCheckbox = (e) => {
+    const checked = e.target.checked;
+
+    checked
+      ? setValues({
+          ...values,
+          BillingAddress: values?.DeliveryAddress,
+          BillingApartment: values?.Apartment,
+          BillingCity: values?.City,
+          BillingPostcode: values?.Postcode,
+          BillingNotes: values?.Notes,
+          BillingAddressState: values?.DeliveryAddressState,
+        })
+      : setValues({
+          ...values,
+          BillingAddress: "",
+          BillingApartment: "",
+          BillingCity: {},
+          BillingPostcode: "",
+          BillingNotes: "",
+          BillingAddressState: {},
+        });
+  };
+
   console.log(isChecked, "toggleCheckbox");
   return (
     <>
@@ -250,12 +263,11 @@ const DeliveryEditForm = () => {
             >
               City
             </label>
-
             <Select
               type="text"
               placeholder="City"
               id="City"
-              onChange={(e) => handleDeliveryCity(e, "City")}
+              onChange={(e) => handleSelect(e, "City")}
               name="City"
               value={values.City}
               options={cityOptions}
@@ -266,9 +278,6 @@ const DeliveryEditForm = () => {
             />
             {errors.City && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors.City}</p>
-            )}
-            {errors.City && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
           <div className="w-full mb-8 relative">
@@ -299,7 +308,6 @@ const DeliveryEditForm = () => {
             )}
           </div>
         </div>
-
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-8 relative">
             <label
@@ -308,13 +316,12 @@ const DeliveryEditForm = () => {
             >
               State
             </label>
-
             <Select
               type="text"
               defaultValue={`DeliveryAddressState`}
-              placeholder="DeliveryAddressState"
+              placeholder="State"
               id="DeliveryAddressState"
-              onChange={(e) => handleDeliveryState(e, "DeliveryAddressState")}
+              onChange={(e) => handleSelect(e, "DeliveryAddressState")}
               name="DeliveryAddressState"
               value={values.DeliveryAddressState}
               options={stateOptions}
@@ -327,37 +334,6 @@ const DeliveryEditForm = () => {
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.DeliveryAddressState}
               </p>
-            )}
-            {errors.DeliveryAddressState && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-            )}
-          </div>
-          <div className="w-full mb-8 relative">
-            <label
-              htmlFor="Country"
-              className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
-            >
-              Country
-            </label>
-            <Select
-              type="text"
-              defaultValue={`Country`}
-              placeholder="Country"
-              id="Country"
-              onChange={(e) => handleDeliveryCountry(e, "Country")}
-              name="Country"
-              value={values.Country}
-              options={countryOptions}
-              className=""
-              style={{
-                border: errors.Country && "1px solid red",
-              }}
-            />
-            {errors.Country && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Country}</p>
-            )}
-            {errors.Country && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
         </div>
@@ -439,7 +415,6 @@ const DeliveryEditForm = () => {
               <input
                 className="mr-2 leading-tight"
                 type="checkbox"
-                checked={isChecked}
                 onClick={toggleCheckbox}
               />
               <span className="text-sm font-normal text-[#2B4447]">
@@ -461,11 +436,9 @@ const DeliveryEditForm = () => {
               name="BillingAddress"
               className="pl-custom-left"
               // value={values.BillingAddress}
-              value={
-                isChecked ? "values.BillingAddress" : "values.DeliveryAddress"
-              }
+              value={values?.BillingAddress}
               onChange={handleChange}
-              autoComplete="off"
+              autoComplete="on"
               style={{
                 border: errors.BillingAddress && "1px solid red",
               }}
@@ -492,6 +465,7 @@ const DeliveryEditForm = () => {
                 id="BusinessName"
                 name="BillingApartment"
                 onChange={handleChange}
+                value={values?.BillingApartment}
                 className="pl-custom-left"
                 style={{
                   border: errors.BillingApartment && "1px solid red",
@@ -518,9 +492,9 @@ const DeliveryEditForm = () => {
                 type="text"
                 placeholder="City"
                 id="BillingCity"
-                onChange={(e) => handleBillingCity(e, "BillingCity")}
+                onChange={(e) => handleSelect(e, "BillingCity")}
                 name="BillingCity"
-                value={values.BillingCity}
+                value={values?.BillingCity}
                 options={cityOptions}
                 className=""
                 style={{
@@ -532,9 +506,6 @@ const DeliveryEditForm = () => {
                 <p className="mt-2 mb-2 text-red-500 text-xs">
                   {errors.BillingCity}
                 </p>
-              )}
-              {errors.BillingCity && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
           </div>
@@ -551,6 +522,7 @@ const DeliveryEditForm = () => {
                 id="BillingPostcode"
                 name="BillingPostcode"
                 onChange={handleChange}
+                value={values?.BillingPostcode}
                 onBlur={handleBlur}
                 className="pl-custom-left"
                 style={{
@@ -577,9 +549,9 @@ const DeliveryEditForm = () => {
 
               <Select
                 type="text"
-                placeholder="City"
+                placeholder="State"
                 id="BillingAddressState"
-                onChange={(e) => handleBillingAddress(e, "BillingAddressState")}
+                onChange={(e) => handleSelect(e, "BillingAddressState")}
                 name="BillingAddressState"
                 value={values.BillingAddressState}
                 options={cityOptions}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
@@ -10,13 +10,83 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Header from "../main/Header";
 import Footer from "../main/Footer";
 import { useSelector } from "react-redux";
+import { getBuyerValues } from "../helpers/setBuyerValues";
 
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Profile = () => {
-  const deliveryEdit = JSON.parse(localStorage.getItem("deliveryEdit"));
+  useEffect(() => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+
+    getBuyerValues(buyerId).then((buyerInfo) => {
+      console.log("buyer info", buyerInfo);
+      setBuyer(buyerInfo);
+    });
+  }, []);
+
+  const [buyer, setBuyer] = useState({
+    id: "",
+    brn: "",
+    cbrn: "",
+    buyerId: "",
+    businessName: "",
+    abn: "",
+    liquorLicence: "",
+    salesRepId: "",
+    pricingProfileId: "",
+    defaultPaymentMethodId: "",
+    organisationId: "",
+    tags: [],
+    wetLiable: false,
+    orderingFirstName: "",
+    orderingLastName: "",
+    orderingMobile: "",
+    orderingEmail: "",
+    deliveryFirstName: "",
+    deliveryLastName: "",
+    deliveryMobile: "",
+    deliveryEmail: "",
+    address: "",
+    apartment: "",
+    suburb: "",
+    postalCode: "",
+    state: "",
+    deliveryNotes: "",
+    billingAddress: "",
+    billingApartment: "",
+    billingSuburb: "",
+    billingPostalCode: "",
+    billingState: "",
+    isActive: true,
+    password: "",
+    status: true,
+    role: "",
+    meta: "",
+    adId: "",
+    imageUrl: "",
+    bio: "",
+    mobile: "",
+    createdBy: "",
+  });
   // localStorage.getItem("deliveryEdit", JSON.stringify(values));
-  const buyer = useSelector((state) => state.buyer);
+
+  useEffect(() => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+
+    fetch(
+      `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyerProfile?BuyerId=${buyerId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Buyer get response", data);
+        setBuyer(data?.data[0]);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto md:p-0 mb-8 ">
@@ -111,14 +181,13 @@ const Profile = () => {
                   </div>{" "}
                   <div className="px-4 sm:py-5 pb-5">
                     <h5 className="text-lg font-medium mb-3">
-                      {buyer?.orderingContactFirstName}{" "}
-                      {buyer?.orderingContactLastName}
+                      {buyer?.orderingFirstName} {buyer?.orderingLastName}
                     </h5>
                     <p className="text-sm font-normal">
-                      {buyer?.orderingContactEmail}
+                      {buyer?.orderingEmail}
                     </p>
                     <p className="text-sm font-normal">
-                      {buyer?.orderingContactMobile}
+                      {buyer?.orderingMobile}
                     </p>{" "}
                   </div>{" "}
                 </div>{" "}
@@ -133,14 +202,13 @@ const Profile = () => {
                   <div className="px-4 sm:py-5 pb-5">
                     {" "}
                     <h5 className="text-lg font-medium mb-3">
-                      {buyer?.deliveryContactFirstName}{" "}
-                      {buyer?.deliveryContactLastName}
+                      {buyer?.deliveryFirstName} {buyer?.deliveryLastName}
                     </h5>
                     <p className="text-sm font-normal">
-                      {buyer?.deliveryContactEmail}
+                      {buyer?.deliveryEmail}
                     </p>
                     <p className="text-sm font-normal">
-                      {buyer?.deliveryContactMobile}
+                      {buyer?.deliveryMobile}
                     </p>{" "}
                   </div>{" "}
                 </div>{" "}
@@ -174,11 +242,10 @@ const Profile = () => {
                   <div className="px-4 sm:py-5 pb-5">
                     <div className="">
                       <h5 className="text-lg font-medium mb-2">
-                        {buyer?.deliveryAddress}
+                        {buyer?.apartment} {buyer?.address}
                       </h5>
-                      <p className="text-sm font-normal">{buyer?.apartment}</p>
                       <p className="text-sm font-normal">
-                        {buyer?.deliveryAddressState}
+                        {buyer?.suburb}, {buyer?.state} {buyer?.postalCode}
                       </p>
                     </div>
                     <div className=" mt-5">
@@ -219,8 +286,9 @@ const Profile = () => {
                             </g>
                           </g>
                         </svg>
-
-                        <p className="text-sm font-normal">{buyer?.Notes}</p>
+                        <p className="text-sm font-normal">
+                          {buyer?.deliveryNotes}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -234,14 +302,11 @@ const Profile = () => {
                   <div className="px-4 py-5">
                     <div className="">
                       <h5 className="text-lg font-medium mb-2">
-                        {buyer?.billingContactAddress ||
-                          "No billing address found"}
+                        {buyer?.billingApartment} {buyer?.billingAddress}
                       </h5>
                       <p className="text-sm font-normal">
-                        {buyer?.billingContactApartment}
-                      </p>
-                      <p className="text-sm font-normal">
-                        {buyer?.billingContactState}
+                        {buyer?.billingSuburb}, {buyer?.billingState}{" "}
+                        {buyer?.billingPostalCode}
                       </p>
                     </div>
                   </div>

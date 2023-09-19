@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Header from "../main/Header";
 import Footer from "../main/Footer";
+import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const AddressDetails = () => {
+  const [buyer, setBuyer] = useState({});
+
+  useEffect(() => {
+    
+  }, []);
+
   return (
     <>
       {/* <Header /> */}
@@ -46,9 +53,9 @@ const AddressDetails = () => {
             </div>
             <div className="px-4 sm:py-5 pb-5">
               <div className="">
-                <h5 className="text-lg font-medium mb-2">456 King Street</h5>
-                <p className="text-sm font-normal">Newton, NSW 2304</p>
-                <p className="text-sm font-normal">Australia</p>
+                <h5 className="text-lg font-medium mb-2">{buyer?.apartment} {buyer?.address}</h5>
+                <p className="text-sm font-normal">{buyer?.suburb}, {buyer?.state}</p>
+                <p className="text-sm font-normal">{buyer?.postalCode}</p>
               </div>
               <div className=" mt-5">
                 <h5 className="text-lg font-medium mb-2">Notes</h5>

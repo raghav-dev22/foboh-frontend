@@ -67,3 +67,26 @@ export const setBuyerValues = (buyer, dispatch, updateField) => {
   //     deliveryContactMobile: buyer?.deliveryMobile,
   //   };
 };
+
+export const getBuyerValues = async (buyerId) => {
+  try {
+    const response = await fetch(
+      `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyerProfile?BuyerId=${buyerId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Request failed");
+    }
+
+    const data = await response.json();
+    console.log("Buyer get response", data);
+    const buyerData = data?.data[0];
+    return buyerData;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
