@@ -1,15 +1,19 @@
+import { theme } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 
 function Banner() {
   const buyer = useSelector((state) => state.buyer);
   const organisation = useSelector((state) => state.organisation);
+  
+  const { useToken } = theme;
+  const { token } = useToken();
 
-  console.log("buyer", buyer);
+  console.log("buyer", token.bannerThemeColor);
 
   return (
     <>
-      <div className="banner flex flex-wrap xl:py-6 md:py-6 py-3 items-center justify-center h-[461px] md:p-0 p-6">
+      <div style={{background: token.bannerThemeColor}} className=" flex flex-wrap xl:py-6 md:py-6 py-3 items-center justify-center h-[461px] md:p-0 p-6">
         {/* <div className="	 w-full justify-center xl:block hidden flex	">
           <div className="logo ">
             <img src="/assets/SUPPLIERLOGO.png" alt="" />
@@ -33,7 +37,7 @@ function Banner() {
           />
         </div> */}
         <div className="md:w-2/5 w-full	">
-          <h5 className="text-[#000] xl:text-[#563FE3] md:text-[#563FE3] xl:text-start md:text-start text-center font-semibold	text-2xl mb-3 xl:text-xl md:text-xl	">
+          <h5 style={{color: token.commonThemeColor}} className="text-[#000] xl:text-[#563FE3] md:text-[#563FE3] xl:text-start md:text-start text-center font-semibold	text-2xl mb-3 xl:text-xl md:text-xl	">
             Hello {buyer?.name || ["first name"]} 👋
           </h5>
           <h1 className="xl:font-bold md:font-bold text-xl text-[#8F959E]	xl:text-[#212B36] md:text-[#212B36] mb-3 xl:text-4xl md:text-3xl  xl:text-start md:text-start text-center">
@@ -45,7 +49,7 @@ function Banner() {
               and payments all in one place
             </p>
             <div className="mt-2 text-center xl:text-start md:text-start">
-              <button className=" bg-[#fff] xl:bg-[#563FE3] md:bg-[#563FE3] py-2.5	px-7	rounded-3xl">
+              <button style={{backgroundColor: token.buttonThemeColor}} className=" bg-[#fff] xl:bg-[#563FE3] md:bg-[#563FE3] py-2.5	px-7	rounded-3xl">
                 <p className="text-[#563FE3] xl:text-white md:text-white font-semibold text-base">
                   Shop now
                 </p>

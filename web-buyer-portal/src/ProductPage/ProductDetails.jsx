@@ -8,6 +8,7 @@ import { add } from "../slices/CartSlice";
 import { setProductData } from "../slices/ProductSlice";
 import { useEffect } from "react";
 
+
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
@@ -37,6 +38,7 @@ const ProductDetails = () => {
   const handleClosePreview = () => {
     setSelectedImage(null);
   };
+
   useEffect(() => {
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getByProductId?ProductId=${id}`;
     fetch(apiUrl)
@@ -58,25 +60,24 @@ const ProductDetails = () => {
       });
   }, []);
 
+ 
   const handleIncrementDecrement = (id, actionType) => {
-    const updatedProductData = products.map((item) => {
-      if (item.product.id === id) {
-        if (actionType === "decrement" && item.quantity > 1) {
-          return {
-            ...item,
-            quantity: item.quantity - 1,
-          };
+  
+        if (actionType === "decrement" && selectData.quantity > 0) {
+          setSelectData(
+            {
+              ...selectData,
+              quantity: selectData.quantity - 1,
+            }
+          ) 
         } else if (actionType === "increment") {
-          return {
-            ...item,
-            quantity: item.quantity + 1,
-          };
+          setSelectData(
+            {
+              ...selectData,
+              quantity: selectData.quantity + 1,
+            }
+          )
         }
-      }
-      return item;
-    });
-
-    dispatch(setProductData(updatedProductData));
   };
 
   return (
@@ -86,7 +87,6 @@ const ProductDetails = () => {
         <div className="flex md:flex-nowrap flex-wrap gap-8">
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
-              {/* {productData.map((item, index) => ( */}
               {selectedImage && (
                 <div className="bg-[#C4C4C4] rounded-md">
                   <img
@@ -140,7 +140,7 @@ const ProductDetails = () => {
             </h5>
             <div className="flex  items-center gap-2">
               {/* <h5 className="text-lg font-medium text-[#2B4447]">
-                {selectData?.product?.description}{" "}
+                {selectData?.product?.description}{" "}s
               </h5> */}
               <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
               <h5 className="text-lg font-medium text-[#2B4447]">
@@ -150,7 +150,7 @@ const ProductDetails = () => {
             <div className="flex items-center gap-3">
               <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5>
               <h5 className="text-lg font-semibold">
-                {productData?.product?.price}
+                {selectData?.product?.price}
               </h5>
             </div>
             <div className="py-3">
@@ -164,19 +164,19 @@ const ProductDetails = () => {
                   className="text-[#637381] cursor-pointer"
                   onClick={() =>
                     handleIncrementDecrement(
-                      productData?.product.id,
+                      selectData?.product?.productId,
                       "decrement"
                     )
                   }
                 >
                   -
                 </p>
-                <p className="text-[#637381]"> {productData?.quantity} </p>
+                <p className="text-[#637381]"> {selectData?.quantity} </p>
                 <p
                   className="text-[#637381] cursor-pointer"
                   onClick={() =>
                     handleIncrementDecrement(
-                      productData?.product.id,
+                      selectData?.product?.productId,
                       "increment"
                     )
                   }
@@ -187,7 +187,7 @@ const ProductDetails = () => {
               <button
                 className=" bg-[#563FE3] rounded-md py-[10px] px-[28px] text-sm font-medium text-white flex justify-center items-center gap-2"
                 onClick={() => {
-                  addCart(productData);
+                  addCart(selectData);
                 }}
               >
                 {" "}

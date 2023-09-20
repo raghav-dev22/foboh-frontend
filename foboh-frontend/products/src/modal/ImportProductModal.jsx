@@ -5,6 +5,7 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 
 function ImportProductModal({ show, setShow, error, loader }) {
+  console.log(error, "hiii")
   const remove = () => {
     if(error.length === 0){
       setShow(false);
@@ -112,7 +113,7 @@ function ImportProductModal({ show, setShow, error, loader }) {
                         style={{ background: "#FDF5F6" }}
                       >
                         <p className="text-sm font-normal">
-                          <span className="font-bold">X products</span> have
+                          <span className="font-bold">{error.length} products</span> have
                           errors that need correcting before importing. After
                           you fix the errors, try importing the file again
                         </p>

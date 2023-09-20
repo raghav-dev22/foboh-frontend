@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { theme } from "antd";
 function ShopBrandSection() {
+  const { useToken } = theme;
+  const { token } = useToken();
   const [BrandData, setBrandData] = useState([]);
   const data = () => {
     axios.get("https://fakestoreapi.com/products").then((resp) => {
@@ -41,7 +44,7 @@ function ShopBrandSection() {
           })}
         </div>
         <div className="text-center py-10">
-          <div className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto hidden xl:block md:block">
+          <div  style={{background: token.buttonThemeColor}} className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto hidden xl:block md:block">
             <h6 className="font-semibold text-white text-center text-base">
               Explore all products
             </h6>

@@ -8,13 +8,13 @@ const CartSlice = createSlice({
       state.push(action.payload);
     },
     remove(state, action) {
-      return state.filter((item) => item.product?.id !== action.payload);
+      return state.filter((item) => item.product?.productId !== action.payload);
     },
     updateQuantity(state, action) {
       const { id, actionType } = action.payload;
 
       return state.map((item) => {
-        if (item.product?.id === id) {
+        if (item.product?.productId === id) {
           if (actionType === "increment") {
             return {
               ...item,

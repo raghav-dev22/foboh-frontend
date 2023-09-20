@@ -12,7 +12,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import Select from "react-select";
-import { Select, Space } from "antd";
+import { Select, Space, theme } from "antd";
 import makeAnimated from "react-select/animated";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -82,6 +82,9 @@ const ProductList = () => {
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
   const [page, setPage] = useState(1)
+  const [totalData, setTotalData] = useState({})
+  const { useToken } = theme;
+  const { token } = useToken();
   const productData = useSelector((state) => state.product);
   const wineProduct = [
     {
@@ -249,6 +252,8 @@ const ProductList = () => {
         return response.json();
       })
       .then((data) => {
+        setTotalData(data)
+
         dispatch(
           setProductData(
             data.data.map((item) => {
@@ -265,6 +270,7 @@ const ProductList = () => {
       });
 
   }, [page]);
+  console.log(totalData, "alldata")
 
   console.log(productData, "products data")
 
@@ -415,7 +421,7 @@ const ProductList = () => {
   const handleIncrementDecrement = (id, actionType) => {
     const updatedProductData = productData.map((item) => {
       if (item?.product?.productId === id) {
-        if (actionType === "decrement" && item.quantity > 1) {
+        if (actionType === "decrement" && item.quantity > 0) {
           return {
             ...item,
             quantity: item.quantity - 1,
@@ -432,7 +438,6 @@ const ProductList = () => {
 
     dispatch(setProductData(updatedProductData));
   };
-
   const handleChange = (e, value) => {
     setValue(value);
   };
@@ -460,7 +465,7 @@ const ProductList = () => {
           <div className="">
             <p className="font-semibold md:text-2xl text-xl">Red Wine</p>
             <p className="text-sm font-normal text-[#637381]">
-              ({productData.length} Products)
+              {totalData.total} Products
             </p>
           </div>
           <button
@@ -1171,7 +1176,7 @@ const ProductList = () => {
                   </p>
 
                   <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                    {item?.product?.buyPrice}
+                    ${item?.product?.buyPrice}
                   </h4>
 
                   <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
@@ -1200,19 +1205,24 @@ const ProductList = () => {
                       </p>
                     </div>
 
-                    <button
-                      className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2"
-                      onClick={() => {
-                        addCart(item?.product?.productId, item, "increment");
+                    <div className={`${item?.quantity > 0 ? 'bg-[#563FE3]' : 'bg-[#D1D5DB]'
+                      } rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
+                      style={{
+                        backgroundColor: item?.quantity > 0 ? token.buttonThemeColor : '#D1D5DB',
                       }}
                     >
-                      {" "}
-                      <ShoppingBasketIcon
-                        style={{ fill: "#fff", width: "16px" }}
-                      // className="md:w-full w-[12px]"
-                      />
-                      Add To Cart
-                    </button>
+                      <button
+                        onClick={() => {
+                          if (item?.quantity > 0) {
+                            addCart(item?.product?.productId, item, "increment");
+                          }
+                        }}
+                        disabled={item?.quantity <= 0}
+                      >
+                        <ShoppingBasketIcon style={{ fill: "#fff", width: "16px" }} />
+                        Add To Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

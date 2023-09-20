@@ -7,11 +7,14 @@ import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { remove } from "../slices/CartSlice";
+import { theme } from "antd";
 
 const Cart = ({ open, onClose }) => {
   const dispatch = useDispatch((item) => {
     dispatch(remove(item));
   });
+  const { useToken } = theme;
+  const { token } = useToken();
   const CARTdata = useSelector((items) => items.cart);
   const removeItem = (cartItem) => {
     dispatch(remove(cartItem));
@@ -84,7 +87,7 @@ const Cart = ({ open, onClose }) => {
                               <div className="flex justify-between items-center">
                                 <h5 className="text-sm font-bold">
                                   {" "}
-                                  {item?.product?.buyPrice}
+                                  ${item?.product?.buyPrice}
                                 </h5>
                                 <p className=" text-[#666666] text-xs mx-3">
                                   Qty-{item.quantity}
@@ -92,14 +95,14 @@ const Cart = ({ open, onClose }) => {
                               </div>
                             </div>
                           </div>
-                          <div
+                          <button
                             className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
                             onClick={() => {
-                              removeItem(item.product?.id);
+                              removeItem(item.product?.productId);
                             }}
                           >
                             <DeleteIcon style={{ fill: "#fff" }} />
-                          </div>
+                          </button>
                         </div>
                       </>
                     );
@@ -116,7 +119,7 @@ const Cart = ({ open, onClose }) => {
                 </div>
               </Link>
               <Link to="/home/payment-page/payment">
-                <div className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
+                <div style={{backgroundColor: token.buttonThemeColor}} className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
                   <h4 className="text-base font-medium text-[#fff]">
                     Checkout
                   </h4>
