@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import CallIcon from "@mui/icons-material/Call";
 import { useEffect } from "react";
 import { getBuyerValues } from "../helpers/setBuyerValues";
+import { theme } from "antd";
 
 const ContactEdit = ({ setEditContact, editContact }) => {
   const [detail, setDetail] = useState();
+  const { useToken } = theme;
+  const { token } = useToken();
   const [initialValues, setInitialValues] = useState({
     FirstName: "",
     LastName: "",
@@ -200,11 +203,24 @@ const ContactEdit = ({ setEditContact, editContact }) => {
             </button>
             <button
               className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+              style={{color: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor
+            }}
               onClick={() => {
                 cancleBtn();
               }}
             >
               Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              type="submit"
+              className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+              style={{backgroundColor: token.buttonThemeColor,
+                borderColor: token.buttonThemeColor
+              }}
+            >
+              Save
             </button>
           </div>
         </form>

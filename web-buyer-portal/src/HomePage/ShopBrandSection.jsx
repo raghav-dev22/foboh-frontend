@@ -5,16 +5,16 @@ function ShopBrandSection() {
   const { useToken } = theme;
   const { token } = useToken();
   const [BrandData, setBrandData] = useState([]);
-  const data = () => {
-    axios.get("https://fakestoreapi.com/products").then((resp) => {
-      console.log(resp.data);
-      setBrandData(resp.data);
-    });
-  };
-  useEffect(() => {
-    data();
-  }, []);
 
+
+  useEffect(() => {
+    axios.get("https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByBrands")
+    .then((resp) => {
+      setBrandData(resp.data.data);
+      console.log(resp.data.data);
+    });
+  }, []);
+ 
   return (
     <>
       <div className="Shop-brands-section bg-[#F4F7FF] md:p-0 p-6">
@@ -37,7 +37,7 @@ function ShopBrandSection() {
             return (
               <div className="rounded-lg	shadow-md	bg-white w-full py-12">
                 <h4 className="text-[#212B36] font-bold text-xl	text-center">
-                  Brand name 123
+                 {item.brand}
                 </h4>
               </div>
             );
