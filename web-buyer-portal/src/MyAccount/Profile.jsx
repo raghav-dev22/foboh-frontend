@@ -63,12 +63,6 @@ const Profile = () => {
                   <h2 className=" font-semibold  text-2xl	text-[#563FE3]  text-left ">
                     Profile
                   </h2>
-                  {/* <div className="md:hidden sm:block">
-                    <ArrowBackIcon
-                      className="absolute top-[32%] left-[20px] "
-                      style={{ fill: "#fff" }}
-                    />
-                  </div> */}
                 </div>
                 <Link to="/home/profile-edit" className="">
                   <div className="">
@@ -95,9 +89,7 @@ const Profile = () => {
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.businessName}
                     </h5>
-                    <p className="text-sm font-normal">
-                      ABN: {buyer?.abn}
-                    </p>
+                    <p className="text-sm font-normal">ABN: {buyer?.abn}</p>
                     <p className="text-sm font-normal">
                       LIQ: {buyer?.liquorLicence}
                     </p>{" "}
@@ -238,7 +230,6 @@ const Profile = () => {
                     </h5>
                   </div>
                   <div className="px-4 py-5">
-
                     <h5 className="text-lg font-medium mb-2">
                       No billing address found
                     </h5>

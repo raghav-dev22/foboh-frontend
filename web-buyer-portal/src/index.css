@@ -322,3 +322,6 @@ select {
 .custom-bg .css-13cymwt-control {
   background-color: #f8f8f8;
 }
+.ant-pagination.ant-table-pagination.ant-table-pagination-right.css-dev-only-do-not-override-17a39f8 {
+  justify-content: center;
+}

@@ -30,6 +30,8 @@ import { useDispatch } from "react-redux";
 // import PaymentPage from "../PaymentPage/paymentPage";
 import { updateField } from "../slices/buyerSlice";
 import { updateSetting } from "../slices/organisationSlice";
+import OrderConfirmation from "../Order/OrderConfirmation";
+import OrderHistory from "../Order/OrderHistory";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -84,7 +86,6 @@ function HomePage() {
         }
       })
       .catch((error) => console.log(error));
-      
   }, []);
 
   const location = useLocation();
@@ -119,7 +120,8 @@ function HomePage() {
       <Routes>
         <Route path="/main" element={<MainHomePage />} />
         <Route path="/product-list" element={<ProductList />} />
-
+        <Route path="/order-confirm" element={<OrderConfirmation />} />
+        <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />

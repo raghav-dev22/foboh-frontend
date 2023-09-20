@@ -31,8 +31,11 @@ import { setProductData } from "../slices/ProductSlice";
 import { Pagination } from "antd";
 import { Checkbox } from "antd";
 import { button } from "@material-tailwind/react";
+import { Avatar, List, Skeleton, Switch } from "antd";
 
 const ProductList = () => {
+  const [loading, setLoading] = useState(true);
+
   const onChangeCheckBox = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
@@ -81,7 +84,7 @@ const ProductList = () => {
   const [Price, setPrice] = useState(false);
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
   const productData = useSelector((state) => state.product);
   const wineProduct = [
     {
@@ -213,7 +216,9 @@ const ProductList = () => {
           dispatch(updateQuantity({ id, actionType }));
         }
       });
-      const isNewProduct = !CARTdata.some((item) => item.product?.productId === id);
+      const isNewProduct = !CARTdata.some(
+        (item) => item.product?.productId === id
+      );
       if (isNewProduct) {
         dispatch(add(itemData));
       }
@@ -224,7 +229,7 @@ const ProductList = () => {
 
   const onShowSizeChange = (current, pageSize) => {
     console.log("page", current, pageSize);
-    setPage(current)
+    setPage(current);
   };
 
   // useEffect(() => {
@@ -239,34 +244,43 @@ const ProductList = () => {
   //     )
   //   );
   // }, []);
+  const [total, setTotal] = useState(0);
   useEffect(() => {
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}`;
+
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        dispatch(
-          setProductData(
-            data.data.map((item) => {
-              return {
-                product: item,
-                quantity: 0,
-              };
-            })
-          )
-        );
+        console.log(data.total, "data------>");
+        if (data.success) {
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+
+          dispatch(
+            setProductData(
+              data.data.map((item) => {
+                return {
+                  product: item,
+                  quantity: 0,
+                };
+              })
+            ),
+            setTotal(data.total)
+          );
+        }
       })
       .catch((error) => {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error("There was a problem with the fetch operation:", error);
       });
-
   }, [page]);
 
-  console.log(productData, "products data")
+  console.log(productData, "products data");
 
   const WineBtn = () => {
     setWine(!wine);
@@ -439,28 +453,12 @@ const ProductList = () => {
 
   return (
     <>
-      {/* <Header /> */}
-
-      {/* <div className="w-1/5   overflow-y-scroll     ">jdjijijdj</div> */}
-
       <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto ">
-        {/* <div className="md:flex hidden justify-start items-center gap-3 py-8">
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Home
-          </h5>
-
-          <EastIcon />
-
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Products
-          </h5>
-        </div> */}
-
         <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between">
           <div className="">
             <p className="font-semibold md:text-2xl text-xl">Red Wine</p>
             <p className="text-sm font-normal text-[#637381]">
-              ({productData.length} Products)
+              ({total} Products)
             </p>
           </div>
           <button
@@ -1131,102 +1129,122 @@ const ProductList = () => {
           <div className="md:w-9/12   w-full mx-auto">
             <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-3 grid-cols-2  md:gap-8 gap-6 grid-rows-3  ">
               {productData.map((item, index) => (
-                <div className="">
-                  <div className=" relative">
-                    <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
-                      <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+                <Skeleton
+                  style={{ padding: "10px" }}
+                  loading={loading}
+                  active
+                  avatar
+                >
+                  <div className="">
+                    <div className=" relative">
+                      <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
+                        <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+                      </div>
+                      <div className="h-[150px] bg-[#c3c3c3]">
+                        <img
+                          src={item?.product?.productImageUrls}
+                          alt=""
+                          className="cursor-pointer w-full h-full object-cover"
+                          onClick={() =>
+                            navigate(
+                              `/home/product-details/${item?.product?.productId}`
+                            )
+                          }
+                        />
+                      </div>
                     </div>
-                    <div className="h-[150px] bg-[#c3c3c3]">
-                      <img
-                        src={item?.product?.productImageUrls}
-                        alt=""
-                        className="cursor-pointer w-full h-full object-cover"
-                        onClick={() =>
-                          navigate(`/home/product-details/${item?.product?.productId}`)
-                        }
-                      />
-                    </div>
-                  </div>
-                  <h4
-                    onClick={() =>
-                      navigate(`/home/product-details/${item?.product?.productId}`)
-                    }
-                    className="text-lg font-semibold mt-3 cursor-pointer"
-                  >
-                    {item?.product?.title}
-                  </h4>
-                  <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                    {item?.product?.brand}
-                  </h4>
+                    <h4
+                      onClick={() =>
+                        navigate(
+                          `/home/product-details/${item?.product?.productId}`
+                        )
+                      }
+                      className="text-lg font-semibold mt-3 cursor-pointer"
+                    >
+                      {item?.product?.title}
+                    </h4>
+                    <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
+                      {item?.product?.brand}
+                    </h4>
 
-                  <p className="md:text-base text-sm font-medium text-[#637381] mt-2"
-                    style={{
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      maxWidth: "25ch",
-                    }}
-                  >
-                    {item?.product?.description}
-                  </p>
-
-                  <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                    {item?.product?.buyPrice}
-                  </h4>
-
-                  <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
-                    <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
-                      <p
-                        className="text-[#637381] cursor-pointer"
-                        onClick={() =>
-                          handleIncrementDecrement(item?.product?.productId, "decrement")
-                        }
-                      >
-                        -
-                      </p>
-
-                      <p className="text-[#637381] md:text-sm text-[10px]">
-                        {" "}
-                        {item?.quantity}
-                      </p>
-
-                      <p
-                        className="text-[#637381] cursor-pointer"
-                        onClick={() =>
-                          handleIncrementDecrement(item?.product?.productId, "increment")
-                        }
-                      >
-                        +
-                      </p>
-                    </div>
-
-                    <button
-                      className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2"
-                      onClick={() => {
-                        addCart(item?.product?.productId, item, "increment");
+                    <p
+                      className="md:text-base text-sm font-medium text-[#637381] mt-2"
+                      style={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "25ch",
                       }}
                     >
-                      {" "}
-                      <ShoppingBasketIcon
-                        style={{ fill: "#fff", width: "16px" }}
-                      // className="md:w-full w-[12px]"
-                      />
-                      Add To Cart
-                    </button>
+                      {item?.product?.description}
+                    </p>
+
+                    <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
+                      {item?.product?.buyPrice}
+                    </h4>
+
+                    <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
+                      <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
+                        <p
+                          className="text-[#637381] cursor-pointer"
+                          onClick={() =>
+                            handleIncrementDecrement(
+                              item?.product?.productId,
+                              "decrement"
+                            )
+                          }
+                        >
+                          -
+                        </p>
+
+                        <p className="text-[#637381] md:text-sm text-[10px]">
+                          {" "}
+                          {item?.quantity}
+                        </p>
+
+                        <p
+                          className="text-[#637381] cursor-pointer"
+                          onClick={() =>
+                            handleIncrementDecrement(
+                              item?.product?.productId,
+                              "increment"
+                            )
+                          }
+                        >
+                          +
+                        </p>
+                      </div>
+
+                      <button
+                        className=" bg-[#563FE3] rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2"
+                        onClick={() => {
+                          addCart(item?.product?.productId, item, "increment");
+                        }}
+                      >
+                        {" "}
+                        <ShoppingBasketIcon
+                          style={{ fill: "#fff", width: "16px" }}
+                          // className="md:w-full w-[12px]"
+                        />
+                        Add To Cart
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </Skeleton>
               ))}
             </div>
             <div className="mt-8">
-              <Pagination
-                // itemActiveBg={"#F8FAFC"}
-                showSizeChanger={false}
-                total={500}
-                onChange={onShowSizeChange}
-                // onShowSizeChange={onShowSizeChange}
-                itemRender={itemRender}
-                className="flex justify-between items-center"
-              />
+              {loading === false && (
+                <Pagination
+                  // itemActiveBg={"#F8FAFC"}
+                  showSizeChanger={false}
+                  total={500}
+                  onChange={onShowSizeChange}
+                  // onShowSizeChange={onShowSizeChange}
+                  itemRender={itemRender}
+                  className="flex justify-between items-center"
+                />
+              )}
             </div>
           </div>
         </div>

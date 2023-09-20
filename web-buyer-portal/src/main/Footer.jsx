@@ -8,19 +8,33 @@ import { useSelector } from "react-redux";
 function Footer() {
   const organisation = useSelector((state) => state.organisation);
 
-
-
   return (
     <>
       <div className="footer h-full bg-[#563FE3] p-10  grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 relative">
-        <img src="./assets/Ellipse1.png" alt="" className="absolute right-[204px] top-0" />
-        <img src="./assets/Ellipse2.png" alt="" className="absolute bottom-0 left-[180px]" />
+        <img
+          src="/assets/Ellipse1.png"
+          alt=""
+          className="absolute right-[204px] top-0"
+        />
+        <img
+          src="/assets/Ellipse2.png"
+          alt=""
+          className="absolute bottom-0 left-[180px]"
+        />
 
         <div className="text-start md:text-start lg:text-center xl:text-center relative">
           <h1 className="text-white text-sm font-[400] my-1">powered by </h1>
-            <a href=""><i><img src="./assets/FOBOHicon.svg" alt="" className="text-center absolute right-[44%]" /></i></a>
-          </div>
-          
+          <a href="">
+            <i>
+              <img
+                src="./assets/FOBOHicon.svg"
+                alt=""
+                className="text-center absolute right-[44%]"
+              />
+            </i>
+          </a>
+        </div>
+
         <div className="">
           <p className="font-[500] text-sm text-white mb-5">Contact us</p>
           <p className="font-normal text-sm text-[#BBB2F4] mb-5">
@@ -43,13 +57,14 @@ function Footer() {
               <YouTubeIcon />
             </div>
           </div>
-         
+
           <div className="text-start md:text-start xl:text-center">
             <p className="text-sm font-bold text-[#BBB2F4]">
-              © 2023 — Copyright — {organisation.businessName || 'Supplier name'}
+              © 2023 — Copyright —{" "}
+              {organisation.businessName || "Supplier name"}
             </p>
             <p className="text-[14px] font-[400] text-[#BBB2F4] my-2">
-            Liquor Licence:  LIQP770016926
+              Liquor Licence: LIQP770016926
             </p>
           </div>
           <div className="md:flex  md:justify-center justify-start items-center lg:gap-16 gap-5 relative">

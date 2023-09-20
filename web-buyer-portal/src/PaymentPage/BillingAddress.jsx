@@ -4,7 +4,10 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { BillingAddressSchema } from "../schemas";
 import { useFormik } from "formik";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 function BillingAddress() {
+  const navigate = useNavigate();
   const [change, setChange] = useState(false);
   console.log(change, "change");
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
@@ -31,6 +34,7 @@ function BillingAddress() {
     initialValues: initialValues,
     validationSchema: BillingAddressSchema,
     onSubmit: (values) => {
+      navigate("/home/order-confirm");
       // setValue(values);
       console.log(values, "values--->");
     },
@@ -99,15 +103,24 @@ function BillingAddress() {
           Same as delivery address
         </label>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div className="mt-8">
+      <form
+        onSubmit={handleSubmit}
+        className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3"
+      >
+        <div className="">
           <div className="mb-3 relative">
-            <label
-              className="block text-[#2B4447] text-lg font-semibold mb-3"
-              htmlFor="Country/Region"
-            >
-              Billing Address
-            </label>
+            <div className="flex justify-start items-center gap-1.5 mb-3">
+              <HomeRoundedIcon
+                style={{ fill: "#2B4447" }}
+                className="w-[18px] h-[18px]"
+              />
+              <label
+                className="block text-[#2B4447] text-lg font-semibold "
+                htmlFor="Country/Region"
+              >
+                Billing Address
+              </label>
+            </div>
             <input
               className=" placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
               id="Country"
@@ -333,13 +346,22 @@ function BillingAddress() {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          // onClick={handleSubmit}
-          className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
-        >
-          Save
-        </button>
+        <div className="text-right flex justify-end items-center gap-2">
+          <button
+            type="submit"
+            // onClick={handleSubmit}
+            className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+          >
+            Save
+          </button>
+          <button
+            type="submit"
+            // onClick={handleSubmit}
+            className="border-[#637381] border rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-[#637381]"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </>
   );

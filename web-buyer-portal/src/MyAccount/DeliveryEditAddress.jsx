@@ -247,15 +247,7 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
           )}
         </div>
 
-        <div className="flex gap-8 pt-5 pb-5">
-          <button
-            className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
-            onClick={() => {
-              cancleBtn();
-            }}
-          >
-            Cancel
-          </button>
+        <div className="flex gap-8 pt-5 pb-5 justify-end">
           <button
             // type="submit"
             // onClick={handleSubmitBtn}
@@ -263,6 +255,14 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
           >
             Save
+          </button>
+          <button
+            className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+            onClick={() => {
+              cancleBtn();
+            }}
+          >
+            Cancel
           </button>
         </div>
       </form>
