@@ -1,31 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Select from "react-select";
 import { DeliveryAddressEditSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import { getBuyerValues } from "../helpers/setBuyerValues";
 // import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
 const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     Apartment: "",
     Address: "",
     City: "",
     State: "",
     Postcode: "",
     DeliveryInstruction: "",
-  };
-
-  const buyer = useSelector((state) => state.buyer)
+  });
+  const [cities, setCities] = useState([]);
+  const [states, setStates] = useState([]);
 
   useEffect(() => {
-    setValues({
-      
-    })
-  }, [])
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
 
+    getBuyerValues(buyerId)
+      .then((buyerData) => {
+        const buyerCity = cities.find(
+          (city) => city?.label === buyerData?.suburb
+        );
+
+        const buyerState = states.find(
+          (state) => state?.label === buyerData.state
+        );
+
+        setValues({
+          Apartment: buyerData?.apartment,
+          Address: buyerData?.address,
+          City: buyerCity,
+          State: buyerState,
+          Postcode: buyerData?.postalCode,
+          DeliveryInstruction: buyerData?.deliveryNotes,
+        });
+        
+        setInitialValues({
+          Apartment: buyerData?.apartment,
+          Address: buyerData?.address,
+          City: buyerCity,
+          State: buyerState,
+          Postcode: buyerData?.postalCode,
+          DeliveryInstruction: buyerData?.deliveryNotes,
+        });
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   //   const navigate = useNavigate();
   //   const [cart, setCart] = useState();
@@ -70,22 +98,14 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
     initialValues: initialValues,
     validationSchema: DeliveryAddressEditSchema,
     onSubmit: (values) => {
-      console.log(values, "kkk");
-      const value = localStorage.setItem(
-        "deliveryAddress",
-        JSON.stringify(values)
-      );
-      console.log(value, "value");
-      setEditDelivery();
+      console.log(values, "value");
     },
   });
+
   const cancleBtn = () => {
+    setValues(initialValues);
     setEditDelivery(!editDelivery);
   };
-  //   const handleSubmitBtn = () => {
-  //     localStorage.setItem("deliveryAddress", JSON.stringify(values));
-  //   };
-  //   console.log("error>>", values);
 
   return (
     <>
@@ -267,9 +287,8 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             Cancel
           </button>
           <button
-            // type="submit"
-            // onClick={handleSubmitBtn}
             type="submit"
+            onClick={handleSubmit}
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
           >
             Save
