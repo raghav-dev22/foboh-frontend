@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import Header from "../main/Header";
 import Footer from "../main/Footer";
 import BottomToTop from "../main/BottomToTop";
+import { ConfigProvider } from "antd";
+
 const MainHomePage = () => {
   const buyer = useSelector((state) => state.buyer);
 

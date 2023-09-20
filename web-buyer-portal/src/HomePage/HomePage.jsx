@@ -35,7 +35,6 @@ import { setBuyerValues } from "../helpers/setBuyerValues";
 function HomePage() {
   const dispatch = useDispatch();
 
-  
 
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));

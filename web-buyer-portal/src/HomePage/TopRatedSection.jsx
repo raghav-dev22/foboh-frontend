@@ -4,9 +4,15 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../slices/CartSlice";
 import { fetchProduct } from "../slices/ProductSlice";
+import { theme } from "antd";
 
 function TopRatedSection() {
   const [CartData, setCartData] = useState([]);
+  const { useToken } = theme;
+  const { token } = useToken();
+
+
+
   const data = () => {
     axios.get("https://fakestoreapi.com/products").then((resp) => {
       console.log(resp.data);
@@ -68,6 +74,7 @@ function TopRatedSection() {
                     </div>
                     <div
                       className="py-3	lg:px-7 px-3	rounded-md	 bg-[#563FE3] w-fit mx-auto cursor-pointer"
+                      style={{background: token.buttonThemeColor}}
                       onClick={() => {
                         addCart(item);
                       }}

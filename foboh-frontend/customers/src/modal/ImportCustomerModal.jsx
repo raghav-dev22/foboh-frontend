@@ -1,7 +1,7 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-function ImportCustomerModal({ show, setShow }) {
+function ImportCustomerModal({ show, setShow }) { 
   const cancelButtonRef = useRef(null);
 
   return (

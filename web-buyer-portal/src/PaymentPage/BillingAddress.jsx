@@ -4,8 +4,11 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { BillingAddressSchema } from "../schemas";
 import { useFormik } from "formik";
 import Select from "react-select";
+import { theme } from "antd";
 function BillingAddress() {
   const [change, setChange] = useState(false);
+  const { useToken } = theme;
+  const { token } = useToken();
   console.log(change, "change");
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
   const initialValues = {
@@ -335,6 +338,7 @@ function BillingAddress() {
         </div>
         <button
           type="submit"
+          style={{backgroundColor: token.buttonThemeColor}}
           // onClick={handleSubmit}
           className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
         >

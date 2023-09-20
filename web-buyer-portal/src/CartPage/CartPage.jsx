@@ -13,11 +13,14 @@ import ProductDetails from "../ProductPage/ProductDetails";
 import { remove, updateQuantity } from "../slices/CartSlice";
 import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
+import { theme } from "antd";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const CartPage = () => {
   const [totalCost, setTotleCost] = useState(0);
   const CARTdata = useSelector((items) => items.cart);
+  const { useToken } = theme;
+  const { token } = useToken();
   const dispatch = useDispatch();
 
   const removeItem = (cartItem) => {
@@ -31,9 +34,9 @@ const CartPage = () => {
   const calculateTotalCost = () => {
     let total = 0;
     CARTdata.forEach((item) => {
-      const productPrice = item?.product?.price;
+      const productPrice = item?.product?.buyPrice;
       const productPriceINR = productPrice;
-      const quantity = parseInt(item.quantity);
+      const quantity = parseInt(item?.quantity);
       total += productPriceINR * quantity;
 
       console.log("hdgfj", total);
@@ -91,7 +94,7 @@ const CartPage = () => {
                                 className="text-[#637381] cursor-pointer"
                                 onClick={() =>
                                   handleIncrementDecrement(
-                                    item.product.id,
+                                    item?.product?.productId,
                                     "decrement"
                                   )
                                 }
@@ -102,7 +105,7 @@ const CartPage = () => {
                                 className="text-[#637381] cursor-pointer "
                                 onClick={() =>
                                   handleIncrementDecrement(
-                                    item.product.id,
+                                    item?.product?.productId,
                                     "increment"
                                   )
                                 }
@@ -112,7 +115,7 @@ const CartPage = () => {
                             </div>
                           </div>
                           <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
-                            {item.product?.buyPrice}
+                            ${item.product?.buyPrice}
                           </h4>
                         </div>
 
@@ -134,7 +137,7 @@ const CartPage = () => {
                           </p>
                         </div>
                         <p
-                          onClick={() => removeItem(item.product?.id)}
+                          onClick={() => removeItem(item.product?.productId)}
                           className="text-[#DC3545] text-sm font-medium cursor-pointer"
                         >
                           Remove
@@ -180,7 +183,9 @@ const CartPage = () => {
                 </div>
               </div>
               <Link to="/home/payment-page/payment">
-                <button className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white">
+                <button className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white"
+                 style={{backgroundColor: token.buttonThemeColor}}
+                >
                   {" "}
                   Checkout
                 </button>

@@ -171,16 +171,16 @@ function BulkEdit() {
       const configuration = {};
 
       return {
-        title: product?.title,
-        skuCode: product?.skUcode,
-        baseUnitMeasure: bum,
-        innerUnitMeasure: ium,
-        configuration: product?.configuration,
-        salePrice: product?.globalPrice,
-        stockAlertLevel: product?.stockThreshold,
-        status: state,
-        visibility: visible,
-        productId: product?.productId,
+        title: product?.title || "",
+        skuCode: product?.skUcode || "",
+        baseUnitMeasure: bum || "",
+        innerUnitMeasure: ium || "",
+        configuration: product?.configuration || "",
+        salePrice: product?.globalPrice || "",
+        stockAlertLevel: product?.stockThreshold || "",
+        status: state || "",
+        visibility: visible || "",
+        productId: product?.productId || "",
       };
     });
 
@@ -218,7 +218,7 @@ function BulkEdit() {
     });
   };
 
-  console.log("values", values);
+  console.log("valuessss", values.length);
 
   const handleCancle = () => {
      setIsUpdate(false)
@@ -263,14 +263,14 @@ function BulkEdit() {
               Bulk edit
             </h4>
             <p className="text-gray font-normal text-sm">
-              Editing X selected products
+              Editing {values.length} selected products
             </p>
           </div>
         </div>
 
         <div
           className={`relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
-          style={{ height: "412px" }}
+          style={{ height: "530px" }}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">

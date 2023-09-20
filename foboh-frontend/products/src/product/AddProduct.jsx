@@ -35,7 +35,7 @@ import { Box } from "@mui/material";
 const initialValues = {
   visibility: false,
   region: [],
-  minimumOrder: "",
+  minimumOrder: 0,
   trackInventory: false,
   stockAlertLevel: 0,
   sellOutOfStock: false,
@@ -224,7 +224,14 @@ function AddProduct() {
 
   const handleReset = () => {
     setShow(false);
-    setValues(initialValues)
+    setSelectedState(""),
+        setValues({
+     ...initialValues,
+      buyPrice: "",
+      salePrice: "",
+      region: [],
+      // minimumOrder: ""
+    });
   };
 
   console.log(values);
@@ -393,7 +400,7 @@ function AddProduct() {
     }
 
     setValues({
-      ...values,
+      ...values, subcategory: null ,
       category: e,
     });
     fetch(
@@ -801,6 +808,7 @@ function AddProduct() {
                     <input
                       onChange={handleVisibility}
                       type="checkbox"
+                      checked={values.visibility}
                       name="availability"
                       id="toggle"
                       className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
@@ -821,6 +829,7 @@ function AddProduct() {
                         onChange={handleRegionAvailability}
                         id={region}
                         type="checkbox"
+                        checked= {values.region.includes(region)}
                         value={region}
                         onBlur={handleBlur}
                         name="region"
@@ -860,6 +869,7 @@ function AddProduct() {
                       onChange={handleMinimumOrderQuantity}
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-last-name"
+                      value={values.minimumOrder}
                       name="minimumOrder"
                       type="number"
                       placeholder="2 cases"
@@ -900,6 +910,7 @@ function AddProduct() {
                     <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                       <input
                         onChange={handleTrackInventory}
+                        checked={values.trackInventory}
                         type="checkbox"
                         name="track-inventory"
                         id="track-inventory"
@@ -947,6 +958,7 @@ function AddProduct() {
                     <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                       <input
                         onChange={handleSellOutOfStock}
+                        checked={values.sellOutOfStock}
                         type="checkbox"
                         name="SellOutOfStock"
                         id="SellOutOfStock"

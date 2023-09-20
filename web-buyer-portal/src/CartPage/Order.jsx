@@ -66,7 +66,7 @@ const Order = () => {
   const calculateTotalCost = () => {
     let total = 0;
     CARTdata.forEach((item) => {
-      const productPrice = item?.product?.price;
+      const productPrice = item?.product?.buyPrice;
       const productPriceINR = productPrice;
       const quantity = parseInt(item.quantity);
       total += productPriceINR * quantity;
@@ -129,7 +129,7 @@ const Order = () => {
                     </p>
                   </div>
                   <p
-                    onClick={() => removeItem(item.product?.id)}
+                    onClick={() => removeItem(item.product?.productId)}
                     className="text-[#DC3545] text-sm font-medium cursor-pointer"
                   >
                     Remove

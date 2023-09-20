@@ -3,13 +3,16 @@ import Carousel from "better-react-carousel";
 import { Range } from "../data";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { theme } from "antd";
 
-function ShopSection() {
+function ShopSection() { 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const { useToken } = theme;
+  const { token } = useToken();
 
   useEffect(() => {
-    const apiUrl = 'https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll';
+    const apiUrl = `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1`;
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
@@ -56,12 +59,24 @@ function ShopSection() {
                       <img
                         className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"
                         src={product.productImageUrls}
+                        onClick={() =>
+                          navigate(`/home/product-details/${product?.productId}`)
+                        }
                       />
                       <div className="mt-3">
-                        <h2 className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm  ">
+                        <h2 className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm cursor-pointer "
+                         onClick={() =>
+                          navigate(`/home/product-details/${product?.productId}`)
+                        }
+                        >
                           {product.title}
+                          
                         </h2>
-                        <p className="text-[#637381] text-center text-sm md:block hidden">
+                        <p className="text-[#637381] text-center text-sm md:block hidden cursor-pointer"
+                         onClick={() =>
+                          navigate(`/home/product-details/${product?.productId}`)
+                        }
+                        >
                           {product.description}
                         </p>
                       </div>
@@ -73,6 +88,7 @@ function ShopSection() {
           </div>
           <div className="text-center py-10  hidden sm:block xl:block md:block">
             <div
+            style={{background: token.buttonThemeColor}}
               onClick={() => navigate("/home/product-list")}
               className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto cursor-pointer"
             >

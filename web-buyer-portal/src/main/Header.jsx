@@ -7,7 +7,7 @@ import MenuIcon from "./MenuIcon";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
-
+import { theme } from "antd";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
@@ -35,6 +35,11 @@ function Header() {
     localStorage.clear()
     navigate("/");
   };
+  
+  const { useToken } = theme;
+  const { token } = useToken();
+
+
 
   return (
     <>
@@ -52,7 +57,7 @@ function Header() {
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <h2 className="text-[#637381] font-bold md:text-3xl text-xl	"> LOGO</h2>
+        <h2 style={{color: token.commonThemeColor}} className="text-[#637381] font-bold md:text-3xl text-xl	"> LOGO</h2>
         <div className=" relative md:block hidden">
           <input
             type="text"
@@ -67,7 +72,7 @@ function Header() {
           />
           <SearchIcon
             className="absolute top-1/4 left-2.5 "
-            style={{ fill: "#563FE3" }}
+            style={{fill: token.commonThemeColor}}
           />
         </div>
 
@@ -184,7 +189,7 @@ function Header() {
             onClick={() => setMobileCartOpen(true)}
           >
             <ShoppingCartIcon className="icon-svg" />
-            <div className=" absolute top-[-4px] right-[-2px] cart-box w-[15px] h-[15px] rounded-full bg-[#563FE3] flex justify-center items-center">
+            <div style={{background: token.commonThemeColor}} className=" absolute top-[-4px] right-[-2px] cart-box w-[15px] h-[15px] rounded-full bg-[#563FE3] flex justify-center items-center">
               <p className="text-white text-[8px] font-normal">
                 {selector.length}
               </p>
@@ -192,7 +197,7 @@ function Header() {
           </div>
         </div>
       </div>
-      <header className="bg-[#563FE3] md:block hidden ">
+      <header style={{background: token.commonThemeColor}} className="bg-[#563FE3] md:block hidden ">
         <nav
           className="mx-auto flex max-w-7xl items-center md:justify-center justify-end p-6 md:px-8 "
           aria-label="Global"
