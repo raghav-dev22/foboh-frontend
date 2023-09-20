@@ -5,6 +5,7 @@ import { DeliveryAddressEditSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useSelector } from "react-redux";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import { theme } from "antd";
 // import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
@@ -17,7 +18,8 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
     Postcode: "",
     DeliveryInstruction: "",
   };
-
+  const { useToken } = theme;
+  const { token } = useToken();
   const buyer = useSelector((state) => state.buyer)
 
   useEffect(() => {
@@ -260,6 +262,9 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
         <div className="flex gap-8 pt-5 pb-5">
           <button
             className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+            style={{color: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor
+            }}
             onClick={() => {
               cancleBtn();
             }}
@@ -271,6 +276,9 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             // onClick={handleSubmitBtn}
             type="submit"
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+            style={{backgroundColor: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor
+            }}
           >
             Save
           </button>

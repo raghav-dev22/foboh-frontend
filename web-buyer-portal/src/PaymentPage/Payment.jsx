@@ -4,7 +4,7 @@ import BillingAddress from "./BillingAddress";
 import DeliveryAddress from "./DeliveryAddress";
 import ModeIcon from "@mui/icons-material/Mode";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { Tabs } from "antd";
+import { Tabs, theme } from "antd";
 import CallIcon from "@mui/icons-material/Call";
 import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
@@ -61,7 +61,8 @@ const Payment = () => {
   const [cardHolderName, setCardHolderName] = useState("");
   const [cardErrors, setCardErrors] = useState({});
   const buyer = useSelector((state) => state.buyer);
-
+  const { useToken } = theme;
+  const { token } = useToken();
   // Function to handle checkbox change event
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -429,7 +430,7 @@ const Payment = () => {
                           </h5>
                         </div>
                         <ModeIcon
-                          style={{ fill: "#563fe3" }}
+                          style={{fill: token.buttonThemeColor}}
                           onClick={() => {
                             setCardDetails(!cardDetails);
                             setIsChecked(!isChecked);
@@ -447,6 +448,7 @@ const Payment = () => {
                         >
                           <label>
                             Card number
+                            </label>
                             <CardNumberElement
                               options={options}
                               onChange={(event) => {
@@ -460,7 +462,7 @@ const Payment = () => {
                                 );
                               }}
                             />
-                          </label>
+                         
                           <p className="mt-2 mb-2 text-red-500 text-xs">
                             {cardErrors?.cardNumber?.message}
                           </p>
