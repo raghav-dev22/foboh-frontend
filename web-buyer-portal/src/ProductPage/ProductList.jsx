@@ -84,8 +84,8 @@ const ProductList = () => {
   const [Price, setPrice] = useState(false);
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
-  const [page, setPage] = useState(1);
-  const [totalData, setTotalData] = useState({});
+  const [page, setPage] = useState(1)
+  const [totalData, setTotalData] = useState({})
   const { useToken } = theme;
   const { token } = useToken();
   const productData = useSelector((state) => state.product);
@@ -282,7 +282,7 @@ const ProductList = () => {
         console.error("There was a problem with the fetch operation:", error);
       });
   }, [page]);
-  console.log(totalData, "alldata");
+  console.log(totalData, "alldata")
 
   console.log(productData, "products data");
 
@@ -1169,9 +1169,8 @@ const ProductList = () => {
                     <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
                       {item?.product?.brand}
                     </h4>
-                  </div>
-                  <p
-                    className="md:text-base text-sm font-medium text-[#637381] mt-2"
+                  
+                  <p className="md:text-base text-sm font-medium text-[#637381] mt-2"
                     style={{
                       whiteSpace: "nowrap",
                       overflow: "hidden",
@@ -1185,16 +1184,13 @@ const ProductList = () => {
                   <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
                     ${item?.product?.buyPrice}
                   </h4>
-
+                  
                   <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
                     <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
                       <p
                         className="text-[#637381] cursor-pointer"
                         onClick={() =>
-                          handleIncrementDecrement(
-                            item?.product?.productId,
-                            "decrement"
-                          )
+                          handleIncrementDecrement(item?.product?.productId, "decrement")
                         }
                       >
                         -
@@ -1208,45 +1204,32 @@ const ProductList = () => {
                       <p
                         className="text-[#637381] cursor-pointer"
                         onClick={() =>
-                          handleIncrementDecrement(
-                            item?.product?.productId,
-                            "increment"
-                          )
+                          handleIncrementDecrement(item?.product?.productId, "increment")
                         }
                       >
                         +
                       </p>
                     </div>
 
-                    <div
-                      className={`${
-                        item?.quantity > 0 ? "bg-[#563FE3]" : "bg-[#D1D5DB]"
+                    <div className={`${item?.quantity > 0 ? 'bg-[#563FE3]' : 'bg-[#D1D5DB]'
                       } rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
                       style={{
-                        backgroundColor:
-                          item?.quantity > 0
-                            ? token.buttonThemeColor
-                            : "#D1D5DB",
+                        backgroundColor: item?.quantity > 0 ? token.buttonThemeColor : '#D1D5DB',
                       }}
                     >
                       <button
                         onClick={() => {
                           if (item?.quantity > 0) {
-                            addCart(
-                              item?.product?.productId,
-                              item,
-                              "increment"
-                            );
+                            addCart(item?.product?.productId, item, "increment");
                           }
                         }}
                         disabled={item?.quantity <= 0}
                       >
-                        <ShoppingBasketIcon
-                          style={{ fill: "#fff", width: "16px" }}
-                        />
+                        <ShoppingBasketIcon style={{ fill: "#fff", width: "16px" }} />
                         Add To Cart
                       </button>
                     </div>
+                  </div>
                   </div>
                 </Skeleton>
               ))}
