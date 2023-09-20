@@ -1,5 +1,11 @@
 import React from "react";
 import { Table } from "antd";
+import SearchIcon from "@mui/icons-material/Search";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Space } from "antd";
+import { Checkbox, Col, Row } from "antd";
 const columns = [
   {
     title: "Order ID",
@@ -37,6 +43,27 @@ const columns = [
     width: 120,
   },
 ];
+const items = [
+  {
+    label: <Checkbox value="A">Oldest - Newest</Checkbox>,
+    key: "0",
+  },
+  {
+    label: <Checkbox value="A">Newest - Oldest</Checkbox>,
+    key: "1",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: <Checkbox value="A">Low - High</Checkbox>,
+    key: "3",
+  },
+  {
+    label: <Checkbox value="A">High - Low</Checkbox>,
+    key: "4",
+  },
+];
 const data = [];
 for (let i = 0; i < 100; i++) {
   data.push({
@@ -59,14 +86,40 @@ const OrderHistory = () => {
             Order History
           </h1>
         </div>
-        <div className="border border-[#E7E7E7] rounded-[8px] p-5">
-          <input
-            className="border border-[#E7E7E7] py-2  rounded-md"
-            placeholder="Search|"
-            type="search"
-          />
-          <div className="">
-            
+        <div className="border border-[#E7E7E7] rounded-[8px]  p-5">
+          <div className="flex justify-between items-center">
+            <div className="relative max-w-max	">
+              <input
+                className="border border-[#E7E7E7] py-2  rounded-md px-2"
+                placeholder="Search|"
+                type="search"
+              />
+              <SearchIcon
+                className="absolute top-[8px] right-[8px] "
+                style={{ fill: "rgb(164 169 174)" }}
+              />
+            </div>
+            <div className="flex justify-between items-center gap-3">
+              <div className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                <FilterAltOutlinedIcon style={{ fill: "#637381" }} />
+                <p className="text-base font-normal text-[#2B4447]">Filter</p>
+              </div>
+              <Dropdown
+                menu={{
+                  items,
+                }}
+                trigger={["click"]}
+              >
+                <button
+                  onClick={(e) => e.preventDefault()}
+                  className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
+                >
+                  <SortOutlinedIcon style={{ fill: "#637381" }} />
+                  <p className="text-base font-normal text-[#2B4447]">Sort</p>
+                  <DownOutlined style={{ fill: "#2B4447" }} className="" />
+                </button>
+              </Dropdown>
+            </div>
           </div>
         </div>
         <div
