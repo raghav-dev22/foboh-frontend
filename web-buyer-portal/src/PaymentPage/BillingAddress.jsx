@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { BillingAddressSchema } from "../schemas";
@@ -7,6 +7,8 @@ import Select from "react-select";
 import { theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import { getBuyerValues } from "../helpers/setBuyerValues";
+
 function BillingAddress() {
   const navigate = useNavigate();
   const [change, setChange] = useState(false);
@@ -14,7 +16,8 @@ function BillingAddress() {
   const { token } = useToken();
   console.log(change, "change");
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
-  const initialValues = {
+
+  const [initialValues, setInitialValues] = useState({
     FirstName: "",
     LastName: "",
     Country: "",
@@ -24,7 +27,8 @@ function BillingAddress() {
     Postcode: "",
     Mobile: "",
     State: "",
-  };
+  });
+
   const {
     values,
     errors,
@@ -78,6 +82,27 @@ function BillingAddress() {
       });
     }
   };
+
+  useEffect(() => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+
+    getBuyerValues(buyerId)
+      .then((buyerData) => {
+        setValues({
+          FirstName: "",
+          LastName: "",
+          Country: "",
+          Company: "",
+          Apartment: "",
+          City: "",
+          Postcode: "",
+          Mobile: "",
+          State: "",
+        });
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <>
       <div className="flex items-center mb-4">
@@ -112,7 +137,7 @@ function BillingAddress() {
       >
         <div className="">
           <div className="mb-3 relative">
-            <div className="flex justify-start items-center gap-1.5 mb-3">
+            <div className="flex justify-start items-center gap-1.5 mb-6">
               <HomeRoundedIcon
                 style={{ fill: "#2B4447" }}
                 className="w-[18px] h-[18px]"
@@ -124,87 +149,16 @@ function BillingAddress() {
                 Billing Address
               </label>
             </div>
-            <input
-              className=" placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-              id="Country"
-              type="text"
-              name="Country"
-              placeholder="Country"
-              value={change === true ? EditDeliveryVal.Country : values.Country}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              style={{
-                border: errors?.Country && touched?.Country && "1px solid red",
-              }}
-            />
-            {errors?.Country && touched?.Country && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors?.Country}
-              </p>
-            )}
-            {errors?.Country && touched?.Country && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[51px] right-3 transition-all duration-[0.3s]" />
-            )}
           </div>
-          <div className="flex md:flex-nowrap gap-4">
-            <div className="w-full   mb-3 relative md:mb-0 ">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="FirstName"
-                type="text"
-                placeholder="First Name"
-                value={
-                  change === true ? EditDeliveryVal.FirstName : values.FirstName
-                }
-                onChange={handleChange}
-                onBlur={handleBlur}
-                style={{
-                  border:
-                    errors?.FirstName && touched?.FirstName && "1px solid red",
-                }}
-              />
-              {errors?.FirstName && touched?.FirstName && (
-                <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors?.FirstName}
-                </p>
-              )}
-              {errors?.FirstName && touched?.FirstName && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
-              )}
-            </div>
-            <div className="w-full   mb-3 relative">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="LastName"
-                type="text"
-                placeholder="Last Name"
-                value={
-                  change === true ? EditDeliveryVal.LastName : values.LastName
-                }
-                onChange={handleChange}
-                onBlur={handleBlur}
-                style={{
-                  border:
-                    errors?.LastName && touched?.LastName && "1px solid red",
-                }}
-              />
-              {errors?.LastName && touched?.LastName && (
-                <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors?.LastName}
-                </p>
-              )}
-              {errors?.LastName && touched?.LastName && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
-              )}
-            </div>
-          </div>
-          <div className="flex md:flex-nowrap gap-4">
+
+          <div className="flex md:flex-nowrap gap-4 my-3">
             <div className="w-full   mb-3  md:mb-0 relative">
+              <lable>Address</lable>
               <input
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Company"
                 type="text"
-                placeholder="Company (Optional)"
+                // placeholder="Company (Optional)"
                 value={
                   change === true ? EditDeliveryVal.Company : values.Company
                 }
@@ -224,7 +178,36 @@ function BillingAddress() {
                 <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
+          </div>
+          <div className="flex md:flex-nowrap gap-4 my-3">
+            <div className="w-full   mb-3 relative md:mb-0 ">
+              <lable>Suburb</lable>
+              <input
+                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                id="Apartment"
+                type="text"
+                placeholder="Apartment, Suite, etc"
+                value={
+                  change === true ? EditDeliveryVal.Apartment : values.Apartment
+                }
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{
+                  border:
+                    errors?.Apartment && touched?.Apartment && "1px solid red",
+                }}
+              />
+              {errors?.Apartment && touched?.Apartment && (
+                <p className="mt-2 mb-2 text-red-500 text-xs">
+                  {errors?.Apartment}
+                </p>
+              )}
+              {errors?.Apartment && touched?.Apartment && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+              )}
+            </div>
             <div className="w-full   mb-3 relative">
+              <lable>Apartment, Suite, etc</lable>
               <input
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Apartment"
@@ -250,30 +233,35 @@ function BillingAddress() {
               )}
             </div>
           </div>
-          <div className="flex md:flex-nowrap gap-4">
-            <div className="w-full   mb-3 relative md:mb-0 relative">
-              <Select
+          <div className="flex md:flex-nowrap gap-4 my-3">
+            <div className="w-full   mb-3 relative">
+              <lable>Postcode</lable>
+              <input
+                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                id="Apartment"
                 type="text"
-                // defaultValue={`state`}
-                placeholder="City"
-                id="City"
-                onChange={(e) => handleBillingCity(e, "City")}
-                name="City"
-                value={change === true ? EditDeliveryVal.City : values.City}
-                options={cityOptions}
-                className=""
+                placeholder="Apartment, Suite, etc"
+                value={
+                  change === true ? EditDeliveryVal.Apartment : values.Apartment
+                }
+                onChange={handleChange}
+                onBlur={handleBlur}
                 style={{
-                  border: errors.City && "1px solid red",
+                  border:
+                    errors?.Apartment && touched?.Apartment && "1px solid red",
                 }}
               />
-              {errors?.City && touched?.City && (
-                <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.City}</p>
+              {errors?.Apartment && touched?.Apartment && (
+                <p className="mt-2 mb-2 text-red-500 text-xs">
+                  {errors?.Apartment}
+                </p>
               )}
-              {errors?.City && touched?.City && (
+              {errors?.Apartment && touched?.Apartment && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
-            <div className="w-full   mb-3 relative">
+            <div className="w-full   mb-3 relative md:mb-0">
+              <lable>State</lable>
               <Select
                 type="text"
                 defaultValue={`state`}
@@ -299,54 +287,32 @@ function BillingAddress() {
               )}
             </div>
           </div>
-          <div className="flex md:flex-nowrap gap-4">
-            <div className="w-full   mb-3 relative md:mb-0 relative">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="Postcode"
-                type="text"
-                placeholder="Postcode"
-                value={
-                  change === true ? EditDeliveryVal.Postcode : values.Postcode
-                }
-                onChange={handleChange}
-                onBlur={handleBlur}
-                style={{
-                  border:
-                    errors?.Postcode && touched?.Postcode && "1px solid red",
-                }}
-              />
-              {errors?.Postcode && touched?.Postcode && (
-                <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors?.Postcode}
-                </p>
-              )}
-              {errors?.Postcode && touched?.Postcode && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
-              )}
-            </div>
-            <div className="w-full   mb-3 relative">
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="Mobile"
-                type="text"
-                placeholder="Phone"
-                value={change === true ? EditDeliveryVal.Mobile : values.Mobile}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                style={{
-                  border: errors?.Mobile && touched?.Mobile && "1px solid red",
-                }}
-              />
-              {errors?.Mobile && touched?.Mobile && (
-                <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors?.Mobile}
-                </p>
-              )}
-              {errors?.Mobile && touched?.Mobile && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
-              )}
-            </div>
+          <div className="w-full   mb-3 relative">
+            {" "}
+            <lable className="mb-2">Delivery Instruction/Notes</lable>
+            <textarea
+              className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
+              id="Postcode"
+              type="text"
+              placeholder="Postcode"
+              value={
+                change === true ? EditDeliveryVal.Postcode : values.Postcode
+              }
+              onChange={handleChange}
+              onBlur={handleBlur}
+              style={{
+                border:
+                  errors?.Postcode && touched?.Postcode && "1px solid red",
+              }}
+            />
+            {errors?.Postcode && touched?.Postcode && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">
+                {errors?.Postcode}
+              </p>
+            )}
+            {errors?.Postcode && touched?.Postcode && (
+              <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+            )}
           </div>
         </div>
         <div className="text-right flex justify-end items-center gap-2">
