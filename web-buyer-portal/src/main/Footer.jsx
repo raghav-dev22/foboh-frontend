@@ -20,9 +20,17 @@ function Footer() {
 
         <div className="text-start md:text-start lg:text-center xl:text-center relative">
           <h1 className="text-white text-sm font-[400] my-1">powered by </h1>
-            <a href=""><i><img src="./assets/FOBOHicon.svg" alt="" className="text-center absolute right-[44%]" /></i></a>
-          </div>
-          
+          <a href="">
+            <i>
+              <img
+                src="./assets/FOBOHicon.svg"
+                alt=""
+                className="text-center absolute right-[44%]"
+              />
+            </i>
+          </a>
+        </div>
+
         <div className="">
           <p className="font-[500] text-sm text-white mb-5">Contact us</p>
           <p className="font-normal text-sm mb-5 text-[#676b6ef5]">
@@ -45,7 +53,7 @@ function Footer() {
               <YouTubeIcon />
             </div>
           </div>
-         
+
           <div className="text-start md:text-start xl:text-center">
             <p className="text-sm font-bold text-[#676b6ef5]">
               © 2023 — Copyright — {organisation.businessName || 'Supplier name'}

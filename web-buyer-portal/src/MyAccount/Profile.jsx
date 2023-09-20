@@ -133,12 +133,6 @@ const Profile = () => {
                   <h2 className=" font-semibold  text-2xl	text-[#563FE3]  text-left ">
                     Profile
                   </h2>
-                  {/* <div className="md:hidden sm:block">
-                    <ArrowBackIcon
-                      className="absolute top-[32%] left-[20px] "
-                      style={{ fill: "#fff" }}
-                    />
-                  </div> */}
                 </div>
                 <Link to="/home/profile-edit" className="">
                   <div className="">

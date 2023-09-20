@@ -1,16 +1,18 @@
 // productSlice.js
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialProductState = [
-  {
+const myArray = new Array(9);
+
+const initialProductState = myArray.map(() => {
+  return {
     product: {},
-    quantity: 1,
-  },
-];
+    quantity: 0,
+  };
+});
 
 const productSlice = createSlice({
-  name: 'product',
+  name: "product",
   initialState: initialProductState,
   reducers: {
     setProductData: (state, action) => {

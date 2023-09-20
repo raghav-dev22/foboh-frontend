@@ -247,10 +247,9 @@ export const BillingAddressSchema = Yup.object().shape({
     .required("Apartment is required")
     .min(2, "Apartment should have atleast 2 letters")
     .max(50),
-  City: Yup.string()
-    .required("City is required")
-    .min(2, "City should have atleast 2 letters")
-    .max(50),
+  City: Yup.mixed().required("City is required"),
+  // .min(2, "City should have atleast 2 letters")
+  // .max(50),
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),

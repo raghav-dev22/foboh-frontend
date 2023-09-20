@@ -269,70 +269,6 @@ const Payment = () => {
                 key="1"
               >
                 <div className=" rounded-md ">
-                  {/* <div className=" flex items-center p-3 border-b border-[#E7E7E7]">
-                    <div className="relative flex justify-center items-center">
-                      <input
-                        defaultChecked=""
-                        id="default-radio-1"
-                        type="radio"
-                        // type="checkbox"
-                        defaultValue=""
-                        name="default-radio"
-                        className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                        style={{
-                          boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                        }}
-                      />
-                    </div>
-                    <label
-                      htmlFor="default-radio-1"
-                      className="ml-4 text-base font-semibold text-[#2B4447] "
-                    >
-                      Payment in 14 Days
-                    </label>
-                  </div>
-                  <div className=" flex items-center p-3  border-b border-[#E7E7E7]">
-                    <div className="relative flex justify-center items-center">
-                      <input
-                        defaultChecked=""
-                        id="default-radio-1"
-                        type="radio"
-                        defaultValue=""
-                        name="default-radio"
-                        className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                        style={{
-                          boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                        }}
-                      />
-                    </div>
-                    <label
-                      htmlFor="default-radio-1"
-                      className="ml-4 text-base font-semibold text-[#2B4447] "
-                    >
-                      Payment in 30 Days
-                    </label>
-                  </div>
-                  <div className=" flex items-center p-3">
-                    <div className="relative flex justify-center items-center">
-                      <input
-                        defaultChecked=""
-                        id="default-radio-1"
-                        type="radio"
-                        defaultValue=""
-                        name="default-radio"
-                        className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                        style={{
-                          boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                        }}
-                      />
-                    </div>
-                    <label
-                      htmlFor="default-radio-1"
-                      className="ml-4 text-base font-semibold text-[#2B4447] "
-                    >
-                      Payment in 2 Months
-                    </label>
-                  </div> */}
                   <label htmlFor="">
                     <h5 className="text-lg font-semibold  text-[#2B4447]">
                       Your chosen payment terms
@@ -660,6 +596,15 @@ const Payment = () => {
           <button onClick={handleSubmit}>Submit</button>
           <div className="py-4">
             <BillingAddress />
+            <div className="text-right">
+              <button
+                type="submit"
+                // onClick={handleSubmit}
+                className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+              >
+                Pay Now
+              </button>
+            </div>
           </div>
         </div>
       </div>
