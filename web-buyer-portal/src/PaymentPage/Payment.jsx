@@ -18,6 +18,7 @@ import {
   CardExpiryElement,
 } from "@stripe/react-stripe-js";
 import useResponsiveFontSize from "./useResponsiveFontSize";
+import { useSelector } from "react-redux";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -59,6 +60,7 @@ const Payment = () => {
   const [cardDetails, setCardDetails] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
   const [cardErrors, setCardErrors] = useState({});
+  const buyer = useSelector((state) => state.buyer);
 
   // Function to handle checkbox change event
   const handleCheckboxChange = () => {
@@ -130,13 +132,13 @@ const Payment = () => {
                   {/* </Link> */}
                 </div>
                 <p className="text-base font-normal text-[#2B4447] my-1">
-                  {EditContactValue?.FirstName}
+                  {buyer?.name}
                 </p>
                 <p className="text-base font-normal text-[#2B4447] my-1">
-                  {EditContactValue?.email}
+                  {buyer?.email}
                 </p>
                 <p className="text-base font-normal text-[#2B4447] my-1">
-                  {EditContactValue?.Mobile}
+                  {buyer?.mobile}
                 </p>
               </>
             )}
@@ -655,9 +657,7 @@ const Payment = () => {
             </Tabs>
             {/* <Tabs defaultActiveKey="1" items={items} onChange={onChange} /> */}
           </div>
-          <button onClick={handleSubmit}>
-            Submit
-          </button>
+          <button onClick={handleSubmit}>Submit</button>
           <div className="py-4">
             <BillingAddress />
           </div>

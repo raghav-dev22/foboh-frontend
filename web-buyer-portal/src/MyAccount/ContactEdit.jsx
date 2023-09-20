@@ -4,16 +4,17 @@ import { ContactSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import CallIcon from "@mui/icons-material/Call";
-
-const initialValues = {
-  FirstName: "",
-  LastName: "",
-  email: "",
-  Mobile: "",
-};
+import { useEffect } from "react";
+import { getBuyerValues } from "../helpers/setBuyerValues";
 
 const ContactEdit = ({ setEditContact, editContact }) => {
   const [detail, setDetail] = useState();
+  const [initialValues, setInitialValues] = useState({
+    FirstName: "",
+    LastName: "",
+    email: "",
+    Mobile: "",
+  });
   const {
     values,
     errors,
@@ -27,17 +28,34 @@ const ContactEdit = ({ setEditContact, editContact }) => {
     validationSchema: ContactSchema,
     onSubmit: (values) => {
       console.log(values, "values");
-      localStorage.setItem("ContactEdit", JSON.stringify(values));
-
-      setDetail(values);
-      console.log("detail");
-      setEditContact();
+      // setEditContact();
       //   console.log(setEditContact(!editContact), "setEditContact");
     },
   });
   const cancleBtn = () => {
+    setValues(initialValues)
     setEditContact(!editContact);
   };
+
+  useEffect(() => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    getBuyerValues(buyerId)
+      .then((buyerData) => {
+        setValues({
+          FirstName: buyerData?.deliveryFirstName,
+          LastName: buyerData?.deliveryLastName,
+          email: buyerData?.deliveryEmail,
+          Mobile: buyerData?.deliveryMobile,
+        });
+        setInitialValues({
+          FirstName: buyerData?.deliveryFirstName,
+          LastName: buyerData?.deliveryLastName,
+          email: buyerData?.deliveryEmail,
+          Mobile: buyerData?.deliveryMobile,
+        });
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -182,8 +200,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
               Cancel
             </button>
             <button
-              // type="submit"
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
               type="submit"
               className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
             >
