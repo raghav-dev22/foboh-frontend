@@ -36,7 +36,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
     },
   });
   const cancleBtn = () => {
-    setValues(initialValues)
+    setValues(initialValues);
     setEditContact(!editContact);
   };
 
@@ -198,29 +198,24 @@ const ContactEdit = ({ setEditContact, editContact }) => {
               onClick={handleSubmit}
               type="submit"
               className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+              style={{
+                backgroundColor: token.buttonThemeColor,
+                borderColor: token.buttonThemeColor,
+              }}
             >
               Save
             </button>
             <button
               className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
-              style={{color: token.buttonThemeColor,
-              borderColor: token.buttonThemeColor
-            }}
+              style={{
+                color: token.buttonThemeColor,
+                borderColor: token.buttonThemeColor,
+              }}
               onClick={() => {
                 cancleBtn();
               }}
             >
               Cancel
-            </button>
-            <button
-              onClick={handleSubmit}
-              type="submit"
-              className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
-              style={{backgroundColor: token.buttonThemeColor,
-                borderColor: token.buttonThemeColor
-              }}
-            >
-              Save
             </button>
           </div>
         </form>

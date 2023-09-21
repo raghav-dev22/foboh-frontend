@@ -84,8 +84,8 @@ const ProductList = () => {
   const [Price, setPrice] = useState(false);
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
-  const [page, setPage] = useState(1)
-  const [totalData, setTotalData] = useState({})
+  const [page, setPage] = useState(1);
+  const [totalData, setTotalData] = useState({});
   const { useToken } = theme;
   const { token } = useToken();
   const productData = useSelector((state) => state.product);
@@ -282,7 +282,7 @@ const ProductList = () => {
         console.error("There was a problem with the fetch operation:", error);
       });
   }, [page]);
-  console.log(totalData, "alldata")
+  console.log(totalData, "alldata");
 
   console.log(productData, "products data");
 
@@ -396,37 +396,23 @@ const ProductList = () => {
 
   const PriceBtn = () => {
     setPrice(!Price);
-
     setWine(false);
-
     setSegment(false);
-
     setVariety(false);
-
     setCountry(false);
-
     setRegion(false);
-
     setAvailability(false);
-
     setTags(false);
   };
 
   const TagsBtn = () => {
     setTags(!Tags);
-
     setWine(false);
-
     setSegment(false);
-
     setVariety(false);
-
     setCountry(false);
-
     setRegion(false);
-
     setAvailability(false);
-
     setPrice(false);
   };
 
@@ -459,9 +445,9 @@ const ProductList = () => {
       <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto ">
         <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between">
           <div className="">
-            <p className="font-semibold md:text-2xl text-xl">Red Wine</p>
+            <p className="font-semibold md:text-2xl text-xl">Products</p>
             <p className="text-sm font-normal text-[#637381]">
-              ({total} Products)
+              ({total} results)
             </p>
           </div>
           <button
@@ -1169,67 +1155,85 @@ const ProductList = () => {
                     <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
                       {item?.product?.brand}
                     </h4>
-                  
-                  <p className="md:text-base text-sm font-medium text-[#637381] mt-2"
-                    style={{
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      maxWidth: "25ch",
-                    }}
-                  >
-                    {item?.product?.description}
-                  </p>
 
-                  <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                    ${item?.product?.buyPrice}
-                  </h4>
-                  
-                  <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
-                    <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
-                      <p
-                        className="text-[#637381] cursor-pointer"
-                        onClick={() =>
-                          handleIncrementDecrement(item?.product?.productId, "decrement")
-                        }
-                      >
-                        -
-                      </p>
-
-                      <p className="text-[#637381] md:text-sm text-[10px]">
-                        {" "}
-                        {item?.quantity}
-                      </p>
-
-                      <p
-                        className="text-[#637381] cursor-pointer"
-                        onClick={() =>
-                          handleIncrementDecrement(item?.product?.productId, "increment")
-                        }
-                      >
-                        +
-                      </p>
-                    </div>
-
-                    <div className={`${item?.quantity > 0 ? 'bg-[#563FE3]' : 'bg-[#D1D5DB]'
-                      } rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
+                    <p
+                      className="md:text-base text-sm font-medium text-[#637381] mt-2"
                       style={{
-                        backgroundColor: item?.quantity > 0 ? token.buttonThemeColor : '#D1D5DB',
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "25ch",
                       }}
                     >
-                      <button
-                        onClick={() => {
-                          if (item?.quantity > 0) {
-                            addCart(item?.product?.productId, item, "increment");
+                      {item?.product?.description}
+                    </p>
+
+                    <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
+                      ${item?.product?.buyPrice}
+                    </h4>
+
+                    <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
+                      <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
+                        <p
+                          className="text-[#637381] cursor-pointer"
+                          onClick={() =>
+                            handleIncrementDecrement(
+                              item?.product?.productId,
+                              "decrement"
+                            )
                           }
+                        >
+                          -
+                        </p>
+
+                        <p className="text-[#637381] md:text-sm text-[10px]">
+                          {" "}
+                          {item?.quantity}
+                        </p>
+
+                        <p
+                          className="text-[#637381] cursor-pointer"
+                          onClick={() =>
+                            handleIncrementDecrement(
+                              item?.product?.productId,
+                              "increment"
+                            )
+                          }
+                        >
+                          +
+                        </p>
+                      </div>
+
+                      <div
+                        className={`${
+                          item?.quantity > 0 ? "bg-[#563FE3]" : "bg-[#D1D5DB]"
+                        } rounded-md py-[6px] px-[12px] md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
+                        style={{
+                          backgroundColor:
+                            item?.quantity > 0
+                              ? token.buttonThemeColor
+                              : "#D1D5DB",
                         }}
-                        disabled={item?.quantity <= 0}
                       >
-                        <ShoppingBasketIcon style={{ fill: "#fff", width: "16px" }} />
-                        Add To Cart
-                      </button>
+                        <button
+                          onClick={() => {
+                            if (item?.quantity > 0) {
+                              addCart(
+                                item?.product?.productId,
+                                item,
+                                "increment"
+                              );
+                            }
+                          }}
+                          disabled={item?.quantity <= 0}
+                        >
+                          <ShoppingBasketIcon
+                            style={{ fill: "#fff", width: "16px" }}
+                          />
+                          Add To Cart
+                        </button>
+                      </div>
                     </div>
-                  </div>
                   </div>
                 </Skeleton>
               ))}

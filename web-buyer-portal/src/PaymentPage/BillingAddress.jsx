@@ -16,17 +16,15 @@ function BillingAddress() {
   const { token } = useToken();
   console.log(change, "change");
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
+  const [states, setStates] = useState([]);
 
   const [initialValues, setInitialValues] = useState({
-    FirstName: "",
-    LastName: "",
-    Country: "",
-    Company: "",
+    Address: "",
+    Suburb: "",
     Apartment: "",
-    City: "",
     Postcode: "",
-    Mobile: "",
     State: "",
+    Notes: "",
   });
 
   const {
@@ -56,29 +54,17 @@ function BillingAddress() {
     { label: "Balranald	", value: "option2" },
     { label: "Batemans Bay", value: "option3" },
   ];
-  const handleBillingCity = (e, name) => {
-    if (name === "City") {
-      setValues({
-        ...values,
-        City: e,
-      });
-    } else {
-      setValues({
-        ...values,
-        City: e,
-      });
-    }
-  };
-  const handleBillingState = (e, name) => {
+  
+  const handleBillingSelect = (e, name) => {
     if (name === "State") {
       setValues({
         ...values,
         State: e,
       });
-    } else {
+    } else if(name === "Suburb") {
       setValues({
         ...values,
-        State: e,
+        Suburb: e,
       });
     }
   };
@@ -88,16 +74,25 @@ function BillingAddress() {
 
     getBuyerValues(buyerId)
       .then((buyerData) => {
+        const billingState = states.find(
+          (state) => state?.label === buyerData?.billingState
+        );
         setValues({
-          FirstName: "",
-          LastName: "",
-          Country: "",
-          Company: "",
-          Apartment: "",
-          City: "",
-          Postcode: "",
-          Mobile: "",
-          State: "",
+          Address: buyerData?.billingAddress,
+          Suburb: buyerData?.billingSuburb,
+          Apartment: buyerData?.billingApartment,
+          Postcode: buyerData?.billingPostalCode,
+          State: billingState,
+          Notes: buyerData?.billingNotes,
+        });
+
+        setInitialValues({
+          Address: buyerData?.billingAddress,
+          Suburb: buyerData?.billingSuburb,
+          Apartment: buyerData?.billingApartment,
+          Postcode: buyerData?.billingPostalCode,
+          State: billingState,
+          Notes: buyerData?.billingNotes,
         });
       })
       .catch((error) => console.log(error));
@@ -159,9 +154,7 @@ function BillingAddress() {
                 id="Company"
                 type="text"
                 // placeholder="Company (Optional)"
-                value={
-                  change === true ? EditDeliveryVal.Company : values.Company
-                }
+                value={values?.Address}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
@@ -180,32 +173,6 @@ function BillingAddress() {
             </div>
           </div>
           <div className="flex md:flex-nowrap gap-4 my-3">
-            <div className="w-full   mb-3 relative md:mb-0 ">
-              <lable>Suburb</lable>
-              <input
-                className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="Apartment"
-                type="text"
-                placeholder="Apartment, Suite, etc"
-                value={
-                  change === true ? EditDeliveryVal.Apartment : values.Apartment
-                }
-                onChange={handleChange}
-                onBlur={handleBlur}
-                style={{
-                  border:
-                    errors?.Apartment && touched?.Apartment && "1px solid red",
-                }}
-              />
-              {errors?.Apartment && touched?.Apartment && (
-                <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors?.Apartment}
-                </p>
-              )}
-              {errors?.Apartment && touched?.Apartment && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
-              )}
-            </div>
             <div className="w-full   mb-3 relative">
               <lable>Apartment, Suite, etc</lable>
               <input
@@ -232,31 +199,50 @@ function BillingAddress() {
                 <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
+            <div className="w-full   mb-3 relative md:mb-0 ">
+              <lable>Suburb</lable>
+              <Select
+                type="text"
+                defaultValue={`Suburb`}
+                placeholder="Suburb"
+                id="Suburb"
+                onChange={(e) => handleBillingSelect(e, "Suburb")}
+                name="Suburb"
+                value={values?.Suburb}
+                options={stateOptions}
+                style={{
+                  border: errors.Suburb && "1px solid red",
+                }}
+              />
+              {errors?.Suburb && touched?.Suburb && (
+                <p className="mt-2 mb-2 text-red-500 text-xs">
+                  {errors?.Suburb}
+                </p>
+              )}
+            </div>
           </div>
           <div className="flex md:flex-nowrap gap-4 my-3">
             <div className="w-full   mb-3 relative">
               <lable>Postcode</lable>
               <input
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                id="Apartment"
+                id="Postcode"
                 type="text"
                 placeholder="Apartment, Suite, etc"
-                value={
-                  change === true ? EditDeliveryVal.Apartment : values.Apartment
-                }
+                value={values?.Postcode}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors?.Apartment && touched?.Apartment && "1px solid red",
+                    errors?.Postcode && touched?.Postcode && "1px solid red",
                 }}
               />
-              {errors?.Apartment && touched?.Apartment && (
+              {errors?.Postcode && touched?.Postcode && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors?.Apartment}
+                  {errors?.Postcode}
                 </p>
               )}
-              {errors?.Apartment && touched?.Apartment && (
+              {errors?.Postcode && touched?.Postcode && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -267,16 +253,15 @@ function BillingAddress() {
                 defaultValue={`state`}
                 placeholder="state"
                 id="State"
-                onChange={(e) => handleBillingState(e, "State")}
+                onChange={(e) => handleBillingSelect(e, "State")}
                 name="State"
-                value={change === true ? EditDeliveryVal.State : values.State}
+                value={values?.State}
                 options={stateOptions}
                 className=""
                 style={{
                   border: errors.State && "1px solid red",
                 }}
               />
-
               {errors?.State && touched?.State && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
                   {errors?.State}
@@ -295,9 +280,7 @@ function BillingAddress() {
               id="Postcode"
               type="text"
               placeholder="Postcode"
-              value={
-                change === true ? EditDeliveryVal.Postcode : values.Postcode
-              }
+              value={values?.Postcode}
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
