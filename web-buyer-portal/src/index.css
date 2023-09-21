@@ -325,22 +325,16 @@ select {
 .ant-pagination.ant-table-pagination.ant-table-pagination-right.css-dev-only-do-not-override-17a39f8 {
   justify-content: center;
 }
-.custom-card iframe {
+.custom-card {
   height: 46px !important;
+  background: rgb(248, 248, 248);
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
 }
-.custom-card form {
-  height: 46px !important;
+
+.ant-tabs-nav::before {
+  border-bottom: 0px !important;
 }
-.custom-card iframe html body form .InputElement {
-  height: 46px !important;
-}
-.ElementsApp {
-  height: 2.2em !important;
-}
-.ElementsApp,
-.ElementsApp .InputElement {
-  height: 46px !important;
-}
-.ElementsApp input {
-  height: 2.2em !important;
+.StripeElement {
+  padding: 12px !important;
 }

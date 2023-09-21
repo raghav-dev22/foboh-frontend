@@ -18,25 +18,36 @@ import {
   CardExpiryElement,
 } from "@stripe/react-stripe-js";
 import useResponsiveFontSize from "./useResponsiveFontSize";
+import useResponsiveHeight from "./useResponsiveHeight";
 import { useSelector } from "react-redux";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
+  const height = useResponsiveHeight();
+
   const options = useMemo(
     () => ({
       style: {
         base: {
+          padding: "15px",
           fontSize,
           color: "#424770",
+          height: "46px",
           letterSpacing: "0.025em",
           fontFamily: "Source Code Pro, monospace",
           "::placeholder": {
-            color: "#aab7c4",
+            content: "", // Remove placeholder text
           },
-          backgroundColor: "#F8F8F8",
+          placeholder: "",
+
+          // backgroundColor: "rgb(248, 248, 248)",
+          border: "1px solid #e2e8f0",
         },
         invalid: {
           color: "#9e2146",
+        },
+        ElementsApp: {
+          height: "44px !important",
         },
       },
     }),
@@ -382,8 +393,8 @@ const Payment = () => {
                           className={`relative mb-4 `}
                           data-te-input-wrapper-init
                         >
-                          <label>Card number</label>
-                          <div className="custom-card">
+                          <label className="mb-2">Card number</label>
+                          <div className="custom-card mt-2">
                             <CardNumberElement
                               options={options}
                               onChange={(event) => {
@@ -402,12 +413,12 @@ const Payment = () => {
                           {/* <p className="mt-2 mb-2 text-red-500 text-xs">
                             {cardErrors?.cardNumber?.message}
                           </p> */}
-                          <div className="absolute top-[44px] right-[10px]">
+                          <div className="absolute top-[39px] right-[10px]">
                             <LockOpenIcon style={{ fill: "#979797" }} />
                           </div>
                         </div>
                         <div
-                          className={`relative mb-4 `}
+                          className={`relative mb-4 w-full`}
                           data-te-input-wrapper-init
                         >
                           <label
@@ -430,48 +441,52 @@ const Payment = () => {
                         </div>
                         <div className="flex flex-nowrap gap-2">
                           <div
-                            className={`relative mb-4 `}
+                            className={`relative mb-4  w-full`}
                             data-te-input-wrapper-init
                           >
-                            <label>
+                            <label className="mb-2">
                               Expiration date
-                              <CardExpiryElement
-                                options={options}
-                                onChange={(event) => {
-                                  setCardErrors({
-                                    ...cardErrors,
-                                    [event?.elementType]: event?.error,
-                                  });
-                                  console.log(
-                                    "CardNumberElement [change]",
-                                    event
-                                  );
-                                }}
-                              />
+                              <div className="custom-card mt-2">
+                                <CardExpiryElement
+                                  options={options}
+                                  onChange={(event) => {
+                                    setCardErrors({
+                                      ...cardErrors,
+                                      [event?.elementType]: event?.error,
+                                    });
+                                    console.log(
+                                      "CardNumberElement [change]",
+                                      event
+                                    );
+                                  }}
+                                />
+                              </div>
                             </label>
                             <p className="mt-2 mb-2 text-red-500 text-xs">
                               {cardErrors?.cardExpiry?.message}
                             </p>
                           </div>
                           <div
-                            className={`relative mb-4 `}
+                            className={`relative mb-4 w-full`}
                             data-te-input-wrapper-init
                           >
-                            <label>
+                            <label className="mb-2">
                               CVC
-                              <CardCvcElement
-                                options={options}
-                                onChange={(event) => {
-                                  setCardErrors({
-                                    ...cardErrors,
-                                    [event.elementType]: event.error,
-                                  });
-                                  console.log(
-                                    "CardNumberElement [change]",
-                                    event
-                                  );
-                                }}
-                              />
+                              <div className="custom-card mt-2 ">
+                                <CardCvcElement
+                                  options={options}
+                                  onChange={(event) => {
+                                    setCardErrors({
+                                      ...cardErrors,
+                                      [event.elementType]: event.error,
+                                    });
+                                    console.log(
+                                      "CardNumberElement [change]",
+                                      event
+                                    );
+                                  }}
+                                />
+                              </div>
                             </label>
                             <p className="mt-2 mb-2 text-red-500 text-xs">
                               {cardErrors?.cardCvc?.message}
