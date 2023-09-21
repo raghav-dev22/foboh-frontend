@@ -6,10 +6,13 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Header from "../main/Header";
 import Footer from "../main/Footer";
 import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
+import { theme } from "antd";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const AddressDetails = () => {
   const [buyer, setBuyer] = useState({});
+  const { useToken } = theme;
+  const { token } = useToken();
 
   useEffect(() => {
     
@@ -33,7 +36,7 @@ const AddressDetails = () => {
           </h5>
         </div> */}
         <div className="  mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
-          <h2 className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
+          <h2  className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
             Addresses
           </h2>
           <div className="md:hidden sm:block">
@@ -46,9 +49,9 @@ const AddressDetails = () => {
 
         <div className="md:grid-cols-3 grid sm:grid-cols-2	  gap-4 md:p-0 px-6  pt-0 md:pt-8">
           <div className="rounded-md border border-[#E0E0E0] p-3 sm:p-0">
-            <div className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
+            <div style={{backgroundColor: token.commonThemeColor}} className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
               <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
-                Delivery Address
+                Delivery Addressxx
               </h5>
             </div>
             <div className="px-4 sm:py-5 pb-5">
@@ -104,7 +107,7 @@ const AddressDetails = () => {
             </div>
           </div>
           <div className="rounded-md border border-[#E0E0E0] sm:p-0 p-3">
-            <div className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
+            <div style={{backgroundColor: token.commonThemeColor}} className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
               <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                 Billing Address
               </h5>
@@ -118,9 +121,9 @@ const AddressDetails = () => {
         </div>
         <Link to="/home/delivery-edit">
           <div className="md:m-0 mx-6">
-            <div className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-md sm:w-fit w-full flex justify-center items-center cursor-pointer gap-2">
-              <ModeEditOutlineIcon style={{ fill: "#563FE3" }} />
-              <p className="text-base font-medium  text-[#563FE3] ">Edit</p>
+            <div style={{ borderColor: token.buttonThemeColor}} className="my-12 py-[12px] px-[40px] border-[2px] border-[#563FE3]  rounded-md sm:w-fit w-full flex justify-center items-center cursor-pointer gap-2">
+              <ModeEditOutlineIcon style={{ fill: token.buttonThemeColor}} />
+              <p style={{color: token.commonThemeColor}} className="text-base font-medium  text-[#563FE3] ">Edit</p>
             </div>
           </div>
         </Link>

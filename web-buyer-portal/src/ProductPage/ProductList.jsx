@@ -32,6 +32,7 @@ import { Pagination } from "antd";
 import { Checkbox } from "antd";
 import { button } from "@material-tailwind/react";
 import { Avatar, List, Skeleton, Switch } from "antd";
+import { useRef } from "react";
 
 const ProductList = () => {
   const [loading, setLoading] = useState(true);
@@ -88,6 +89,8 @@ const ProductList = () => {
   const [totalData, setTotalData] = useState({});
   const { useToken } = theme;
   const { token } = useToken();
+  const dropdownRef = useRef(null);
+  const wineRef = useRef(null);
   const productData = useSelector((state) => state.product);
   const wineProduct = [
     {
@@ -440,9 +443,29 @@ const ProductList = () => {
     setValue(value);
   };
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target))
+       {
+        setSort(false);
+        // setWine(false);
+      }
+
+      if (wineRef.current && wineRef.current.contains(event.target)) {
+        setWine(false);
+        setSegment(Segment);
+      }
+      console.log(wineRef, "clsoe")
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
-      <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto ">
+      <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto " ref={dropdownRef}>
         <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between">
           <div className="">
             <p className="font-semibold md:text-2xl text-xl">Products</p>
@@ -451,6 +474,7 @@ const ProductList = () => {
             </p>
           </div>
           <button
+           
             className="border border-[#E7E7E7] rounded-md px-[13px] py-[8px] flex items-center justify-center gap-2"
             onClick={() => {
               SortBtn();
@@ -560,16 +584,14 @@ const ProductList = () => {
         </div>
 
         <div className="flex md:flex-nowrap	flex-wrap py-8">
-          <div className="md:w-1/4 w-full    overflow-y-scroll  md:pr-12 py-4   ">
+          <div className="md:w-1/4 w-full overflow-y-scroll  md:pr-12 py-4">
             <div className="flex items-center gap-2 pb-3">
               <FilterAltIcon style={{ fill: "#fff", stroke: "#2B4447" }} />
-
               <h5 className="text-[20px] font-semibold text-[#2B4447]">
                 Filter
               </h5>
             </div>
-
-            <div className=" py-4 border-b border-[#E7E7E7]">
+            <div className=" py-4 border-b border-[#E7E7E7]" ref={wineRef}>
               <div
                 className="flex justify-between"
                 onClick={() => {
@@ -1243,7 +1265,7 @@ const ProductList = () => {
                 <Pagination
                   // itemActiveBg={"#F8FAFC"}
                   showSizeChanger={false}
-                  total={500}
+                  total={total}
                   onChange={onShowSizeChange}
                   // onShowSizeChange={onShowSizeChange}
                   itemRender={itemRender}

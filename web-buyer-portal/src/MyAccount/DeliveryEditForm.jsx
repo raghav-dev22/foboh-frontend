@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { json } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getBuyerValues } from "../helpers/setBuyerValues";
+import { theme } from "antd";
 
 const DeliveryEditForm = () => {
   const initialValues = {
@@ -31,6 +32,8 @@ const DeliveryEditForm = () => {
   // console.log(buyer, "hhhh");
   const [selectedOption, setSelectedOption] = useState(null);
   const [cart, setCart] = useState();
+  const { useToken } = theme;
+  const { token } = useToken();
 
   const stateOptions = [
     { label: "Victoria", value: "option1" },
@@ -174,23 +177,23 @@ const DeliveryEditForm = () => {
 
     checked
       ? setValues({
-          ...values,
-          BillingAddress: values?.DeliveryAddress,
-          BillingApartment: values?.Apartment,
-          BillingCity: values?.City,
-          BillingPostcode: values?.Postcode,
-          BillingNotes: values?.Notes,
-          BillingAddressState: values?.DeliveryAddressState,
-        })
+        ...values,
+        BillingAddress: values?.DeliveryAddress,
+        BillingApartment: values?.Apartment,
+        BillingCity: values?.City,
+        BillingPostcode: values?.Postcode,
+        BillingNotes: values?.Notes,
+        BillingAddressState: values?.DeliveryAddressState,
+      })
       : setValues({
-          ...values,
-          BillingAddress: "",
-          BillingApartment: "",
-          BillingCity: {},
-          BillingPostcode: "",
-          BillingNotes: "",
-          BillingAddressState: {},
-        });
+        ...values,
+        BillingAddress: "",
+        BillingApartment: "",
+        BillingCity: {},
+        BillingPostcode: "",
+        BillingNotes: "",
+        BillingAddressState: {},
+      });
   };
 
   console.log(isChecked, "toggleCheckbox");
@@ -405,7 +408,7 @@ const DeliveryEditForm = () => {
 
         <div className="">
           <div className="  pb-8">
-            <h2 className="font-bold text-xl	 text-[#563FE3]">
+            <h2 style={{ color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
               Billing Address
             </h2>
           </div>
@@ -570,11 +573,14 @@ const DeliveryEditForm = () => {
         </div>
 
         <div className="flex gap-8 pt-5 pb-16">
-          <button className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
+          <button style={{
+            color: token.buttonThemeColor,
+            borderColor: token.buttonThemeColor
+          }} className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
             Cancel
           </button>
           <button
-            // type="submit"
+            style={{ backgroundColor: token.buttonThemeColor }}
             onClick={handleSubmitBtn}
             type="submit"
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"

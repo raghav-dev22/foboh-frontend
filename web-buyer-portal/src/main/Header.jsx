@@ -23,6 +23,8 @@ function Header() {
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
   const navigate = useNavigate();
+  const { useToken } = theme;
+  const { token } = useToken();
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -35,11 +37,7 @@ function Header() {
     navigate("/");
   };
   
-  const { useToken } = theme;
-  const { token } = useToken();
-
-
-
+ 
   return (
     <>
       <div
@@ -145,7 +143,7 @@ function Header() {
                               Orders
                             </h6>
                           </div>
-                          <div className="rounded-md h-[30px] w-[30px] bg-[#563FE3] flex justify-center items-center">
+                          <div style={{backgroundColor: token.commonThemeColor}}  className="rounded-md h-[30px] w-[30px] bg-[#563FE3] flex justify-center items-center">
                             <p className="text-white text-xs font-bold">10</p>
                           </div>
                         </li>

@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 // import EastIcon from "@mui/icons-material/East";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { theme } from "antd";
 // import SearchIcon from "@mui/icons-material/Search";
 
 const MyAccount = () => {
+  const { useToken } = theme;
+  const { token } = useToken();
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto md:p-0 px-6 ">
@@ -31,7 +34,7 @@ const MyAccount = () => {
           />
         </div> */}
         <div className=" md:pb-12 md:pt-0 py-8">
-          <h2 className="font-bold md:text-4xl text-2xl	 text-[#563FE3]">
+          <h2 style={{color: token.commonThemeColor}}  className="font-bold md:text-4xl text-2xl	 text-[#563FE3]">
             Account
           </h2>
         </div>

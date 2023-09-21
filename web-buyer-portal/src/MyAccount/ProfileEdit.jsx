@@ -10,6 +10,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import { updateField } from "../slices/buyerSlice";
 import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
+import { theme } from "antd";
 // import { Button, Form, Input, Radio } from "antd";
 // import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -17,6 +18,8 @@ import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
 const ProfileEdit = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { useToken } = theme;
+  const { token } = useToken();
   const { buyerId, cbrn } = JSON.parse(localStorage.getItem("buyerInfo"));
   const [initialValues, setInitialValues] = useState({
     BusinessName: "",
@@ -137,7 +140,7 @@ const ProfileEdit = () => {
           </div>
           <div className="md:p-0 px-6">
             <div className=" md:pt-12 pb-8">
-              <h2 className="font-bold text-xl	 text-[#563FE3]">
+              <h2 style={{ color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
                 Business Details
               </h2>
             </div>
@@ -290,7 +293,7 @@ const ProfileEdit = () => {
           </div>
           <div className=" md:p-0 px-6">
             <div className="   pb-8">
-              <h2 className="font-bold text-xl	 text-[#563FE3]">
+              <h2 style={{color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
                 Ordering Contact
               </h2>
             </div>
@@ -443,7 +446,7 @@ const ProfileEdit = () => {
 
           <div className=" md:p-0 px-6">
             <div className=" pb-8">
-              <h2 className="font-bold text-xl	 text-[#563FE3]">
+              <h2 style={{color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
                 Delivery Contact
               </h2>
             </div>
@@ -590,12 +593,16 @@ const ProfileEdit = () => {
             </div>
             <div className="flex gap-8 pt-5 pb-16">
               <button
+               style={{borderColor: token.buttonThemeColor,
+                color: token.buttonThemeColor
+               }}
                 onClick={handleCancel}
                 className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
               >
                 Cancel
               </button>
               <button
+              style={{background: token.buttonThemeColor}}
                 className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
                 onClick={handleSubmit}
               >

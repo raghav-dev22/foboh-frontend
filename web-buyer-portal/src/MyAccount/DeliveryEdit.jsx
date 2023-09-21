@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { json } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeliveryEditForm from "./DeliveryEditForm";
+import { theme } from "antd";
 
 const initialValues = {
   DeliveryAddress: "",
@@ -32,6 +33,8 @@ const DeliveryEdit = () => {
   // console.log(buyer, "hhhh");
   const [selectedOption, setSelectedOption] = useState(null);
   const [cart, setCart] = useState();
+  const { useToken } = theme;
+  const { token } = useToken();
 
 
   const stateOptions = [
@@ -191,7 +194,7 @@ const DeliveryEdit = () => {
 
           <div className="  md:px-0 pb-8 px-6">
             <div className="  pb-8">
-              <h2 className="font-bold text-xl	 text-[#563FE3]">
+              <h2 style={{color: token.commonThemeColor}} className="font-bold text-xl	 text-[#563FE3]">
                 Delivery Address
               </h2>
             </div>
