@@ -325,3 +325,22 @@ select {
 .ant-pagination.ant-table-pagination.ant-table-pagination-right.css-dev-only-do-not-override-17a39f8 {
   justify-content: center;
 }
+.custom-card iframe {
+  height: 46px !important;
+}
+.custom-card form {
+  height: 46px !important;
+}
+.custom-card iframe html body form .InputElement {
+  height: 46px !important;
+}
+.ElementsApp {
+  height: 2.2em !important;
+}
+.ElementsApp,
+.ElementsApp .InputElement {
+  height: 46px !important;
+}
+.ElementsApp input {
+  height: 2.2em !important;
+}
