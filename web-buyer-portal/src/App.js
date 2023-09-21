@@ -15,7 +15,7 @@ import VerifyPassword from "./loginRegister/VerifyPassword";
 import HomePage from "./HomePage/HomePage";
 import store from "./store/Store";
 import MainHomePage from "./HomePage/MainHomePage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Auth from "./loginRegister/Auth";
 import { theme } from 'antd';
 import { ConfigProvider } from 'antd';
@@ -25,31 +25,33 @@ import { ConfigProvider } from 'antd';
 function App() {
 
   const { getDesignToken, useToken } = theme;
+  const [config, setConfig] = useState({})
 
-  const config = {
-    token: {
-      bannerThemeColor: `linear-gradient(81deg, rgb(58 58 58 / 65%) -4.14%, rgba(252, 252, 252, 0.70) 41.98%)`,
-      buttonThemeColor: "#2F2E2E",
-      commonThemeColor: "#2F2E2E"
-    },
-  };
-
+  console.log(config, "theme")
+  // const config = {
+  //   token: {
+  //     bannerThemeColor: `linear-gradient(81deg, rgb(58 58 58 / 65%) -4.14%, rgba(252, 252, 252, 0.70) 41.98%)`,
+  //     buttonThemeColor: "#2F2E2E",
+  //     commonThemeColor: "#2F2E2E"
+  //   },
+  // };
 
 
   return (
     <ConfigProvider theme={config}>
       <Provider store={store}>
         <Router>
-          <RouterComponent />
+          <RouterComponent setConfig={setConfig} />
         </Router>
       </Provider>
     </ConfigProvider>
   );
 }
 
-const RouterComponent = () => {
+const RouterComponent = ({ setConfig }) => {
   const email = localStorage.getItem("email");
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (!email) {
@@ -60,7 +62,7 @@ const RouterComponent = () => {
 
   return (
     <Routes>
-      <Route exact path="/home/*" element={<HomePage />} />
+      <Route exact path="/home/*" element={<HomePage setConfig={setConfig} />} />
       <Route path="/auth/*" element={<Auth />} />
       <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
       <Route path="/sign-up" element={<Signup />} />
