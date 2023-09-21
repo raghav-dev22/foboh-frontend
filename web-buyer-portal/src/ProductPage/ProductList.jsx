@@ -467,7 +467,7 @@ const ProductList = () => {
 
       if (wineRef.current && wineRef.current.contains(event.target)) {
         setWine(false);
-        setSegment(Segment);
+        // setSegment(Segment);
       }
       console.log(wineRef, "clsoe")
     }

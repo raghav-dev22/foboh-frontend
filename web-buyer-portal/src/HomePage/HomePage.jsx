@@ -36,12 +36,21 @@ import { setBuyerValues } from "../helpers/setBuyerValues";
 import OrderConfirmation from "../Order/OrderConfirmation";
 import OrderHistory from "../Order/OrderHistory";
 
-function HomePage() {
+function HomePage({setConfig}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
     setBuyerValues(buyer, dispatch, updateField);
+    console.log(buyer.organisationId, "buyerid")
+
+    fetch(`https://themesfobohwebapi-fbh.azurewebsites.net/api/Themes/get?organizationId=${buyer?.organisationId}`, {
+      method : "GET",
+    }).then(response => response.json())
+    .then((data => {
+      setConfig({token:data?.data[0]?.theme})
+      console.log(data?.data[0]?.theme, "all theme")
+    })).catch(error => console.log(error))
 
     fetch(
       `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${buyer?.organisationId}`,

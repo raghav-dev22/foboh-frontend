@@ -8,12 +8,21 @@ function ShopBrandSection() {
 
 
   useEffect(() => {
-    axios.get("https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByBrands")
-    .then((resp) => {
-      setBrandData(resp.data.data);
-      console.log(resp.data.data);
-    });
+    const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
+
+    fetch(`https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByBrands?OrganisationId=${buyer?.organisationId}`, {
+      method : "GET",
+    })
+    .then((response => {
+      return response.json()
+    }))
+    .then(data => {
+      // setBrandData(resp.data);
+      console.log(data, "brand2")
+    })
+    .catch(error => console.log(error))
   }, []);
+  console.log(BrandData, "brand")
  
   return (
     <>
