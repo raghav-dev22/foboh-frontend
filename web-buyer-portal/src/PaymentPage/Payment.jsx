@@ -265,10 +265,11 @@ const Payment = () => {
                 tab={
                   <>
                     <div
-                      className={` ${activeKey === "1"
-                        ? "bg-[#F0EDFF] border border-[#563FE3]"
-                        : "bg-[#fff] border border-[#E7E7E7]"
-                        }  rounded-md w-[175px] py-[18px]`}
+                      className={` ${
+                        activeKey === "1"
+                          ? "bg-[#F0EDFF] border border-[#563FE3]"
+                          : "bg-[#fff] border border-[#E7E7E7]"
+                      }  rounded-md w-[175px] py-[18px]`}
                     >
                       <h5 className="text-[#2B4447] font-semibold text-base text-center mb-1">
                         Pay Later
@@ -298,10 +299,11 @@ const Payment = () => {
               <TabPane
                 tab={
                   <div
-                    className={` ${activeKey === "2"
-                      ? "bg-[#F0EDFF] border border-[#563FE3]"
-                      : "bg-[#fff] border border-[#E7E7E7]"
-                      }  rounded-md w-[175px] py-[18px]`}
+                    className={` ${
+                      activeKey === "2"
+                        ? "bg-[#F0EDFF] border border-[#563FE3]"
+                        : "bg-[#fff] border border-[#E7E7E7]"
+                    }  rounded-md w-[175px] py-[18px]`}
                   >
                     <h5 className="text-[#2B4447] font-semibold text-base text-center mb-1">
                       Pay Now
@@ -414,9 +416,9 @@ const Payment = () => {
                             />
                           </div>
 
-                          {/* <p className="mt-2 mb-2 text-red-500 text-xs">
+                          <p className="mt-2 mb-2 text-red-500 text-xs">
                             {cardErrors?.cardNumber?.message}
-                          </p> */}
+                          </p>
                           <div className="absolute top-[39px] right-[10px]">
                             <LockOpenIcon style={{ fill: "#979797" }} />
                           </div>
@@ -508,9 +510,9 @@ const Payment = () => {
                             //   addressBtn();
                             // }}
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-                          // style={{
-                          //   boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                          // }}
+                            // style={{
+                            //   boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
+                            // }}
                           />
 
                           <label
