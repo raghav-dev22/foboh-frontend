@@ -366,7 +366,7 @@ const Payment = () => {
                           </h5>
                         </div>
                         <ModeIcon
-                          style={{fill: token.buttonThemeColor}}
+                          style={{ fill: token.buttonThemeColor }}
                           onClick={() => {
                             setCardDetails(!cardDetails);
                             setIsChecked(!isChecked);
@@ -382,9 +382,8 @@ const Payment = () => {
                           className={`relative mb-4 `}
                           data-te-input-wrapper-init
                         >
-                          <label>
-                            Card number
-                            </label>
+                          <label>Card number</label>
+                          <div className="custom-card">
                             <CardNumberElement
                               options={options}
                               onChange={(event) => {
@@ -398,10 +397,11 @@ const Payment = () => {
                                 );
                               }}
                             />
-                         
-                          <p className="mt-2 mb-2 text-red-500 text-xs">
+                          </div>
+
+                          {/* <p className="mt-2 mb-2 text-red-500 text-xs">
                             {cardErrors?.cardNumber?.message}
-                          </p>
+                          </p> */}
                           <div className="absolute top-[44px] right-[10px]">
                             <LockOpenIcon style={{ fill: "#979797" }} />
                           </div>
