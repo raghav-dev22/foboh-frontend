@@ -56,6 +56,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
           email: buyerData?.deliveryEmail,
           Mobile: buyerData?.deliveryMobile,
         });
+
       })
       .catch((error) => console.log(error));
   }, []);

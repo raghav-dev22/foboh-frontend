@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 
-function BillingAddress() {
+function BillingAddress({ deliveryAddress }) {
   const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const { useToken } = theme;
@@ -54,14 +54,14 @@ function BillingAddress() {
     { label: "Balranald	", value: "option2" },
     { label: "Batemans Bay", value: "option3" },
   ];
-  
+
   const handleBillingSelect = (e, name) => {
     if (name === "State") {
       setValues({
         ...values,
         State: e,
       });
-    } else if(name === "Suburb") {
+    } else if (name === "Suburb") {
       setValues({
         ...values,
         Suburb: e,
@@ -98,18 +98,21 @@ function BillingAddress() {
       .catch((error) => console.log(error));
   }, []);
 
+  const handleSameAs = (e) => {
+    console.log("deliveryAddress >>", deliveryAddress);
+
+    const checked = e.target.checked;
+    checked ? setValues(deliveryAddress) : setValues(initialValues);
+  };
+
   return (
     <>
       <div className="flex items-center mb-4">
         <input
-          defaultChecked=""
-          id="default-checkbox"
+          id="same-as"
           type="checkbox"
-          defaultValue=""
           name="default-radio"
-          onClick={() => {
-            setChange(!change);
-          }}
+          onClick={handleSameAs}
           // onClick={() => {
           //   addressBtn();
           // }}
@@ -120,7 +123,7 @@ function BillingAddress() {
         />
 
         <label
-          htmlFor="radio-3"
+          htmlFor="same-as"
           className="ml-4 text-base font-normal text-[#2B4447] dark:text-gray-300"
         >
           Same as delivery address
@@ -154,20 +157,21 @@ function BillingAddress() {
                 id="Company"
                 type="text"
                 // placeholder="Company (Optional)"
+                name="Address"
                 value={values?.Address}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
                   border:
-                    errors?.Company && touched?.Company && "1px solid red",
+                    errors?.Address && touched?.Address && "1px solid red",
                 }}
               />
-              {errors?.Company && touched?.Company && (
+              {errors?.Address && touched?.Address && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors?.Company}
+                  {errors?.Address}
                 </p>
               )}
-              {errors?.Company && touched?.Company && (
+              {errors?.Address && touched?.Address && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>

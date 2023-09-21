@@ -47,7 +47,6 @@ const useOptions = () => {
 };
 
 const Payment = () => {
-  const EditContactValue = JSON.parse(localStorage.getItem("ContactEdit"));
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
   console.log(EditDeliveryVal, "EditDeliveryVal");
   const [activeKey, setActiveKey] = useState("1");
@@ -79,6 +78,8 @@ const Payment = () => {
   const stripe = useStripe();
   const elements = useElements();
   const options = useOptions();
+
+  const [deliveryAddress, setDeliveryAddress] = useState({});
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -151,6 +152,8 @@ const Payment = () => {
               <DeliveryEditAddress
                 setEditDelivery={setEditDelivery}
                 editDelivery={editDelivery}
+                setDeliveryAddress={setDeliveryAddress}
+                deliveryAddress={deliveryAddress}
               />
             ) : (
               <>
@@ -478,7 +481,6 @@ const Payment = () => {
                             </p>
                           </div>
                         </div>
-
                         <div className="flex items-center mb-4">
                           <input
                             defaultChecked=""
@@ -597,7 +599,7 @@ const Payment = () => {
           </div>
           <button onClick={handleSubmit}>Submit</button>
           <div className="py-4">
-            <BillingAddress />
+            <BillingAddress deliveryAddress={deliveryAddress} />
             <div className="text-right">
               <button
                 type="submit"

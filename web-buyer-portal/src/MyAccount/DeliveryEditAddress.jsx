@@ -10,21 +10,27 @@ import { theme } from "antd";
 // import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
-const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
+const DeliveryEditAddress = ({
+  setEditDelivery,
+  editDelivery,
+  setDeliveryAddress,
+  deliveryAddress,
+}) => {
   const [initialValues, setInitialValues] = useState({
-    Apartment: "",
     Address: "",
-    City: "",
-    State: "",
+    Suburb: "",
+    Apartment: "",
     Postcode: "",
-    DeliveryInstruction: "",
+    State: "",
+    Notes: "",
   });
+
   const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
-  
+
   const { useToken } = theme;
   const { token } = useToken();
-  const buyer = useSelector((state) => state.buyer)
+  const buyer = useSelector((state) => state.buyer);
 
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -39,22 +45,31 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
           (state) => state?.label === buyerData.state
         );
 
+        setDeliveryAddress({
+          Apartment: buyerData?.apartment,
+          Address: buyerData?.address,
+          Suburb: buyerCity,
+          State: buyerState,
+          Postcode: buyerData?.postalCode,
+          Notes: buyerData?.deliveryNotes,
+        });
+
         setValues({
           Apartment: buyerData?.apartment,
           Address: buyerData?.address,
-          City: buyerCity,
+          Suburb: buyerCity,
           State: buyerState,
           Postcode: buyerData?.postalCode,
-          DeliveryInstruction: buyerData?.deliveryNotes,
+          Notes: buyerData?.deliveryNotes,
         });
-        
+
         setInitialValues({
           Apartment: buyerData?.apartment,
           Address: buyerData?.address,
-          City: buyerCity,
+          Suburb: buyerCity,
           State: buyerState,
           Postcode: buyerData?.postalCode,
-          DeliveryInstruction: buyerData?.deliveryNotes,
+          Notes: buyerData?.deliveryNotes,
         });
       })
       .catch((error) => console.log(error));
@@ -76,12 +91,20 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
     if (name === "City") {
       setValues({
         ...values,
-        City: e,
+        Suburb: e,
+      });
+      setDeliveryAddress({
+        ...deliveryAddress,
+        Suburb: e,
       });
     } else {
       setValues({
         ...values,
-        City: e,
+        Suburb: e,
+      });
+      setDeliveryAddress({
+        ...deliveryAddress,
+        Suburb: e,
       });
     }
   };
@@ -91,9 +114,17 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
         ...values,
         State: e,
       });
+      setDeliveryAddress({
+        ...deliveryAddress,
+        State: e,
+      });
     } else {
       setValues({
         ...values,
+        State: e,
+      });
+      setDeliveryAddress({
+        ...deliveryAddress,
         State: e,
       });
     }
@@ -104,6 +135,7 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
     validationSchema: DeliveryAddressEditSchema,
     onSubmit: (values) => {
       console.log(values, "value");
+      setDeliveryAddress(values);
     },
   });
 
@@ -133,19 +165,21 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             <input
               type="text"
               id="Address"
-              value={values.Address}
+              value={values?.Address}
               onChange={handleChange}
               name="Address"
               className=""
               style={{
-                border: errors.Address && "1px solid red",
+                border: errors?.Address && "1px solid red",
                 background: "#F8F8F8",
               }}
             />
-            {errors.Address && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Address}</p>
+            {errors?.Address && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">
+                {errors?.Address}
+              </p>
             )}
-            {errors.Address && (
+            {errors?.Address && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -158,18 +192,18 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             <input
               type="text"
               id="Apartment"
-              value={values.Apartment}
+              value={values?.Apartment}
               onChange={handleChange}
               name="Apartment"
               className=""
               style={{
-                border: errors.Apartment && "1px solid red",
+                border: errors?.Apartment && "1px solid red",
                 background: "#F8F8F8",
               }}
             />
-            {errors.Apartment && (
+            {errors?.Apartment && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors.Apartment}
+                {errors?.Apartment}
               </p>
             )}
             {errors.Apartment && (
@@ -186,18 +220,18 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
               id="City"
               onChange={(e) => handleDeliveryCity(e, "City")}
               name="City"
-              value={values.City}
+              value={values?.Suburb}
               options={cityOptions}
               className="custom-bg"
               style={{
-                border: errors.City && "1px solid red",
+                border: errors?.Suburb && "1px solid red",
                 background: "#F8F8F8",
               }}
             />
-            {errors.City && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.City}</p>
+            {errors?.Suburb && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.Suburb}</p>
             )}
-            {errors.City && (
+            {errors?.Suburb && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -211,7 +245,7 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             <input
               type="text"
               id="Postcode"
-              value={values.Postcode}
+              value={values?.Postcode}
               onChange={handleChange}
               name="Postcode"
               className=""
@@ -238,18 +272,18 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
               id="State"
               onChange={(e) => handleDeliveryState(e, "State")}
               name="State"
-              value={values.State}
+              value={values?.State}
               options={stateOptions}
               className="custom-bg"
               style={{
-                border: errors.State && "1px solid red",
+                border: errors?.State && "1px solid red",
                 background: "#F8F8F8",
               }}
             />
-            {errors.State && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors.State}</p>
+            {errors?.State && (
+              <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.State}</p>
             )}
-            {errors.State && (
+            {errors?.State && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -264,40 +298,40 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
             id="DeliveryInstruction"
             className=""
             name="DeliveryInstruction"
-            value={values.DeliveryInstruction}
+            value={values?.Notes}
             onChange={handleChange}
             autoComplete="off"
             style={{
-              border: errors.DeliveryInstruction && "1px solid red",
+              border: errors?.Notes && "1px solid red",
               background: "#F8F8F8",
             }}
           />
-          {errors.DeliveryInstruction && (
-            <p className="mt-2 mb-2 text-red-500 text-xs">
-              {errors.DeliveryInstruction}
-            </p>
+          {errors?.Notes && (
+            <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.Notes}</p>
           )}
-          {errors.DeliveryInstruction && (
+          {errors?.Notes && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
           )}
         </div>
 
         <div className="flex gap-8 pt-5 pb-5 justify-end">
-        <button
+          <button
             // type="submit"
             // onClick={handleSubmitBtn}
             type="submit"
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
-            style={{backgroundColor: token.buttonThemeColor,
-              borderColor: token.buttonThemeColor
+            style={{
+              backgroundColor: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor,
             }}
           >
             Save
           </button>
           <button
             className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
-            style={{color: token.buttonThemeColor,
-              borderColor: token.buttonThemeColor
+            style={{
+              color: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor,
             }}
             onClick={() => {
               cancleBtn();
@@ -310,6 +344,5 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
     </>
   );
 };
-
 
 export default DeliveryEditAddress;
