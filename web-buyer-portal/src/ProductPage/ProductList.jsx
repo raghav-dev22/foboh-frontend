@@ -451,11 +451,11 @@ const ProductList = () => {
         // setWine(false);
       }
 
-      if (wineRef.current && wineRef.current.contains(event.target)) {
-        setWine(false);
-        // setSegment(Segment);
-      }
-      console.log(wineRef, "clsoe")
+      // if (wineRef.current && wineRef.current.contains(event.target)) {
+      //   setWine(false);
+      //   // setSegment(Segment);
+      // }
+      // console.log(wineRef, "clsoe")
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -591,7 +591,7 @@ const ProductList = () => {
                 Filter
               </h5>
             </div>
-            <div className=" py-4 border-b border-[#E7E7E7]" ref={wineRef}>
+            <div className=" py-4 border-b border-[#E7E7E7]">
               <div
                 className="flex justify-between"
                 onClick={() => {

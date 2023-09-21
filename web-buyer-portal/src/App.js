@@ -17,17 +17,17 @@ import store from "./store/Store";
 import MainHomePage from "./HomePage/MainHomePage";
 import { useEffect, useState } from "react";
 import Auth from "./loginRegister/Auth";
-import { theme } from 'antd';
-import { ConfigProvider } from 'antd';
-
-
+import { theme } from "antd";
+import { ConfigProvider } from "antd";
+import OrderConfirmation from "./Order/OrderConfirmation";
+import OrderDetails from "./Order/OrderDetails";
+import OrderHistory from "./Order/OrderHistory";
 
 function App() {
-
   const { getDesignToken, useToken } = theme;
-  const [config, setConfig] = useState({})
+  const [config, setConfig] = useState({});
 
-  console.log(config, "theme")
+  console.log(config, "theme");
   // const config = {
   //   token: {
   //     bannerThemeColor: `linear-gradient(81deg, rgb(58 58 58 / 65%) -4.14%, rgba(252, 252, 252, 0.70) 41.98%)`,
@@ -35,7 +35,6 @@ function App() {
   //     commonThemeColor: "#2F2E2E"
   //   },
   // };
-
 
   return (
     <ConfigProvider theme={config}>
@@ -49,25 +48,18 @@ function App() {
 }
 
 const RouterComponent = ({ setConfig }) => {
-  const email = localStorage.getItem("email");
-  const navigate = useNavigate();
-
-
-  useEffect(() => {
-    if (!email) {
-      navigate("/");
-    }
-
-  }, []);
-
   return (
     <Routes>
-      <Route exact path="/home/*" element={<HomePage setConfig={setConfig} />} />
+      <Route path="/home/*" element={<HomePage setConfig={setConfig} />} />
       <Route path="/auth/*" element={<Auth />} />
-      <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/verify-email" element={<Verifyemail />} />
       <Route path="/create-account" element={<CreateAccount />} />
+      <Route path="/order-confirmation" element={<OrderConfirmation />} />
+      <Route path="/order-details" element={<OrderDetails />} />
+      <Route path="/order-history" element={<OrderHistory />} />
+
+      <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
     </Routes>
   );
 };

@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Header from "../main/Header";
 
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../main/Footer";
 import BottomToTop from "../main/BottomToTop";
 import MainHomePage from "./MainHomePage";
@@ -32,41 +32,55 @@ import { updateField } from "../slices/buyerSlice";
 import { updateSetting } from "../slices/organisationSlice";
 import { setBuyerValues } from "../helpers/setBuyerValues";
 
-
 import OrderConfirmation from "../Order/OrderConfirmation";
 import OrderHistory from "../Order/OrderHistory";
 
-function HomePage({setConfig}) {
+function HomePage({ setConfig }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+
+    if (!email) {
+      navigate("/auth/sign-in");
+    }
+  }, []);
 
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
     setBuyerValues(buyer, dispatch, updateField);
-    console.log(buyer.organisationId, "buyerid")
 
-    fetch(`https://themesfobohwebapi-fbh.azurewebsites.net/api/Themes/get?organizationId=${buyer?.organisationId}`, {
-      method : "GET",
-    }).then(response => response.json())
-    .then((data => {
-      setConfig({token:data?.data[0]?.theme})
-      console.log(data?.data[0]?.theme, "all theme")
-    })).catch(error => console.log(error))
-
-    fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${buyer?.organisationId}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Organisation response", data);
-        if (data.success && data?.data.length === 1) {
-          const org = data?.data[0];
-          dispatch(updateSetting(org));
+    if (buyer) {
+      fetch(
+        `https://themesfobohwebapi-fbh.azurewebsites.net/api/Themes/get?organizationId=${5735575657}`,
+        {
+          method: "GET",
         }
-      })
-      .catch((error) => console.log(error));
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setConfig({ token: data?.data[0]?.theme });
+          console.log(data?.data[0]?.theme, "all theme");
+        })
+        .catch((error) => console.log(error));
+
+      fetch(
+        `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${buyer?.organisationId}`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Organisation response", data);
+          if (data.success && data?.data.length === 1) {
+            const org = data?.data[0];
+            dispatch(updateSetting(org));
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   }, []);
 
   const location = useLocation();
