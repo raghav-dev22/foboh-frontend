@@ -7,11 +7,14 @@ import { add } from "../slices/CartSlice";
 // import { increment, decrement } from "../slices/counterSlice";
 import { setProductData } from "../slices/ProductSlice";
 import { useEffect } from "react";
+import { theme } from "antd";
 
 
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
+  const { useToken } = theme;
+  const { token } = useToken();
   const [selectData, setSelectData] = useState({
     product: {},
     quantity: 1,
@@ -185,6 +188,7 @@ const ProductDetails = () => {
                 </p>
               </div>
               <button
+              style={{backgroundColor: token.buttonThemeColor}}
                 className=" bg-[#563FE3] rounded-md py-[10px] px-[28px] text-sm font-medium text-white flex justify-center items-center gap-2"
                 onClick={() => {
                   addCart(selectData);

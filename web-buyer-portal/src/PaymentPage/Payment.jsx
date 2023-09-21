@@ -251,11 +251,10 @@ const Payment = () => {
                 tab={
                   <>
                     <div
-                      className={` ${
-                        activeKey === "1"
-                          ? "bg-[#F0EDFF] border border-[#563FE3]"
-                          : "bg-[#fff] border border-[#E7E7E7]"
-                      }  rounded-md w-[175px] py-[18px]`}
+                      className={` ${activeKey === "1"
+                        ? "bg-[#F0EDFF] border border-[#563FE3]"
+                        : "bg-[#fff] border border-[#E7E7E7]"
+                        }  rounded-md w-[175px] py-[18px]`}
                     >
                       <h5 className="text-[#2B4447] font-semibold text-base text-center mb-1">
                         Pay Later
@@ -285,11 +284,10 @@ const Payment = () => {
               <TabPane
                 tab={
                   <div
-                    className={` ${
-                      activeKey === "2"
-                        ? "bg-[#F0EDFF] border border-[#563FE3]"
-                        : "bg-[#fff] border border-[#E7E7E7]"
-                    }  rounded-md w-[175px] py-[18px]`}
+                    className={` ${activeKey === "2"
+                      ? "bg-[#F0EDFF] border border-[#563FE3]"
+                      : "bg-[#fff] border border-[#E7E7E7]"
+                      }  rounded-md w-[175px] py-[18px]`}
                   >
                     <h5 className="text-[#2B4447] font-semibold text-base text-center mb-1">
                       Pay Now
@@ -314,6 +312,9 @@ const Payment = () => {
                   >
                     <div className=" flex items-center">
                       <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
+                        <style>
+                          {`.custom-radio:checked::after {background-color:${token.buttonThemeColor} }`}
+                        </style>
                         <input
                           defaultChecked=""
                           id="default-radio-1"
@@ -366,7 +367,7 @@ const Payment = () => {
                           </h5>
                         </div>
                         <ModeIcon
-                          style={{fill: token.buttonThemeColor}}
+                          style={{ fill: token.buttonThemeColor }}
                           onClick={() => {
                             setCardDetails(!cardDetails);
                             setIsChecked(!isChecked);
@@ -384,21 +385,21 @@ const Payment = () => {
                         >
                           <label>
                             Card number
-                            </label>
-                            <CardNumberElement
-                              options={options}
-                              onChange={(event) => {
-                                setCardErrors({
-                                  ...cardErrors,
-                                  [event.elementType]: event.error,
-                                });
-                                console.log(
-                                  "CardNumberElement [change]",
-                                  event
-                                );
-                              }}
-                            />
-                         
+                          </label>
+                          <CardNumberElement
+                            options={options}
+                            onChange={(event) => {
+                              setCardErrors({
+                                ...cardErrors,
+                                [event.elementType]: event.error,
+                              });
+                              console.log(
+                                "CardNumberElement [change]",
+                                event
+                              );
+                            }}
+                          />
+
                           <p className="mt-2 mb-2 text-red-500 text-xs">
                             {cardErrors?.cardNumber?.message}
                           </p>
@@ -490,9 +491,9 @@ const Payment = () => {
                             //   addressBtn();
                             // }}
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-                            // style={{
-                            //   boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                            // }}
+                          // style={{
+                          //   boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
+                          // }}
                           />
 
                           <label
@@ -601,7 +602,7 @@ const Payment = () => {
             <div className="text-right">
               <button
                 type="submit"
-                // onClick={handleSubmit}
+                style={{ backgroundColor: token.buttonThemeColor }}
                 className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
               >
                 Pay Now
