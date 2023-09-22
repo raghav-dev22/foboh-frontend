@@ -37,10 +37,6 @@ const DeliveryEditAddress = ({
 
     getBuyerValues(buyerId)
       .then((buyerData) => {
-        const buyerCity = cities.find(
-          (city) => city?.label === buyerData?.suburb
-        );
-
         const buyerState = states.find(
           (state) => state?.label === buyerData.state
         );
@@ -48,7 +44,7 @@ const DeliveryEditAddress = ({
         setDeliveryAddress({
           Apartment: buyerData?.apartment,
           Address: buyerData?.address,
-          Suburb: buyerCity,
+          Suburb: buyerData?.suburb,
           State: buyerState,
           Postcode: buyerData?.postalCode,
           Notes: buyerData?.deliveryNotes,
@@ -57,7 +53,7 @@ const DeliveryEditAddress = ({
         setValues({
           Apartment: buyerData?.apartment,
           Address: buyerData?.address,
-          Suburb: buyerCity,
+          Suburb: buyerData?.suburb,
           State: buyerState,
           Postcode: buyerData?.postalCode,
           Notes: buyerData?.deliveryNotes,
@@ -66,7 +62,7 @@ const DeliveryEditAddress = ({
         setInitialValues({
           Apartment: buyerData?.apartment,
           Address: buyerData?.address,
-          Suburb: buyerCity,
+          Suburb: buyerData?.suburb,
           State: buyerState,
           Postcode: buyerData?.postalCode,
           Notes: buyerData?.deliveryNotes,
@@ -88,7 +84,7 @@ const DeliveryEditAddress = ({
     { label: "Batemans Bay", value: "option3" },
   ];
   const handleDeliveryCity = (e, name) => {
-    if (name === "City") {
+    if (name === "Suburb") {
       setValues({
         ...values,
         Suburb: e,
@@ -130,7 +126,15 @@ const DeliveryEditAddress = ({
     }
   };
 
-  const { values, errors, handleChange, handleSubmit, setValues } = useFormik({
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+    setValues,
+    handleBlur,
+    touched,
+  } = useFormik({
     initialValues: initialValues,
     validationSchema: DeliveryAddressEditSchema,
     onSubmit: (values) => {
@@ -211,17 +215,18 @@ const DeliveryEditAddress = ({
             )}
           </div>
           <div className="w-full mb-4 relative">
-            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
-              City
+            <label
+              htmlFor="Suburb"
+              className="text-base font-normal text-[#2B4447]"
+            >
+              Suburb
             </label>
-            <Select
+            <input
               type="text"
-              defaultValue={`Country`}
-              id="City"
-              onChange={(e) => handleDeliveryCity(e, "City")}
+              id="Suburb"
+              onChange={handleChange}
               name="City"
               value={values?.Suburb}
-              options={cityOptions}
               className="custom-bg"
               style={{
                 border: errors?.Suburb && "1px solid red",
@@ -283,34 +288,30 @@ const DeliveryEditAddress = ({
             {errors?.State && (
               <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.State}</p>
             )}
-            {errors?.State && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
-            )}
           </div>
         </div>
 
-        <div className={`relative mb-4 `} data-te-input-wrapper-init>
-          <label htmlFor="" className="text-base font-normal text-[#2B4447]">
-            Delivery Instruction/Notes
-          </label>
-          <input
+        <div className="w-full   mb-3 relative">
+          {" "}
+          <lable className="mb-2">Notes</lable>
+          <textarea
+            className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
+            id="Postcode"
             type="text"
-            id="DeliveryInstruction"
-            className=""
-            name="DeliveryInstruction"
+            placeholder="Notes"
             value={values?.Notes}
             onChange={handleChange}
-            autoComplete="off"
+            onBlur={handleBlur}
             style={{
-              border: errors?.Notes && "1px solid red",
-              background: "#F8F8F8",
+              border: errors?.Notes && touched?.Notes && "1px solid red",
+              background : "#F8F8F8"
             }}
           />
-          {errors?.Notes && (
+          {errors?.Notes && touched?.Notes && (
             <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.Notes}</p>
           )}
-          {errors?.Notes && (
-            <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
+          {errors?.Postcode && touched?.Postcode && (
+            <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
           )}
         </div>
 

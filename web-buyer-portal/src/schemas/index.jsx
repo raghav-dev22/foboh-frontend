@@ -157,7 +157,7 @@ export const ProfileEditSchema = Yup.object().shape({
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
-    
+
   //Delivery Schema
   DeliveryContactFirstName: Yup.string()
     .min(2, "Your first name should have atleast 2 letters")
@@ -189,8 +189,7 @@ export const DeliveryBillingSchema = Yup.object().shape({
     .required("Apartment is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
-  City: Yup.mixed()
-    .required("City is required"),
+  City: Yup.mixed().required("City is required"),
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
@@ -199,8 +198,7 @@ export const DeliveryBillingSchema = Yup.object().shape({
     .min(2, "Notes should have atleast 2 letters")
     .max(50),
   DeliveryAddressState: Yup.mixed().required("State is required"),
-  Country: Yup.mixed()
-    .required("Country is required"),
+  Country: Yup.mixed().required("Country is required"),
   // billing
   BillingAddress: Yup.string()
     .min(2, "Billing address should have atleast 2 letters")
@@ -214,8 +212,7 @@ export const DeliveryBillingSchema = Yup.object().shape({
   //   .required("Apartment is required")
   //   .min(2, "State should have atleast 2 letters")
   //   .max(50),
-  BillingCity: Yup.mixed()
-    .required("City is required"),
+  BillingCity: Yup.mixed().required("City is required"),
   BillingPostcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
@@ -341,7 +338,7 @@ export const DeliveryAddressEditSchema = Yup.object().shape({
     .min(2, "Your Address should have atleast 2 letters")
     .required("Address is required")
     .max(50),
-  City: Yup.mixed().required("City is required"),
+  Suburb: Yup.string().required("City is required"),
   State: Yup.mixed().required("state is required"),
 
   Postcode: Yup.string()

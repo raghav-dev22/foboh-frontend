@@ -164,6 +164,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Address && touched?.Address && "1px solid red",
+                  background : "#F8F8F8"
                 }}
               />
               {errors?.Address && touched?.Address && (
@@ -192,6 +193,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Apartment && touched?.Apartment && "1px solid red",
+                    background : "#F8F8F8"
                 }}
               />
               {errors?.Apartment && touched?.Apartment && (
@@ -205,23 +207,25 @@ function BillingAddress({ deliveryAddress }) {
             </div>
             <div className="w-full   mb-3 relative md:mb-0 ">
               <lable>Suburb</lable>
-              <Select
+              <input
                 type="text"
-                defaultValue={`Suburb`}
                 placeholder="Suburb"
                 id="Suburb"
-                onChange={(e) => handleBillingSelect(e, "Suburb")}
+                onChange={handleChange}
                 name="Suburb"
                 value={values?.Suburb}
-                options={stateOptions}
                 style={{
                   border: errors.Suburb && "1px solid red",
+                  background : "#F8F8F8"
                 }}
               />
               {errors?.Suburb && touched?.Suburb && (
                 <p className="mt-2 mb-2 text-red-500 text-xs">
                   {errors?.Suburb}
                 </p>
+              )}
+              {errors?.Suburb && touched?.Suburb && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
           </div>
@@ -239,6 +243,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Postcode && touched?.Postcode && "1px solid red",
+                    background : "#F8F8F8"
                 }}
               />
               {errors?.Postcode && touched?.Postcode && (
@@ -264,6 +269,7 @@ function BillingAddress({ deliveryAddress }) {
                 className=""
                 style={{
                   border: errors.State && "1px solid red",
+                  background : "#F8F8F8"
                 }}
               />
               {errors?.State && touched?.State && (
@@ -271,30 +277,28 @@ function BillingAddress({ deliveryAddress }) {
                   {errors?.State}
                 </p>
               )}
-              {errors?.State && touched?.State && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
-              )}
             </div>
           </div>
           <div className="w-full   mb-3 relative">
             {" "}
-            <lable className="mb-2">Delivery Instruction/Notes</lable>
+            <lable className="mb-2">Notes</lable>
             <textarea
               className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
               id="Postcode"
               type="text"
-              placeholder="Postcode"
-              value={values?.Postcode}
+              placeholder="Notes"
+              value={values?.Notes}
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
                 border:
-                  errors?.Postcode && touched?.Postcode && "1px solid red",
+                  errors?.Notes && touched?.Notes && "1px solid red",
+                background : "#F8F8F8"
               }}
             />
-            {errors?.Postcode && touched?.Postcode && (
+            {errors?.Notes && touched?.Notes && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors?.Postcode}
+                {errors?.Notes}
               </p>
             )}
             {errors?.Postcode && touched?.Postcode && (
