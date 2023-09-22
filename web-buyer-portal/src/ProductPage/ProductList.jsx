@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Tree } from "antd";
 import EastIcon from "@mui/icons-material/East";
 
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
@@ -35,6 +35,111 @@ import { Avatar, List, Skeleton, Switch } from "antd";
 import { useRef } from "react";
 
 const ProductList = () => {
+  const SubCategory = [
+    {
+      title: (
+        <h5 className="text-base font-normal text-[#637381] my-1">
+          Alcoholic beverage
+        </h5>
+      ),
+      key: "0-0",
+      children: [
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-1"
+            </h5>
+          ),
+          key: "1",
+        },
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-2
+            </h5>
+          ),
+          key: "2",
+        },
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-3
+            </h5>
+          ),
+          key: "3",
+        },
+      ],
+    },
+    {
+      title: (
+        <h5 className="text-base font-normal text-[#637381]  my-1">
+          Alcoholic beverage
+        </h5>
+      ),
+      key: "0-1",
+      children: [
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-2
+            </h5>
+          ),
+          key: "4",
+        },
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-2
+            </h5>
+          ),
+          key: "5",
+        },
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-2
+            </h5>
+          ),
+          key: "6",
+        },
+      ],
+    },
+    {
+      title: (
+        <h5 className="text-base font-normal text-[#637381]  my-1">
+          Alcoholic beverage
+        </h5>
+      ),
+      key: "0-3",
+      children: [
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-2
+            </h5>
+          ),
+          key: "7",
+        },
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-2
+            </h5>
+          ),
+          key: "8",
+        },
+        {
+          title: (
+            <h5 className="text-base font-normal text-[#637381]  my-1">
+              Option-2
+            </h5>
+          ),
+          key: "9",
+        },
+      ],
+    },
+  ];
+
   const [loading, setLoading] = useState(true);
 
   const onChangeCheckBox = (e) => {
@@ -442,6 +547,25 @@ const ProductList = () => {
   const handleChange = (e, value) => {
     setValue(value);
   };
+  const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
+  const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [autoExpandParent, setAutoExpandParent] = useState(true);
+  const onExpand = (expandedKeysValue) => {
+    console.log("onExpand", expandedKeysValue);
+    // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+    // or, you can remove all expanded children keys.
+    setExpandedKeys(expandedKeysValue);
+    setAutoExpandParent(false);
+  };
+  const onCheck = (checkedKeysValue) => {
+    console.log("onCheck", checkedKeysValue);
+    setCheckedKeys(checkedKeysValue);
+  };
+  const onSelect = (selectedKeysValue, info) => {
+    console.log("onSelect", info);
+    setSelectedKeys(selectedKeysValue);
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -598,7 +722,9 @@ const ProductList = () => {
                   WineBtn();
                 }}
               >
-                <h5 className="text-base font-medium text-[#2B4447]">Wine</h5>
+                <h5 className="text-base font-medium text-[#2B4447]">
+                  Sub-category
+                </h5>
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
@@ -607,56 +733,22 @@ const ProductList = () => {
                 <>
                   <div className="relative">
                     <SearchIcon
-                      className="absolute top-[22px] right-[8px] z-10"
+                      className="absolute top-[12px] right-[8px] z-10"
                       style={{ fill: "#d9d9db" }}
                     />
-                    <Select
-                      // mode="tags"
-                      // defaultValue={["china"]}
-                      mode="multiple"
-                      style={{
-                        width: "100%",
-                      }}
-                      placeholder="Search|"
-                      className=""
-                      // onChange={handleChange}
-                      optionLabelProp="label"
-                      onChange={handleChangeOption}
-                      // options={options}
-                      open={true}
-                    >
-                      {wineProduct.map((item) => {
-                        return (
-                          <>
-                            <Option value={item.title} label={item.title}>
-                              <div className="my-1 flex items-center ">
-                                {/* <Checkbox
-                                  className="w-4 h-4"
-                                  onChange={onChangeCheckBox}
-                                /> */}
-                                {/* <input
-                                    id="default-checkbox"
-                                    type="checkbox"
-                                    defaultValue=""
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                  /> */}
-
-                                <label
-                                  htmlFor="default-checkbox"
-                                  className="ml-2 "
-                                >
-                                  <h5 className="text-base font-normal text-[#637381]">
-                                    {item.title}
-                                  </h5>
-                                </label>
-                                {/* </Checkbox> */}
-                              </div>
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
+                    <input type="text" placeholder="Search|" />
                   </div>
+                  <Tree
+                    checkable
+                    onExpand={onExpand}
+                    expandedKeys={expandedKeys}
+                    autoExpandParent={autoExpandParent}
+                    onCheck={onCheck}
+                    checkedKeys={checkedKeys}
+                    onSelect={onSelect}
+                    selectedKeys={selectedKeys}
+                    treeData={SubCategory}
+                  />
                 </>
               )}
             </div>

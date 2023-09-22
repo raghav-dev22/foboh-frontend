@@ -17,6 +17,8 @@ import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
 import AppliedCoupon from "../modal/AppliedCoupon";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import { PoweroffOutlined } from "@ant-design/icons";
+import { Button, Space } from "antd";
 
 const OrderDetails = () => {
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
@@ -88,23 +90,47 @@ const OrderDetails = () => {
     setTotleCost(newTotal.toFixed(2));
     console.log("Total Cost:", totalCost);
   }, [CARTdata]);
-
+  const [loadings, setLoadings] = useState([]);
+  const enterLoading = (index) => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[index] = true;
+      return newLoadings;
+    });
+    setTimeout(() => {
+      setLoadings((prevLoadings) => {
+        const newLoadings = [...prevLoadings];
+        newLoadings[index] = false;
+        return newLoadings;
+      });
+    }, 6000);
+  };
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
-        <div className="mt-10">
+        <div className="flex justify-between items-center mb-6 ">
           <h1 className="text-[30px] font-semibold text-[#2B4447] ">
-            Thank you for your order
+            Order #23456
           </h1>
-          <p className="text-sm font-normal mt-2 text-[#2B4447]">
-            Thank you for your order. We are currently in the process of
-            handling it. Please be patient, and you can expect to receive a
-            confirmation from us shortly!
-          </p>
+          <div className="flex justify-center items-center gap-3">
+            <button
+              type="button"
+              className="text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
+            >
+              Reorder
+            </button>
+            <Button
+              type="primary"
+              icon={<PoweroffOutlined />}
+              loading={loadings[1]}
+              onClick={() => enterLoading(1)}
+              className=" h-full text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
+            >
+              Download Invoice
+            </Button>
+          </div>
         </div>
-        <p className="my-6 font-semibold text-base text-[#563FE3]">
-          Order Tracking ID - 012345678910
-        </p>
+
         {CARTdata.length === 0 ? (
           <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
             Your cart is empty.

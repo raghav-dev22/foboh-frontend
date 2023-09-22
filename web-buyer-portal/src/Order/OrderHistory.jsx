@@ -15,6 +15,7 @@ import { Button, Tooltip } from "antd";
 
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 // import Loading from "../Svg/Loading";
+
 const columns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
@@ -176,6 +177,7 @@ for (let i = 0; i < 100; i++) {
   });
 }
 const OrderHistory = () => {
+  const [Sort, setSort] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   return (
     <>
@@ -208,14 +210,9 @@ const OrderHistory = () => {
                 <FilterAltOutlinedIcon style={{ fill: "#637381" }} />
                 <p className="text-base font-normal text-[#2B4447]">Filter</p>
               </button>
-              <Dropdown
-                menu={{
-                  items,
-                }}
-                trigger={["click"]}
-              >
+              <div className="relative">
                 <button
-                  onClick={(e) => e.preventDefault()}
+                  onClick={() => setSort(!Sort)}
                   className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
                 >
                   <SortOutlinedIcon style={{ fill: "#637381" }} />
@@ -225,7 +222,93 @@ const OrderHistory = () => {
                     className=""
                   />
                 </button>
-              </Dropdown>
+
+                {Sort && (
+                  <>
+                    <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50  absolute top-[50px] right-0">
+                      <div className="flex justify-between items-center pb-2">
+                        <h5 className="text-base font-medium text-[#2B4447] ">
+                          Alphabetical
+                        </h5>
+
+                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                      </div>
+
+                      <div className="pb-4 border-b border-[#E7E7E7]">
+                        <div className="flex items-center mt-3">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                          />
+
+                          <label htmlFor="default-checkbox" className="ml-2 ">
+                            <h5 className="text-base font-normal text-[#637381]">
+                              Option-1
+                            </h5>
+                          </label>
+                        </div>
+
+                        <div className="flex items-center mt-3">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                          />
+
+                          <label htmlFor="default-checkbox" className="ml-2 ">
+                            <h5 className="text-base font-normal text-[#637381]">
+                              Option-1
+                            </h5>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center pt-4">
+                        <h5 className="text-base font-medium text-[#2B4447] ">
+                          Price
+                        </h5>
+
+                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                      </div>
+
+                      <div className="pb-4 border-b border-[#E7E7E7]">
+                        <div className="flex items-center mt-3">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                          />
+
+                          <label htmlFor="default-checkbox" className="ml-2 ">
+                            <h5 className="text-base font-normal text-[#637381]">
+                              Option-1
+                            </h5>
+                          </label>
+                        </div>
+
+                        <div className="flex items-center mt-3">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                          />
+
+                          <label htmlFor="default-checkbox" className="ml-2 ">
+                            <h5 className="text-base font-normal text-[#637381]">
+                              Option-1
+                            </h5>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
           {showFilter && (
