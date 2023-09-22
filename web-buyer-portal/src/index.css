@@ -338,3 +338,7 @@ select {
 .StripeElement {
   padding: 12px !important;
 }
+.ant-pagination {
+  justify-content: center !important;
+  margin-top: 40px !important;
+}

@@ -32,9 +32,9 @@ import { updateField } from "../slices/buyerSlice";
 import { updateSetting } from "../slices/organisationSlice";
 import { setBuyerValues } from "../helpers/setBuyerValues";
 
-
 import OrderConfirmation from "../Order/OrderConfirmation";
 import OrderHistory from "../Order/OrderHistory";
+import OrderDetails from "../Order/OrderDetails";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -107,6 +107,7 @@ function HomePage() {
         <Route path="/delivery" element={<Delivery />} />
         {/* <Route path="/payment" element={<Payment />} /> */}
         <Route path="/payment-page*" element={<PaymentDetail />} />
+        <Route path="/order-details" element={<OrderDetails />} />
         {/* <Route path="/payment-page" element={<PaymentPage />} /> */}
       </Routes>
 
