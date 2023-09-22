@@ -30,7 +30,7 @@ import { Slider } from "antd";
 import { setProductData } from "../slices/ProductSlice";
 import { Pagination } from "antd";
 import { Checkbox } from "antd";
-import { button } from "@material-tailwind/react";
+import { button, select } from "@material-tailwind/react";
 import { Avatar, List, Skeleton, Switch } from "antd";
 import { useRef } from "react";
 
@@ -50,6 +50,7 @@ const ProductList = () => {
   const { Option } = Select;
   const handleChangeOption = (value) => {
     console.log(`selected ${value}`);
+    setWine(false);
   };
   const itemRender = (_, type, originalElement) => {
     if (type === "prev") {
@@ -441,6 +442,7 @@ const ProductList = () => {
   };
   const handleChange = (e, value) => {
     setValue(value);
+    setWine(false)
   };
 
   useEffect(() => {
@@ -450,22 +452,21 @@ const ProductList = () => {
         setSort(false);
         // setWine(false);
       }
-
-      // if (wineRef.current && wineRef.current.contains(event.target)) {
-      //   setWine(false);
-      //   // setSegment(Segment);
-      // }
-      // console.log(wineRef, "clsoe")
+      console.log(dropdownRef, "close")
+      if (wineRef.current && !wineRef.current.contains(event.target)) {
+        setWine(false);
+      }
+      console.log(wineRef, "close")
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [wineRef]);
 
   return (
     <>
-      <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto " ref={dropdownRef}>
+      <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto" ref={dropdownRef}>
         <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between">
           <div className="">
             <p className="font-semibold md:text-2xl text-xl">Products</p>
@@ -591,7 +592,7 @@ const ProductList = () => {
                 Filter
               </h5>
             </div>
-            <div className=" py-4 border-b border-[#E7E7E7]">
+            <div className=" py-4 border-b border-[#E7E7E7]" ref={wineRef}>
               <div
                 className="flex justify-between"
                 onClick={() => {
@@ -618,7 +619,7 @@ const ProductList = () => {
                         width: "100%",
                       }}
                       placeholder="Search|"
-                      className=""
+                      className="slectwine"
                       // onChange={handleChange}
                       optionLabelProp="label"
                       onChange={handleChangeOption}

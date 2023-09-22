@@ -32,8 +32,6 @@ function CreateAccount() {
   useEffect(() => {
     setBuyer(buyer);
 
-    console.log(buyer);
-
     fetch(
       "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/PopulateState",
       {
