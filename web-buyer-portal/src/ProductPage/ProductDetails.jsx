@@ -52,6 +52,9 @@ const ProductDetails = () => {
         return response.json();
       })
       .then((data) => {
+
+        console.log('product detail', data);
+
         setSelectData({
           product: data.data[0],
           quantity: 1,
