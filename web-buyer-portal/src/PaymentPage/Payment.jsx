@@ -85,15 +85,15 @@ const Payment = () => {
   // };
 
   const openTab = () => {
-    setOpenDetails(!openDetails);
+    setOpenDetails(true);
     setTransfer(false);
     setIsCheckedTransfer(false);
     setIsChecked(true);
   };
   const openTransfer = () => {
-    setTransfer(!transfer);
+    setTransfer(true);
     setOpenDetails(false);
-    setCardDetails(false)
+    setCardDetails(false);
     setIsChecked(false);
     setIsCheckedTransfer(true);
   };
@@ -395,7 +395,9 @@ const Payment = () => {
                           defaultValue=""
                           name="default-radio"
                           className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                          style={{ boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",}}
+                          style={{
+                            boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
+                          }}
                           checked={isChecked}
                         />
                       </div>
@@ -573,19 +575,15 @@ const Payment = () => {
                     </>
                   )}
 
-
-
-
                   <div className=" flex items-center border-b border-[#E7E7E7] p-3">
                     <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
                       <input
                         defaultChecked=""
                         id="default-radio-2"
                         type="checkbox"
-                        defaultValue=""
                         name="default-radio"
                         checked={isCheckedTransfer}
-                        // onClick={openTransfer}
+                        onChange={() => openTransfer()}
                         className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
                         style={{
                           boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
@@ -595,7 +593,6 @@ const Payment = () => {
                     <label
                       htmlFor="default-radio-2"
                       className="ml-4 text-base font-semibold text-[#2B4447]"
-                      onClick={openTransfer}
                     >
                       Bank transfer (EFT)
                     </label>
@@ -603,24 +600,43 @@ const Payment = () => {
                   {transfer && (
                     <>
                       <div className=" py-5 px-4">
-                      <div className="flex flex-nowrap gap-2">
-                      <div
-                          className={`relative mb-4 w-full`}
-                          // data-te-input-wrapper-init
-                        >
-                          <label
-                            // htmlFor="LiquerLicence"
-                            className="text-[#2B4447] font-normal text-sm"
+                        <div className="flex flex-nowrap gap-2">
+                          <div
+                            className={`relative mb-4 w-full`}
+                            // data-te-input-wrapper-init
                           >
-                            Name
-                          </label>
-                          <input
-                            type="text"
-                            id="LiquerLicence"
-                            className=" "
-                            autoComplete="on"
-                            style={{ background: "#F8F8F8" }}
-                          />
+                            <label
+                              // htmlFor="LiquerLicence"
+                              className="text-[#2B4447] font-normal text-sm"
+                            >
+                              Name
+                            </label>
+                            <input
+                              type="text"
+                              id="LiquerLicence"
+                              className=" "
+                              autoComplete="on"
+                              style={{ background: "#F8F8F8" }}
+                            />
+                          </div>
+                          <div
+                            className={`relative mb-4 w-full`}
+                            // data-te-input-wrapper-init
+                          >
+                            <label
+                              // htmlFor="LiquerLicence"
+                              className="text-[#2B4447] font-normal text-sm"
+                            >
+                              Email
+                            </label>
+                            <input
+                              type="text"
+                              id="Name"
+                              className=" "
+                              autoComplete="on"
+                              style={{ background: "#F8F8F8" }}
+                            />
+                          </div>
                         </div>
                         <div
                           className={`relative mb-4 w-full`}
@@ -630,26 +646,7 @@ const Payment = () => {
                             // htmlFor="LiquerLicence"
                             className="text-[#2B4447] font-normal text-sm"
                           >
-                          Email
-                          </label>
-                          <input
-                            type="text"
-                            id="Name"
-                            className=" "
-                            autoComplete="on"
-                            style={{ background: "#F8F8F8" }}
-                          />
-                        </div>
-                        </div>
-                        <div
-                          className={`relative mb-4 w-full`}
-                          // data-te-input-wrapper-init
-                        >
-                          <label
-                            // htmlFor="LiquerLicence"
-                            className="text-[#2B4447] font-normal text-sm"
-                          >
-                           BSB Number
+                            BSB Number
                           </label>
                           <input
                             type="email"
@@ -667,7 +664,7 @@ const Payment = () => {
                             // htmlFor="LiquerLicence"
                             className="text-[#2B4447] font-normal text-sm"
                           >
-                           Account Number
+                            Account Number
                           </label>
                           <input
                             type="text"
@@ -695,14 +692,8 @@ const Payment = () => {
                           </label>
                         </div>
                       </div>
-                    
                     </>
                   )}
-
-
-
-
-
 
                   {/* <div className=" flex items-center border-b border-[#E7E7E7] p-3">
                     <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
