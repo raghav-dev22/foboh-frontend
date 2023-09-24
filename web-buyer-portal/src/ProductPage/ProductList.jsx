@@ -1144,13 +1144,6 @@ const ProductList = () => {
                           <>
                             <Option value={item.title} label={item.title}>
                               <div className="flex items-center my-1">
-                                {/* <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  defaultValue=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                /> */}
-
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "

@@ -68,19 +68,31 @@ const Payment = () => {
   const { TabPane } = Tabs;
   const [isChecked, setIsChecked] = useState(false);
   const [cardDetails, setCardDetails] = useState(false);
+  const [isCheckedTransfer, setIsCheckedTransfer] = useState(false);
+  const [transfer, setTransfer] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
   const [cardErrors, setCardErrors] = useState({});
   const buyer = useSelector((state) => state.buyer);
   const { useToken } = theme;
   const { token } = useToken();
   // Function to handle checkbox change event
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    setCardDetails(false);
-  };
+  // const handleCheckboxChange = (e) => {
+  //   setIsChecked(!isChecked);
+  //   setCardDetails(false);
+  // };
 
   const openTab = () => {
     setOpenDetails(!openDetails);
+    setTransfer(false);
+    setIsCheckedTransfer(false);
+    setIsChecked(true);
+  };
+  const openTransfer = () => {
+    setTransfer(!transfer);
+    setOpenDetails(false);
+    setCardDetails(false)
+    setIsChecked(false);
+    setIsCheckedTransfer(true);
   };
 
   const [openDetails, setOpenDetails] = useState(false);
@@ -334,23 +346,18 @@ const Payment = () => {
                         <input
                           defaultChecked=""
                           id="default-radio-1"
-                          // type="radio"
                           type="checkbox"
                           defaultValue=""
                           name="default-radio"
                           className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                          style={{
-                            boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                          }}
+                          style={{ boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",}}
                           checked={isChecked}
-                          onChange={handleCheckboxChange}
                         />
                       </div>
                       <label
                         htmlFor="default-radio-1"
                         className="ml-4 text-base font-semibold text-[#2B4447] "
                       >
-                        {/* Checked: {isChecked ? "true" : "false"} */}
                         Credit/Debit Card
                       </label>
                     </div>
@@ -386,7 +393,8 @@ const Payment = () => {
                           style={{ fill: token.buttonThemeColor }}
                           onClick={() => {
                             setCardDetails(!cardDetails);
-                            setIsChecked(!isChecked);
+                            setIsChecked(isChecked);
+                            setTransfer(transfer);
                           }}
                         />
                       </div>
@@ -441,7 +449,6 @@ const Payment = () => {
                               setCardHolderName(e.target.value);
                             }}
                             autoComplete="on"
-                            // placeholder="Name on Card"
                             style={{ background: "#F8F8F8" }}
                           />
                         </div>
@@ -506,13 +513,7 @@ const Payment = () => {
                             type="checkbox"
                             defaultValue=""
                             name="default-radio"
-                            // onClick={() => {
-                            //   addressBtn();
-                            // }}
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-                            // style={{
-                            //   boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                            // }}
                           />
 
                           <label
@@ -525,14 +526,20 @@ const Payment = () => {
                       </div>
                     </>
                   )}
+
+
+
+
                   <div className=" flex items-center border-b border-[#E7E7E7] p-3">
                     <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
                       <input
                         defaultChecked=""
-                        id="default-radio-1"
-                        type="radio"
+                        id="default-radio-2"
+                        type="checkbox"
                         defaultValue=""
                         name="default-radio"
+                        checked={isCheckedTransfer}
+                        // onClick={openTransfer}
                         className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
                         style={{
                           boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
@@ -540,13 +547,118 @@ const Payment = () => {
                       />
                     </div>
                     <label
-                      htmlFor="default-radio-1"
+                      htmlFor="default-radio-2"
                       className="ml-4 text-base font-semibold text-[#2B4447]"
+                      onClick={openTransfer}
                     >
                       Bank transfer (EFT)
                     </label>
                   </div>
-                  <div className=" flex items-center border-b border-[#E7E7E7] p-3">
+                  {transfer && (
+                    <>
+                      <div className=" py-5 px-4">
+                      <div className="flex flex-nowrap gap-2">
+                      <div
+                          className={`relative mb-4 w-full`}
+                          // data-te-input-wrapper-init
+                        >
+                          <label
+                            // htmlFor="LiquerLicence"
+                            className="text-[#2B4447] font-normal text-sm"
+                          >
+                            Name
+                          </label>
+                          <input
+                            type="text"
+                            id="LiquerLicence"
+                            className=" "
+                            autoComplete="on"
+                            style={{ background: "#F8F8F8" }}
+                          />
+                        </div>
+                        <div
+                          className={`relative mb-4 w-full`}
+                          // data-te-input-wrapper-init
+                        >
+                          <label
+                            // htmlFor="LiquerLicence"
+                            className="text-[#2B4447] font-normal text-sm"
+                          >
+                          Email
+                          </label>
+                          <input
+                            type="text"
+                            id="Name"
+                            className=" "
+                            autoComplete="on"
+                            style={{ background: "#F8F8F8" }}
+                          />
+                        </div>
+                        </div>
+                        <div
+                          className={`relative mb-4 w-full`}
+                          // data-te-input-wrapper-init
+                        >
+                          <label
+                            // htmlFor="LiquerLicence"
+                            className="text-[#2B4447] font-normal text-sm"
+                          >
+                           BSB Number
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            className=" "
+                            autoComplete="on"
+                            style={{ background: "#F8F8F8" }}
+                          />
+                        </div>
+                        <div
+                          className={`relative mb-4 w-full`}
+                          // data-te-input-wrapper-init
+                        >
+                          <label
+                            // htmlFor="LiquerLicence"
+                            className="text-[#2B4447] font-normal text-sm"
+                          >
+                           Account Number
+                          </label>
+                          <input
+                            type="text"
+                            id="LiquerLicence"
+                            className=" "
+                            autoComplete="on"
+                            style={{ background: "#F8F8F8" }}
+                          />
+                        </div>
+                        <div className="flex items-center mb-4">
+                          <input
+                            defaultChecked=""
+                            id="default-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            name="default-radio"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
+                          />
+
+                          <label
+                            // htmlFor="radio-3"
+                            className="ml-4 text-base font-normal text-[#2B4447] "
+                          >
+                            Save card details
+                          </label>
+                        </div>
+                      </div>
+                    
+                    </>
+                  )}
+
+
+
+
+
+
+                  {/* <div className=" flex items-center border-b border-[#E7E7E7] p-3">
                     <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
                       <input
                         defaultChecked=""
@@ -609,7 +721,7 @@ const Payment = () => {
                     >
                       <img src="/assets/gpay.png" alt="" className="w-[65%]" />
                     </label>
-                  </div>
+                  </div> */}
                 </div>
               </TabPane>
             </Tabs>
