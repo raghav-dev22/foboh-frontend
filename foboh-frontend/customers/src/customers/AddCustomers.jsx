@@ -136,7 +136,7 @@ function AddCustomers() {
         <div className="pt-6 px-6 relative">
           <div
             className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
-            style={{ height: "290px" }}
+            style={{ height: "428px" }}
           >
             <CardBody className="p-0">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

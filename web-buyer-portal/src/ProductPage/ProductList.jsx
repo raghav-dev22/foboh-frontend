@@ -30,7 +30,7 @@ import { Slider } from "antd";
 import { setProductData } from "../slices/ProductSlice";
 import { Pagination } from "antd";
 import { Checkbox } from "antd";
-import { button } from "@material-tailwind/react";
+import { button, select } from "@material-tailwind/react";
 import { Avatar, List, Skeleton, Switch } from "antd";
 import { useRef } from "react";
 
@@ -155,6 +155,7 @@ const ProductList = () => {
   const { Option } = Select;
   const handleChangeOption = (value) => {
     console.log(`selected ${value}`);
+    setWine(false);
   };
   const itemRender = (_, type, originalElement) => {
     if (type === "prev") {
@@ -195,7 +196,7 @@ const ProductList = () => {
   const { useToken } = theme;
   const { token } = useToken();
   const dropdownRef = useRef(null);
-  const wineRef = useRef(null);
+  const sortRef = useRef(null);
   const productData = useSelector((state) => state.product);
   const wineProduct = [
     {
@@ -546,6 +547,7 @@ const ProductList = () => {
   };
   const handleChange = (e, value) => {
     setValue(value);
+    setWine(false)
   };
   const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
   const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
@@ -553,8 +555,7 @@ const ProductList = () => {
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const onExpand = (expandedKeysValue) => {
     console.log("onExpand", expandedKeysValue);
-    // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-    // or, you can remove all expanded children keys.
+ 
     setExpandedKeys(expandedKeysValue);
     setAutoExpandParent(false);
   };
@@ -569,28 +570,46 @@ const ProductList = () => {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target))
-       {
-        setSort(false);
-        // setWine(false);
-      }
+      if (sortRef.current && !sortRef.current.contains(event.target))
+      {
+       setSort(false);
+     }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
 
-      // if (wineRef.current && wineRef.current.contains(event.target)) {
-      //   setWine(false);
-      //   // setSegment(Segment);
-      // }
-      // console.log(wineRef, "clsoe")
-    }
+        const selectDropdowns = document.querySelectorAll('.ant-select-dropdown');
+        let isInsideSelectDropdown = false;
+  
+        for (const dropdown of selectDropdowns) {
+          if (dropdown.contains(event.target)) {
+            isInsideSelectDropdown = true;
+            break;
+          }
+        }
+  
+        if (!isInsideSelectDropdown) {
+          setWine(false);
+          setSegment(false);
+          setVariety(false);
+          setCountry(false);
+          setRegion(false);
+          setAvailability(false);
+          setPrice(false);
+          setTags(false);
+        }
+      }
+  }
+  
     document.addEventListener('mousedown', handleClickOutside);
+  
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [dropdownRef, sortRef]);
 
   return (
     <>
-      <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto " ref={dropdownRef}>
-        <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between">
+      <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto">
+        <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between"  ref={sortRef}>
           <div className="">
             <p className="font-semibold md:text-2xl text-xl">Products</p>
             <p className="text-sm font-normal text-[#637381]">
@@ -707,7 +726,7 @@ const ProductList = () => {
           )}
         </div>
 
-        <div className="flex md:flex-nowrap	flex-wrap py-8">
+        <div className="flex md:flex-nowrap	flex-wrap py-8" ref={dropdownRef}>
           <div className="md:w-1/4 w-full overflow-y-scroll  md:pr-12 py-4">
             <div className="flex items-center gap-2 pb-3">
               <FilterAltIcon style={{ fill: "#fff", stroke: "#2B4447" }} />
@@ -775,18 +794,14 @@ const ProductList = () => {
                       style={{ fill: "#d9d9db" }}
                     />
                     <Select
-                      // mode="tags"
-                      // defaultValue={["china"]}
                       mode="multiple"
                       style={{
                         width: "100%",
                       }}
                       placeholder="Search|"
                       className=""
-                      // onChange={handleChange}
                       optionLabelProp="label"
                       onChange={handleChangeOption}
-                      // options={options}
                       open={true}
                     >
                       {SegmentProduct.map((item) => {
@@ -794,16 +809,6 @@ const ProductList = () => {
                           <>
                             <Option value={item.title} label={item.title}>
                               <div className="flex items-center my-1">
-                                {/* <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  defaultValue=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                /> */}
-                                {/* <Checkbox
-                                  className="w-4 h-4"
-                                  onChange={onChangeCheckBox}
-                                /> */}
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
@@ -845,18 +850,14 @@ const ProductList = () => {
                       style={{ fill: "#d9d9db" }}
                     />
                     <Select
-                      // mode="tags"
-                      // defaultValue={["china"]}
                       mode="multiple"
                       style={{
                         width: "100%",
                       }}
                       placeholder="Search|"
                       className=""
-                      // onChange={handleChange}
                       optionLabelProp="label"
                       onChange={handleChangeOption}
-                      // options={options}
                       open={true}
                     >
                       {varietyProduct.map((item) => {
@@ -864,17 +865,6 @@ const ProductList = () => {
                           <>
                             <Option value={item.title} label={item.title}>
                               <div className="flex items-center my-1">
-                                {/* <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  defaultValue=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                /> */}
-                                {/* <Checkbox
-                                  className="w-4 h-4"
-                                  onChange={onChangeCheckBox}
-                                /> */}
-
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
@@ -916,18 +906,14 @@ const ProductList = () => {
                       style={{ fill: "#d9d9db" }}
                     />
                     <Select
-                      // mode="tags"
-                      // defaultValue={["china"]}
                       mode="multiple"
                       style={{
                         width: "100%",
                       }}
                       placeholder="Search|"
                       className=""
-                      // onChange={handleChange}
                       optionLabelProp="label"
                       onChange={handleChangeOption}
-                      // options={options}
                       open={true}
                     >
                       {countryData.map((item) => {
@@ -935,17 +921,6 @@ const ProductList = () => {
                           <>
                             <Option value={item.title} label={item.title}>
                               <div className="flex items-center my-1">
-                                {/* <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  defaultValue=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                /> */}
-                                {/* <Checkbox
-                                  className="w-4 h-4"
-                                  onChange={onChangeCheckBox}
-                                /> */}
-
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
@@ -987,18 +962,14 @@ const ProductList = () => {
                       style={{ fill: "#d9d9db" }}
                     />
                     <Select
-                      // mode="tags"
-                      // defaultValue={["china"]}
                       mode="multiple"
                       style={{
                         width: "100%",
                       }}
                       placeholder="Search|"
                       className=""
-                      // onChange={handleChange}
                       optionLabelProp="label"
                       onChange={handleChangeOption}
-                      // options={options}
                       open={true}
                     >
                       {availabilityData.map((item) => {
@@ -1006,17 +977,6 @@ const ProductList = () => {
                           <>
                             <Option value={item.title} label={item.title}>
                               <div className="flex items-center my-1">
-                                {/* <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  defaultValue=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                /> */}
-                                {/* <Checkbox
-                                  className="w-4 h-4"
-                                  onChange={onChangeCheckBox}
-                                /> */}
-
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
@@ -1056,18 +1016,14 @@ const ProductList = () => {
                       style={{ fill: "#d9d9db" }}
                     />
                     <Select
-                      // mode="tags"
-                      // defaultValue={["china"]}
                       mode="multiple"
                       style={{
                         width: "100%",
                       }}
                       placeholder="Search|"
                       className=""
-                      // onChange={handleChange}
                       optionLabelProp="label"
                       onChange={handleChangeOption}
-                      // options={options}
                       open={true}
                     >
                       {RegionData.map((item) => {
@@ -1075,16 +1031,6 @@ const ProductList = () => {
                           <>
                             <Option value={item.title} label={item.title}>
                               <div className="flex items-center my-1">
-                                {/* <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  defaultValue=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                /> */}
-                                {/* <Checkbox
-                                  className="w-4 h-4"
-                                  onChange={onChangeCheckBox}
-                                /> */}
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
@@ -1183,18 +1129,14 @@ const ProductList = () => {
                       style={{ fill: "#d9d9db" }}
                     />
                     <Select
-                      // mode="tags"
-                      // defaultValue={["china"]}
                       mode="multiple"
                       style={{
                         width: "100%",
                       }}
                       placeholder="Search|"
                       className=""
-                      // onChange={handleChange}
                       optionLabelProp="label"
                       onChange={handleChangeOption}
-                      // options={options}
                       open={true}
                     >
                       {TagsProduct.map((item) => {
@@ -1202,13 +1144,6 @@ const ProductList = () => {
                           <>
                             <Option value={item.title} label={item.title}>
                               <div className="flex items-center my-1">
-                                {/* <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  defaultValue=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                                /> */}
-
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
