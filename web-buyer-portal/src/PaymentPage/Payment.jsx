@@ -10,6 +10,7 @@ import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AppleIcon from "@mui/icons-material/Apple";
+import { Button, message, Space } from "antd";
 import {
   useStripe,
   useElements,
@@ -39,7 +40,6 @@ const useOptions = () => {
             content: "", // Remove placeholder text
           },
           placeholder: "",
-
           // backgroundColor: "rgb(248, 248, 248)",
           border: "1px solid #e2e8f0",
         },
@@ -70,9 +70,12 @@ const Payment = () => {
   const [cardDetails, setCardDetails] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
   const [cardErrors, setCardErrors] = useState({});
+  const [stripeCardError, setStripeCardError] = useState("");
   const buyer = useSelector((state) => state.buyer);
   const { useToken } = theme;
   const { token } = useToken();
+  const [messageApi, contextHolder] = message.useMessage();
+
   // Function to handle checkbox change event
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -92,6 +95,22 @@ const Payment = () => {
 
   const [deliveryAddress, setDeliveryAddress] = useState({});
 
+  const errorMessage = (error) => {
+    messageApi.open({
+      type: "error",
+      content: error,
+      duration: 4,
+    });
+  };
+
+  const successMessage = () => {
+    messageApi.open({
+      type: "success",
+      content: "Payment process succeeded!",
+      duration: 4,
+    });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -101,14 +120,40 @@ const Payment = () => {
       return;
     }
 
+    // Stripe for credit/debit
     const payload = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardNumberElement),
       billing_details: {
         name: cardHolderName, // Use the cardholder's name from the input field
+        address: {
+          // Include the customer's address here
+          line1: "123 Main Street",
+          city: "City",
+          state: "State",
+          postal_code: "12345",
+          country: "US", // Use the appropriate ISO 3166-1 alpha-2 country code for India
+        },
       },
     });
-    console.log("[PaymentMethod]", payload);
+
+    if (payload) {
+      console.log("stripe payload", payload);
+      const pm_id = payload?.paymentMethod?.id;
+      const clientSecret =
+        "pi_3NtPcZSIQVsrQ3Rm0pB9S1Jc_secret_c0bMWkFc043Ve8xK1Pd4Jt4HL";
+      const { error } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: pm_id,
+      });
+
+      console.log("error", error);
+
+      if (error) {
+        errorMessage(error?.message);
+      } else {
+        successMessage();
+      }
+    }
   };
 
   return (
@@ -145,10 +190,10 @@ const Payment = () => {
                   {/* </Link> */}
                 </div>
                 <p className="text-base font-normal text-[#2B4447] my-1">
-                  {buyer?.name}
+                  {buyer?.apartment}
                 </p>
                 <p className="text-base font-normal text-[#2B4447] my-1">
-                  {buyer?.email}
+                  {buyer?.address}
                 </p>
                 <p className="text-base font-normal text-[#2B4447] my-1">
                   {buyer?.mobile}
@@ -499,6 +544,7 @@ const Payment = () => {
                             </p>
                           </div>
                         </div>
+                        {contextHolder}
                         <div className="flex items-center mb-4">
                           <input
                             defaultChecked=""
