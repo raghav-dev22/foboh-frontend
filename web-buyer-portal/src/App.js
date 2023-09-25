@@ -27,15 +27,6 @@ function App() {
   const { getDesignToken, useToken } = theme;
   const [config, setConfig] = useState({});
 
-  console.log(config, "theme");
-  // const config = {
-  //   token: {
-  //     bannerThemeColor: `linear-gradient(81deg, rgb(58 58 58 / 65%) -4.14%, rgba(252, 252, 252, 0.70) 41.98%)`,
-  //     buttonThemeColor: "#2F2E2E",
-  //     commonThemeColor: "#2F2E2E"
-  //   },
-  // };
-
   return (
     <ConfigProvider theme={config}>
       <Provider store={store}>

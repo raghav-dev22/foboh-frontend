@@ -18,6 +18,7 @@ function PreviewModal({
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [activeTab, setActiveTab] = useState("CUSTOMER 1");
   const [loading, setLoading] = useState(false); // Initialize as true to show the spinner initially
+  const[errList, setErrList] = useState()
   const handleOptionChange = (event) => {
     setActiveTab(event.target.value);
     // const selectedOptionId = event.target.value;
@@ -26,6 +27,7 @@ function PreviewModal({
   };
   const showModal = () => {
     setShowPreviewModal(true);
+    setLoading(true)
     setShow(false);
     const prod = importedCustomers.map((customer) => {
       return {
@@ -62,7 +64,6 @@ function PreviewModal({
       }; 
     }); 
     console.log("prod", prod);
-    setLoading(true)
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateBulkData`,
       {
@@ -106,9 +107,16 @@ function PreviewModal({
       }
     )
       .then((response) => response.json())
-      .then(data => {
-        setLoading(false)
-        console.log(data, "customer bulk");
+      .then(data => { 
+        const errList = data.data.map((item)=>{
+          return{
+            businessName: item.businessName,
+            error: item.message
+          }
+        })
+        setErrList(errList)
+        setLoading(false);
+        console.log(errList, "customer bulk");
       })
       .catch((error) => console.log(error, "csv"));
   };
@@ -327,7 +335,7 @@ function PreviewModal({
           </div>
         </Dialog>
       </Transition.Root>
-      {/* {loading && (
+      {loading && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-[#00000021] bg-opacity-75 backdrop-blur-md">
           <Spin spinning={true} size="large"
           style={{
@@ -336,9 +344,11 @@ function PreviewModal({
           }}
            />
         </div>
-      )} */}
+      )}
       <ImportCustomerModal
         show={showPreviewModal}
+        error={errList}
+        // loader={loading}
         setShow={(set) => setShowPreviewModal(set)}
       />
     </>

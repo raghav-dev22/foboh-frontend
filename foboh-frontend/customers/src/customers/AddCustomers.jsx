@@ -327,14 +327,14 @@ function AddCustomers() {
           <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
             <button
               onClick={handleBulkEdit}
-              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              className="rounded-md bg-custom-skyBlue py-2.5  px-12  "
             >
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
                 Bulk edit
               </h6>
             </button>
 
-            <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+            {/* <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
                 Set as Visible
               </h6>
@@ -344,7 +344,7 @@ function AddCustomers() {
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
                 Set as Hidden{" "}
               </h6>
-            </button>
+            </button> */}
 
             <div
               className="cursor-pointer"
