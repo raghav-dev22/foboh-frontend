@@ -9,7 +9,6 @@ function DeliveryAddress() {
   const [value, setValue] = useState();
   const storedValue = JSON.parse(localStorage.getItem("myKey"));
   console.log(storedValue, "storedValue====>");
-  //   setValue(storedValue);
 
   return (
     <>
@@ -77,10 +76,8 @@ function DeliveryAddress() {
                 type="text"
                 defaultValue={`state`}
                 id="City"
-                // onChange={(e) => handleBillingState(e, "City")}
                 name="City"
                 value={storedValue.City}
-                // options={stateOptions}
                 className=""
               />
             </div>
@@ -89,10 +86,8 @@ function DeliveryAddress() {
                 type="text"
                 defaultValue={`state`}
                 id="State"
-                // onChange={(e) => handleBillingState(e, "State")}
                 name="State"
                 value={storedValue.State}
-                // options={stateOptions}
                 className=""
               />
             </div>
@@ -120,7 +115,6 @@ function DeliveryAddress() {
         </div>
         <button
           type="submit"
-          // onClick={handleSubmit}
           className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
         >
           Save

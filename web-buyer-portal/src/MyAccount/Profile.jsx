@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -12,8 +10,6 @@ import Footer from "../main/Footer";
 import { useSelector } from "react-redux";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
-
-// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Profile = () => {
   useEffect(() => {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -14,27 +13,11 @@ const AddressDetails = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
-      {/* <Header /> */}
       <div className="md:w-4/5	w-full mx-auto  ">
-        {/* <div className="md:flex hidden justify-start items-center gap-3 pt-8">
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Home
-          </h5>
-          <EastIcon />
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Account
-          </h5>
-          <EastIcon />
-          <h5 className="text-black font-medium text-base cursor-pointer">
-            Addresses
-          </h5>
-        </div> */}
         <div className="  mb-12 md:hidden block  bg-[#563FE3] md:p-0 p-4 relative">
           <h2  className="md:font-bold font-medium md:text-4xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
             Addresses
@@ -56,8 +39,12 @@ const AddressDetails = () => {
             </div>
             <div className="px-4 sm:py-5 pb-5">
               <div className="">
-                <h5 className="text-lg font-medium mb-2">{buyer?.apartment} {buyer?.address}</h5>
-                <p className="text-sm font-normal">{buyer?.suburb}, {buyer?.state}</p>
+                <h5 className="text-lg font-medium mb-2">
+                  {buyer?.apartment} {buyer?.address}
+                </h5>
+                <p className="text-sm font-normal">
+                  {buyer?.suburb}, {buyer?.state}
+                </p>
                 <p className="text-sm font-normal">{buyer?.postalCode}</p>
               </div>
               <div className=" mt-5">
@@ -128,7 +115,6 @@ const AddressDetails = () => {
           </div>
         </Link>
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

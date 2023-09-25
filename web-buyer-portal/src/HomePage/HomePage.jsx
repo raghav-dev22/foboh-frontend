@@ -1,5 +1,3 @@
-// import { Fragment, useState } from "react";
-
 import React, { useEffect } from "react";
 import Header from "../main/Header";
 
@@ -7,7 +5,6 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../main/Footer";
 import BottomToTop from "../main/BottomToTop";
 import MainHomePage from "./MainHomePage";
-// import MyAccount from "../MyAccount/MyAccount";
 import MyAccount from "../MyAccount/MyAccount";
 import Profile from "../MyAccount/Profile";
 import BusinessDetails from "../MyAccount/ProfileEdit";
@@ -24,10 +21,8 @@ import { Breadcrumb } from "antd";
 import CheckOut from "../PaymentPage/CheckOut";
 import Delivery from "../PaymentPage/Delivery";
 import Payment from "../PaymentPage/Payment";
-// import PaymentPage from "../PaymentPage/PaymentDetail";
 import PaymentDetail from "../PaymentPage/PaymentDetail";
 import { useDispatch } from "react-redux";
-// import PaymentPage from "../PaymentPage/paymentPage";
 import { updateField } from "../slices/buyerSlice";
 import { updateSetting } from "../slices/organisationSlice";
 import { setBuyerValues } from "../helpers/setBuyerValues";
@@ -127,12 +122,9 @@ function HomePage({ setConfig }) {
         <Route path="/product-details/:id" element={<ProductDetails />} />
         <Route path="/delivery-edit" element={<DeliveryEdit />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
-        {/* <Route path="/check-out" element={<CheckOut />} /> */}
         <Route path="/delivery" element={<Delivery />} />
-        {/* <Route path="/payment" element={<Payment />} /> */}
         <Route path="/payment-page*" element={<PaymentDetail />} />
         <Route path="/order-details" element={<OrderDetails />} />
-        {/* <Route path="/payment-page" element={<PaymentPage />} /> */}
       </Routes>
 
       <Footer />

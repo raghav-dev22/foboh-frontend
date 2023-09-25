@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-// import { listdata } from "../data";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../slices/CartSlice";
-// import { increment, decrement } from "../slices/counterSlice";
-import { setProductData } from "../slices/ProductSlice";
 import { useEffect } from "react";
 import { theme } from "antd";
 
@@ -20,7 +17,6 @@ const ProductDetails = () => {
     quantity: 1,
   });
   const productData = products.find((item) => item?.product?.productId === +id);
-  // for add to card redux
   const dispatch = useDispatch();
   const addCart = (product) => {
     dispatch(add(product));
@@ -117,22 +113,7 @@ const ProductDetails = () => {
                 ))}
               </div>
               <div>
-                {/* <div className="image-container">
-                  {images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Image ${index}`}
-                      onClick={() => handleImageClick(image)}
-                    />
-                  ))}
-                </div> */}
-                {/* {selectedImage && (
-                  <div className="image-preview">
-                    <button onClick={handleClosePreview}>Close</button>
-                    <img src={selectedImage} alt="Selected Image" />
-                  </div>
-                )} */}
+              
               </div>
             </div>
           </div>
@@ -145,9 +126,7 @@ const ProductDetails = () => {
               {selectData?.product?.brand}
             </h5>
             <div className="flex  items-center gap-2">
-              {/* <h5 className="text-lg font-medium text-[#2B4447]">
-                {selectData?.product?.description}{" "}s
-              </h5> */}
+             
               <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
               <h5 className="text-lg font-medium text-[#2B4447]">
                 {selectData?.product?.configuration}{" "}
@@ -259,8 +238,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      {/* <Footer /> */}
-      {/* <BottomToTop /> */}
+    
     </>
   );
 };

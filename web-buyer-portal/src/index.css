@@ -343,3 +343,38 @@ select {
   justify-content: center !important;
   margin-top: 40px !important;
 }
+:where(.css-dev-only-do-not-override-cwyxe6).ant-steps
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  border: 2px dashed #563fe3;
+  background: none;
+}
+
+.ant-steps-item-tail::after {
+  /* border: 2px dashed #637381; */
+  border: 2px dashed #637381;
+  background: none;
+}
+:where(.css-dev-only-do-not-override-cwyxe6).ant-steps.ant-steps-dot
+  .ant-steps-item-icon,
+:where(
+    .css-dev-only-do-not-override-cwyxe6
+  ).ant-steps.ant-steps-dot.ant-steps-small
+  .ant-steps-item-icon {
+  margin: 0px !important;
+  width: 22px !important;
+  height: 22px !important;
+}
+:where(.css-dev-only-do-not-override-cwyxe6).ant-steps.ant-steps-dot
+  .ant-steps-item-tail,
+:where(
+    .css-dev-only-do-not-override-cwyxe6
+  ).ant-steps.ant-steps-dot.ant-steps-small
+  .ant-steps-item-tail {
+  margin: 7px 11px !important;
+}
+:where(.css-dev-only-do-not-override-cwyxe6).ant-steps.ant-steps-label-vertical
+  .ant-steps-item-content {
+  text-align: left;
+}
