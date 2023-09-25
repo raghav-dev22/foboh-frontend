@@ -17,6 +17,7 @@ import {
   CardNumberElement,
   CardCvcElement,
   CardExpiryElement,
+  
 } from "@stripe/react-stripe-js";
 import useResponsiveFontSize from "./useResponsiveFontSize";
 import useResponsiveHeight from "./useResponsiveHeight";
@@ -606,15 +607,16 @@ const Payment = () => {
                             // data-te-input-wrapper-init
                           >
                             <label
-                              // htmlFor="LiquerLicence"
+                              htmlFor="Name"
                               className="text-[#2B4447] font-normal text-sm"
                             >
                               Name
                             </label>
                             <input
                               type="text"
-                              id="LiquerLicence"
-                              className=" "
+                              id="Name"
+                              name="Name"
+                              placeholder="Name"
                               autoComplete="on"
                               style={{ background: "#F8F8F8" }}
                             />
@@ -624,15 +626,16 @@ const Payment = () => {
                             // data-te-input-wrapper-init
                           >
                             <label
-                              // htmlFor="LiquerLicence"
+                              htmlFor="Email"
                               className="text-[#2B4447] font-normal text-sm"
                             >
                               Email
                             </label>
                             <input
                               type="text"
-                              id="Name"
-                              className=" "
+                              id="Email"
+                              name="Email"
+                              placeholder="Email"
                               autoComplete="on"
                               style={{ background: "#F8F8F8" }}
                             />
@@ -643,15 +646,16 @@ const Payment = () => {
                           // data-te-input-wrapper-init
                         >
                           <label
-                            // htmlFor="LiquerLicence"
+                            htmlFor="BSBNumber"
                             className="text-[#2B4447] font-normal text-sm"
                           >
                             BSB Number
                           </label>
                           <input
                             type="email"
-                            id="email"
-                            className=" "
+                            id="BSBNumber"
+                            name="BSBNumber"
+                            placeholder="BSB Number"
                             autoComplete="on"
                             style={{ background: "#F8F8F8" }}
                           />
@@ -661,15 +665,16 @@ const Payment = () => {
                           // data-te-input-wrapper-init
                         >
                           <label
-                            // htmlFor="LiquerLicence"
+                            htmlFor="AccountNumber"
                             className="text-[#2B4447] font-normal text-sm"
                           >
                             Account Number
                           </label>
                           <input
                             type="text"
-                            id="LiquerLicence"
-                            className=" "
+                            id="AccountNumber"
+                            name="AccountNumber"
+                            placeholder="Account Number"
                             autoComplete="on"
                             style={{ background: "#F8F8F8" }}
                           />
@@ -694,71 +699,6 @@ const Payment = () => {
                       </div>
                     </>
                   )}
-
-                  {/* <div className=" flex items-center border-b border-[#E7E7E7] p-3">
-                    <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
-                      <input
-                        defaultChecked=""
-                        id="default-radio-1"
-                        type="radio"
-                        defaultValue=""
-                        name="default-radio"
-                        className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                        style={{
-                          boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                        }}
-                      />
-                    </div>
-                    <label
-                      htmlFor="default-radio-1"
-                      className="ml-4 text-base font-semibold text-[#2B4447]"
-                    >
-                      Direct debit
-                    </label>
-                  </div>
-                  <div className=" flex items-center border-b border-[#E7E7E7] p-3">
-                    <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
-                      <input
-                        defaultChecked=""
-                        id="default-radio-1"
-                        type="radio"
-                        defaultValue=""
-                        name="default-radio"
-                        className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                        style={{
-                          boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                        }}
-                      />
-                    </div>
-                    <label
-                      htmlFor="default-radio-1"
-                      className="ml-4 text-base font-semibold text-[#2B4447] flex items-center"
-                    >
-                      <AppleIcon />
-                      Pay
-                    </label>
-                  </div>
-                  <div className=" flex items-center border-b border-[#E7E7E7] p-3">
-                    <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
-                      <input
-                        defaultChecked=""
-                        id="default-radio-1"
-                        type="radio"
-                        defaultValue=""
-                        name="default-radio"
-                        className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                        style={{
-                          boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                        }}
-                      />
-                    </div>
-                    <label
-                      htmlFor="default-radio-1"
-                      className="ml-4 text-base font-semibold text-[#2B4447]"
-                    >
-                      <img src="/assets/gpay.png" alt="" className="w-[65%]" />
-                    </label>
-                  </div> */}
                 </div>
               </TabPane>
             </Tabs>
