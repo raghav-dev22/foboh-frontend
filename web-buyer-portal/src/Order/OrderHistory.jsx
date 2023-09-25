@@ -3,18 +3,12 @@ import { Table } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
-// import { RemoveRedEyeIcon } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 import { Checkbox, Col, Row } from "antd";
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-// import { RemoveRedEyeIcon } from "@ant-design/icons";
-// import { Dropdown, Space } from "antd";
 import { Button, Tooltip } from "antd";
-
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-// import Loading from "../Svg/Loading";
 
 const columns = [
   {

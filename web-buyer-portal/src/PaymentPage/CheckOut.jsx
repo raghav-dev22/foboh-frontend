@@ -294,18 +294,6 @@ const CheckOut = () => {
                 </div>
                 <div className="flex md:flex-nowrap gap-4">
                   <div className="w-full   mb-3 md:mb-0">
-                    {/* <input
-                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                      id="City"
-                      type="text"
-                      placeholder="City, Suite, etc"
-                      value={values.City}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      style={{
-                        border: errors.City && touched.City && "1px solid red",
-                      }}
-                    /> */}
                     <Select
                       type="text"
                       placeholder="City"
@@ -519,7 +507,6 @@ const CheckOut = () => {
                         errors.DeliveryInstruction &&
                         touched.DeliveryInstruction &&
                         "1px solid red",
-                      // focusVisible: "",
                     }}
                   />
                   {errors.DeliveryInstruction &&
@@ -536,15 +523,12 @@ const CheckOut = () => {
               </div>
             </div>
           </div>
-          {/* <Link to="/home/delivery"> */}
           <button
-            // onClick={handleSubmit}
             type="submit"
             className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
           >
             Continue to Delivery
           </button>
-          {/* </Link> */}
         </div>
       </form>
     </>

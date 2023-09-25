@@ -1,74 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import EastIcon from "@mui/icons-material/East";
-// import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-// import { Link } from "react-router-dom";
-// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// import Header from "../main/Header";
-// import Footer from "../main/Footer";
-// import Select from "react-select";
-import CallIcon from "@mui/icons-material/Call";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import CheckIcon from "@mui/icons-material/Check";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch, useSelector } from "react-redux";
-import ProductDetails from "../ProductPage/ProductDetails";
-import { remove, updateQuantity } from "../slices/CartSlice";
-import { timeline } from "@material-tailwind/react";
-import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
-import AppliedCoupon from "../modal/AppliedCoupon";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 
 const OrderConfirmation = () => {
-  const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
-  const EditContactValue = JSON.parse(localStorage.getItem("ContactEdit"));
-  const [editDelivery, setEditDelivery] = useState(false);
-  const [editContact, setEditContact] = useState(false);
-  console.log(EditDeliveryVal, "EditDeliveryVal");
-  const [show, setShow] = useState(false);
-  const [promoCode, setPromoCode] = useState("");
-  const [applied, setApplied] = useState(false);
-  const [bg, setBg] = useState("#000");
-  const [color, setColor] = useState();
-  const [invalid, setInvalid] = useState("");
-  const promoCodes = {
-    CODE001: "CODE001",
-    CODE002: "CODE002",
-    CODE003: "CODE003",
-    CODE004: "CODE004",
-  };
-  const handlePromoCodeChange = (e) => {
-    setPromoCode(e.target.value);
-  };
-
-  const applyPromoCode = () => {
-    if (promoCode === promoCodes.CODE001) {
-      setColor("#563FE3");
-      setBg("#563FE3");
-      setApplied(true);
-      setInvalid("");
-      setShow(true);
-    } else if (promoCode === promoCodes.CODE003) {
-      setBg("#000");
-      setInvalid("This code is expired.");
-    } else if (promoCode === promoCodes.CODE004) {
-      setBg("#000");
-      setInvalid("This code has already been applied.");
-    } else {
-      setInvalid("This code is invalid.");
-      setBg("#000");
-    }
-  };
   const [totalCost, setTotleCost] = useState(0);
   const CARTdata = useSelector((items) => items.cart);
-  const dispatch = useDispatch();
-
-  const removeItem = (cartItem) => {
-    dispatch(remove(cartItem));
-  };
-
-  const handleIncrementDecrement = (id, actionType) => {
-    dispatch(updateQuantity({ id, actionType }));
-  };
 
   const calculateTotalCost = () => {
     let total = 0;
@@ -247,8 +182,6 @@ const OrderConfirmation = () => {
           </div>
         </div>
       </div>
-
-      {/* <Footer /> */}
     </>
   );
 };

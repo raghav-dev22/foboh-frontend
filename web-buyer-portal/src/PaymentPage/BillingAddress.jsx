@@ -115,13 +115,7 @@ function BillingAddress() {
           onClick={() => {
             setChange(!change);
           }}
-          // onClick={() => {
-          //   addressBtn();
-          // }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-          // style={{
-          //   boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-          // }}
         />
 
         <label
@@ -319,14 +313,12 @@ function BillingAddress() {
           <button
             type="submit"
             style={{ backgroundColor: token.buttonThemeColor }}
-            // onClick={handleSubmit}
             className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
           >
             Save
           </button>
           <button
             type="submit"
-            // onClick={handleSubmit}
             className="border-[#637381] border rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-[#637381]"
           >
             Cancel

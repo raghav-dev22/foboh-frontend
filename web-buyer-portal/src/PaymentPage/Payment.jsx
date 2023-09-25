@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from "react";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import BillingAddress from "./BillingAddress";
-import DeliveryAddress from "./DeliveryAddress";
 import ModeIcon from "@mui/icons-material/Mode";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { Tabs, theme } from "antd";
@@ -39,8 +37,6 @@ const useOptions = () => {
             content: "", // Remove placeholder text
           },
           placeholder: "",
-
-          // backgroundColor: "rgb(248, 248, 248)",
           border: "1px solid #e2e8f0",
         },
         invalid: {
@@ -74,7 +70,6 @@ const Payment = () => {
   const buyer = useSelector((state) => state.buyer);
   const { useToken } = theme;
   const { token } = useToken();
-  // Function to handle checkbox change event
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     setCardDetails(false);
@@ -95,8 +90,6 @@ const Payment = () => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
       return;
     }
 
@@ -409,10 +402,6 @@ const Payment = () => {
                               }}
                             />
                           </div>
-
-                          {/* <p className="mt-2 mb-2 text-red-500 text-xs">
-                            {cardErrors?.cardNumber?.message}
-                          </p> */}
                           <div className="absolute top-[39px] right-[10px]">
                             <LockOpenIcon style={{ fill: "#979797" }} />
                           </div>
@@ -435,7 +424,6 @@ const Payment = () => {
                               setCardHolderName(e.target.value);
                             }}
                             autoComplete="on"
-                            // placeholder="Name on Card"
                             style={{ background: "#F8F8F8" }}
                           />
                         </div>
@@ -616,7 +604,6 @@ const Payment = () => {
             <div className="text-right">
               <button
                 type="submit"
-                // onClick={handleSubmit}
                 className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
               >
                 Pay Now

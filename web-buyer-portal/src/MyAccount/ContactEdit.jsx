@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { ContactSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { useNavigate } from "react-router-dom";
 import CallIcon from "@mui/icons-material/Call";
 import { useEffect } from "react";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
 
 const ContactEdit = ({ setEditContact, editContact }) => {
-  const [detail, setDetail] = useState();
   const { useToken } = theme;
   const { token } = useToken();
   const [initialValues, setInitialValues] = useState({
@@ -18,25 +16,16 @@ const ContactEdit = ({ setEditContact, editContact }) => {
     email: "",
     Mobile: "",
   });
-  const {
-    values,
-    errors,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    setValues,
-    touched,
-  } = useFormik({
-    initialValues: initialValues,
-    validationSchema: ContactSchema,
-    onSubmit: (values) => {
-      console.log(values, "values");
-      // setEditContact();
-      //   console.log(setEditContact(!editContact), "setEditContact");
-    },
-  });
+  const { values, errors, handleChange, handleSubmit, setValues, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: ContactSchema,
+      onSubmit: (values) => {
+        console.log(values, "values");
+      },
+    });
   const cancleBtn = () => {
-    setValues(initialValues)
+    setValues(initialValues);
     setEditContact(!editContact);
   };
 
@@ -84,7 +73,6 @@ const ContactEdit = ({ setEditContact, editContact }) => {
                 id="FirstName"
                 name="FirstName"
                 value={values.FirstName}
-                // placeholder="First Name"
                 onChange={handleChange}
                 className=""
                 style={{
@@ -172,7 +160,6 @@ const ContactEdit = ({ setEditContact, editContact }) => {
               <input
                 type="text"
                 id="Mobile"
-                // placeholder="Phone no."
                 name="Mobile"
                 value={values.Mobile}
                 onChange={handleChange}
@@ -203,9 +190,10 @@ const ContactEdit = ({ setEditContact, editContact }) => {
             </button>
             <button
               className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
-              style={{color: token.buttonThemeColor,
-              borderColor: token.buttonThemeColor
-            }}
+              style={{
+                color: token.buttonThemeColor,
+                borderColor: token.buttonThemeColor,
+              }}
               onClick={() => {
                 cancleBtn();
               }}
@@ -216,8 +204,9 @@ const ContactEdit = ({ setEditContact, editContact }) => {
               onClick={handleSubmit}
               type="submit"
               className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
-              style={{backgroundColor: token.buttonThemeColor,
-                borderColor: token.buttonThemeColor
+              style={{
+                backgroundColor: token.buttonThemeColor,
+                borderColor: token.buttonThemeColor,
               }}
             >
               Save

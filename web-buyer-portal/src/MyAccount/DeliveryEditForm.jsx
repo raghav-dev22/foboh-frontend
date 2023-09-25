@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import EastIcon from "@mui/icons-material/East";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useFormik } from "formik";
 import Select from "react-select";
 import { DeliveryBillingSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { useSelector } from "react-redux";
-import { json } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 
@@ -435,7 +431,6 @@ const DeliveryEditForm = () => {
               id="BillingAddress"
               name="BillingAddress"
               className="pl-custom-left"
-              // value={values.BillingAddress}
               value={values?.BillingAddress}
               onChange={handleChange}
               autoComplete="on"
@@ -574,7 +569,6 @@ const DeliveryEditForm = () => {
             Cancel
           </button>
           <button
-            // type="submit"
             onClick={handleSubmitBtn}
             type="submit"
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"

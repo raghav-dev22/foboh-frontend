@@ -7,8 +7,6 @@ import { useSelector } from "react-redux";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
-// import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
 
 const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
   const [initialValues, setInitialValues] = useState({
@@ -21,10 +19,10 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
   });
   const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
-  
+
   const { useToken } = theme;
   const { token } = useToken();
-  const buyer = useSelector((state) => state.buyer)
+  const buyer = useSelector((state) => state.buyer);
 
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -39,7 +37,6 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
           (state) => state?.label === buyerData.state
         );
 
-
         setValues({
           Apartment: buyerData?.apartment,
           Address: buyerData?.address,
@@ -48,7 +45,7 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
           Postcode: buyerData?.postalCode,
           DeliveryInstruction: buyerData?.deliveryNotes,
         });
-        
+
         setInitialValues({
           Apartment: buyerData?.apartment,
           Address: buyerData?.address,
@@ -61,8 +58,6 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
       .catch((error) => console.log(error));
   }, []);
 
-  //   const navigate = useNavigate();
-  //   const [cart, setCart] = useState();
   const stateOptions = [
     { label: "Victoria", value: "option1" },
     { label: "Queensland", value: "option2" },
@@ -284,21 +279,21 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
         </div>
 
         <div className="flex gap-8 pt-5 pb-5 justify-end">
-        <button
-            // type="submit"
-            // onClick={handleSubmitBtn}
+          <button
             type="submit"
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
-            style={{backgroundColor: token.buttonThemeColor,
-              borderColor: token.buttonThemeColor
+            style={{
+              backgroundColor: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor,
             }}
           >
             Save
           </button>
           <button
             className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
-            style={{color: token.buttonThemeColor,
-              borderColor: token.buttonThemeColor
+            style={{
+              color: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor,
             }}
             onClick={() => {
               cancleBtn();
@@ -311,6 +306,5 @@ const DeliveryEditAddress = ({ setEditDelivery, editDelivery }) => {
     </>
   );
 };
-
 
 export default DeliveryEditAddress;

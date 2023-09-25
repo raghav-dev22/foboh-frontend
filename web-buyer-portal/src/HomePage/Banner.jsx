@@ -14,28 +14,7 @@ function Banner() {
   return (
     <>
       <div style={{background: token.bannerThemeColor}} className=" flex flex-wrap xl:py-6 md:py-6 py-3 items-center justify-center h-[461px] md:p-0 p-6">
-        {/* <div className="	 w-full justify-center xl:block hidden flex	">
-          <div className="logo ">
-            <img src="/assets/SUPPLIERLOGO.png" alt="" />
-          </div>
-        </div> */}
-        {/* <div className=" relative md:hidden xl:hidden block">
-          <input
-            type="text"
-            className="roun8ded-md	font-normal text-sm placeholder:text-sm"
-            placeholder="Search by product or brand"
-            style={{
-              padding: "12px 16px 12px 38px",
-              border: "0px",
-              background: "#F4F7FF",
-              margin: "0px",
-            }}
-          />
-          <SearchIcon
-            className="absolute top-1/4 left-2.5 "
-            style={{ fill: "#563FE3" }}
-          />
-        </div> */}
+       
         <div className="md:w-2/5 w-full	">
           <h5 style={{color: token.commonThemeColor}} className="text-[#000] xl:text-[#563FE3] md:text-[#563FE3] xl:text-start md:text-start text-center font-semibold	text-2xl mb-3 xl:text-xl md:text-xl	">
             Hello {buyer?.name || ["first name"]} 👋
@@ -61,7 +40,6 @@ function Banner() {
           <div className="logo relative">
             {(
               <img
-                // src={organisation?.organisationlogo}
                 src="https://fbhdevomsstre.blob.core.windows.net/organizationimages/null.png"
                 alt="organisationlogo"
                 className="mt-0 mr-0 mb-0 ml-[40px] max-h-[150px] w-full object-contain"
@@ -73,11 +51,7 @@ function Banner() {
                 className="mt-0 mr-0 mb-0 ml-[40px]"
               />
             )}
-            {/* <img
-              src="/assets/hero-main.png"
-              className="absolute top-[12px] max-w-[22rem] me-[9rem]"
-              alt=""
-            /> */}
+    
           </div>
         </div>
       </div>

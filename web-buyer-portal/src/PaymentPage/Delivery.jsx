@@ -16,9 +16,6 @@ const Delivery = () => {
     setContactDisabled(event.target.checked);
   };
 
-  // const changeBtn = () => {
-  //   setIsDisabled(!isDisabled);
-  // };
   const storedValue = JSON.parse(localStorage.getItem("myKey"));
   console.log(storedValue, "local");
   const navigate = useNavigate();
@@ -58,7 +55,6 @@ const Delivery = () => {
                 style={{ padding: "0px", border: "0px" }}
                 onChange={handleContactChange}
               />
-              {/* <p className=""></p> */}
             </div>
             <div className="border rounded-md border-[#E7E7E7] p-3">
               <div className="flex justify-between">
@@ -67,7 +63,6 @@ const Delivery = () => {
                 </h5>
                 <div className="relative">
                   <input
-                    //  onChange={handleControlChange}
                     type="checkbox"
                     onChange={handleControlChange}
                     checked={isDisabled}
@@ -88,7 +83,6 @@ const Delivery = () => {
                 value={isDisabled ? "myemail@gmail.com.au" : inputAddressValue}
                 style={{ padding: "0px", border: "0px" }}
               />
-              {/* <p className=""></p> */}
             </div>
             <div className="mt-8">
               <label

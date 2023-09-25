@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import EastIcon from "@mui/icons-material/East";
-import Header from "../main/Header";
-import Footer from "../main/Footer";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useDispatch, useSelector } from "react-redux";
 import { ProfileEditSchema } from "../schemas";
@@ -10,9 +8,6 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import { updateField } from "../slices/buyerSlice";
 import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
-// import { Button, Form, Input, Radio } from "antd";
-// import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
@@ -70,22 +65,6 @@ const ProfileEdit = () => {
         .then((data) => {
           console.log("Response update", data);
           if (data.success) {
-            // dispatch(
-            //   updateField({
-            //     ...buyer,
-            //     businessName: values?.BusinessName,
-            //     abn: values?.ABN,
-            //     liquorLicence: values?.LiquerLicence,
-            //     orderingContactFirstName: values?.OrderingContactFirstName,
-            //     orderingContactLastName: values?.OrderingContactLastName,
-            //     orderingContactEmail: values?.OrderingContactEmail,
-            //     orderingContactMobile: values?.OrderingContactMobile,
-            //     deliveryContactFirstName: values?.DeliveryContactFirstName,
-            //     deliveryContactLastName: values?.DeliveryContactLastName,
-            //     deliveryContactEmail: values?.DeliveryContactEmail,
-            //     deliveryContactMobile: values?.DeliveryContactMobile,
-            //   })
-            // );
             navigate("/home/profile");
           }
         })
