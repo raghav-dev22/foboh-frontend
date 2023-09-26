@@ -80,6 +80,8 @@ function AddProduct() {
   const [salePriceCopy, setSalePriceCopy] = useState(null);
   const [profitCopy, setProfitCopy] = useState(null);
   const [marginCopy, setMarginCopy] = useState(null);
+  const [variety, setVariety] = useState([])
+  const [tag, setTag] = useState([])
 
   const {
     values,
@@ -642,7 +644,48 @@ function AddProduct() {
         }
       })
       .catch((error) => console.log(error));
-  }, []);
+
+
+       // grapeVariety
+    fetch("https://masters-api-foboh.azurewebsites.net/api/GrapeVarieties", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("grapeVariety -->", data);
+          setVariety(
+            data.map((item) => {
+              return {
+                value: parseInt(item.grapeVarietyId),
+                label: item.grapeVarietyName,
+              };
+            })
+          );
+        
+      })
+      .catch((error) => console.log(error));
+
+
+          // tag
+    fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("tag -->", data);
+        setTag(
+            data.map((item) => {
+              return {
+                value: parseInt(item.tagId),
+                label: item.tagName,
+              };
+            })
+          );
+        
+      })
+      .catch((error) => console.log(error));
+    }, []);
+
   // Product Details ----END
 
   const handleFormChange = () => {
@@ -1212,8 +1255,8 @@ function AddProduct() {
                         <Select
                           isMulti
                           name="colors"
-                          isDisabled={!options.length}
-                          options={options}
+                          // isDisabled={!variety.length}
+                          options={variety}
                           value={
                             values.grapeVariety.length > 0
                               ? values.grapeVariety
@@ -1222,6 +1265,7 @@ function AddProduct() {
                           onChange={handleGrapeVarietyChange}
                           className="basic-multi-select "
                           classNamePrefix="select"
+                          isClearable={true}
                         />
                       </div>
                     </div>
@@ -1476,9 +1520,10 @@ function AddProduct() {
                         isMulti
                         value={values.tags.length ? values.tags : null}
                         onChange={handletagsChange}
-                        options={options}
+                        options={tag}
                         className="basic-multi-select "
                         classNamePrefix="select"
+                        isClearable={true}
                       />
                     </div>
                   </div>

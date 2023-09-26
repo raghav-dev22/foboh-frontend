@@ -78,7 +78,9 @@ function PersonalDetails({ profileUri, setShow, show }) {
 
   const handleReset = () => {
     setShow(false);
-    setValues(initialValues);
+    setValues({ 
+      ...initialValues
+    });
   };
 
   const {
