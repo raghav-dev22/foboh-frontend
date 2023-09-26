@@ -123,7 +123,7 @@ function PreviewProductModal({
               isActive: true,
             };
           })
-        ),
+        ), 
       }
     )
       .then((response) => {

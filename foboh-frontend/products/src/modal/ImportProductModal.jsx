@@ -4,7 +4,7 @@ import ImportComplete from "./ImportComplete";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 
-function ImportProductModal({ show, setShow, error, loader }) {
+function ImportProductModal({ show, setShow, error, loader }) { 
   console.log(error, "hiii")
   const remove = () => {
     if(error.length === 0){

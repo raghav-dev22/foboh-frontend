@@ -49,7 +49,7 @@ function HomePage({ setConfig }) {
 
     if (buyer) {
       fetch(
-        `https://themesfobohwebapi-fbh.azurewebsites.net/api/Themes/get?organizationId=${5735575657}`,
+        `https://themesfobohwebapi-fbh.azurewebsites.net/api/Themes/get?organizationId=${buyer?.organisationId}`,
         {
           method: "GET",
         }

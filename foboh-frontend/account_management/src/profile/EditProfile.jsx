@@ -51,6 +51,17 @@ function EditProfile({ setProfileUri, setShow, show }) {
         const reader = new FileReader();
         const formData = new FormData();
         formData.append("file", file);
+        
+        
+        reader.onload = () => {
+          const imgData = reader.result;
+          setImageSrc(imgData)
+          setShow(true)
+          console.log('imgData', imgData);
+        };
+        reader.readAsDataURL(file);
+
+
 
         const ccrn = localStorage.getItem("ccrn");
         fetch(
@@ -76,21 +87,12 @@ function EditProfile({ setProfileUri, setShow, show }) {
             }
           })
           .catch((error) => {
-            // Handle any errors that occurred during the request
             console.error("Error:", error);
           });
       } else {
         setShowError(true);
-        // Clear the file input field
         fileInputRef.current.value = "";
       }
-
-      reader.onload = () => {
-        // Do whatever you want with the file contents
-        const imgData = reader.result;
-        // setImageSrc(imgData);
-      };
-      reader.readAsDataURL(file);
     }
   }, []);
 
@@ -112,7 +114,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
             <div className="update-user rounded-full">
               <img
                 id="previewImage"
-                src={user.imageUrl || defaultImage}
+                src={imageSrc || defaultImage}
                 alt=""
                 className="w-14	h-14	object-cover	rounded-full"
               />

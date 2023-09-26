@@ -17,8 +17,8 @@ function ShopBrandSection() {
       return response.json()
     }))
     .then(data => {
-      // setBrandData(resp.data);
-      console.log(data, "brand2")
+      // setBrandData(data.data);
+      // console.log(data, "brand2")
     })
     .catch(error => console.log(error))
   }, []);

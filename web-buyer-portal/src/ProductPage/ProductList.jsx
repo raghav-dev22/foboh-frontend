@@ -34,6 +34,22 @@ import { button, select } from "@material-tailwind/react";
 import { Avatar, List, Skeleton, Switch } from "antd";
 import { useRef } from "react";
 
+// let filterAndSort = {
+//   filter: {
+//     category: [],
+//     subcategory: [],
+//     stock: [],
+//     productStatus: [],
+//     visibility: true,
+//     page: 1,
+//   },
+//   sort: {
+//     sortBy: "",
+//     sortOrder: "asc",
+//   },
+// };
+
+
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   console.log("url", url);
@@ -192,6 +208,7 @@ const ProductList = () => {
   const [Variety, setVariety] = useState(false);
   const [Country, setCountry] = useState(false);
   const [Region, setRegion] = useState(false);
+  const [categoryAndSubcategory, setCategoryAndSubcategory] = useState([]);
   const [Availability, setAvailability] = useState(false);
   const [Price, setPrice] = useState(false);
   const [Tags, setTags] = useState(false);
@@ -308,10 +325,40 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
-
+ 
   const [value, setValue] = useState([15, 65]);
-
+  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
+  const[filterAndSort, setFilterAndSort] = useState(
+    {
+        filter: {
+          category: [],
+          subcategory: [],
+          stock: [],
+          productStatus: [],
+          visibility: true,
+          page: 1,
+        },
+        sort: {
+          sortBy: "",
+          sortOrder: "asc",
+        },
+      }
+  )
+  // let filterAndSort = {
+  //   filter: {
+  //     category: [],
+  //     subcategory: [],
+  //     stock: [],
+  //     productStatus: [],
+  //     visibility: true,
+  //     page: 1,
+  //   },
+  //   sort: {
+  //     sortBy: "",
+  //     sortOrder: "asc",
+  //   },
+  // };
 
   const colourOptions = [];
 
@@ -370,19 +417,6 @@ const ProductList = () => {
     setPage(current);
   };
 
-  // useEffect(() => {
-  //   dispatch(
-  //     setProductData(
-  //       Data.map((item) => {
-  //         return {
-  //           product: item,
-  //           quantity: 0,
-  //         };
-  //       })
-  //     )
-  //   );
-  // }, []);
-  const [total, setTotal] = useState(0);
   useEffect(() => {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
 
@@ -634,6 +668,147 @@ const ProductList = () => {
     };
   }, [dropdownRef, sortRef]);
 
+  useEffect(() => {
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/ShowCategorySubcategory`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Category and Subcategory >>", data);
+
+        console.log(
+          "cat drop",
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+
+        setCategoryAndSubcategory(
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+      });
+  }, []);
+
+                      
+
+  const updatedFilterAndSort = () => {
+    return filterAndSort;
+  };
+
+  const toggleCategoryAndSubcategory = (e, id, name) => {
+    console.log(id, name);
+
+    // Handling pagination
+    
+
+    if (name === "category") {
+      // setOpen(!Open);
+      const newCategoryIds = e.target.checked
+        ? [...filterAndSort.filter.category, id]
+        : filterAndSort.filter.category.filter((catId) => catId !== id);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        category: newCategoryIds,
+      };
+
+      // filterAndSort = {
+      //  ...filterAndSort,
+      //   filter: newFilter,
+      // };
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      })
+      console.log(newCategoryIds);
+
+    } else if (name === "subcategory") {
+      const newSubcategoryIds =  e      
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        subcategory: newSubcategoryIds,
+      };
+
+      // filterAndSort = {
+      //   ...filterAndSort,
+      //   filter: newFilter,
+      // };
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      })
+    }
+    //  else if (name === "stock") {
+    //   const newStockValues = e.target.checked
+    //     ? [...filterAndSort.filter.stock, id]
+    //     : filterAndSort.filter.stock.filter(
+    //       (stockValue) => stockValue !== id
+    //     );
+
+    //   console.log("stock", newStockValues);
+
+    //   const newFilter = {
+    //     ...filterAndSort.filter,
+    //     stock: newStockValues,
+    //   };
+
+    //   filterAndSort = {
+    //     ...filterAndSort,
+    //     filter: newFilter,
+    //   };
+    // } else if (name === "status") {
+    //   const newStatusValues = e.target.checked
+    //     ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
+    //     : filterAndSort.filter.productStatus.filter(
+    //       (statusValue) => statusValue !== id
+    //     );
+
+    //   const newFilter = {
+    //     ...filterAndSort.filter,
+    //     productStatus: newStatusValues,
+    //   };
+
+    //   filterAndSort = {
+    //     ...filterAndSort,
+    //     filter: newFilter,
+    //   };
+    // } else if (name === "visibility") {
+    //   const newVisibilityValue = id ? true : false;
+    //   const newFilter = {
+    //     ...filterAndSort.filter,
+    //     visibility: newVisibilityValue,
+    //   };
+
+    //   filterAndSort = {
+    //     ...filterAndSort,
+    //     filter: newFilter,
+    //   };
+    // }
+    // console.log(filterAndSort);
+
+    // processChange("filterAndSort");
+
+  };
+  
+
   return (
     <>
       <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto">
@@ -778,7 +953,7 @@ const ProductList = () => {
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
 
-              {wine && (
+              {/* {wine && (
                 <>
                   <div className="relative">
                     <SearchIcon
@@ -799,7 +974,69 @@ const ProductList = () => {
                     treeData={SubCategory}
                   />
                 </>
-              )}
+              )} */}
+              {wine && (
+                  <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
+                    <ul className="dropdown-content ">
+                      {categoryAndSubcategory &&
+                        categoryAndSubcategory.map((category, idx) => (
+                          <li className="py-2.5	px-4	">
+                            <div className="flex items-center">
+                              <input
+                                id={idx}
+                                type="checkbox"
+                                value={category.categoryId}
+                                onClick={(e) =>
+                                  toggleCategoryAndSubcategory(
+                                    e,
+                                    category.categoryId,
+                                    "category"
+                                  )
+                                }
+                                // checked={filterAndSort.filter.category.includes(
+                                //   category.categoryId
+                                // )}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <label
+                                htmlFor={idx}
+                                className="ml-2 text-sm font-medium text-gray"
+                              >
+                                {category.categoryName}
+                              </label>
+                            </div>
+                            {filterAndSort.filter.category.includes(
+                                  category.categoryId) && (
+                            <ul className="dropdown-content">
+                              <Select
+                                mode="multiple"
+                                style={{
+                                  width: '100%',
+                                }}
+                                placeholder="select one country"
+                                onChange={(e, value) =>toggleCategoryAndSubcategory(e,value,"subcategory")}
+                                optionLabelProp="label"
+                              >
+                                {category.subcategory.map((subcat, i) => (
+                                  <>
+                                    {filterAndSort.filter.category.includes(
+                                      category.categoryId
+                                    ) && (
+                                        <Option value={subcat.id} label={subcat.name} key={i}>
+                                          <Space>{subcat.name}</Space>
+                                        </Option>
+                                      )}
+                                  </>
+                                ))}
+                              </Select>
+
+                            </ul>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                )}
             </div>
 
             <div className=" py-4 border-b border-[#E7E7E7]">
