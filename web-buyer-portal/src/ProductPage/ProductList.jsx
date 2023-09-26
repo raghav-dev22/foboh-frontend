@@ -35,6 +35,9 @@ import { Avatar, List, Skeleton, Switch } from "antd";
 import { useRef } from "react";
 
 const ProductList = () => {
+  const url = process.env.REACT_APP_PRODUCTS_URL;
+  console.log("url", url);
+
   const SubCategory = [
     {
       title: (
@@ -145,6 +148,7 @@ const ProductList = () => {
   const onChangeCheckBox = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
+
   // const options = [];
   // for (let i = 10; i < 36; i++) {
   //   options.push({
@@ -152,6 +156,7 @@ const ProductList = () => {
   //     label: i.toString(36) + i,
   //   });
   // }
+
   const { Option } = Select;
   const handleChangeOption = (value) => {
     console.log(`selected ${value}`);
@@ -198,6 +203,7 @@ const ProductList = () => {
   const dropdownRef = useRef(null);
   const sortRef = useRef(null);
   const productData = useSelector((state) => state.product);
+
   const wineProduct = [
     {
       title: " Option-1",
@@ -212,6 +218,7 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
+
   const SegmentProduct = [
     {
       title: " Option-1",
@@ -226,6 +233,7 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
+
   const varietyProduct = [
     {
       title: " Option-1",
@@ -240,6 +248,7 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
+
   const countryData = [
     {
       title: " Option-1",
@@ -254,6 +263,7 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
+
   const availabilityData = [
     {
       title: " Option-1",
@@ -268,6 +278,7 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
+
   const RegionData = [
     {
       title: " Option-1",
@@ -282,6 +293,7 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
+
   const TagsProduct = [
     {
       title: " Option-1",
@@ -296,6 +308,7 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
+
   const [value, setValue] = useState([15, 65]);
 
   const navigate = useNavigate();
@@ -321,22 +334,35 @@ const ProductList = () => {
   //     dispatch(add(itemData))
   //   }
   // };
+
   const addCart = (id, itemData, actionType) => {
-    if (CARTdata.length > 0) {
-      CARTdata.forEach((item) => {
-        if (item.product?.productId === id) {
-          dispatch(updateQuantity({ id, actionType }));
-        }
-      });
-      const isNewProduct = !CARTdata.some(
-        (item) => item.product?.productId === id
-      );
-      if (isNewProduct) {
-        dispatch(add(itemData));
-      }
-    } else {
-      dispatch(add(itemData));
-    }
+    console.log("id", id, "item", itemData, "actionType", actionType);
+
+    // fetch(`${url}/api/Product/AddToCart`, {
+    //   method: "POST",
+    //   headers : {
+    //     'Content-type': 'application/json',
+    //   },
+    //   body : {
+
+    //   }
+    // })
+
+    // if (CARTdata.length > 0) {
+    //   CARTdata.forEach((item) => {
+    //     if (item.product?.productId === id) {
+    //       dispatch(updateQuantity({ id, actionType }));
+    //     }
+    //   });
+    //   const isNewProduct = !CARTdata.some(
+    //     (item) => item.product?.productId === id
+    //   );
+    //   if (isNewProduct) {
+    //     dispatch(add(itemData));
+    //   }
+    // } else {
+    //   dispatch(add(itemData));
+    // }
   };
 
   const onShowSizeChange = (current, pageSize) => {
@@ -358,7 +384,9 @@ const ProductList = () => {
   // }, []);
   const [total, setTotal] = useState(0);
   useEffect(() => {
-    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}`;
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}&OrganisationId=${organisationId}`;
 
     fetch(apiUrl)
       .then((response) => {
@@ -547,7 +575,7 @@ const ProductList = () => {
   };
   const handleChange = (e, value) => {
     setValue(value);
-    setWine(false)
+    setWine(false);
   };
   const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
   const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
@@ -555,7 +583,7 @@ const ProductList = () => {
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const onExpand = (expandedKeysValue) => {
     console.log("onExpand", expandedKeysValue);
- 
+
     setExpandedKeys(expandedKeysValue);
     setAutoExpandParent(false);
   };
@@ -570,22 +598,22 @@ const ProductList = () => {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (sortRef.current && !sortRef.current.contains(event.target))
-      {
-       setSort(false);
-     }
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setSort(false);
+      }
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-
-        const selectDropdowns = document.querySelectorAll('.ant-select-dropdown');
+        const selectDropdowns = document.querySelectorAll(
+          ".ant-select-dropdown"
+        );
         let isInsideSelectDropdown = false;
-  
+
         for (const dropdown of selectDropdowns) {
           if (dropdown.contains(event.target)) {
             isInsideSelectDropdown = true;
             break;
           }
         }
-  
+
         if (!isInsideSelectDropdown) {
           setWine(false);
           setSegment(false);
@@ -597,19 +625,22 @@ const ProductList = () => {
           setTags(false);
         }
       }
-  }
-  
-    document.addEventListener('mousedown', handleClickOutside);
-  
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef, sortRef]);
 
   return (
     <>
       <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto">
-        <div className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between"  ref={sortRef}>
+        <div
+          className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between"
+          ref={sortRef}
+        >
           <div className="">
             <p className="font-semibold md:text-2xl text-xl">Products</p>
             <p className="text-sm font-normal text-[#637381]">
@@ -617,7 +648,6 @@ const ProductList = () => {
             </p>
           </div>
           <button
-           
             className="border border-[#E7E7E7] rounded-md px-[13px] py-[8px] flex items-center justify-center gap-2"
             onClick={() => {
               SortBtn();

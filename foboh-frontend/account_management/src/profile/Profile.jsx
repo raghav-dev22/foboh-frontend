@@ -10,6 +10,11 @@ function Profile() {
     setIsDivVisible(!isDivVisible);
   };
 
+  const resetProfileImage = (imgUrl) => {
+    setProfileUri(imgUrl)
+  }
+
+
   
 
   return (
@@ -29,7 +34,7 @@ function Profile() {
             className="grid gap-5 lg:flex  overflow-y-scroll	scroll-smooth	scrollable"
            
           >
-            <PersonalDetails profileUri={profileUri} setShow={setShow} show={show} />
+            <PersonalDetails resetProfileImage={resetProfileImage} profileUri={profileUri} setShow={setShow} show={show} />
             <EditProfile setProfileUri={setProfileUri} setShow={setShow} show={show} />
           </div>
         </div>

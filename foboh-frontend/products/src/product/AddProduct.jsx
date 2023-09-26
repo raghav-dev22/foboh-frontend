@@ -33,7 +33,7 @@ import {
 import { Box } from "@mui/material";
 
 const initialValues = {
-  visibility: false,
+  visibility: "0",
   region: [],
   minimumOrder: 0,
   trackInventory: false,
@@ -95,64 +95,69 @@ function AddProduct() {
     validationSchema: addProductSchema,
     onSubmit: (values) => {
       console.log(values);
+      const organisationId = localStorage.getItem("organisationId");
 
-      fetch("https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: values.title,
-          description: values.description,
-          award: values.awards,
-          articleId: 0,
-          skUcode: values.skuCode,
-          productImageUrls: [],
-          unitofMeasure: values.baseUnitMeasure.value.toString(),
-          innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
-          configuration: values.configuration,
-          brand: values.brand,
-          region: values.regionSelect ? values.regionSelect.label : "",
-          trackInventory: values.trackInventory,
-          departmentId: values.department.value,
-          categoryId: values.category.value,
-          subCategoryId: values.subcategory.value,
-          segmentId: values.segment.value ? values.segment.value : "",
-          variety: values.grapeVariety.map((item) => {
-            return item.label;
+      fetch(
+        "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: values.title,
+            description: values.description,
+            award: values.awards,
+            articleId: 0,
+            skUcode: values.skuCode,
+            productImageUrls: [],
+            unitofMeasure: values.baseUnitMeasure.value.toString(),
+            innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
+            configuration: values.configuration,
+            brand: values.brand,
+            region: values.regionSelect ? values.regionSelect.label : "",
+            trackInventory: values.trackInventory,
+            departmentId: values.department.value,
+            categoryId: values.category.value,
+            subCategoryId: values.subcategory.value,
+            segmentId: values.segment.value ? values.segment.value : "",
+            variety: values.grapeVariety.map((item) => {
+              return item.label;
+            }),
+            vintage: values.vintage,
+            abv: values.abv,
+            globalPrice: values?.salePrice,
+            luCcost: values?.landedUnitCost,
+            buyPrice: values?.buyPrice,
+            gstFlag: checkGST,
+            wetFlag: checkWET,
+            availableQty: values.availableQty,
+            stockThreshold: values.stockAlertLevel,
+            stockStatus: values.status,
+            regionAvailability: values.region,
+            productStatus: values.status,
+            visibility: values.visibility,
+            sellOutOfStock: values.sellOutOfStock,
+            minimumOrder: values.minimumOrder,
+            tags: values.tags.map((item) => {
+              return item.label;
+            }),
+            countryOfOrigin: values.country.label,
+            barcodes: "string",
+            esgStatus: "string",
+            healthRating: "string",
+            organisationId: organisationId,
+            isActive: true,
           }),
-          vintage: values.vintage,
-          abv: values.abv,
-          globalPrice: values.salePrice,
-          luCcost: values.landedUnitCost,
-          buyPrice: values.buyPrice,
-          gstFlag: checkGST,
-          wetFlag: checkWET,
-          availableQty: values.availableQty,
-          stockThreshold: values.stockAlertLevel,
-          stockStatus: values.status,
-          regionAvailability: values.region,
-          productStatus: values.status,
-          visibility: values.visibility,
-          sellOutOfStock: values.sellOutOfStock,
-          minimumOrder: values.minimumOrder,
-          tags: values.tags.map((item) => {
-            return item.label;
-          }),
-          countryOfOrigin: values.country.label,
-          barcodes: "string",
-          esgStatus: "string",
-          healthRating: "string",
-          isActive: true,
-        }),
-      })
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          
-            console.log("Success >>>", data);
-            setShow(false);
-            navigate("/dashboard/products");
+
+          console.log("Success >>>", data);
+          setShow(false);
+          navigate("/dashboard/products");
         })
         .catch((error) => console.log(error));
     },
@@ -225,13 +230,13 @@ function AddProduct() {
   const handleReset = () => {
     setShow(false);
     setSelectedState(""),
-        setValues({
-     ...initialValues,
-      buyPrice: "",
-      salePrice: "",
-      region: [],
-      // minimumOrder: ""
-    });
+      setValues({
+        ...initialValues,
+        buyPrice: "",
+        salePrice: "",
+        region: [],
+        // minimumOrder: ""
+      });
   };
 
   console.log(values);
@@ -280,10 +285,17 @@ function AddProduct() {
   const status = ["Active", "Inactive", "Archived"];
 
   // Product Availability
-  const handleVisibility = () => {
+  const handleVisibility = (e) => {
+    console.log("handle visibility", e);
+
+    const checked = e.target.checked;
+    let newVisibility;
+
+    checked ? (newVisibility = "1") : (newVisibility = "0");
+
     setValues({
       ...values,
-      visibility: !values.visibility,
+      visibility: newVisibility,
     });
   };
 
@@ -400,7 +412,8 @@ function AddProduct() {
     }
 
     setValues({
-      ...values, subcategory: null ,
+      ...values,
+      subcategory: null,
       category: e,
     });
     fetch(
@@ -755,10 +768,7 @@ function AddProduct() {
             {/*   */}
             <div className="rounded-lg	border border-inherit	bg-white">
               <div className="border-b border-inherit  py-3 px-5">
-                <h5 className="font-medium	text-lg	text-green">
-                  {" "}
-                  {" "}
-                </h5>
+                <h5 className="font-medium	text-lg	text-green"> </h5>
               </div>
               <div className="p-5">
                 <div className="">
@@ -806,9 +816,8 @@ function AddProduct() {
 
                   <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
                     <input
-                      onChange={handleVisibility}
+                      onChange={(e) => handleVisibility(e)}
                       type="checkbox"
-                      checked={values.visibility}
                       name="availability"
                       id="toggle"
                       className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
@@ -829,7 +838,7 @@ function AddProduct() {
                         onChange={handleRegionAvailability}
                         id={region}
                         type="checkbox"
-                        checked= {values.region.includes(region)}
+                        checked={values.region.includes(region)}
                         value={region}
                         onBlur={handleBlur}
                         name="region"
@@ -1288,13 +1297,11 @@ function AddProduct() {
                       type="text"
                       placeholder="WS 93"
                       style={{
-                          border:
-                            errors.awards &&
-                            touched.awards &&
-                            "1px solid red",
-                        }}
+                        border:
+                          errors.awards && touched.awards && "1px solid red",
+                      }}
                     />
-                     {errors.awards && touched.awards && (
+                    {errors.awards && touched.awards && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
                         {errors.awards}
                       </p>
@@ -1338,7 +1345,7 @@ function AddProduct() {
                         name="abv"
                         onChange={handleChange}
                         onKeyPress={(event) => {
-                          const allowedCharacters = /^[0-9]*$/; 
+                          const allowedCharacters = /^[0-9]*$/;
                           if (!allowedCharacters.test(event.key)) {
                             event.preventDefault();
                           }
@@ -1455,10 +1462,10 @@ function AddProduct() {
                       onChange={handleChange}
                     />
                     {errors.description && touched.description && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.description}
-                        </p>
-                      )}
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.description}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-nowrap -mx-3 mb-5">

@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import { Select, Space } from 'antd';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import { Select, Space } from "antd";
 let filterAndSort = {
   filter: {
     businessName: "",
-    status: true,
+    status: null,
     postCode: "",
     state: [],
     page: 1,
@@ -25,12 +25,12 @@ function SearchCustomer({
   totalPages,
   pageIndex,
   setPageIndex,
-  setisSearchResult
+  setisSearchResult,
 }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
+    { label: "Active", value: "1" },
+    { label: "Inactive", value: "0" },
   ];
   const [First, setFirst] = useState(false);
   const [Second, setSecond] = useState(false);
@@ -46,7 +46,6 @@ function SearchCustomer({
   const secondDropdownRef = useRef(null);
   const thirdDropdownRef = useRef(null);
   const { Option } = Select;
-
 
   const handleChange = (value) => {
     console.log("Value >>", value);
@@ -81,25 +80,25 @@ function SearchCustomer({
   };
 
   const addState = (value) => {
-    console.log(value,"item");
+    console.log(value, "item");
 
-    const newState = value
-      // Clone the filter object to avoid mutating the state directly
-      const updatedFilter = {
-        ...filterAndSort.filter,
-        state: newState,
-      };
+    const newState = value;
+    // Clone the filter object to avoid mutating the state directly
+    const updatedFilter = {
+      ...filterAndSort.filter,
+      state: newState,
+    };
 
-      filterAndSort = {
-        ...filterAndSort,
-        filter: updatedFilter,
-      };
+    filterAndSort = {
+      ...filterAndSort,
+      filter: updatedFilter,
+    };
 
-      // Update the filterAndSort object with the new state
+    // Update the filterAndSort object with the new state
 
-      console.log("debou >>", filterAndSort);
-      // Save input here if needed
-    
+    console.log("debou >>", filterAndSort);
+    // Save input here if needed
+
     processChange("filterAndSort");
   };
 
@@ -107,7 +106,6 @@ function SearchCustomer({
     setFirst(!First);
     setSecond(false);
     setThird(false);
-
   };
 
   const DropDownSecond = () => {
@@ -147,18 +145,19 @@ function SearchCustomer({
   };
 
   const toggleCategory = (e, value, category) => {
-    const isChecked = e.target.checked;
+    const checked = e.target.checked;
+
+    const newStatus = checked ? value : null;
 
     const updatedFilter = {
       ...filterAndSort.filter,
-      status: isChecked ? value : false,
+      status: newStatus,
     };
 
     // Update the filterAndSort object with the new filter object
     filterAndSort = {
       ...filterAndSort,
       filter: updatedFilter,
-
     };
     // Save input here if needed
     processChange("filterAndSort");
@@ -212,7 +211,7 @@ function SearchCustomer({
             totalPages(data.total);
             console.log("filter customer table", data.data);
             setProducts(data.data);
-            setSearch(data.data.length)
+            setSearch(data.data.length);
             setisSearchResult(true);
           } else {
             setisSearchResult(false);
@@ -258,17 +257,20 @@ function SearchCustomer({
       //   setIsFilter(false);
       // }
       if (
-        (secondDropdownRef.current && !secondDropdownRef.current.contains(event.target))
+        secondDropdownRef.current &&
+        !secondDropdownRef.current.contains(event.target)
       ) {
         setSecond(false);
       }
       if (
-        (firstDropdownRef.current && !firstDropdownRef.current.contains(event.target))
+        firstDropdownRef.current &&
+        !firstDropdownRef.current.contains(event.target)
       ) {
         setFirst(false);
       }
       if (
-        (thirdDropdownRef.current && !thirdDropdownRef.current.contains(event.target))
+        thirdDropdownRef.current &&
+        !thirdDropdownRef.current.contains(event.target)
       ) {
         setThird(false);
       }
@@ -288,7 +290,6 @@ function SearchCustomer({
       document.removeEventListener("keydown", handleKeydown);
     };
   }, []);
- 
 
   return (
     <>
@@ -321,7 +322,7 @@ function SearchCustomer({
                 name="text"
                 onKeyUp={() => processChange("filterAndSort")}
                 onChange={handleInputChange}
-              // onChange={(e) => SetpinCode(e.target.value)
+                // onChange={(e) => SetpinCode(e.target.value)
               />
             </div>
           </div>
@@ -330,15 +331,13 @@ function SearchCustomer({
             <div
               onClick={() => setIsFilter(!isFilter)}
               className="h-11	w-fit px-5 shadow-md cursor-pointer	border  border-inherit rounded-md flex items-center justify-center gap-2"
-            // ref={dropdownRef}
+              // ref={dropdownRef}
             >
               <div className="">
                 {search === 0 && (
                   <FilterAltOutlinedIcon style={{ fill: "#2a2626d1" }} />
                 )}
-                {search > 0 && (
-                  <FilterAltIcon style={{ fill: "#2a2626d1" }} />
-                )}
+                {search > 0 && <FilterAltIcon style={{ fill: "#2a2626d1" }} />}
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
             </div>
@@ -392,9 +391,10 @@ function SearchCustomer({
                 </div>
               )}
             </div>
-            
-            <div className="relative"
-            // ref={secondDropdownRef}
+
+            <div
+              className="relative"
+              // ref={secondDropdownRef}
             >
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
@@ -404,7 +404,7 @@ function SearchCustomer({
                 <div className={`arrow-${Second}`}>
                   <img src="/assets/dropdownArrow.png" alt="" />
                 </div>
-                </div>
+              </div>
               {Second && (
                 <div
                   className=" z-10	left-0   w-60 absolute product-dropdown rounded-lg	 overflow-y-scroll py-3	"
@@ -440,21 +440,21 @@ function SearchCustomer({
                   <Select
                     mode="multiple"
                     style={{
-                      width: '100%',
+                      width: "100%",
                     }}
                     placeholder="select one country"
                     onChange={addState}
                     optionLabelProp="label"
-                     open={true}
+                    open={true}
                   >
                     {State.map((item, index) => {
-                      return(
+                      return (
                         <>
-                    <Option value={item} label={item}>
-                    <Space>{item}</Space>
-                      </Option>
-                      </>
-                      )
+                          <Option value={item} label={item}>
+                            <Space>{item}</Space>
+                          </Option>
+                        </>
+                      );
                     })}
                   </Select>
                   {/* ant */}
