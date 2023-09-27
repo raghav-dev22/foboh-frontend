@@ -3,6 +3,7 @@ import { Combobox, Transition } from "@headlessui/react";
 import Select from "react-select";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useEffect } from "react";
 
 function CustomerDetailsFirst({
   handleChange,
@@ -28,6 +29,71 @@ function CustomerDetailsFirst({
     }
     console.log("all values>>",values)
   };
+
+  const [defaultPaymentTrems, setDefaultPaymentTrems] = useState([])
+  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState([])
+  const [customerTag, setCustomerTag] = useState([])
+
+
+  useEffect(()=>{
+    // defaultPaymentTrems
+    fetch("https://masters-api-foboh.azurewebsites.net/api/DefaultPaymentTerm", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("defaultPaymentMethodId -->", data);
+          setDefaultPaymentTrems(
+            data.map((ele) => {
+              return {
+                value: ele.id,
+                label: ele.paymentTermName,
+              };
+            })
+          );
+      
+      })
+      .catch((error) => console.log(error));
+
+        // defaultPaymentMethod
+    fetch("https://masters-api-foboh.azurewebsites.net/api/PaymentMethods", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("defaultPaymentMethodId -->", data);
+        setDefaultPaymentMethod(
+            data.map((item) => {
+              return {
+                value: item.paymentMethodId,
+                label: item.name,
+              };
+            })
+          );
+      
+      })
+      .catch((error) => console.log(error));
+
+        // tag
+    fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("tag -->", data);
+        setCustomerTag(
+            data.map((item) => {
+              return {
+                value: item.tagId,
+                label: item.tagName,
+              };
+            })
+          );
+        
+      })
+      .catch((error) => console.log(error));
+
+  },[])
 
   return (
     <form className="">
@@ -144,7 +210,8 @@ function CustomerDetailsFirst({
                 name="salesRepId"
                 isMulti={true}
                 options={options}
-                value={values?.salesRepId}
+                // value={values?.salesRepId}
+                value={options.find((option) => option.value === values.salesRepId)}
                 onChange={(e) => handleSelect(e, "salesRepId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -203,7 +270,7 @@ function CustomerDetailsFirst({
               <Select
                 name="defaultPaymentTerms"
                 isMulti={true}
-                options={options}
+                options={defaultPaymentTrems} 
                 // value={options.find(
                 //   (option) => option.value === values.defaultPaymentTerms
                 // )}
@@ -237,7 +304,7 @@ function CustomerDetailsFirst({
                 //   (option) => option.value === values.defaultPaymentMethodId
                 // )}
                 value={values?.defaultPaymentMethodId}
-                options={options}
+                options={defaultPaymentMethod}
                 onChange={(e) => handleSelect(e, "defaultPaymentMethodId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -261,23 +328,27 @@ function CustomerDetailsFirst({
           <div className=" w-full relative md:w-1/2 px-3">
             <h5 className="text-base font-medium text-green mb-3">Tags</h5>
             <div className=" top-16 w-full">
-              {/* <Select
+              <Select
                 value={options.find((option) => option.value === values.tags)}
-                // defaultValue={[options[2], options[3]]}
                 isMulti
                 name="colors"
-                options={options}
+                options={customerTag}
                 className="basic-multi-select"
                 classNamePrefix="select"
-              /> */}
-              <Select
+                style={{
+                border:
+                  errors?.tags &&
+                  "1px solid red",
+              }}
+              />
+              {/* <Select
                 name="tags"
-                isMulti
+                isMulti = {true}
                 // value={options.find(
                 //   (option) => option.value === values.tags
                 // )}
                 value={values?.tags}
-                options={options}
+                options={customerTag}
                 onChange={(e) => handleSelect(e, "tags")}
                 // onChange={}
                 className="basic-multi-select "
@@ -287,7 +358,7 @@ function CustomerDetailsFirst({
                   errors?.tags &&
                   "1px solid red",
               }}
-            />
+            /> */}
 
             {errors?.tags && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">

@@ -669,7 +669,7 @@ function AddProduct() {
           setVariety(
             data.map((item) => {
               return {
-                value: parseInt(item.grapeVarietyId),
+                value: item.grapeVarietyId,
                 label: item.grapeVarietyName,
               };
             })
@@ -689,7 +689,7 @@ function AddProduct() {
         setTag(
             data.map((item) => {
               return {
-                value: parseInt(item.tagId),
+                value: item.tagId,
                 label: item.tagName,
               };
             })
@@ -1262,8 +1262,8 @@ function AddProduct() {
                       </h5>
                       <div className="w-full">
                         <Select
-                          isMulti
-                          name="colors"
+                          isMulti={true}
+                          name="variety"
                           // isDisabled={!variety.length}
                           options={variety}
                           value={
@@ -1274,7 +1274,7 @@ function AddProduct() {
                           onChange={handleGrapeVarietyChange}
                           className="basic-multi-select "
                           classNamePrefix="select"
-                          isClearable={true}
+                          // isClearable={true}
                         />
                       </div>
                     </div>
