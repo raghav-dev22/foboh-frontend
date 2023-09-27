@@ -4,6 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import ActiveProduct from "./ActiveProduct";
 import { useNavigate } from "react-router-dom";
+
 import "../style.css";
 import {
   Typography,
@@ -22,6 +23,7 @@ const TABLE_HEAD = [
   "Stock level",
   " Status",
 ];
+
 function Range() {
   const childRef = useRef(null);
   const [isBulkEdit, setIsBulkEdit] = useState(false);
@@ -38,6 +40,8 @@ function Range() {
   const [loading, setLoading] = useState(true);
   const [isSearchResult, setisSearchResult] = useState(true);
 
+  const productUrl = process.env.REACT_APP_PRODUCT_API_URL;
+
   useEffect(() => {
     getProductList(1);
     getAllproduct();
@@ -45,7 +49,7 @@ function Range() {
 
   const getAllproduct = () => {
     fetch(
-      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1`,
+      `${productUrl}/api/product/GetAll?page=1`,
       {
         method: "GET",
       }

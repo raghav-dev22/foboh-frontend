@@ -57,13 +57,13 @@ const initialValues = {
   configuration: "",
   description: "",
   tags: [],
-  salePrice: null,
-  buyPrice: null,
+  salePrice: 0,
+  buyPrice: 0,
   profit: "",
   margin: "",
   tax: "",
   availableQty: "",
-  wineEqualisationTax: "",
+  wineEqualisationTax: 0,
   landedUnitCost: 0,
   status: "",
 };
@@ -166,68 +166,6 @@ function AddProduct() {
   });
 
   console.log("err ->", errors);
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if(!errors) {
-  //     fetch("https://product-api-foboh.azurewebsites.net/api/Product/create", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         title: values.title,
-  //         description: values.description,
-  //         award: values.awards,
-  //         articleId: 0,
-  //         skUcode: values.skuCode,
-  //         productImage: "string",
-  //         unitofMeasure: values.baseUnitMeasure.value,
-  //         innerUnitofMeasure: values.innerUnitMeasure.value,
-  //         configuration: values.configuration,
-  //         brand: values.brand,
-  //         departmentId: values.department.value,
-  //         categoryId: values.category.value,
-  //         subCategoryId: values.subcategory.value,
-  //         segmentId: values.segment?.value,
-  //         variety: values.grapeVariety.map((item) => {
-  //           return item.label;
-  //         }),
-  //         vintage: values.vintage,
-  //         abv: values.abv,
-  //         globalPrice: values.salePrice,
-  //         luCcost: values.landedUnitCost,
-  //         buyPrice: values.buyPrice,
-  //         gstFlag: checkGST,
-  //         wetFlag: checkWET,
-  //         availableQty: values.minimumOrder,
-  //         stockThreshold: values.stockAlertLevel,
-  //         stockStatus: values.status,
-  //         regionAvailability: values.region,
-  //         productStatus: values.status,
-  //         visibility: values.visibility,
-  //         minimumOrder: values.minimumOrder,
-  //         tags: values.tags.map((item) => {
-  //           return item.label;
-  //         }),
-  //         countryOfOrigin: values.country.label,
-  //         barcodes: "string",
-  //         esgStatus: "string",
-  //         healthRating: "string",
-  //         isActive: 1,
-  //       }),
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log(data);
-  //         if (data.success) {
-  //           console.log("Success >>>", data);
-  //           setShow(false);
-  //         }
-  //       })
-  //       .catch((error) => console.log(error));
-  //   }
-  // };
 
   const handleReset = () => {
     setShow(false);
@@ -605,8 +543,8 @@ function AddProduct() {
     } else {
       setValues({
         ...values,
-        wineEqualisationTax: "",
-        landedUnitCost: "",
+        wineEqualisationTax: 0,
+        landedUnitCost: 0,
       });
     }
 

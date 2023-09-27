@@ -41,6 +41,4 @@ export const addProductSchema = Yup.object().shape({
   profit: Yup.string(),
   margin: Yup.string(),
   tax: Yup.string(),
-  wineEqualisationTax: Yup.string(),
-  landedUnitCost: Yup.string(),
 });

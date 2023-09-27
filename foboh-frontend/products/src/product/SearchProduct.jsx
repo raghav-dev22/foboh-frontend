@@ -27,7 +27,7 @@ let filterAndSort = {
     subcategory: [],
     stock: [],
     productStatus: [],
-    visibility: null,
+    visibility: "1",
     page: 1,
   },
   sort: {

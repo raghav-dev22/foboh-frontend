@@ -1,9 +1,8 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const deps = require("./package.json").dependencies;
-const {productsUrl} = require('../config')
-
-
+const { productsUrl } = require("../config");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = (_, argv) => ({
   output: {
@@ -48,10 +47,10 @@ module.exports = (_, argv) => ({
       filename: "remoteEntry.js",
       remotes: {},
       exposes: {
-        "./Range" : "./src/product/Range.jsx",
-        "./ViewProduct":"./src/product/ViewProduct.jsx",
-        "./AddProduct":"./src/product/AddProduct.jsx",
-        "./BulkEdit" : "./src/product/BulkEdit.jsx"
+        "./Range": "./src/product/Range.jsx",
+        "./ViewProduct": "./src/product/ViewProduct.jsx",
+        "./AddProduct": "./src/product/AddProduct.jsx",
+        "./BulkEdit": "./src/product/BulkEdit.jsx",
       },
       shared: {
         ...deps,
@@ -68,5 +67,6 @@ module.exports = (_, argv) => ({
     new HtmlWebPackPlugin({
       template: "./src/index.html",
     }),
+    new Dotenv(), // Load environment variables from .env
   ],
 });
