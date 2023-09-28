@@ -1,31 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Tree } from "antd";
 import EastIcon from "@mui/icons-material/East";
-
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// import Select from "react-select";
 import { Select, Space, theme } from "antd";
 import makeAnimated from "react-select/animated";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { add, updateQuantity } from "../slices/CartSlice";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-
 import { listdata } from "../data";
-
 import { useNavigate } from "react-router";
-
-import counterSlice, { increment, decrement } from "../slices/counterSlice";
-
 import { Slider } from "antd";
 import { setProductData } from "../slices/ProductSlice";
 import { Pagination } from "antd";
@@ -33,8 +21,13 @@ import { Checkbox } from "antd";
 import { button, select } from "@material-tailwind/react";
 import { Avatar, List, Skeleton, Switch } from "antd";
 import { useRef } from "react";
+import { getCountry } from "../helpers/getCountry";
+import { getSegments } from "../helpers/getSegments";
+import { getVariety } from "../helpers/getVariety";
+import { getRegion } from "../helpers/getRegion";
+import { getRegionAvailable } from "../helpers/getRegionAvailable";
+import { getTags } from "../helpers/getTags";
 
-// let filterAndSort = {
 //   filter: {
 //     category: [],
 //     subcategory: [],
@@ -48,7 +41,6 @@ import { useRef } from "react";
 //     sortOrder: "asc",
 //   },
 // };
-
 
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
@@ -202,7 +194,6 @@ const ProductList = () => {
 
   // console.log("data", listdata);
 
-  const animatedComponents = makeAnimated();
   const [wine, setWine] = useState(false);
   const [Segment, setSegment] = useState(false);
   const [Variety, setVariety] = useState(false);
@@ -214,72 +205,20 @@ const ProductList = () => {
   const [Tags, setTags] = useState(false);
   const [Sort, setSort] = useState(false);
   const [page, setPage] = useState(1);
+  const [isWine, setIsWine] = useState(false);
   const [totalData, setTotalData] = useState({});
+  const [countries, setCountries] = useState([]);
+  const [segments, setSegments] = useState([]);
+  const [varieties, setVarieties] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [regionsAvailable, setRegionsAvailable] = useState([]);
+  const [tagsList, setTagsList] = useState([]);
+
   const { useToken } = theme;
   const { token } = useToken();
   const dropdownRef = useRef(null);
   const sortRef = useRef(null);
   const productData = useSelector((state) => state.product);
-
-  const wineProduct = [
-    {
-      title: " Option-1",
-    },
-    {
-      title: " Option-2",
-    },
-    {
-      title: " Option-3",
-    },
-    {
-      title: " Option-4",
-    },
-  ];
-
-  const SegmentProduct = [
-    {
-      title: " Option-1",
-    },
-    {
-      title: " Option-2",
-    },
-    {
-      title: " Option-3",
-    },
-    {
-      title: " Option-4",
-    },
-  ];
-
-  const varietyProduct = [
-    {
-      title: " Option-1",
-    },
-    {
-      title: " Option-2",
-    },
-    {
-      title: " Option-3",
-    },
-    {
-      title: " Option-4",
-    },
-  ];
-
-  const countryData = [
-    {
-      title: " Option-1",
-    },
-    {
-      title: " Option-2",
-    },
-    {
-      title: " Option-3",
-    },
-    {
-      title: " Option-4",
-    },
-  ];
 
   const availabilityData = [
     {
@@ -325,40 +264,32 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
- 
-  const [value, setValue] = useState([15, 65]);
+
+  const [value, setValue] = useState({
+    minPrice: 0,
+    maxPrice: 0,
+  });
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
-  const[filterAndSort, setFilterAndSort] = useState(
-    {
-        filter: {
-          category: [],
-          subcategory: [],
-          stock: [],
-          productStatus: [],
-          visibility: true,
-          page: 1,
-        },
-        sort: {
-          sortBy: "",
-          sortOrder: "asc",
-        },
-      }
-  )
-  // let filterAndSort = {
-  //   filter: {
-  //     category: [],
-  //     subcategory: [],
-  //     stock: [],
-  //     productStatus: [],
-  //     visibility: true,
-  //     page: 1,
-  //   },
-  //   sort: {
-  //     sortBy: "",
-  //     sortOrder: "asc",
-  //   },
-  // };
+  const [filterAndSort, setFilterAndSort] = useState({
+    filter: {
+      category: [],
+      subCategory: [],
+      segment: [],
+      variety: [],
+      country: [],
+      regionAvailability: [],
+      region: [],
+      minPrice: 0,
+      maxPrice: 0,
+      tags: [],
+      page: 0,
+    },
+    sort: {
+      sortBy: "",
+      sortOrder: "",
+    },
+  });
 
   const colourOptions = [];
 
@@ -416,6 +347,122 @@ const ProductList = () => {
     console.log("page", current, pageSize);
     setPage(current);
   };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setSort(false);
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        const selectDropdowns = document.querySelectorAll(
+          ".ant-select-dropdown"
+        );
+        let isInsideSelectDropdown = false;
+
+        for (const dropdown of selectDropdowns) {
+          if (dropdown.contains(event.target)) {
+            isInsideSelectDropdown = true;
+            break;
+          }
+        }
+
+        if (!isInsideSelectDropdown) {
+          setWine(false);
+          setSegment(false);
+          setVariety(false);
+          setCountry(false);
+          setRegion(false);
+          setAvailability(false);
+          setPrice(false);
+          setTags(false);
+        }
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef, sortRef]);
+
+  useEffect(() => {
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/ShowCategorySubcategory`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Category and Subcategory >>", data);
+
+        console.log(
+          "cat drop",
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+
+        setCategoryAndSubcategory(
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+      });
+
+    getCountry()
+      .then((data) => {
+        console.log("country", data);
+        setCountries(
+          data.map((country) => {
+            return {
+              label: country?.countryName,
+              value: country?.countryID,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+
+    getRegionAvailable()
+      .then((data) => {
+        setRegionsAvailable(
+          data.map((region) => {
+            return {
+              label: region.stateName,
+              value: region.stateId,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+
+    getTags()
+      .then((data) => {
+        setTagsList(
+          data.map((tag) => {
+            return {
+              label: tag.tagName,
+              value: tag.tagId,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   useEffect(() => {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -587,6 +634,35 @@ const ProductList = () => {
     setPrice(false);
   };
 
+  const getWineSpecific = (e, newSubcategoryIds) => {
+    getSegments(newSubcategoryIds).then((data) => {
+      console.log("segments", data);
+      if (data) {
+        setSegments(
+          data.map((segment) => {
+            return {
+              label: segment?.segmentName,
+              value: segment?.segmentId,
+            };
+          })
+        );
+      }
+    });
+
+    getRegion()
+      .then((data) => {
+        setRegions(
+          data.map((region) => {
+            return {
+              label: region?.regionName,
+              value: region?.regionId,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+  };
+
   const handleIncrementDecrement = (id, actionType) => {
     const updatedProductData = productData.map((item) => {
       if (item?.product?.productId === id) {
@@ -608,115 +684,21 @@ const ProductList = () => {
     dispatch(setProductData(updatedProductData));
   };
   const handleChange = (e, value) => {
-    setValue(value);
+    console.log("price slider", e, value);
+    setFilterAndSort((prevState) => ({
+      ...prevState,
+      filter: {
+        ...prevState.filter,
+        minPrice: e[0],
+        maxPrice: e[1],
+      },
+    }));
     setWine(false);
-  };
-  const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
-  const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
-  const [selectedKeys, setSelectedKeys] = useState([]);
-  const [autoExpandParent, setAutoExpandParent] = useState(true);
-  const onExpand = (expandedKeysValue) => {
-    console.log("onExpand", expandedKeysValue);
-
-    setExpandedKeys(expandedKeysValue);
-    setAutoExpandParent(false);
-  };
-  const onCheck = (checkedKeysValue) => {
-    console.log("onCheck", checkedKeysValue);
-    setCheckedKeys(checkedKeysValue);
-  };
-  const onSelect = (selectedKeysValue, info) => {
-    console.log("onSelect", info);
-    setSelectedKeys(selectedKeysValue);
-  };
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (sortRef.current && !sortRef.current.contains(event.target)) {
-        setSort(false);
-      }
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        const selectDropdowns = document.querySelectorAll(
-          ".ant-select-dropdown"
-        );
-        let isInsideSelectDropdown = false;
-
-        for (const dropdown of selectDropdowns) {
-          if (dropdown.contains(event.target)) {
-            isInsideSelectDropdown = true;
-            break;
-          }
-        }
-
-        if (!isInsideSelectDropdown) {
-          setWine(false);
-          setSegment(false);
-          setVariety(false);
-          setCountry(false);
-          setRegion(false);
-          setAvailability(false);
-          setPrice(false);
-          setTags(false);
-        }
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropdownRef, sortRef]);
-
-  useEffect(() => {
-    fetch(
-      `https://fobohwepapifbh.azurewebsites.net/api/ShowCategorySubcategory`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Category and Subcategory >>", data);
-
-        console.log(
-          "cat drop",
-          data.map((i) => {
-            return {
-              categoryName: i.categoryName,
-              categoryId: i.categoryId,
-              subcategory: i.subcategoryId.map((c, n) => {
-                return { name: i.subCategorys[n], id: c };
-              }),
-            };
-          })
-        );
-
-        setCategoryAndSubcategory(
-          data.map((i) => {
-            return {
-              categoryName: i.categoryName,
-              categoryId: i.categoryId,
-              subcategory: i.subcategoryId.map((c, n) => {
-                return { name: i.subCategorys[n], id: c };
-              }),
-            };
-          })
-        );
-      });
-  }, []);
-
-                      
-
-  const updatedFilterAndSort = () => {
-    return filterAndSort;
   };
 
   const toggleCategoryAndSubcategory = (e, id, name) => {
-    console.log(id, name);
-
+    console.log("toggleCategoryAndSubcategory", e, id, name);
     // Handling pagination
-    
 
     if (name === "category") {
       // setOpen(!Open);
@@ -733,29 +715,152 @@ const ProductList = () => {
       //  ...filterAndSort,
       //   filter: newFilter,
       // };
+
       setFilterAndSort({
         ...filterAndSort,
         filter: newFilter,
-      })
+      });
       console.log(newCategoryIds);
-
     } else if (name === "subcategory") {
-      const newSubcategoryIds =  e      
+      const newSubcategoryIds = id.map((subCat) => subCat.key);
+
+      setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
         ...filterAndSort.filter,
-        subcategory: newSubcategoryIds,
+        subCategory: newSubcategoryIds,
       };
 
       // filterAndSort = {
       //   ...filterAndSort,
       //   filter: newFilter,
       // };
+
       setFilterAndSort({
         ...filterAndSort,
         filter: newFilter,
-      })
+      });
+
+      (e.includes("wine") || e.includes("Wine")) &&
+        getVariety()
+          .then((data) => {
+            console.log("variety", data);
+            setVarieties(
+              data.map((variety) => {
+                return {
+                  label: variety?.grapeVarietyName,
+                  value: variety?.grapeVarietyId,
+                };
+              })
+            );
+          })
+          .catch((error) => console.log(error));
+
+      getWineSpecific(e, newSubcategoryIds);
+    } else if (name === "segment") {
+      const newSegmentIds = id.map((segment) => segment.key);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        segment: newSegmentIds,
+      };
+
+      // filterAndSort = {
+      //   ...filterAndSort,
+      //   filter: newFilter,
+      // };
+
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      });
+    } else if (name === "variety") {
+      const newVarietyIds = id.map((variety) => variety.key);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        variety: newVarietyIds,
+      };
+
+      // filterAndSort = {
+      //   ...filterAndSort,
+      //   filter: newFilter,
+      // };
+
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      });
+    } else if (name === "country") {
+      const newCountryIds = id.map((country) => country.key);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        country: newCountryIds,
+      };
+
+      // filterAndSort = {
+      //   ...filterAndSort,
+      //   filter: newFilter,
+      // };
+
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      });
+    } else if (name === "region") {
+      const newRegionIds = id.map((region) => region.key);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        region: newRegionIds,
+      };
+
+      // filterAndSort = {
+      //   ...filterAndSort,
+      //   filter: newFilter,
+      // };
+
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      });
+    } else if (name === "regionAvailable") {
+      const newRegionAvailableIds = id.map((region) => region.key);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        regionAvailability: newRegionAvailableIds,
+      };
+
+      // filterAndSort = {
+      //   ...filterAndSort,
+      //   filter: newFilter,
+      // };
+
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      });
+    } else if (name === "tags") {
+      const newTagsIds = id.map((tag) => tag.key);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        tags: newTagsIds,
+      };
+
+      // filterAndSort = {
+      //   ...filterAndSort,
+      //   filter: newFilter,
+      // };
+
+      setFilterAndSort({
+        ...filterAndSort,
+        filter: newFilter,
+      });
     }
+    console.log("filterAndSort", filterAndSort);
     //  else if (name === "stock") {
     //   const newStockValues = e.target.checked
     //     ? [...filterAndSort.filter.stock, id]
@@ -805,9 +910,11 @@ const ProductList = () => {
     // console.log(filterAndSort);
 
     // processChange("filterAndSort");
-
   };
-  
+
+  const toggleSort = (value) => {
+    console.log("toggle sort", JSON.parse(value));
+  };
 
   return (
     <>
@@ -860,13 +967,18 @@ const ProductList = () => {
                     <input
                       id="default-checkbox"
                       type="checkbox"
+                      value={{
+                        sortBy: "alphabetical",
+                        sortOrder: "asc",
+                      }}
+                      onChange={toggleSort}
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
 
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
-                        Option-1
+                        A - Z
                       </h5>
                     </label>
                   </div>
@@ -875,13 +987,18 @@ const ProductList = () => {
                     <input
                       id="default-checkbox"
                       type="checkbox"
+                      value={{
+                        sortBy: "alphabetical",
+                        sortOrder: "desc",
+                      }}
+                      onChange={toggleSort}
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
 
                     <label htmlFor="default-checkbox" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
-                        Option-1
+                        Z - A
                       </h5>
                     </label>
                   </div>
@@ -898,30 +1015,40 @@ const ProductList = () => {
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3">
                     <input
-                      id="default-checkbox"
+                      id="lowHigh"
                       type="checkbox"
+                      value={{
+                        sortBy: "price",
+                        sortOrder: "asc",
+                      }}
+                      onChange={toggleSort}
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
 
-                    <label htmlFor="default-checkbox" className="ml-2 ">
+                    <label htmlFor="lowHigh" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
-                        Option-1
+                        Low - High
                       </h5>
                     </label>
                   </div>
 
                   <div className="flex items-center mt-3">
                     <input
-                      id="default-checkbox"
+                      id="highLow"
                       type="checkbox"
+                      value={{
+                        sortBy: "price",
+                        sortOrder: "asc",
+                      }}
+                      onChange={toggleSort}
                       defaultValue=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
                     />
 
-                    <label htmlFor="default-checkbox" className="ml-2 ">
+                    <label htmlFor="highLow" className="ml-2 ">
                       <h5 className="text-base font-normal text-[#637381]">
-                        Option-1
+                        High - Low
                       </h5>
                     </label>
                   </div>
@@ -952,69 +1079,54 @@ const ProductList = () => {
 
                 <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
-
-              {/* {wine && (
-                <>
-                  <div className="relative">
-                    <SearchIcon
-                      className="absolute top-[12px] right-[8px] z-10"
-                      style={{ fill: "#d9d9db" }}
-                    />
-                    <input type="text" placeholder="Search|" />
-                  </div>
-                  <Tree
-                    checkable
-                    onExpand={onExpand}
-                    expandedKeys={expandedKeys}
-                    autoExpandParent={autoExpandParent}
-                    onCheck={onCheck}
-                    checkedKeys={checkedKeys}
-                    onSelect={onSelect}
-                    selectedKeys={selectedKeys}
-                    treeData={SubCategory}
-                  />
-                </>
-              )} */}
               {wine && (
-                  <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
-                    <ul className="dropdown-content ">
-                      {categoryAndSubcategory &&
-                        categoryAndSubcategory.map((category, idx) => (
-                          <li className="py-2.5	px-4	">
-                            <div className="flex items-center">
-                              <input
-                                id={idx}
-                                type="checkbox"
-                                value={category.categoryId}
-                                onClick={(e) =>
-                                  toggleCategoryAndSubcategory(
-                                    e,
-                                    category.categoryId,
-                                    "category"
-                                  )
-                                }
-                                // checked={filterAndSort.filter.category.includes(
-                                //   category.categoryId
-                                // )}
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                              />
-                              <label
-                                htmlFor={idx}
-                                className="ml-2 text-sm font-medium text-gray"
-                              >
-                                {category.categoryName}
-                              </label>
-                            </div>
-                            {filterAndSort.filter.category.includes(
-                                  category.categoryId) && (
+                <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
+                  <ul className="dropdown-content ">
+                    {categoryAndSubcategory &&
+                      categoryAndSubcategory.map((category, idx) => (
+                        <li className="py-2.5	px-4	">
+                          <div className="flex items-center">
+                            <input
+                              id={idx}
+                              type="checkbox"
+                              value={category.categoryId}
+                              onClick={(e) =>
+                                toggleCategoryAndSubcategory(
+                                  e,
+                                  category.categoryId,
+                                  "category"
+                                )
+                              }
+                              // checked={filterAndSort.filter.category.includes(
+                              //   category.categoryId
+                              // )}
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <label
+                              htmlFor={idx}
+                              className="ml-2 text-sm font-medium text-gray"
+                            >
+                              {category.categoryName}
+                            </label>
+                          </div>
+                          {filterAndSort.filter.category.includes(
+                            category.categoryId
+                          ) && (
                             <ul className="dropdown-content">
                               <Select
+                                open={true}
                                 mode="multiple"
                                 style={{
-                                  width: '100%',
+                                  width: "100%",
                                 }}
                                 placeholder="select one country"
-                                onChange={(e, value) =>toggleCategoryAndSubcategory(e,value,"subcategory")}
+                                onChange={(e, value) =>
+                                  toggleCategoryAndSubcategory(
+                                    e,
+                                    value,
+                                    "subcategory"
+                                  )
+                                }
                                 optionLabelProp="label"
                               >
                                 {category.subcategory.map((subcat, i) => (
@@ -1022,134 +1134,144 @@ const ProductList = () => {
                                     {filterAndSort.filter.category.includes(
                                       category.categoryId
                                     ) && (
-                                        <Option value={subcat.id} label={subcat.name} key={i}>
-                                          <Space>{subcat.name}</Space>
-                                        </Option>
-                                      )}
+                                      <Option
+                                        value={subcat.name}
+                                        key={subcat.id}
+                                      >
+                                        <Space>{subcat.name}</Space>
+                                      </Option>
+                                    )}
                                   </>
                                 ))}
                               </Select>
-
                             </ul>
-                            )}
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
+                          )}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {segments.length > 0 && (
+              <div className=" py-4 border-b border-[#E7E7E7]">
+                <div
+                  className="flex justify-between"
+                  onClick={() => {
+                    SegmentBtn();
+                  }}
+                >
+                  <h5 className="text-base font-medium text-[#2B4447]">
+                    Segment
+                  </h5>
+
+                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                </div>
+
+                {Segment && (
+                  <>
+                    <div className="relative">
+                      <SearchIcon
+                        className="absolute top-[22px] right-[8px] z-10"
+                        style={{ fill: "#d9d9db" }}
+                      />
+                      <Select
+                        mode="multiple"
+                        style={{
+                          width: "100%",
+                        }}
+                        placeholder="Search"
+                        className=""
+                        optionLabelProp="label"
+                        onChange={(e, value) =>
+                          toggleCategoryAndSubcategory(e, value, "segment")
+                        }
+                        open={true}
+                      >
+                        {segments.map((item) => {
+                          return (
+                            <>
+                              <Option value={item.label} key={item.value}>
+                                <div className="flex items-center my-1">
+                                  <label
+                                    htmlFor="default-checkbox"
+                                    className="ml-2 "
+                                  >
+                                    <h5 className="text-base font-normal text-[#637381]">
+                                      {item.label}
+                                    </h5>
+                                  </label>
+                                </div>
+                              </Option>
+                            </>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  </>
                 )}
-            </div>
-
-            <div className=" py-4 border-b border-[#E7E7E7]">
-              <div
-                className="flex justify-between"
-                onClick={() => {
-                  SegmentBtn();
-                }}
-              >
-                <h5 className="text-base font-medium text-[#2B4447]">
-                  Segment
-                </h5>
-
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
               </div>
+            )}
 
-              {Segment && (
-                <>
-                  <div className="relative">
-                    <SearchIcon
-                      className="absolute top-[22px] right-[8px] z-10"
-                      style={{ fill: "#d9d9db" }}
-                    />
-                    <Select
-                      mode="multiple"
-                      style={{
-                        width: "100%",
-                      }}
-                      placeholder="Search|"
-                      className=""
-                      optionLabelProp="label"
-                      onChange={handleChangeOption}
-                      open={true}
-                    >
-                      {SegmentProduct.map((item) => {
-                        return (
-                          <>
-                            <Option value={item.title} label={item.title}>
-                              <div className="flex items-center my-1">
-                                <label
-                                  htmlFor="default-checkbox"
-                                  className="ml-2 "
-                                >
-                                  <h5 className="text-base font-normal text-[#637381]">
-                                    {item.title}
-                                  </h5>
-                                </label>
-                              </div>
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </div>
-                </>
-              )}
-            </div>
+            {isWine && (
+              <div className=" py-4 border-b border-[#E7E7E7]">
+                <div
+                  className="flex justify-between"
+                  onClick={() => {
+                    VarietyBtn();
+                  }}
+                >
+                  <h5 className="text-base font-medium text-[#2B4447]">
+                    Variety
+                  </h5>
 
-            <div className=" py-4 border-b border-[#E7E7E7]">
-              <div
-                className="flex justify-between"
-                onClick={() => {
-                  VarietyBtn();
-                }}
-              >
-                <h5 className="text-base font-medium text-[#2B4447]">
-                  Variety
-                </h5>
+                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                </div>
 
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                {Variety && (
+                  <>
+                    <div className="relative">
+                      <SearchIcon
+                        className="absolute top-[22px] right-[8px] z-10"
+                        style={{ fill: "#d9d9db" }}
+                      />
+                      <Select
+                        mode="multiple"
+                        style={{
+                          width: "100%",
+                        }}
+                        placeholder="Search"
+                        className=""
+                        optionLabelProp="label"
+                        onChange={(e, value) =>
+                          toggleCategoryAndSubcategory(e, value, "variety")
+                        }
+                        open={true}
+                      >
+                        {varieties.map((item) => {
+                          return (
+                            <>
+                              <Option value={item.label} key={item.value}>
+                                <div className="flex items-center my-1">
+                                  <label
+                                    htmlFor="default-checkbox"
+                                    className="ml-2 "
+                                  >
+                                    <h5 className="text-base font-normal text-[#637381]">
+                                      {item.label}
+                                    </h5>
+                                  </label>
+                                </div>
+                              </Option>
+                            </>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  </>
+                )}
               </div>
-
-              {Variety && (
-                <>
-                  <div className="relative">
-                    <SearchIcon
-                      className="absolute top-[22px] right-[8px] z-10"
-                      style={{ fill: "#d9d9db" }}
-                    />
-                    <Select
-                      mode="multiple"
-                      style={{
-                        width: "100%",
-                      }}
-                      placeholder="Search|"
-                      className=""
-                      optionLabelProp="label"
-                      onChange={handleChangeOption}
-                      open={true}
-                    >
-                      {varietyProduct.map((item) => {
-                        return (
-                          <>
-                            <Option value={item.title} label={item.title}>
-                              <div className="flex items-center my-1">
-                                <label
-                                  htmlFor="default-checkbox"
-                                  className="ml-2 "
-                                >
-                                  <h5 className="text-base font-normal text-[#637381]">
-                                    {item.title}
-                                  </h5>
-                                </label>
-                              </div>
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </div>
-                </>
-              )}
-            </div>
+            )}
 
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
@@ -1177,23 +1299,25 @@ const ProductList = () => {
                       style={{
                         width: "100%",
                       }}
-                      placeholder="Search|"
+                      placeholder="Search"
                       className=""
                       optionLabelProp="label"
-                      onChange={handleChangeOption}
+                      onChange={(e, value) =>
+                        toggleCategoryAndSubcategory(e, value, "country")
+                      }
                       open={true}
                     >
-                      {countryData.map((item) => {
+                      {countries.map((item) => {
                         return (
                           <>
-                            <Option value={item.title} label={item.title}>
+                            <Option value={item.label} key={item.value}>
                               <div className="flex items-center my-1">
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
                                 >
                                   <h5 className="text-base font-normal text-[#637381]">
-                                    {item.title}
+                                    {item.label}
                                   </h5>
                                 </label>
                               </div>
@@ -1233,23 +1357,29 @@ const ProductList = () => {
                       style={{
                         width: "100%",
                       }}
-                      placeholder="Search|"
+                      placeholder="Search"
                       className=""
                       optionLabelProp="label"
-                      onChange={handleChangeOption}
+                      onChange={(e, value) =>
+                        toggleCategoryAndSubcategory(
+                          e,
+                          value,
+                          "regionAvailable"
+                        )
+                      }
                       open={true}
                     >
-                      {availabilityData.map((item) => {
+                      {regionsAvailable.map((item) => {
                         return (
                           <>
-                            <Option value={item.title} label={item.title}>
+                            <Option value={item.label} key={item.value}>
                               <div className="flex items-center my-1">
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
                                 >
                                   <h5 className="text-base font-normal text-[#637381]">
-                                    {item.title}
+                                    {item.label}
                                   </h5>
                                 </label>
                               </div>
@@ -1263,59 +1393,65 @@ const ProductList = () => {
               )}
             </div>
 
-            <div className=" py-4 border-b border-[#E7E7E7]">
-              <div
-                className="flex justify-between"
-                onClick={() => {
-                  RegionBtn();
-                }}
-              >
-                <h5 className="text-base font-medium text-[#2B4447]">Region</h5>
+            {isWine && (
+              <div className=" py-4 border-b border-[#E7E7E7]">
+                <div
+                  className="flex justify-between"
+                  onClick={() => {
+                    RegionBtn();
+                  }}
+                >
+                  <h5 className="text-base font-medium text-[#2B4447]">
+                    Region
+                  </h5>
 
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                </div>
+
+                {Region && (
+                  <>
+                    <div className="relative">
+                      <SearchIcon
+                        className="absolute top-[22px] right-[8px] z-10"
+                        style={{ fill: "#d9d9db" }}
+                      />
+                      <Select
+                        mode="multiple"
+                        style={{
+                          width: "100%",
+                        }}
+                        placeholder="Search"
+                        className=""
+                        optionLabelProp="label"
+                        onChange={(e, value) =>
+                          toggleCategoryAndSubcategory(e, value, "region")
+                        }
+                        open={true}
+                      >
+                        {regions.map((item) => {
+                          return (
+                            <>
+                              <Option value={item.label} key={item.value}>
+                                <div className="flex items-center my-1">
+                                  <label
+                                    htmlFor="default-checkbox"
+                                    className="ml-2 "
+                                  >
+                                    <h5 className="text-base font-normal text-[#637381]">
+                                      {item.label}
+                                    </h5>
+                                  </label>
+                                </div>
+                              </Option>
+                            </>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  </>
+                )}
               </div>
-
-              {Region && (
-                <>
-                  <div className="relative">
-                    <SearchIcon
-                      className="absolute top-[22px] right-[8px] z-10"
-                      style={{ fill: "#d9d9db" }}
-                    />
-                    <Select
-                      mode="multiple"
-                      style={{
-                        width: "100%",
-                      }}
-                      placeholder="Search|"
-                      className=""
-                      optionLabelProp="label"
-                      onChange={handleChangeOption}
-                      open={true}
-                    >
-                      {RegionData.map((item) => {
-                        return (
-                          <>
-                            <Option value={item.title} label={item.title}>
-                              <div className="flex items-center my-1">
-                                <label
-                                  htmlFor="default-checkbox"
-                                  className="ml-2 "
-                                >
-                                  <h5 className="text-base font-normal text-[#637381]">
-                                    {item.title}
-                                  </h5>
-                                </label>
-                              </div>
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </div>
-                </>
-              )}
-            </div>
+            )}
 
             <div className=" py-4 border-b border-[#E7E7E7]">
               <div
@@ -1336,7 +1472,8 @@ const ProductList = () => {
                       <div className="sliderwrap">
                         <Slider
                           getAriaLabel={() => "Temperature range"}
-                          value={value}
+                          range
+                          defaultValue={[20, 50]}
                           onChange={handleChange}
                           valueLabelDisplay="auto"
                           getAriaValueText={() => {
@@ -1353,7 +1490,7 @@ const ProductList = () => {
 
                           <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
                             <p className="font-normal text-sm text-[#637381]">
-                              $ {value}
+                              $ {filterAndSort?.filter?.minPrice}
                             </p>
                           </div>
                         </div>
@@ -1365,7 +1502,7 @@ const ProductList = () => {
 
                           <div className="border border-[#E7E7E7] rounded-md py-[5px] px-[14px]">
                             <p className="font-normal text-sm text-[#637381]">
-                              $ {value}
+                              $ {filterAndSort?.filter?.maxPrice}
                             </p>
                           </div>
                         </div>
@@ -1400,23 +1537,25 @@ const ProductList = () => {
                       style={{
                         width: "100%",
                       }}
-                      placeholder="Search|"
+                      placeholder="Search"
                       className=""
                       optionLabelProp="label"
-                      onChange={handleChangeOption}
+                      onChange={(e, value) =>
+                        toggleCategoryAndSubcategory(e, value, "tags")
+                      }
                       open={true}
                     >
-                      {TagsProduct.map((item) => {
+                      {tagsList.map((item) => {
                         return (
                           <>
-                            <Option value={item.title} label={item.title}>
+                            <Option value={item.label} key={item.value}>
                               <div className="flex items-center my-1">
                                 <label
                                   htmlFor="default-checkbox"
                                   className="ml-2 "
                                 >
                                   <h5 className="text-base font-normal text-[#637381]">
-                                    {item.title}
+                                    {item.label}
                                   </h5>
                                 </label>
                               </div>
