@@ -146,7 +146,6 @@ const Payment = () => {
           postal_code: "12345",
           country: "US", // Use the appropriate ISO 3166-1 alpha-2 country code for India
         },
-
       },
     });
 

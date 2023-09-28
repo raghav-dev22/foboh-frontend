@@ -18,17 +18,36 @@ import { theme } from "antd";
 
 const CartPage = () => {
   const [totalCost, setTotleCost] = useState(0);
+  const [addCartPage, setAddCartPage] = useState([]);
   const CARTdata = useSelector((items) => items.cart);
+  const [updatedQuantity, setUpdatedQuantity] = useState({
+    productId: "",
+    quantity: 0,
+  });
   const { useToken } = theme;
+  const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
   const dispatch = useDispatch();
 
-  const removeItem = (cartItem) => {
-    dispatch(remove(cartItem));
-  };
-
-  const handleIncrementDecrement = (id, actionType) => {
-    dispatch(updateQuantity({ id, actionType }));
+  const removeItem = (productId, productStatus) => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    fetch(`${url}/api/Product/RemoveAddToCart?ProductId=${productId}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        buyerId: buyerId,
+        productStatus: "remove",
+        productId: productId,
+      }),
+    })
+      .then((response) => {
+        console.log("Deleted successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error deleting data:", error);
+      });
   };
 
   const calculateTotalCost = () => {
@@ -45,10 +64,113 @@ const CartPage = () => {
   };
 
   useEffect(() => {
+    const cartId = localStorage.getItem("cartId");
+
+    fetch(`${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "addcart");
+
+        if (data.success) {
+          setAddCartPage(
+            data.data.map((product) => {
+              return {
+                product: product,
+                quantity: product?.quantity,
+              };
+            })
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+
     const newTotal = calculateTotalCost();
     setTotleCost(newTotal.toFixed(2));
     console.log("Total Cost:", totalCost);
   }, [CARTdata]);
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      debouncedHandleIncrementDecrement(
+        updatedQuantity.productId,
+        updatedQuantity.quantity
+      );
+    }, 1000);
+    return () => clearTimeout(debounceTimeout);
+  }, [updatedQuantity]);
+
+  function debounce(func, timeout = 0) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+  const debouncedHandleIncrementDecrement = debounce(
+    (productId, newQuantity) => {
+      const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+      const { deliveryFirstName } = JSON.parse(
+        localStorage.getItem("buyerInfo")
+      );
+
+      fetch(`${url}/api/Product/UpdateToCart?ProductId=${productId}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          createdBy: deliveryFirstName,
+          buyerId: buyerId,
+          productStatus: "update",
+          productId: productId,
+          quantity: newQuantity,
+        }),
+      })
+        .then((response) => {
+          return response.json();
+          // setQuantity(newQuantity);
+
+          console.log("Updated successfully:", response);
+        })
+        .then((data) => {
+          console.log(data, "updatequantity");
+        })
+        .catch((error) => {
+          console.error("Error updating data:", error);
+        });
+    }
+  );
+
+  const handleIncrementDecrement = (productId, quantity, action) => {
+    console.log("handleIncrementDecrement", productId, quantity, action);
+    setAddCartPage((prevAddCartPage) => {
+      return prevAddCartPage.map((product) => {
+        if (product.product.productId === productId) {
+          let newQuantity = product.quantity;
+
+          if (action === "increment") {
+            newQuantity++;
+          } else if (action === "decrement" && newQuantity > 0) {
+            newQuantity--;
+          }
+          setUpdatedQuantity({
+            productId: productId,
+            quantity: newQuantity,
+          });
+          return {
+            ...product,
+            quantity: newQuantity,
+          };
+        }
+        return product;
+      });
+    });
+  };
 
   return (
     <>
@@ -67,13 +189,13 @@ const CartPage = () => {
         </div>
         <div className="flex  justify-between flex-wrap md:px-0 px-6 overflow-scroll">
           <div className="lg:w-[60%] w-full overflow-scroll  mb-[2rem]">
-            {CARTdata.length === 0 ? (
+            {addCartPage.length === 0 ? (
               <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
                 Your cart is empty.
               </h5>
             ) : (
               <>
-                {CARTdata.map((item, index) => (
+                {addCartPage.map((item, index) => (
                   <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
                     <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                       <img
@@ -95,6 +217,7 @@ const CartPage = () => {
                                 onClick={() =>
                                   handleIncrementDecrement(
                                     item?.product?.productId,
+                                    item?.quantity,
                                     "decrement"
                                   )
                                 }
@@ -106,6 +229,7 @@ const CartPage = () => {
                                 onClick={() =>
                                   handleIncrementDecrement(
                                     item?.product?.productId,
+                                    item?.quantity,
                                     "increment"
                                   )
                                 }
@@ -183,8 +307,9 @@ const CartPage = () => {
                 </div>
               </div>
               <Link to="/home/payment-page/payment">
-                <button className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white"
-                 style={{backgroundColor: token.buttonThemeColor}}
+                <button
+                  className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white"
+                  style={{ backgroundColor: token.buttonThemeColor }}
                 >
                   {" "}
                   Checkout

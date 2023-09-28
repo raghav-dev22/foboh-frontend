@@ -19,12 +19,14 @@ function Header() {
   const selector = useSelector((items) => items.cart);
 
   const [showUser, setShowUser] = useState(false);
+  const [addCart, setAddCart] = useState([])
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
   const navigate = useNavigate();
   const { useToken } = theme;
   const { token } = useToken();
+  const url = process.env.REACT_APP_PRODUCTS_URL;
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -36,6 +38,32 @@ function Header() {
     localStorage.clear()
     navigate("/");
   };
+
+  useEffect(() => {
+    const cartId = localStorage.getItem("cartId")
+   
+      fetch(
+        `${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data, "addcart")
+          
+          if(data.success){
+            setAddCart(data.data.map(product=> {
+              return {
+                product : product,
+                quantity : product?.quantity
+              }
+            }))
+          }
+        })
+        .catch((error) => console.log(error));
+
+  }, []);
   
  
   return (
@@ -188,7 +216,7 @@ function Header() {
             <ShoppingCartIcon className="icon-svg" />
             <div style={{background: token.commonThemeColor}} className=" absolute top-[-4px] right-[-2px] cart-box w-[15px] h-[15px] rounded-full bg-[#563FE3] flex justify-center items-center">
               <p className="text-white text-[8px] font-normal">
-                {selector.length}
+                {addCart.length}
               </p>
             </div>
           </div>
@@ -231,6 +259,7 @@ function Header() {
         />
         <Cart
           open={mobileCartOpen}
+          addCart={addCart}
           onClose={() => {
             setMobileCartOpen(false);
           }}

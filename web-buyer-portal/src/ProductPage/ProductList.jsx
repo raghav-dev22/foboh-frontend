@@ -49,7 +49,6 @@ import { useRef } from "react";
 //   },
 // };
 
-
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   console.log("url", url);
@@ -325,26 +324,24 @@ const ProductList = () => {
       title: " Option-4",
     },
   ];
- 
+
   const [value, setValue] = useState([15, 65]);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
-  const[filterAndSort, setFilterAndSort] = useState(
-    {
-        filter: {
-          category: [],
-          subcategory: [],
-          stock: [],
-          productStatus: [],
-          visibility: true,
-          page: 1,
-        },
-        sort: {
-          sortBy: "",
-          sortOrder: "asc",
-        },
-      }
-  )
+  const [filterAndSort, setFilterAndSort] = useState({
+    filter: {
+      category: [],
+      subcategory: [],
+      stock: [],
+      productStatus: [],
+      visibility: true,
+      page: 1,
+    },
+    sort: {
+      sortBy: "",
+      sortOrder: "asc",
+    },
+  });
   // let filterAndSort = {
   //   filter: {
   //     category: [],
@@ -383,33 +380,65 @@ const ProductList = () => {
   // };
 
   const addCart = (id, itemData, actionType) => {
-    console.log("id", id, "item", itemData, "actionType", actionType);
+    const data = itemData.product;
+    const quantity = itemData.quantity;
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    console.log("id", id, "item", data, "actionType", actionType);
 
-    // fetch(`${url}/api/Product/AddToCart`, {
-    //   method: "POST",
-    //   headers : {
-    //     'Content-type': 'application/json',
-    //   },
-    //   body : {
-
-    //   }
-    // })
-
-    // if (CARTdata.length > 0) {
-    //   CARTdata.forEach((item) => {
-    //     if (item.product?.productId === id) {
-    //       dispatch(updateQuantity({ id, actionType }));
-    //     }
-    //   });
-    //   const isNewProduct = !CARTdata.some(
-    //     (item) => item.product?.productId === id
-    //   );
-    //   if (isNewProduct) {
-    //     dispatch(add(itemData));
-    //   }
-    // } else {
-    //   dispatch(add(itemData));
-    // }
+    fetch(`${url}/api/Product/AddToCart`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        buyerId: buyerId,
+        productId: data?.productId,
+        title: data?.title,
+        description: data?.description,
+        articleId: data?.articleID,
+        skUcode: data?.skUcode,
+        productImageUrls: data?.productImageUrls,
+        unitofMeasure: data?.unitofMeasure,
+        innerUnitofMeasure: data?.innerUnitofMeasure,
+        configuration: data?.configuration,
+        award: data?.award,
+        brand: data?.brand,
+        departmentId: data?.departmentId,
+        categoryId: data?.categoryId,
+        subCategoryId: data?.subCategoryId,
+        segmentId: data?.segmentId,
+        variety: [],
+        vintage: data?.vintage,
+        abv: data?.abv,
+        globalPrice: data?.globalPrice,
+        luCcost: data?.luCcost,
+        buyPrice: data?.buyPrice,
+        gstFlag: true,
+        wetFlag: true,
+        trackInventory: true,
+        region: "",
+        availableQty: data?.availableQty,
+        quantity: quantity,
+        stockThreshold: data?.stockThreshold,
+        stockStatus: data?.stockStatus,
+        regionAvailability: data?.regionAvailability,
+        productStatus: data?.productStatus,
+        visibility: data?.visibility,
+        minimumOrder: data?.minimumOrder,
+        tags: data?.tags,
+        countryOfOrigin: data?.countryOfOrigin,
+        barcodes: data?.barcodes,
+        esgStatus: data?.esgStatus,
+        healthRating: data?.healthRating,
+        isActive: true,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const cartId = data.data.cartId;
+        localStorage.setItem("cartId", cartId);
+        console.log(data, "add data");
+      });
   };
 
   const onShowSizeChange = (current, pageSize) => {
@@ -706,8 +735,6 @@ const ProductList = () => {
       });
   }, []);
 
-                      
-
   const updatedFilterAndSort = () => {
     return filterAndSort;
   };
@@ -716,7 +743,6 @@ const ProductList = () => {
     console.log(id, name);
 
     // Handling pagination
-    
 
     if (name === "category") {
       // setOpen(!Open);
@@ -736,11 +762,10 @@ const ProductList = () => {
       setFilterAndSort({
         ...filterAndSort,
         filter: newFilter,
-      })
+      });
       console.log(newCategoryIds);
-
     } else if (name === "subcategory") {
-      const newSubcategoryIds =  e      
+      const newSubcategoryIds = e;
 
       const newFilter = {
         ...filterAndSort.filter,
@@ -754,7 +779,7 @@ const ProductList = () => {
       setFilterAndSort({
         ...filterAndSort,
         filter: newFilter,
-      })
+      });
     }
     //  else if (name === "stock") {
     //   const newStockValues = e.target.checked
@@ -805,9 +830,7 @@ const ProductList = () => {
     // console.log(filterAndSort);
 
     // processChange("filterAndSort");
-
   };
-  
 
   return (
     <>
@@ -976,45 +999,52 @@ const ProductList = () => {
                 </>
               )} */}
               {wine && (
-                  <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
-                    <ul className="dropdown-content ">
-                      {categoryAndSubcategory &&
-                        categoryAndSubcategory.map((category, idx) => (
-                          <li className="py-2.5	px-4	">
-                            <div className="flex items-center">
-                              <input
-                                id={idx}
-                                type="checkbox"
-                                value={category.categoryId}
-                                onClick={(e) =>
-                                  toggleCategoryAndSubcategory(
-                                    e,
-                                    category.categoryId,
-                                    "category"
-                                  )
-                                }
-                                // checked={filterAndSort.filter.category.includes(
-                                //   category.categoryId
-                                // )}
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                              />
-                              <label
-                                htmlFor={idx}
-                                className="ml-2 text-sm font-medium text-gray"
-                              >
-                                {category.categoryName}
-                              </label>
-                            </div>
-                            {filterAndSort.filter.category.includes(
-                                  category.categoryId) && (
+                <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
+                  <ul className="dropdown-content ">
+                    {categoryAndSubcategory &&
+                      categoryAndSubcategory.map((category, idx) => (
+                        <li className="py-2.5	px-4	">
+                          <div className="flex items-center">
+                            <input
+                              id={idx}
+                              type="checkbox"
+                              value={category.categoryId}
+                              onClick={(e) =>
+                                toggleCategoryAndSubcategory(
+                                  e,
+                                  category.categoryId,
+                                  "category"
+                                )
+                              }
+                              // checked={filterAndSort.filter.category.includes(
+                              //   category.categoryId
+                              // )}
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <label
+                              htmlFor={idx}
+                              className="ml-2 text-sm font-medium text-gray"
+                            >
+                              {category.categoryName}
+                            </label>
+                          </div>
+                          {filterAndSort.filter.category.includes(
+                            category.categoryId
+                          ) && (
                             <ul className="dropdown-content">
                               <Select
                                 mode="multiple"
                                 style={{
-                                  width: '100%',
+                                  width: "100%",
                                 }}
                                 placeholder="select one country"
-                                onChange={(e, value) =>toggleCategoryAndSubcategory(e,value,"subcategory")}
+                                onChange={(e, value) =>
+                                  toggleCategoryAndSubcategory(
+                                    e,
+                                    value,
+                                    "subcategory"
+                                  )
+                                }
                                 optionLabelProp="label"
                               >
                                 {category.subcategory.map((subcat, i) => (
@@ -1022,21 +1052,24 @@ const ProductList = () => {
                                     {filterAndSort.filter.category.includes(
                                       category.categoryId
                                     ) && (
-                                        <Option value={subcat.id} label={subcat.name} key={i}>
-                                          <Space>{subcat.name}</Space>
-                                        </Option>
-                                      )}
+                                      <Option
+                                        value={subcat.id}
+                                        label={subcat.name}
+                                        key={i}
+                                      >
+                                        <Space>{subcat.name}</Space>
+                                      </Option>
+                                    )}
                                   </>
                                 ))}
                               </Select>
-
                             </ul>
-                            )}
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                )}
+                          )}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             <div className=" py-4 border-b border-[#E7E7E7]">

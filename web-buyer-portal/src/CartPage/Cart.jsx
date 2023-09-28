@@ -1,25 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { remove } from "../slices/CartSlice";
 import { theme } from "antd";
 
-const Cart = ({ open, onClose }) => {
+const Cart = ({ open, onClose, addCart }) => {
   const dispatch = useDispatch((item) => {
     dispatch(remove(item));
   });
   const { useToken } = theme;
+  const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
   const CARTdata = useSelector((items) => items.cart);
-  const removeItem = (cartItem) => {
-    dispatch(remove(cartItem));
+
+  const removeItem = (productId, productStatus) => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    fetch(`${url}/api/Product/RemoveAddToCart?ProductId=${productId}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        buyerId: buyerId,
+        productStatus: "remove",
+        productId: productId,
+      }),
+    })
+      .then((response) => {
+        console.log("Deleted successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error deleting data:", error);
+      });
   };
-  console.log(CARTdata, "CARTdata");
+  // console.log(CARTdata, "CARTdata");
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+
+    if (!email) {
+      Navigate("/auth/sign-in");
+    }
+  }, []);
+
   return (
     <>
       <Dialog
@@ -49,13 +77,13 @@ const Cart = ({ open, onClose }) => {
               </Link>
             </div>
             <div className="mx-5 mt-6">
-              {CARTdata.length === 0 ? (
+              {addCart.length === 0 ? (
                 <h5 className="text-sm font-bold text-center  pt-8  flow-root border-t border-[#CDCED6] ">
                   Your cart is empty.
                 </h5>
               ) : (
                 <>
-                  {CARTdata.map((item, index) => {
+                  {addCart.map((item, index) => {
                     return (
                       <>
                         <div className="box  my-4 relative cartbox-div">
@@ -98,7 +126,10 @@ const Cart = ({ open, onClose }) => {
                           <button
                             className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
                             onClick={() => {
-                              removeItem(item.product?.productId);
+                              removeItem(
+                                item.product?.productId
+                                // item.product?.productId
+                              );
                             }}
                           >
                             <DeleteIcon style={{ fill: "#fff" }} />
@@ -119,7 +150,10 @@ const Cart = ({ open, onClose }) => {
                 </div>
               </Link>
               <Link to="/home/payment-page/payment">
-                <div style={{backgroundColor: token.buttonThemeColor}} className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
+                <div
+                  style={{ backgroundColor: token.buttonThemeColor }}
+                  className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
+                >
                   <h4 className="text-base font-medium text-[#fff]">
                     Checkout
                   </h4>

@@ -6,7 +6,6 @@ import { add } from "../slices/CartSlice";
 import { useEffect } from "react";
 import { theme } from "antd";
 
-
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
@@ -16,11 +15,12 @@ const ProductDetails = () => {
     product: {},
     quantity: 1,
   });
+  const url = process.env.REACT_APP_PRODUCTS_URL;
   const productData = products.find((item) => item?.product?.productId === +id);
   const dispatch = useDispatch();
-  const addCart = (product) => {
-    dispatch(add(product));
-  };
+  // const addCart = (product) => {
+  //   dispatch(add(product));
+  // };
   const [selectedImage, setSelectedImage] = useState(null);
 
   const images = [
@@ -39,17 +39,20 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getByProductId?ProductId=${id}`;
-    fetch(apiUrl)
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+
+    fetch(
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getByProductId?ProductId=${id}&OrganisationId=${organisationId}`,
+      {
+        method: "GET",
+        // body: JSON.stringify({ organisationId }),
+      }
+    )
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
         return response.json();
       })
       .then((data) => {
-
-        console.log('product detail', data);
+        console.log("product detail", data);
 
         setSelectData({
           product: data.data[0],
@@ -62,24 +65,80 @@ const ProductDetails = () => {
       });
   }, []);
 
- 
+  const addCart = (id, itemData, actionType) => {
+    const data = itemData.product;
+    const quantity = itemData.quantity;
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    console.log("id", id, "item", data, "actionType", actionType);
+
+    fetch(`${url}/api/Product/AddToCart`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        buyerId: buyerId,
+        productId: data?.productId,
+        title: data?.title,
+        description: data?.description,
+        articleId: data?.articleID,
+        skUcode: data?.skUcode,
+        productImageUrls: data?.productImageUrls,
+        unitofMeasure: data?.unitofMeasure,
+        innerUnitofMeasure: data?.innerUnitofMeasure,
+        configuration: data?.configuration,
+        award: data?.award,
+        brand: data?.brand,
+        departmentId: data?.departmentId,
+        categoryId: data?.categoryId,
+        subCategoryId: data?.subCategoryId,
+        segmentId: data?.segmentId,
+        variety: [],
+        vintage: data?.vintage,
+        abv: data?.abv,
+        globalPrice: data?.globalPrice,
+        luCcost: data?.luCcost,
+        buyPrice: data?.buyPrice,
+        gstFlag: true,
+        wetFlag: true,
+        trackInventory: true,
+        region: "",
+        availableQty: data?.availableQty,
+        quantity: quantity,
+        stockThreshold: data?.stockThreshold,
+        stockStatus: data?.stockStatus,
+        regionAvailability: data?.regionAvailability,
+        productStatus: data?.productStatus,
+        visibility: data?.visibility,
+        minimumOrder: data?.minimumOrder,
+        tags: data?.tags,
+        countryOfOrigin: data?.countryOfOrigin,
+        barcodes: data?.barcodes,
+        esgStatus: data?.esgStatus,
+        healthRating: data?.healthRating,
+        isActive: true,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const cartId = data.data.cartId;
+        localStorage.setItem("cartId", cartId);
+        console.log(data, "add data");
+      });
+  };
+
   const handleIncrementDecrement = (id, actionType) => {
-  
-        if (actionType === "decrement" && selectData.quantity > 0) {
-          setSelectData(
-            {
-              ...selectData,
-              quantity: selectData.quantity - 1,
-            }
-          ) 
-        } else if (actionType === "increment") {
-          setSelectData(
-            {
-              ...selectData,
-              quantity: selectData.quantity + 1,
-            }
-          )
-        }
+    if (actionType === "decrement" && selectData.quantity > 0) {
+      setSelectData({
+        ...selectData,
+        quantity: selectData.quantity - 1,
+      });
+    } else if (actionType === "increment") {
+      setSelectData({
+        ...selectData,
+        quantity: selectData.quantity + 1,
+      });
+    }
   };
 
   return (
@@ -112,9 +171,7 @@ const ProductDetails = () => {
                   </div>
                 ))}
               </div>
-              <div>
-              
-              </div>
+              <div></div>
             </div>
           </div>
           <div className=" md:w-3/5 w-full   h-full	 grid gap-1	  p-4">
@@ -126,7 +183,6 @@ const ProductDetails = () => {
               {selectData?.product?.brand}
             </h5>
             <div className="flex  items-center gap-2">
-             
               <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
               <h5 className="text-lg font-medium text-[#2B4447]">
                 {selectData?.product?.configuration}{" "}
@@ -170,75 +226,144 @@ const ProductDetails = () => {
                 </p>
               </div>
               <button
-              style={{backgroundColor: token.buttonThemeColor}}
+                style={{ backgroundColor: token.buttonThemeColor }}
                 className=" bg-[#563FE3] rounded-md py-[10px] px-[28px] text-sm font-medium text-white flex justify-center items-center gap-2"
                 onClick={() => {
-                  addCart(selectData);
+                  if (selectData?.quantity > 0) {
+                    addCart(
+                      selectData?.product?.productId,
+                      selectData,
+                      "increment"
+                    );
+                  }
                 }}
+                disabled={selectData?.quantity <= 0}
               >
                 {" "}
                 <ShoppingBasketIcon style={{ fill: "#fff" }} />
                 Add To Cart
               </button>
             </div>
-            <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
-              <div>
-                <div className="">
-                  <p className="text-base font-normal text-[#2B4447] py-2">
-                    Country:
-                  </p>
-                  <p className="text-base font-normal text-[#2B4447] py-2">
-                    Segment:
-                  </p>
-                </div>
-                <div className="">
-                  <p className="text-base font-normal text-[#2B4447] py-2">
-                    Vintage:
-                  </p>
-                  <p className="text-base font-normal text-[#2B4447] py-2">
-                    Awards:
-                  </p>
-                  <p className="text-base font-normal text-[#2B4447] py-2">
-                    Region:
-                  </p>
-                  <p className="text-base font-normal text-[#2B4447] py-2">
-                    Grape variety:
-                  </p>
-                </div>
-              </div>
-              <div className="">
-                <div className="">
-                  <p className="text-base font-semibold text-[#2B4447] py-2">
-                    Country
-                  </p>
-                  <p className="text-base font-semibold text-[#2B4447] py-2">
-                    Segment
-                  </p>
-                </div>
+            {selectData.product.categoryId === "C5000" && (
+              <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
                 <div>
-                  <p className="text-base font-semibold text-[#2B4447] py-2">
-                    Vintage name
-                  </p>
+                  <div className="">
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Country:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Segment:
+                    </p>
+                  </div>
+                  <div className="">
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Vintage:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Awards:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Region:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      ABV:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Grape variety:
+                    </p>
+                  </div>
+                </div>
 
-                  <p className="text-base font-semibold text-[#2B4447] py-2">
-                    Awards
-                  </p>
+                <div className="">
+                  <div className="">
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      {selectData.product.countryOfOrigin}
+                    </p>
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Segment
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Vintage name
+                    </p>
 
-                  <p className="text-base font-semibold text-[#2B4447] py-2">
-                    Region name
-                  </p>
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      {selectData.product.award}
+                    </p>
 
-                  <p className="text-base font-semibold text-[#2B4447] py-2">
-                    Grape variety
-                  </p>
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      {selectData.product.region}
+                    </p>
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      {selectData.product.abv}
+                    </p>
+
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      {selectData.product.variety}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+            {selectData.product.categoryId === "C6000" && (
+              <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
+                <div>
+                  <div className="">
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Country:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Segment:
+                    </p>
+                  </div>
+                  <div className="">
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Vintage:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Awards:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Region:
+                    </p>
+                    <p className="text-base font-normal text-[#2B4447] py-2">
+                      Grape variety:
+                    </p>
+                  </div>
+                </div>
+                <div className="">
+                  <div className="">
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Country
+                    </p>
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Segment
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Vintage name
+                    </p>
+
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Awards
+                    </p>
+
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Region name
+                    </p>
+
+                    <p className="text-base font-semibold text-[#2B4447] py-2">
+                      Grape variety
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-    
     </>
   );
 };
