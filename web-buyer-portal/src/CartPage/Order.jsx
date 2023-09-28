@@ -18,11 +18,13 @@ import AppliedCoupon from "../modal/AppliedCoupon";
 
 const Order = () => {
   const [show, setShow] = useState(false);
+  const [addCart, setAddCart] = useState([]);
   const [promoCode, setPromoCode] = useState("");
   const [applied, setApplied] = useState(false);
   const [bg, setBg] = useState("#000");
   const [color, setColor] = useState();
   const [invalid, setInvalid] = useState("");
+  const url = process.env.REACT_APP_PRODUCTS_URL;
   const promoCodes = {
     CODE001: "CODE001",
     CODE002: "CODE002",
@@ -55,10 +57,6 @@ const Order = () => {
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
 
-  const removeItem = (cartItem) => {
-    dispatch(remove(cartItem));
-  };
-
   const handleIncrementDecrement = (id, actionType) => {
     dispatch(updateQuantity({ id, actionType }));
   };
@@ -77,21 +75,64 @@ const Order = () => {
   };
 
   useEffect(() => {
+    const cartId = localStorage.getItem("cartId");
+
+    fetch(`${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "addcart");
+
+        if (data.success) {
+          setAddCart(
+            data.data.map((product) => {
+              return {
+                product: product,
+                quantity: product?.quantity,
+              };
+            })
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+
     const newTotal = calculateTotalCost();
     setTotleCost(newTotal.toFixed(2));
     console.log("Total Cost:", totalCost);
   }, [CARTdata]);
 
+  const removeItem = (productId, productStatus) => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    fetch(`${url}/api/Product/RemoveAddToCart?ProductId=${productId}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        buyerId: buyerId,
+        productStatus: "remove",
+        productId: productId,
+      }),
+    })
+      .then((response) => {
+        console.log("Deleted successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error deleting data:", error);
+      });
+  };
+
   return (
     <>
-      {CARTdata.length === 0 ? (
+      {addCart.length === 0 ? (
         <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
           Your cart is empty.
         </h5>
       ) : (
         <>
           {" "}
-          {CARTdata.map((item, index) => (
+          {addCart.map((item, index) => (
             <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
               <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                 <img

@@ -314,33 +314,65 @@ const ProductList = () => {
   // };
 
   const addCart = (id, itemData, actionType) => {
-    console.log("id", id, "item", itemData, "actionType", actionType);
+    const data = itemData.product;
+    const quantity = itemData.quantity;
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    console.log("id", id, "item", data, "actionType", actionType);
 
-    // fetch(`${url}/api/Product/AddToCart`, {
-    //   method: "POST",
-    //   headers : {
-    //     'Content-type': 'application/json',
-    //   },
-    //   body : {
-
-    //   }
-    // })
-
-    // if (CARTdata.length > 0) {
-    //   CARTdata.forEach((item) => {
-    //     if (item.product?.productId === id) {
-    //       dispatch(updateQuantity({ id, actionType }));
-    //     }
-    //   });
-    //   const isNewProduct = !CARTdata.some(
-    //     (item) => item.product?.productId === id
-    //   );
-    //   if (isNewProduct) {
-    //     dispatch(add(itemData));
-    //   }
-    // } else {
-    //   dispatch(add(itemData));
-    // }
+    fetch(`${url}/api/Product/AddToCart`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        buyerId: buyerId,
+        productId: data?.productId,
+        title: data?.title,
+        description: data?.description,
+        articleId: data?.articleID,
+        skUcode: data?.skUcode,
+        productImageUrls: data?.productImageUrls,
+        unitofMeasure: data?.unitofMeasure,
+        innerUnitofMeasure: data?.innerUnitofMeasure,
+        configuration: data?.configuration,
+        award: data?.award,
+        brand: data?.brand,
+        departmentId: data?.departmentId,
+        categoryId: data?.categoryId,
+        subCategoryId: data?.subCategoryId,
+        segmentId: data?.segmentId,
+        variety: [],
+        vintage: data?.vintage,
+        abv: data?.abv,
+        globalPrice: data?.globalPrice,
+        luCcost: data?.luCcost,
+        buyPrice: data?.buyPrice,
+        gstFlag: true,
+        wetFlag: true,
+        trackInventory: true,
+        region: "",
+        availableQty: data?.availableQty,
+        quantity: quantity,
+        stockThreshold: data?.stockThreshold,
+        stockStatus: data?.stockStatus,
+        regionAvailability: data?.regionAvailability,
+        productStatus: data?.productStatus,
+        visibility: data?.visibility,
+        minimumOrder: data?.minimumOrder,
+        tags: data?.tags,
+        countryOfOrigin: data?.countryOfOrigin,
+        barcodes: data?.barcodes,
+        esgStatus: data?.esgStatus,
+        healthRating: data?.healthRating,
+        isActive: true,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const cartId = data.data.cartId;
+        localStorage.setItem("cartId", cartId);
+        console.log(data, "add data");
+      });
   };
 
   const onShowSizeChange = (current, pageSize) => {
@@ -694,6 +726,104 @@ const ProductList = () => {
       },
     }));
     setWine(false);
+  };
+  const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
+  const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [autoExpandParent, setAutoExpandParent] = useState(true);
+  const onExpand = (expandedKeysValue) => {
+    console.log("onExpand", expandedKeysValue);
+
+    setExpandedKeys(expandedKeysValue);
+    setAutoExpandParent(false);
+  };
+  const onCheck = (checkedKeysValue) => {
+    console.log("onCheck", checkedKeysValue);
+    setCheckedKeys(checkedKeysValue);
+  };
+  const onSelect = (selectedKeysValue, info) => {
+    console.log("onSelect", info);
+    setSelectedKeys(selectedKeysValue);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setSort(false);
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        const selectDropdowns = document.querySelectorAll(
+          ".ant-select-dropdown"
+        );
+        let isInsideSelectDropdown = false;
+
+        for (const dropdown of selectDropdowns) {
+          if (dropdown.contains(event.target)) {
+            isInsideSelectDropdown = true;
+            break;
+          }
+        }
+
+        if (!isInsideSelectDropdown) {
+          setWine(false);
+          setSegment(false);
+          setVariety(false);
+          setCountry(false);
+          setRegion(false);
+          setAvailability(false);
+          setPrice(false);
+          setTags(false);
+        }
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef, sortRef]);
+
+  useEffect(() => {
+    fetch(
+      `https://fobohwepapifbh.azurewebsites.net/api/ShowCategorySubcategory`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Category and Subcategory >>", data);
+
+        console.log(
+          "cat drop",
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+
+        setCategoryAndSubcategory(
+          data.map((i) => {
+            return {
+              categoryName: i.categoryName,
+              categoryId: i.categoryId,
+              subcategory: i.subcategoryId.map((c, n) => {
+                return { name: i.subCategorys[n], id: c };
+              }),
+            };
+          })
+        );
+      });
+  }, []);
+
+  const updatedFilterAndSort = () => {
+    return filterAndSort;
   };
 
   const toggleCategoryAndSubcategory = (e, id, name) => {
