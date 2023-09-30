@@ -27,6 +27,27 @@ import { getVariety } from "../helpers/getVariety";
 import { getRegion } from "../helpers/getRegion";
 import { getRegionAvailable } from "../helpers/getRegionAvailable";
 import { getTags } from "../helpers/getTags";
+import { message } from "antd";
+
+let localFilterSort = {
+  filter: {
+    category: [],
+    subCategory: [],
+    segment: [],
+    variety: [],
+    country: [],
+    regionAvailability: [],
+    region: [],
+    minPrice: 0,
+    maxPrice: 0,
+    tags: [],
+    page: 0,
+  },
+  sort: {
+    sortBy: "",
+    sortOrder: "",
+  },
+};
 
 //   filter: {
 //     category: [],
@@ -44,6 +65,8 @@ import { getTags } from "../helpers/getTags";
 
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
+  const [messageApi, contextHolder] = message.useMessage();
+
   console.log("url", url);
 
   const SubCategory = [
@@ -220,55 +243,6 @@ const ProductList = () => {
   const sortRef = useRef(null);
   const productData = useSelector((state) => state.product);
 
-  const availabilityData = [
-    {
-      title: " Option-1",
-    },
-    {
-      title: " Option-2",
-    },
-    {
-      title: " Option-3",
-    },
-    {
-      title: " Option-4",
-    },
-  ];
-
-  const RegionData = [
-    {
-      title: " Option-1",
-    },
-    {
-      title: " Option-2",
-    },
-    {
-      title: " Option-3",
-    },
-    {
-      title: " Option-4",
-    },
-  ];
-
-  const TagsProduct = [
-    {
-      title: " Option-1",
-    },
-    {
-      title: " Option-2",
-    },
-    {
-      title: " Option-3",
-    },
-    {
-      title: " Option-4",
-    },
-  ];
-
-  const [value, setValue] = useState({
-    minPrice: 0,
-    maxPrice: 0,
-  });
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const [filterAndSort, setFilterAndSort] = useState({
@@ -291,14 +265,11 @@ const ProductList = () => {
     },
   });
 
-  const colourOptions = [];
-
   const SortBtn = () => {
     setSort(!Sort);
   };
 
   //  for redux
-
   const dispatch = useDispatch();
   const CARTdata = useSelector((items) => items.cart);
 
@@ -312,6 +283,13 @@ const ProductList = () => {
   //     dispatch(add(itemData))
   //   }
   // };
+
+  const warning = () => {
+    messageApi.open({
+      type: "warning",
+      content: "No product found in this filter",
+    });
+  };
 
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
@@ -374,6 +352,54 @@ const ProductList = () => {
         console.log(data, "add data");
       });
   };
+
+  function debounce(func, timeout = 1000) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+  function saveInput(name) {
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    setLoading(true);
+    fetch(
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/product/Filter?OrganisationId=${organisationId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(localFilterSort),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("filter response", data);
+        if (data.success) {
+          dispatch(
+            setProductData(
+              data.data.map((item) => {
+                return {
+                  product: item,
+                  quantity: 0,
+                };
+              })
+            )
+          );
+          setTotal(data.total);
+        } else {
+          warning();
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  const processChange = debounce((name) => saveInput(name));
 
   const onShowSizeChange = (current, pageSize) => {
     console.log("page", current, pageSize);
@@ -523,15 +549,16 @@ const ProductList = () => {
                   quantity: 0,
                 };
               })
-            ),
-            setTotal(data.total)
+            )
           );
+          setTotal(data.total);
         }
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
       });
   }, [page]);
+
   console.log(totalData, "alldata");
 
   console.log(productData, "products data");
@@ -553,7 +580,6 @@ const ProductList = () => {
 
     setTags(false);
   };
-
   const SegmentBtn = () => {
     setSegment(!Segment);
 
@@ -571,7 +597,6 @@ const ProductList = () => {
 
     setTags(false);
   };
-
   const VarietyBtn = () => {
     setVariety(!Variety);
 
@@ -589,7 +614,6 @@ const ProductList = () => {
 
     setTags(false);
   };
-
   const CountryBtn = () => {
     setCountry(!Country);
 
@@ -607,7 +631,6 @@ const ProductList = () => {
 
     setTags(false);
   };
-
   const RegionBtn = () => {
     setRegion(!Region);
 
@@ -625,7 +648,6 @@ const ProductList = () => {
 
     setTags(false);
   };
-
   const AvailabilityBtn = () => {
     setAvailability(!Availability);
 
@@ -643,7 +665,6 @@ const ProductList = () => {
 
     setTags(false);
   };
-
   const PriceBtn = () => {
     setPrice(!Price);
     setWine(false);
@@ -654,7 +675,6 @@ const ProductList = () => {
     setAvailability(false);
     setTags(false);
   };
-
   const TagsBtn = () => {
     setTags(!Tags);
     setWine(false);
@@ -715,8 +735,22 @@ const ProductList = () => {
 
     dispatch(setProductData(updatedProductData));
   };
+
+  // Price slider handler
   const handleChange = (e, value) => {
     console.log("price slider", e, value);
+
+    const newFilter = {
+      ...localFilterSort.filter,
+      minPrice: e[0],
+      maxPrice: e[1],
+    };
+
+    localFilterSort = {
+      ...localFilterSort,
+      filter: newFilter,
+    };
+
     setFilterAndSort((prevState) => ({
       ...prevState,
       filter: {
@@ -727,6 +761,7 @@ const ProductList = () => {
     }));
     setWine(false);
   };
+
   const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
   const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
   const [selectedKeys, setSelectedKeys] = useState([]);
@@ -833,21 +868,21 @@ const ProductList = () => {
     if (name === "category") {
       // setOpen(!Open);
       const newCategoryIds = e.target.checked
-        ? [...filterAndSort.filter.category, id]
-        : filterAndSort.filter.category.filter((catId) => catId !== id);
+        ? [...localFilterSort.filter.category, id]
+        : localFilterSort.filter.category.filter((catId) => catId !== id);
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         category: newCategoryIds,
       };
 
-      // filterAndSort = {
-      //  ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
       console.log(newCategoryIds);
@@ -857,17 +892,17 @@ const ProductList = () => {
       setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         subCategory: newSubcategoryIds,
       };
 
-      // filterAndSort = {
-      //   ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
 
@@ -891,163 +926,139 @@ const ProductList = () => {
       const newSegmentIds = id.map((segment) => segment.key);
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         segment: newSegmentIds,
       };
 
-      // filterAndSort = {
-      //   ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
     } else if (name === "variety") {
       const newVarietyIds = id.map((variety) => variety.key);
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         variety: newVarietyIds,
       };
 
-      // filterAndSort = {
-      //   ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
     } else if (name === "country") {
       const newCountryIds = id.map((country) => country.key);
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         country: newCountryIds,
       };
 
-      // filterAndSort = {
-      //   ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
     } else if (name === "region") {
       const newRegionIds = id.map((region) => region.key);
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         region: newRegionIds,
       };
 
-      // filterAndSort = {
-      //   ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
     } else if (name === "regionAvailable") {
       const newRegionAvailableIds = id.map((region) => region.key);
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         regionAvailability: newRegionAvailableIds,
       };
 
-      // filterAndSort = {
-      //   ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
     } else if (name === "tags") {
       const newTagsIds = id.map((tag) => tag.key);
 
       const newFilter = {
-        ...filterAndSort.filter,
+        ...localFilterSort.filter,
         tags: newTagsIds,
       };
 
-      // filterAndSort = {
-      //   ...filterAndSort,
-      //   filter: newFilter,
-      // };
+      localFilterSort = {
+        ...localFilterSort,
+        filter: newFilter,
+      };
 
       setFilterAndSort({
-        ...filterAndSort,
+        ...localFilterSort,
         filter: newFilter,
       });
     }
     console.log("filterAndSort", filterAndSort);
-    //  else if (name === "stock") {
-    //   const newStockValues = e.target.checked
-    //     ? [...filterAndSort.filter.stock, id]
-    //     : filterAndSort.filter.stock.filter(
-    //       (stockValue) => stockValue !== id
-    //     );
+    console.log("localFilterAndSort", localFilterSort);
 
-    //   console.log("stock", newStockValues);
-
-    //   const newFilter = {
-    //     ...filterAndSort.filter,
-    //     stock: newStockValues,
-    //   };
-
-    //   filterAndSort = {
-    //     ...filterAndSort,
-    //     filter: newFilter,
-    //   };
-    // } else if (name === "status") {
-    //   const newStatusValues = e.target.checked
-    //     ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
-    //     : filterAndSort.filter.productStatus.filter(
-    //       (statusValue) => statusValue !== id
-    //     );
-
-    //   const newFilter = {
-    //     ...filterAndSort.filter,
-    //     productStatus: newStatusValues,
-    //   };
-
-    //   filterAndSort = {
-    //     ...filterAndSort,
-    //     filter: newFilter,
-    //   };
-    // } else if (name === "visibility") {
-    //   const newVisibilityValue = id ? true : false;
-    //   const newFilter = {
-    //     ...filterAndSort.filter,
-    //     visibility: newVisibilityValue,
-    //   };
-
-    //   filterAndSort = {
-    //     ...filterAndSort,
-    //     filter: newFilter,
-    //   };
-    // }
-    // console.log(filterAndSort);
-
-    // processChange("filterAndSort");
+    processChange();
   };
 
-  const toggleSort = (value) => {
-    console.log("toggle sort", JSON.parse(value));
+  const toggleSort = (e, sortBy, sortOrder) => {
+    const newSort = {
+      ...localFilterSort.sort,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    };
+
+    localFilterSort = {
+      ...localFilterSort,
+      sort: newSort,
+    };
+
+    setFilterAndSort((prevState) => ({
+      ...prevState,
+      sort: {
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      },
+    }));
+    console.log("filterAndSort", filterAndSort);
+    console.log("localFilterAndSort", localFilterSort);
+
+    processChange();
   };
 
   return (
     <>
+      {contextHolder}
       <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto">
         <div
           className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between"
@@ -1083,100 +1094,89 @@ const ProductList = () => {
 
           {Sort && (
             <>
-              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50  absolute top-[50px] right-0">
+              <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50 absolute top-[50px] right-0">
                 <div className="flex justify-between items-center pb-2">
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Alphabetical
                   </h5>
-
                   <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                 </div>
-
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3">
                     <input
-                      id="default-checkbox"
+                      id="az"
                       type="checkbox"
-                      value={{
-                        sortBy: "alphabetical",
-                        sortOrder: "asc",
-                      }}
-                      onChange={toggleSort}
+                      checked={
+                        filterAndSort.sort.sortBy === "title" &&
+                        filterAndSort.sort.sortOrder === "asc"
+                      }
+                      onChange={(e) => toggleSort(e, "title", "asc")}
                       defaultValue=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
                     />
-
-                    <label htmlFor="default-checkbox" className="ml-2 ">
+                    <label htmlFor="az" className="ml-2">
                       <h5 className="text-base font-normal text-[#637381]">
                         A - Z
                       </h5>
                     </label>
                   </div>
-
                   <div className="flex items-center mt-3">
                     <input
-                      id="default-checkbox"
+                      id="za"
                       type="checkbox"
-                      value={{
-                        sortBy: "alphabetical",
-                        sortOrder: "desc",
-                      }}
-                      onChange={toggleSort}
+                      checked={
+                        filterAndSort.sort.sortBy === "title" &&
+                        filterAndSort.sort.sortOrder === "desc"
+                      }
+                      onChange={(e) => toggleSort(e, "title", "desc")}
                       defaultValue=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
                     />
-
-                    <label htmlFor="default-checkbox" className="ml-2 ">
+                    <label htmlFor="za" className="ml-2">
                       <h5 className="text-base font-normal text-[#637381]">
                         Z - A
                       </h5>
                     </label>
                   </div>
                 </div>
-
                 <div className="flex justify-between items-center pt-4">
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Price
                   </h5>
-
                   <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                 </div>
-
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3">
                     <input
                       id="lowHigh"
                       type="checkbox"
-                      value={{
-                        sortBy: "price",
-                        sortOrder: "asc",
-                      }}
-                      onChange={toggleSort}
+                      checked={
+                        filterAndSort.sort.sortBy === "price" &&
+                        filterAndSort.sort.sortOrder === "asc"
+                      }
+                      onChange={(e) => toggleSort(e, "price", "asc")}
                       defaultValue=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
                     />
-
-                    <label htmlFor="lowHigh" className="ml-2 ">
+                    <label htmlFor="lowHigh" className="ml-2">
                       <h5 className="text-base font-normal text-[#637381]">
                         Low - High
                       </h5>
                     </label>
                   </div>
-
                   <div className="flex items-center mt-3">
                     <input
                       id="highLow"
                       type="checkbox"
-                      value={{
-                        sortBy: "price",
-                        sortOrder: "asc",
-                      }}
-                      onChange={toggleSort}
+                      checked={
+                        filterAndSort.sort.sortBy === "price" &&
+                        filterAndSort.sort.sortOrder === "desc"
+                      }
+                      onChange={(e) => toggleSort(e, "price", "desc")}
                       defaultValue=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
                     />
-
-                    <label htmlFor="highLow" className="ml-2 ">
+                    <label htmlFor="highLow" className="ml-2">
                       <h5 className="text-base font-normal text-[#637381]">
                         High - Low
                       </h5>
@@ -1606,9 +1606,6 @@ const ProductList = () => {
                           defaultValue={[20, 50]}
                           onChange={handleChange}
                           valueLabelDisplay="auto"
-                          getAriaValueText={() => {
-                            return `${value}`;
-                          }}
                         />
                       </div>
 

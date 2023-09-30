@@ -81,6 +81,9 @@ function ViewProduct() {
     landedUnitCost: 0,
     status: ["Active", "Inactive", "Archived"],
     productImageUrls: [],
+    catalogueId: 0,
+    cCatalogueId: "string",
+    organisationId: "string",
   });
 
   const productPromise = new Promise((resolve, reject) => {
@@ -250,6 +253,9 @@ function ViewProduct() {
         landedUnitCost: product.luCcost && product.luCcost.toFixed(2),
         status: product.productStatus,
         productImageUrls: imageUris,
+        catalogueId: product.catalogueId,
+        cCatalogueId: product.cCatalogueId,
+        organisationId: product.organisationId,
       }).then(() => {
         Promise.all([
           departmentPromise,
@@ -366,6 +372,9 @@ function ViewProduct() {
               landedUnitCost: product.luCcost,
               status: product.productStatus,
               department: departmentId && dept,
+              catalogueId: product.catalogueId,
+              cCatalogueId: product.cCatalogueId,
+              organisationId: product.organisationId,
             });
             setValues({
               ...values,
@@ -409,6 +418,9 @@ function ViewProduct() {
               landedUnitCost: product.luCcost,
               status: product.productStatus,
               department: departmentId && dept,
+              catalogueId: product.catalogueId,
+              cCatalogueId: product.cCatalogueId,
+              organisationId: product.organisationId,
             }).then(() => {
               const [category] = categoryObj.map((item) => {
                 return {
@@ -496,6 +508,8 @@ function ViewProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const organisationId = localStorage.getItem("organisationId");
     const err = Object.values(errors);
     console.log("err val", err);
     console.log("result", values);
@@ -533,6 +547,9 @@ function ViewProduct() {
         landedUnitCost: values?.landedUnitCost,
         status: values?.status,
         productImageUrls: productImageUris,
+        catalogueId: values.catalogueId,
+        cCatalogueId: values.cCatalogueId,
+        organisationId: values.organisationId,
       });
       fetch(
         `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Update/${productId}`,
@@ -583,6 +600,11 @@ function ViewProduct() {
             barcodes: "string",
             esgStatus: "string",
             healthRating: "string",
+            catalogueId: 0,
+            cCatalogueId: "string",
+            organisationId: organisationId,
+            cCatalogueId: values.cCatalogueId,
+            organisationId: values.organisationId,
             isActive: true,
           }),
         }
