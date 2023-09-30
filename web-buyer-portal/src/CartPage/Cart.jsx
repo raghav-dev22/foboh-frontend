@@ -6,13 +6,14 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import { remove } from "../slices/CartSlice";
+import { remove, setCart } from "../slices/CartSlice";
 import { theme } from "antd";
 
 const Cart = ({ open, onClose, addCart }) => {
-  const dispatch = useDispatch((item) => {
-    dispatch(remove(item));
-  });
+  // const dispatch = useDispatch((item) => {
+  //   dispatch(remove(item));
+  // });
+  const dispatch = useDispatch();
   const { useToken } = theme;
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
@@ -32,7 +33,20 @@ const Cart = ({ open, onClose, addCart }) => {
       }),
     })
       .then((response) => {
-        console.log("Deleted successfully:", response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data response", data);
+        if (data.success) {
+          const updatedCartList = data?.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+          dispatch(setCart(updatedCartList));
+        }
+        console.log(data, "add data");
       })
       .catch((error) => {
         console.error("Error deleting data:", error);
@@ -77,13 +91,13 @@ const Cart = ({ open, onClose, addCart }) => {
               </Link>
             </div>
             <div className="mx-5 mt-6">
-              {addCart.length === 0 ? (
+              {CARTdata.length === 0 ? (
                 <h5 className="text-sm font-bold text-center  pt-8  flow-root border-t border-[#CDCED6] ">
                   Your cart is empty.
                 </h5>
               ) : (
                 <>
-                  {addCart.map((item, index) => {
+                  {CARTdata.map((item, index) => {
                     return (
                       <>
                         <div className="box  my-4 relative cartbox-div">

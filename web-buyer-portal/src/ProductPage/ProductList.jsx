@@ -10,7 +10,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Select, Space, theme } from "antd";
 import makeAnimated from "react-select/animated";
 import { useDispatch, useSelector } from "react-redux";
-import { add, updateQuantity } from "../slices/CartSlice";
+import { add, setCart, updateQuantity } from "../slices/CartSlice";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { listdata } from "../data";
 import { useNavigate } from "react-router";
@@ -302,17 +302,6 @@ const ProductList = () => {
   const dispatch = useDispatch();
   const CARTdata = useSelector((items) => items.cart);
 
-  // const addCart = (id,itemData, actionType) => {
-  //   if(CARTdata.length > 0) {
-  //     CARTdata.map(item => {
-  //       item.product?.id === (id) ? dispatch(updateQuantity({ id, actionType })) : dispatch(add(itemData))
-  //     })
-  //   }
-  //    else {
-  //     dispatch(add(itemData))
-  //   }
-  // };
-
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
     const quantity = itemData.quantity;
@@ -369,7 +358,15 @@ const ProductList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const cartId = data.data.cartId;
+        const cartId = data.data[0].cartId;
+
+        const updatedCartList = data?.data.map((item) => {
+          return {
+            product: item,
+            quantity: item?.quantity,
+          };
+        });
+        dispatch(setCart(updatedCartList));
         localStorage.setItem("cartId", cartId);
         console.log(data, "add data");
       });

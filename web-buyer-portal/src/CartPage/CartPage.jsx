@@ -10,14 +10,16 @@ import CheckIcon from "@mui/icons-material/Check";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDetails from "../ProductPage/ProductDetails";
-import { remove, updateQuantity } from "../slices/CartSlice";
+import { remove, setCart, updateQuantity } from "../slices/CartSlice";
 import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
 import { theme } from "antd";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const CartPage = () => {
+  const [Subtotal, setSubTotal] = useState(0);
   const [totalCost, setTotleCost] = useState(0);
+  const [isWineSubcat, setIsWineSubcat] = useState(false);
   const [addCartPage, setAddCartPage] = useState([]);
   const CARTdata = useSelector((items) => items.cart);
   const [updatedQuantity, setUpdatedQuantity] = useState({
@@ -28,6 +30,8 @@ const CartPage = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
   const dispatch = useDispatch();
+
+  const cart = useSelector((items) => items.cart);
 
   const removeItem = (productId, productStatus) => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -43,25 +47,28 @@ const CartPage = () => {
       }),
     })
       .then((response) => {
-        console.log("Deleted successfully:", response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data response", data);
+        if (data.success) {
+          const updatedCartList = data?.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+          dispatch(setCart(updatedCartList));
+        }
+        console.log(data, "add data");
       })
       .catch((error) => {
         console.error("Error deleting data:", error);
       });
   };
-
-  const calculateTotalCost = () => {
-    let total = 0;
-    CARTdata.forEach((item) => {
-      const productPrice = item?.product?.buyPrice;
-      const productPriceINR = productPrice;
-      const quantity = parseInt(item?.quantity);
-      total += productPriceINR * quantity;
-
-      console.log("hdgfj", total);
-    });
-    return total;
-  };
+  // const calculateTotalCost = () => {
+  //   return total;
+  // };
 
   useEffect(() => {
     const cartId = localStorage.getItem("cartId");
@@ -74,6 +81,14 @@ const CartPage = () => {
         console.log(data, "addcart");
 
         if (data.success) {
+          data.data.forEach((item) => {
+            if (
+              item.subCategoryId === "SC5000" ||
+              item.subCategoryId === "SC500"
+            ) {
+              setIsWineSubcat(true);
+            }
+          });
           setAddCartPage(
             data.data.map((product) => {
               return {
@@ -82,15 +97,40 @@ const CartPage = () => {
               };
             })
           );
+          let total = 0;
+          let alltotal = 0;
+          data.data.forEach((item) => {
+            console.log(item?.buyPrice, "all item");
+            const productPrice = item?.buyPrice;
+            const subCat = item?.subCategoryId;
+            const productPriceINR = productPrice;
+            const quantity = parseInt(item?.quantity);
+            alltotal += productPriceINR * quantity;
+            setSubTotal(alltotal.toFixed(2));
+
+            const gstAmount = productPrice * 0.1;
+
+            if (subCat === "sc500" || subCat === "sc5000") {
+              const wetTaxAmount = productPrice * 0.29;
+
+              const totalCostForItem =
+                (productPrice + wetTaxAmount + gstAmount) * quantity;
+
+              total += totalCostForItem;
+              setTotleCost(total.toFixed(2));
+              console.log("Total Cost for Item with Wet Tax and GST:", total);
+            } else {
+              const totalCostForItem = (productPrice + gstAmount) * quantity;
+
+              total += totalCostForItem;
+              setTotleCost(total.toFixed(2));
+              console.log("Total Cost for Item with GST:", total);
+            }
+          });
         }
       })
       .catch((error) => console.log(error));
-
-    const newTotal = calculateTotalCost();
-    setTotleCost(newTotal.toFixed(2));
-    console.log("Total Cost:", totalCost);
-  }, [CARTdata]);
-
+  }, []);
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       debouncedHandleIncrementDecrement(
@@ -118,24 +158,24 @@ const CartPage = () => {
         localStorage.getItem("buyerInfo")
       );
 
-      fetch(`${url}/api/Product/UpdateToCart?ProductId=${productId}`, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          createdBy: deliveryFirstName,
-          buyerId: buyerId,
-          productStatus: "update",
-          productId: productId,
-          quantity: newQuantity,
-        }),
-      })
+      fetch(
+        `${url}/api/Product/UpdateToCart?ProductId=${updatedQuantity.productId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            createdBy: deliveryFirstName,
+            buyerId: buyerId,
+            productStatus: "update",
+            productId: updatedQuantity.productId,
+            quantity: newQuantity,
+          }),
+        }
+      )
         .then((response) => {
           return response.json();
-          // setQuantity(newQuantity);
-
-          console.log("Updated successfully:", response);
         })
         .then((data) => {
           console.log(data, "updatequantity");
@@ -195,7 +235,7 @@ const CartPage = () => {
               </h5>
             ) : (
               <>
-                {addCartPage.map((item, index) => (
+                {cart.map((item, index) => (
                   <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
                     <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                       <img
@@ -284,7 +324,7 @@ const CartPage = () => {
                     Subtotal
                   </h5>
                   <h5 className="text-sm font-medium text-[#2B4447]">
-                    ${totalCost}
+                    ${Subtotal}
                   </h5>
                 </div>
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
@@ -294,16 +334,22 @@ const CartPage = () => {
                   <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
                 </div>
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                  <h5 className="text-sm font-medium text-[#2B4447]">
-                    Tax estimate
-                  </h5>
-                  <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
+                  <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
+                  <h5 className="text-sm font-medium text-[#2B4447]">10%</h5>
                 </div>
+                {isWineSubcat && (
+                  <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                    <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
+                    <h5 className="text-sm font-medium text-[#2B4447]">29%</h5>
+                  </div>
+                )}
                 <div className="flex justify-between py-3 ">
                   <h5 className="text-sm font-medium text-[#2B4447]">
                     Order total
                   </h5>
-                  <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
+                  <h5 className="text-sm font-medium text-[#2B4447]">
+                    ${totalCost}
+                  </h5>
                 </div>
               </div>
               <Link to="/home/payment-page/payment">

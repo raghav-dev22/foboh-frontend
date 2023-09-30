@@ -11,15 +11,15 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LogoutIcon from "@mui/icons-material/Logout";
-
+import { add, setCart } from "../slices/CartSlice";
 import Cart from "../CartPage/Cart";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MobileSidebar from "./MobileSidebar";
 function Header() {
-  const selector = useSelector((items) => items.cart);
-
+  const cart = useSelector((items) => items.cart);
+  const dispatch = useDispatch();
   const [showUser, setShowUser] = useState(false);
-  const [addCart, setAddCart] = useState([])
+  const [addCart, setAddCart] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
@@ -35,37 +35,44 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.clear()
+    localStorage.clear();
     navigate("/");
   };
 
   useEffect(() => {
-    const cartId = localStorage.getItem("cartId")
-   
-      fetch(
-        `${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data, "addcart")
-          
-          if(data.success){
-            setAddCart(data.data.map(product=> {
-              return {
-                product : product,
-                quantity : product?.quantity
-              }
-            }))
-          }
-        })
-        .catch((error) => console.log(error));
+    const cartId = localStorage.getItem("cartId");
 
+    fetch(`${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "addcart");
+
+        if (data.success) {
+          // setAddCart(
+          //   data.data.map((product) => {
+          //     return {
+          //       product: product,
+          //       quantity: product?.quantity,
+          //     };
+          //   })
+          // );
+
+          const updatedCartList = data.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+
+          dispatch(setCart(updatedCartList));
+          console.log("updatedCartList", updatedCartList);
+        }
+      })
+      .catch((error) => console.log(error));
   }, []);
-  
- 
+
   return (
     <>
       <div
@@ -82,7 +89,13 @@ function Header() {
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <h2 style={{color: token.commonThemeColor}} className="text-[#637381] font-bold md:text-3xl text-xl	"> LOGO</h2>
+        <h2
+          style={{ color: token.commonThemeColor }}
+          className="text-[#637381] font-bold md:text-3xl text-xl	"
+        >
+          {" "}
+          LOGO
+        </h2>
         <div className=" relative md:block hidden">
           <input
             type="text"
@@ -97,7 +110,7 @@ function Header() {
           />
           <SearchIcon
             className="absolute top-1/4 left-2.5 "
-            style={{fill: token.commonThemeColor}}
+            style={{ fill: token.commonThemeColor }}
           />
         </div>
 
@@ -171,7 +184,10 @@ function Header() {
                               Orders
                             </h6>
                           </div>
-                          <div style={{backgroundColor: token.commonThemeColor}}  className="rounded-md h-[30px] w-[30px] bg-[#563FE3] flex justify-center items-center">
+                          <div
+                            style={{ backgroundColor: token.commonThemeColor }}
+                            className="rounded-md h-[30px] w-[30px] bg-[#563FE3] flex justify-center items-center"
+                          >
                             <p className="text-white text-xs font-bold">10</p>
                           </div>
                         </li>
@@ -214,15 +230,19 @@ function Header() {
             onClick={() => setMobileCartOpen(true)}
           >
             <ShoppingCartIcon className="icon-svg" />
-            <div style={{background: token.commonThemeColor}} className=" absolute top-[-4px] right-[-2px] cart-box w-[15px] h-[15px] rounded-full bg-[#563FE3] flex justify-center items-center">
-              <p className="text-white text-[8px] font-normal">
-                {addCart.length}
-              </p>
+            <div
+              style={{ background: token.commonThemeColor }}
+              className=" absolute top-[-4px] right-[-2px] cart-box w-[15px] h-[15px] rounded-full bg-[#563FE3] flex justify-center items-center"
+            >
+              <p className="text-white text-[8px] font-normal">{cart.length}</p>
             </div>
           </div>
         </div>
       </div>
-      <header style={{background: token.commonThemeColor}} className="bg-[#563FE3] md:block hidden ">
+      <header
+        style={{ background: token.commonThemeColor }}
+        className="bg-[#563FE3] md:block hidden "
+      >
         <nav
           className="mx-auto flex max-w-7xl items-center md:justify-center justify-end p-6 md:px-8 "
           aria-label="Global"
