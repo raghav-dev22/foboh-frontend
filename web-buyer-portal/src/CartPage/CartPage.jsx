@@ -20,8 +20,6 @@ const CartPage = () => {
   const [Subtotal, setSubTotal] = useState(0);
   const [totalCost, setTotleCost] = useState(0);
   const [isWineSubcat, setIsWineSubcat] = useState(false);
-  const [addCartPage, setAddCartPage] = useState([]);
-  const CARTdata = useSelector((items) => items.cart);
   const [updatedQuantity, setUpdatedQuantity] = useState({
     productId: "",
     quantity: 0,
@@ -76,36 +74,30 @@ const CartPage = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data, "addcart");
+        let wetTotal = 0;
+        let remainingTotal = 0;
+        let totalCost = 0;
+        let alltotal = 0;
+        let subCatList = [];
 
         if (data.success) {
           data.data.forEach((item) => {
-            if (
-              item.subCategoryId === "SC5000" ||
-              item.subCategoryId === "SC500"
-            ) {
+            // For managing wet calculation
+            subCatList.push(item.subCategoryId);
+            console.log("subCatList", subCatList);
+            if (subCatList.includes("SC500") || subCatList.includes("SC5000")) {
               setIsWineSubcat(true);
             } else {
               setIsWineSubcat(false);
             }
-          });
-          setAddCartPage(
-            data.data.map((product) => {
-              return {
-                product: product,
-                quantity: product?.quantity,
-              };
-            })
-          );
-          let wetTotal = 0;
-          let remainingTotal = 0;
-          let totalCost = 0;
-          let alltotal = 0;
-          data.data.forEach((item) => {
-            const productPrice = item?.buyPrice;
+
+            // Managing all the calculations
+            const productPrice = item?.buyPrice || 0;
             const subCat = item?.subCategoryId;
             const productPriceINR = productPrice;
-            const quantity = parseInt(item?.quantity);
+            const quantity = item?.quantity || 0;
             alltotal += productPriceINR * quantity;
+
             setSubTotal(alltotal.toFixed(2));
 
             const wetTaxAmount =
@@ -127,6 +119,11 @@ const CartPage = () => {
             const newTotal = totalCost.toFixed(2);
             setTotleCost(newTotal);
           });
+        } else {
+          alltotal = 0;
+          totalCost = 0;
+          setSubTotal(0);
+          setTotleCost(0);
         }
       })
       .catch((error) => console.log(error));
@@ -188,8 +185,9 @@ const CartPage = () => {
 
   const handleIncrementDecrement = (productId, quantity, action) => {
     console.log("handleIncrementDecrement", productId, quantity, action);
-    setAddCartPage((prevAddCartPage) => {
-      return prevAddCartPage.map((product) => {
+
+    const updatedList = () => {
+      return cart.map((product) => {
         if (product.product.productId === productId) {
           let newQuantity = product.quantity;
 
@@ -209,7 +207,11 @@ const CartPage = () => {
         }
         return product;
       });
-    });
+    };
+
+    const x = updatedList();
+
+    dispatch(setCart(x));
   };
 
   return (
@@ -229,7 +231,7 @@ const CartPage = () => {
         </div>
         <div className="flex  justify-between flex-wrap md:px-0 px-6 overflow-scroll">
           <div className="lg:w-[60%] w-full overflow-scroll  mb-[2rem]">
-            {addCartPage.length === 0 ? (
+            {cart.length === 0 ? (
               <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
                 Your cart is empty.
               </h5>
