@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../slices/CartSlice";
 import { useEffect } from "react";
 import { theme } from "antd";
+import { add, setCart, updateQuantity } from "../slices/CartSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -68,6 +68,7 @@ const ProductDetails = () => {
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
     const quantity = itemData.quantity;
+    console.log(quantity, "quantity");
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
     console.log("id", id, "item", data, "actionType", actionType);
 
@@ -121,7 +122,15 @@ const ProductDetails = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const cartId = data.data.cartId;
+        const cartId = data.data[0].cartId;
+
+        const updatedCartList = data?.data.map((item) => {
+          return {
+            product: item,
+            quantity: item?.quantity,
+          };
+        });
+        dispatch(setCart(updatedCartList));
         localStorage.setItem("cartId", cartId);
         console.log(data, "add data");
       });
