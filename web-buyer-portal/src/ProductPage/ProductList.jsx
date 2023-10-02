@@ -305,6 +305,7 @@ const ProductList = () => {
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
     const quantity = itemData.quantity;
+    console.log(quantity, "quantity");
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
     console.log("id", id, "item", data, "actionType", actionType);
 

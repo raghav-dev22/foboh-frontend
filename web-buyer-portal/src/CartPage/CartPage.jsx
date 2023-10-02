@@ -66,9 +66,6 @@ const CartPage = () => {
         console.error("Error deleting data:", error);
       });
   };
-  // const calculateTotalCost = () => {
-  //   return total;
-  // };
 
   useEffect(() => {
     const cartId = localStorage.getItem("cartId");
@@ -87,6 +84,8 @@ const CartPage = () => {
               item.subCategoryId === "SC500"
             ) {
               setIsWineSubcat(true);
+            } else {
+              setIsWineSubcat(false);
             }
           });
           setAddCartPage(
@@ -97,10 +96,11 @@ const CartPage = () => {
               };
             })
           );
-          let total = 0;
+          let wetTotal = 0;
+          let remainingTotal = 0;
+          let totalCost = 0;
           let alltotal = 0;
           data.data.forEach((item) => {
-            console.log(item?.buyPrice, "all item");
             const productPrice = item?.buyPrice;
             const subCat = item?.subCategoryId;
             const productPriceINR = productPrice;
@@ -108,29 +108,29 @@ const CartPage = () => {
             alltotal += productPriceINR * quantity;
             setSubTotal(alltotal.toFixed(2));
 
-            const gstAmount = productPrice * 0.1;
+            const wetTaxAmount =
+              subCat === "SC500" || subCat === "SC5000"
+                ? productPrice * 0.29
+                : 0;
 
-            if (subCat === "sc500" || subCat === "sc5000") {
-              const wetTaxAmount = productPrice * 0.29;
+            const totalCostForItem = (productPrice + wetTaxAmount) * quantity;
 
-              const totalCostForItem =
-                (productPrice + wetTaxAmount + gstAmount) * quantity;
-
-              total += totalCostForItem;
-              setTotleCost(total.toFixed(2));
-              console.log("Total Cost for Item with Wet Tax and GST:", total);
+            if (subCat === "SC500" || subCat === "SC5000") {
+              wetTotal += totalCostForItem;
             } else {
-              const totalCostForItem = (productPrice + gstAmount) * quantity;
-
-              total += totalCostForItem;
-              setTotleCost(total.toFixed(2));
-              console.log("Total Cost for Item with GST:", total);
+              remainingTotal += totalCostForItem;
             }
+
+            totalCost = wetTotal + remainingTotal;
+            totalCost += totalCost * 0.1;
+
+            const newTotal = totalCost.toFixed(2);
+            setTotleCost(newTotal);
           });
         }
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [cart]);
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       debouncedHandleIncrementDecrement(

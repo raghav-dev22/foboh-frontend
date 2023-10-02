@@ -11,7 +11,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDetails from "../ProductPage/ProductDetails";
-import { remove, updateQuantity } from "../slices/CartSlice";
+import { remove, setCart, updateQuantity } from "../slices/CartSlice";
 import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
 import AppliedCoupon from "../modal/AppliedCoupon";
@@ -20,6 +20,7 @@ const Order = () => {
   const [show, setShow] = useState(false);
   const [addCart, setAddCart] = useState([]);
   const [promoCode, setPromoCode] = useState("");
+  const [isWineSubcat, setIsWineSubcat] = useState(false);
   const [applied, setApplied] = useState(false);
   const [bg, setBg] = useState("#000");
   const [color, setColor] = useState();
@@ -54,6 +55,7 @@ const Order = () => {
     }
   };
   const [totalCost, setTotleCost] = useState(0);
+  const [Subtotal, setSubTotal] = useState(0);
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
 
@@ -93,6 +95,37 @@ const Order = () => {
               };
             })
           );
+          let wetTotal = 0;
+          let remainingTotal = 0;
+          let totalCost = 0;
+          let alltotal = 0;
+          data.data.forEach((item) => {
+            const productPrice = item?.buyPrice;
+            const subCat = item?.subCategoryId;
+            const productPriceINR = productPrice;
+            const quantity = parseInt(item?.quantity);
+            alltotal += productPriceINR * quantity;
+            setSubTotal(alltotal.toFixed(2));
+
+            const wetTaxAmount =
+              subCat === "SC500" || subCat === "SC5000"
+                ? productPrice * 0.29
+                : 0;
+
+            const totalCostForItem = (productPrice + wetTaxAmount) * quantity;
+
+            if (subCat === "SC500" || subCat === "SC5000") {
+              wetTotal += totalCostForItem;
+            } else {
+              remainingTotal += totalCostForItem;
+            }
+
+            totalCost = wetTotal + remainingTotal;
+            totalCost += totalCost * 0.1;
+
+            const newTotal = totalCost.toFixed(2);
+            setTotleCost(newTotal);
+          });
         }
       })
       .catch((error) => console.log(error));
@@ -116,7 +149,20 @@ const Order = () => {
       }),
     })
       .then((response) => {
-        console.log("Deleted successfully:", response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data response", data);
+        if (data.success) {
+          const updatedCartList = data?.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+          dispatch(setCart(updatedCartList));
+        }
+        console.log(data, "add data");
       })
       .catch((error) => {
         console.error("Error deleting data:", error);
@@ -125,14 +171,14 @@ const Order = () => {
 
   return (
     <>
-      {addCart.length === 0 ? (
+      {CARTdata.length === 0 ? (
         <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
           Your cart is empty.
         </h5>
       ) : (
         <>
           {" "}
-          {addCart.map((item, index) => (
+          {CARTdata.map((item, index) => (
             <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
               <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                 <img
@@ -209,7 +255,7 @@ const Order = () => {
       <div className="py-4">
         <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
           <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
-          <h5 className="text-sm font-medium text-[#2B4447]">${totalCost}</h5>
+          <h5 className="text-sm font-medium text-[#2B4447]">${Subtotal}</h5>
         </div>
         <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
           <h5 className="text-sm font-medium text-[#2B4447]">
@@ -218,14 +264,23 @@ const Order = () => {
           <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
         </div>
         <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-          <h5 className="text-sm font-medium text-[#2B4447]">Tax estimate</h5>
-          <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
+          <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
+          <h5 className="text-sm font-medium text-[#2B4447]">10%</h5>
         </div>
+        {isWineSubcat && (
+          <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+            <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">29%</h5>
+          </div>
+        )}
         <div className="flex justify-between py-3 ">
           <h5 className="text-base font-semibold text-[#2B4447]">
             Order total
           </h5>
-          <h5 className="text-base font-semibold text-[#2B4447]">$60.00</h5>
+          <h5 className="text-base font-semibold text-[#2B4447]">
+            {" "}
+            ${totalCost}
+          </h5>
         </div>
       </div>
 
