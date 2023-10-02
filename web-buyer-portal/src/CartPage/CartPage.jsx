@@ -229,7 +229,7 @@ const CartPage = () => {
         </div>
         <div className="flex  justify-between flex-wrap md:px-0 px-6 overflow-scroll">
           <div className="lg:w-[60%] w-full overflow-scroll  mb-[2rem]">
-            {addCartPage.length === 0 ? (
+            {cart.length === 0 ? (
               <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
                 Your cart is empty.
               </h5>
