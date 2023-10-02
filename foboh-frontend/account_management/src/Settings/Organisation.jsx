@@ -122,6 +122,9 @@ function Organisation() {
                 return `${obj.value}`;
               }),
               isActive: true,
+              catalogueName: "string",
+              noofProducts: "string",
+              catalogueStatus: "string",
             }),
           }
         )
@@ -209,6 +212,9 @@ function Organisation() {
                 return `${obj.value}`;
               }),
               isActive: true,
+              catalogueName: "string",
+              noofProducts: "string",
+              catalogueStatus: "string",
             }),
           }
         )
