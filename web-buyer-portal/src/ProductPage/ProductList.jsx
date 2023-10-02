@@ -28,6 +28,7 @@ import { getRegion } from "../helpers/getRegion";
 import { getRegionAvailable } from "../helpers/getRegionAvailable";
 import { getTags } from "../helpers/getTags";
 import { message } from "antd";
+import { setTotalProducts } from "../slices/totalPageSlice";
 
 let localFilterSort = {
   filter: {
@@ -69,113 +70,7 @@ const ProductList = () => {
 
   console.log("url", url);
 
-  const SubCategory = [
-    {
-      title: (
-        <h5 className="text-base font-normal text-[#637381] my-1">
-          Alcoholic beverage
-        </h5>
-      ),
-      key: "0-0",
-      children: [
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-1"
-            </h5>
-          ),
-          key: "1",
-        },
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-2
-            </h5>
-          ),
-          key: "2",
-        },
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-3
-            </h5>
-          ),
-          key: "3",
-        },
-      ],
-    },
-    {
-      title: (
-        <h5 className="text-base font-normal text-[#637381]  my-1">
-          Alcoholic beverage
-        </h5>
-      ),
-      key: "0-1",
-      children: [
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-2
-            </h5>
-          ),
-          key: "4",
-        },
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-2
-            </h5>
-          ),
-          key: "5",
-        },
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-2
-            </h5>
-          ),
-          key: "6",
-        },
-      ],
-    },
-    {
-      title: (
-        <h5 className="text-base font-normal text-[#637381]  my-1">
-          Alcoholic beverage
-        </h5>
-      ),
-      key: "0-3",
-      children: [
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-2
-            </h5>
-          ),
-          key: "7",
-        },
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-2
-            </h5>
-          ),
-          key: "8",
-        },
-        {
-          title: (
-            <h5 className="text-base font-normal text-[#637381]  my-1">
-              Option-2
-            </h5>
-          ),
-          key: "9",
-        },
-      ],
-    },
-  ];
-
   const [loading, setLoading] = useState(true);
-
 
   const { Option } = Select;
   const handleChangeOption = (value) => {
@@ -259,18 +154,7 @@ const ProductList = () => {
 
   //  for redux
   const dispatch = useDispatch();
-  const CARTdata = useSelector((items) => items.cart);
-
-  // const addCart = (id,itemData, actionType) => {
-  //   if(CARTdata.length > 0) {
-  //     CARTdata.map(item => {
-  //       item.product?.id === (id) ? dispatch(updateQuantity({ id, actionType })) : dispatch(add(itemData))
-  //     })
-  //   }
-  //    else {
-  //     dispatch(add(itemData))
-  //   }
-  // };
+  const totalProducts = useSelector((state) => state.totalPage.totalProducts);
 
   const warning = () => {
     messageApi.open({
@@ -386,7 +270,7 @@ const ProductList = () => {
               })
             )
           );
-          setTotal(data.total);
+          dispatch(setTotalProducts(data.total));
         } else {
           warning();
         }
@@ -548,7 +432,7 @@ const ProductList = () => {
               })
             )
           );
-          setTotal(data.total);
+          dispatch(setTotalProducts(data.total));
         }
       })
       .catch((error) => {
@@ -1064,7 +948,7 @@ const ProductList = () => {
           <div className="">
             <p className="font-semibold md:text-2xl text-xl">Products</p>
             <p className="text-sm font-normal text-[#637381]">
-              ({total} results)
+              ({totalProducts} results)
             </p>
           </div>
           <button
@@ -1822,9 +1706,10 @@ const ProductList = () => {
                 <Pagination
                   // itemActiveBg={"#F8FAFC"}
                   showSizeChanger={false}
-                  total={total}
+                  defaultCurrent={1}
+                  pageSize={9}
+                  total={totalProducts}
                   onChange={onShowSizeChange}
-                  // onShowSizeChange={onShowSizeChange}
                   itemRender={itemRender}
                   className="flex justify-between items-center"
                 />

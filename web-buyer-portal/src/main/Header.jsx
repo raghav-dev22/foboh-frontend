@@ -15,6 +15,8 @@ import { add, setCart } from "../slices/CartSlice";
 import Cart from "../CartPage/Cart";
 import { useDispatch, useSelector } from "react-redux";
 import MobileSidebar from "./MobileSidebar";
+import { setProductData } from "../slices/ProductSlice";
+import { setTotalProducts } from "../slices/totalPageSlice";
 function Header() {
   const cart = useSelector((items) => items.cart);
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ function Header() {
   const [addCart, setAddCart] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
+  const [input, setInput] = useState("");
   const [scroll, setScroll] = useState(false);
   const navigate = useNavigate();
   const { useToken } = theme;
@@ -50,15 +53,6 @@ function Header() {
         console.log(data, "addcart");
 
         if (data.success) {
-          // setAddCart(
-          //   data.data.map((product) => {
-          //     return {
-          //       product: product,
-          //       quantity: product?.quantity,
-          //     };
-          //   })
-          // );
-
           const updatedCartList = data.data.map((item) => {
             return {
               product: item,
@@ -72,6 +66,60 @@ function Header() {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      processChange();
+    }, 1000);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [input]);
+
+  function debounce(func, timeout = 0) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
+  function saveInput() {
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    fetch(
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByTitles?Title=${input}&page=1&OrganisationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Title search", data);
+
+        if (data.success) {
+          dispatch(
+            setProductData(
+              data.data.map((item) => {
+                return {
+                  product: item,
+                  quantity: 0,
+                };
+              })
+            )
+          );
+          dispatch(setTotalProducts(data.total));
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+
+  const processChange = debounce(() => saveInput());
+
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    setInput(search);
+  };
 
   return (
     <>
@@ -99,6 +147,7 @@ function Header() {
         <div className=" relative md:block hidden">
           <input
             type="text"
+            onChange={handleSearch}
             className="roun8ded-md	font-normal text-sm placeholder:text-sm"
             placeholder="Search by product or brand"
             style={{

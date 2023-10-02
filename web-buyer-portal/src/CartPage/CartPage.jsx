@@ -128,6 +128,7 @@ const CartPage = () => {
       })
       .catch((error) => console.log(error));
   }, [cart]);
+  
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       debouncedHandleIncrementDecrement(
