@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Header from "../main/Header";
 import Footer from "../main/Footer";
@@ -14,6 +14,8 @@ import { remove, setCart, updateQuantity } from "../slices/CartSlice";
 import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
 import { theme } from "antd";
+import { Button, Modal, Space } from "antd";
+
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const CartPage = () => {
@@ -28,8 +30,20 @@ const CartPage = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
   const dispatch = useDispatch();
-
   const cart = useSelector((items) => items.cart);
+  const navigate = useNavigate();
+
+  const warning = () => {
+    Modal.success({
+      title: "This is a warning message",
+      content: (
+        <div>
+          <h1>Please try again!</h1>
+          <p>Some error has occurred.</p>
+        </div>
+      ),
+    });
+  };
 
   const removeItem = (productId, productStatus) => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -128,7 +142,7 @@ const CartPage = () => {
       })
       .catch((error) => console.log(error));
   }, [cart]);
-  
+
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       debouncedHandleIncrementDecrement(
@@ -213,6 +227,40 @@ const CartPage = () => {
     const x = updatedList();
 
     dispatch(setCart(x));
+  };
+
+  const handleCheckout = () => {
+    const cartId = localStorage.getItem("cartId");
+    const { deliveryEmail, deliveryFirstName } =
+      localStorage.getItem("buyerInfo");
+    console.log(deliveryEmail, deliveryFirstName);
+
+    fetch(
+      "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/OrderMain_Create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cartID: cartId,
+          orderByEmailID: deliveryEmail,
+          orderBy: deliveryFirstName,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("order response", data);
+        if (data.success) {
+          const orderId = data?.data?.orderId;
+          localStorage.setItem("orderId", orderId);
+          navigate("/home/payment-page/payment");
+        } else {
+          warning();
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -355,15 +403,17 @@ const CartPage = () => {
                   </h5>
                 </div>
               </div>
-              <Link to="/home/payment-page/payment">
-                <button
-                  className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white"
-                  style={{ backgroundColor: token.buttonThemeColor }}
-                >
-                  {" "}
-                  Checkout
-                </button>
-              </Link>
+              {/* <Link to="/home/payment-page/payment"> */}
+              <button
+                className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white"
+                // style={{ backgroundColor: token.buttonThemeColor }}
+                onClick={handleCheckout}
+              >
+                {" "}
+                Checkout
+              </button>
+
+              {/* </Link> */}
             </div>
           </div>
         </div>
