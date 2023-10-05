@@ -339,11 +339,10 @@ function SearchCustomer({
           </div>
         </div>
         {isFilter && (
-          <div
-            className="flex gap-8 relative  pt-4 flex-wrap"
-            ref={dropdownRef}
-          >
-            <div className="relative">
+          <div className="flex justify-between items-center pt-4 " ref={dropdownRef} >
+         <div className="flex  gap-8 relative   flex-wrap">
+
+         <div className="relative">
               {/* ref={firstDropdownRef} */}
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
@@ -386,8 +385,7 @@ function SearchCustomer({
               )}
             </div>
 
-            <div
-              className="relative"
+            <div className="relative"
               // ref={secondDropdownRef}
             >
               <div
@@ -455,6 +453,7 @@ function SearchCustomer({
                 </div>
               )}
             </div>
+            
             <div className="relative">
               {/* ref={thirdDropdownRef} */}
               <div
@@ -483,6 +482,10 @@ function SearchCustomer({
                 </div>
               )}
             </div>
+         </div>
+         <div className="">
+          <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">Clear filters</h2>
+         </div>
             {/* <CustomerPostCode /> */}
             {/* <CustomerVisibility/> */}
           </div>
