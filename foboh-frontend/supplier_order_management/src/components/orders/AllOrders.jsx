@@ -389,34 +389,191 @@ const AllOrders = () => {
       width: 180,
     },
   ];
-  const data = [];
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      key: i,
-      OrderID: <p className="text-[15px] font-medium text-[#637381]">#23456</p>,
-      Customer: (
-        <p className="text-[15px] font-medium text-[#637381]">
-          Lofi Wines xxxxxx
-        </p>
-      ),
-      Region: (
-        <p className="text-[15px] font-medium text-[#637381]">Sydney, NSW</p>
-      ),
-      OrderDate: (
-        <p className="text-[15px] font-medium text-[#637381]">19/11/2023</p>
-      ),
-      Amount: (
-        <p className="text-[15px] font-medium text-[#637381]">$2345.00</p>
-      ),
+  const data = [
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
       Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] max-w-max	  ">
-          <p className="text-[#637381] text-[base] font-medium">
+        <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#3498DB] text-[base] font-me text-center dium">
+            New
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base]  text-center font-medium">
             Pending approval
           </p>
         </div>
       ),
-    });
-  }
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#E9B600] text-[base]  text-center font-medium">
+            Pending approval
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base]  text-center font-medium">
+            Pending approval
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base]  text-center font-medium">
+            Pending approval
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base]  text-center font-medium">
+            Pending approval
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#CFEBE5] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#16A085] text-[base] font-medium text-center ">
+            Delivered
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base]  text-center font-medium">
+            Pending approval
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#3498DB] text-[base] font-medium text-center ">
+            Updated
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#FFDFDB] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#C0392B] text-[base] font-medium text-center ">
+            Cancelled
+          </p>
+        </div>
+      ),
+    },
+    {
+      Customer: " Lofi Wines xxxxxx",
+      OrderID: "#23456",
+      Region: "Sydney, NSW",
+      OrderDate: "19/11/2023",
+      Amount: "$2345.00",
+      Status: (
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base]  text-center font-medium">
+            Pending approval
+          </p>
+        </div>
+      ),
+    },
+  ];
+
+  data.map((item, index) => {
+    return {
+      key: index,
+      OrderID: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.OrderID}</p>
+      ),
+      Customer: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.Customer}
+        </p>
+      ),
+      Region: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.Region}</p>
+      ),
+      OrderDate: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.OrderDate}
+        </p>
+      ),
+      Amount: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.Amount}</p>
+      ),
+      Status: (
+        <p className="text-[#637381] text-[base] font-medium">{item.Status}</p>
+      ),
+    };
+  });
+
   return (
     <>
       <div className="py-5">
@@ -471,103 +628,6 @@ const AllOrders = () => {
                     </button>
                   </a>
                 </Dropdown>
-                {/* <button
-                  onClick={() => setSort(!Sort)}
-                  className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
-                >
-                  <SortOutlinedIcon style={{ fill: "#637381" }} />
-                  <p className="text-base font-normal text-[#2B4447]">Sort</p>
-                  <KeyboardArrowDownIcon
-                    style={{ fill: "#2B4447" }}
-                    className=""
-                  />
-                </button>
-
-                {Sort && (
-                  <>
-                    <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50  absolute top-[50px] right-0">
-                      <div className="flex justify-between items-center pb-2">
-                        <h5 className="text-base font-medium text-[#2B4447] ">
-                          Alphabetical
-                        </h5>
-
-                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-                      </div>
-
-                      <div className="pb-4 border-b border-[#E7E7E7]">
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="flex justify-between items-center pt-4">
-                        <h5 className="text-base font-medium text-[#2B4447] ">
-                          Price
-                        </h5>
-
-                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-                      </div>
-
-                      <div className="pb-4 border-b border-[#E7E7E7]">
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )} */}
               </div>
             </div>
           </div>

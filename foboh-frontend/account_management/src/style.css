@@ -556,10 +556,7 @@ color: #fff !important;
 /* .absolute {
   position: absolute;
 } */
-.text-\[\#2B4447\] {
-  --tw-text-opacity: 1;
-  color: rgb(43 68 71 / var(--tw-text-opacity));
-}
+
 .bg-\[\#F1F1F1\] {
   --tw-bg-opacity: 1;
   background-color: rgb(241 241 241 / var(--tw-bg-opacity));
@@ -615,10 +612,7 @@ color: #fff !important;
     width: 25%;
   }
 }
-.bg-\[\#C9C9C9\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(201 201 201 / var(--tw-bg-opacity));
-}
+
 .px-\[8px\] {
   padding-left: 8px;
   padding-right: 8px;
@@ -671,10 +665,6 @@ color: #fff !important;
 .w-\[50\%\] {
   width: 50%;
 }
-.text-\[\#2B4447\] {
-  --tw-text-opacity: 1;
-  color: rgb(43 68 71 / var(--tw-text-opacity));
-}
 
 .h-\[44px\] {
   height: 44px;
@@ -707,10 +697,7 @@ color: #fff !important;
   --tw-bg-opacity: 1;
   background-color: rgb(248 176 43 / var(--tw-bg-opacity));
 }
-.text-\[\#2B4447\] {
-  --tw-text-opacity: 1;
-  color: rgb(43 68 71 / var(--tw-text-opacity));
-}
+
 .text-\[\#667085\] {
   --tw-text-opacity: 1;
   color: rgb(102 112 133 / var(--tw-text-opacity));
@@ -942,10 +929,7 @@ color: #fff !important;
   --tw-bg-opacity: 1;
   background-color: rgb(86 63 227 / var(--tw-bg-opacity));
 }
-.text-\[\#2B4447\] {
-  --tw-text-opacity: 1;
-  color: rgb(43 68 71 / var(--tw-text-opacity));
-}
+
 .text-\[\#563FE3\] {
   --tw-text-opacity: 1;
   color: rgb(86 63 227 / var(--tw-text-opacity));
@@ -972,5 +956,96 @@ color: #fff !important;
 .h-\[600px\] {
   height: 600px;
 }
+<<<<<<< HEAD
 /* Add product   input error */
 
+=======
+/* .hidden {
+  display: none;
+} */
+.bg-\[\#2B4447\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(43 68 71 / var(--tw-bg-opacity));
+}
+.px-5 {
+  padding-left: 1.25rem /* 20px */;
+  padding-right: 1.25rem /* 20px */;
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+.mb-10 {
+  margin-bottom: 2.5rem /* 40px */;
+}
+.py-8 {
+  padding-top: 2rem /* 32px */;
+  padding-bottom: 2rem /* 32px */;
+}
+.text-\[\#2B4447\] {
+  --tw-text-opacity: 1;
+  color: rgb(43 68 71 / var(--tw-text-opacity));
+}
+.rounded-\[6px\] {
+  border-radius: 6px;
+}
+.leading-\[20px\] {
+  line-height: 20px;
+}
+.text-\[\#637381\] {
+  --tw-text-opacity: 1;
+  color: rgb(99 115 129 / var(--tw-text-opacity));
+}
+.h-\[363px\] {
+  height: 363px;
+}
+.bank-information-page .ant-select-selection-placeholder {
+  display: flex;
+  align-items: center;
+}
+.bank-information-page .ant-select-selector,
+.bank-information-page .ant-select-selection-search-input {
+  height: 100% !important;
+}
+.mt-\[3px\] {
+  margin-top: 3px;
+}
+.bg-\[\#FFDFDB\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 223 219 / var(--tw-bg-opacity));
+}
+.text-\[\#C0392B\] {
+  --tw-text-opacity: 1;
+  color: rgb(192 57 43 / var(--tw-text-opacity));
+}
+.text-\[\#3498DB\] {
+  --tw-text-opacity: 1;
+  color: rgb(52 152 219 / var(--tw-text-opacity));
+}
+.bg-\[\#D5EEFF\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(213 238 255 / var(--tw-bg-opacity));
+}
+.text-\[\#16A085\] {
+  --tw-text-opacity: 1;
+  color: rgb(22 160 133 / var(--tw-text-opacity));
+}
+.bg-\[\#CFEBE5\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(207 235 229 / var(--tw-bg-opacity));
+}
+.bg-\[\#C9C9C9\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(201 201 201 / var(--tw-bg-opacity));
+}
+.bg-\[\#FFF4C9\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 244 201 / var(--tw-bg-opacity));
+}
+.text-right {
+  text-align: right;
+}
+.w-\[166px\] {
+  width: 166px;
+}
+>>>>>>> 43322df03c93c029dbe6af2278b01c44e13f9004
