@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, Collapse, Space } from "antd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 const newColumns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
@@ -53,8 +54,10 @@ for (let i = 0; i < 100; i++) {
     ),
     Amount: <p className="text-[15px] font-medium text-[#637381]">$2345.00</p>,
     Status: (
-      <div className="bg-[#D5EEFF]  rounded-md py-[4px] px-[8px] max-w-max	  ">
-        <p className="text-[#3498DB] text-[base] font-medium">New</p>
+      <div className="bg-[#D5EEFF]  rounded-md py-[4px] px-[8px] w-[166px]  ">
+        <p className="text-[#3498DB] text-[base] font-medium text-center">
+          New
+        </p>
       </div>
     ),
   });
@@ -111,8 +114,8 @@ for (let i = 0; i < 100; i++) {
     ),
     Amount: <p className="text-[15px] font-medium text-[#637381]">$2345.00</p>,
     Status: (
-      <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] max-w-max	  ">
-        <p className="text-[#637381] text-[base] font-medium">
+      <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+        <p className="text-[#637381] text-[base] font-medium text-center">
           Pending approval
         </p>
       </div>
@@ -128,7 +131,7 @@ const buyerColumns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>,
     dataIndex: "Customer",
-    width: 200,
+    width: 180,
   },
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
@@ -148,37 +151,119 @@ const buyerColumns = [
     width: 120,
   },
   {
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>,
+    dataIndex: "Payment",
+    width: 120,
+  },
+  {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
     dataIndex: "Status",
     width: 200,
   },
 ];
-const buyerData = [];
-for (let i = 0; i < 100; i++) {
-  buyerData.push({
-    key: i,
-    OrderID: <p className="text-[15px] font-medium text-[#637381]">#23456</p>,
-    Customer: (
-      <p className="text-[15px] font-medium text-[#637381]">
-        Lofi Wines xxxxxx
-      </p>
-    ),
-    Region: (
-      <p className="text-[15px] font-medium text-[#637381]">Sydney, NSW</p>
-    ),
-    OrderDate: (
-      <p className="text-[15px] font-medium text-[#637381]">19/11/2023</p>
-    ),
-    Amount: <p className="text-[15px] font-medium text-[#637381]">$2345.00</p>,
+
+const buyerData = [
+  {
+    Customer: " Lofi Wines xxxxxx",
+    OrderID: "#23456",
+    Region: "Sydney, NSW",
+    OrderDate: "19/11/2023",
+    Payment: "Pending",
+    Amount: "$2345.00",
     Status: (
-      <div className="bg-[#FFEDA5] rounded-md py-[4px] px-[8px] max-w-max	  ">
-        <p className="text-[#E9B600] text-base font-medium">
+      <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+        <p className="text-[#E9B600] text-[base] font-medium">
           Changes requested
         </p>
       </div>
     ),
-  });
-}
+  },
+  {
+    Customer: " Lofi Wines xxxxxx",
+    OrderID: "#23456",
+    Region: "Sydney, NSW",
+    OrderDate: "19/11/2023",
+    Payment: "Pending",
+    Amount: "$2345.00",
+    Status: (
+      <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+        <p className="text-[#E9B600] text-[base] font-medium text-center">
+          Changes requested
+        </p>
+      </div>
+    ),
+  },
+  {
+    Customer: " Lofi Wines xxxxxx",
+    OrderID: "#23456",
+    Region: "Sydney, NSW",
+    OrderDate: "19/11/2023",
+    Payment: "Pending",
+    Amount: "$2345.00",
+    Status: (
+      <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+        <p className="text-[#E9B600] text-[base] font-medium text-center">
+          Changes requested
+        </p>
+      </div>
+    ),
+  },
+  {
+    Customer: " Lofi Wines xxxxxx",
+    OrderID: "#23456",
+    Region: "Sydney, NSW",
+    OrderDate: "19/11/2023",
+    Payment: "Pending",
+    Amount: "$2345.00",
+    Status: (
+      <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+        <p className="text-[#3498DB] text-[base] font-medium text-center">
+          Updated
+        </p>
+      </div>
+    ),
+  },
+  {
+    Customer: " Lofi Wines xxxxxx",
+    OrderID: "#23456",
+    Region: "Sydney, NSW",
+    OrderDate: "19/11/2023",
+    Payment: "Pending",
+    Amount: "$2345.00",
+    Status: (
+      <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+        <p className="text-[#3498DB] text-[base] font-medium text-center">
+          Updated
+        </p>
+      </div>
+    ),
+  },
+];
+
+buyerData.map((item, index) => {
+  return {
+    key: index,
+    OrderID: (
+      <p className="text-[15px] font-medium text-[#637381]">{item.OrderID}</p>
+    ),
+    Customer: (
+      <p className="text-[15px] font-medium text-[#637381]">{item.Customer}</p>
+    ),
+    Region: (
+      <p className="text-[15px] font-medium text-[#637381]">{item.Region}</p>
+    ),
+    OrderDate: (
+      <p className="text-[15px] font-medium text-[#637381]">{item.OrderDate}</p>
+    ),
+    Amount: (
+      <p className="text-[15px] font-medium text-[#637381]">{item.Amount}</p>
+    ),
+    Status: (
+      <p className="text-[#637381] text-[base] font-medium">{item.Status}</p>
+    ),
+  };
+});
+
 const ActionRequired = () => {
   return (
     <>
@@ -207,17 +292,31 @@ const ActionRequired = () => {
                   </div>
                 ),
                 children: (
-                  <Table
-                    columns={newColumns}
-                    dataSource={newData}
-                    showSizeChanger={false}
-                    pagination={{
-                      showSizeChanger: false,
-                    }}
-                    scroll={{
-                      y: 240,
-                    }}
-                  />
+                  <>
+                    <div className="pb-5 flex justify-end">
+                      <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                        <SortOutlinedIcon style={{ fill: "#637381" }} />
+                        <p className="text-base font-normal text-[#2B4447]">
+                          Sort
+                        </p>
+                        <KeyboardArrowDownIcon
+                          style={{ fill: "#2B4447" }}
+                          className=""
+                        />
+                      </button>
+                    </div>
+                    <Table
+                      columns={newColumns}
+                      dataSource={newData}
+                      showSizeChanger={false}
+                      pagination={{
+                        showSizeChanger: false,
+                      }}
+                      scroll={{
+                        y: 240,
+                      }}
+                    />
+                  </>
                 ),
               },
             ]}
@@ -246,17 +345,31 @@ const ActionRequired = () => {
                   </div>
                 ),
                 children: (
-                  <Table
-                    columns={pandingColumns}
-                    dataSource={pandingData}
-                    showSizeChanger={false}
-                    pagination={{
-                      showSizeChanger: false,
-                    }}
-                    scroll={{
-                      y: 240,
-                    }}
-                  />
+                  <>
+                    <div className="pb-5 flex justify-end">
+                      <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                        <SortOutlinedIcon style={{ fill: "#637381" }} />
+                        <p className="text-base font-normal text-[#2B4447]">
+                          Sort
+                        </p>
+                        <KeyboardArrowDownIcon
+                          style={{ fill: "#2B4447" }}
+                          className=""
+                        />
+                      </button>
+                    </div>
+                    <Table
+                      columns={pandingColumns}
+                      dataSource={pandingData}
+                      showSizeChanger={false}
+                      pagination={{
+                        showSizeChanger: false,
+                      }}
+                      scroll={{
+                        y: 240,
+                      }}
+                    />
+                  </>
                 ),
               },
             ]}
@@ -285,17 +398,31 @@ const ActionRequired = () => {
                   </div>
                 ),
                 children: (
-                  <Table
-                    columns={buyerColumns}
-                    dataSource={buyerData}
-                    showSizeChanger={false}
-                    pagination={{
-                      showSizeChanger: false,
-                    }}
-                    scroll={{
-                      y: 240,
-                    }}
-                  />
+                  <>
+                    <div className="pb-5 flex justify-end">
+                      <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                        <SortOutlinedIcon style={{ fill: "#637381" }} />
+                        <p className="text-base font-normal text-[#2B4447]">
+                          Sort
+                        </p>
+                        <KeyboardArrowDownIcon
+                          style={{ fill: "#2B4447" }}
+                          className=""
+                        />
+                      </button>
+                    </div>
+                    <Table
+                      columns={buyerColumns}
+                      dataSource={buyerData}
+                      showSizeChanger={false}
+                      pagination={{
+                        showSizeChanger: false,
+                      }}
+                      scroll={{
+                        y: 240,
+                      }}
+                    />
+                  </>
                 ),
               },
             ]}

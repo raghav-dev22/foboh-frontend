@@ -12,8 +12,8 @@ const AlertModal = ({ closeIcon, handleOk, isModalOpen, handleCancel }) => {
               <WarningAmberRoundedIcon style={{ fill: "#DC6803" }} />
             </div>
             <h5 className="text-[#2B4447] text-lg font-medium">
-              Leaving this page will discard all your changes. Are you sure you
-              want to leave?
+              Leaving this page will discard all your changes.
+              <br /> Are you sure you want to leave?
             </h5>
           </div>
         }
@@ -41,11 +41,7 @@ const AlertModal = ({ closeIcon, handleOk, isModalOpen, handleCancel }) => {
         open={isModalOpen}
         onOk={handleOk}
         closeIcon={false}
-      >
-        <p className="text-sm font-normal text-[#667085] ">
-          Cancelling this order will remove this from the{" "}
-        </p>
-      </Modal>
+      ></Modal>
     </>
   );
 };
