@@ -1,7 +1,52 @@
 import React from 'react'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 function StockDetails() {
-  const stockBox = Array.from({ length: 4 });;
+  const stockBox =[
+    {
+      title:"$12,489",
+      description:"Total revenue",
+      value:(
+        <span style={{ color: "#45CB85" }}>0.43%</span>
+      ),
+      Image:(<AttachMoneyIcon style={{fill:"#147D73"}}/>),
+      Arrow:(< ArrowUpwardIcon style={{fill:"#45CB85"}}/>)
+
+    },
+    {
+      title:"$2,572",
+      description:"Gross profit",
+      value:(
+        <span style={{ color: "#45CB85" }}>4.35%</span>
+      ),
+      Image:(<SignalCellularAltIcon  style={{fill:"#147D73"}}/>),
+      Arrow:(< ArrowUpwardIcon style={{fill:"#45CB85"}}/>)
+    },
+    {
+      title:"585",
+      description:"Total orders",
+      value:(
+        <span style={{ color: "#45CB85" }}>2.59%</span>
+      ),
+      Image:(<ShoppingCartOutlinedIcon style={{fill:"#147D73"}}/>),
+      Arrow:(< ArrowUpwardIcon style={{fill:"#45CB85"}}/>)
+    },
+    {
+      title:"120",
+      description:"Active customers",
+      value: (
+        <span style={{ color: "#DC3545" }}>0.95%</span>
+      ),
+      Image:(<PeopleAltOutlinedIcon style={{fill:"#147D73"}}/>),
+      Arrow:(< ArrowDownwardIcon style={{fill:"#DC3545"}}/>)
+    }
+
+      ]
   return (
     <>
       {
@@ -11,23 +56,20 @@ function StockDetails() {
               <div className={` rounded-md	 border border-inherit bg-white grow h-40 stock-${index}`}>
                 <div className="grid grid-cols-1 gap-6 p-4">
                   <div className=" stock-icon h-12 w-12 rounded-full	flex justify-center items-center bg-slate-100	">
-                    <img src="/assets/revenue.png" alt="" />
+                  {item.Image}
                   </div>
                   <div className="">
-                    <h4 className="text-2xl font-bold text-start	">$12,489</h4>
+                    <h4 className="text-2xl font-bold text-start	">{item.title}</h4>
                     <div className="flex justify-between">
                       <p className="text-sm font-semibold text-zinc-500">
-                        Total revenue
+                      {item.description}
                       </p>
                       <div className="flex items-center gap-1">
-                        <p className="text-sm font-semibold text-lime-600">
-                          0.43%{" "}
+                        <p className="text-sm font-semibold ">
+                        {item.value}
                         </p>
                         <div className="">
-                          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4.57066 2.47722L1.12248 5.82972L0.213501 4.94597L5.2135 0.0847163L10.2135 4.94597L9.30453 5.82972L5.85634 2.47722L5.85634 10.0847L4.57066 10.0847L4.57066 2.47722Z" fill="#45CB85" />
-                          </svg>
-
+                         {item.Arrow}
                         </div>
                       </div>
                     </div>

@@ -53,7 +53,7 @@ const Sidebar = () => {
         </div>
         
         <ul className="list-disc ">
-          <li className={`ps-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/main' ? 'active' : ''}`} >
+          <li className={`ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/main' ? 'active' : ''}`} >
             <div className="flex justify-start items-center gap-2">
               <div className={`home ${location.pathname === '/dashboard/main' ? 'active' : ''}`}>
                 <svg
@@ -79,12 +79,12 @@ const Sidebar = () => {
                   />
                 </svg>
               </div>
-              <Link to="/dashboard/main">
+              <Link className="no-underline" to="/dashboard/main">
                 <h6 className="text-base	font-medium  text-gray	">Dashboard</h6>
               </Link>
             </div>
           </li>
-          <li className={`ps-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/orders' ? 'active' : ''}`}>
+          <li className={`ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/orders' ? 'active' : ''}`}>
             <div className="flex justify-start items-center gap-2">
               <div  className={`home ${location.pathname === '/dashboard/orders' ? 'active' : ''}`}>
                 <svg
@@ -120,7 +120,7 @@ const Sidebar = () => {
               <h6 className="text-base	font-medium  text-gray	">Orders</h6>
             </div>
           </li>
-          <li className={`px-7 py-3  list-inside  cursor-pointer ${location.pathname === '/dashboard/customers' || location.pathname === '/dashboard/add-customer/customer-details'  ? 'active' : ''}`}onClick={() =>{ContactMenu(); handleOptionClick('Customers')}}>
+          <li className={`px-7 py-3  list-inside  cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/customers' || location.pathname === '/dashboard/add-customer/customer-details'  ? 'active' : ''}`}onClick={() =>{ContactMenu(); handleOptionClick('Customers')}}>
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
                 <div  className={`home ${location.pathname === '/dashboard/customers'? 'active' : ''}`}>
@@ -162,23 +162,23 @@ const Sidebar = () => {
           </li> 
           {openMenu && (
             <ul id="dropdown-example" class="  space-y-2 ">
-              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/customers' ? 'active' : ''}`}>
+              <li className={`ps-12 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]  ${location.pathname === '/dashboard/customers' ? 'active' : ''}`}>
                 <Link
                   to="/dashboard/customers"
-                  className="flex items-center w-full p-2 "
+                  className="flex items-center w-full p-2 no-underline "
                 >
                   <h6 className="text-base	font-medium  text-gray">Customers</h6>{" "}
                 </Link>
               </li>
-              <li className="ps-12 list-inside cursor-pointer">
-                <Link to="#" class="flex items-center w-full p-2 ">
+              <li className="ps-12 list-inside cursor-pointer   hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
+                <Link to="#" class="flex items-center w-full p-2 no-underline">
                   <h6 className="text-base	font-medium  text-gray">Segments</h6>{" "}
                 </Link>
               </li>
-              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/add-customer/customer-details' ? 'active' : ''}`}>
+              <li className={`ps-12 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/add-customer/customer-details' ? 'active' : ''}`}>
                 <Link 
                 to="/dashboard/add-customer/customer-details" 
-                className="flex items-center w-full p-2 ">
+                className="flex items-center w-full p-2 no-underline ">
                   <h6 className="text-base	font-medium  text-gray">
                     Add customer
                   </h6>
@@ -186,7 +186,7 @@ const Sidebar = () => {
               </li>
             </ul>
           )}
-          <li className={`px-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/products' || location.pathname === '/dashboard/add-product' ? 'active' : ''}`} onClick={() =>{toggleMenu();handleOptionClick('Products')}}>
+          <li className={`px-7 py-3 list-inside cursor-pointer   hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/products' || location.pathname === '/dashboard/add-product' ? 'active' : ''}`} onClick={() =>{toggleMenu();handleOptionClick('Products')}}>
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
                 <div  className={`home ${location.pathname === '/dashboard/products' ? 'active' : ''}`}>
@@ -231,25 +231,25 @@ const Sidebar = () => {
           {isOpen && (
             <>
               <ul id="dropdown-example" class="  space-y-2 ">
-              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/products' ? 'active' : ''}`}>
+              <li className={`ps-12 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/products' ? 'active' : ''}`}>
                   <Link
                     to="/dashboard/products"
-                    className="flex items-center w-full p-2 "
+                    className="flex items-center w-full p-2 no-underline "
                   >
                     <h6 className="text-base	font-medium  text-gray">Range</h6>{" "}
                   </Link>
                 </li>
-                <li className="ps-12 list-inside cursor-pointer">
-                  <Link to="#" class="flex items-center w-full p-2 ">
+                <li className="ps-12 list-inside cursor-pointer   hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ">
+                  <Link to="#" class="flex items-center w-full p-2 no-underline">
                     <h6 className="text-base	font-medium  text-gray">
                       Inventory
                     </h6>{" "}
                   </Link>
                 </li>
-                <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/add-product' ? 'active' : ''}`}>
+                <li className={`ps-12 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/add-product' ? 'active' : ''}`}>
                   <Link
                     to="/dashboard/add-product"
-                    className="flex items-center w-full p-2 "
+                    className="flex items-center w-full p-2 no-underline"
                   >
                     <h6 className="text-base	font-medium  text-gray">
                       Add product
@@ -260,7 +260,7 @@ const Sidebar = () => {
             </>
           )}
 
-          <li className="ps-7 py-3 list-inside cursor-pointer" >
+          <li className="ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]" >
             <div className="flex justify-start items-center gap-2">
               <div  className={`home ${activeOption === 'Pricing' ? 'active' : ''}`}>
                 <svg
@@ -282,10 +282,10 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
-      <div className="p-6">
+      <div className="py-6">
         <div className="border-t border-inherit	">
           <ul className="list-disc ">
-            <li className="py-3 list-inside cursor-pointer">
+            <li className="py-3 px-6 list-inside cursor-pointer   hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
               <div className="flex justify-start items-center gap-2">
                 <div  className={`home ${activeOption === 'Chat' ? 'active' : ''}`}>
                   <svg
@@ -307,7 +307,7 @@ const Sidebar = () => {
                 <h6 className="text-base	font-medium  text-gray	">Chat</h6>
               </div>
             </li>
-            <li className={`py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/organisation-settings' ? 'active' : ''}`}>
+            <li className={`py-3 px-6 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${location.pathname === '/dashboard/organisation-settings' ? 'active' : ''}`}>
               <div className="flex justify-start items-center gap-2">
                 <div  className={`home ${activeOption === 'Settings' ? 'active' : ''}`}>
                   <svg
@@ -345,12 +345,12 @@ const Sidebar = () => {
                     </defs>
                   </svg>
                 </div>
-                <Link to={"/dashboard/organisation-settings"}>
-                  <h6 className="text-base	font-medium  text-gray	">Settings</h6>
+                <Link to={"/dashboard/organisation-settings"} className="no-underline">
+                  <h6 className="text-base	font-medium  text-gray ">Settings</h6>
                 </Link>
               </div>
             </li>
-            <li className="py-3 list-inside cursor-pointer">
+            <li className="py-3 px-6 list-inside cursor-pointer   hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ">
               <div className="flex justify-start items-center gap-2">
                 <div  className={`home ${activeOption === 'Help' ? 'active' : ''}`}>
                   <svg

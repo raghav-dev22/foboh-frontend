@@ -22,7 +22,7 @@ export default function Home() {
             <div className="w-full h-full bg-[#F8FAFC]">
                 <div className="flex flex-no-wrap">
                     {/* Sidebar starts */}
-                    <div className="absolute lg:relative w-72 h-  shadow bg-[#FFFFFF] shadow-[#0000001F] hidden lg:block">
+                    {/* <div className="absolute lg:relative w-72 h-  shadow bg-[#FFFFFF] shadow-[#0000001F] hidden lg:block">
                         <div className="flex justify-center items-center p-4">
                             <div className="h-[63px] w-[207px] flex items-center  px-8 bg-[#D9D9D9]">
                                 <p className="text-[#8890A4] text-xs font-semibold text-center italic">
@@ -134,7 +134,7 @@ export default function Home() {
                                 <img src={fobohLogo} className="w-[190px] h-[57px]" alt="" srcset="" />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/*Mobile responsive sidebar*/}
                     <div className={show ? "w-full h-full absolute z-40  transform  translate-x-0 " : "   w-full h-full absolute z-40  transform -translate-x-full"} id="mobile-nav">
                         <div className="bg-gray-800 opacity-50 absolute h-full w-full lg:hidden" onClick={() => setShow(!show)} />
