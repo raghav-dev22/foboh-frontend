@@ -380,8 +380,8 @@ select {
 }
 
 .ant-btn{
-  background : '#1677ff'
+  background : #1677ff!important
 }
 :where(.css-dev-only-do-not-override-17a39f8).ant-btn-primary{
-  background : '#1677ff'
+  background : #1677ff
 }

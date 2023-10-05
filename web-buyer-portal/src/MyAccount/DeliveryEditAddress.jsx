@@ -23,7 +23,6 @@ const DeliveryEditAddress = ({
     Notes: "",
   });
 
-  const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
 
   const { useToken } = theme;

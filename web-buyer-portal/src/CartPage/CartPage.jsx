@@ -34,7 +34,7 @@ const CartPage = () => {
   const navigate = useNavigate();
 
   const warning = () => {
-    Modal.success({
+    Modal.warning({
       title: "This is a warning message",
       content: (
         <div>
@@ -231,9 +231,9 @@ const CartPage = () => {
 
   const handleCheckout = () => {
     const cartId = localStorage.getItem("cartId");
-    const { deliveryEmail, deliveryFirstName } =
-      localStorage.getItem("buyerInfo");
-    console.log(deliveryEmail, deliveryFirstName);
+    const { deliveryEmail, deliveryFirstName } = JSON.parse(
+      localStorage.getItem("buyerInfo")
+    );
 
     fetch(
       "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/OrderMain_Create",

@@ -50,7 +50,6 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
       <Route path="/order-details" element={<OrderDetails />} />
       <Route path="/order-history" element={<OrderHistory />} />
-
       <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
     </Routes>
   );

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import BillingAddress from "./BillingAddress";
 import DeliveryAddress from "./DeliveryAddress";
@@ -21,6 +21,9 @@ import {
 import useResponsiveFontSize from "./useResponsiveFontSize";
 import useResponsiveHeight from "./useResponsiveHeight";
 import { useSelector } from "react-redux";
+import { getBuyerValues } from "../helpers/setBuyerValues";
+import { add } from "../slices/CartSlice";
+import { addressSubmission } from "../helpers/addressSubmission";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -83,6 +86,25 @@ const Payment = () => {
   //   setIsChecked(!isChecked);
   //   setCardDetails(false);
   // };
+
+  useEffect(() => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    getBuyerValues(buyerId)
+      .then((data) => {
+        console.log("getBuyerValues", data);
+        const buyerInfo = data;
+        addressSubmission(buyerInfo, "delivery-address").then((data) =>
+          console.log("delivery-address-response", data)
+        );
+        addressSubmission(buyerInfo, "billing-address").then((data) =>
+          console.log("billing-address-response", data)
+        );
+        addressSubmission(buyerInfo, "delivery-contact").then((data) =>
+          console.log("delivery-contact-response", data)
+        );
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const openTab = () => {
     setOpenDetails(true);
