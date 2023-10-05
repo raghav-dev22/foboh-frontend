@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -12,6 +12,10 @@ import { getBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const EditBtn = () => {
+    navigate("/home/profile-edit");
+  };
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
 
@@ -102,12 +106,11 @@ const Profile = () => {
         fill: ${token.buttonThemeColor} !important;
            }
         `}
-        {`
+              {`
         .react-tabs__tab--selected{
           background: ${token.bannerThemeColor} !important;
 }
         `}
-
             </style>
             <Tab style={{ border: "none", margin: "5px 0" }}>
               <div className="flex justify-between items-center ">
@@ -147,26 +150,42 @@ const Profile = () => {
             <TabPanel>
               <div className="  mb-6 flex justify-between items-center md:p-0 px-6">
                 <div className="  md:p-0 p-4 relative">
-                  <h2 style={{ color: token.commonThemeColor }} className=" font-semibold  text-2xl	text-[#563FE3]  text-left ">
+                  <h2
+                    style={{ color: token.commonThemeColor }}
+                    className=" font-semibold  text-2xl	text-[#563FE3]  text-left "
+                  >
                     Profile
                   </h2>
                 </div>
-                <Link to="/home/profile-edit" className="">
-                  <div className="">
-                    <button style={{ borderColor: token.buttonThemeColor }} className=" md:mx-0 py-[8px] px-[32px] border-[2px] border-[#563FE3]  rounded-[5px] sm:w-fit w-full  flex justify-center items-center cursor-pointer gap-2">
-                      <ModeEditOutlineIcon style={{ fill: token.buttonThemeColor }} />
-                      <p style={{ color: token.commonThemeColor }} className="text-base font-medium  text-[#563FE3] ">
-                        Edit
-                      </p>
-                    </button>
-                  </div>
-                </Link>
+
+                <div className="">
+                  <button
+                    onClick={() => {
+                      EditBtn();
+                    }}
+                    style={{ borderColor: token.buttonThemeColor }}
+                    className=" md:mx-0 py-[8px] px-[32px] border-[2px] border-[#563FE3]  rounded-[5px] sm:w-fit w-full  flex justify-center items-center cursor-pointer gap-2"
+                  >
+                    <ModeEditOutlineIcon
+                      style={{ fill: token.buttonThemeColor }}
+                    />
+                    <p
+                      style={{ color: token.commonThemeColor }}
+                      className="text-base font-medium  text-[#563FE3] "
+                    >
+                      Edit
+                    </p>
+                  </button>
+                </div>
               </div>
               <div className="md:grid-cols-2 grid sm:grid-cols-3	  gap-4 md:px-0 px-6">
                 {" "}
                 <div className="rounded-[5px] border border-[#E0E0E0]">
                   {" "}
-                  <div style={{ backgroundColor: token.commonThemeColor }} className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
+                  <div
+                    style={{ backgroundColor: token.commonThemeColor }}
+                    className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
+                  >
                     {" "}
                     <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                       Business Details
@@ -184,7 +203,10 @@ const Profile = () => {
                 </div>{" "}
                 <div className="rounded-[5px] border border-[#E0E0E0]">
                   {" "}
-                  <div style={{ backgroundColor: token.commonThemeColor }} className="ordering-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	">
+                  <div
+                    style={{ backgroundColor: token.commonThemeColor }}
+                    className="ordering-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	"
+                  >
                     {" "}
                     <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
                       Ordering Contact
@@ -204,7 +226,10 @@ const Profile = () => {
                 </div>{" "}
                 <div className="rounded-[5px] border border-[#E0E0E0]">
                   {" "}
-                  <div style={{ backgroundColor: token.commonThemeColor }} className="delivery-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	">
+                  <div
+                    style={{ backgroundColor: token.commonThemeColor }}
+                    className="delivery-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	"
+                  >
                     {" "}
                     <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
                       Delivery Contact
@@ -228,15 +253,26 @@ const Profile = () => {
             <TabPanel>
               <div className="  mb-6 flex justify-between items-center md:p-0 px-6">
                 <div className="  md:p-0 p-4 relative">
-                  <h2 style={{ color: token.commonThemeColor }} className=" font-semibold  text-2xl	text-[#563FE3]  text-left ">
+                  <h2
+                    style={{ color: token.commonThemeColor }}
+                    className=" font-semibold  text-2xl	text-[#563FE3]  text-left "
+                  >
                     Address
                   </h2>
                 </div>
                 <Link to="/home/delivery-edit" className="">
                   <div className="">
-                    <button style={{ borderColor: token.commonThemeColor }} className=" md:mx-0 py-[8px] px-[32px] border-[2px] border-[#563FE3]  rounded-[5px] sm:w-fit w-full  flex justify-center items-center cursor-pointer gap-2">
-                      <ModeEditOutlineIcon style={{ fill: token.buttonThemeColor }} />
-                      <p style={{ color: token.commonThemeColor }} className="text-base font-medium  text-[#563FE3] ">
+                    <button
+                      style={{ borderColor: token.commonThemeColor }}
+                      className=" md:mx-0 py-[8px] px-[32px] border-[2px] border-[#563FE3]  rounded-[5px] sm:w-fit w-full  flex justify-center items-center cursor-pointer gap-2"
+                    >
+                      <ModeEditOutlineIcon
+                        style={{ fill: token.buttonThemeColor }}
+                      />
+                      <p
+                        style={{ color: token.commonThemeColor }}
+                        className="text-base font-medium  text-[#563FE3] "
+                      >
                         Edit
                       </p>
                     </button>
@@ -245,7 +281,10 @@ const Profile = () => {
               </div>
               <div className="md:grid-cols-2 grid sm:grid-cols-2	  gap-4 md:p-0 px-6 ">
                 <div className="rounded-md border border-[#E0E0E0] p-3 sm:p-0">
-                  <div style={{ background: token.commonThemeColor }} className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
+                  <div
+                    style={{ background: token.commonThemeColor }}
+                    className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
+                  >
                     <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                       Delivery Address
                     </h5>
@@ -305,7 +344,10 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="rounded-md border border-[#E0E0E0] sm:p-0 p-3">
-                  <div style={{ background: token.commonThemeColor }} className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	">
+                  <div
+                    style={{ background: token.commonThemeColor }}
+                    className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
+                  >
                     <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                       Billing Address
                     </h5>

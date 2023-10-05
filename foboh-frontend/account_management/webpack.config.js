@@ -4,6 +4,7 @@ const deps = require("./package.json").dependencies;
 const {
   productsUrl,
   customersUrl,
+  ordersUrl,
   accountManagementUrl,
 } = require("../config");
 
@@ -51,6 +52,7 @@ module.exports = (_, argv) => ({
       remotes: {
         products: `products@${productsUrl}/remoteEntry.js`,
         customers: `customers@${customersUrl}/remoteEntry.js`,
+        orders: `orders@${ordersUrl}/remoteEntry.js`,
       },
       exposes: {},
       shared: {

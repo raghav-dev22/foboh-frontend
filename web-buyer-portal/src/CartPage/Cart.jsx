@@ -48,67 +48,69 @@ const Cart = ({ open, onClose }) => {
                 </div>
               </Link>
             </div>
-            <div className="mx-5 mt-6">
-              {CARTdata.length === 0 ? (
-                <h5 className="text-sm font-bold text-center  pt-8  flow-root border-t border-[#CDCED6] ">
-                  Your cart is empty.
-                </h5>
-              ) : (
-                <>
-                  {CARTdata.map((item, index) => {
-                    return (
-                      <>
-                        <div className="box  my-4 relative cartbox-div">
-                          <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
-                            <div className="max-w-[80px] w-[80px] h-[80px]  bg-[#c3c3c3]">
-                              <img
-                                src={item.product?.productImageUrls}
-                                alt=""
-                                className="max-w-[80px] w-[80px] h-[80px] object-cover	"
-                              />
-                            </div>
-                            <div className="w-full flex flex-col gap-[15px]">
-                              <div className="">
-                                <h5 className="text-sm font-bold">
-                                  {item.product?.title}
-                                </h5>
-                                <p
-                                  className=" text-[#666666] text-xs"
-                                  style={{
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "25ch",
-                                  }}
-                                >
-                                  {item.product?.description}
-                                </p>
+            <div className=" h-[420px] overflow-y-scroll w-full custom-scroll-bar">
+              <div className="mx-5 mt-6 ">
+                {CARTdata.length === 0 ? (
+                  <h5 className="text-sm font-bold text-center  pt-8  flow-root border-t border-[#CDCED6] ">
+                    Your cart is empty.
+                  </h5>
+                ) : (
+                  <>
+                    {CARTdata.map((item, index) => {
+                      return (
+                        <>
+                          <div className="box  my-4 relative cartbox-div">
+                            <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
+                              <div className="max-w-[80px] w-[80px] h-[80px]  bg-[#c3c3c3]">
+                                <img
+                                  src={item.product?.productImageUrls}
+                                  alt=""
+                                  className="max-w-[80px] w-[80px] h-[80px] object-cover	"
+                                />
                               </div>
-                              <div className="flex justify-between items-center">
-                                <h5 className="text-sm font-bold">
-                                  {" "}
-                                  ${item?.product?.buyPrice}
-                                </h5>
-                                <p className=" text-[#666666] text-xs mx-3">
-                                  Qty-{item.quantity}
-                                </p>
+                              <div className="w-full flex flex-col gap-[15px]">
+                                <div className="">
+                                  <h5 className="text-sm font-bold">
+                                    {item.product?.title}
+                                  </h5>
+                                  <p
+                                    className=" text-[#666666] text-xs"
+                                    style={{
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      maxWidth: "25ch",
+                                    }}
+                                  >
+                                    {item.product?.description}
+                                  </p>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <h5 className="text-sm font-bold">
+                                    {" "}
+                                    ${item?.product?.buyPrice}
+                                  </h5>
+                                  <p className=" text-[#666666] text-xs mx-3">
+                                    Qty-{item.quantity}
+                                  </p>
+                                </div>
                               </div>
                             </div>
+                            <button
+                              className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
+                              onClick={() => {
+                                removeItem(item.product?.productId);
+                              }}
+                            >
+                              <DeleteIcon style={{ fill: "#fff" }} />
+                            </button>
                           </div>
-                          <button
-                            className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
-                            onClick={() => {
-                              removeItem(item.product?.productId);
-                            }}
-                          >
-                            <DeleteIcon style={{ fill: "#fff" }} />
-                          </button>
-                        </div>
-                      </>
-                    );
-                  })}
-                </>
-              )}
+                        </>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
             </div>
             <div className="flex justify-between pt-8 px-6">
               <Link to="/home/cart">
@@ -119,7 +121,10 @@ const Cart = ({ open, onClose }) => {
                 </div>
               </Link>
               <Link to="/home/payment-page/payment">
-                <div style={{backgroundColor: token.buttonThemeColor}} className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
+                <div
+                  style={{ backgroundColor: token.buttonThemeColor }}
+                  className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
+                >
                   <h4 className="text-base font-medium text-[#fff]">
                     Checkout
                   </h4>
