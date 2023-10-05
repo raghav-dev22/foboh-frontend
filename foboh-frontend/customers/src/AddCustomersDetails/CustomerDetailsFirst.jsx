@@ -13,6 +13,7 @@ function CustomerDetailsFirst({
   options,
   touched,
   setValues,
+  setIsUpDate,
 }) {
   console.log(errors, "error");
   const handleSelect = (e, name) => {
@@ -22,11 +23,13 @@ function CustomerDetailsFirst({
         ...values,
         tags: e,
       });
+      setIsUpDate(true);
     } else {
       setValues({
         ...values,
         [name]: e,
       });
+      setIsUpDate(true);
     }
     console.log("all values>>", values);
   };
@@ -323,8 +326,9 @@ function CustomerDetailsFirst({
               <Select
                 value={options.find((option) => option.value === values.tags)}
                 isMulti
-                name="colors"
+                name="tags"
                 options={customerTag}
+                onChange={(e) => handleSelect(e, "tags")}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 style={{

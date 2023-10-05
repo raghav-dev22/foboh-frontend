@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Sidebar = () => {
@@ -8,8 +8,6 @@ const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const location = useLocation();
   const logoURI = useSelector((state) => state.logo.logoURI);
-
-
 
   const ContactMenu = () => {
     setOpenMenu(!openMenu);
@@ -51,11 +49,19 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-        
+
         <ul className="list-disc ">
-          <li className={`ps-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/main' ? 'active' : ''}`} >
+          <li
+            className={`ps-7 py-3 list-inside cursor-pointer ${
+              location.pathname === "/dashboard/main" ? "active" : ""
+            }`}
+          >
             <div className="flex justify-start items-center gap-2">
-              <div className={`home ${location.pathname === '/dashboard/main' ? 'active' : ''}`}>
+              <div
+                className={`home ${
+                  location.pathname === "/dashboard/main" ? "active" : ""
+                }`}
+              >
                 <svg
                   width={18}
                   height={18}
@@ -84,46 +90,75 @@ const Sidebar = () => {
               </Link>
             </div>
           </li>
-          <li className={`ps-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/orders' ? 'active' : ''}`}>
-            <div className="flex justify-start items-center gap-2">
-              <div  className={`home ${location.pathname === '/dashboard/orders' ? 'active' : ''}`}>
-                <svg
-                  width={18}
-                  height={18}
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+          <li
+            className={`ps-7 py-3 list-inside cursor-pointer ${
+              location.pathname === "/dashboard/supplier-order-management"
+                ? "active"
+                : ""
+            }`}
+          >
+            <Link to="/dashboard/supplier-order-management">
+              <div className="flex justify-start items-center gap-2">
+                <div
+                  className={`home ${
+                    location.pathname === "/dashboard/supplier-order-management"
+                      ? "active"
+                      : ""
+                  }`}
                 >
-                  <path
-                    className="cls-1"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M3.9 1.05C4.04164 0.861146 4.26393 0.75 4.5 0.75H13.5C13.7361 0.75 13.9584 0.861146 14.1 1.05L16.35 4.05C16.4474 4.17982 16.5 4.33772 16.5 4.5V15C16.5 15.5967 16.2629 16.169 15.841 16.591C15.419 17.0129 14.8467 17.25 14.25 17.25H3.75C3.15326 17.25 2.58097 17.0129 2.15901 16.591C1.73705 16.169 1.5 15.5967 1.5 15V4.5C1.5 4.33772 1.55263 4.17982 1.65 4.05L3.9 1.05ZM4.875 2.25L3 4.75V15C3 15.1989 3.07902 15.3897 3.21967 15.5303C3.36032 15.671 3.55109 15.75 3.75 15.75H14.25C14.4489 15.75 14.6397 15.671 14.7803 15.5303C14.921 15.3897 15 15.1989 15 15V4.75L13.125 2.25H4.875Z"
-                    fill="#637381"
-                  />
-                  <path
-                    className="cls-1"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M1.5 4.5C1.5 4.08579 1.83579 3.75 2.25 3.75H15.75C16.1642 3.75 16.5 4.08579 16.5 4.5C16.5 4.91421 16.1642 5.25 15.75 5.25H2.25C1.83579 5.25 1.5 4.91421 1.5 4.5Z"
-                    fill="#637381"
-                  />
-                  <path
-                    className="cls-1"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M6 6.75C6.41421 6.75 6.75 7.08579 6.75 7.5C6.75 8.09674 6.98705 8.66903 7.40901 9.09099C7.83097 9.51295 8.40326 9.75 9 9.75C9.59674 9.75 10.169 9.51295 10.591 9.09099C11.0129 8.66903 11.25 8.09674 11.25 7.5C11.25 7.08579 11.5858 6.75 12 6.75C12.4142 6.75 12.75 7.08579 12.75 7.5C12.75 8.49456 12.3549 9.44839 11.6517 10.1517C10.9484 10.8549 9.99456 11.25 9 11.25C8.00544 11.25 7.05161 10.8549 6.34835 10.1517C5.64509 9.44839 5.25 8.49456 5.25 7.5C5.25 7.08579 5.58579 6.75 6 6.75Z"
-                    fill="#637381"
-                  />
-                </svg>
+                  <svg
+                    width={18}
+                    height={18}
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="cls-1"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M3.9 1.05C4.04164 0.861146 4.26393 0.75 4.5 0.75H13.5C13.7361 0.75 13.9584 0.861146 14.1 1.05L16.35 4.05C16.4474 4.17982 16.5 4.33772 16.5 4.5V15C16.5 15.5967 16.2629 16.169 15.841 16.591C15.419 17.0129 14.8467 17.25 14.25 17.25H3.75C3.15326 17.25 2.58097 17.0129 2.15901 16.591C1.73705 16.169 1.5 15.5967 1.5 15V4.5C1.5 4.33772 1.55263 4.17982 1.65 4.05L3.9 1.05ZM4.875 2.25L3 4.75V15C3 15.1989 3.07902 15.3897 3.21967 15.5303C3.36032 15.671 3.55109 15.75 3.75 15.75H14.25C14.4489 15.75 14.6397 15.671 14.7803 15.5303C14.921 15.3897 15 15.1989 15 15V4.75L13.125 2.25H4.875Z"
+                      fill="#637381"
+                    />
+                    <path
+                      className="cls-1"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M1.5 4.5C1.5 4.08579 1.83579 3.75 2.25 3.75H15.75C16.1642 3.75 16.5 4.08579 16.5 4.5C16.5 4.91421 16.1642 5.25 15.75 5.25H2.25C1.83579 5.25 1.5 4.91421 1.5 4.5Z"
+                      fill="#637381"
+                    />
+                    <path
+                      className="cls-1"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M6 6.75C6.41421 6.75 6.75 7.08579 6.75 7.5C6.75 8.09674 6.98705 8.66903 7.40901 9.09099C7.83097 9.51295 8.40326 9.75 9 9.75C9.59674 9.75 10.169 9.51295 10.591 9.09099C11.0129 8.66903 11.25 8.09674 11.25 7.5C11.25 7.08579 11.5858 6.75 12 6.75C12.4142 6.75 12.75 7.08579 12.75 7.5C12.75 8.49456 12.3549 9.44839 11.6517 10.1517C10.9484 10.8549 9.99456 11.25 9 11.25C8.00544 11.25 7.05161 10.8549 6.34835 10.1517C5.64509 9.44839 5.25 8.49456 5.25 7.5C5.25 7.08579 5.58579 6.75 6 6.75Z"
+                      fill="#637381"
+                    />
+                  </svg>
+                </div>
+                <h6 className="text-base	font-medium  text-gray	">Orders</h6>
               </div>
-              <h6 className="text-base	font-medium  text-gray	">Orders</h6>
-            </div>
+            </Link>
           </li>
-          <li className={`px-7 py-3  list-inside  cursor-pointer ${location.pathname === '/dashboard/customers' || location.pathname === '/dashboard/add-customer/customer-details'  ? 'active' : ''}`}onClick={() =>{ContactMenu(); handleOptionClick('Customers')}}>
+          <li
+            className={`px-7 py-3  list-inside  cursor-pointer ${
+              location.pathname === "/dashboard/customers" ||
+              location.pathname === "/dashboard/add-customer/customer-details"
+                ? "active"
+                : ""
+            }`}
+            onClick={() => {
+              ContactMenu();
+              handleOptionClick("Customers");
+            }}
+          >
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
-                <div  className={`home ${location.pathname === '/dashboard/customers'? 'active' : ''}`}>
+                <div
+                  className={`home ${
+                    location.pathname === "/dashboard/customers" ? "active" : ""
+                  }`}
+                >
                   <svg
                     width={18}
                     height={18}
@@ -159,10 +194,14 @@ const Sidebar = () => {
 
               {/* </Link> */}
             </div>
-          </li> 
+          </li>
           {openMenu && (
             <ul id="dropdown-example" class="  space-y-2 ">
-              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/customers' ? 'active' : ''}`}>
+              <li
+                className={`ps-12 list-inside cursor-pointer  ${
+                  location.pathname === "/dashboard/customers" ? "active" : ""
+                }`}
+              >
                 <Link
                   to="/dashboard/customers"
                   className="flex items-center w-full p-2 "
@@ -175,10 +214,18 @@ const Sidebar = () => {
                   <h6 className="text-base	font-medium  text-gray">Segments</h6>{" "}
                 </Link>
               </li>
-              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/add-customer/customer-details' ? 'active' : ''}`}>
-                <Link 
-                to="/dashboard/add-customer/customer-details" 
-                className="flex items-center w-full p-2 ">
+              <li
+                className={`ps-12 list-inside cursor-pointer  ${
+                  location.pathname ===
+                  "/dashboard/add-customer/customer-details"
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <Link
+                  to="/dashboard/add-customer/customer-details"
+                  className="flex items-center w-full p-2 "
+                >
                   <h6 className="text-base	font-medium  text-gray">
                     Add customer
                   </h6>
@@ -186,10 +233,25 @@ const Sidebar = () => {
               </li>
             </ul>
           )}
-          <li className={`px-7 py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/products' || location.pathname === '/dashboard/add-product' ? 'active' : ''}`} onClick={() =>{toggleMenu();handleOptionClick('Products')}}>
+          <li
+            className={`px-7 py-3 list-inside cursor-pointer ${
+              location.pathname === "/dashboard/products" ||
+              location.pathname === "/dashboard/add-product"
+                ? "active"
+                : ""
+            }`}
+            onClick={() => {
+              toggleMenu();
+              handleOptionClick("Products");
+            }}
+          >
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
-                <div  className={`home ${location.pathname === '/dashboard/products' ? 'active' : ''}`}>
+                <div
+                  className={`home ${
+                    location.pathname === "/dashboard/products" ? "active" : ""
+                  }`}
+                >
                   <svg
                     width={18}
                     height={18}
@@ -231,7 +293,11 @@ const Sidebar = () => {
           {isOpen && (
             <>
               <ul id="dropdown-example" class="  space-y-2 ">
-              <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/products' ? 'active' : ''}`}>
+                <li
+                  className={`ps-12 list-inside cursor-pointer  ${
+                    location.pathname === "/dashboard/products" ? "active" : ""
+                  }`}
+                >
                   <Link
                     to="/dashboard/products"
                     className="flex items-center w-full p-2 "
@@ -246,7 +312,13 @@ const Sidebar = () => {
                     </h6>{" "}
                   </Link>
                 </li>
-                <li className={`ps-12 list-inside cursor-pointer  ${location.pathname === '/dashboard/add-product' ? 'active' : ''}`}>
+                <li
+                  className={`ps-12 list-inside cursor-pointer  ${
+                    location.pathname === "/dashboard/add-product"
+                      ? "active"
+                      : ""
+                  }`}
+                >
                   <Link
                     to="/dashboard/add-product"
                     className="flex items-center w-full p-2 "
@@ -260,9 +332,11 @@ const Sidebar = () => {
             </>
           )}
 
-          <li className="ps-7 py-3 list-inside cursor-pointer" >
+          <li className="ps-7 py-3 list-inside cursor-pointer">
             <div className="flex justify-start items-center gap-2">
-              <div  className={`home ${activeOption === 'Pricing' ? 'active' : ''}`}>
+              <div
+                className={`home ${activeOption === "Pricing" ? "active" : ""}`}
+              >
                 <svg
                   width={16}
                   height={16}
@@ -287,7 +361,9 @@ const Sidebar = () => {
           <ul className="list-disc ">
             <li className="py-3 list-inside cursor-pointer">
               <div className="flex justify-start items-center gap-2">
-                <div  className={`home ${activeOption === 'Chat' ? 'active' : ''}`}>
+                <div
+                  className={`home ${activeOption === "Chat" ? "active" : ""}`}
+                >
                   <svg
                     width={18}
                     height={19}
@@ -307,9 +383,19 @@ const Sidebar = () => {
                 <h6 className="text-base	font-medium  text-gray	">Chat</h6>
               </div>
             </li>
-            <li className={`py-3 list-inside cursor-pointer ${location.pathname === '/dashboard/organisation-settings' ? 'active' : ''}`}>
+            <li
+              className={`py-3 list-inside cursor-pointer ${
+                location.pathname === "/dashboard/organisation-settings"
+                  ? "active"
+                  : ""
+              }`}
+            >
               <div className="flex justify-start items-center gap-2">
-                <div  className={`home ${activeOption === 'Settings' ? 'active' : ''}`}>
+                <div
+                  className={`home ${
+                    activeOption === "Settings" ? "active" : ""
+                  }`}
+                >
                   <svg
                     width={18}
                     height={19}
@@ -352,7 +438,9 @@ const Sidebar = () => {
             </li>
             <li className="py-3 list-inside cursor-pointer">
               <div className="flex justify-start items-center gap-2">
-                <div  className={`home ${activeOption === 'Help' ? 'active' : ''}`}>
+                <div
+                  className={`home ${activeOption === "Help" ? "active" : ""}`}
+                >
                   <svg
                     width={18}
                     height={18}

@@ -137,7 +137,30 @@ const OrderDetails = ({ datas }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          orderingFirstName: values?.orderingFirstName,
+          orderingLastName: values?.orderingLastName,
+          orderingMobile: values?.orderingMobile,
+          orderingEmail: values?.orderingEmail,
+          address: values?.address,
+          apartment: values?.apartment,
+          suburb: values?.suburb,
+          billingState: values?.billingState,
+          billingPostalCode: values?.billingPostalCode,
+          billingSuburb: values?.billingSuburb,
+          billingApartment: values?.billingApartment,
+          deliveryNotes: values?.deliveryNotes,
+          billingAddress: values?.billingAddress,
+          state: values?.state,
+          postalCode: values?.postalCode,
+          deliveryEmail: values?.deliveryEmail,
+          deliveryMobile: values?.deliveryMobile,
+          deliveryLastName: values?.deliveryLastName,
+          deliveryFirstName: values?.deliveryFirstName,
+          businessName: values?.businessName,
+          abn: values?.abn,
+          liquorLicence: values?.liquorLicence,
+        }),
       }
     ).then((response) => {
       console.log("updatedd", data);
@@ -203,7 +226,10 @@ const OrderDetails = ({ datas }) => {
   };
 
   const handleCancel = () => {
-    setIsUpDate(false);
+    setShow(false);
+    setValues({
+      ...initialValues,
+    });
   };
   return (
     <>
