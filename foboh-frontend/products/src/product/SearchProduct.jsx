@@ -61,10 +61,7 @@ const SearchProduct = forwardRef(
     const [selectedSubcatId, setSelectedSubcatId] = useState([]);
     const [itemLabel, setItemLabel] = useState("");
     const [showFilter, setShowFilter] = useState(false);
-    const firstDropdownRef = useRef(null);
-    const secondDropdownRef = useRef(null);
-    const thirdDropdownRef = useRef(null);
-    const fourthDropdownRef = useRef(null);
+    const dropdownRef = useRef(null);
     const { Option } = Select;
 
     const handleChange = (e, value, name) => {
@@ -155,8 +152,9 @@ const SearchProduct = forwardRef(
     }
     function saveInput(name) {
       if (name === "filterAndSort") {
+        const orgID = localStorage.getItem("organisationId");
         fetch(
-          "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Filter",
+          `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Filter?OrganisationId=${orgID}`,
           {
             method: "POST",
             headers: {
@@ -341,47 +339,41 @@ const SearchProduct = forwardRef(
     };
 
     useEffect(() => {
-      const handleClick = (event) => {
+      function handleClickOutside(event) {
+        // if (sortRef.current && !sortRef.current.contains(event.target)) {
+        //   setSort(false);
+        // }
         if (
-          secondDropdownRef.current &&
-          !secondDropdownRef.current.contains(event.target)
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
         ) {
-          setFilterTextSecond(false);
-        }
-        if (
-          firstDropdownRef.current &&
-          !firstDropdownRef.current.contains(event.target)
-        ) {
-          setFilterTextFirst(false);
-        }
-        if (
-          thirdDropdownRef.current &&
-          !thirdDropdownRef.current.contains(event.target)
-        ) {
-          setFilterTextThird(false);
-        }
-        if (
-          fourthDropdownRef.current &&
-          !fourthDropdownRef.current.contains(event.target)
-        ) {
-          setFilterTextForth(false);
-        }
-      };
+          const selectDropdowns = document.querySelectorAll(
+            ".ant-select-dropdown"
+          );
+          let isInsideSelectDropdown = false;
 
-      const handleKeydown = (event) => {
-        if (event.key === "Escape") {
-          setShowFilter(false);
-        }
-      };
+          for (const dropdown of selectDropdowns) {
+            if (dropdown.contains(event.target)) {
+              isInsideSelectDropdown = true;
+              break;
+            }
+          }
 
-      document.addEventListener("mousedown", handleClick);
-      document.addEventListener("keydown", handleKeydown);
+          if (!isInsideSelectDropdown) {
+            setFilterTextFirst(false);
+            setFilterTextSecond(false);
+            setFilterTextThird(false);
+            setFilterTextForth(false);
+          }
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
 
       return () => {
-        document.removeEventListener("mousedown", handleClick);
-        document.removeEventListener("keydown", handleKeydown);
+        document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, []);
+    }, [dropdownRef]);
 
     return (
       <>
@@ -449,7 +441,10 @@ const SearchProduct = forwardRef(
             </div>
           </div>
           {showFilter && (
-            <div className="flex gap-8 relative  pt-4 flex-wrap">
+            <div
+              className="flex gap-8 relative  pt-4 flex-wrap"
+              ref={dropdownRef}
+            >
               {/* <Category/> */}
 
               <div
@@ -541,7 +536,8 @@ const SearchProduct = forwardRef(
                   </div>
                 )}
               </div>
-              <div className="relative" ref={secondDropdownRef}>
+              <div className="relative">
+                {/* ref={secondDropdownRef} */}
                 <div
                   className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={SecondDropdown}
@@ -586,7 +582,8 @@ const SearchProduct = forwardRef(
                   </div>
                 )}
               </div>
-              <div className="relative" ref={thirdDropdownRef}>
+              <div className="relative">
+                {/* ref={thirdDropdownRef} */}
                 <div
                   className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={ThirdDropdown}
@@ -631,7 +628,8 @@ const SearchProduct = forwardRef(
                   </div>
                 )}
               </div>
-              <div className="relative" ref={fourthDropdownRef}>
+              <div className="relative">
+                {/* ref={fourthDropdownRef} */}
                 <div
                   className="flex items-center cursor-pointer gap-2 product-category-box"
                   onClick={ForthDropdown}

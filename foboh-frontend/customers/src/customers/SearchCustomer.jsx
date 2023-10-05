@@ -42,9 +42,7 @@ function SearchCustomer({
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
   const [itemLabel, setItemLabel] = useState("");
   const [isFilter, setIsFilter] = useState(false);
-  const firstDropdownRef = useRef(null);
-  const secondDropdownRef = useRef(null);
-  const thirdDropdownRef = useRef(null);
+  const dropdownRef = useRef(null);
   const { Option } = Select;
 
   const handleChange = (value) => {
@@ -252,45 +250,37 @@ function SearchCustomer({
   };
 
   useEffect(() => {
-    const handleClick = (event) => {
-      // if (dropdownRef.current &&!dropdownRef.current.contains(event.target)) {
-      //   setIsFilter(false);
+    function handleClickOutside(event) {
+      // if (sortRef.current && !sortRef.current.contains(event.target)) {
+      //   setSort(false);
       // }
-      if (
-        secondDropdownRef.current &&
-        !secondDropdownRef.current.contains(event.target)
-      ) {
-        setSecond(false);
-      }
-      if (
-        firstDropdownRef.current &&
-        !firstDropdownRef.current.contains(event.target)
-      ) {
-        setFirst(false);
-      }
-      if (
-        thirdDropdownRef.current &&
-        !thirdDropdownRef.current.contains(event.target)
-      ) {
-        setThird(false);
-      }
-    };
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        const selectDropdowns = document.querySelectorAll(
+          ".ant-select-dropdown"
+        );
+        let isInsideSelectDropdown = false;
 
-    const handleKeydown = (event) => {
-      if (event.key === "Escape") {
-        setIsFilter(false);
-      }
-    };
+        for (const dropdown of selectDropdowns) {
+          if (dropdown.contains(event.target)) {
+            isInsideSelectDropdown = true;
+            break;
+          }
+        }
 
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("keydown", handleKeydown);
+        if (!isInsideSelectDropdown) {
+          setFirst(false);
+          setSecond(false);
+          setThird(false);
+        }
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("keydown", handleKeydown);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-
+  }, [dropdownRef]);
   return (
     <>
       <div className=" border border-inherit bg-white h-full py-3	 px-4">
@@ -349,8 +339,12 @@ function SearchCustomer({
           </div>
         </div>
         {isFilter && (
-          <div className="flex gap-8 relative  pt-4 flex-wrap">
-            <div className="relative" ref={firstDropdownRef}>
+          <div
+            className="flex gap-8 relative  pt-4 flex-wrap"
+            ref={dropdownRef}
+          >
+            <div className="relative">
+              {/* ref={firstDropdownRef} */}
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
                 onClick={DropDownFirst}
@@ -461,7 +455,8 @@ function SearchCustomer({
                 </div>
               )}
             </div>
-            <div className="relative" ref={thirdDropdownRef}>
+            <div className="relative">
+              {/* ref={thirdDropdownRef} */}
               <div
                 className="flex items-center gap-2 product-category-box cursor-pointer"
                 onClick={DropDownThird}

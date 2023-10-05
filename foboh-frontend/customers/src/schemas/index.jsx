@@ -11,10 +11,9 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("ABN is required"),
   // liquorLicence: Yup.string()
-  liquorLicence: Yup.string().max(
-    13,
-    "Liquor licence cannot be more than 13 characters"
-  ).required("Liquor licence is required"),
+  liquorLicence: Yup.string()
+    .max(13, "Liquor licence cannot be more than 13 characters")
+    .required("Liquor licence is required"),
 
   //customers-contact
 
@@ -55,7 +54,7 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("Address is required"),
 
-    apartment: Yup.string()
+  apartment: Yup.string()
     .min(2, "Apartment should have atleast 2 letters")
     .max(50)
     .required("Apartment is required"),
@@ -65,22 +64,22 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("suburb is required"),
 
-  postalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode").required("postcode is required"),
+  postalCode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
 
   deliveryNotes: Yup.string()
     .min(2, "postalCode should have atleast 5 letters")
     .max(50)
     .required("postalCode name is required"),
-    state: Yup.mixed().required("State is required"),
+  state: Yup.mixed().required("State is required"),
 
-
-
-    billingAddress: Yup.string()
+  billingAddress: Yup.string()
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
 
-    billingApartment: Yup.string()
+  billingApartment: Yup.string()
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
@@ -90,7 +89,9 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("suburb  is required"),
 
-  billingPostalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode").required("postcode is required"),
+  billingPostalCode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
   billingState: Yup.mixed().required("State is required"),
 });
 
@@ -147,10 +148,9 @@ export const stepOneSchema = Yup.object().shape({
     .max(50)
     .required("ABN is required"),
   // liquorLicence: Yup.string()
-  liquorLicence: Yup.string().max(
-    13,
-    "Liquor licence cannot be more than 13 characters"
-  ).required("Liquor licence is required"),
+  liquorLicence: Yup.string()
+    .max(13, "Liquor licence cannot be more than 13 characters")
+    .required("Liquor licence is required"),
   salesRepId: Yup.mixed().required("State is required"),
   pricingProfileId: Yup.mixed().required("State is required"),
   defaultPaymentTerms: Yup.mixed().required("State is required"),
@@ -205,7 +205,7 @@ export const stepThreeSchema = Yup.object().shape({
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
-    apartment: Yup.string()
+  apartment: Yup.string()
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
@@ -215,27 +215,29 @@ export const stepThreeSchema = Yup.object().shape({
     .max(50)
     .required("suburb is required"),
 
-  postalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode").required("suburb is required"),
+  postalCode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("suburb is required"),
   deliveryNotes: Yup.string()
     .min(2, "postalCode should have atleast 5 letters")
     .max(50)
     .required("postalCode name is required"),
 
-    billingAddress: Yup.string()
+  billingAddress: Yup.string()
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
-    billingApartment: Yup.string()
+  billingApartment: Yup.string()
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
-
 
   billingSuburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
     .max(50)
     .required("suburb  is required"),
 
-  billingPostalCode: Yup.string().matches(/^\d{4}$/, "Invalid postcode").required("suburb is required"),
-
+  billingPostalCode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("suburb is required"),
 });

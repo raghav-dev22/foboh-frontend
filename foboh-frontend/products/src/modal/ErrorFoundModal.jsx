@@ -14,6 +14,7 @@ function ErrorFoundModal({
   errorData,
 }) {
   // const navigate = useNavigate();
+  console.log(errorData, "firsterror");
   console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -238,7 +239,7 @@ function ErrorFoundModal({
                               {errors}
                             </td>
                             <td className="font-normal text-sm p-4">
-                              Column B: {errors}
+                              Column: {errors}
                             </td>
                             <td className="font-normal text-sm p-4">
                               Missing [{errors}], please enter a valid [{errors}

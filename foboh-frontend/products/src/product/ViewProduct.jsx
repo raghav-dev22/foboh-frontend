@@ -1486,7 +1486,7 @@ function ViewProduct() {
                           type="text"
                           name="title"
                           autoComplete="on"
-                          placeholder="Good Intentions 'Cape Jaffa' Chardonnay   "
+                          placeholder="Good Intentions 'Cape Jaffa' Chardonnay"
                         />
                         {errors.title && touched.title && (
                           <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">

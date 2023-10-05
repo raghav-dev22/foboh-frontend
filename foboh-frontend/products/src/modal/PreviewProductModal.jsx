@@ -6,8 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { removePercentageFromString } from "../helpers/removePercentageToString";
 import { splitRegions } from "../helpers/splitRegions";
-import { Alert, Space, Spin } from 'antd';
-
+import { Alert, Space, Spin } from "antd";
 
 // import "antd/dist/antd.css"; // Import Ant Design styles
 function PreviewProductModal({
@@ -23,8 +22,8 @@ function PreviewProductModal({
   console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
-   const[errList, setErrList] = useState([])
-   const [loading, setLoading] = useState(false); // Initialize as true to show the spinner initially
+  const [errList, setErrList] = useState([]);
+  const [loading, setLoading] = useState(false); // Initialize as true to show the spinner initially
   const handleOptionChange = (event) => {
     setActiveTab(event.target.value);
     // const selectedOptionId = event.target.value;
@@ -63,7 +62,7 @@ function PreviewProductModal({
     });
     console.log(importedProducts, "importedProducts");
     console.log("prod", prod);
-    setLoading(true)
+    setLoading(true);
     fetch(
       "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
       {
@@ -112,7 +111,7 @@ function PreviewProductModal({
                 ? regionAvailability
                 : [],
               productStatus: product?.productStatus,
-              visibility: product?.visibility === "Visible" ? true : false,
+              visibility: product?.visibility === "Visible" ? "1" : "0",
               sellOutOfStock: product?.Sell_when_OOS === 1 ? true : false,
               minimumOrder: product?.minimumOrder,
               tags: product?.tags ? tags : [],
@@ -123,27 +122,26 @@ function PreviewProductModal({
               isActive: true,
             };
           })
-        ), 
+        ),
       }
     )
       .then((response) => {
-        return response.json()
+        return response.json();
         // navigation logic here
         // console.log("Bulk-import-data-response->", response);
       })
-      .then(data => {
-        const errList = data.data.map((item)=>{
+      .then((data) => {
+        const errList = data.data.map((item) => {
           return {
-            productName : item.title,
-            error : item.message
-          }
-        })
-        setErrList(errList)
+            productName: item.title,
+            error: item.message,
+          };
+        });
+        setErrList(errList);
         setLoading(false);
         setShowPreviewModal(true);
         console.log("import data response >>", data.data);
         console.log("err list", errList);
-        
       })
       .catch((error) => console.log(error, "csv"));
   };
@@ -331,16 +329,18 @@ function PreviewProductModal({
       </Transition.Root>
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-[#00000021] bg-opacity-75 backdrop-blur-md">
-          <Spin spinning={true} size="large"
-          style={{
-            marginLeft: "16rem",
-            width: "35px",
-          }}
-           />
+          <Spin
+            spinning={true}
+            size="large"
+            style={{
+              marginLeft: "16rem",
+              width: "35px",
+            }}
+          />
         </div>
       )}
       {/* <div className=" inset-0 flex items-center justify-center "> */}
-       {/* <Spin spinning={loading} size="large"> */}
+      {/* <Spin spinning={loading} size="large"> */}
       <ImportProductModal
         show={showPreviewModal}
         setShow={(set) => setShowPreviewModal(set)}
@@ -348,14 +348,9 @@ function PreviewProductModal({
         loader={loading}
       />
       {/* </Spin> */}
-   {/* </div> */}
+      {/* </div> */}
     </>
   );
 }
 
 export default PreviewProductModal;
-
-
-
-
-
