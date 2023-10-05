@@ -9,9 +9,11 @@ import Link from "react-router-dom";
 import ShieldIcon from "@mui/icons-material/Shield";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import AlertModal from "./AlertModal";
 let index = 0;
 
 const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
+  const [alertModal, setAlertModal] = useState(false);
   const [details, setDetails] = useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
@@ -26,13 +28,9 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const items = ["Apples", "Nails", "Bananas", "Helicopters"];
   const [selectedItems, setSelectedItems] = useState([]);
   const filteredOptions = items.filter((o) => !selectedItems.includes(o));
+  const [show, setShow] = useState(false);
   const itemOption = (itemIndex) => {
     console.log(selectedItems, "itemIndex");
-    // if (itemIndex === "Apples") {
-    //   setDetails(true);
-    // } else {
-    //   setDetails(false);
-    // }
   };
 
   return (
@@ -49,7 +47,12 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                   style={{ width: "14px", fill: "#2B4447" }}
                 />
               </div>
-              <CloseRoundedIcon style={{ width: "20px", fill: "#2B4447" }} />
+              <CloseRoundedIcon
+                style={{ width: "20px", fill: "#2B4447" }}
+                onClick={() => {
+                  setAlertModal(true);
+                }}
+              />
             </div>
 
             <div className=" createOrderStepper mt-6 px-5">
@@ -117,7 +120,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                   <div className="absolute -bottom-[3rem]  w-max text-center">
                     <Typography
                       variant="h6"
-                      color={activeStep === 2 ? "blue-gray" : "gray"}
+                      color={activeStep === 3 ? "blue-gray" : "gray"}
                       className="text-[#637381] font-medium text-lg"
                     >
                       Add Shipping
@@ -306,189 +309,189 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                         />
                       </div>
                     )}
-                    {details === true && (
-                      <>
-                        <div className="my-5">
-                          <h4 className="text-xl font-bold  text-[#2B4447]">
-                            Business full name
-                          </h4>
-                        </div>
-                        <div className="">
-                          <h5 className="font-semibold text-lg text-[#212B36] mb-5">
-                            Add product
-                          </h5>
-                          <div className="flex justify-between items-center mb-12">
-                            <Select
-                              showSearch
-                              style={{
-                                width: 200,
-                              }}
-                              placeholder="Search to Select"
-                              optionFilterProp="children"
-                              filterOption={(input, option) =>
-                                (option?.label ?? "").includes(input)
-                              }
-                              filterSort={(optionA, optionB) =>
-                                (optionA?.label ?? "")
-                                  .toLowerCase()
-                                  .localeCompare(
-                                    (optionB?.label ?? "").toLowerCase()
-                                  )
-                              }
-                              options={[
-                                {
-                                  value: "1",
-                                  label: "Not Identified",
-                                },
-                                {
-                                  value: "2",
-                                  label: "Closed",
-                                },
-                                {
-                                  value: "3",
-                                  label: "Communicated",
-                                },
-                                {
-                                  value: "4",
-                                  label: "Identified",
-                                },
-                                {
-                                  value: "5",
-                                  label: "Resolved",
-                                },
-                                {
-                                  value: "6",
-                                  label: "Cancelled",
-                                },
-                              ]}
-                            />
-                            <button className="border border-[#DC3545] rounded-[6px] p-2 text-base font-medium text-[#DC3545]">
-                              Remove All
-                            </button>
-                          </div>
-                          <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                            <div className="">
-                              <img src="/assets/customProduct.png" alt="" />
-                            </div>
-                            <div className="w-full">
-                              <div className="flex justify-between items-center w-full">
-                                <h3 className="text-xl font-semibold text-[#2B4447]">
-                                  Write Product Full Name
-                                </h3>
-                                <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
-                                  <p className="text-sm font-normal text-[#637381] ">
-                                    1
-                                  </p>
-                                  <KeyboardArrowDownIcon />
-                                </div>
-                                <h4 className="text-lg font-semibold text-[#2B4447]">
-                                  $369.00
-                                </h4>
-                              </div>
-                              <p className="text-base font-medium text-[#637381] ">
-                                12 x 750ml
-                              </p>
-                              <div className="flex justify-between  items-center mt-6 ">
-                                <div className="flex justify-start items-center gap-3">
-                                  <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
-                                    In stock
-                                  </button>
-                                  <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
-                                    Hidden
-                                  </button>
-                                </div>
-                                <a href="#" className="">
-                                  <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
-                                    Remove
-                                  </p>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                            <div className="">
-                              <img src="/assets/customProduct.png" alt="" />
-                            </div>
-                            <div className="w-full">
-                              <div className="flex justify-between items-center w-full">
-                                <h3 className="text-xl font-semibold text-[#2B4447]">
-                                  Write Product Full Name
-                                </h3>
-                                <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
-                                  <p className="text-sm font-normal text-[#637381] ">
-                                    1
-                                  </p>
-                                  <KeyboardArrowDownIcon />
-                                </div>
-                                <h4 className="text-lg font-semibold text-[#2B4447]">
-                                  $369.00
-                                </h4>
-                              </div>
-                              <p className="text-base font-medium text-[#637381] ">
-                                12 x 750ml
-                              </p>
-                              <div className="flex justify-between  items-center mt-6 ">
-                                <div className="flex justify-start items-center gap-3">
-                                  <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
-                                    In stock
-                                  </button>
-                                  <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
-                                    Hidden
-                                  </button>
-                                </div>
-                                <a href="#" className="">
-                                  <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
-                                    Remove
-                                  </p>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                            <div className="">
-                              <img src="/assets/customProduct.png" alt="" />
-                            </div>
-                            <div className="w-full">
-                              <div className="flex justify-between items-center w-full">
-                                <h3 className="text-xl font-semibold text-[#2B4447]">
-                                  Write Product Full Name
-                                </h3>
-                                <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
-                                  <p className="text-sm font-normal text-[#637381] ">
-                                    1
-                                  </p>
-                                  <KeyboardArrowDownIcon />
-                                </div>
-                                <h4 className="text-lg font-semibold text-[#2B4447]">
-                                  $369.00
-                                </h4>
-                              </div>
-                              <p className="text-base font-medium text-[#637381] ">
-                                12 x 750ml
-                              </p>
-                              <div className="flex justify-between  items-center mt-6 ">
-                                <div className="flex justify-start items-center gap-3">
-                                  <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
-                                    In stock
-                                  </button>
-                                  <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
-                                    Hidden
-                                  </button>
-                                </div>
-                                <a href="#" className="">
-                                  <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
-                                    Remove
-                                  </p>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    )}
                   </>
                 )}
                 {activeStep === 1 && (
+                  <>
+                    <div className="my-5">
+                      <h4 className="text-xl font-bold  text-[#2B4447]">
+                        Business full name
+                      </h4>
+                    </div>
+                    <div className="">
+                      <h5 className="font-semibold text-lg text-[#212B36] mb-5">
+                        Add product
+                      </h5>
+                      <div className="flex justify-between items-center mb-10">
+                        <Select
+                          showSearch
+                          style={{
+                            width: 200,
+                          }}
+                          placeholder="Search to Select"
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").includes(input)
+                          }
+                          filterSort={(optionA, optionB) =>
+                            (optionA?.label ?? "")
+                              .toLowerCase()
+                              .localeCompare(
+                                (optionB?.label ?? "").toLowerCase()
+                              )
+                          }
+                          options={[
+                            {
+                              value: "1",
+                              label: "Not Identified",
+                            },
+                            {
+                              value: "2",
+                              label: "Closed",
+                            },
+                            {
+                              value: "3",
+                              label: "Communicated",
+                            },
+                            {
+                              value: "4",
+                              label: "Identified",
+                            },
+                            {
+                              value: "5",
+                              label: "Resolved",
+                            },
+                            {
+                              value: "6",
+                              label: "Cancelled",
+                            },
+                          ]}
+                        />
+                        <button className="border border-[#DC3545] rounded-[6px] p-2 text-base font-medium text-[#DC3545]">
+                          Remove All
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
+                        <div className="">
+                          <img src="/assets/customProduct.png" alt="" />
+                        </div>
+                        <div className="w-full">
+                          <div className="flex justify-between items-center w-full">
+                            <h3 className="text-xl font-semibold text-[#2B4447]">
+                              Write Product Full Name
+                            </h3>
+                            <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
+                              <p className="text-sm font-normal text-[#637381] ">
+                                1
+                              </p>
+                              <KeyboardArrowDownIcon />
+                            </div>
+                            <h4 className="text-lg font-semibold text-[#2B4447]">
+                              $369.00
+                            </h4>
+                          </div>
+                          <p className="text-base font-medium text-[#637381] ">
+                            12 x 750ml
+                          </p>
+                          <div className="flex justify-between  items-center mt-6 ">
+                            <div className="flex justify-start items-center gap-3">
+                              <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
+                                In stock
+                              </button>
+                              <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
+                                Hidden
+                              </button>
+                            </div>
+                            <a href="#" className="">
+                              <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
+                                Remove
+                              </p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
+                        <div className="">
+                          <img src="/assets/customProduct.png" alt="" />
+                        </div>
+                        <div className="w-full">
+                          <div className="flex justify-between items-center w-full">
+                            <h3 className="text-xl font-semibold text-[#2B4447]">
+                              Write Product Full Name
+                            </h3>
+                            <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
+                              <p className="text-sm font-normal text-[#637381] ">
+                                1
+                              </p>
+                              <KeyboardArrowDownIcon />
+                            </div>
+                            <h4 className="text-lg font-semibold text-[#2B4447]">
+                              $369.00
+                            </h4>
+                          </div>
+                          <p className="text-base font-medium text-[#637381] ">
+                            12 x 750ml
+                          </p>
+                          <div className="flex justify-between  items-center mt-6 ">
+                            <div className="flex justify-start items-center gap-3">
+                              <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
+                                In stock
+                              </button>
+                              <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
+                                Hidden
+                              </button>
+                            </div>
+                            <a href="#" className="">
+                              <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
+                                Remove
+                              </p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
+                        <div className="">
+                          <img src="/assets/customProduct.png" alt="" />
+                        </div>
+                        <div className="w-full">
+                          <div className="flex justify-between items-center w-full">
+                            <h3 className="text-xl font-semibold text-[#2B4447]">
+                              Write Product Full Name
+                            </h3>
+                            <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
+                              <p className="text-sm font-normal text-[#637381] ">
+                                1
+                              </p>
+                              <KeyboardArrowDownIcon />
+                            </div>
+                            <h4 className="text-lg font-semibold text-[#2B4447]">
+                              $369.00
+                            </h4>
+                          </div>
+                          <p className="text-base font-medium text-[#637381] ">
+                            12 x 750ml
+                          </p>
+                          <div className="flex justify-between  items-center mt-6 ">
+                            <div className="flex justify-start items-center gap-3">
+                              <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
+                                In stock
+                              </button>
+                              <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
+                                Hidden
+                              </button>
+                            </div>
+                            <a href="#" className="">
+                              <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
+                                Remove
+                              </p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {activeStep === 2 && (
                   <>
                     <div className="my-5">
                       <h4 className="text-xl font-bold  text-[#2B4447]">
@@ -526,7 +529,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                     </div>
                   </>
                 )}
-                {activeStep === 2 && (
+                {activeStep === 3 && (
                   <>
                     <div className="my-5">
                       <h4 className="text-xl font-bold  text-[#2B4447]">
@@ -862,19 +865,21 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
         footer={[
           <div className="flex justify-end items-center  px-5 pb-5">
             <Button
+              onClick={handlePrev}
+              disabled={isFirstStep}
+              className={`bg-[#2B4447] text-white text-base font-medium rounded-[8px]  h-[44px] w-fit flex justify-center items-center px-5 
+              ${isFirstStep && "hidden"}
+              }`}
+            >
+              Save & Exit
+            </Button>
+            <Button
               onClick={handleNext}
-              // disabled={isFirstStep}
+              onCancel={handleCancel}
+              // disabled={isLastStep}
               className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
             >
               Next
-            </Button>
-            <Button
-              onClick={handlePrev}
-              onCancel={handleCancel}
-              // disabled={isLastStep}
-              className="bg-[#DC3545] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
-            >
-              Exit
             </Button>
           </div>,
         ]}
@@ -883,6 +888,16 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
         onOk={handleOk}
         closeIcon={false}
       ></Modal>
+      <AlertModal
+        handleCancel={() => {
+          setAlertModal(false);
+        }}
+        isModalOpen={alertModal}
+        handleOk={() => {
+          setAlertModal(false);
+        }}
+        closeIcon={false}
+      />
     </>
   );
 };
