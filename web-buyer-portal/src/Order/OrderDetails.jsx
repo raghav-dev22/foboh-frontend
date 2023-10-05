@@ -65,12 +65,12 @@ const OrderDetails = () => {
   };
   return (
     <>
-      <div className="md:w-4/5	w-full mx-auto md:p-0 ">
-        <div className="flex justify-between items-center mb-6 ">
-          <h1 className="text-[30px] font-semibold text-[#2B4447] ">
+      <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
+        <div className="grid sm:grid-cols-2 grid-cols-1 justify-between items-center mb-6 sm:gap-0 gap-3 ">
+          <h1 className="md:text-[30px] text-[25px] font-semibold text-[#2B4447] ">
             Order #23456
           </h1>
-          <div className="flex justify-center items-center gap-3">
+          <div className="flex sm:justify-end justify-start items-center gap-3">
             <button
               type="button"
               className="text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
@@ -90,7 +90,7 @@ const OrderDetails = () => {
         </div>
 
         <div className="bg-[#F8F8F8] rounded-[10px] p-5 ">
-          <div className="flex justify-between">
+          <div className="grid lg:grid-cols-4 sm:grid-cols-2 lg:gap-0 gap-3 justify-between">
             <div className="">
               <h5 className="font-semibold text-lg text-[#2B4447] leading-[30px]	">
                 Delivery Address
@@ -218,7 +218,7 @@ const OrderDetails = () => {
           )}
         </div>
 
-        <div className="flex justify-between gap-6">
+        <div className="grid sm:grid-cols-2 grid-cols-1 justify-between gap-6">
           <div className="border h-[200px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
             <div className="mb-4">
               <h5 className="text-lg font-semibold text-[#2B4447] mb-1">

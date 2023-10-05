@@ -6,6 +6,7 @@ import ModeIcon from "@mui/icons-material/Mode";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { Tabs, theme } from "antd";
 import CallIcon from "@mui/icons-material/Call";
+import { Link } from "react-router-dom";
 import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
@@ -24,6 +25,7 @@ import { useSelector } from "react-redux";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { add } from "../slices/CartSlice";
 import { addressSubmission } from "../helpers/addressSubmission";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -61,6 +63,10 @@ const useOptions = () => {
 };
 
 const Payment = () => {
+  const navigate = useNavigate();
+  const payBtn = () => {
+    navigate("home/order-confirm");
+  };
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
   console.log(EditDeliveryVal, "EditDeliveryVal");
   const [activeKey, setActiveKey] = useState("1");
@@ -149,8 +155,6 @@ const Payment = () => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
       return;
     }
 
@@ -729,13 +733,18 @@ const Payment = () => {
           <div className="py-4">
             <BillingAddress deliveryAddress={deliveryAddress} />
             <div className="text-right">
-              <button
-                type="submit"
-                style={{ backgroundColor: token.buttonThemeColor }}
-                className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
-              >
-                Pay Now
-              </button>
+              <Link to="/home/order-confirm">
+                <button
+                  type="submit"
+                  style={{ backgroundColor: token.buttonThemeColor }}
+                  // onClick={() => {
+                  //   payBtn();
+                  // }}
+                  className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+                >
+                  Pay Now
+                </button>
+              </Link>
             </div>
           </div>
         </div>

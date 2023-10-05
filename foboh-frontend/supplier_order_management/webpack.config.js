@@ -1,16 +1,11 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const deps = require("./package.json").dependencies;
-const {
-  productsUrl,
-  customersUrl,
-  ordersUrl,
-  accountManagementUrl,
-} = require("../config");
+const { ordersUrl } = require("../config");
 
 module.exports = (_, argv) => ({
   output: {
-    publicPath: `${accountManagementUrl}/`,
+    publicPath: `${ordersUrl}/`,
   },
 
   resolve: {
@@ -18,7 +13,7 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    port: 3000,
+    port: 3003,
     historyApiFallback: true,
   },
 
@@ -47,14 +42,14 @@ module.exports = (_, argv) => ({
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "account_management",
+      name: "orders",
       filename: "remoteEntry.js",
-      remotes: {
-        products: `products@${productsUrl}/remoteEntry.js`,
-        customers: `customers@${customersUrl}/remoteEntry.js`,
-        orders: `orders@${ordersUrl}/remoteEntry.js`,
+      remotes: {},
+      exposes: {
+        "./SupplierOrderManagement":
+          "./src/components/orders/SupplierOrderManagement.jsx",
+        "./OrderListing": "./src/components/orderListing/OrderListing.jsx",
       },
-      exposes: {},
       shared: {
         ...deps,
         react: {

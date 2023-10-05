@@ -17,6 +17,9 @@ import CustomerBulkEdit from "customers/CustomerBulkEdit";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
 import { updateLogoURI } from "../Redux/Action/organisationLogoSlice";
+import SupplierOrderManagement from "orders/SupplierOrderManagement";
+import OrderListing from "orders/OrderListing";
+
 // import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
 
@@ -139,18 +142,23 @@ function Dashboard() {
         </div>
         <div className="container-fluid mx-auto  h-64 sm:w-4/5 w-full ">
           <div className="container-fluid mx-auto px-0 sidebar">
-            <Header /> 
+            <Header />
             <Routes>
               <Route path="/main" element={<MainDashBoard />} />
               <Route path="/your-profile" element={<Profile />} />
               <Route path="/organisation-settings" element={<Organisation />} />
-              <Route path="/products" element={<Range />}/>
+              <Route path="/products" element={<Range />} />
               <Route path="/view-product/:id" element={<ViewProduct />} />
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/customers" element={<AddCustomers />} />
               <Route path="/view-customer-details" element={<ViewCustomer />} />
               <Route path="/add-customer/*" element={<AddCustomersDetails />} />
               <Route path="/bulk-edit" element={<BulkEdit />} />
+              <Route
+                path="/supplier-order-management"
+                element={<SupplierOrderManagement />}
+              />
+              <Route path="/order-listing" element={<OrderListing />} />
               <Route
                 path="/customer-bulk-edit"
                 element={<CustomerBulkEdit />}
