@@ -972,5 +972,66 @@ color: #fff !important;
 .h-\[600px\] {
   height: 600px;
 }
+
+/* Vineet */
+
+.hover\:bg-\[\#f2f2f2\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(242 242 242 / var(--tw-bg-opacity)) !important;
+}
+
+
+.no-underline {
+  text-decoration-line: none !important;
+}
+
+.dotcircle{
+  position: relative;
+  padding-left: 30px;
+  padding-right: 20px;
+  
+}
+.dotcircle::after{
+  position: absolute;
+  content: '';
+  top: 40%;
+  left: 20px;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50px;
+  background-color: #4A6CF7;
+}
+
+.cancel-bg::after{
+  background-color: #D34053;
+}
+.pending-bg::after{
+  background-color: #FFA70B;
+}
+.cancel-action{
+  border: none !important;
+}
+
+.scroll-right{
+  height: 240px;
+  overflow-x: scroll;
+}
+
+.scroll-right::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll-right::-webkit-scrollbar-track {
+  background-color: #fff;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.scroll-right::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #7A7A7A80; 
+}
 /* Add product   input error */
 
