@@ -19,7 +19,7 @@ const initialValues = {
   businessName: "",
   abn: "",
   liquorLicence: "",
-  salesRepId: {},
+  salesRepId: "",
   pricingProfileId: "",
   defaultPaymentTerms: "",
   defaultPaymentMethodId: "",
@@ -75,7 +75,40 @@ function CustomerDetails() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formik.values),
+        // body: JSON.stringify(formik.values),
+        body: JSON.stringify({
+          buyerId: formik.values.buyerId,
+          businessName: formik.values.businessName,
+          abn: formik.values.abn,
+          liquorLicence: formik.values.liquorLicence,
+          salesRepId: formik.values.salesRepId.label,
+          pricingProfileId: formik.values.pricingProfileId.label,
+          defaultPaymentTerms: formik.values.defaultPaymentTerms.label,
+          defaultPaymentMethodId: formik.values.defaultPaymentMethodId.label,
+          tags: formik.values.tags.label,
+          organisationId: formik.values.organisationId,
+          wetLiable: true,
+          orderingFirstName: formik.values.orderingFirstName,
+          orderingLastName: formik.values.orderingLastName,
+          orderingMobile: formik.values.orderingMobile,
+          orderingEmail: formik.values.orderingEmail,
+          deliveryFirstName: formik.values.deliveryFirstName,
+          deliveryLastName: formik.values.deliveryLastName,
+          deliveryMobile: formik.values.deliveryMobile,
+          deliveryEmail: formik.values.deliveryEmail,
+          address: formik.values.address,
+          apartment: formik.values.apartment,
+          suburb: formik.values.suburb,
+          postalCode: formik.values.postalCode,
+          state: formik.values.state.label,
+          deliveryNotes: formik.values.deliveryNotes,
+          billingAddress: formik.values.billingAddress,
+          billingApartment: formik.values.billingApartment,
+          billingSuburb: formik.values.billingSuburb,
+          billingPostalCode: formik.values.billingPostalCode,
+          billingState: formik.values.billingState.label,
+          isActive: "0",
+        }),
       }
     )
       .then((response) => response.json())
@@ -221,6 +254,7 @@ function CustomerDetails() {
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             errors={formik.errors}
+            setIsUpDate={setIsUpDate}
           />
         ) : activeStep === 1 ? (
           <CustomerContact
@@ -241,6 +275,7 @@ function CustomerDetails() {
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             errors={formik.errors}
+            setIsUpDate={setIsUpDate}
           />
         ) : null}
         <div className="px-6 pb-7 flex justify-between">

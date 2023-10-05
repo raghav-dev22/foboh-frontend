@@ -406,7 +406,7 @@ const CartPage = () => {
               {/* <Link to="/home/payment-page/payment"> */}
               <button
                 className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white"
-                // style={{ backgroundColor: token.buttonThemeColor }}
+                style={{ backgroundColor: token.buttonThemeColor }}
                 onClick={handleCheckout}
               >
                 {" "}
