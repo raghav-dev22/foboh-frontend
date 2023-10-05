@@ -74,14 +74,15 @@ function AddProduct() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
+  const [isWet, setIsWet] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
   const [checkGST, setCheckGST] = useState(false);
   const [checkWET, setCheckWET] = useState(false);
   const [salePriceCopy, setSalePriceCopy] = useState(null);
   const [profitCopy, setProfitCopy] = useState(null);
   const [marginCopy, setMarginCopy] = useState(null);
-  const [variety, setVariety] = useState([])
-  const [tag, setTag] = useState([])
+  const [variety, setVariety] = useState([]);
+  const [tag, setTag] = useState([]);
 
   const {
     values,
@@ -169,17 +170,19 @@ function AddProduct() {
 
   const handleReset = () => {
     setShow(false);
-    setSelectedState(""),
-      setValues({
-        ...initialValues,
-        buyPrice: "",
-        salePrice: "",
-        region: [],
-        // minimumOrder: ""
-      });
+    setSelectedState("");
+    setValues({
+      ...initialValues,
+      buyPrice: "",
+      salePrice: "",
+      region: [],
+      newVisibility: [],
+    });
+    setCheckGST(false);
+    setCheckWET(false);
   };
 
-  console.log(values);
+  console.log(values, "ggggggggggggggggggggggg");
 
   // Handle product image
   const handleProductImage = (e) => {
@@ -261,7 +264,7 @@ function AddProduct() {
   const handleStateSelection = (event) => {
     console.log("status --->", event.target.value);
     setSelectedState(event.target.value);
-    console.log(selectedState);
+    console.log(selectedState, "value");
     setValues({
       ...values,
       status: event.target.value,
@@ -320,6 +323,7 @@ function AddProduct() {
       ...values,
       department: e,
     });
+    setShow(true);
     // ?DepartmentId=${e.value}
     fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
       method: "GET",
@@ -347,8 +351,11 @@ function AddProduct() {
 
     if (item.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
+      setShow(true);
     } else {
       setIsAlcoholicBeverage(false);
+      setIsWine(false);
+      setShow(true);
     }
 
     setValues({
@@ -382,8 +389,10 @@ function AddProduct() {
     console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
+      setIsWet(true);
     } else {
       setIsWine(false);
+      setIsWet(false);
     }
     setValues({
       ...values,
@@ -429,6 +438,7 @@ function AddProduct() {
       ...values,
       country: e,
     });
+    setShow(true);
   };
 
   const handleGrapeVarietyChange = (e) => {
@@ -445,11 +455,13 @@ function AddProduct() {
         baseUnitMeasure: e,
         configuration: `${values.innerUnitMeasure.value} x ${e.label}`,
       });
+      setShow(true);
     } else {
       setValues({
         ...values,
         baseUnitMeasure: e,
       });
+      setShow(true);
     }
   };
 
@@ -462,11 +474,13 @@ function AddProduct() {
         innerUnitMeasure: e,
         configuration: `${e.value} x ${values.baseUnitMeasure.label}`,
       });
+      setShow(true);
     } else {
       setValues({
         ...values,
         innerUnitMeasure: e,
       });
+      setShow(true);
     }
   };
 
@@ -475,6 +489,7 @@ function AddProduct() {
       ...values,
       tags: [...e],
     });
+    setShow(true);
   };
 
   const handleSalePrice = (e) => {
@@ -596,28 +611,25 @@ function AddProduct() {
       })
       .catch((error) => console.log(error));
 
-
-       // grapeVariety
+    // grapeVariety
     fetch("https://masters-api-foboh.azurewebsites.net/api/GrapeVarieties", {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("grapeVariety -->", data);
-          setVariety(
-            data.map((item) => {
-              return {
-                value: item.grapeVarietyId,
-                label: item.grapeVarietyName,
-              };
-            })
-          );
-        
+        setVariety(
+          data.map((item) => {
+            return {
+              value: item.grapeVarietyId,
+              label: item.grapeVarietyName,
+            };
+          })
+        );
       })
       .catch((error) => console.log(error));
 
-
-          // tag
+    // tag
     fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
       method: "GET",
     })
@@ -625,22 +637,26 @@ function AddProduct() {
       .then((data) => {
         console.log("tag -->", data);
         setTag(
-            data.map((item) => {
-              return {
-                value: item.tagId,
-                label: item.tagName,
-              };
-            })
-          );
-        
+          data.map((item) => {
+            return {
+              value: item.tagId,
+              label: item.tagName,
+            };
+          })
+        );
       })
       .catch((error) => console.log(error));
-    }, []);
+  }, []);
 
   // Product Details ----END
 
-  const handleFormChange = () => {
-    setShow(true);
+  const handleFormChange = (e) => {
+    console.log(e.target.value, "inputvalues");
+    if (e.target.value) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
   };
 
   const CustomTooltip = styled(({ className, ...props }) => (
@@ -1200,7 +1216,7 @@ function AddProduct() {
                       </h5>
                       <div className="w-full">
                         <Select
-                          isMulti={true}
+                          isMulti
                           name="variety"
                           // isDisabled={!variety.length}
                           options={variety}
@@ -1212,7 +1228,7 @@ function AddProduct() {
                           onChange={handleGrapeVarietyChange}
                           className="basic-multi-select "
                           classNamePrefix="select"
-                          // isClearable={true}
+                          closeMenuOnSelect={false}
                         />
                       </div>
                     </div>
@@ -1327,7 +1343,7 @@ function AddProduct() {
                         name="abv"
                         onChange={handleChange}
                         onKeyPress={(event) => {
-                          const allowedCharacters = /^[0-9]*$/;
+                          const allowedCharacters = /^[0-9.%]*$/;
                           if (!allowedCharacters.test(event.key)) {
                             event.preventDefault();
                           }
@@ -1469,6 +1485,7 @@ function AddProduct() {
                         className="basic-multi-select "
                         classNamePrefix="select"
                         isClearable={true}
+                        closeMenuOnSelect={false}
                       />
                     </div>
                   </div>
@@ -1617,6 +1634,7 @@ function AddProduct() {
                   <div className="flex items-center mb-4 gap-3">
                     <input
                       id="default-checkbox"
+                      checked={checkGST}
                       type="checkbox"
                       value={checkGST}
                       onChange={handleGSTChange}
@@ -1631,23 +1649,27 @@ function AddProduct() {
                       </p>
                     </label>
                   </div>
-                  <div className="flex items-center mb-4 gap-3">
-                    <input
-                      id="checked-checkbox"
-                      type="checkbox"
-                      value={checkWET}
-                      onChange={handleWETChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-                    />
-                    <label
-                      htmlFor="checked-checkbox"
-                      className="ml-2  dark:text-gray-300"
-                    >
-                      <p className="text-sm	 font-medium text-gray">
-                        WET applicable
-                      </p>
-                    </label>
-                  </div>
+                  {isWet && (
+                    <div className="flex items-center mb-4 gap-3">
+                      <input
+                        id="checked-checkbox"
+                        type="checkbox"
+                        value={checkWET}
+                        checked={checkWET}
+                        onChange={handleWETChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                      />
+
+                      <label
+                        htmlFor="checked-checkbox"
+                        className="ml-2  dark:text-gray-300"
+                      >
+                        <p className="text-sm	 font-medium text-gray">
+                          WET applicable
+                        </p>
+                      </label>
+                    </div>
+                  )}
                 </div>
                 <div className="mb-5">
                   <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-3">

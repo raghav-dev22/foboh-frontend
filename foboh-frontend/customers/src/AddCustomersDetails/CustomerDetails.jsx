@@ -15,9 +15,8 @@ export const options = [
   { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
-
   buyerId: "",
-  businessName: "", 
+  businessName: "",
   abn: "",
   liquorLicence: "",
   salesRepId: {},
@@ -46,41 +45,9 @@ const initialValues = {
   billingSuburb: "",
   billingPostalCode: "",
   billingState: {},
-  isActive: true
-}
+  isActive: true,
+};
 
-//   buyerId: "",
-//   businessName: "",
-//   abn: "",
-//   liquorLicence: "",
-//   salesRepId: "",
-//   pricingProfileId: "",
-//   defaultPaymentMethodId: "",
-//   defaultPaymentTerms: "",
-//   tags: "",
-//   organisationId: localStorage.getItem('organisationId') || "",
-//   wetLiable: true,
-//   orderingFirstName: "",
-//   orderingLastName: "",
-//   orderingMobile: "",
-//   orderingEmail: "",
-//   deliveryFirstName: "",
-//   deliveryLastName: "",
-//   deliveryMobile: "",
-//   deliveryEmail: "",
-//   address: "",
-//   apartment: "",
-//   suburb: "",
-//   postalCode: "",
-//   state: "",
-//   deliveryNotes: "",
-//   billingAddress: "",
-//   billingApartment: "",
-//   billingSuburb: "",
-//   billingPostalCode: "",
-//   billingState: "",
-//   isActive: 0,
-// };
 function CustomerDetails() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
   const navigate = useNavigate();
@@ -88,9 +55,9 @@ function CustomerDetails() {
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastSeverity, setToastSeverity] = useState('success');
-  const [isUpdate, setIsUpDate] = useState(false)
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastSeverity, setToastSeverity] = useState("success");
+  const [isUpdate, setIsUpDate] = useState(false);
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchemas[activeStep],
@@ -101,37 +68,46 @@ function CustomerDetails() {
   const handleSubmit = () => {
     console.log(">>>>>>>>>>>");
     // e.preventDefault();
-    fetch("https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formik.values),
-    })
+    fetch(
+      "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formik.values),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer added>>", data);
-        window.alert("Customer added successfully!")
+        window.alert("Customer added successfully!");
         navigate("/dashboard/customers/");
       })
       .catch((error) => console.log(error));
   };
   const handleCloseToast = () => {
-    setOpenToast(false)
-  }
+    setOpenToast(false);
+  };
   const onChangeText = () => {
-    setIsUpDate(true)
-  }
+    setIsUpDate(true);
+  };
   const handleCancel = () => {
-    setIsUpDate(false)
-    formik.setValues(initialValues)
-  }
+    setIsUpDate(false);
+    formik.setValues(initialValues);
+  };
   const handleNext = () => {
     formik.validateForm().then((errors) => {
-      console.log("error on submit button click>>", errors)
+      console.log("error on submit button click>>", errors);
       if (activeStep !== 2 && Object.values(errors).length === 0) {
         setActiveStep((cur) => cur + 1);
-      } else if (activeStep === 2  && Object.values(errors).length === 0 && Object.values(formik.values).some(value => value ==! null || value ==! "") ) {
+      } else if (
+        activeStep === 2 &&
+        Object.values(errors).length === 0 &&
+        Object.values(formik.values).some(
+          (value) => value == !null || value == !""
+        )
+      ) {
         console.log("Form submitted");
         formik.submitForm();
         handleSubmit();
@@ -141,10 +117,10 @@ function CustomerDetails() {
   const handlePrev = () => {
     if (activeStep > 0) {
       setActiveStep((cur) => cur - 1);
-      formik.setErrors({})
+      formik.setErrors({});
+      formik.setValues(formik.values);
     }
   };
- 
 
   return (
     <>
@@ -154,7 +130,10 @@ function CustomerDetails() {
             <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
               <div className="block">
                 <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                  <button onClick={handleCancel} className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	">
+                  <button
+                    onClick={handleCancel}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
                     Cancel
                   </button>
                   <button
@@ -229,7 +208,10 @@ function CustomerDetails() {
           </Step>
         </Stepper>
       </div>
-      <form onChange={onChangeText} className=" mx-auto lg:w-3/5 w-full   rounded-lg		 border border-inherit bg-white h-96	overflow-y-scroll		 flex flex-col	  ">
+      <form
+        onChange={onChangeText}
+        className=" mx-auto lg:w-3/5 w-full   rounded-lg		 border border-inherit bg-white h-96	overflow-y-scroll		 flex flex-col	  "
+      >
         {activeStep === 0 ? (
           <CustomerDetailsFirst
             touched={formik.touched}
@@ -262,16 +244,17 @@ function CustomerDetails() {
           />
         ) : null}
         <div className="px-6 pb-7 flex justify-between">
-          {activeStep > 0 ?
+          {activeStep > 0 ? (
             <Button
               className="py-3.5 px-7 rounded-md	bg-custom-skyBlue	"
               onClick={handlePrev}
               disabled={isFirstStep}
             >
               Prev
-            </Button> :
+            </Button>
+          ) : (
             <div></div>
-          }
+          )}
           {isLastStep ? (
             <Button
               className="py-3.5 px-7 rounded-md	bg-custom-skyBlue	"

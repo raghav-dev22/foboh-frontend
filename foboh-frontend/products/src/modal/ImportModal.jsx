@@ -142,12 +142,6 @@ function ImportModal({ show, setShow }) {
                     </div>
 
                     <div className="relative py-6 px-8 ">
-                      <input
-                        type="file"
-                        accept=".csv"
-                        onChange={handleFileUpload}
-                        className={`download-file w-full h-full  absolute opacity-0	`}
-                      />
                       {addedFile && !errorData?.length ? (
                         <>
                           <div className="pb-4">
@@ -199,7 +193,13 @@ function ImportModal({ show, setShow }) {
                               to see an example of the format required.
                             </p>
                           </div>
-                          <div className="border-darkGreen border border-dashed	flex justify-center items-center   bg-slate-100 	 rounded-md	h-44	w-full mt-2">
+                          <div className="border-darkGreen border border-dashed	flex justify-center items-center   bg-slate-100 	 rounded-md	h-44	w-full mt-2 relative">
+                            <input
+                              type="file"
+                              accept=".csv"
+                              onChange={handleFileUpload}
+                              className={`download-file w-full h-full  absolute opacity-0	`}
+                            />
                             <div className="text-center  ">
                               <div className="download-icon relative	mb-3 mx-auto border rounded-full border-inherit bg-white flex justify-center items-center w-10	h-10">
                                 <svg

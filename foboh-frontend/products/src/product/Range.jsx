@@ -48,22 +48,20 @@ function Range() {
   }, []);
 
   const getAllproduct = () => {
-    fetch(
-      `${productUrl}/api/product/GetAll?page=1`,
-      {
-        method: "GET",
-      }
-    )
+    const orgID = localStorage.getItem("organisationId");
+    fetch(`${productUrl}/api/product/GetAll?page=1&OrganisationId=${orgID}`, {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("product list >>", data);
+        console.log("bbbbbb", data.total);
         setProducts(data.data);
         setPrevProducts(data.data);
         setTotalProducts(data.total);
         const array = createArrayWithNumber(data.last_page); //error
         setTotalPages(data.last_page);
         setPages(array);
-        // console.log("bbbbbb", products)
       })
       .then(() => {
         setTimeout(() => {
@@ -274,6 +272,10 @@ function Range() {
                 </thead>
                 {isSearchResult && (
                   <tbody>
+                    {console.log(
+                      products,
+                      "sssssssssssssssssssssssssssssssssssss"
+                    )}
                     {products.map((product, index) => {
                       const isLast = index === products.length - 1;
                       const classes = isLast ? "p-4" : "p-4  ";

@@ -14,9 +14,10 @@ function CustomerDetailsFirst({
   touched,
   setValues,
 }) {
+  console.log(errors, "error");
   const handleSelect = (e, name) => {
     console.log("selected tags>>>>...", e, name);
-    if (name === 'tags') {
+    if (name === "tags") {
       setValues({
         ...values,
         tags: e,
@@ -27,35 +28,36 @@ function CustomerDetailsFirst({
         [name]: e,
       });
     }
-    console.log("all values>>",values)
+    console.log("all values>>", values);
   };
 
-  const [defaultPaymentTrems, setDefaultPaymentTrems] = useState([])
-  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState([])
-  const [customerTag, setCustomerTag] = useState([])
+  const [defaultPaymentTrems, setDefaultPaymentTrems] = useState([]);
+  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState([]);
+  const [customerTag, setCustomerTag] = useState([]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     // defaultPaymentTrems
-    fetch("https://masters-api-foboh.azurewebsites.net/api/DefaultPaymentTerm", {
-      method: "GET",
-    })
+    fetch(
+      "https://masters-api-foboh.azurewebsites.net/api/DefaultPaymentTerm",
+      {
+        method: "GET",
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("defaultPaymentMethodId -->", data);
-          setDefaultPaymentTrems(
-            data.map((ele) => {
-              return {
-                value: ele.id,
-                label: ele.paymentTermName,
-              };
-            })
-          );
-      
+        setDefaultPaymentTrems(
+          data.map((ele) => {
+            return {
+              value: ele.id,
+              label: ele.paymentTermName,
+            };
+          })
+        );
       })
       .catch((error) => console.log(error));
 
-        // defaultPaymentMethod
+    // defaultPaymentMethod
     fetch("https://masters-api-foboh.azurewebsites.net/api/PaymentMethods", {
       method: "GET",
     })
@@ -63,18 +65,17 @@ function CustomerDetailsFirst({
       .then((data) => {
         console.log("defaultPaymentMethodId -->", data);
         setDefaultPaymentMethod(
-            data.map((item) => {
-              return {
-                value: item.paymentMethodId,
-                label: item.name,
-              };
-            })
-          );
-      
+          data.map((item) => {
+            return {
+              value: item.paymentMethodId,
+              label: item.name,
+            };
+          })
+        );
       })
       .catch((error) => console.log(error));
 
-        // tag
+    // tag
     fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
       method: "GET",
     })
@@ -82,18 +83,16 @@ function CustomerDetailsFirst({
       .then((data) => {
         console.log("tag -->", data);
         setCustomerTag(
-            data.map((item) => {
-              return {
-                value: item.tagId,
-                label: item.tagName,
-              };
-            })
-          );
-        
+          data.map((item) => {
+            return {
+              value: item.tagId,
+              label: item.tagName,
+            };
+          })
+        );
       })
       .catch((error) => console.log(error));
-
-  },[])
+  }, []);
 
   return (
     <form className="">
@@ -120,9 +119,7 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border:
-                  errors?.businessName &&
-                  "1px solid red",
+                border: errors?.businessName && "1px solid red",
               }}
             />
             {errors?.businessName && (
@@ -183,9 +180,7 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border:
-                  errors?.liquorLicence &&
-                  "1px solid red",
+                border: errors?.liquorLicence && "1px solid red",
               }}
             />
 
@@ -211,22 +206,25 @@ function CustomerDetailsFirst({
                 isMulti={true}
                 options={options}
                 // value={values?.salesRepId}
-                value={options.find((option) => option.value === values.salesRepId)}
+                value={options.find(
+                  (option) => option.value === values.salesRepId
+                )}
                 onChange={(e) => handleSelect(e, "salesRepId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                border:
-                  errors?.salesRepId &&
-                  "1px solid red",
-              }}
-            />
+                  border: errors?.salesRepId && "1px solid red",
+                }}
+              />
 
-            {errors?.salesRepId && (
-              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                {errors?.salesRepId}
-              </p>
-            )}
+              {errors?.salesRepId && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.salesRepId}
+                </p>
+              )}
+              {errors?.salesRepId && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
             </div>
           </div>
           <div className="  w-full relative md:w-1/2 px-3">
@@ -247,17 +245,15 @@ function CustomerDetailsFirst({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                border:
-                  errors?.pricingProfileId &&
-                  "1px solid red",
-              }}
-            />
+                  border: errors?.pricingProfileId && "1px solid red",
+                }}
+              />
 
-            {errors?.pricingProfileId && (
-              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                {errors?.pricingProfileId}
-              </p>
-            )}
+              {errors?.pricingProfileId && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.pricingProfileId}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -270,7 +266,7 @@ function CustomerDetailsFirst({
               <Select
                 name="defaultPaymentTerms"
                 isMulti={true}
-                options={defaultPaymentTrems} 
+                options={defaultPaymentTrems}
                 // value={options.find(
                 //   (option) => option.value === values.defaultPaymentTerms
                 // )}
@@ -279,17 +275,15 @@ function CustomerDetailsFirst({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                border:
-                  errors?.defaultPaymentTerms &&
-                  "1px solid red",
-              }}
-            />
+                  border: errors?.defaultPaymentTerms && "1px solid red",
+                }}
+              />
 
-            {errors?.defaultPaymentTerms && (
-              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                {errors?.defaultPaymentTerms}
-              </p>
-            )}
+              {errors?.defaultPaymentTerms && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.defaultPaymentTerms}
+                </p>
+              )}
             </div>
           </div>
           <div className="  w-full relative md:w-1/2 px-3">
@@ -309,17 +303,15 @@ function CustomerDetailsFirst({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                border:
-                  errors?.defaultPaymentMethodId &&
-                  "1px solid red",
-              }}
-            />
+                  border: errors?.defaultPaymentMethodId && "1px solid red",
+                }}
+              />
 
-            {errors?.defaultPaymentMethodId && (
-              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                {errors?.defaultPaymentMethodId}
-              </p>
-            )}
+              {errors?.defaultPaymentMethodId && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.defaultPaymentMethodId}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -336,10 +328,8 @@ function CustomerDetailsFirst({
                 className="basic-multi-select"
                 classNamePrefix="select"
                 style={{
-                border:
-                  errors?.tags &&
-                  "1px solid red",
-              }}
+                  border: errors?.tags && "1px solid red",
+                }}
               />
               {/* <Select
                 name="tags"
@@ -360,11 +350,11 @@ function CustomerDetailsFirst({
               }}
             /> */}
 
-            {errors?.tags && (
-              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                {errors?.tags}
-              </p>
-            )}
+              {errors?.tags && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.tags}
+                </p>
+              )}
             </div>
           </div>
           <div className=" w-full relative md:w-1/2 px-3">
