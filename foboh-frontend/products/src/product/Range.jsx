@@ -272,10 +272,6 @@ function Range() {
                 </thead>
                 {isSearchResult && (
                   <tbody>
-                    {console.log(
-                      products,
-                      "sssssssssssssssssssssssssssssssssssss"
-                    )}
                     {products.map((product, index) => {
                       const isLast = index === products.length - 1;
                       const classes = isLast ? "p-4" : "p-4  ";

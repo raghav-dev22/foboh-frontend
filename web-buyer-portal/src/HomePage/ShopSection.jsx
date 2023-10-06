@@ -5,32 +5,32 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { theme } from "antd";
 
-function ShopSection() { 
+function ShopSection() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const { useToken } = theme;
   const { token } = useToken();
 
   useEffect(() => {
-    const apiUrl = `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1`;
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    const apiUrl = `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1&OrganisationId=${organisationId}`;
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        const limitedProducts = (data.data).slice(0, 8);
+        const limitedProducts = data.data.slice(0, 8);
         setProducts(limitedProducts);
-        console.log(data.data, "products data")
+        console.log(data.data, "products data");
       })
       .catch((error) => {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error("There was a problem with the fetch operation:", error);
       });
   }, []);
- 
-  
+
   return (
     <>
       <div className="shop-section xl:bg-[#F8FAFC] md:bg-[#F8FAFC] bg-unset">
@@ -51,8 +51,7 @@ function ShopSection() {
               className="carousel"
               autoplay={3000}
             >
-              {
-                products.map((product) => {
+              {products.map((product) => {
                 return (
                   <Carousel.Item>
                     <div className=" ">
@@ -60,22 +59,29 @@ function ShopSection() {
                         className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"
                         src={product.productImageUrls}
                         onClick={() =>
-                          navigate(`/home/product-details/${product?.productId}`)
+                          navigate(
+                            `/home/product-details/${product?.productId}`
+                          )
                         }
                       />
                       <div className="mt-3">
-                        <h2 className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm cursor-pointer "
-                         onClick={() =>
-                          navigate(`/home/product-details/${product?.productId}`)
-                        }
+                        <h2
+                          className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm cursor-pointer "
+                          onClick={() =>
+                            navigate(
+                              `/home/product-details/${product?.productId}`
+                            )
+                          }
                         >
                           {product.title}
-                          
                         </h2>
-                        <p className="text-[#637381] text-center text-sm md:block hidden cursor-pointer"
-                         onClick={() =>
-                          navigate(`/home/product-details/${product?.productId}`)
-                        }
+                        <p
+                          className="text-[#637381] text-center text-sm md:block hidden cursor-pointer"
+                          onClick={() =>
+                            navigate(
+                              `/home/product-details/${product?.productId}`
+                            )
+                          }
                         >
                           {product.description}
                         </p>
@@ -88,7 +94,7 @@ function ShopSection() {
           </div>
           <div className="text-center py-10  hidden sm:block xl:block md:block">
             <div
-            style={{background: token.buttonThemeColor}}
+              style={{ background: token.buttonThemeColor }}
               onClick={() => navigate("/home/product-list")}
               className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto cursor-pointer"
             >
