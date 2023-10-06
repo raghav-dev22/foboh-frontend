@@ -23,7 +23,7 @@ const initialValues = {
   pricingProfileId: "",
   defaultPaymentTerms: "",
   defaultPaymentMethodId: "",
-  tags: {},
+  tags: "",
   organisationId: "",
   wetLiable: true,
   orderingFirstName: "",
@@ -107,7 +107,7 @@ function CustomerDetails() {
           billingSuburb: formik.values.billingSuburb,
           billingPostalCode: formik.values.billingPostalCode,
           billingState: formik.values.billingState.label,
-          isActive: "0",
+          isActive: "1",
         }),
       }
     )

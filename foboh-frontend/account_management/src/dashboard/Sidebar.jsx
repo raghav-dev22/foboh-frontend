@@ -52,7 +52,7 @@ const Sidebar = () => {
 
         <ul className="list-disc ">
           <li
-            className={`ps-7 py-3 list-inside cursor-pointer ${
+            className={`ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
               location.pathname === "/dashboard/main" ? "active" : ""
             }`}
           >
@@ -85,19 +85,22 @@ const Sidebar = () => {
                   />
                 </svg>
               </div>
-              <Link to="/dashboard/main">
+              <Link to="/dashboard/main" className="no-underline">
                 <h6 className="text-base	font-medium  text-gray	">Dashboard</h6>
               </Link>
             </div>
           </li>
           <li
-            className={`ps-7 py-3 list-inside cursor-pointer ${
+            className={`ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
               location.pathname === "/dashboard/supplier-order-management"
                 ? "active"
                 : ""
             }`}
           >
-            <Link to="/dashboard/supplier-order-management">
+            <Link
+              to="/dashboard/supplier-order-management"
+              className="no-underline"
+            >
               <div className="flex justify-start items-center gap-2">
                 <div
                   className={`home ${
@@ -141,7 +144,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li
-            className={`px-7 py-3  list-inside  cursor-pointer ${
+            className={`px-7 py-3  list-inside  cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
               location.pathname === "/dashboard/customers" ||
               location.pathname === "/dashboard/add-customer/customer-details"
                 ? "active"
@@ -204,13 +207,13 @@ const Sidebar = () => {
               >
                 <Link
                   to="/dashboard/customers"
-                  className="flex items-center w-full p-2 "
+                  className="flex items-center w-full p-2 no-underline "
                 >
                   <h6 className="text-base	font-medium  text-gray">Customers</h6>{" "}
                 </Link>
               </li>
               <li className="ps-12 list-inside cursor-pointer">
-                <Link to="#" class="flex items-center w-full p-2 ">
+                <Link to="#" class="flex items-center w-full p-2 no-underline">
                   <h6 className="text-base	font-medium  text-gray">Segments</h6>{" "}
                 </Link>
               </li>
@@ -224,7 +227,7 @@ const Sidebar = () => {
               >
                 <Link
                   to="/dashboard/add-customer/customer-details"
-                  className="flex items-center w-full p-2 "
+                  className="flex items-center w-full p-2 no-underline"
                 >
                   <h6 className="text-base	font-medium  text-gray">
                     Add customer
@@ -234,7 +237,7 @@ const Sidebar = () => {
             </ul>
           )}
           <li
-            className={`px-7 py-3 list-inside cursor-pointer ${
+            className={`px-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
               location.pathname === "/dashboard/products" ||
               location.pathname === "/dashboard/add-product"
                 ? "active"
@@ -300,13 +303,16 @@ const Sidebar = () => {
                 >
                   <Link
                     to="/dashboard/products"
-                    className="flex items-center w-full p-2 "
+                    className="flex items-center w-full p-2 no-underline"
                   >
                     <h6 className="text-base	font-medium  text-gray">Range</h6>{" "}
                   </Link>
                 </li>
                 <li className="ps-12 list-inside cursor-pointer">
-                  <Link to="#" class="flex items-center w-full p-2 ">
+                  <Link
+                    to="#"
+                    class="flex items-center w-full p-2 no-underline"
+                  >
                     <h6 className="text-base	font-medium  text-gray">
                       Inventory
                     </h6>{" "}
@@ -321,7 +327,7 @@ const Sidebar = () => {
                 >
                   <Link
                     to="/dashboard/add-product"
-                    className="flex items-center w-full p-2 "
+                    className="flex items-center w-full p-2  no-underline"
                   >
                     <h6 className="text-base	font-medium  text-gray">
                       Add product
@@ -332,7 +338,7 @@ const Sidebar = () => {
             </>
           )}
 
-          <li className="ps-7 py-3 list-inside cursor-pointer">
+          <li className="ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
             <div className="flex justify-start items-center gap-2">
               <div
                 className={`home ${activeOption === "Pricing" ? "active" : ""}`}
@@ -359,7 +365,7 @@ const Sidebar = () => {
       <div className="p-6">
         <div className="border-t border-inherit	">
           <ul className="list-disc ">
-            <li className="py-3 list-inside cursor-pointer">
+            <li className="py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
               <div className="flex justify-start items-center gap-2">
                 <div
                   className={`home ${activeOption === "Chat" ? "active" : ""}`}
@@ -384,7 +390,7 @@ const Sidebar = () => {
               </div>
             </li>
             <li
-              className={`py-3 list-inside cursor-pointer ${
+              className={`py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
                 location.pathname === "/dashboard/organisation-settings"
                   ? "active"
                   : ""
@@ -431,12 +437,15 @@ const Sidebar = () => {
                     </defs>
                   </svg>
                 </div>
-                <Link to={"/dashboard/organisation-settings"}>
+                <Link
+                  to={"/dashboard/organisation-settings"}
+                  className="no-underline"
+                >
                   <h6 className="text-base	font-medium  text-gray	">Settings</h6>
                 </Link>
               </div>
             </li>
-            <li className="py-3 list-inside cursor-pointer">
+            <li className="py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
               <div className="flex justify-start items-center gap-2">
                 <div
                   className={`home ${activeOption === "Help" ? "active" : ""}`}

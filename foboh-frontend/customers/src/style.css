@@ -199,3 +199,26 @@
 .basic-multi-select-2 .css-1u9des2-indicatorSeparator {
   width: 0px !important;
 }
+.green-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.green-checkbox input[type="checkbox"]:checked {
+  background-color: white;
+  border: 1px solid #147D73;
+}
+
+.green-checkbox input[type="checkbox"]:checked::before {
+  content: '\2713';
+  display: block;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+  color:#147D73;
+}

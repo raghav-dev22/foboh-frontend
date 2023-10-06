@@ -624,3 +624,9 @@ input[type="radio"]:checked:before {
 .pr-1 {
   padding-right: 1rem;
 }
+
+.basic-multi-select .select__control.css-13cymwt-control,
+.basic-multi-select .select__control.select__control--is-focused{
+  padding: 5px 45px 5px 20px !important;
+    height: 48px;
+  };

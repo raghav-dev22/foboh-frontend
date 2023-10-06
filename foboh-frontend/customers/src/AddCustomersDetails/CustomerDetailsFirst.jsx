@@ -208,10 +208,10 @@ function CustomerDetailsFirst({
                 name="salesRepId"
                 isMulti={true}
                 options={options}
-                // value={values?.salesRepId}
-                value={options.find(
-                  (option) => option.value === values.salesRepId
-                )}
+                value={values?.salesRepId}
+                // value={options.find(
+                //   (option) => option.value === values.salesRepId
+                // )}
                 onChange={(e) => handleSelect(e, "salesRepId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -324,7 +324,8 @@ function CustomerDetailsFirst({
             <h5 className="text-base font-medium text-green mb-3">Tags</h5>
             <div className=" top-16 w-full">
               <Select
-                value={options.find((option) => option.value === values.tags)}
+                // value={options.find((option) => option.value === values.tags)}
+                value={values?.tags}
                 isMulti
                 name="tags"
                 options={customerTag}
