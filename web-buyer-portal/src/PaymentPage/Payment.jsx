@@ -11,6 +11,9 @@ import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AppleIcon from "@mui/icons-material/Apple";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import { Select } from "antd";
+
 import { Button, message, Space } from "antd";
 import {
   useStripe,
@@ -63,6 +66,85 @@ const useOptions = () => {
 };
 
 const Payment = () => {
+  const paymentMethod = [
+    {
+      value: "method-2",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          Manual Payment
+        </h5>
+      ),
+    },
+    {
+      value: "method-3",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          BECS (Direct Deposit)
+        </h5>
+      ),
+    },
+  ];
+  const duePayment = [
+    {
+      value: "option-2",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          7 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "option-3",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          15 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "option-4",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          30 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "option-5",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          45 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "option-5",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          60 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "option-5",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          90 days from Invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "option-5",
+      label: (
+        <h5 className=" text-base font-medium text-[#637381] py-1">
+          30 days from end of month
+        </h5>
+      ),
+    },
+  ];
+  const handleChange = (value) => {
+    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+  };
   const navigate = useNavigate();
   const payBtn = () => {
     navigate("home/order-confirm");
@@ -368,15 +450,63 @@ const Payment = () => {
               >
                 <div className=" rounded-md ">
                   <label htmlFor="">
-                    <h5 className="text-lg font-semibold  text-[#2B4447]">
+                    <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
                       Your chosen payment terms
                     </h5>
                   </label>
-                  <input
-                    type="text"
-                    className="border border-[#E7E7E7] text-[#2B4447]"
-                    placeholder="Payment due in 14 days (dd/mm/yyyy)"
-                  />
+                  <div className="relative">
+                    <Select
+                      labelInValue
+                      className="custom-selector"
+                      defaultValue={{
+                        value: "option-1",
+                        label: (
+                          <h5 className="text-[#2B4447] font-medium text-base">
+                            Payment due in 14 days (dd/mm/yyyy)
+                          </h5>
+                        ),
+                      }}
+                      style={{
+                        width: "100%",
+                      }}
+                      onChange={handleChange}
+                      options={duePayment}
+                    />
+                    <KeyboardArrowDownRoundedIcon
+                      className="absolute top-[13px] right-[12px]"
+                      style={{ fill: "#637381" }}
+                    />
+                  </div>
+                </div>
+                <div className=" rounded-md mt-4">
+                  <label htmlFor="">
+                    <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
+                      Your chosen payment Method
+                    </h5>
+                  </label>
+                  <div className="relative">
+                    <Select
+                      labelInValue
+                      className="custom-selector"
+                      defaultValue={{
+                        value: "method-1",
+                        label: (
+                          <h5 className="text-[#2B4447] font-medium text-base">
+                            Method
+                          </h5>
+                        ),
+                      }}
+                      style={{
+                        width: "100%",
+                      }}
+                      onChange={handleChange}
+                      options={paymentMethod}
+                    />
+                    <KeyboardArrowDownRoundedIcon
+                      className="absolute top-[13px] right-[12px]"
+                      style={{ fill: "#637381" }}
+                    />
+                  </div>
                 </div>
               </TabPane>
               <TabPane
@@ -729,7 +859,7 @@ const Payment = () => {
             </Tabs>
             {/* <Tabs defaultActiveKey="1" items={items} onChange={onChange} /> */}
           </div>
-          <button onClick={handleSubmit}>Submit</button>
+          {/* <button onClick={handleSubmit}>Submit</button> */}
           <div className="py-4">
             <BillingAddress deliveryAddress={deliveryAddress} />
             <div className="text-right">
