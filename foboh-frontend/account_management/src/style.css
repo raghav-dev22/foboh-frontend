@@ -1,38 +1,8 @@
 .basic-multi-select .select__control.css-13cymwt-control, 
 .basic-multi-select .select__control.select__control--is-focused{
   padding: 5px 45px 5px 20px !important;
-    height: 48px;
+    min-height: 48px !important;
   }
-
- 
-
-input[type="checkbox"] {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background-color: white; 
-  border: 1px solid #CCCCCC; 
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-
-input[type="checkbox"]:checked {
-  background-color: white; 
-  border: 1px solid #147D73; 
-}
-
-
-input[type="checkbox"]:checked::before {
-  content: '\2713';
-  display: block;
-  text-align: center;
-  font-size: 16px;
-  line-height: 20px;
-  color:#147D73; 
-}
-
-
 
 body {
   font-family: "Inter";

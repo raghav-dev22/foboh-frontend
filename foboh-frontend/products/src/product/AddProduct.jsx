@@ -83,6 +83,7 @@ function AddProduct() {
   const [marginCopy, setMarginCopy] = useState(null);
   const [variety, setVariety] = useState([]);
   const [tag, setTag] = useState([]);
+  const [country, setCountry] = useState([]);
 
   const {
     values,
@@ -641,6 +642,24 @@ function AddProduct() {
             return {
               value: item.tagId,
               label: item.tagName,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+
+    // for country
+    fetch("https://masters-api-foboh.azurewebsites.net/api/Country/get", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("country -->", data.data);
+        setCountry(
+          data.data.map((item) => {
+            return {
+              value: item.countryID,
+              label: item.countryName,
             };
           })
         );

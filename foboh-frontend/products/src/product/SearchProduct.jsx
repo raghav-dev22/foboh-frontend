@@ -447,96 +447,94 @@ const SearchProduct = forwardRef(
             >
               {/* <Category/> */}
 
-             <div className="flex  gap-8 relative   flex-wrap">
-             <div className="relative"
-                // ref={firstDropdownRef}
-              >
-                <div
-                  className="flex items-center gap-2 cursor-pointer product-category-box"
-                  onClick={FirstDropdown}
-                >
-                  <h5 className="text-base font-medium text-gray">
-                    Sub-category
-                  </h5>
-                  <div className="">
-                    <img src="/assets/dropdownArrow.png" alt="" />
-                  </div>
+              <div className="flex gap-8 relative flex-wrap">
+                <div className="relative">
+                  <div
+                    className="flex items-center gap-2 cursor-pointer product-category-box"
+                    onClick={FirstDropdown}
+                  >
+                    <h5 className="text-base font-medium text-gray">
+                      Sub-category
+                    </h5>
+                    <div className="">
+                      <img src="/assets/dropdownArrow.png" alt="" />
+                    </div>
 
-                  {filterTextFirst && (
-                    <div className=" z-10 left-0   w-max   absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-3  ">
-                      <ul className="dropdown-content ">
-                        {categoryAndSubcategory &&
-                          categoryAndSubcategory.map((category, idx) => (
-                            <li className="py-2.5 px-4  ">
-                              <div className="flex items-center">
-                                <input
-                                  id={idx}
-                                  type="checkbox"
-                                  value={category.categoryId}
-                                  onClick={(e) =>
-                                    toggleCategoryAndSubcategory(
-                                      e,
-                                      category.categoryId,
-                                      "category"
-                                    )
-                                  }
-                                  checked={filterAndSort.filter.category.includes(
-                                    category.categoryId
-                                  )}
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                                />
-                                <label
-                                  htmlFor={idx}
-                                  className="ml-2 text-sm font-medium text-gray"
-                                >
-                                  {category.categoryName}
-                                </label>
-                              </div>
-
-                              {filterAndSort.filter.category.includes(
-                                category.categoryId
-                              ) && (
-                                <ul className="dropdown-content">
-                                  <Select
-                                    mode="multiple"
-                                    style={{
-                                      width: "100%",
-                                    }}
-                                    placeholder="select one country"
-                                    onChange={(e, value) =>
+                    {filterTextFirst && (
+                      <div className=" z-10 left-0   w-max   absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-3  ">
+                        <ul className="dropdown-content ">
+                          {categoryAndSubcategory &&
+                            categoryAndSubcategory.map((category, idx) => (
+                              <li className="py-2.5 px-4  ">
+                                <div className="flex items-center">
+                                  <input
+                                    id={idx}
+                                    type="checkbox"
+                                    value={category.categoryId}
+                                    onClick={(e) =>
                                       toggleCategoryAndSubcategory(
                                         e,
-                                        value,
-                                        "subcategory"
+                                        category.categoryId,
+                                        "category"
                                       )
                                     }
-                                    optionLabelProp="label"
+                                    checked={filterAndSort.filter.category.includes(
+                                      category.categoryId
+                                    )}
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <label
+                                    htmlFor={idx}
+                                    className="ml-2 text-sm font-medium text-gray"
                                   >
-                                    {category.subcategory.map((subcat, i) => (
-                                      <>
-                                        {filterAndSort.filter.category.includes(
-                                          category.categoryId
-                                        ) && (
-                                          <Option
-                                            value={subcat.id}
-                                            label={subcat.name}
-                                            key={i}
-                                          >
-                                            <Space>{subcat.name}</Space>
-                                          </Option>
-                                        )}
-                                      </>
-                                    ))}
-                                  </Select>
-                                </ul>
-                              )}
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                                    {category.categoryName}
+                                  </label>
+                                </div>
 
+                                {filterAndSort.filter.category.includes(
+                                  category.categoryId
+                                ) && (
+                                  <ul className="dropdown-content">
+                                    <Select
+                                      mode="multiple"
+                                      style={{
+                                        width: "100%",
+                                      }}
+                                      placeholder="select one country"
+                                      onChange={(e, value) =>
+                                        toggleCategoryAndSubcategory(
+                                          e,
+                                          value,
+                                          "subcategory"
+                                        )
+                                      }
+                                      optionLabelProp="label"
+                                    >
+                                      {category.subcategory.map((subcat, i) => (
+                                        <>
+                                          {filterAndSort.filter.category.includes(
+                                            category.categoryId
+                                          ) && (
+                                            <Option
+                                              value={subcat.id}
+                                              label={subcat.name}
+                                              key={i}
+                                            >
+                                              <Space>{subcat.name}</Space>
+                                            </Option>
+                                          )}
+                                        </>
+                                      ))}
+                                    </Select>
+                                  </ul>
+                                )}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <div className="relative">
                   <div
                     className="flex items-center cursor-pointer gap-2 product-category-box"
@@ -695,16 +693,11 @@ const SearchProduct = forwardRef(
                   )}
                 </div>
               </div>
-
               <div className="">
                 <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
                   Clear filters
                 </h2>
               </div>
-             </div>
-             <div className="">
-          <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">Clear filters</h2>
-         </div>
             </div>
           )}
         </div>
