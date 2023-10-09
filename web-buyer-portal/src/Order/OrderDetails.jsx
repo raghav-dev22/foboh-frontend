@@ -5,6 +5,8 @@ import { PoweroffOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Instruction from "../Svg/Instruction";
 import { Popover, Steps } from "antd";
+import InvoiceModal from "../modal/InvoiceModal";
+import { useParams } from "react-router-dom";
 const OrderDetails = () => {
   const customDot = (dot, { status, index }) => (
     <Popover
@@ -19,9 +21,12 @@ const OrderDetails = () => {
   );
 
   const [totalCost, setTotleCost] = useState(0);
+  const [showPreview, setshowPreview] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({});
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
-
+  const { id } = useParams();
+  console.log(id, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
   const removeItem = (cartItem) => {
     dispatch(remove(cartItem));
   };
@@ -63,12 +68,29 @@ const OrderDetails = () => {
       });
     }, 6000);
   };
+
+  useEffect(() => {
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderHistoryByOrderId?OrderId=${id}`;
+
+    fetch(apiUrl)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.data[0], "setOrderDetails------>");
+        setOrderDetails(data.data[0]);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }, []);
   return (
     <>
       <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
+        <InvoiceModal show={showPreview} setShow={setshowPreview} />
         <div className="grid sm:grid-cols-2 grid-cols-1 justify-between items-center mb-6 sm:gap-0 gap-3 ">
           <h1 className="md:text-[30px] text-[25px] font-semibold text-[#2B4447] ">
-            Order #23456
+            Order {orderDetails.orderId}
           </h1>
           <div className="flex sm:justify-end justify-start items-center gap-3">
             <button
@@ -78,10 +100,12 @@ const OrderDetails = () => {
               Reorder
             </button>
             <Button
-              type="primary"
               icon={<PoweroffOutlined />}
               loading={loadings[1]}
-              onClick={() => enterLoading(1)}
+              // onClick={() => enterLoading(1)}
+              onClick={() => {
+                setshowPreview(true);
+              }}
               className=" h-full text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
             >
               Download Invoice
@@ -116,7 +140,7 @@ const OrderDetails = () => {
                 Full Name
               </p>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                myemail@gmail.com.au
+                {orderDetails.orderByEmailID}
               </p>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
                 0400 000 000
@@ -135,7 +159,7 @@ const OrderDetails = () => {
                 Status
               </h5>
               <p className="text-base font-medium  text-[#637381] leading-7 bg-[#C9C9C9]	px-3 rounded-md">
-                Partially fulfilled
+                {orderDetails.orderStatus}
               </p>
             </div>
           </div>

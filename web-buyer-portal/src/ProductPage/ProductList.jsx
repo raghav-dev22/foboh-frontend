@@ -405,7 +405,7 @@ const ProductList = () => {
 
   useEffect(() => {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-
+    console.log("dfg", localStorage.getItem("buyerInfo"));
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}&OrganisationId=${organisationId}`;
 
     fetch(apiUrl)

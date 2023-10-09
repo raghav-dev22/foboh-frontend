@@ -21,8 +21,7 @@ import { theme } from "antd";
 import { ConfigProvider } from "antd";
 import OrderConfirmation from "./Order/OrderConfirmation";
 import OrderDetails from "./Order/OrderDetails";
-import OrderHistory from "./Order/OrderHistory";
-
+import MyOrders from "./Order/MyOrders";
 
 function App() {
   const { getDesignToken, useToken } = theme;
@@ -48,8 +47,8 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/verify-email" element={<Verifyemail />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
-      <Route path="/order-details" element={<OrderDetails />} />
-      <Route path="/order-history" element={<OrderHistory />} />
+      <Route path="/order-details/:id" element={<OrderDetails />} />
+      <Route path="/MyOrders" element={<MyOrders />} />
       <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
     </Routes>
   );

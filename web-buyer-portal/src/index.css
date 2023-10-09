@@ -414,9 +414,12 @@ select {
   height: 10px !important;
 }
 
-.ant-btn{
+/* .ant-btn{
   background : #1677ff!important
-}
+} */
 :where(.css-dev-only-do-not-override-17a39f8).ant-btn-primary{
   background : #1677ff
+}
+.custom-invoice-popup .table-footer tr{
+height: 25px;
 }
