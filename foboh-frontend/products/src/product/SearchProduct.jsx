@@ -442,13 +442,13 @@ const SearchProduct = forwardRef(
           </div>
           {showFilter && (
             <div
-              className="flex gap-8 relative  pt-4 flex-wrap"
+              className="flex justify-between items-center pt-4"
               ref={dropdownRef}
             >
               {/* <Category/> */}
 
-              <div
-                className="relative"
+             <div className="flex  gap-8 relative   flex-wrap">
+             <div className="relative"
                 // ref={firstDropdownRef}
               >
                 <div
@@ -685,6 +685,10 @@ const SearchProduct = forwardRef(
                   </div>
                 )}
               </div>
+             </div>
+             <div className="">
+          <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">Clear filters</h2>
+         </div>
             </div>
           )}
         </div>
