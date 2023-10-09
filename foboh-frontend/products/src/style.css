@@ -405,7 +405,7 @@ input[type="radio"]:checked:before {
   background-color: #00000059;
 }
 .toggle-checkbox:checked {
-  @apply: right-0 border-green-400;
+ @apply: right-0 border-green-400;
   right: 0;
   border-color: #147d73;
 }
@@ -625,8 +625,8 @@ input[type="radio"]:checked:before {
   padding-right: 1rem;
 }
 
-.basic-multi-select .select__control.css-13cymwt-control,
+/* .basic-multi-select .select__control.css-13cymwt-control,
 .basic-multi-select .select__control.select__control--is-focused{
   padding: 5px 45px 5px 20px !important;
-    height: 48px;
-  };
+    min-height: 48px !important;
+  }; */

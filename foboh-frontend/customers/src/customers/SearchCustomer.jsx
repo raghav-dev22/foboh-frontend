@@ -339,148 +339,74 @@ function SearchCustomer({
           </div>
         </div>
         {isFilter && (
-          <div className="flex justify-between items-center pt-4 " ref={dropdownRef} >
-         <div className="flex  gap-8 relative   flex-wrap">
-
-         <div className="relative">
-              {/* ref={firstDropdownRef} */}
-              <div
-                className="flex items-center gap-2 product-category-box cursor-pointer"
-                onClick={DropDownFirst}
-              >
-                <h5 className={`text-base font-medium	text-gray `}>Status</h5>
-                <div className={`arrow-${First}`}>
-                  <img src="/assets/dropdownArrow.png" alt="" />
-                </div>
-
-                {First && (
-                  <div className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit py-3  ">
-                    <ul className="dropdown-content    ">
-                      {status.map((sts) => (
-                        <li className="py-2.5 px-4  ">
-                          <div className="flex items-center">
-                            <input
-                              id={sts.label}
-                              checked={
-                                filterAndSort?.filter?.status === sts.value
-                              }
-                              type="checkbox"
-                              value={sts.value}
-                              onClick={(e) =>
-                                toggleCategory(e, sts.value, "status")
-                              }
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
-
-                            <label
-                              htmlFor={sts.label}
-                              className="ml-2 text-sm font-medium text-gray"
-                            >
-                              {sts.label}
-                            </label>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
+          <div
+            className="flex justify-between items-center pt-4 "
+            ref={dropdownRef}
+          >
+            <div className="flex  gap-8 relative   flex-wrap">
               <div className="relative">
+                {/* ref={firstDropdownRef} */}
+                <div
+                  className="flex items-center gap-2 product-category-box cursor-pointer"
+                  onClick={DropDownFirst}
+                >
+                  <h5 className={`text-base font-medium	text-gray `}>Status</h5>
+                  <div className={`arrow-${First}`}>
+                    <img src="/assets/dropdownArrow.png" alt="" />
+                  </div>
+
+                  {First && (
+                    <div className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit py-3  ">
+                      <ul className="dropdown-content    ">
+                        {status.map((sts) => (
+                          <li className="py-2.5 px-4  ">
+                            <div className="flex items-center">
+                              <input
+                                id={sts.label}
+                                checked={
+                                  filterAndSort?.filter?.status === sts.value
+                                }
+                                type="checkbox"
+                                value={sts.value}
+                                onClick={(e) =>
+                                  toggleCategory(e, sts.value, "status")
+                                }
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <label
+                                htmlFor={sts.label}
+                                className="ml-2 text-sm font-medium text-gray"
+                              >
+                                {sts.label}
+                              </label>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div
+                className="relative"
+                // ref={secondDropdownRef}
+              >
                 <div
                   className="flex items-center gap-2 product-category-box cursor-pointer"
                   onClick={DropDownSecond}
                 >
-                  <h5 className="text-base font-medium  text-gray">State</h5>
-
+                  <h5 className="text-base font-medium	text-gray">State</h5>
                   <div className={`arrow-${Second}`}>
                     <img src="/assets/dropdownArrow.png" alt="" />
                   </div>
                 </div>
-
                 {Second && (
                   <div
-                    className=" z-10  left-0   w-60 absolute product-dropdown rounded-lg   overflow-y-scroll py-3 "
+                    className=" z-10	left-0   w-60 absolute product-dropdown rounded-lg	 overflow-y-scroll py-3	"
                     style={{ height: "175px" }}
                   >
-                    <Select
-                      mode="multiple"
-                      style={{
-                        width: "100%",
-                      }}
-                      placeholder="select one country"
-                      onChange={addState}
-                      optionLabelProp="label"
-                      open={true}
-                    >
-                      {State.map((item, index) => {
-                        return (
-                          <>
-                            <Option value={item} label={item}>
-                              <Space>{item}</Space>
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </div>
-                )}
-              </div>
-
-              <div className="relative">
-                <div
-                  className="flex items-center gap-2 product-category-box cursor-pointer"
-                  onClick={DropDownThird}
-                >
-                  <h5 className="text-base font-medium  text-gray">Postcode</h5>
-
-                  <div className={`arrow-${Third}`}>
-                    <img src="/assets/dropdownArrow.png" alt="" />
-                  </div>
-                </div>
-
-                {Third && (
-                  <div className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit   ">
-                    <input
-                      type="search"
-                      id="default-search"
-                      maxLength={4}
-                      className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
-                      placeholder="4739"
-                      name="pincode"
-                      required=""
-                      value={pincode}
-                      onKeyUp={() => processChange("filterAndSort")}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="">
-              <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
-                Clear filters
-              </h2>
-            </div>
-            <div className="relative"
-              // ref={secondDropdownRef}
-            >
-              <div
-                className="flex items-center gap-2 product-category-box cursor-pointer"
-                onClick={DropDownSecond}
-              >
-                <h5 className="text-base font-medium	text-gray">State</h5>
-                <div className={`arrow-${Second}`}>
-                  <img src="/assets/dropdownArrow.png" alt="" />
-                </div>
-              </div>
-              {Second && (
-                <div
-                  className=" z-10	left-0   w-60 absolute product-dropdown rounded-lg	 overflow-y-scroll py-3	"
-                  style={{ height: "175px" }}
-                >
-                  {/* <ul className="dropdown-content">
+                    {/* <ul className="dropdown-content">
                     {State.map((item, index) => {
                       return (
                         <>
@@ -507,63 +433,64 @@ function SearchCustomer({
                       );
                     })}
                   </ul> */}
-                  <Select
-                    mode="multiple"
-                    style={{
-                      width: "100%",
-                    }}
-                    placeholder="select one country"
-                    onChange={addState}
-                    optionLabelProp="label"
-                    open={true}
-                  >
-                    {State.map((item, index) => {
-                      return (
-                        <>
-                          <Option value={item} label={item}>
-                            <Space>{item}</Space>
-                          </Option>
-                        </>
-                      );
-                    })}
-                  </Select>
-                  {/* ant */}
-                </div>
-              )}
-            </div>
-            
-            <div className="relative">
-              {/* ref={thirdDropdownRef} */}
-              <div
-                className="flex items-center gap-2 product-category-box cursor-pointer"
-                onClick={DropDownThird}
-              >
-                <h5 className="text-base font-medium	text-gray">Postcode</h5>
-                <div className={`arrow-${Third}`}>
-                  <img src="/assets/dropdownArrow.png" alt="" />
-                </div>
+                    <Select
+                      mode="multiple"
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder="select one country"
+                      onChange={addState}
+                      optionLabelProp="label"
+                      open={true}
+                    >
+                      {State.map((item, index) => {
+                        return (
+                          <>
+                            <Option value={item} label={item}>
+                              <Space>{item}</Space>
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                    {/* ant */}
+                  </div>
+                )}
               </div>
-              {Third && (
-                <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit 	">
-                  <input
-                    type="search"
-                    id="default-search"
-                    maxLength={4}
-                    className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
-                    placeholder="4739"
-                    name="pincode"
-                    required=""
-                    value={pincode}
-                    onKeyUp={() => processChange("filterAndSort")}
-                    onChange={handleInputChange}
-                  />
+              <div className="relative">
+                {/* ref={thirdDropdownRef} */}
+                <div
+                  className="flex items-center gap-2 product-category-box cursor-pointer"
+                  onClick={DropDownThird}
+                >
+                  <h5 className="text-base font-medium	text-gray">Postcode</h5>
+                  <div className={`arrow-${Third}`}>
+                    <img src="/assets/dropdownArrow.png" alt="" />
+                  </div>
                 </div>
-              )}
+                {Third && (
+                  <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit 	">
+                    <input
+                      type="search"
+                      id="default-search"
+                      maxLength={4}
+                      className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
+                      placeholder="4739"
+                      name="pincode"
+                      required=""
+                      value={pincode}
+                      onKeyUp={() => processChange("filterAndSort")}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-         </div>
-         <div className="">
-          <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">Clear filters</h2>
-         </div>
+            <div className="">
+              <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
+                Clear filters
+              </h2>
+            </div>
             {/* <CustomerPostCode /> */}
             {/* <CustomerVisibility/> */}
           </div>
