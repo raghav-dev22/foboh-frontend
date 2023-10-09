@@ -445,18 +445,21 @@ const SearchProduct = forwardRef(
               className="flex justify-between items-center pt-4"
               ref={dropdownRef}
             >
-              <div className="flex  gap-8 relative   flex-wrap">
-                <div className="relative">
-                  <div
-                    className="flex items-center gap-2 cursor-pointer product-category-box"
-                    onClick={FirstDropdown}
-                  >
-                    <h5 className="text-base font-medium text-gray">
-                      Sub-category
-                    </h5>
-                    <div className="">
-                      <img src="/assets/dropdownArrow.png" alt="" />
-                    </div>
+              {/* <Category/> */}
+
+             <div className="flex  gap-8 relative   flex-wrap">
+             <div className="relative"
+                // ref={firstDropdownRef}
+              >
+                <div
+                  className="flex items-center gap-2 cursor-pointer product-category-box"
+                  onClick={FirstDropdown}
+                >
+                  <h5 className="text-base font-medium text-gray">
+                    Sub-category
+                  </h5>
+                  <div className="">
+                    <img src="/assets/dropdownArrow.png" alt="" />
                   </div>
 
                   {filterTextFirst && (
@@ -698,6 +701,10 @@ const SearchProduct = forwardRef(
                   Clear filters
                 </h2>
               </div>
+             </div>
+             <div className="">
+          <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">Clear filters</h2>
+         </div>
             </div>
           )}
         </div>

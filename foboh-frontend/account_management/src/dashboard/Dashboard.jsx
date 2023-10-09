@@ -19,6 +19,9 @@ import { updateUserData } from "../Redux/Action/userSlice";
 import { updateLogoURI } from "../Redux/Action/organisationLogoSlice";
 import SupplierOrderManagement from "orders/SupplierOrderManagement";
 import OrderListing from "orders/OrderListing";
+import SupplierSetting from "orders/SupplierSetting";
+import BankingInformation from "orders/BankingInformation";
+import InventoryTable from "products/InventoryTable";
 
 // import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
@@ -158,11 +161,17 @@ function Dashboard() {
                 path="/supplier-order-management"
                 element={<SupplierOrderManagement />}
               />
+              <Route path="/settings" element={<SupplierSetting />} />
+              <Route
+                path="/bank-information"
+                element={<BankingInformation />}
+              />
               <Route path="/order-listing" element={<OrderListing />} />
               <Route
                 path="/customer-bulk-edit"
                 element={<CustomerBulkEdit />}
               />
+              <Route path="/inventory-table" element={<InventoryTable />} />
             </Routes>
             {/* <Profile /> */}
           </div>

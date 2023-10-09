@@ -49,6 +49,9 @@ module.exports = (_, argv) => ({
         "./SupplierOrderManagement":
           "./src/components/orders/SupplierOrderManagement.jsx",
         "./OrderListing": "./src/components/orderListing/OrderListing.jsx",
+        "./SupplierSetting": "./src/components/settings/SupplierSetting.jsx",
+        "./BankingInformation":
+          "./src/components/settings/BankingInformation.jsx",
       },
       shared: {
         ...deps,

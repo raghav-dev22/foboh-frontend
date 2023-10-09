@@ -639,7 +639,6 @@ function Organisation() {
                               <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
                             )}
                           </div>
-
                           <div className="w-full md:w-1/2 px-3 relative">
                             <label
                               className="block  tracking-wide text-gray-700 text-sm  font-medium   "
@@ -677,6 +676,7 @@ function Organisation() {
                             )}
                           </div>
                         </div>
+                      
                         <div className="flex flex-wrap -mx-3 mb-5 relative">
                           <div className="w-full px-3">
                             <label

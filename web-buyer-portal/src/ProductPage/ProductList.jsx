@@ -220,7 +220,7 @@ const ProductList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const cartId = data.data[0].cartId;
+        const cartId = data.data.cartId;
 
         const updatedCartList = data?.data.map((item) => {
           return {
