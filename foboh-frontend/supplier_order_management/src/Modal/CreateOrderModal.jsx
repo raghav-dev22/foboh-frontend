@@ -161,7 +161,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                       color={activeStep === 2 ? "blue-gray" : "gray"}
                       className="text-[#637381] font-medium text-lg"
                     >
-                      Add Shipping
+                      Add Shipping Details
                     </Typography>
                   </div>
                 </Step>
@@ -170,7 +170,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                     className={`w-[40px] h-[40px] rounded-full   flex justify-center items-center 
                      `}
                   >
-                    <p className=" text-sm font-normal text-white">3</p>
+                    <p className=" text-sm font-normal text-white">4</p>
                   </div>
                   <div className="absolute -bottom-[3rem]  w-max text-center">
                     <Typography
@@ -178,7 +178,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                       color={activeStep === 3 ? "blue-gray" : "gray"}
                       className="text-[#637381] font-medium text-lg"
                     >
-                      Add Shipping
+                      Finalise Order
                     </Typography>
                   </div>
                 </Step>
@@ -571,13 +571,13 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                         </div>
                         <div className="flex flex-col mb-5 w-[50%]">
                           <label className="text-[#2B4447] text-base font-normal ">
-                            Shipping Name
+                            Price
                           </label>
                           <input
                             type="text"
                             className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
                             disabled
-                            value="Shipping name"
+                            value="$350"
                           />
                         </div>
                       </form>
@@ -605,10 +605,10 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   Delivery Contact
                                 </h4>
                               </div>
-
+                              {/* 
                               <button className="text-base font-semibold text-[#2B4447]">
                                 Edit
-                              </button>
+                              </button> */}
                             </div>
                             <p className="text-base font-normal text-[#2B4447] leading-[28px]">
                               Full Name
@@ -629,9 +629,9 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   Delivery Contact
                                 </h4>
                               </div>
-                              <button className="text-base font-semibold text-[#2B4447]">
+                              {/* <button className="text-base font-semibold text-[#2B4447]">
                                 Edit
-                              </button>
+                              </button> */}
                             </div>
                             <p className="text-base font-normal text-[#2B4447] leading-[28px]">
                               456 King Street, Newton, NSW 2304 Australia
@@ -655,9 +655,9 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   Payment
                                 </h4>
                               </div>
-                              <button className="text-base font-semibold text-[#2B4447]">
+                              {/* <button className="text-base font-semibold text-[#2B4447]">
                                 Edit
-                              </button>
+                              </button> */}
                             </div>
                             <p className="text-base font-normal text-[#2B4447] leading-[28px]">
                               Your chosen payment terms
@@ -690,9 +690,9 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                 </h4>
                               </div>
 
-                              <button className="text-base font-semibold text-[#2B4447]">
+                              {/* <button className="text-base font-semibold text-[#2B4447]">
                                 Edit
-                              </button>
+                              </button> */}
                             </div>
 
                             <p className="text-base font-normal text-[#2B4447] leading-[28px]">
@@ -957,6 +957,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
         closeIcon={false}
       ></Modal>
       <AlertModal
+        SaveCancel={handleCancel}
         handleCancel={() => {
           setAlertModal(false);
         }}

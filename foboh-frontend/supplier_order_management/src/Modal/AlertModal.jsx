@@ -2,7 +2,13 @@ import React from "react";
 import { Button, Modal } from "antd";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
-const AlertModal = ({ closeIcon, handleOk, isModalOpen, handleCancel }) => {
+const AlertModal = ({
+  closeIcon,
+  handleOk,
+  isModalOpen,
+  handleCancel,
+  SaveCancel,
+}) => {
   return (
     <>
       <Modal

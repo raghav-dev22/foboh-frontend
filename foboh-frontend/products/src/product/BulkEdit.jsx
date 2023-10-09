@@ -21,45 +21,43 @@ import { useNavigate } from "react-router-dom";
 function BulkEdit() {
   const [productTable, setProductTable] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [initialValues, setInitialValues]= useState(
-    [
-      {
-        visibility: false,
-        region: [],
-        minimumOrder: "",
-        trackInventory: false,
-        stockAlertLevel: "",
-        sellOutOfStock: false,
-        title: "",
-        skuCode: "",
-        productId: "",
-        brand: "",
-        department: "",
-        category: "",
-        subcategory: "",
-        segment: "",
-        grapeVariety: [],
-        regionSelect: "",
-        vintage: "",
-        awards: "",
-        abv: "",
-        country: "",
-        baseUnitMeasure: {},
-        innerUnitMeasure: {},
-        configuration: "",
-        description: "",
-        tags: [],
-        salePrice: null,
-        buyPrice: null,
-        profit: "",
-        margin: "",
-        tax: "",
-        wineEqualisationTax: "",
-        landedUnitCost: "",
-        status: ["Active", "Inactive", "Archived"],
-      },
-    ]
-  )
+  const [initialValues, setInitialValues] = useState([
+    {
+      visibility: false,
+      region: [],
+      minimumOrder: "",
+      trackInventory: false,
+      stockAlertLevel: "",
+      sellOutOfStock: false,
+      title: "",
+      skuCode: "",
+      productId: "",
+      brand: "",
+      department: "",
+      category: "",
+      subcategory: "",
+      segment: "",
+      grapeVariety: [],
+      regionSelect: "",
+      vintage: "",
+      awards: "",
+      abv: "",
+      country: "",
+      baseUnitMeasure: {},
+      innerUnitMeasure: {},
+      configuration: "",
+      description: "",
+      tags: [],
+      salePrice: null,
+      buyPrice: null,
+      profit: "",
+      margin: "",
+      tax: "",
+      wineEqualisationTax: "",
+      landedUnitCost: "",
+      status: ["Active", "Inactive", "Archived"],
+    },
+  ]);
   const navigate = useNavigate();
 
   const status = [
@@ -184,8 +182,7 @@ function BulkEdit() {
       };
     });
 
-
-    setInitialValues(selectedProductsValue)
+    setInitialValues(selectedProductsValue);
     setValues(selectedProductsValue);
   }, []);
 
@@ -221,19 +218,20 @@ function BulkEdit() {
   console.log("valuessss", values.length);
 
   const handleCancle = () => {
-     setIsUpdate(false)
-     setValues(initialValues)
+    setIsUpdate(false);
+    setValues(initialValues);
   };
 
   return (
     <>
       {isUpdate && (
-        <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+        <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
           <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
             <div className="block">
               <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                <button className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-                onClick={handleCancle}
+                <button
+                  className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  onClick={handleCancle}
                 >
                   Cancel
                 </button>

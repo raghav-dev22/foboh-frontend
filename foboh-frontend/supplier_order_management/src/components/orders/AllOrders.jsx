@@ -384,6 +384,20 @@ const AllOrders = () => {
       width: 120,
     },
     {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Last Updated</h5>
+      ),
+      dataIndex: "LastUpdated",
+      width: 180,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>
+      ),
+      dataIndex: "Payment",
+      width: 120,
+    },
+    {
       title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
       dataIndex: "Status",
       width: 180,
@@ -396,6 +410,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#3498DB] text-[base] font-me text-center dium">
@@ -410,6 +426,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#637381] text-[base]  text-center font-medium">
@@ -424,6 +442,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#E9B600] text-[base]  text-center font-medium">
@@ -438,6 +458,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#637381] text-[base]  text-center font-medium">
@@ -452,6 +474,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#637381] text-[base]  text-center font-medium">
@@ -466,6 +490,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#637381] text-[base]  text-center font-medium">
@@ -480,6 +506,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#CFEBE5] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#16A085] text-[base] font-medium text-center ">
@@ -494,6 +522,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#637381] text-[base]  text-center font-medium">
@@ -507,6 +537,8 @@ const AllOrders = () => {
       OrderID: "#23456",
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Amount: "$2345.00",
       Status: (
         <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] w-[166px]	  ">
@@ -522,6 +554,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#FFDFDB] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#C0392B] text-[base] font-medium text-center ">
@@ -536,6 +570,8 @@ const AllOrders = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Amount: "$2345.00",
+      LastUpdated: "19/11/2023",
+      Payment: "Pending",
       Status: (
         <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#637381] text-[base]  text-center font-medium">
@@ -614,6 +650,7 @@ const AllOrders = () => {
                   menu={{
                     items,
                   }}
+                  trigger={["click"]}
                 >
                   <a onClick={(e) => e.preventDefault()}>
                     <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">

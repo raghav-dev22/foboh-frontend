@@ -7,23 +7,22 @@ function CustomerAddress({
   errors,
   options,
   touched,
-  setValues
+  setValues,
 }) {
-
-  console.log("contact address>>",errors,touched)
-  const sameAddresses=(e)=>{
+  console.log("contact address>>", errors, touched);
+  const sameAddresses = (e) => {
     console.log("e --->", e.target.checked);
     if (e.target.checked) {
       setValues({
         ...values,
-        billingAddress:values?.address,
-        billingApartment:values?.apartment,
-        billingSuburb:values.suburb,
-        billingPostalCode:values.postalCode,
-        billingState:values.state,
+        billingAddress: values?.address,
+        billingApartment: values?.apartment,
+        billingSuburb: values.suburb,
+        billingPostalCode: values.postalCode,
+        billingState: values.state,
       });
     }
-  }
+  };
   return (
     <>
       <div className="  ">
@@ -54,17 +53,16 @@ function CustomerAddress({
                 value={values.address}
                 placeholder="126 Juliett Street"
                 style={{
-                  border:
-                    errors.address &&  "1px solid red",
+                  border: errors.address && "1px solid red",
                 }}
               />
-              {errors.address  && (
+              {errors.address && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.address}
                 </p>
               )}
-              {errors.address  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.address && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
@@ -84,17 +82,16 @@ function CustomerAddress({
                 placeholder="Jones"
                 name="apartment"
                 style={{
-                  border:
-                    errors.apartment &&  "1px solid red",
+                  border: errors.apartment && "1px solid red",
                 }}
               />
-              {errors.apartment  && (
+              {errors.apartment && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.apartment}
                 </p>
               )}
-              {errors.apartment  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.apartment && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
           </div>
@@ -116,17 +113,16 @@ function CustomerAddress({
                 placeholder="Marrickville"
                 name="suburb"
                 style={{
-                  border:
-                    errors.suburb  && "1px solid red",
+                  border: errors.suburb && "1px solid red",
                 }}
               />
-              {errors.suburb  && (
+              {errors.suburb && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.suburb}
                 </p>
               )}
-              {errors.suburb  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.suburb && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -146,31 +142,29 @@ function CustomerAddress({
                 placeholder="2204"
                 name="postalCode"
                 style={{
-                  border:
-                    errors.postalCode  && "1px solid red",
+                  border: errors.postalCode && "1px solid red",
                 }}
               />
-              {errors.postalCode  && (
+              {errors.postalCode && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.postalCode}
                 </p>
               )}
-              {errors.postalCode  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.postalCode && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
               <label
                 className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
                 htmlFor="grid-last-name"
-                
               >
                 State
               </label>
               <div className="relative">
-                <select 
-                name="state"
-                onChange={handleChange}
+                <select
+                  name="state"
+                  onChange={handleChange}
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
@@ -219,7 +213,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.deliveryNotes && touched.deliveryNotes && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )} */}
             </div>
           </div>
@@ -262,8 +256,7 @@ function CustomerAddress({
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{
-                  border:
-                    errors.billingAddress  && "1px solid red",
+                  border: errors.billingAddress && "1px solid red",
                 }}
               />
               {errors.billingAddress && (
@@ -271,8 +264,8 @@ function CustomerAddress({
                   {errors.billingAddress}
                 </p>
               )}
-              {errors.billingAddress  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.billingAddress && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
@@ -292,8 +285,7 @@ function CustomerAddress({
                 placeholder="Jones"
                 name="billingApartment"
                 style={{
-                  border:
-                    errors.billingApartment  && "1px solid red",
+                  border: errors.billingApartment && "1px solid red",
                 }}
               />
               {errors.billingApartment && (
@@ -301,8 +293,8 @@ function CustomerAddress({
                   {errors.billingApartment}
                 </p>
               )}
-              {errors.billingApartment  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.billingApartment && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
           </div>
@@ -324,17 +316,16 @@ function CustomerAddress({
                 value={values.billingSuburb}
                 onChange={handleChange}
                 style={{
-                  border:
-                    errors.billingSuburb  && "1px solid red",
+                  border: errors.billingSuburb && "1px solid red",
                 }}
               />
-              {errors.billingSuburb  && (
+              {errors.billingSuburb && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.billingSuburb}
                 </p>
               )}
-              {errors.billingSuburb  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.billingSuburb && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -354,17 +345,16 @@ function CustomerAddress({
                 placeholder="2204"
                 name="billingPostalCode"
                 style={{
-                  border:
-                    errors.billingPostalCode  && "1px solid red",
+                  border: errors.billingPostalCode && "1px solid red",
                 }}
               />
-              {errors.billingPostalCode  && (
+              {errors.billingPostalCode && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.billingPostalCode}
                 </p>
               )}
-              {errors.billingPostalCode  && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              {errors.billingPostalCode && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -376,8 +366,8 @@ function CustomerAddress({
               </label>
               <div className="relative">
                 <select
-                onChange={handleChange}
-                name="billingState"
+                  onChange={handleChange}
+                  name="billingState"
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="billingState"
                 >
