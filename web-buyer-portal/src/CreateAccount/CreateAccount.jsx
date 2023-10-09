@@ -16,14 +16,14 @@ import { useNavigate } from "react-router-dom";
 
 function CreateAccount() {
   const [show, setShow] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
   const [currentStep, setCurrentStep] = useState(0);
   const [buyer, setBuyer] = useState({});
   const [states, setStates] = useState([]);
-  const [isBuyerExist, setIsbuyerExist] = useState(false)
+  const [isBuyerExist, setIsbuyerExist] = useState(false);
 
   // Getting buyer data from local storage
   const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
@@ -165,7 +165,7 @@ function CreateAccount() {
       billingSuburb: values?.billingSuburb || "",
       billingPostalCode: values?.billingPostalCode || "",
       billingState: values?.billingState || "",
-      isActive: true || "",
+      isActive: "1",
       password: buyerCred?.password || "",
       status: true,
       role: "",
@@ -190,18 +190,17 @@ function CreateAccount() {
       .then((response) => response.json())
       .then((data) => {
         console.log("response data", data);
-        if(data.success) {
-          localStorage.removeItem("buyerCred")
-          localStorage.removeItem("buyerData")
-          localStorage.setItem("buyerInfo", JSON.stringify(data.data))
-          localStorage.setItem("email", data.data.deliveryEmail)
-          setShow(true)
-        } else if(!data.success && !data.data) {
-          setIsbuyerExist(true)
+        if (data.success) {
+          localStorage.removeItem("buyerCred");
+          localStorage.removeItem("buyerData");
+          localStorage.setItem("buyerInfo", JSON.stringify(data.data));
+          localStorage.setItem("email", data.data.deliveryEmail);
+          setShow(true);
+        } else if (!data.success && !data.data) {
+          setIsbuyerExist(true);
         }
       })
       .catch((error) => console.log(error));
-    
   };
 
   return (

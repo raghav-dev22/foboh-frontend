@@ -1,8 +1,8 @@
-import React from 'react'
-import ProductDetails from '../../mainDashboard/ProductDetails';
-import OrderDetails from '../../mainDashboard/OrderDetails';
-import ActiveOrder from '../../activeOrder/ActiveOrder'
-import StockDetails from '../../mainDashboard/StockDetails';
+import React from "react";
+import ProductDetails from "../../mainDashboard/ProductDetails";
+import OrderDetails from "../../mainDashboard/OrderDetails";
+import ActiveOrder from "../../activeOrder/ActiveOrder";
+import StockDetails from "../../mainDashboard/StockDetails";
 // import StockDetails from '../mainDashboard/StockDetails';
 function MainDashBoard() {
   return (
@@ -37,18 +37,26 @@ function MainDashBoard() {
             <div className="">
               <img src="/assets/snapshot.png" alt="" />
             </div>
-            <div className="     flex justify-center items-center gap-3">
+            <div className="flex justify-center items-center gap-3">
               <div className="flex items-center justify-center gap-3">
                 <div className=""></div>
                 <div className="">
-                  <p className="text-xs	font-normal	text-slate-500 		">Ordered</p>
+                  <p className="text-xs	font-normal	text-slate-500">Ordered</p>
                 </div>
               </div>
             </div>
           </div>
           <div className="w-full lg:w-2/5	 rounded-md	 border border-inherit bg-white p-6">
             <div className="flex justify-between items-center">
-              <h5 className="text-xl font-semibold">Stock alerts</h5>
+              <div className="flex justify-start items-center ">
+                <h5 className="text-xl font-semibold me-2">Stock alerts</h5>
+                <span className="bg-[#F9C107] text-[#212B36] text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-[#F9C107] dark:text-[#212B36]">
+                  4
+                </span>
+                <span className="bg-[#DC3545] text-[#ffffff] text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-[#DC3545] dark:text-[#ffffff]">
+                  1
+                </span>
+              </div>
               <a
                 href="#"
                 className="text-xs/[10px] font-normal	text-darkBlue underline"
@@ -57,7 +65,9 @@ function MainDashBoard() {
               </a>
             </div>
             {/* <ProductDetails /> */}
-            <ProductDetails />
+            <div className="scroll-right">
+              <ProductDetails />
+            </div>
           </div>
         </div>
       </div>
@@ -97,7 +107,7 @@ function MainDashBoard() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default MainDashBoard
+export default MainDashBoard;

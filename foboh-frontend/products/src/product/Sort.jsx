@@ -35,8 +35,6 @@ const sort = [
   },
 ];
 
-
-
 function Filter({ handleSortChange, itemLabel, filterAndSort }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -99,7 +97,7 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className="">
-            <svg 
+            <svg
               width={13}
               height={10}
               viewBox="0 0 13 10"
@@ -124,7 +122,7 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
                       <input
                         defaultChecked=""
                         id={item.label}
-                        type="checkbox"
+                        type="radio"
                         name="filterTextFirst"
                         checked={filterAndSort.sort.sortBy === item.key}
                         onChange={() =>
@@ -150,7 +148,7 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
                 <ul className="border-t border-inherit">
                   <li className="flex items-center py-2.5 px-4">
                     <input
-                      type="checkbox"
+                      type="radio"
                       value={"asc"}
                       checked={filterAndSort?.sort?.sortOrder === "asc"}
                       onChange={() =>
@@ -183,7 +181,7 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
                   </li>
                   <li className="flex items-center py-2.5 px-4">
                     <input
-                      type="checkbox"
+                      type="radio"
                       className="w-4 h-4 text-lightGreen bg-gray-100 border-gray-300 rounded relative dark:bg-gray-700 dark:border-gray-600"
                       id="desc"
                       value={"desc"}

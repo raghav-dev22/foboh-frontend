@@ -606,15 +606,16 @@ function Organisation() {
                           </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-5 relative">
-                          <div className="w-full px-3">
+                          <div className="w-full md:w-1/2 px-3 relative">
                             <label
-                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              className="block  tracking-wide text-gray-700 text-sm  font-medium   "
                               htmlFor="grid-password"
                             >
                               ABN
                             </label>
+
                             <input
-                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md   py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-password"
                               type="text"
                               placeholder="ABN"
@@ -627,26 +628,28 @@ function Organisation() {
                                   errors.abn && touched.abn && "1px solid red",
                               }}
                             />
+
                             {errors.abn && touched.abn && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                              <p className="mt-2 mb-2 text-red-500 text-xs  font-normal">
                                 {errors.abn}
                               </p>
                             )}
+
                             {errors.abn && touched.abn && (
                               <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
                             )}
                           </div>
-                        </div>
-                        <div className="flex flex-wrap -mx-3 mb-5 relative">
-                          <div className="w-full px-3">
+
+                          <div className="w-full md:w-1/2 px-3 relative">
                             <label
-                              className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
+                              className="block  tracking-wide text-gray-700 text-sm  font-medium   "
                               htmlFor="grid-password"
                             >
                               Liquor licence
                             </label>
+
                             <input
-                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md   py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-password"
                               type="text"
                               placeholder="Liquor licence"
@@ -662,11 +665,13 @@ function Organisation() {
                                   "1px solid red",
                               }}
                             />
+
                             {errors.liquorLicence && touched.liquorLicence && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                              <p className="mt-2 mb-2 text-red-500 text-xs  font-normal">
                                 {errors.liquorLicence}
                               </p>
                             )}
+
                             {errors.liquorLicence && touched.liquorLicence && (
                               <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
                             )}

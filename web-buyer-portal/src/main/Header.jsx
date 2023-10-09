@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MobileSidebar from "./MobileSidebar";
 import { setProductData } from "../slices/ProductSlice";
 import { setTotalProducts } from "../slices/totalPageSlice";
+import MyOrders from "../Order/MyOrders";
 function Header() {
   const cart = useSelector((items) => items.cart);
   const dispatch = useDispatch();
@@ -223,7 +224,7 @@ function Header() {
                       </Link>
 
                       <Link
-                        to="#"
+                        to="/home/MyOrders"
                         className="focus-visible:outline-offset-0 focus-visible:outline-0		"
                       >
                         <li className="py-2.5	px-4 cursor-pointer flex items-center justify-between gap-2	">

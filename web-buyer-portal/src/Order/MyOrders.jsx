@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
@@ -9,46 +9,10 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button, Tooltip } from "antd";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { Link, useNavigate } from "react-router-dom";
+import { Preview, print } from "react-html2pdf";
+import InvoiceModal from "../modal/InvoiceModal";
 
-const columns = [
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
-    dataIndex: "OrderID",
-    width: 100,
-  },
-  {
-    title: (
-      <h5 className="text-base font-semibold text-[#2B4447]">Order date</h5>
-    ),
-    dataIndex: "OrderDate",
-    width: 140,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Items</h5>,
-    dataIndex: "Items",
-    width: 80,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Total</h5>,
-    dataIndex: "Total",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>,
-    dataIndex: "Payment",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
-    dataIndex: "Status",
-    width: 150,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Action</h5>,
-    dataIndex: "Action",
-    width: 120,
-  },
-];
 const items = [
   {
     label: <Checkbox value="A">Oldest - Newest</Checkbox>,
@@ -121,29 +85,100 @@ const date = [
     key: "3",
   },
 ];
+const columns = [
+  {
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
+    dataIndex: "OrderID",
+    width: 100,
+  },
+  {
+    title: (
+      <h5 className="text-base font-semibold text-[#2B4447]">Order date</h5>
+    ),
+    dataIndex: "OrderDate",
+    width: 140,
+  },
+  {
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Items</h5>,
+    dataIndex: "Items",
+    width: 80,
+  },
+  {
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Total</h5>,
+    dataIndex: "Total",
+    width: 120,
+  },
+  {
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>,
+    dataIndex: "Payment",
+    width: 120,
+  },
+  {
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
+    dataIndex: "Status",
+    width: 150,
+  },
+  {
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Action</h5>,
+    dataIndex: "Action",
+    width: 120,
+  },
+];
+
+let printPreview = false;
 const details = <span className="text-[#7D7C7C] ">View Details</span>;
 const Reorder = <span className="text-[#7D7C7C] ">Reorder</span>;
 const DownloadInvoice = (
   <span className="text-[#7D7C7C] ">Download Invoice</span>
 );
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    OrderID: <p className="text-base font-medium text-[#2B4447]">#23456</p>,
-    OrderDate: (
-      <p className="text-base font-medium text-[#2B4447]">19 / 11 / 2023</p>
+
+const MyOrders = () => {
+  const [Sort, setSort] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showPreview, setshowPreview] = useState(false);
+  const [page, setPage] = useState(1);
+  const [orderData, setOrderData] = useState([]);
+  const [totalData, setTotalData] = useState({});
+  const navigate = useNavigate();
+
+  const formattedData = orderData.map((order, index) => ({
+    key: index,
+    OrderID: (
+      <h1
+        // to={`/home/order-details/${order.orderId}`}
+        className="text-base font-medium text-[#2B4447]"
+        onClick={() => navigate(`/order-details/${order.orderId}`)}
+      >
+        {order.orderId}
+      </h1>
     ),
-    Items: <p className="text-base font-medium text-[#2B4447]">15</p>,
-    Total: <p className="text-base font-medium text-[#2B4447]">$2345.00</p>,
-    Payment: <p className="text-base font-medium text-[#2B4447]">Pending</p>,
+    OrderDate: (
+      <p className="text-base font-medium text-[#2B4447]">
+        {order.orderEntryDate}
+      </p>
+    ),
+    Items: (
+      <p className="text-base font-medium text-[#2B4447]">{order.quantity}</p>
+    ),
+    Total: (
+      <p className="text-base font-medium text-[#2B4447]">
+        ${order.totalPrice}
+      </p>
+    ),
+    Payment: (
+      <p className="text-base font-medium text-[#2B4447]">
+        {order.paymentMethod}
+      </p>
+    ),
     Status: (
       <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] max-w-max	  ">
-        <p className="text-[#3498DB] text-[base] font-medium">Order placed</p>
+        <p className="text-[#3498DB] text-[base] font-medium">
+          {order.orderStatus}
+        </p>
       </div>
     ),
     Action: (
-      <div className="flex justify-center gap-2 items-center ">
+      <div className="flex gap-2">
         <Tooltip placement="bottom" title={Reorder} color={"#DCDCDC"}>
           <svg
             width={23}
@@ -164,21 +199,49 @@ for (let i = 0; i < 100; i++) {
           <RemoveRedEyeIcon style={{ fill: "#637381" }} />
         </Tooltip>
         <Tooltip placement="bottom" title={DownloadInvoice} color={"#DCDCDC"}>
-          <FileDownloadOutlinedIcon style={{ fill: "#637381" }} />
+          <FileDownloadOutlinedIcon
+            style={{ fill: "#637381" }}
+            onClick={() => {
+              setshowPreview(true);
+            }}
+          />
         </Tooltip>
       </div>
     ),
-  });
-}
-const OrderHistory = () => {
-  const [Sort, setSort] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
+  }));
+
+  useEffect(() => {
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/get?page=${page}`;
+
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.total, "data------>");
+        setOrderData(data.data);
+        setTotalData(data.total);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }, [page]);
+
+  const onShowSizeChange = (current, pageSize) => {
+    console.log("page", current, pageSize);
+    setPage(current.current);
+  };
+  console.log(page, "rightpage");
+
   return (
     <>
       <div className=" md:w-4/5	w-full mx-auto md:p-0 ">
         <div className="mb-6">
           <h1 className="text-[28px] font-semibold text-[#2B4447] ">
-            Order History
+            My Orders
           </h1>
         </div>
         <div className="border border-[#E7E7E7] rounded-[8px]   mb-6  p-5">
@@ -186,7 +249,7 @@ const OrderHistory = () => {
             <div className="relative max-w-max	">
               <input
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
-                placeholder="Search|"
+                placeholder="Search"
                 type="search"
               />
               <SearchIcon
@@ -360,16 +423,20 @@ const OrderHistory = () => {
             </div>
           )}
         </div>
-        <div
-          className="border border-[#E0E0E0] rounded-[8px] mb-8
-    "
-        >
+        <div className="border border-[#E0E0E0] rounded-[8px] mb-8">
+          {/* {showPreview && <Invoice />} */}
+          <InvoiceModal show={showPreview} setShow={setshowPreview} />
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={formattedData}
             showSizeChanger={false}
+            onChange={onShowSizeChange}
             pagination={{
+              current: page,
+              pageSize: 9,
+              total: totalData,
               showSizeChanger: false,
+              showQuickJumper: false,
             }}
             scroll={{
               y: 240,
@@ -380,4 +447,4 @@ const OrderHistory = () => {
     </>
   );
 };
-export default OrderHistory;
+export default MyOrders;

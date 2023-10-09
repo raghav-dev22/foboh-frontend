@@ -239,12 +239,12 @@ function Range() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead>
                   <tr>
-                    <th scope="col" className="p-4 border-y">
+                    <th scope="col" className="p-4 border-y green-checkbox">
                       <div className="flex items-center">
                         <input
                           id="default-checkbox"
                           type="checkbox"
-                          checked={selectedProducts.length === 9 ? true : false}
+                          checked={selectedProducts.length > 0 ? true : false}
                           // defaultValue=""
                           onChange={(e) => handleSelectAllChange(e)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
@@ -272,10 +272,6 @@ function Range() {
                 </thead>
                 {isSearchResult && (
                   <tbody>
-                    {console.log(
-                      products,
-                      "sssssssssssssssssssssssssssssssssssss"
-                    )}
                     {products.map((product, index) => {
                       const isLast = index === products.length - 1;
                       const classes = isLast ? "p-4" : "p-4  ";
@@ -305,7 +301,7 @@ function Range() {
                             className="custom-skeleton"
                           >
                             <td className={classes}>
-                              <div className="flex items-center gap-3 cursor-pointer">
+                              <div className="flex items-center gap-3 cursor-pointer green-checkbox">
                                 <input
                                   id="default-checkbox"
                                   type="checkbox"

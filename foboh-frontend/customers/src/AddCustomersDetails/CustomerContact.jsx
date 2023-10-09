@@ -20,7 +20,7 @@ function CustomerContact({
   errors,
   options,
   touched,
-  setValues
+  setValues,
 }) {
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -39,18 +39,18 @@ function CustomerContact({
     },
   }));
   // console.log("errors and touch on contact page",errors)
-  const contactSame=(e)=>{
+  const contactSame = (e) => {
     // console.log("e --->", e.target.checked);
     if (e.target.checked) {
       setValues({
         ...values,
-        deliveryFirstName:values.orderingFirstName,
-        deliveryLastName:values.orderingLastName,
-        deliveryEmail:values.orderingEmail,
-        deliveryMobile:values.orderingMobile
+        deliveryFirstName: values.orderingFirstName,
+        deliveryLastName: values.orderingLastName,
+        deliveryEmail: values.orderingEmail,
+        deliveryMobile: values.orderingMobile,
       });
     }
-  }
+  };
   return (
     <>
       <div className="  ">
@@ -79,16 +79,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border:
-                    errors.orderingFirstName &&  "1px solid red",
+                  border: errors.orderingFirstName && "1px solid red",
                 }}
               />
-              {errors.orderingFirstName  && (
+              {errors.orderingFirstName && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingFirstName}
                 </p>
               )}
-              {errors.orderingFirstName  && (
+              {errors.orderingFirstName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -109,16 +108,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border:
-                    errors.orderingLastName && "1px solid red",
+                  border: errors.orderingLastName && "1px solid red",
                 }}
               />
-              {errors.orderingLastName  && (
+              {errors.orderingLastName && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingLastName}
                 </p>
               )}
-              {errors.orderingLastName  && (
+              {errors.orderingLastName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -161,15 +159,15 @@ function CustomerContact({
                 }}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.orderingMobile  && "1px solid red",
+                  border: errors.orderingMobile && "1px solid red",
                 }}
               />
-              {errors.orderingMobile  && (
+              {errors.orderingMobile && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingMobile}
                 </p>
               )}
-              {errors.orderingMobile  && (
+              {errors.orderingMobile && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -190,15 +188,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.orderingEmail  && "1px solid red",
+                  border: errors.orderingEmail && "1px solid red",
                 }}
               />
-              {errors.orderingEmail  && (
+              {errors.orderingEmail && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.orderingEmail}
                 </p>
               )}
-              {errors.orderingEmail  && (
+              {errors.orderingEmail && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -244,16 +242,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border:
-                    errors.deliveryFirstName  && "1px solid red",
+                  border: errors.deliveryFirstName && "1px solid red",
                 }}
               />
-              {errors.deliveryFirstName  && (
+              {errors.deliveryFirstName && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryFirstName}
                 </p>
               )}
-              {errors.deliveryFirstName  && (
+              {errors.deliveryFirstName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -274,16 +271,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border:
-                    errors.deliveryLastName  && "1px solid red",
+                  border: errors.deliveryLastName && "1px solid red",
                 }}
               />
-              {errors.deliveryLastName  && (
+              {errors.deliveryLastName && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryLastName}
                 </p>
               )}
-              {errors.deliveryLastName  && (
+              {errors.deliveryLastName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -320,15 +316,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.deliveryMobile  && "1px solid red",
+                  border: errors.deliveryMobile && "1px solid red",
                 }}
               />
-              {errors.deliveryMobile  && (
+              {errors.deliveryMobile && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryMobile}
                 </p>
               )}
-              {errors.deliveryMobile  && (
+              {errors.deliveryMobile && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>
@@ -349,15 +345,15 @@ function CustomerContact({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
-                  border: errors.deliveryEmail  && "1px solid red",
+                  border: errors.deliveryEmail && "1px solid red",
                 }}
               />
-              {errors.deliveryEmail  && (
+              {errors.deliveryEmail && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.deliveryEmail}
                 </p>
               )}
-              {errors.deliveryEmail  && (
+              {errors.deliveryEmail && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
               )}
             </div>

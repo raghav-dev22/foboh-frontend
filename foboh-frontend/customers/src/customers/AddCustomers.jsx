@@ -144,7 +144,7 @@ function AddCustomers() {
                 <thead>
                   <tr>
                     <th scope="col" className="p-4 border-y">
-                      <div className="flex items-center">
+                      <div className="flex items-center green-checkbox">
                         <input
                           id="default-checkbox"
                           type="checkbox"
@@ -202,7 +202,7 @@ function AddCustomers() {
                           className="custom-skeleton"
                         > */}
                           <td className={classes}>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 green-checkbox">
                               <input
                                 id="default-checkbox"
                                 type="checkbox"
