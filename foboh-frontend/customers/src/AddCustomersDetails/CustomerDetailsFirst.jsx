@@ -197,7 +197,7 @@ function CustomerDetailsFirst({
             )}
           </div>
         </div>
-        <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+        {/* <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className="  w-full relative md:w-1/2 px-3">
             <label className="text-base font-medium text-green mb-3">
               Sales rep
@@ -259,7 +259,7 @@ function CustomerDetailsFirst({
               )}
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className="  w-full relative md:w-1/2 px-3">
             <h5 className="text-base font-medium text-green mb-3">
