@@ -51,6 +51,7 @@ module.exports = (_, argv) => ({
         "./ViewProduct": "./src/product/ViewProduct.jsx",
         "./AddProduct": "./src/product/AddProduct.jsx",
         "./BulkEdit": "./src/product/BulkEdit.jsx",
+        "./InventoryTable": "./src/inventory/InventoryTable.jsx",
       },
       shared: {
         ...deps,

@@ -44,10 +44,6 @@ function Filter({ handleSortChange, itemLabel, filterAndSort }) {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  // const handleSortChange = (sortBy, sortOrder) => {
-  //   console.log('Sorting changed:', sortBy, sortOrder);
-  //   // Update the sorting logic here
-  // };
 
   const [check, setCheck] = useState({
     filterTextFirst: false,

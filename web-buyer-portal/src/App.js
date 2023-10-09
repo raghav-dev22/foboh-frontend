@@ -22,6 +22,8 @@ import { ConfigProvider } from "antd";
 import OrderConfirmation from "./Order/OrderConfirmation";
 import OrderDetails from "./Order/OrderDetails";
 import OrderHistory from "./Order/OrderHistory";
+import InvoiceIncludingWET from "./invoice/InvoiceIncludingWET";
+import InvoiceExcludingWET from "./invoice/InvoiceExcludingWET";
 
 function App() {
   const { getDesignToken, useToken } = theme;
@@ -44,6 +46,8 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/home/*" element={<HomePage setConfig={setConfig} />} />
       <Route path="/auth/*" element={<Auth />} />
       <Route path="/sign-up" element={<Signup />} />
+      <Route path="/invoice-including-wet" element={<InvoiceIncludingWET />} />
+      <Route path="/invoice-excluding-wet" element={<InvoiceExcludingWET />} />
       <Route path="/verify-email" element={<Verifyemail />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/order-confirmation" element={<OrderConfirmation />} />

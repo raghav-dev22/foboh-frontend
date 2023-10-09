@@ -11,7 +11,7 @@ const newColumns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>,
     dataIndex: "Customer",
-    width: 200,
+    width: 160,
   },
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
@@ -33,7 +33,7 @@ const newColumns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
     dataIndex: "Status",
-    width: 180,
+    width: 150,
   },
 ];
 const newData = [];
@@ -54,7 +54,7 @@ for (let i = 0; i < 100; i++) {
     ),
     Amount: <p className="text-[15px] font-medium text-[#637381]">$2345.00</p>,
     Status: (
-      <div className="bg-[#D5EEFF]  rounded-md py-[4px] px-[8px] w-[166px]  ">
+      <div className="bg-[#D5EEFF]  rounded-md py-[4px] px-[8px] w-[150px]  ">
         <p className="text-[#3498DB] text-[base] font-medium text-center">
           New
         </p>
@@ -71,7 +71,7 @@ const pandingColumns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>,
     dataIndex: "Customer",
-    width: 200,
+    width: 160,
   },
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
@@ -131,7 +131,7 @@ const buyerColumns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>,
     dataIndex: "Customer",
-    width: 180,
+    width: 160,
   },
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
@@ -305,17 +305,19 @@ const ActionRequired = () => {
                         />
                       </button>
                     </div>
-                    <Table
-                      columns={newColumns}
-                      dataSource={newData}
-                      showSizeChanger={false}
-                      pagination={{
-                        showSizeChanger: false,
-                      }}
-                      scroll={{
-                        y: 240,
-                      }}
-                    />
+                    <div className="custom-table-pagination">
+                      <Table
+                        columns={newColumns}
+                        dataSource={newData}
+                        showSizeChanger={false}
+                        pagination={{
+                          showSizeChanger: false,
+                        }}
+                        scroll={{
+                          y: 240,
+                        }}
+                      />
+                    </div>
                   </>
                 ),
               },
@@ -358,17 +360,19 @@ const ActionRequired = () => {
                         />
                       </button>
                     </div>
-                    <Table
-                      columns={pandingColumns}
-                      dataSource={pandingData}
-                      showSizeChanger={false}
-                      pagination={{
-                        showSizeChanger: false,
-                      }}
-                      scroll={{
-                        y: 240,
-                      }}
-                    />
+                    <div className="custom-table-pagination">
+                      <Table
+                        columns={pandingColumns}
+                        dataSource={pandingData}
+                        showSizeChanger={false}
+                        pagination={{
+                          showSizeChanger: false,
+                        }}
+                        scroll={{
+                          y: 240,
+                        }}
+                      />
+                    </div>
                   </>
                 ),
               },
@@ -411,17 +415,19 @@ const ActionRequired = () => {
                         />
                       </button>
                     </div>
-                    <Table
-                      columns={buyerColumns}
-                      dataSource={buyerData}
-                      showSizeChanger={false}
-                      pagination={{
-                        showSizeChanger: false,
-                      }}
-                      scroll={{
-                        y: 240,
-                      }}
-                    />
+                    <div className="custom-table-pagination">
+                      <Table
+                        columns={buyerColumns}
+                        dataSource={buyerData}
+                        showSizeChanger={false}
+                        pagination={{
+                          showSizeChanger: false,
+                        }}
+                        scroll={{
+                          y: 240,
+                        }}
+                      />
+                    </div>
                   </>
                 ),
               },

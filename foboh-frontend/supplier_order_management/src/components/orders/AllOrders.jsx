@@ -364,7 +364,7 @@ const AllOrders = () => {
         <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>
       ),
       dataIndex: "Customer",
-      width: 200,
+      width: 160,
     },
     {
       title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
@@ -655,7 +655,7 @@ const AllOrders = () => {
           )}
         </div>
         <div
-          className="border border-[#E0E0E0] rounded-[8px] mb-8 bg-white
+          className="border border-[#E0E0E0] rounded-[8px] mb-8 bg-white custom-table-pagination
     "
         >
           <Table

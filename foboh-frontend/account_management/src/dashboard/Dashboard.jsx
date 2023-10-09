@@ -21,6 +21,7 @@ import SupplierOrderManagement from "orders/SupplierOrderManagement";
 import OrderListing from "orders/OrderListing";
 import SupplierSetting from "orders/SupplierSetting";
 import BankingInformation from "orders/BankingInformation";
+import InventoryTable from "products/InventoryTable";
 
 // import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
@@ -170,6 +171,7 @@ function Dashboard() {
                 path="/customer-bulk-edit"
                 element={<CustomerBulkEdit />}
               />
+              <Route path="/inventory-table" element={<InventoryTable />} />
             </Routes>
             {/* <Profile /> */}
           </div>

@@ -10,9 +10,64 @@ import ShieldIcon from "@mui/icons-material/Shield";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AlertModal from "./AlertModal";
+// import { Select } from "antd";
+
 let index = 0;
 
 const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
+  const handleChange = (value) => {
+    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+  };
+  const paymentOption = [
+    {
+      value: "opt-1",
+      label: (
+        <h5 className="text-base font-medium text-[#637381] py-1">
+          7 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "opt-2",
+      label: (
+        <h5 className="text-base font-medium text-[#637381] py-1">
+          15 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "opt-3",
+      label: (
+        <h5 className="text-base font-medium text-[#637381] py-1">
+          30 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "opt-4",
+      label: (
+        <h5 className="text-base font-medium text-[#637381] py-1">
+          45 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "opt-5",
+      label: (
+        <h5 className="text-base font-medium text-[#637381] py-1">
+          60 days from invoice date
+        </h5>
+      ),
+    },
+    {
+      value: "opt-6",
+      label: (
+        <h5 className="text-base font-medium text-[#637381] py-1">
+          90 days from Invoice date
+        </h5>
+      ),
+    },
+  ];
   const [alertModal, setAlertModal] = useState(false);
   const [details, setDetails] = useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
@@ -607,11 +662,24 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                             <p className="text-base font-normal text-[#2B4447] leading-[28px]">
                               Your chosen payment terms
                             </p>
-                            <div className="border mt-2 border-[#E0E0E0] rounded-[6px] py-2 px-4">
-                              <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
-                                Payment due in 14 days (dd/mm/yyyy)
-                              </h4>
-                            </div>
+
+                            <Select
+                              labelInValue
+                              className="payment-dropdown mt-3"
+                              defaultValue={{
+                                value: "lucy",
+                                label: (
+                                  <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
+                                    Payment due in 14 days (dd/mm/yyyy)
+                                  </h4>
+                                ),
+                              }}
+                              style={{
+                                width: "100%",
+                              }}
+                              onChange={handleChange}
+                              options={paymentOption}
+                            />
                           </div>
                           <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
                             <div className="flex justify-between items-center ">

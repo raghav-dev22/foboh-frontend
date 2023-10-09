@@ -6,19 +6,19 @@ import Range from "./product/Range";
 import ViewProduct from "./product/ViewProduct";
 import AddProduct from "./product/AddProduct";
 import BulkEdit from "./product/BulkEdit";
+import InventoryTable from "./inventory/InventoryTable";
 
 const App = () => {
-  
-
   return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<Range />} />
-          <Route path="/view-product" element={<ViewProduct />} />
-          <Route path="/add-product" element={<AddProduct />} />
-          <Route path="/bulk-edit" element={<BulkEdit />} />
-        </Routes>
-      </Router>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Range />} />
+        <Route path="/view-product" element={<ViewProduct />} />
+        <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/bulk-edit" element={<BulkEdit />} />
+        <Route path="/inventory-table" element={<InventoryTable />} />
+      </Routes>
+    </Router>
   );
 };
 

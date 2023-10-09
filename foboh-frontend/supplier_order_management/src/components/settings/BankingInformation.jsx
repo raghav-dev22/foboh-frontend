@@ -6,7 +6,7 @@ const BankingInformation = () => {
       <div className="bank-information-page">
         <div className="py-6 px-6">
           <h4 className="text-xl font-semibold text-[#2B4447]">
-            Set Up banking Information
+            Set up banking Information
           </h4>
         </div>
         <div className="lg:flex gap-5 px-6 ">
@@ -14,7 +14,7 @@ const BankingInformation = () => {
             <div className="border border-[#E7E7E7] rounded-md bg-white h-[423px] overflow-y-scroll">
               <div className="px-6 py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-base font-medium text-[#2B4447]">
-                  Business Type
+                  Business Details
                 </h5>
               </div>
               <div className="py-6 px-6">
@@ -46,27 +46,23 @@ const BankingInformation = () => {
                       options={[
                         {
                           value: "1",
-                          label: "Not Identified",
+                          label: "Individual",
                         },
                         {
                           value: "2",
-                          label: "Closed",
+                          label: "sole trader",
                         },
                         {
                           value: "3",
-                          label: "Communicated",
+                          label: "Company",
                         },
                         {
                           value: "4",
-                          label: "Identified",
+                          label: "Nonprofit",
                         },
                         {
                           value: "5",
-                          label: "Resolved",
-                        },
-                        {
-                          value: "6",
-                          label: "Cancelled",
+                          label: "Partnership",
                         },
                       ]}
                     />
@@ -80,10 +76,11 @@ const BankingInformation = () => {
                         Legal business name
                       </label>
                       <input
+                        disabled
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
-                        placeholder="Lo-Fi Wines"
+                        placeholder="Business Name PVT LTD"
                       />
                     </div>
                     <div className="mb-4">
@@ -94,10 +91,11 @@ const BankingInformation = () => {
                         ACN/ABN
                       </label>
                       <input
+                        disabled
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
-                        placeholder="Lo-Fi Wines"
+                        placeholder="XX XXX XXX XXX"
                       />
                     </div>
                   </div>
@@ -112,7 +110,7 @@ const BankingInformation = () => {
                       className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="username"
                       type="text"
-                      placeholder="Lo-Fi Wines"
+                      placeholder="Apartment , Street Name , etc."
                     />
                   </div>
                   <div className="flex flex-nowrap gap-2">
@@ -121,7 +119,7 @@ const BankingInformation = () => {
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
                       >
-                        City
+                        Suburb
                       </label>
                       <Select
                         className="mt-[3px]"
@@ -185,7 +183,7 @@ const BankingInformation = () => {
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
-                        placeholder="Lo-Fi Wines"
+                        placeholder="XXXX"
                       />
                     </div>
                   </div>
@@ -247,10 +245,11 @@ const BankingInformation = () => {
                         Country
                       </label>
                       <input
+                        disabled
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
-                        placeholder="Lo-Fi Wines"
+                        placeholder="Australia "
                       />
                     </div>
                   </div>
@@ -265,7 +264,7 @@ const BankingInformation = () => {
                   Banking information
                 </h5>
                 <p className="text-sm font-medium text-[#637381] leading-[20px]">
-                  The supplier’s funds will be deposited into this bank account.{" "}
+                  Nominate your bank account for fund deposit.
                 </p>
               </div>
               <div className="py-6 px-6">
@@ -281,7 +280,7 @@ const BankingInformation = () => {
                       className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="username"
                       type="text"
-                      placeholder="Lo-Fi Wines"
+                      placeholder="XXY-ZZZ"
                     />
                   </div>
                   <div className="mb-4">
@@ -295,7 +294,7 @@ const BankingInformation = () => {
                       className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="username"
                       type="text"
-                      placeholder="Lo-Fi Wines"
+                      placeholder="XXXXXX YYYYYYY ZZZ"
                     />
                   </div>
                 </form>
@@ -337,7 +336,8 @@ const BankingInformation = () => {
                       className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="username"
                       type="text"
-                      placeholder="Lo-Fi Wines"
+                      placeholder="04XX XXX XXX / +61 4XX XXX XXX
+                      "
                     />
                   </div>
                 </form>
