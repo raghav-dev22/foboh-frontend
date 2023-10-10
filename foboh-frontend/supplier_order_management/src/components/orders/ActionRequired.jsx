@@ -1,270 +1,367 @@
-import React from "react";
+import { React, useState } from "react";
 import { Table, Collapse, Space } from "antd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
-const newColumns = [
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
-    dataIndex: "OrderID",
-    width: 100,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>,
-    dataIndex: "Customer",
-    width: 160,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
-    dataIndex: "Region",
-    width: 150,
-  },
-  {
-    title: (
-      <h5 className="text-base font-semibold text-[#2B4447]">Order Date</h5>
-    ),
-    dataIndex: "OrderDate",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Amount</h5>,
-    dataIndex: "Amount",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
-    dataIndex: "Status",
-    width: 150,
-  },
-];
-const newData = [];
-for (let i = 0; i < 100; i++) {
-  newData.push({
-    key: i,
-    OrderID: <p className="text-[15px] font-medium text-[#637381]">#23456</p>,
-    Customer: (
-      <p className="text-[15px] font-medium text-[#637381]">
-        Lofi Wines xxxxxx
-      </p>
-    ),
-    Region: (
-      <p className="text-[15px] font-medium text-[#637381]">Sydney, NSW</p>
-    ),
-    OrderDate: (
-      <p className="text-[15px] font-medium text-[#637381]">19/11/2023</p>
-    ),
-    Amount: <p className="text-[15px] font-medium text-[#637381]">$2345.00</p>,
-    Status: (
-      <div className="bg-[#D5EEFF]  rounded-md py-[4px] px-[8px] w-[150px]  ">
-        <p className="text-[#3498DB] text-[base] font-medium text-center">
-          New
-        </p>
-      </div>
-    ),
-  });
-}
-const pandingColumns = [
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
-    dataIndex: "OrderID",
-    width: 100,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>,
-    dataIndex: "Customer",
-    width: 160,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
-    dataIndex: "Region",
-    width: 150,
-  },
-  {
-    title: (
-      <h5 className="text-base font-semibold text-[#2B4447]">Order Date</h5>
-    ),
-    dataIndex: "OrderDate",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Amount</h5>,
-    dataIndex: "Amount",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
-    dataIndex: "Status",
-    width: 180,
-  },
-];
-const pandingData = [];
-for (let i = 0; i < 100; i++) {
-  pandingData.push({
-    key: i,
-    OrderID: <p className="text-[15px] font-medium text-[#637381]">#23456</p>,
-    Customer: (
-      <p className="text-[15px] font-medium text-[#637381]">
-        Lofi Wines xxxxxx
-      </p>
-    ),
-    Region: (
-      <p className="text-[15px] font-medium text-[#637381]">Sydney, NSW</p>
-    ),
-    OrderDate: (
-      <p className="text-[15px] font-medium text-[#637381]">19/11/2023</p>
-    ),
-    Amount: <p className="text-[15px] font-medium text-[#637381]">$2345.00</p>,
-    Status: (
-      <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-        <p className="text-[#637381] text-[base] font-medium text-center">
-          Pending approval
-        </p>
-      </div>
-    ),
-  });
-}
-const buyerColumns = [
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
-    dataIndex: "OrderID",
-    width: 100,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>,
-    dataIndex: "Customer",
-    width: 160,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
-    dataIndex: "Region",
-    width: 150,
-  },
-  {
-    title: (
-      <h5 className="text-base font-semibold text-[#2B4447]">Order Date</h5>
-    ),
-    dataIndex: "OrderDate",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Amount</h5>,
-    dataIndex: "Amount",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>,
-    dataIndex: "Payment",
-    width: 120,
-  },
-  {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
-    dataIndex: "Status",
-    width: 200,
-  },
-];
-
-const buyerData = [
-  {
-    Customer: " Lofi Wines xxxxxx",
-    OrderID: "#23456",
-    Region: "Sydney, NSW",
-    OrderDate: "19/11/2023",
-    Payment: "Pending",
-    Amount: "$2345.00",
-    Status: (
-      <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
-        <p className="text-[#E9B600] text-[base] font-medium">
-          Changes requested
-        </p>
-      </div>
-    ),
-  },
-  {
-    Customer: " Lofi Wines xxxxxx",
-    OrderID: "#23456",
-    Region: "Sydney, NSW",
-    OrderDate: "19/11/2023",
-    Payment: "Pending",
-    Amount: "$2345.00",
-    Status: (
-      <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
-        <p className="text-[#E9B600] text-[base] font-medium text-center">
-          Changes requested
-        </p>
-      </div>
-    ),
-  },
-  {
-    Customer: " Lofi Wines xxxxxx",
-    OrderID: "#23456",
-    Region: "Sydney, NSW",
-    OrderDate: "19/11/2023",
-    Payment: "Pending",
-    Amount: "$2345.00",
-    Status: (
-      <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
-        <p className="text-[#E9B600] text-[base] font-medium text-center">
-          Changes requested
-        </p>
-      </div>
-    ),
-  },
-  {
-    Customer: " Lofi Wines xxxxxx",
-    OrderID: "#23456",
-    Region: "Sydney, NSW",
-    OrderDate: "19/11/2023",
-    Payment: "Pending",
-    Amount: "$2345.00",
-    Status: (
-      <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
-        <p className="text-[#3498DB] text-[base] font-medium text-center">
-          Updated
-        </p>
-      </div>
-    ),
-  },
-  {
-    Customer: " Lofi Wines xxxxxx",
-    OrderID: "#23456",
-    Region: "Sydney, NSW",
-    OrderDate: "19/11/2023",
-    Payment: "Pending",
-    Amount: "$2345.00",
-    Status: (
-      <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
-        <p className="text-[#3498DB] text-[base] font-medium text-center">
-          Updated
-        </p>
-      </div>
-    ),
-  },
-];
-
-buyerData.map((item, index) => {
-  return {
-    key: index,
-    OrderID: (
-      <p className="text-[15px] font-medium text-[#637381]">{item.OrderID}</p>
-    ),
-    Customer: (
-      <p className="text-[15px] font-medium text-[#637381]">{item.Customer}</p>
-    ),
-    Region: (
-      <p className="text-[15px] font-medium text-[#637381]">{item.Region}</p>
-    ),
-    OrderDate: (
-      <p className="text-[15px] font-medium text-[#637381]">{item.OrderDate}</p>
-    ),
-    Amount: (
-      <p className="text-[15px] font-medium text-[#637381]">{item.Amount}</p>
-    ),
-    Status: (
-      <p className="text-[#637381] text-[base] font-medium">{item.Status}</p>
-    ),
-  };
-});
+import { useEffect } from "react";
 
 const ActionRequired = () => {
+  const [page, setPage] = useState(1);
+  const [newTotalData, setNewTotalData] = useState();
+  const [newTotalPendding, setNewTotalPendding] = useState();
+  const [newTotalModification, setNewTotalModification] = useState();
+  const [orderNewOrder, setOrderNewOrder] = useState([]);
+  const [modification, setModification] = useState([]);
+  const [pendding, setpendding] = useState([]);
+
+  const newColumns = [
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>
+      ),
+      dataIndex: "OrderID",
+      width: 100,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>
+      ),
+      dataIndex: "Customer",
+      width: 160,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
+      dataIndex: "Region",
+      width: 150,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Order Date</h5>
+      ),
+      dataIndex: "OrderDate",
+      width: 120,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Amount</h5>,
+      dataIndex: "Amount",
+      width: 120,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
+      dataIndex: "Status",
+      width: 150,
+    },
+  ];
+  const newOrder = orderNewOrder.map((item, index) => {
+    return {
+      key: index,
+      OrderID: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
+      ),
+      Customer: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          Lofi Wines xxxxxx
+        </p>
+      ),
+      Region: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.region}</p>
+      ),
+      OrderDate: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.orderEntryDate}
+        </p>
+      ),
+      Amount: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.totalPrice}
+        </p>
+      ),
+      Status: (
+        <div className="bg-[#D5EEFF]  rounded-md py-[4px] px-[8px] w-[150px]  ">
+          <p className="text-[#3498DB] text-[base] font-medium text-center">
+            {item.orderStatus}
+          </p>
+        </div>
+      ),
+    };
+  });
+
+  const pandingColumns = [
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>
+      ),
+      dataIndex: "OrderID",
+      width: 100,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>
+      ),
+      dataIndex: "Customer",
+      width: 160,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
+      dataIndex: "Region",
+      width: 150,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Order Date</h5>
+      ),
+      dataIndex: "OrderDate",
+      width: 120,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Amount</h5>,
+      dataIndex: "Amount",
+      width: 120,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
+      dataIndex: "Status",
+      width: 180,
+    },
+  ];
+  const penddingData = pendding.map((item, index) => {
+    return {
+      key: index,
+      OrderID: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
+      ),
+      Customer: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          Lofi Wines xxxxxx
+        </p>
+      ),
+      Region: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.region}</p>
+      ),
+      OrderDate: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.orderEntryDate}
+        </p>
+      ),
+      Amount: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.totalPrice}
+        </p>
+      ),
+      Status: (
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base] font-medium text-center">
+            {item.orderStatus}
+          </p>
+        </div>
+      ),
+    };
+  });
+
+  const buyerColumns = [
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>
+      ),
+      dataIndex: "OrderID",
+      width: 100,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>
+      ),
+      dataIndex: "Customer",
+      width: 160,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
+      dataIndex: "Region",
+      width: 150,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Order Date</h5>
+      ),
+      dataIndex: "OrderDate",
+      width: 120,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Amount</h5>,
+      dataIndex: "Amount",
+      width: 120,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>
+      ),
+      dataIndex: "Payment",
+      width: 120,
+    },
+    {
+      title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
+      dataIndex: "Status",
+      width: 200,
+    },
+  ];
+
+  // const buyerData = [
+  //   {
+  //     Customer: " Lofi Wines xxxxxx",
+  //     OrderID: "#23456",
+  //     Region: "Sydney, NSW",
+  //     OrderDate: "19/11/2023",
+  //     Payment: "Pending",
+  //     Amount: "$2345.00",
+  //     Status: (
+  //       <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+  //         <p className="text-[#E9B600] text-[base] font-medium">
+  //           Changes requested
+  //         </p>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     Customer: " Lofi Wines xxxxxx",
+  //     OrderID: "#23456",
+  //     Region: "Sydney, NSW",
+  //     OrderDate: "19/11/2023",
+  //     Payment: "Pending",
+  //     Amount: "$2345.00",
+  //     Status: (
+  //       <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+  //         <p className="text-[#E9B600] text-[base] font-medium text-center">
+  //           Changes requested
+  //         </p>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     Customer: " Lofi Wines xxxxxx",
+  //     OrderID: "#23456",
+  //     Region: "Sydney, NSW",
+  //     OrderDate: "19/11/2023",
+  //     Payment: "Pending",
+  //     Amount: "$2345.00",
+  //     Status: (
+  //       <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+  //         <p className="text-[#E9B600] text-[base] font-medium text-center">
+  //           Changes requested
+  //         </p>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     Customer: " Lofi Wines xxxxxx",
+  //     OrderID: "#23456",
+  //     Region: "Sydney, NSW",
+  //     OrderDate: "19/11/2023",
+  //     Payment: "Pending",
+  //     Amount: "$2345.00",
+  //     Status: (
+  //       <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+  //         <p className="text-[#3498DB] text-[base] font-medium text-center">
+  //           Updated
+  //         </p>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     Customer: " Lofi Wines xxxxxx",
+  //     OrderID: "#23456",
+  //     Region: "Sydney, NSW",
+  //     OrderDate: "19/11/2023",
+  //     Payment: "Pending",
+  //     Amount: "$2345.00",
+  //     Status: (
+  //       <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
+  //         <p className="text-[#3498DB] text-[base] font-medium text-center">
+  //           Updated
+  //         </p>
+  //       </div>
+  //     ),
+  //   },
+  // ];
+
+  const modificationData = modification.map((item, index) => {
+    return {
+      key: index,
+      OrderID: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
+      ),
+      Customer: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.firstname}
+        </p>
+      ),
+      Region: (
+        <p className="text-[15px] font-medium text-[#637381]">{item.Region}</p>
+      ),
+      OrderDate: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.orderEntryDate}
+        </p>
+      ),
+      Amount: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.totalPrice}
+        </p>
+      ),
+      Status: (
+        <p className="text-[#637381] text-[base] font-medium">
+          {item.orderStatus}
+        </p>
+      ),
+    };
+  });
+
+  const onShowSizeChange = (current, pageSize) => {
+    console.log("page", current, pageSize);
+    setPage(current.current);
+  };
+
+  useEffect(() => {
+    fetch(
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getNew?page=${page}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("neworders -->", data.data);
+        setOrderNewOrder(data.data);
+        setNewTotalData(data.total);
+      })
+      .catch((error) => console.log(error));
+
+    fetch(
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getPending?page=${page}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("pendding -->", data.data);
+        setpendding(data.data);
+        setNewTotalPendding(data.total);
+      })
+      .catch((error) => console.log(error));
+
+    fetch(
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getBuyerModification?page=${page}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("modification -->", data.data);
+        setModification(data.data);
+        setNewTotalModification(data.total);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <>
       <div className="custom-collapse py-5">
@@ -285,7 +382,9 @@ const ActionRequired = () => {
                     <div className="flex justify-center items-center gap-3">
                       <div className="bg-[#147D73] bg-147D73 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
                         {" "}
-                        <p className="text-white font-medium text-sm">5</p>
+                        <p className="text-white font-medium text-sm">
+                          {newTotalData}
+                        </p>
                       </div>
                       <KeyboardArrowDownIcon />
                     </div>
@@ -308,10 +407,15 @@ const ActionRequired = () => {
                     <div className="custom-table-pagination">
                       <Table
                         columns={newColumns}
-                        dataSource={newData}
+                        dataSource={newOrder}
                         showSizeChanger={false}
+                        onChange={onShowSizeChange}
                         pagination={{
+                          current: page,
+                          pageSize: 9,
+                          total: newTotalData,
                           showSizeChanger: false,
+                          showQuickJumper: false,
                         }}
                         scroll={{
                           y: 240,
@@ -340,7 +444,9 @@ const ActionRequired = () => {
                     <div className="flex justify-center items-center gap-3">
                       <div className="bg-[#3BA2B8] bg-3BA2B8 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
                         {" "}
-                        <p className="text-white font-medium text-sm">5</p>
+                        <p className="text-white font-medium text-sm">
+                          {newTotalPendding}
+                        </p>
                       </div>
                       <KeyboardArrowDownIcon />
                     </div>
@@ -363,10 +469,14 @@ const ActionRequired = () => {
                     <div className="custom-table-pagination">
                       <Table
                         columns={pandingColumns}
-                        dataSource={pandingData}
-                        showSizeChanger={false}
+                        dataSource={penddingData}
+                        onChange={onShowSizeChange}
                         pagination={{
+                          current: page,
+                          pageSize: 9,
+                          total: newTotalPendding,
                           showSizeChanger: false,
+                          showQuickJumper: false,
                         }}
                         scroll={{
                           y: 240,
@@ -395,7 +505,9 @@ const ActionRequired = () => {
                     <div className="flex justify-center items-center gap-3">
                       <div className="bg-[#F9C107] bg-F9C107 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
                         {" "}
-                        <p className="text-white font-medium text-sm">5</p>
+                        <p className="text-white font-medium text-sm">
+                          {newTotalModification}
+                        </p>
                       </div>
                       <KeyboardArrowDownIcon />
                     </div>
@@ -418,10 +530,15 @@ const ActionRequired = () => {
                     <div className="custom-table-pagination">
                       <Table
                         columns={buyerColumns}
-                        dataSource={buyerData}
+                        dataSource={modificationData}
                         showSizeChanger={false}
+                        onChange={onShowSizeChange}
                         pagination={{
+                          current: page,
+                          pageSize: 9,
+                          total: newTotalModification,
                           showSizeChanger: false,
+                          showQuickJumper: false,
                         }}
                         scroll={{
                           y: 240,

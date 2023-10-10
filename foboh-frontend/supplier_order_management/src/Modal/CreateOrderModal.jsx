@@ -170,7 +170,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                     className={`w-[40px] h-[40px] rounded-full   flex justify-center items-center 
                      `}
                   >
-                    <p className=" text-sm font-normal text-white">3</p>
+                    <p className=" text-sm font-normal text-white">4</p>
                   </div>
                   <div className="absolute -bottom-[3rem]  w-max text-center">
                     <Typography

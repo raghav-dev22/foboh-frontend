@@ -138,6 +138,7 @@ const MyOrders = () => {
   const [showPreview, setshowPreview] = useState(false);
   const [page, setPage] = useState(1);
   const [orderData, setOrderData] = useState([]);
+  const [invoiceData, setInvoiceData] = useState([]);
   const [totalData, setTotalData] = useState({});
   const navigate = useNavigate();
 
@@ -146,7 +147,7 @@ const MyOrders = () => {
     OrderID: (
       <h1
         // to={`/home/order-details/${order.orderId}`}
-        className="text-base font-medium text-[#2B4447]"
+        className="text-base font-medium text-[#2B4447] cursor-pointer"
         onClick={() => navigate(`/order-details/${order.orderId}`)}
       >
         {order.orderId}
@@ -202,7 +203,7 @@ const MyOrders = () => {
           <FileDownloadOutlinedIcon
             style={{ fill: "#637381" }}
             onClick={() => {
-              setshowPreview(true);
+              fetchInvoice(order.orderId);
             }}
           />
         </Tooltip>
@@ -236,6 +237,22 @@ const MyOrders = () => {
   };
   console.log(page, "rightpage");
 
+  const fetchInvoice = (id) => {
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${id}`;
+
+    fetch(apiUrl)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.total, "data------>");
+        setInvoiceData(data.data);
+        setshowPreview(true);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  };
   return (
     <>
       <div className=" md:w-4/5	w-full mx-auto md:p-0 ">
@@ -425,7 +442,11 @@ const MyOrders = () => {
         </div>
         <div className="border border-[#E0E0E0] rounded-[8px] mb-8">
           {/* {showPreview && <Invoice />} */}
-          <InvoiceModal show={showPreview} setShow={setshowPreview} />
+          <InvoiceModal
+            show={showPreview}
+            setShow={setshowPreview}
+            invoiceData={invoiceData}
+          />
           <Table
             columns={columns}
             dataSource={formattedData}
