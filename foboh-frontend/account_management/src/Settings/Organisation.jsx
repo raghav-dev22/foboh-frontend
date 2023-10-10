@@ -676,7 +676,7 @@ function Organisation() {
                             )}
                           </div>
                         </div>
-                      
+
                         <div className="flex flex-wrap -mx-3 mb-5 relative">
                           <div className="w-full px-3">
                             <label
@@ -948,7 +948,7 @@ function Organisation() {
                     <div className="px-6 py-7">
                       <div className="w-full">
                         {values.state && values.organisationAddressPostcode && (
-                          <div className="flex items-center mb-5">
+                          <div className="flex items-center mb-5 green-checkbox">
                             <input
                               onChange={handleCheckbox}
                               id="same-address"

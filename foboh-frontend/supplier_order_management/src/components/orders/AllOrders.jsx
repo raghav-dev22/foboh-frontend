@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 
 import { Menu } from "antd";
 import CustomCalender from "../datePicker/CustomCalender";
+import { useEffect } from "react";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -349,8 +350,11 @@ const AllOrders = () => {
   // const [startDate, setStartDate] = useState(new Date());
 
   const [showFilter, setShowFilter] = useState(false);
-
+  const [page, setPage] = useState(1);
+  const [totalData, setTotalData] = useState({});
+  const [orderData, setOrderData] = useState([]);
   const [Sort, setSort] = useState(false);
+
   const columns = [
     {
       title: (
@@ -389,191 +393,61 @@ const AllOrders = () => {
       width: 180,
     },
   ];
-  const data = [
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#3498DB] text-[base] font-me text-center dium">
-            New
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#637381] text-[base]  text-center font-medium">
-            Pending approval
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#E9B600] text-[base]  text-center font-medium">
-            Pending approval
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#637381] text-[base]  text-center font-medium">
-            Pending approval
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#637381] text-[base]  text-center font-medium">
-            Pending approval
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#637381] text-[base]  text-center font-medium">
-            Pending approval
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#CFEBE5] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#16A085] text-[base] font-medium text-center ">
-            Delivered
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#637381] text-[base]  text-center font-medium">
-            Pending approval
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#3498DB] text-[base] font-medium text-center ">
-            Updated
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#FFDFDB] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#C0392B] text-[base] font-medium text-center ">
-            Cancelled
-          </p>
-        </div>
-      ),
-    },
-    {
-      Customer: " Lofi Wines xxxxxx",
-      OrderID: "#23456",
-      Region: "Sydney, NSW",
-      OrderDate: "19/11/2023",
-      Amount: "$2345.00",
-      Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
-          <p className="text-[#637381] text-[base]  text-center font-medium">
-            Pending approval
-          </p>
-        </div>
-      ),
-    },
-  ];
 
-  data.map((item, index) => {
+  const data = orderData.map((item, index) => {
     return {
       key: index,
       OrderID: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.OrderID}</p>
+        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
       ),
       Customer: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.Customer}
+          {item.firstname}
         </p>
       ),
       Region: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.Region}</p>
+        <p className="text-[15px] font-medium text-[#637381]">{item.region}</p>
       ),
       OrderDate: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.OrderDate}
+          {item.orderEntryDate}
         </p>
       ),
       Amount: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.Amount}</p>
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.totalPrice}
+        </p>
       ),
       Status: (
-        <p className="text-[#637381] text-[base] font-medium">{item.Status}</p>
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+          <p className="text-[#637381] text-[base] font-medium">
+            {item.orderStatus}
+          </p>
+        </div>
       ),
     };
   });
 
+  const onShowSizeChange = (current, pageSize) => {
+    console.log("page", current, pageSize);
+    setPage(current.current);
+  };
+
+  useEffect(() => {
+    fetch(
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getAll?page=${page}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("getAllssssssssssss -->", data.data);
+        setOrderData(data.data);
+        setTotalData(data.total);
+      })
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <>
       <div className="py-5">
@@ -590,7 +464,7 @@ const AllOrders = () => {
             <div className="relative max-w-max	">
               <input
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
-                placeholder="Search|"
+                placeholder="Search"
                 type="search"
               />
               <SearchIcon
@@ -662,8 +536,13 @@ const AllOrders = () => {
             columns={columns}
             dataSource={data}
             showSizeChanger={false}
+            onChange={onShowSizeChange}
             pagination={{
+              current: page,
+              pageSize: 9,
+              total: totalData,
               showSizeChanger: false,
+              showQuickJumper: false,
             }}
             scroll={{
               y: 240,

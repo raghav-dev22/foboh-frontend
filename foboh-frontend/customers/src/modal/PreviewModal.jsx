@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import ImportCustomerModal from "./ImportCustomerModal";
 import Carousel from "better-react-carousel";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Alert, Space, Spin } from 'antd';
+import { Alert, Space, Spin } from "antd";
 
 function PreviewModal({
   show,
@@ -18,7 +18,7 @@ function PreviewModal({
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [activeTab, setActiveTab] = useState("CUSTOMER 1");
   const [loading, setLoading] = useState(false); // Initialize as true to show the spinner initially
-  const[errList, setErrList] = useState()
+  const [errList, setErrList] = useState();
   const handleOptionChange = (event) => {
     setActiveTab(event.target.value);
     // const selectedOptionId = event.target.value;
@@ -27,7 +27,7 @@ function PreviewModal({
   };
   const showModal = () => {
     setShowPreviewModal(true);
-    setLoading(true)
+    setLoading(true);
     setShow(false);
     const prod = importedCustomers.map((customer) => {
       return {
@@ -60,9 +60,9 @@ function PreviewModal({
         billingSuburb: customer.billingSuburb || "",
         billingPostalCode: customer.billingPostalCode || "",
         billingState: customer.billingState || "",
-        isActive: customer.isActive || "",
-      }; 
-    }); 
+        isActive: customer.isActive || "1",
+      };
+    });
     console.log("prod", prod);
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateBulkData`,
@@ -100,21 +100,21 @@ function PreviewModal({
               billingSuburb: customer?.billingSuburb || "",
               billingPostalCode: customer?.billingPostalCode || "",
               billingState: customer?.billingState || "",
-              isActive: customer?.isActive || true,
-            }
+              isActive: customer?.isActive || "1",
+            };
           })
         ),
       }
     )
       .then((response) => response.json())
-      .then(data => { 
-        const errList = data.data.map((item)=>{
-          return{
+      .then((data) => {
+        const errList = data.data.map((item) => {
+          return {
             businessName: item.businessName,
-            error: item.message
-          }
-        })
-        setErrList(errList)
+            error: item.message,
+          };
+        });
+        setErrList(errList);
         setLoading(false);
         console.log(errList, "customer bulk");
       })
@@ -337,12 +337,14 @@ function PreviewModal({
       </Transition.Root>
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-[#00000021] bg-opacity-75 backdrop-blur-md">
-          <Spin spinning={true} size="large"
-          style={{
-            marginLeft: "16rem",
-            width: "35px",
-          }}
-           />
+          <Spin
+            spinning={true}
+            size="large"
+            style={{
+              marginLeft: "16rem",
+              width: "35px",
+            }}
+          />
         </div>
       )}
       <ImportCustomerModal

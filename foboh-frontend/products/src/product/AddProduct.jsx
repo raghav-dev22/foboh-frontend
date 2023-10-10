@@ -35,9 +35,9 @@ import { Box } from "@mui/material";
 const initialValues = {
   visibility: "0",
   region: [],
-  minimumOrder: 0,
+  minimumOrder: null,
   trackInventory: false,
-  stockAlertLevel: 0,
+  stockAlertLevel: null,
   sellOutOfStock: false,
   title: "",
   skuCode: "",
@@ -56,9 +56,9 @@ const initialValues = {
   innerUnitMeasure: "",
   configuration: "",
   description: "",
-  tags: [],
-  salePrice: 0,
-  buyPrice: 0,
+  tags: "",
+  salePrice: null,
+  buyPrice: null,
   profit: "",
   margin: "",
   tax: "",
@@ -792,7 +792,10 @@ function AddProduct() {
                     Status
                   </h5>
                   {status.map((state, index) => (
-                    <div key={index} className="flex items-center mb-4 gap-3">
+                    <div
+                      key={index}
+                      className="flex items-center mb-4 gap-3 green-checkbox"
+                    >
                       <input
                         id={state}
                         onChange={handleStateSelection}
@@ -849,7 +852,10 @@ function AddProduct() {
                     Region availability
                   </h5>
                   {regionAvailability.map((region, index) => (
-                    <div key={index} className="flex items-center mb-4 gap-3">
+                    <div
+                      key={index}
+                      className="flex items-center mb-4 gap-3 green-checkbox"
+                    >
                       <input
                         onChange={handleRegionAvailability}
                         id={region}
@@ -1346,6 +1352,11 @@ function AddProduct() {
                         className="basic-multi-select "
                         classNamePrefix="select"
                       />
+                      {errors.country && touched.country && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
+                          {errors.country}
+                        </p>
+                      )}
                     </div>
                   </div>
                   {isAlcoholicBeverage && (
@@ -1506,6 +1517,11 @@ function AddProduct() {
                         isClearable={true}
                         closeMenuOnSelect={false}
                       />
+                      {errors.tags && touched.tags && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.tags}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1650,7 +1666,7 @@ function AddProduct() {
                 </div>
                 <div className="  mb-5">
                   <h5 className="text-base font-medium text-green mb-3">Tax</h5>
-                  <div className="flex items-center mb-4 gap-3">
+                  <div className="flex items-center mb-4 gap-3 green-checkbox">
                     <input
                       id="default-checkbox"
                       checked={checkGST}
@@ -1669,7 +1685,7 @@ function AddProduct() {
                     </label>
                   </div>
                   {isWet && (
-                    <div className="flex items-center mb-4 gap-3">
+                    <div className="flex items-center mb-4 gap-3 green-checkbox">
                       <input
                         id="checked-checkbox"
                         type="checkbox"

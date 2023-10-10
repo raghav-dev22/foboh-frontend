@@ -4,11 +4,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Preview, print } from "react-html2pdf";
 import { theme } from "antd";
 
-function InvoiceModal({ show, setShow }) {
+function InvoiceModal({ show, setShow, invoiceData }) {
   const { useToken } = theme;
   const { token } = useToken();
   const cancelButtonRef = useRef(null);
-
+  console.log(invoiceData, "ccccccccccccccc");
   return (
     <>
       <Transition appear show={show} as={Fragment}>
