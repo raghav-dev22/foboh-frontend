@@ -427,6 +427,18 @@ select {
   padding-left: 7px;
 }
 
-.custom-invoice-popup .table-footer tr{
-height: 25px;
+.custom-invoice-popup .table-footer tr {
+  height: 25px;
+}
+.ant-breadcrumb a {
+  background-color: #0000 !important;
+}
+.change-btn:hover h5 {
+  color: #2b4447;
+}
+.change-btn:hover svg {
+  fill: #2b4447;
+}
+.change-btn svg {
+  fill: #9f9f9f;
 }

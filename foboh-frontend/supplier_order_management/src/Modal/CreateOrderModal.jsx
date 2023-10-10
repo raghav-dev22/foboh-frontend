@@ -933,7 +933,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
         footer={[
           <div className="flex justify-end items-center  px-5 pb-5">
             <Button
-              onClick={handlePrev}
+              // onClick={handlePrev}
               disabled={isFirstStep}
               className={`bg-[#2B4447] text-white text-base font-medium rounded-[8px]  h-[44px] w-fit flex justify-center items-center px-5 
               ${isFirstStep && "hidden"}

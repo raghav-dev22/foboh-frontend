@@ -24,7 +24,7 @@ const MyAccount = () => {
         </div>
         <div className="flex flex-col gap-4 pb-16 ">
           <div
-            className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation"
+            className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer"
             onClick={() => {
               ProfileBtn();
             }}
@@ -41,7 +41,7 @@ const MyAccount = () => {
           </div>
 
           <Link to="/home/address-details">
-            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation">
+            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
               <div className=" 	">
                 <h5 className="text-lg font-semibold text-[#1D1E20]">
                   {" "}
@@ -57,7 +57,7 @@ const MyAccount = () => {
             </div>
           </Link>
           <Link to="#">
-            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation">
+            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
               <div className=" 	">
                 <h5 className="text-lg font-semibold text-[#1D1E20]">
                   Security

@@ -123,7 +123,7 @@ function BillingAddress({ deliveryAddress }) {
           htmlFor="same-as"
           className="ml-4 text-base font-normal text-[#2B4447] dark:text-gray-300"
         >
-          Same as delivery address
+          Billing address same as delivery address
         </label>
       </div>
       <form
@@ -161,7 +161,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Address && touched?.Address && "1px solid red",
-                  background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Address && touched?.Address && (
@@ -190,7 +190,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Apartment && touched?.Apartment && "1px solid red",
-                    background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Apartment && touched?.Apartment && (
@@ -213,7 +213,7 @@ function BillingAddress({ deliveryAddress }) {
                 value={values?.Suburb}
                 style={{
                   border: errors.Suburb && "1px solid red",
-                  background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Suburb && touched?.Suburb && (
@@ -240,7 +240,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Postcode && touched?.Postcode && "1px solid red",
-                    background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Postcode && touched?.Postcode && (
@@ -266,7 +266,7 @@ function BillingAddress({ deliveryAddress }) {
                 className=""
                 style={{
                   border: errors.State && "1px solid red",
-                  background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.State && touched?.State && (
@@ -276,7 +276,7 @@ function BillingAddress({ deliveryAddress }) {
               )}
             </div>
           </div>
-          <div className="w-full   mb-3 relative">
+          {/* <div className="w-full   mb-3 relative">
             {" "}
             <lable className="mb-2">Notes</lable>
             <textarea
@@ -288,20 +288,17 @@ function BillingAddress({ deliveryAddress }) {
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border:
-                  errors?.Notes && touched?.Notes && "1px solid red",
-                background : "#F8F8F8"
+                border: errors?.Notes && touched?.Notes && "1px solid red",
+                background: "#F8F8F8",
               }}
             />
             {errors?.Notes && touched?.Notes && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors?.Notes}
-              </p>
+              <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.Notes}</p>
             )}
             {errors?.Postcode && touched?.Postcode && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
             )}
-          </div>
+          </div> */}
         </div>
         <div className="text-right flex justify-end items-center gap-2">
           <button

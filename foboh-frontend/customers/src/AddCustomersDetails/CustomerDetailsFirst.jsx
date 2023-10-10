@@ -199,9 +199,7 @@ function CustomerDetailsFirst({
         </div>
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className="  w-full relative md:w-1/2 px-3">
-            <label className="text-base font-medium text-green mb-3">
-              Sales rep
-            </label>
+            <h5 className="text-base font-medium text-green mb-3">Sales rep</h5>
             <div className=" top-16 w-full">
               <Select
                 id="salesRepId"

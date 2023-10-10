@@ -156,6 +156,13 @@ const BuyerModification = () => {
     },
     {
       title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Last Updated</h5>
+      ),
+      dataIndex: "LastUpdated",
+      width: 180,
+    },
+    {
+      title: (
         <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>
       ),
       dataIndex: "Payment",
@@ -175,6 +182,7 @@ const BuyerModification = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Payment: "Pending",
+      LastUpdated: "19/11/2023",
       Amount: "$2345.00",
       Status: (
         <div className="bg-[#FFF4C9] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
@@ -188,6 +196,7 @@ const BuyerModification = () => {
       Customer: " Lofi Wines xxxxxx",
       OrderID: "#23456",
       Region: "Sydney, NSW",
+      LastUpdated: "19/11/2023",
       OrderDate: "19/11/2023",
       Payment: "Pending",
       Amount: "$2345.00",
@@ -202,6 +211,7 @@ const BuyerModification = () => {
     {
       Customer: " Lofi Wines xxxxxx",
       OrderID: "#23456",
+      LastUpdated: "19/11/2023",
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Payment: "Pending",
@@ -220,6 +230,7 @@ const BuyerModification = () => {
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
       Payment: "Pending",
+      LastUpdated: "19/11/2023",
       Amount: "$2345.00",
       Status: (
         <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] 	w-[166px]  ">
@@ -234,6 +245,7 @@ const BuyerModification = () => {
       OrderID: "#23456",
       Region: "Sydney, NSW",
       OrderDate: "19/11/2023",
+      LastUpdated: "19/11/2023",
       Payment: "Pending",
       Amount: "$2345.00",
       Status: (
@@ -263,6 +275,11 @@ const BuyerModification = () => {
       OrderDate: (
         <p className="text-[15px] font-medium text-[#637381]">
           {item.OrderDate}
+        </p>
+      ),
+      LastUpdated: (
+        <p className="text-[15px] font-medium text-[#637381]">
+          {item.LastUpdated}
         </p>
       ),
       Amount: (

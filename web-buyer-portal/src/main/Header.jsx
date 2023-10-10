@@ -166,7 +166,7 @@ function Header() {
 
         <div className="flex items-center gap-2 relative">
           <div
-            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center"
+            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center cursor-pointer"
             // onClick={() => {
             //   userDropdown();
             // }}
@@ -195,7 +195,7 @@ function Header() {
                   <div className="">
                     <div className="flex md:hidden items-center justify-between mx-4 py-6 border-b border-[#CDCED6]">
                       <div
-                        className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                        className="-m-2.5 rounded-md p-2.5 text-gray-700 cursor-pointer"
                         onClick={() => setShowUser(false)}
                       >
                         <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -215,7 +215,7 @@ function Header() {
                         to="/home/product-list"
                         className="focus-visible:outline-offset-0 focus-visible:outline-0		"
                       >
-                        <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2">
+                        <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2 hover:bg-[#f4f7ff]">
                           <FormatListBulletedIcon style={{ fill: "#637381" }} />
                           <h6 className="text-sm font-medium		text-[#637381]">
                             Lists
@@ -227,7 +227,7 @@ function Header() {
                         to="/home/MyOrders"
                         className="focus-visible:outline-offset-0 focus-visible:outline-0		"
                       >
-                        <li className="py-2.5	px-4 cursor-pointer flex items-center justify-between gap-2	">
+                        <li className="py-2.5	px-4 cursor-pointer flex items-center justify-between gap-2	hover:bg-[#f4f7ff]">
                           <div className=" flex items-center gap-2">
                             <ShoppingBasketIcon style={{ fill: "#637381" }} />
                             <h6 className="text-sm font-medium text-[#637381]">
@@ -242,14 +242,14 @@ function Header() {
                           </div>
                         </li>
                       </Link>
-                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 hover:bg-[#f4f7ff]">
                         <CreditCardIcon style={{ fill: "#637381" }} />
                         <h6 className="text-sm font-medium	text-[#637381]	">
                           Payments
                         </h6>
                       </li>
                       <Link to="/home/account">
-                        <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2">
+                        <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 hover:bg-[#f4f7ff]">
                           <AccountCircleIcon style={{ fill: "#637381" }} />
                           <h6 className="text-sm font-medium		text-[#637381]">
                             Account
@@ -261,7 +261,7 @@ function Header() {
                   <ul className="dropdown-content pb-3">
                     <li
                       onClick={handleLogout}
-                      className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2"
+                      className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2 hover:bg-[#f4f7ff]"
                     >
                       <LogoutIcon style={{ fill: "#FF5757" }} />
                       <h6 className="text-sm font-medium text-[#FF5757]">
@@ -276,7 +276,7 @@ function Header() {
           {/* )} */}
 
           <div
-            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center relative"
+            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center relative cursor-pointer"
             onClick={() => setMobileCartOpen(true)}
           >
             <ShoppingCartIcon className="icon-svg" />

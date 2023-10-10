@@ -203,7 +203,7 @@ li {
   list-style: none;
 }
 .list-inside:hover {
-  background-color: #f8fafc;
+  background-color: #147d730d;
 }
 .list-inside:hover h6 {
   color: #147d73;
@@ -1266,4 +1266,37 @@ color: #fff !important;
 }
 .top-\[42px\] {
   top: 42px;
+}
+.ant-menu-overflow-item::after {
+  border: 0px !important;
+}
+.h-\[410px\] {
+  height: 410px;
+}
+@media (min-width: 1801px) {
+  .AddCustomerHeight {
+    height: auto !important;
+  }
+}
+
+@media (max-width: 1800px) {
+  .AddCustomerHeight {
+    height: 445px !important;
+  }
+}
+a:hover {
+  text-decoration: none !important;
+}
+.customer-tab-active svg {
+  fill: #000 !important;
+}
+.order-tab-svg svg {
+  fill: #fff;
+  width: 13px;
+}
+.h-\[25px\] {
+  height: 25px;
+}
+.w-\[25px\] {
+  width: 25px;
 }
