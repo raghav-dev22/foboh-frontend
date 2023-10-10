@@ -29,6 +29,9 @@ import { getBuyerValues } from "../helpers/setBuyerValues";
 import { add } from "../slices/CartSlice";
 import { addressSubmission } from "../helpers/addressSubmission";
 import { Navigate, useNavigate } from "react-router-dom";
+import { getAddress } from "../helpers/getAddress";
+import { getStates } from "../helpers/getStates";
+import { paymentProcess } from "../helpers/PaymentProcess";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -84,6 +87,7 @@ const Payment = () => {
       ),
     },
   ];
+
   const duePayment = [
     {
       value: "option-2",
@@ -142,6 +146,7 @@ const Payment = () => {
       ),
     },
   ];
+
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
   };
@@ -181,17 +186,40 @@ const Payment = () => {
       .then((data) => {
         console.log("getBuyerValues", data);
         const buyerInfo = data;
-        addressSubmission(buyerInfo, "delivery-address").then((data) =>
-          console.log("delivery-address-response", data)
-        );
-        addressSubmission(buyerInfo, "billing-address").then((data) =>
-          console.log("billing-address-response", data)
-        );
-        addressSubmission(buyerInfo, "delivery-contact").then((data) =>
-          console.log("delivery-contact-response", data)
-        );
+        addressSubmission(buyerInfo, "delivery-address");
+        addressSubmission(buyerInfo, "billing-address");
+        addressSubmission(buyerInfo, "delivery-contact");
       })
       .catch((error) => console.log(error));
+
+    let statesData = [];
+    getStates().then((data) => {
+      statesData = data.map((state) => {
+        return {
+          label: state.stateName,
+          value: state.stateId,
+        };
+      });
+    });
+
+    getAddress("delivery-address").then((data) => {
+      if (data.success) {
+        const buyerData = data?.data[0];
+        const buyerState = statesData.find(
+          (state) => state?.label === buyerData.state
+        );
+
+        const addressBody = {
+          Apartment: buyerData?.apartmentSuite,
+          Address: buyerData?.streetaddress,
+          Suburb: buyerData?.city,
+          State: buyerState,
+          Postcode: buyerData?.postcode,
+          Notes: buyerData?.instructionsNotes,
+        };
+        setDeliveryAddress(addressBody);
+      }
+    });
   }, []);
 
   const openTab = () => {
@@ -248,11 +276,11 @@ const Payment = () => {
         name: cardHolderName, // Use the cardholder's name from the input field
         address: {
           // Include the customer's address here
-          line1: "123 Main Street",
-          city: "City",
-          state: "State",
-          postal_code: "12345",
-          country: "US", // Use the appropriate ISO 3166-1 alpha-2 country code for India
+          line1: deliveryAddress?.Address,
+          city: deliveryAddress?.Suburb,
+          state: deliveryAddress?.State?.label,
+          postal_code: deliveryAddress?.Postcode,
+          country: "AU",
         },
       },
     });
@@ -260,19 +288,30 @@ const Payment = () => {
     if (payload) {
       console.log("stripe payload", payload);
       const pm_id = payload?.paymentMethod?.id;
-      const clientSecret =
-        "pi_3NtPcZSIQVsrQ3Rm0pB9S1Jc_secret_c0bMWkFc043Ve8xK1Pd4Jt4HL";
-      const { error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: pm_id,
-      });
+      const orderId = localStorage.getItem("orderId");
+      const { deliveryEmail, deliveryFirstName } =
+        localStorage.getItem("buyerInfo");
 
-      console.log("error", error);
+      paymentProcess(
+        pm_id,
+        "PayNow",
+        "Card",
+        deliveryEmail,
+        orderId,
+        deliveryFirstName
+      );
 
-      if (error) {
-        errorMessage(error?.message);
-      } else {
-        successMessage();
-      }
+      // const { error } = await stripe.confirmCardPayment(clientSecret, {
+      //   payment_method: pm_id,
+      // });
+
+      // console.log("error", error);
+
+      // if (error) {
+      //   errorMessage(error?.message);
+      // } else {
+      //   successMessage();
+      // }
     }
   };
 
@@ -863,18 +902,16 @@ const Payment = () => {
           <div className="py-4">
             <BillingAddress deliveryAddress={deliveryAddress} />
             <div className="text-right">
-              <Link to="/home/order-confirm">
-                <button
-                  type="submit"
-                  style={{ backgroundColor: token.buttonThemeColor }}
-                  // onClick={() => {
-                  //   payBtn();
-                  // }}
-                  className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
-                >
-                  Pay Now
-                </button>
-              </Link>
+              <button
+                onClick={handleSubmit}
+                style={{ backgroundColor: token.buttonThemeColor }}
+                // onClick={() => {
+                //   payBtn();
+                // }}
+                className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+              >
+                Pay Now
+              </button>
             </div>
           </div>
         </div>

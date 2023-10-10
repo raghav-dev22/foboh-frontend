@@ -108,9 +108,8 @@ const CartPage = () => {
             // Managing all the calculations
             const productPrice = item?.buyPrice || 0;
             const subCat = item?.subCategoryId;
-            const productPriceINR = productPrice;
             const quantity = item?.quantity || 0;
-            alltotal += productPriceINR * quantity;
+            alltotal += productPrice * quantity;
 
             setSubTotal(alltotal.toFixed(2));
 

@@ -8,6 +8,9 @@ import { theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { getBuyerValues } from "../helpers/setBuyerValues";
+import { getAddress } from "../helpers/getAddress";
+import { getStates } from "../helpers/getStates";
+import { addressUpdate } from "../helpers/addressUpdate";
 
 function BillingAddress({ deliveryAddress }) {
   const navigate = useNavigate();
@@ -32,28 +35,19 @@ function BillingAddress({ deliveryAddress }) {
     errors,
     handleBlur,
     handleChange,
-    handleSubmit,
     touched,
     setValues,
   } = useFormik({
     initialValues: initialValues,
     validationSchema: BillingAddressSchema,
     onSubmit: (values) => {
-      navigate("/home/order-confirm");
-      // setValue(values);
       console.log(values, "values--->");
     },
   });
-  const stateOptions = [
-    { label: "Victoria", value: "option1" },
-    { label: "Queensland	", value: "option2" },
-    { label: "Western Australia", value: "option3" },
-  ];
-  const cityOptions = [
-    { label: "	Ballina", value: "option1" },
-    { label: "Balranald	", value: "option2" },
-    { label: "Batemans Bay", value: "option3" },
-  ];
+
+  const handleSubmit = () => {
+    addressUpdate(values, "billing-address");
+  };
 
   const handleBillingSelect = (e, name) => {
     if (name === "State") {
@@ -70,32 +64,46 @@ function BillingAddress({ deliveryAddress }) {
   };
 
   useEffect(() => {
-    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    let statesData = [];
+    getStates().then((data) => {
+      statesData = data.map((state) => {
+        return {
+          label: state.stateName,
+          value: state.stateId,
+        };
+      });
+      setStates(
+        data.map((state) => {
+          return {
+            label: state.stateName,
+            value: state.stateId,
+          };
+        })
+      );
+    });
 
-    getBuyerValues(buyerId)
-      .then((buyerData) => {
-        const billingState = states.find(
-          (state) => state?.label === buyerData?.billingState
+    getAddress("billing-address").then((data) => {
+      console.log("billing-address", data);
+
+      if (data.success) {
+        const buyerData = data?.data[0];
+        const buyerState = statesData.find(
+          (state) => state?.label === buyerData.state
         );
-        setValues({
-          Address: buyerData?.billingAddress,
-          Suburb: buyerData?.billingSuburb,
-          Apartment: buyerData?.billingApartment,
-          Postcode: buyerData?.billingPostalCode,
-          State: billingState,
-          Notes: buyerData?.billingNotes,
-        });
 
-        setInitialValues({
-          Address: buyerData?.billingAddress,
-          Suburb: buyerData?.billingSuburb,
-          Apartment: buyerData?.billingApartment,
-          Postcode: buyerData?.billingPostalCode,
-          State: billingState,
-          Notes: buyerData?.billingNotes,
-        });
-      })
-      .catch((error) => console.log(error));
+        const addressBody = {
+          Apartment: buyerData?.apartmentSuite,
+          Address: buyerData?.streetaddress,
+          Suburb: buyerData?.city,
+          State: buyerState,
+          Postcode: buyerData?.postcode,
+          Notes: buyerData?.instructionsNotes,
+        };
+
+        setValues(addressBody);
+        setInitialValues(addressBody);
+      }
+    });
   }, []);
 
   const handleSameAs = (e) => {
@@ -127,7 +135,6 @@ function BillingAddress({ deliveryAddress }) {
         </label>
       </div>
       <form
-        onSubmit={handleSubmit}
         className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3"
       >
         <div className="">
@@ -161,7 +168,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Address && touched?.Address && "1px solid red",
-                  background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Address && touched?.Address && (
@@ -190,7 +197,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Apartment && touched?.Apartment && "1px solid red",
-                    background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Apartment && touched?.Apartment && (
@@ -213,7 +220,7 @@ function BillingAddress({ deliveryAddress }) {
                 value={values?.Suburb}
                 style={{
                   border: errors.Suburb && "1px solid red",
-                  background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Suburb && touched?.Suburb && (
@@ -240,7 +247,7 @@ function BillingAddress({ deliveryAddress }) {
                 style={{
                   border:
                     errors?.Postcode && touched?.Postcode && "1px solid red",
-                    background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.Postcode && touched?.Postcode && (
@@ -262,11 +269,11 @@ function BillingAddress({ deliveryAddress }) {
                 onChange={(e) => handleBillingSelect(e, "State")}
                 name="State"
                 value={values?.State}
-                options={stateOptions}
+                options={states}
                 className=""
                 style={{
                   border: errors.State && "1px solid red",
-                  background : "#F8F8F8"
+                  background: "#F8F8F8",
                 }}
               />
               {errors?.State && touched?.State && (
@@ -288,15 +295,12 @@ function BillingAddress({ deliveryAddress }) {
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border:
-                  errors?.Notes && touched?.Notes && "1px solid red",
-                background : "#F8F8F8"
+                border: errors?.Notes && touched?.Notes && "1px solid red",
+                background: "#F8F8F8",
               }}
             />
             {errors?.Notes && touched?.Notes && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors?.Notes}
-              </p>
+              <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.Notes}</p>
             )}
             {errors?.Postcode && touched?.Postcode && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
@@ -305,7 +309,8 @@ function BillingAddress({ deliveryAddress }) {
         </div>
         <div className="text-right flex justify-end items-center gap-2">
           <button
-            type="submit"
+            type="button"
+            onClick={handleSubmit}
             style={{ backgroundColor: token.buttonThemeColor }}
             className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
           >

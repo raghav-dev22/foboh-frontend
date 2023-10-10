@@ -7,6 +7,9 @@ import { useSelector } from "react-redux";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
+import { getAddress } from "../helpers/getAddress";
+import { getStates } from "../helpers/getStates";
+import { addressUpdate } from "../helpers/addressUpdate";
 
 const DeliveryEditAddress = ({
   setEditDelivery,
@@ -27,45 +30,62 @@ const DeliveryEditAddress = ({
 
   const { useToken } = theme;
   const { token } = useToken();
-  const buyer = useSelector((state) => state.buyer);
+
+  const { values, errors, handleChange, setValues, touched, handleBlur } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: DeliveryAddressEditSchema,
+      onSubmit: (values) => {
+        console.log(values, "value");
+      },
+    });
+
+  const handleSubmit = () => {
+    console.log(values, "value");
+    setDeliveryAddress(values);
+    addressUpdate(values, "delivery-address");
+  };
 
   useEffect(() => {
-    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    let statesData = [];
+    getStates().then((data) => {
+      statesData = data.map((state) => {
+        return {
+          label: state.stateName,
+          value: state.stateId,
+        };
+      });
+      setStates(
+        data.map((state) => {
+          return {
+            label: state.stateName,
+            value: state.stateId,
+          };
+        })
+      );
+    });
 
-    getBuyerValues(buyerId)
-      .then((buyerData) => {
-        const buyerState = states.find(
+    getAddress("delivery-address").then((data) => {
+      if (data.success) {
+        const buyerData = data?.data[0];
+        const buyerState = statesData.find(
           (state) => state?.label === buyerData.state
         );
 
-        setDeliveryAddress({
-          Apartment: buyerData?.apartment,
-          Address: buyerData?.address,
-          Suburb: buyerData?.suburb,
+        const addressBody = {
+          Apartment: buyerData?.apartmentSuite,
+          Address: buyerData?.streetaddress,
+          Suburb: buyerData?.city,
           State: buyerState,
-          Postcode: buyerData?.postalCode,
-          Notes: buyerData?.deliveryNotes,
-        });
+          Postcode: buyerData?.postcode,
+          Notes: buyerData?.instructionsNotes,
+        };
 
-        setValues({
-          Apartment: buyerData?.apartment,
-          Address: buyerData?.address,
-          Suburb: buyerData?.suburb,
-          State: buyerState,
-          Postcode: buyerData?.postalCode,
-          Notes: buyerData?.deliveryNotes,
-        });
-
-        setInitialValues({
-          Apartment: buyerData?.apartment,
-          Address: buyerData?.address,
-          Suburb: buyerData?.suburb,
-          State: buyerState,
-          Postcode: buyerData?.postalCode,
-          Notes: buyerData?.deliveryNotes,
-        });
-      })
-      .catch((error) => console.log(error));
+        setDeliveryAddress(addressBody);
+        setValues(addressBody);
+        setInitialValues(addressBody);
+      }
+    });
   }, []);
 
   const stateOptions = [
@@ -78,27 +98,7 @@ const DeliveryEditAddress = ({
     { label: "Balranald	", value: "option2" },
     { label: "Batemans Bay", value: "option3" },
   ];
-  const handleDeliveryCity = (e, name) => {
-    if (name === "Suburb") {
-      setValues({
-        ...values,
-        Suburb: e,
-      });
-      setDeliveryAddress({
-        ...deliveryAddress,
-        Suburb: e,
-      });
-    } else {
-      setValues({
-        ...values,
-        Suburb: e,
-      });
-      setDeliveryAddress({
-        ...deliveryAddress,
-        Suburb: e,
-      });
-    }
-  };
+
   const handleDeliveryState = (e, name) => {
     if (name === "State") {
       setValues({
@@ -121,23 +121,6 @@ const DeliveryEditAddress = ({
     }
   };
 
-  const {
-    values,
-    errors,
-    handleChange,
-    handleSubmit,
-    setValues,
-    handleBlur,
-    touched,
-  } = useFormik({
-    initialValues: initialValues,
-    validationSchema: DeliveryAddressEditSchema,
-    onSubmit: (values) => {
-      console.log(values, "value");
-      setDeliveryAddress(values);
-    },
-  });
-
   const cancleBtn = () => {
     setValues(initialValues);
     setEditDelivery(!editDelivery);
@@ -155,7 +138,7 @@ const DeliveryEditAddress = ({
         </h5>
       </div>
 
-      <form onSubmit={handleSubmit} className="">
+      <form className="">
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
             <label htmlFor="" className="text-base font-normal text-[#2B4447]">
@@ -273,7 +256,7 @@ const DeliveryEditAddress = ({
               onChange={(e) => handleDeliveryState(e, "State")}
               name="State"
               value={values?.State}
-              options={stateOptions}
+              options={states}
               className="custom-bg"
               style={{
                 border: errors?.State && "1px solid red",
@@ -299,7 +282,7 @@ const DeliveryEditAddress = ({
             onBlur={handleBlur}
             style={{
               border: errors?.Notes && touched?.Notes && "1px solid red",
-              background : "#F8F8F8"
+              background: "#F8F8F8",
             }}
           />
           {errors?.Notes && touched?.Notes && (
@@ -310,11 +293,11 @@ const DeliveryEditAddress = ({
           )}
         </div>
 
-        <div className="flex gap-8 pt-5 pb-5 justify-end">
+        <div className="flex gap-8 justify-end ">
+          {" "}
           <button
-            // type="submit"
-            // onClick={handleSubmitBtn}
-            type="submit"
+            onClick={handleSubmit}
+            type="button"
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
             style={{
               backgroundColor: token.buttonThemeColor,
@@ -324,6 +307,7 @@ const DeliveryEditAddress = ({
             Save
           </button>
           <button
+            type="button"
             className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
             style={{
               color: token.buttonThemeColor,

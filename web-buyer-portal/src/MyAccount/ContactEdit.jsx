@@ -6,6 +6,8 @@ import CallIcon from "@mui/icons-material/Call";
 import { useEffect } from "react";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
+import { getAddress } from "../helpers/getAddress";
+import { addressUpdate } from "../helpers/addressUpdate";
 
 const ContactEdit = ({ setEditContact, editContact }) => {
   const { useToken } = theme;
@@ -22,8 +24,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
       validationSchema: ContactSchema,
       onSubmit: (values) => {
         console.log(values, "values");
-
-        
+        addressUpdate(values, 'delivery-contact')
       },
     });
   const cancleBtn = () => {
@@ -32,23 +33,23 @@ const ContactEdit = ({ setEditContact, editContact }) => {
   };
 
   useEffect(() => {
-    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
-    getBuyerValues(buyerId)
-      .then((buyerData) => {
+    getAddress("delivery-contact").then((data) => {
+      const buyerData = data?.data[0]
+      if (data.success) {
         setValues({
-          FirstName: buyerData?.deliveryFirstName,
-          LastName: buyerData?.deliveryLastName,
-          email: buyerData?.deliveryEmail,
-          Mobile: buyerData?.deliveryMobile,
+          FirstName: buyerData?.firstname,
+          LastName: buyerData?.lastname,
+          email: buyerData?.emailId,
+          Mobile: buyerData?.phoneNumber,
         });
         setInitialValues({
-          FirstName: buyerData?.deliveryFirstName,
-          LastName: buyerData?.deliveryLastName,
-          email: buyerData?.deliveryEmail,
-          Mobile: buyerData?.deliveryMobile,
+          FirstName: buyerData?.firstname,
+          LastName: buyerData?.lastname,
+          email: buyerData?.emailId,
+          Mobile: buyerData?.phoneNumber,
         });
-      })
-      .catch((error) => console.log(error));
+      }
+    });
   }, []);
 
   return (

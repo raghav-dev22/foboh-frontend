@@ -51,6 +51,7 @@ const payments = [
     key: "3",
   },
 ];
+
 const status = [
   {
     label: <a href="https://www.antgroup.com">1st menu item</a>,
@@ -68,6 +69,7 @@ const status = [
     key: "3",
   },
 ];
+
 const date = [
   {
     label: <a href="https://www.antgroup.com">1st menu item</a>,
@@ -85,6 +87,7 @@ const date = [
     key: "3",
   },
 ];
+
 const columns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,

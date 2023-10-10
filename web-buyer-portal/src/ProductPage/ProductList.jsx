@@ -201,7 +201,7 @@ const ProductList = () => {
         gstFlag: true,
         wetFlag: true,
         trackInventory: true,
-        region: "",
+        region: data?.region,
         availableQty: data?.availableQty,
         quantity: quantity,
         stockThreshold: data?.stockThreshold,
@@ -211,7 +211,7 @@ const ProductList = () => {
         visibility: data?.visibility,
         minimumOrder: data?.minimumOrder,
         tags: data?.tags,
-        countryOfOrigin: data?.countryOfOrigin,
+        countryOfOrigin: data?.countryOfOrigin || "",
         barcodes: data?.barcodes,
         esgStatus: data?.esgStatus,
         healthRating: data?.healthRating,
@@ -220,7 +220,8 @@ const ProductList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const cartId = data.data.cartId;
+        console.log("cat response", data);
+        const cartId = data.data[0].cartId;
 
         const updatedCartList = data?.data.map((item) => {
           return {
