@@ -183,6 +183,75 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
             />
+            {errors?.liquorLicence && (
+              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                {errors?.liquorLicence}
+              </p>
+            )}
+            {errors?.liquorLicence && (
+              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
+            )}
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+          <div className="  w-full relative md:w-1/2 px-3">
+            <h5 className="text-base font-medium text-green mb-3">Sales rep</h5>
+            <div className=" top-16 w-full">
+              <Select
+                id="salesRepId"
+                name="salesRepId"
+                isMulti={true}
+                options={options}
+                value={values?.salesRepId}
+                // value={options.find(
+                //   (option) => option.value === values.salesRepId
+                // )}
+                onChange={(e) => handleSelect(e, "salesRepId")}
+                className="basic-multi-select "
+                classNamePrefix="select"
+                style={{
+                  border: errors?.salesRepId && "1px solid red",
+                }}
+              />
+
+              {errors?.salesRepId && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.salesRepId}
+                </p>
+              )}
+              {errors?.salesRepId && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )}
+            </div>
+          </div>
+          <div className="  w-full relative md:w-1/2 px-3">
+            <h5 className="text-base font-medium text-green mb-3">
+              Pricing profile
+            </h5>
+            <div className=" top-16 w-full">
+              <Select
+                id="pricingProfileId"
+                name="pricingProfileId"
+                isMulti={true}
+                // value={options.find(
+                //   (option) => option.value === values.pricingProfileId
+                // )}
+                value={values?.pricingProfileId}
+                options={options}
+                onChange={(e) => handleSelect(e, "pricingProfileId")}
+                className="basic-multi-select "
+                classNamePrefix="select"
+                style={{
+                  border: errors?.pricingProfileId && "1px solid red",
+                }}
+              />
+
+              {errors?.pricingProfileId && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.pricingProfileId}
+                </p>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">

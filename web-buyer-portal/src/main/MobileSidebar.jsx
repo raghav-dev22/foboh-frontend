@@ -118,7 +118,7 @@ const MobileSidebar = ({ onClose, open }) => {
                 Categories
               </h5>
               <div
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                className="-m-2.5 rounded-md p-2.5 text-gray-700 cursor-pointer"
                 onClick={onClose}
               >
                 <span className="sr-only">Close menu</span>

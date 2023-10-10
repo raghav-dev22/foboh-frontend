@@ -267,7 +267,10 @@ const CartPage = () => {
       {/* <Header /> */}
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
         <div className="  mb-12 md:bg-white  bg-[#563FE3] md:p-0 p-4 relative">
-          <h2 className="md:font-semibold font-medium md:text-2xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center">
+          <h2
+            style={{ color: token.commonThemeColor }}
+            className="md:font-semibold font-medium md:text-2xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center"
+          >
             My Cart
           </h2>
           <div className="md:hidden sm:block">

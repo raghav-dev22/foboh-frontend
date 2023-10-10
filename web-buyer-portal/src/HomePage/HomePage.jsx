@@ -87,7 +87,7 @@ function HomePage({ setConfig }) {
     {
       title: (
         <a href="/home/main" className="text-[#637381]  font-normal  text-lg">
-          home
+          Home
         </a>
       ),
     },

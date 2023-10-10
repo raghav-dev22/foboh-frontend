@@ -11,19 +11,29 @@ function Footer() {
   const { useToken } = theme;
   const { token } = useToken();
 
-
   return (
     <>
-      <div style={{background: token.buttonThemeColor}} className="footer h-full bg-[#563FE3] p-10  grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 relative">
-        <img src="/assets/Ellipse1.png" alt="" className="absolute right-[204px] top-0" />
-        <img src="/assets/Ellipse2.png" alt="" className="absolute bottom-0 left-[180px]" />
+      <div
+        style={{ background: token.buttonThemeColor }}
+        className="footer h-full bg-[#563FE3] p-10  grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 relative"
+      >
+        <img
+          src="/assets/Ellipse1.png"
+          alt=""
+          className="absolute right-[204px] top-0"
+        />
+        <img
+          src="/assets/Ellipse2.png"
+          alt=""
+          className="absolute bottom-0 left-[180px]"
+        />
 
         <div className="text-start md:text-start lg:text-center xl:text-center relative">
           <h1 className="text-white text-sm font-[400] my-1">powered by </h1>
           <a href="">
             <i>
               <img
-                src="./assets/FOBOHicon.svg"
+                src="/assets/FOBOHicon.svg"
                 alt=""
                 className="text-center absolute right-[44%]"
               />
@@ -43,23 +53,33 @@ function Footer() {
 
         <div className="grid lg:grid-cols-3 lg:justify-between sm:justify-start md:gap-0 gap-5 lg:items-center items-start lg:mt-5 mt-0">
           <div className="flex  gap-3   items-end">
-            <div style={{background: token.bannerThemeColor}} className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon">
+            <div
+              style={{ background: token.bannerThemeColor }}
+              className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon"
+            >
               <InstagramIcon />
             </div>
-            <div style={{background: token.bannerThemeColor}} className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon">
+            <div
+              style={{ background: token.bannerThemeColor }}
+              className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon"
+            >
               <FacebookIcon />
             </div>
-            <div style={{background: token.bannerThemeColor}} className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon">
+            <div
+              style={{ background: token.bannerThemeColor }}
+              className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon"
+            >
               <YouTubeIcon />
             </div>
           </div>
 
           <div className="text-start md:text-start xl:text-center">
             <p className="text-sm font-bold text-[#676b6ef5]">
-              © 2023 — Copyright — {organisation.businessName || 'Supplier name'}
+              © 2023 — Copyright —{" "}
+              {organisation.businessName || "Supplier name"}
             </p>
             <p className="text-[14px] font-[400] text-[#676b6ef5] my-2">
-            Liquor Licence:  LIQP770016926
+              Liquor Licence: LIQP770016926
             </p>
           </div>
           <div className="md:flex  md:justify-center justify-start items-center lg:gap-16 gap-5 relative">

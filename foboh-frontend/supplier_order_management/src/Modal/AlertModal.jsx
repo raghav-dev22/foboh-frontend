@@ -2,7 +2,16 @@ import React from "react";
 import { Button, Modal } from "antd";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
-const AlertModal = ({ closeIcon, handleOk, isModalOpen, handleCancel }) => {
+const AlertModal = ({
+  closeIcon,
+  handleOk,
+  isModalOpen,
+  handleCancel,
+  SaveCancel,
+}) => {
+  const saveBtn = () => {
+    handleCancel(), SaveCancel();
+  };
   return (
     <>
       <Modal
@@ -21,7 +30,9 @@ const AlertModal = ({ closeIcon, handleOk, isModalOpen, handleCancel }) => {
           <div className="flex justify-end items-center">
             <Button
               key="cancel"
-              onClick={handleCancel}
+              onClick={() => {
+                saveBtn();
+              }}
               className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
             >
               Yes

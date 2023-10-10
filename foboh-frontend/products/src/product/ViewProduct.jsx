@@ -6,7 +6,6 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import HelpIcon from "@mui/icons-material/Help";
 
-
 // import ActiveProduct from './ActiveProduct'
 
 import ViewProductHeader from "./ViewProductHeader";
@@ -1079,7 +1078,7 @@ function ViewProduct() {
         style={{ height: "545px" }}
       >
         {show && (
-          <div className="2xl:container 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+          <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
             <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
               <div className="block">
                 <nav className="flex h-[65px] items-center justify-end gap-5 ">

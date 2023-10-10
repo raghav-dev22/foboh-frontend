@@ -388,6 +388,20 @@ const AllOrders = () => {
       width: 120,
     },
     {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Last Updated</h5>
+      ),
+      dataIndex: "LastUpdated",
+      width: 180,
+    },
+    {
+      title: (
+        <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>
+      ),
+      dataIndex: "Payment",
+      width: 120,
+    },
+    {
       title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
       dataIndex: "Status",
       width: 180,
@@ -488,6 +502,7 @@ const AllOrders = () => {
                   menu={{
                     items,
                   }}
+                  trigger={["click"]}
                 >
                   <a onClick={(e) => e.preventDefault()}>
                     <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">

@@ -83,7 +83,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.address && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
@@ -112,7 +112,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.apartment && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
           </div>
@@ -143,7 +143,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.suburb && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -172,7 +172,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.postalCode && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -236,7 +236,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.deliveryNotes && touched.deliveryNotes && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )} */}
             </div>
           </div>
@@ -288,7 +288,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.billingAddress && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[49px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/2 px-3 relative">
@@ -317,7 +317,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.billingApartment && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
           </div>
@@ -348,7 +348,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.billingSuburb && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
@@ -377,7 +377,7 @@ function CustomerAddress({
                 </p>
               )}
               {errors.billingPostalCode && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">

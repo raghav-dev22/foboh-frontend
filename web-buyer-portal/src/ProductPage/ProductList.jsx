@@ -1078,9 +1078,9 @@ const ProductList = () => {
                 Filter
               </h5>
             </div>
-            <div className=" py-4 border-b border-[#E7E7E7]">
+            <div className="border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between"
+                className="flex justify-between  px-2 py-4 hover:bg-[#f4f7ff]"
                 onClick={() => {
                   WineBtn();
                 }}
@@ -1089,7 +1089,10 @@ const ProductList = () => {
                   Sub-category
                 </h5>
 
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                <KeyboardArrowDownIcon
+                  style={{ fill: "#2B4447" }}
+                  className={` ${wine === true ? "rotate-180" : "rotate-0"}`}
+                />
               </div>
               {wine && (
                 <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
@@ -1285,9 +1288,9 @@ const ProductList = () => {
               </div>
             )}
 
-            <div className=" py-4 border-b border-[#E7E7E7]">
+            <div className="  border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between"
+                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
                 onClick={() => {
                   CountryBtn();
                 }}
@@ -1296,7 +1299,10 @@ const ProductList = () => {
                   Country
                 </h5>
 
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                <KeyboardArrowDownIcon
+                  style={{ fill: "#2B4447" }}
+                  className={` ${Country === true ? "rotate-180" : "rotate-0"}`}
+                />
               </div>
 
               {Country && (
@@ -1343,9 +1349,9 @@ const ProductList = () => {
               )}
             </div>
 
-            <div className=" py-4 border-b border-[#E7E7E7]">
+            <div className="  border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between"
+                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
                 onClick={() => {
                   AvailabilityBtn();
                 }}
@@ -1354,7 +1360,12 @@ const ProductList = () => {
                   Region availability
                 </h5>
 
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                <KeyboardArrowDownIcon
+                  style={{ fill: "#2B4447" }}
+                  className={` ${
+                    Availability === true ? "rotate-180" : "rotate-0"
+                  }`}
+                />
               </div>
 
               {Availability && (
@@ -1406,9 +1417,9 @@ const ProductList = () => {
             </div>
 
             {isWine && (
-              <div className=" py-4 border-b border-[#E7E7E7]">
+              <div className=" border-b border-[#E7E7E7] cursor-pointer">
                 <div
-                  className="flex justify-between"
+                  className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
                   onClick={() => {
                     RegionBtn();
                   }}
@@ -1417,7 +1428,12 @@ const ProductList = () => {
                     Region
                   </h5>
 
-                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                  <KeyboardArrowDownIcon
+                    style={{ fill: "#2B4447" }}
+                    className={` ${
+                      Region === true ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
                 </div>
 
                 {Region && (
@@ -1465,16 +1481,19 @@ const ProductList = () => {
               </div>
             )}
 
-            <div className=" py-4 border-b border-[#E7E7E7]">
+            <div className=" border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className="flex justify-between"
+                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
                 onClick={() => {
                   PriceBtn();
                 }}
               >
                 <h5 className="text-base font-medium text-[#2B4447]">Price</h5>
 
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                <KeyboardArrowDownIcon
+                  style={{ fill: "#2B4447" }}
+                  className={` ${Price === true ? "rotate-180" : "rotate-0"}`}
+                />
               </div>
 
               {Price && (
@@ -1522,16 +1541,19 @@ const ProductList = () => {
               )}
             </div>
 
-            <div className=" py-4 border-b border-[#E7E7E7]">
+            <div className=" border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between"
+                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
                 onClick={() => {
                   TagsBtn();
                 }}
               >
                 <h5 className="text-base font-medium text-[#2B4447]">Tags</h5>
 
-                <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                <KeyboardArrowDownIcon
+                  style={{ fill: "#2B4447" }}
+                  className={` ${Tags === true ? "rotate-180" : "rotate-0"}`}
+                />
               </div>
 
               {Tags && (

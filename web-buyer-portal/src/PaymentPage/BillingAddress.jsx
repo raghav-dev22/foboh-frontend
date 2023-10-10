@@ -131,7 +131,7 @@ function BillingAddress({ deliveryAddress }) {
           htmlFor="same-as"
           className="ml-4 text-base font-normal text-[#2B4447] dark:text-gray-300"
         >
-          Same as delivery address
+          Billing address same as delivery address
         </label>
       </div>
       <form
@@ -283,7 +283,7 @@ function BillingAddress({ deliveryAddress }) {
               )}
             </div>
           </div>
-          <div className="w-full   mb-3 relative">
+          {/* <div className="w-full   mb-3 relative">
             {" "}
             <lable className="mb-2">Notes</lable>
             <textarea
@@ -305,7 +305,7 @@ function BillingAddress({ deliveryAddress }) {
             {errors?.Postcode && touched?.Postcode && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
             )}
-          </div>
+          </div> */}
         </div>
         <div className="text-right flex justify-end items-center gap-2">
           <button

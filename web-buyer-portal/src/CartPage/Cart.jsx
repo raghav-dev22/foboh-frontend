@@ -76,7 +76,7 @@ const Cart = ({ open, onClose, addCart }) => {
           <div className="fixed inset-y-0 right-0 z-10 w-10/12	 overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between px-4">
               <div
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                className="-m-2.5 rounded-md p-2.5 text-gray-700 cursor-pointer"
                 onClick={onClose}
               >
                 <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -157,7 +157,7 @@ const Cart = ({ open, onClose, addCart }) => {
             </div>
             <div className="flex justify-between pt-8 px-6">
               <Link to="/home/cart">
-                <div className="border border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]">
+                <div className="border border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] active:bg-slate-200 focus:outline-none focus:ring focus:ring-slate-200">
                   <h4 className="text-base font-medium text-[#637381]">
                     View Cart
                   </h4>

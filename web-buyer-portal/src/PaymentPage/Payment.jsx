@@ -12,6 +12,7 @@ import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AppleIcon from "@mui/icons-material/Apple";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import EditIcon from "@mui/icons-material/Edit";
 import { Select } from "antd";
 
 import { Button, message, Space } from "antd";
@@ -174,12 +175,6 @@ const Payment = () => {
   const { token } = useToken();
   const [messageApi, contextHolder] = message.useMessage();
 
-  // Function to handle checkbox change event
-  // const handleCheckboxChange = (e) => {
-  //   setIsChecked(!isChecked);
-  //   setCardDetails(false);
-  // };
-
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
     getBuyerValues(buyerId)
@@ -339,12 +334,13 @@ const Payment = () => {
                   </div>
                   {/* <Link to="#"> */}
                   <button
-                    className=""
+                    className="flex justify-start items-center gap-2 change-btn"
                     onClick={() => setEditContact(!editContact)}
                   >
-                    <h5 className="text-base font-semibold text-[#2B4447]">
+                    <h5 className="text-base font-semibold text-[#9F9F9F]">
                       Change
                     </h5>
+                    <EditIcon style={{ width: "18px" }} />
                   </button>
                   {/* </Link> */}
                 </div>
@@ -382,10 +378,14 @@ const Payment = () => {
                       Delivery Address
                     </h5>
                   </div>
-                  <button onClick={() => setEditDelivery(!editDelivery)}>
-                    <h5 className="text-base font-semibold text-[#2B4447]">
+                  <button
+                    onClick={() => setEditDelivery(!editDelivery)}
+                    className="flex justify-start items-center gap-2 change-btn"
+                  >
+                    <h5 className="text-base font-semibold text-[#9F9F9F]">
                       Change
                     </h5>
+                    <EditIcon style={{ width: "18px" }} />
                   </button>
                 </div>
                 <p className="text-base font-normal text-[#2B4447] my-1">
@@ -872,23 +872,6 @@ const Payment = () => {
                             autoComplete="on"
                             style={{ background: "#F8F8F8" }}
                           />
-                        </div>
-                        <div className="flex items-center mb-4">
-                          <input
-                            defaultChecked=""
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            name="default-radio"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-                          />
-
-                          <label
-                            // htmlFor="radio-3"
-                            className="ml-4 text-base font-normal text-[#2B4447] "
-                          >
-                            Save card details
-                          </label>
                         </div>
                       </div>
                     </>
