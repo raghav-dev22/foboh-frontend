@@ -34,6 +34,7 @@ import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { paymentProcess } from "../helpers/PaymentProcess";
 import { paymentProcessUpdate } from "../helpers/paymentProcessUpdate";
+import { cartStatusUpdate } from "../helpers/cartStatusUpdate";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -307,7 +308,7 @@ const Payment = () => {
         errorMessage(error?.message);
       } else {
         paymentProcessUpdate(orderId, cardHolderName)
-        
+        cartStatusUpdate()
         successMessage();
       }
     }
