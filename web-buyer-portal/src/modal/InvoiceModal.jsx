@@ -3,12 +3,22 @@ import { Dialog, Transition } from "@headlessui/react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Preview, print } from "react-html2pdf";
 import { theme } from "antd";
+import zIndex from "@mui/material/styles/zIndex";
 
 function InvoiceModal({ show, setShow, invoiceData }) {
   const { useToken } = theme;
   const { token } = useToken();
   const cancelButtonRef = useRef(null);
   console.log(invoiceData, "ccccccccccccccc");
+  let pdfDownload = 0;
+  setTimeout(() => {
+    console.log(pdfDownload, "..pdfDownload");
+    if (!pdfDownload) {
+      print("a", "jsx-template");
+      pdfDownload = +1;
+    }
+  }, 10);
+
   return (
     <>
       <Transition appear show={show} as={Fragment}>
@@ -27,11 +37,11 @@ function InvoiceModal({ show, setShow, invoiceData }) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-[#0000] z-[0] " />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full md:items-center items-end	 justify-center  text-center">
+            <div className="flex min-h-full md:items-center items-end	 justify-center  text-center opacity-0	">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -83,7 +93,7 @@ function InvoiceModal({ show, setShow, invoiceData }) {
                                 font: "600 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              Mjolner Melbourne{" "}
+                              {invoiceData.businessName}
                             </div>
                             <div
                               className="text-gray-900 text-left w-[115px] h-[15px]"
@@ -591,15 +601,15 @@ function InvoiceModal({ show, setShow, invoiceData }) {
                           </span>
                         </span>{" "}
                       </div>
-                      <button
-                        onClick={() => print("a", "jsx-template")}
-                        style={{ backgroundColor: token.buttonThemeColor }}
-                        className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] mt-2"
-                      >
-                        Download
-                      </button>
                     </div>
                   </Preview>
+                  <button
+                    onClick={() => print("a", "jsx-template")}
+                    style={{ backgroundColor: token.buttonThemeColor }}
+                    className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] mt-2"
+                  >
+                    Download
+                  </button>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

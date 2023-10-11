@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { theme } from "antd";
 import { add, setCart, updateQuantity } from "../slices/CartSlice";
+import { message } from "antd";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const ProductDetails = () => {
     product: {},
     quantity: 1,
   });
+  const [messageApi, contextHolder] = message.useMessage();
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const productData = products.find((item) => item?.product?.productId === +id);
   const dispatch = useDispatch();
@@ -36,6 +38,18 @@ const ProductDetails = () => {
 
   const handleClosePreview = () => {
     setSelectedImage(null);
+  };
+  const warning = () => {
+    messageApi.open({
+      type: "warning",
+      content: "product not add",
+    });
+  };
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "product successfully add",
+    });
   };
 
   useEffect(() => {
@@ -122,6 +136,11 @@ const ProductDetails = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        if (data.success) {
+          success();
+        } else {
+          warning();
+        }
         const cartId = data.data[0].cartId;
 
         const updatedCartList = data?.data.map((item) => {
@@ -152,6 +171,7 @@ const ProductDetails = () => {
 
   return (
     <>
+      {contextHolder}
       {/* <Header /> */}
       <div className="md:w-[85%] w-full mx-auto md:px-0 px-6">
         <div className="flex md:flex-nowrap flex-wrap gap-8">
