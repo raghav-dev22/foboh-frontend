@@ -11,10 +11,10 @@ function TopRatedSection() {
   const { token } = useToken();
 
   const data = () => {
-    axios.get("https://fakestoreapi.com/products").then((resp) => {
-      console.log(resp.data);
-      setCartData(resp.data);
-    });
+    // axios.get("https://fakestoreapi.com/products").then((resp) => {
+    //   console.log(resp.data);
+    //   setCartData(resp.data);
+    // });
   };
   const dispatch = useDispatch();
   const addCart = (item) => {

@@ -12,7 +12,7 @@ import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { addressUpdate } from "../helpers/addressUpdate";
 
-function BillingAddress({ deliveryAddress }) {
+function BillingAddress({ deliveryAddress, billingAddress }) {
   const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const { useToken } = theme;
@@ -30,20 +30,14 @@ function BillingAddress({ deliveryAddress }) {
     Notes: "",
   });
 
-  const {
-    values,
-    errors,
-    handleBlur,
-    handleChange,
-    touched,
-    setValues,
-  } = useFormik({
-    initialValues: initialValues,
-    validationSchema: BillingAddressSchema,
-    onSubmit: (values) => {
-      console.log(values, "values--->");
-    },
-  });
+  const { values, errors, handleBlur, handleChange, touched, setValues } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: BillingAddressSchema,
+      onSubmit: (values) => {
+        console.log(values, "values--->");
+      },
+    });
 
   const handleSubmit = () => {
     addressUpdate(values, "billing-address");
@@ -65,6 +59,8 @@ function BillingAddress({ deliveryAddress }) {
 
   useEffect(() => {
     let statesData = [];
+    let timeout;
+
     getStates().then((data) => {
       statesData = data.map((state) => {
         return {
@@ -72,38 +68,34 @@ function BillingAddress({ deliveryAddress }) {
           value: state.stateId,
         };
       });
-      setStates(
-        data.map((state) => {
-          return {
-            label: state.stateName,
-            value: state.stateId,
+      setStates(statesData);
+    });
+
+    timeout = setTimeout(() => {
+      getAddress("billing-address").then((data) => {
+        console.log("billing-address", data);
+        if (data.success) {
+          const buyerData = data?.data[0];
+          const buyerState = statesData.find(
+            (state) => state?.label === buyerData.state
+          );
+          const billingAddress = {
+            Apartment: buyerData?.apartmentSuite,
+            Address: buyerData?.streetaddress,
+            Suburb: buyerData?.city,
+            State: buyerState,
+            Postcode: buyerData?.postcode,
+            Notes: buyerData?.instructionsNotes,
           };
-        })
-      );
-    });
+          setValues(billingAddress);
+          setInitialValues(billingAddress);
+        }
+      });
+    }, 3000);
 
-    getAddress("billing-address").then((data) => {
-      console.log("billing-address", data);
-
-      if (data.success) {
-        const buyerData = data?.data[0];
-        const buyerState = statesData.find(
-          (state) => state?.label === buyerData.state
-        );
-
-        const addressBody = {
-          Apartment: buyerData?.apartmentSuite,
-          Address: buyerData?.streetaddress,
-          Suburb: buyerData?.city,
-          State: buyerState,
-          Postcode: buyerData?.postcode,
-          Notes: buyerData?.instructionsNotes,
-        };
-
-        setValues(addressBody);
-        setInitialValues(addressBody);
-      }
-    });
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   const handleSameAs = (e) => {
@@ -134,9 +126,7 @@ function BillingAddress({ deliveryAddress }) {
           Billing address same as delivery address
         </label>
       </div>
-      <form
-        className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3"
-      >
+      <form className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3">
         <div className="">
           <div className="mb-3 relative">
             <div className="flex justify-start items-center gap-1.5 mb-6">

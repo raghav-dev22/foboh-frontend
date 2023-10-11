@@ -72,7 +72,7 @@ const OrderConfirmation = () => {
                         Quantity - {item?.quantity}
                       </p>
                       <h4 className=" text-base text-[#2B4447] font-semibold">
-                        {item.product?.buyPrice}
+                        ${item.product?.buyPrice}
                       </h4>
                     </div>
                   </div>

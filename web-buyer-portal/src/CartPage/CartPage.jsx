@@ -79,7 +79,8 @@ const CartPage = () => {
       });
   };
 
-  useEffect(() => {
+  //Handling the calculaions
+  const getCalculations = () => {
     const cartId = localStorage.getItem("cartId");
 
     fetch(`${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`, {
@@ -140,7 +141,11 @@ const CartPage = () => {
         }
       })
       .catch((error) => console.log(error));
-  }, [cart]);
+  }
+
+  useEffect(() => {
+    getCalculations()
+  }, []);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -190,6 +195,9 @@ const CartPage = () => {
         })
         .then((data) => {
           console.log(data, "updatequantity");
+
+          //Calling back calculation api after updating qunatity
+          getCalculations()
         })
         .catch((error) => {
           console.error("Error updating data:", error);
