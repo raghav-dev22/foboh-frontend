@@ -69,7 +69,7 @@ const ProductDetails = () => {
     const data = itemData.product;
     const quantity = itemData.quantity;
     console.log(quantity, "quantity");
-    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    const { buyerId, organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
     console.log("id", id, "item", data, "actionType", actionType);
 
     fetch(`${url}/api/Product/AddToCart`, {
@@ -117,6 +117,7 @@ const ProductDetails = () => {
         barcodes: data?.barcodes,
         esgStatus: data?.esgStatus,
         healthRating: data?.healthRating,
+        organisationId : organisationId,
         isActive: true,
       }),
     })

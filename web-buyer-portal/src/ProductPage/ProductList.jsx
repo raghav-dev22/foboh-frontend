@@ -215,7 +215,7 @@ const ProductList = () => {
         barcodes: data?.barcodes,
         esgStatus: data?.esgStatus,
         healthRating: data?.healthRating,
-        
+        organisationId : organisationId,
         isActive: true,
       }),
     })
