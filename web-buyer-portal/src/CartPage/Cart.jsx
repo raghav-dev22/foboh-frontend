@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { remove, setCart } from "../slices/CartSlice";
+import { Button, Modal, Space } from "antd";
 import { theme } from "antd";
 
 const Cart = ({ open, onClose, addCart }) => {
@@ -18,6 +19,19 @@ const Cart = ({ open, onClose, addCart }) => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
   const CARTdata = useSelector((items) => items.cart);
+  const navigate = useNavigate()
+
+  const warning = () => {
+    Modal.warning({
+      title: "This is a warning message",
+      content: (
+        <div>
+          <h1>Please try again!</h1>
+          <p>Some error has occurred.</p>
+        </div>
+      ),
+    });
+  };
 
   const removeItem = (productId, productStatus) => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -61,6 +75,40 @@ const Cart = ({ open, onClose, addCart }) => {
       Navigate("/auth/sign-in");
     }
   }, []);
+
+  const handleCheckout = () => {
+    const cartId = localStorage.getItem("cartId");
+    const { deliveryEmail, deliveryFirstName } = JSON.parse(
+      localStorage.getItem("buyerInfo")
+    );
+
+    fetch(
+      "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/OrderMain_Create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cartID: cartId,
+          orderByEmailID: deliveryEmail,
+          orderBy: deliveryFirstName,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("order response", data);
+        if (data.success) {
+          const orderId = data?.data?.orderId;
+          localStorage.setItem("orderId", orderId);
+          navigate("/home/payment-page/payment");
+        } else {
+          warning();
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <>
@@ -157,22 +205,19 @@ const Cart = ({ open, onClose, addCart }) => {
             </div>
             <div className="flex justify-between pt-8 px-6">
               <Link to="/home/cart">
-                <div className="border border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] active:bg-slate-200 focus:outline-none focus:ring focus:ring-slate-200">
+                <button className="border cursor-pointer border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] active:bg-slate-200 focus:outline-none focus:ring focus:ring-slate-200">
                   <h4 className="text-base font-medium text-[#637381]">
                     View Cart
                   </h4>
-                </div>
+                </button>
               </Link>
-              <Link to="/home/payment-page/payment">
-                <div
-                  style={{ backgroundColor: token.buttonThemeColor }}
-                  className="bg-[#563FE3] rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
-                >
-                  <h4 className="text-base font-medium text-[#fff]">
-                    Checkout
-                  </h4>
-                </div>
-              </Link>
+              <button
+                onClick={handleCheckout}
+                style={{ backgroundColor: token.buttonThemeColor }}
+                className="bg-[#563FE3] cursor-pointer rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
+              >
+                <h4 className="text-base font-medium text-[#fff]">Checkout</h4>
+              </button>
             </div>
           </div>
         </Dialog.Panel>

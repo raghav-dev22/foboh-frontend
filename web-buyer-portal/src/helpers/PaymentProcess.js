@@ -8,8 +8,10 @@ export const paymentProcess = async (
 ) => {
   const { gst, wt, subTotal, total } = await getCalculations();
 
-  fetch(
-    "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/ProcessPayment_PayType_PayMethod",
+  const payAmt = total.toString();
+
+  const clientSecret = await fetch(
+    "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/AProcessPayment_PayType_PayMethod_PayNow",
     {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -17,7 +19,7 @@ export const paymentProcess = async (
         orderId: orderId,
         orderByEmailID: email,
         orderBy: orderBy,
-        orderStatus: "inProcess",
+        orderStatus: "InProcess",
         paymentType: paymentType,
         paymentMethod: paymentMethod,
         paymentMethodID: paymentMethodID,
@@ -26,7 +28,7 @@ export const paymentProcess = async (
         totalPrice: subTotal,
         gst: gst,
         wt: wt,
-        paymentAmount: "",
+        paymentAmount: payAmt,
         payAmountLong: total,
         couponDiscount: "",
         couponKey: "",
@@ -36,8 +38,16 @@ export const paymentProcess = async (
     .then((response) => response.json())
     .then((data) => {
       console.log("payment-response", data);
+      let clientSecret = ''
+      if(data?.result?.success){
+        clientSecret = data?.result?.transactionConfirmationCode
+        return clientSecret
+      }
+      return clientSecret
     })
     .catch((error) => console.log(error));
+
+    return clientSecret
 };
 
 // Handling all the products Pricing
@@ -102,7 +112,7 @@ const getCalculations = async () => {
 
           calculations = {
             gst: gstIncluded,
-            wt: wetTotal,
+            wt: parseFloat(wetTotal.toFixed(2)),
             subTotal: subTotal,
             total: newTotal,
           };

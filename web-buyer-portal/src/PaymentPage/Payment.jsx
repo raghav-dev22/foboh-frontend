@@ -33,6 +33,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { paymentProcess } from "../helpers/PaymentProcess";
+import { paymentProcessUpdate } from "../helpers/paymentProcessUpdate";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -284,29 +285,30 @@ const Payment = () => {
       console.log("stripe payload", payload);
       const pm_id = payload?.paymentMethod?.id;
       const orderId = localStorage.getItem("orderId");
-      const { deliveryEmail, deliveryFirstName } =
-        localStorage.getItem("buyerInfo");
+      const { deliveryEmail } =
+        JSON.parse(localStorage.getItem("buyerInfo"))
 
-      paymentProcess(
+      const clientSecret = await paymentProcess(
         pm_id,
         "PayNow",
         "Card",
         deliveryEmail,
         orderId,
-        deliveryFirstName
+        cardHolderName
       );
 
-      // const { error } = await stripe.confirmCardPayment(clientSecret, {
-      //   payment_method: pm_id,
-      // });
+      const { error } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: pm_id,
+      });
 
-      // console.log("error", error);
+      console.log("error", error);
 
-      // if (error) {
-      //   errorMessage(error?.message);
-      // } else {
-      //   successMessage();
-      // }
+      if (error) {
+        errorMessage(error?.message);
+      } else {
+        paymentProcessUpdate(orderId, cardHolderName)
+        successMessage();
+      }
     }
   };
 
