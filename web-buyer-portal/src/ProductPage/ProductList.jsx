@@ -1080,7 +1080,9 @@ const ProductList = () => {
             </div>
             <div className="border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between  px-2 py-4 hover:bg-[#f4f7ff]"
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                  wine === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                }`}
                 onClick={() => {
                   WineBtn();
                 }}
@@ -1171,7 +1173,9 @@ const ProductList = () => {
             {segments.length > 0 && (
               <div className=" py-4 border-b border-[#E7E7E7]">
                 <div
-                  className="flex justify-between"
+                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                    Segment === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                  }`}
                   onClick={() => {
                     SegmentBtn();
                   }}
@@ -1231,7 +1235,9 @@ const ProductList = () => {
             {isWine && (
               <div className=" py-4 border-b border-[#E7E7E7]">
                 <div
-                  className="flex justify-between"
+                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                    Variety === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                  }`}
                   onClick={() => {
                     VarietyBtn();
                   }}
@@ -1290,7 +1296,9 @@ const ProductList = () => {
 
             <div className="  border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                  Country === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                }`}
                 onClick={() => {
                   CountryBtn();
                 }}
@@ -1351,7 +1359,9 @@ const ProductList = () => {
 
             <div className="  border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                  Availability === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                }`}
                 onClick={() => {
                   AvailabilityBtn();
                 }}
@@ -1419,7 +1429,9 @@ const ProductList = () => {
             {isWine && (
               <div className=" border-b border-[#E7E7E7] cursor-pointer">
                 <div
-                  className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
+                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                    Region === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                  }`}
                   onClick={() => {
                     RegionBtn();
                   }}
@@ -1483,7 +1495,9 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                  Price === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                }`}
                 onClick={() => {
                   PriceBtn();
                 }}
@@ -1543,7 +1557,9 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className="flex justify-between px-2 py-4 hover:bg-[#f4f7ff]"
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
+                  Tags === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
+                }`}
                 onClick={() => {
                   TagsBtn();
                 }}

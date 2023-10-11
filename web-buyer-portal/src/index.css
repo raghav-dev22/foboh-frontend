@@ -375,7 +375,7 @@ select {
   border-radius: 30px !important;
 }
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 8px;
   height: 0px;
   background: #0000000f;
 }

@@ -1279,3 +1279,7 @@ a:hover {
 .custom-collapse .ant-collapse-header {
   flex-direction: row-reverse;
 }
+
+.overflow-y-scroll {
+  overflow-y: scroll !important;
+}
