@@ -66,7 +66,6 @@ let localFilterSort = {
 
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
-  const [messageApi, contextHolder] = message.useMessage();
 
   console.log("url", url);
 
@@ -119,6 +118,7 @@ const ProductList = () => {
   const [regions, setRegions] = useState([]);
   const [regionsAvailable, setRegionsAvailable] = useState([]);
   const [tagsList, setTagsList] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const { useToken } = theme;
   const { token } = useToken();
@@ -159,7 +159,13 @@ const ProductList = () => {
   const warning = () => {
     messageApi.open({
       type: "warning",
-      content: "No product found in this filter",
+      content: "product not add",
+    });
+  };
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "product successfully add",
     });
   };
 
@@ -221,6 +227,11 @@ const ProductList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        if (data.success) {
+          success();
+        } else {
+          warning();
+        }
         console.log("cat response", data);
         const cartId = data.data[0].cartId;
 

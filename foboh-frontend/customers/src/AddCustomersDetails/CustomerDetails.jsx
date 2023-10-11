@@ -67,6 +67,7 @@ function CustomerDetails() {
   });
   const handleSubmit = () => {
     console.log(">>>>>>>>>>>");
+    const organisationId = localStorage.getItem("organisationId");
     // e.preventDefault();
     fetch(
       "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Create",
@@ -86,7 +87,7 @@ function CustomerDetails() {
           defaultPaymentTerms: formik.values.defaultPaymentTerms.label,
           defaultPaymentMethodId: formik.values.defaultPaymentMethodId.label,
           tags: formik.values.tags.label,
-          organisationId: formik.values.organisationId,
+          organisationId: organisationId,
           wetLiable: true,
           orderingFirstName: formik.values.orderingFirstName,
           orderingLastName: formik.values.orderingLastName,
