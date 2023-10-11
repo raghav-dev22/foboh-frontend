@@ -1,8 +1,10 @@
 import { React, useState } from "react";
-import { Table, Collapse, Space } from "antd";
+import { Table, Collapse } from "antd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Space } from "antd";
 
 const ActionRequired = () => {
   const [page, setPage] = useState(1);
@@ -12,6 +14,23 @@ const ActionRequired = () => {
   const [orderNewOrder, setOrderNewOrder] = useState([]);
   const [modification, setModification] = useState([]);
   const [pendding, setpendding] = useState([]);
+  const items = [
+    {
+      label: <a href="https://www.antgroup.com">1st menu item</a>,
+      key: "0",
+    },
+    {
+      label: <a href="https://www.aliyun.com">2nd menu item</a>,
+      key: "1",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: "3rd menu item",
+      key: "3",
+    },
+  ];
 
   const newColumns = [
     {
@@ -289,7 +308,7 @@ const ActionRequired = () => {
       <div className="custom-collapse py-5">
         <Space direction="vertical" className="w-full ">
           <Collapse
-            expandIcon={({ isActive }) => null}
+            // expandIcon={({ isActive }) => null}
             collapsible="header "
             headerBg="#fff"
             className="w-full "
@@ -302,20 +321,20 @@ const ActionRequired = () => {
                       New Orders
                     </h5>
                     <div className="flex justify-center items-center gap-3">
-                      <div className="bg-[#147D73] bg-147D73 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
+                      <div className="bg-[#147D73] bg-147D73 w-[31px] mr-2 h-[28px] rounded-[35px] flex justify-center items-center">
                         {" "}
                         <p className="text-white font-medium text-sm">
                           {newTotalData}
                         </p>
                       </div>
-                      <KeyboardArrowDownIcon />
+                      {/* <KeyboardArrowDownIcon /> */}
                     </div>
                   </div>
                 ),
                 children: (
                   <>
                     <div className="pb-5 flex justify-end">
-                      <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                      {/* <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
                         <SortOutlinedIcon style={{ fill: "#637381" }} />
                         <p className="text-base font-normal text-[#2B4447]">
                           Sort
@@ -324,7 +343,20 @@ const ActionRequired = () => {
                           style={{ fill: "#2B4447" }}
                           className=""
                         />
-                      </button>
+                      </button> */}
+                      <Dropdown
+                        menu={{
+                          items,
+                        }}
+                        trigger={["click"]}
+                      >
+                        <a onClick={(e) => e.preventDefault()}>
+                          <Space>
+                            Click me
+                            <DownOutlined />
+                          </Space>
+                        </a>
+                      </Dropdown>
                     </div>
                     <div className="custom-table-pagination">
                       <Table
@@ -351,7 +383,7 @@ const ActionRequired = () => {
             style={{ background: "none" }}
           />
           <Collapse
-            expandIcon={({ isActive }) => null}
+            // expandIcon={({ isActive }) => null}
             collapsible="header "
             headerBg="#fff"
             className="w-full "
@@ -364,13 +396,13 @@ const ActionRequired = () => {
                       Pending Orders
                     </h5>
                     <div className="flex justify-center items-center gap-3">
-                      <div className="bg-[#3BA2B8] bg-3BA2B8 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
+                      <div className="bg-[#3BA2B8] bg-3BA2B8 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center mr-2">
                         {" "}
                         <p className="text-white font-medium text-sm">
                           {newTotalPendding}
                         </p>
                       </div>
-                      <KeyboardArrowDownIcon />
+                      {/* <KeyboardArrowDownIcon /> */}
                     </div>
                   </div>
                 ),
@@ -412,7 +444,7 @@ const ActionRequired = () => {
             style={{ background: "none" }}
           />
           <Collapse
-            expandIcon={({ isActive }) => null}
+            // expandIcon={({ isActive }) => null}
             collapsible="header "
             headerBg="#fff"
             className="w-full "
@@ -425,13 +457,13 @@ const ActionRequired = () => {
                       Buyer Modification
                     </h5>
                     <div className="flex justify-center items-center gap-3">
-                      <div className="bg-[#F9C107] bg-F9C107 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
+                      <div className="bg-[#F9C107] mr-2 bg-F9C107 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
                         {" "}
                         <p className="text-white font-medium text-sm">
                           {newTotalModification}
                         </p>
                       </div>
-                      <KeyboardArrowDownIcon />
+                      {/* <KeyboardArrowDownIcon /> */}
                     </div>
                   </div>
                 ),

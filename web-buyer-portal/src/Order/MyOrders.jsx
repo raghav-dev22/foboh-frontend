@@ -10,81 +10,344 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button, Tooltip } from "antd";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { Preview, print } from "react-html2pdf";
+import { DatePicker } from "antd";
 import InvoiceModal from "../modal/InvoiceModal";
+import CustomCalender from "../datePicker/CustomerCalender";
 
+import { Menu } from "antd";
+function getItem(label, key, icon, children, type) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  };
+}
+const onChange = (date, dateString) => {
+  console.log(date, dateString);
+};
+const menuItems = [
+  getItem(
+    <div className="flex items-center gap-3">
+      <h5 className="text-lg font-medium text-[#637381]">Status</h5>
+      <KeyboardArrowDownIcon />
+    </div>,
+    "sub1",
+    null,
+    [
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Select all
+        </Checkbox>,
+        "1"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          New
+        </Checkbox>,
+        "2"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Pending approval
+        </Checkbox>,
+        "3"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Updated
+        </Checkbox>,
+        "4"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Processing
+        </Checkbox>,
+        "5"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Shipped
+        </Checkbox>,
+        "6"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Partially fulfilled
+        </Checkbox>,
+        "7"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Delivered
+        </Checkbox>,
+        "8"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Completed
+        </Checkbox>,
+        "9"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Partially fulfilled
+        </Checkbox>,
+        "10"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Delivered
+        </Checkbox>,
+        "11"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Completed
+        </Checkbox>,
+        "12"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Partially fulfilled
+        </Checkbox>,
+        "13"
+      ),
+    ]
+  ),
+
+  {
+    type: "divider",
+  },
+  getItem(
+    <div className="flex items-center gap-3">
+      <h5 className="text-lg font-medium text-[#637381]">Region </h5>
+      <KeyboardArrowDownIcon />
+    </div>,
+    "sub4",
+    null,
+    [
+      getItem(
+        <div className="relative">
+          <SearchIcon
+            className="top-[8px] right-[8px] absolute"
+            style={{ fill: "rgb(164, 169, 174)" }}
+          />
+          <input
+            className=""
+            style={{ border: "1px solid #E7E7E7 ", borderRadius: "8px" }}
+          />
+        </div>,
+        "10"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>,
+        "11"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>,
+        "12"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>,
+        "13"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>,
+        "13"
+      ),
+    ]
+  ),
+  getItem(
+    <div className="flex items-center gap-3">
+      <h5 className="text-lg font-medium text-[#637381]">Date</h5>
+      <KeyboardArrowDownIcon />
+    </div>,
+    "sub2",
+    null,
+    [
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Last 7 days
+        </Checkbox>,
+        "5"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Last 14 days
+        </Checkbox>,
+        "6"
+      ),
+      getItem(
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Last 30 days
+        </Checkbox>,
+        "7"
+      ),
+      getItem(
+        <div className="relative custom-datePicker">
+          <div className=" absolute top-0 left-0 w-full h-full">
+            <Checkbox className="text-base font-medium text-[#637381]">
+              Custom
+            </Checkbox>
+          </div>
+          <DatePicker onChange={onChange} />
+        </div>,
+        "sub3",
+        null
+      ),
+    ]
+  ),
+];
 const items = [
   {
-    label: <Checkbox value="A">Oldest - Newest</Checkbox>,
-    key: "0",
-  },
-  {
-    label: <Checkbox value="A">Newest - Oldest</Checkbox>,
     key: "1",
+    type: "group",
+    label: (
+      <div className="flex justify-between items-center my-2  ">
+        <h5 className="text-base font-medium text-[#2B4447]">Order ID</h5>
+        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+      </div>
+    ),
+    children: [
+      {
+        key: "1-1",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            A -Z
+          </Checkbox>
+        ),
+      },
+      {
+        key: "1-2",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            Z - A
+          </Checkbox>
+        ),
+      },
+    ],
   },
   {
-    type: "divider",
+    key: "2",
+    type: "group",
+    label: (
+      <div className="flex justify-between items-center  my-2">
+        <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
+        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+      </div>
+    ),
+    children: [
+      {
+        key: "1-3",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            Oldest - Newest
+          </Checkbox>
+        ),
+      },
+      {
+        key: "1-4",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            Newest - Oldest
+          </Checkbox>
+        ),
+      },
+    ],
   },
   {
-    label: <Checkbox value="A">Low - High</Checkbox>,
     key: "3",
+    type: "group",
+    label: (
+      <div className="flex justify-between items-center  my-2">
+        <h5 className="text-base font-medium text-[#2B4447]">Last Update</h5>
+        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+      </div>
+    ),
+    children: [
+      {
+        key: "1-5",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            Oldest - Newest
+          </Checkbox>
+        ),
+      },
+      {
+        key: "1-6",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            Newest - Oldest
+          </Checkbox>
+        ),
+      },
+    ],
   },
   {
-    label: <Checkbox value="A">High - Low</Checkbox>,
     key: "4",
-  },
-];
-const payments = [
-  {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: "0",
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: "1",
-  },
-  {
-    type: "divider",
-  },
-  {
-    label: "3rd menu item",
-    key: "3",
-  },
-];
-
-const status = [
-  {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: "0",
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: "1",
+    type: "group",
+    label: (
+      <div className="flex justify-between items-center  my-2">
+        <h5 className="text-base font-medium text-[#2B4447]">Customer Name</h5>
+        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+      </div>
+    ),
+    children: [
+      {
+        key: "1-7",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            A -Z
+          </Checkbox>
+        ),
+      },
+      {
+        key: "1-8",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            Z - A
+          </Checkbox>
+        ),
+      },
+    ],
   },
   {
-    type: "divider",
-  },
-  {
-    label: "3rd menu item",
-    key: "3",
-  },
-];
-
-const date = [
-  {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: "0",
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: "1",
-  },
-  {
-    type: "divider",
-  },
-  {
-    label: "3rd menu item",
-    key: "3",
+    key: "5",
+    type: "group",
+    label: (
+      <div className="flex justify-between items-center  my-2">
+        <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
+        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+      </div>
+    ),
+    children: [
+      {
+        key: "1-9",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            Low - High
+          </Checkbox>
+        ),
+      },
+      {
+        key: "1-10",
+        label: (
+          <Checkbox className="text-base font-normal text-[#637381]">
+            High - Low
+          </Checkbox>
+        ),
+      },
+    ],
   },
 ];
 
@@ -128,7 +391,6 @@ const columns = [
   },
 ];
 
-let printPreview = false;
 const details = <span className="text-[#7D7C7C] ">View Details</span>;
 const Reorder = <span className="text-[#7D7C7C] ">Reorder</span>;
 const DownloadInvoice = (
@@ -136,6 +398,10 @@ const DownloadInvoice = (
 );
 
 const MyOrders = () => {
+  const [startDate, setStartDate] = useState(new Date());
+  const onClick = (e) => {
+    console.log("click ", e);
+  };
   const [Sort, setSort] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [showPreview, setshowPreview] = useState(false);
@@ -264,8 +530,8 @@ const MyOrders = () => {
             My Orders
           </h1>
         </div>
-        <div className="border border-[#E7E7E7] rounded-[8px]   mb-6  p-5">
-          <div className="flex justify-between items-center ">
+        <div className="border border-[#E7E7E7] rounded-[8px]   mb-6  p-5 bg-white">
+          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-0 gap-3 justify-between items-center ">
             <div className="relative max-w-max	">
               <input
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
@@ -277,7 +543,7 @@ const MyOrders = () => {
                 style={{ fill: "rgb(164 169 174)" }}
               />
             </div>
-            <div className="flex justify-between items-center gap-3">
+            <div className="flex justify-end items-center gap-3 ">
               <button
                 className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
                 onClick={() => {
@@ -288,147 +554,42 @@ const MyOrders = () => {
                 <p className="text-base font-normal text-[#2B4447]">Filter</p>
               </button>
               <div className="relative">
-                <button
-                  onClick={() => setSort(!Sort)}
-                  className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
+                <Dropdown
+                  className=""
+                  menu={{
+                    items,
+                  }}
+                  trigger={["click"]}
                 >
-                  <SortOutlinedIcon style={{ fill: "#637381" }} />
-                  <p className="text-base font-normal text-[#2B4447]">Sort</p>
-                  <KeyboardArrowDownIcon
-                    style={{ fill: "#2B4447" }}
-                    className=""
-                  />
-                </button>
-
-                {Sort && (
-                  <>
-                    <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50  absolute top-[50px] right-0">
-                      <div className="flex justify-between items-center pb-2">
-                        <h5 className="text-base font-medium text-[#2B4447] ">
-                          Alphabetical
-                        </h5>
-
-                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-                      </div>
-
-                      <div className="pb-4 border-b border-[#E7E7E7]">
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="flex justify-between items-center pt-4">
-                        <h5 className="text-base font-medium text-[#2B4447] ">
-                          Price
-                        </h5>
-
-                        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-                      </div>
-
-                      <div className="pb-4 border-b border-[#E7E7E7]">
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded "
-                          />
-
-                          <label htmlFor="default-checkbox" className="ml-2 ">
-                            <h5 className="text-base font-normal text-[#637381]">
-                              Option-1
-                            </h5>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
+                  <a onClick={(e) => e.preventDefault()}>
+                    <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                      <SortOutlinedIcon style={{ fill: "#637381" }} />
+                      <p className="text-base font-normal text-[#2B4447]">
+                        Sort
+                      </p>
+                      <KeyboardArrowDownIcon
+                        style={{ fill: "#2B4447" }}
+                        className=""
+                      />
+                    </button>
+                  </a>
+                </Dropdown>
               </div>
             </div>
           </div>
           {showFilter && (
             <div className="flex justify-between items-center pt-5">
-              <div className="flex justify-center items-center gap-5">
-                <Dropdown
-                  menu={{
-                    items,
-                  }}
-                  trigger={["click"]}
-                >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <h5 className="text-base font-medium text-[#637381]">
-                      Payment <KeyboardArrowDownIcon className="ml-2" />
-                    </h5>
-                  </a>
-                </Dropdown>
-                <Dropdown
-                  menu={{
-                    items,
-                  }}
-                  trigger={["click"]}
-                >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <h5 className="text-base font-medium text-[#637381]">
-                      Status
-                      <KeyboardArrowDownIcon className="ml-2" />
-                    </h5>
-                  </a>
-                </Dropdown>
-                <Dropdown
-                  menu={{
-                    items,
-                  }}
-                  trigger={["click"]}
-                >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <h5 className="text-base font-medium text-[#637381]">
-                      Date
-                      <KeyboardArrowDownIcon className="ml-2" />
-                    </h5>
-                  </a>
-                </Dropdown>
+              <div className="flex justify-start custom-dropdown items-center gap-5 w-[50%]">
+                <Menu
+                  mode="horizontal"
+                  // triggerSubMenuAction="click"
+                  items={menuItems}
+                  data-menu-list="true"
+                  activeBarBorderWidth="false"
+                  visible={true}
+                  aria-expanded="true"
+                  // aria-expanded={true}
+                />
               </div>
               <div
                 className="cursor-pointer"

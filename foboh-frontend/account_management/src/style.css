@@ -1,8 +1,8 @@
 .basic-multi-select .select__control.css-13cymwt-control,
 .basic-multi-select .select__control.select__control--is-focused {
   padding: 5px 45px 5px 20px !important;
-    min-height: 48px !important;
-  }
+  min-height: 48px !important;
+}
 
 body {
   font-family: "Inter";
@@ -1275,4 +1275,7 @@ a:hover {
 }
 .w-\[25px\] {
   width: 25px;
+}
+.custom-collapse .ant-collapse-header {
+  flex-direction: row-reverse;
 }
