@@ -320,17 +320,17 @@ color: #fff !important;
   margin-top: 0 !important;
 }
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 8px;
   height: 0px;
   background: #0000000f;
 }
 .custom-scroll-bar::-webkit-scrollbar {
-  /* width: 2px !important; */
+  width: 8px !important;
   height: 10px !important;
 }
 
 .custom-scroll-bar::-webkit-scrollbar-thumb {
-  /* width: 2px !important; */
+  width: 8px !important;
   height: 8px !important;
   background: #7a7a7a !important;
   border-radius: 30px !important;

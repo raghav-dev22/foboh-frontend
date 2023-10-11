@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Table, Collapse } from "antd";
+import { Table, Collapse, Checkbox } from "antd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
@@ -16,19 +16,146 @@ const ActionRequired = () => {
   const [pendding, setpendding] = useState([]);
   const items = [
     {
-      label: <a href="https://www.antgroup.com">1st menu item</a>,
-      key: "0",
-    },
-    {
-      label: <a href="https://www.aliyun.com">2nd menu item</a>,
       key: "1",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center my-2  ">
+          <h5 className="text-base font-medium text-[#2B4447]">Order ID</h5>
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+      children: [
+        {
+          key: "1-1",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              A -Z
+            </Checkbox>
+          ),
+        },
+        {
+          key: "1-2",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Z - A
+            </Checkbox>
+          ),
+        },
+      ],
     },
     {
-      type: "divider",
+      key: "2",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center  my-2">
+          <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+      children: [
+        {
+          key: "1-3",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Oldest - Newest
+            </Checkbox>
+          ),
+        },
+        {
+          key: "1-4",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Newest - Oldest
+            </Checkbox>
+          ),
+        },
+      ],
     },
     {
-      label: "3rd menu item",
       key: "3",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center  my-2">
+          <h5 className="text-base font-medium text-[#2B4447]">Last Update</h5>
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+      children: [
+        {
+          key: "1-5",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Oldest - Newest
+            </Checkbox>
+          ),
+        },
+        {
+          key: "1-6",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Newest - Oldest
+            </Checkbox>
+          ),
+        },
+      ],
+    },
+    {
+      key: "4",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center  my-2">
+          <h5 className="text-base font-medium text-[#2B4447]">
+            Customer Name
+          </h5>
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+      children: [
+        {
+          key: "1-7",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              A -Z
+            </Checkbox>
+          ),
+        },
+        {
+          key: "1-8",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Z - A
+            </Checkbox>
+          ),
+        },
+      ],
+    },
+    {
+      key: "5",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center  my-2">
+          <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+      children: [
+        {
+          key: "1-9",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Low - High
+            </Checkbox>
+          ),
+        },
+        {
+          key: "1-10",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              High - Low
+            </Checkbox>
+          ),
+        },
+      ],
     },
   ];
 
@@ -334,27 +461,24 @@ const ActionRequired = () => {
                 children: (
                   <>
                     <div className="pb-5 flex justify-end">
-                      {/* <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
-                        <SortOutlinedIcon style={{ fill: "#637381" }} />
-                        <p className="text-base font-normal text-[#2B4447]">
-                          Sort
-                        </p>
-                        <KeyboardArrowDownIcon
-                          style={{ fill: "#2B4447" }}
-                          className=""
-                        />
-                      </button> */}
                       <Dropdown
+                        className=""
                         menu={{
                           items,
                         }}
                         trigger={["click"]}
                       >
                         <a onClick={(e) => e.preventDefault()}>
-                          <Space>
-                            Click me
-                            <DownOutlined />
-                          </Space>
+                          <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                            <SortOutlinedIcon style={{ fill: "#637381" }} />
+                            <p className="text-base font-normal text-[#2B4447]">
+                              Sort
+                            </p>
+                            <KeyboardArrowDownIcon
+                              style={{ fill: "#2B4447" }}
+                              className=""
+                            />
+                          </button>
                         </a>
                       </Dropdown>
                     </div>
@@ -409,16 +533,26 @@ const ActionRequired = () => {
                 children: (
                   <>
                     <div className="pb-5 flex justify-end">
-                      <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
-                        <SortOutlinedIcon style={{ fill: "#637381" }} />
-                        <p className="text-base font-normal text-[#2B4447]">
-                          Sort
-                        </p>
-                        <KeyboardArrowDownIcon
-                          style={{ fill: "#2B4447" }}
-                          className=""
-                        />
-                      </button>
+                      <Dropdown
+                        className=""
+                        menu={{
+                          items,
+                        }}
+                        trigger={["click"]}
+                      >
+                        <a onClick={(e) => e.preventDefault()}>
+                          <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                            <SortOutlinedIcon style={{ fill: "#637381" }} />
+                            <p className="text-base font-normal text-[#2B4447]">
+                              Sort
+                            </p>
+                            <KeyboardArrowDownIcon
+                              style={{ fill: "#2B4447" }}
+                              className=""
+                            />
+                          </button>
+                        </a>
+                      </Dropdown>
                     </div>
                     <div className="custom-table-pagination">
                       <Table
@@ -458,7 +592,6 @@ const ActionRequired = () => {
                     </h5>
                     <div className="flex justify-center items-center gap-3">
                       <div className="bg-[#F9C107] mr-2 bg-F9C107 w-[31px] h-[28px] rounded-[35px] flex justify-center items-center">
-                        {" "}
                         <p className="text-white font-medium text-sm">
                           {newTotalModification}
                         </p>
@@ -470,16 +603,26 @@ const ActionRequired = () => {
                 children: (
                   <>
                     <div className="pb-5 flex justify-end">
-                      <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
-                        <SortOutlinedIcon style={{ fill: "#637381" }} />
-                        <p className="text-base font-normal text-[#2B4447]">
-                          Sort
-                        </p>
-                        <KeyboardArrowDownIcon
-                          style={{ fill: "#2B4447" }}
-                          className=""
-                        />
-                      </button>
+                      <Dropdown
+                        className=""
+                        menu={{
+                          items,
+                        }}
+                        trigger={["click"]}
+                      >
+                        <a onClick={(e) => e.preventDefault()}>
+                          <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                            <SortOutlinedIcon style={{ fill: "#637381" }} />
+                            <p className="text-base font-normal text-[#2B4447]">
+                              Sort
+                            </p>
+                            <KeyboardArrowDownIcon
+                              style={{ fill: "#2B4447" }}
+                              className=""
+                            />
+                          </button>
+                        </a>
+                      </Dropdown>
                     </div>
                     <div className="custom-table-pagination">
                       <Table
