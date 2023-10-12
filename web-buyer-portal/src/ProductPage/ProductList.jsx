@@ -156,10 +156,10 @@ const ProductList = () => {
   const dispatch = useDispatch();
   const totalProducts = useSelector((state) => state.totalPage.totalProducts);
 
-  const warning = () => {
+  const warning = (message) => {
     messageApi.open({
       type: "warning",
-      content: "product not add",
+      content: message,
     });
   };
   const success = () => {
@@ -173,7 +173,9 @@ const ProductList = () => {
     const data = itemData.product;
     const quantity = itemData.quantity;
     console.log(quantity, "quantity");
-    const { buyerId, organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    const { buyerId, organisationId } = JSON.parse(
+      localStorage.getItem("buyerInfo")
+    );
     console.log("id", id, "item", data, "actionType", actionType);
 
     fetch(`${url}/api/Product/AddToCart`, {
@@ -221,7 +223,7 @@ const ProductList = () => {
         barcodes: data?.barcodes,
         esgStatus: data?.esgStatus,
         healthRating: data?.healthRating,
-        organisationId : organisationId,
+        organisationId: organisationId,
         isActive: true,
       }),
     })
@@ -229,21 +231,20 @@ const ProductList = () => {
       .then((data) => {
         if (data.success) {
           success();
+          const cartId = data.data[0].cartId;
+          const updatedCartList = data?.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+          dispatch(setCart(updatedCartList));
+          localStorage.setItem("cartId", cartId);
+          console.log(data, "add data");
         } else {
-          warning();
+          warning(data.message);
         }
         console.log("cat response", data);
-        const cartId = data.data[0].cartId;
-
-        const updatedCartList = data?.data.map((item) => {
-          return {
-            product: item,
-            quantity: item?.quantity,
-          };
-        });
-        dispatch(setCart(updatedCartList));
-        localStorage.setItem("cartId", cartId);
-        console.log(data, "add data");
       });
   };
 

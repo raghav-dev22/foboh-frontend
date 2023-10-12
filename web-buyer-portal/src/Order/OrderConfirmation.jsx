@@ -1,28 +1,81 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getCalculations } from "../helper/getCalculations";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAddress } from "../helpers/getAddress";
+import { getStates } from "../helpers/getStates";
 
 const OrderConfirmation = () => {
   const [totalCost, setTotleCost] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [wetTax, setWetTax] = useState(0);
+  const [gstTax, setGstTax] = useState(0);
+  const [deliveryAddress, setDeliveryAddress] = useState({});
   const CARTdata = useSelector((items) => items.cart);
+  const location = useLocation();
 
-  const calculateTotalCost = () => {
-    let total = 0;
-    CARTdata.forEach((item) => {
-      const productPrice = item?.product?.price;
-      const productPriceINR = productPrice;
-      const quantity = parseInt(item.quantity);
-      total += productPriceINR * quantity;
+  useEffect(() => {
+    getDeliveryAddress();
+    const handleBeforeUnload = (e) => {
+      // Check if the user is navigating away from the page
+      // Your action to remove items from localStorage
+      localStorage.removeItem("cartId");
+      localStorage.removeItem("orderId");
+    };
 
-      console.log("hdgfj", total);
-    });
-    return total;
+    // Attach the event listener for beforeunload
+    window.addEventListener("unload", handleBeforeUnload);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("unload", handleBeforeUnload);
+    };
+  }, [location]);
+
+  const calculateTotalCost = async () => {
+    const { gst, wt, subTotal, total } = await getCalculations();
+    setWetTax(wt);
+    setGstTax(gst);
+    setSubtotal(subTotal);
+    setTotleCost(total);
   };
 
   useEffect(() => {
-    const newTotal = calculateTotalCost();
-    setTotleCost(newTotal.toFixed(2));
-    console.log("Total Cost:", totalCost);
+    calculateTotalCost();
   }, [CARTdata]);
+
+  const getDeliveryAddress = () => {
+    let statesData = [];
+    getStates().then((data) => {
+      statesData = data.map((state) => {
+        return {
+          label: state.stateName,
+          value: state.stateId,
+        };
+      });
+    });
+
+    getAddress("delivery-address").then((data) => {
+      console.log('delivery-address', data);
+      if (data.success) {
+        const buyerData = data?.data[0];
+        const buyerState = statesData.find(
+          (state) => state?.label === buyerData.state
+        );
+
+        const addressBody = {
+          Apartment: buyerData?.apartmentSuite,
+          Address: buyerData?.streetaddress,
+          Suburb: buyerData?.city,
+          State: buyerState,
+          Postcode: buyerData?.postcode,
+          Notes: buyerData?.instructionsNotes,
+        };
+
+        setDeliveryAddress(addressBody);
+      }
+    });
+  };
 
   return (
     <>
@@ -37,9 +90,9 @@ const OrderConfirmation = () => {
             confirmation from us shortly!
           </p>
         </div>
-        <p className="my-6 font-semibold text-base text-[#563FE3]">
+        {/* <p className="my-6 font-semibold text-base text-[#563FE3]">
           Order Tracking ID - 012345678910
-        </p>
+        </p> */}
         {CARTdata.length === 0 ? (
           <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
             Your cart is empty.
@@ -51,7 +104,7 @@ const OrderConfirmation = () => {
               <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
                 <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                   <img
-                    src={item.product?.productImageUrls}
+                    src={item.product?.productImageUrls[0]}
                     alt=""
                     className="w-[150px]  object-cover	rounded-md"
                   />
@@ -65,7 +118,7 @@ const OrderConfirmation = () => {
                           {item.product?.title}
                         </h4>
                         <p className="text-sm text-[#637381] font-medium ">
-                          12 x 750ml
+                          {item.product?.configuration}
                         </p>
                       </div>
                       <p className="text-sm font-medium text-[#2B4447]">
@@ -92,7 +145,7 @@ const OrderConfirmation = () => {
         <div className="py-4">
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
-            <h5 className="text-sm font-medium text-[#2B4447]">${totalCost}</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">${subtotal}</h5>
           </div>
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">
@@ -100,15 +153,23 @@ const OrderConfirmation = () => {
             </h5>
             <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
           </div>
+          {wetTax !== 0 && (
+            <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+              <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
+              <h5 className="text-sm font-medium text-[#2B4447]">${wetTax}</h5>
+            </div>
+          )}
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-            <h5 className="text-sm font-medium text-[#2B4447]">Tax estimate</h5>
-            <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">${gstTax}</h5>
           </div>
           <div className="flex justify-between py-3 ">
             <h5 className="text-base font-semibold text-[#2B4447]">
               Order total
             </h5>
-            <h5 className="text-base font-semibold text-[#2B4447]">$60.00</h5>
+            <h5 className="text-base font-semibold text-[#2B4447]">
+              ${totalCost}
+            </h5>
           </div>
         </div>
         <div className="flex justify-between gap-6">
@@ -139,7 +200,10 @@ const OrderConfirmation = () => {
             </h5>
 
             <p className="text-base font-normal text-[#2B4447] my-2">
-              456 King Street, Newton, NSW 2304 <br /> Australia
+              {deliveryAddress?.Apartment} {deliveryAddress?.Address},{" "}
+              {deliveryAddress?.Suburb}, {deliveryAddress?.State}{" "}
+              {deliveryAddress?.Postcode}
+              <br /> Australia
             </p>
             <p className="my-1 font-normal text-base text-[#637381] flex items-center">
               <svg
