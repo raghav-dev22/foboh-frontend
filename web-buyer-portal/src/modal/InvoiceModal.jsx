@@ -5,7 +5,7 @@ import { Preview, print } from "react-html2pdf";
 import { theme } from "antd";
 import zIndex from "@mui/material/styles/zIndex";
 
-function InvoiceModal({ show, setShow, invoiceData }) {
+function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
   const { useToken } = theme;
   const { token } = useToken();
   const cancelButtonRef = useRef(null);
@@ -37,7 +37,8 @@ function InvoiceModal({ show, setShow, invoiceData }) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-[#0000] z-[0] " />
+            <div className="fixed inset-0" />
+            {/*   bg-[#0000]  z-[0] */}
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -93,7 +94,7 @@ function InvoiceModal({ show, setShow, invoiceData }) {
                                 font: "600 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              {invoiceData.businessName}
+                              {invoiceData?.billBusinessName}
                             </div>
                             <div
                               className="text-gray-900 text-left w-[115px] h-[15px]"
@@ -101,7 +102,7 @@ function InvoiceModal({ show, setShow, invoiceData }) {
                                 font: "400 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              ABN 58 621 583 944{" "}
+                              {invoiceData?.billABN}
                             </div>
                             <div
                               className="text-[#000000] text-left w-[115px]"
@@ -109,7 +110,7 @@ function InvoiceModal({ show, setShow, invoiceData }) {
                                 font: "400 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              106 Hardware St, Melbourne VIC 3000{" "}
+                              {invoiceData?.billABN}
                             </div>
                           </div>
                         </div>
