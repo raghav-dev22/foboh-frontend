@@ -28,7 +28,6 @@ const SignupNew = () => {
       onSubmit: (values) => {
         // const url = process.env.REACT_APP_URL;
         setIsLoading(true);
-        
 
         fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetUser`, {
           method: "POST",
@@ -47,20 +46,19 @@ const SignupNew = () => {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            console.log(data.userdetails.value.length);
             if (
-              data.userdetails.value.length > 0 &&
+              data?.userdetails?.value?.length > 0 &&
               !data.error &&
-              data.userdetails.value
+              data?.userdetails?.value
             ) {
-              if (data.userdetails.value[0].mail === values.email) {
+              if (data?.userdetails?.value[0]?.mail === values?.email) {
                 setIsLoading(false);
                 setEmailPresent(true);
               }
             } else {
               setEmailPresent(false);
               fetch(
-                `https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`,
+                `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
                 {
                   method: "POST",
                   headers: {
@@ -68,7 +66,7 @@ const SignupNew = () => {
                   },
                   body: JSON.stringify({
                     to: values.email,
-                    mailtype: "email-verification",
+                    mailtype: "oms-emailverification",
                     name: "email",
                   }),
                 }
@@ -136,34 +134,32 @@ const SignupNew = () => {
             setEmailPresent(true);
           }
         } else {
-          fetch(
-            "https://user-api-foboh.azurewebsites.net/api/User/create",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                firstName: googleResponse.given_name,
-                lastName: googleResponse.family_name,
-                email: googleResponse.email,
-                password: "",
-                status: true,
-                role: "",
-                meta: "",
-                adId: "",
-                imageUrl: "",
-                bio: "",
-                mobile: "",
-                organisationId: "",
-                isActive: true,
-              }),
-            }
-          ).then(response => response.json())
-          .then(data => {
-            localStorage.setItem("email", googleResponse.email);
-            navigate("/dashboard/main");
+          fetch("https://user-api-foboh.azurewebsites.net/api/User/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              firstName: googleResponse.given_name,
+              lastName: googleResponse.family_name,
+              email: googleResponse.email,
+              password: "",
+              status: true,
+              role: "",
+              meta: "",
+              adId: "",
+              imageUrl: "",
+              bio: "",
+              mobile: "",
+              organisationId: "",
+              isActive: true,
+            }),
           })
+            .then((response) => response.json())
+            .then((data) => {
+              localStorage.setItem("email", googleResponse.email);
+              navigate("/dashboard/main");
+            });
         }
       })
       .catch((error) => console.log(error));

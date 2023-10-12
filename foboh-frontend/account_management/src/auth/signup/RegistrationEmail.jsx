@@ -28,14 +28,14 @@ const RegistrationEmail = () => {
     const handleResendLink = () => {
       // const url = process.env.REACT_APP_URL
         //Resend Link
-        fetch(`https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`, {
+        fetch(`https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         to: email,
-        mailtype: 'email-verification',
+        mailtype: 'oms-emailverification',
         name: 'email'
       }),
     })

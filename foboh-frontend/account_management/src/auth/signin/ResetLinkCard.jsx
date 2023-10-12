@@ -21,7 +21,7 @@ const ResetLinkCard = () => {
     //Reset Link
 
     fetch(
-      `https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`,
+      `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
       {
         method: "POST",
         headers: {
@@ -30,7 +30,7 @@ const ResetLinkCard = () => {
         body: JSON.stringify({
           to: email,
           name: localStorage.getItem("userName"),
-          mailtype: "password-reset",
+          mailtype: "oms-passwordreset",
         }),
       }
     )

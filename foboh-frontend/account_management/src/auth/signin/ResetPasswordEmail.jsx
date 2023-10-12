@@ -40,7 +40,7 @@ const ResetPasswordEmail = () => {
               localStorage.setItem("userName", userName);
 
               fetch(
-                `https://notification-api-foboh.azurewebsites.net/api/notify/sendmail`,
+                `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
                 {
                   method: "POST",
                   headers: {
@@ -48,7 +48,7 @@ const ResetPasswordEmail = () => {
                   },
                   body: JSON.stringify({
                     to: values.email,
-                    mailtype: "password-reset",
+                    mailtype: "oms-passwordreset",
                     name: userName,
                   }),
                 }
