@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import OrganisationDetails from "./OrganisationDetails";
-import OrganisationAddress from "./OrganisationAddress";
-import BillingAddress from "./BillingAddress";
-import OrganisationLogo from "./OrganisationLogo";
-import LogisticsContact from "./LogisticsContact";
-import OrderingContact from "./OrderingContact";
 import ProfileHeader from "../dashboard/ProfileHeader";
 import { OrganisationSettingsSchema } from "../schemas";
 import { useFormik } from "formik";
@@ -15,6 +9,7 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   updateLogoURI,
   resetLogoURI,
@@ -22,6 +17,8 @@ import {
 import { updateUserData } from "../Redux/Action/userSlice";
 import { styled } from "@mui/material";
 import { Avatar, List, Skeleton, Switch } from "antd";
+import BaseUnit from "../modal/BaseUnit";
+import InnerUnit from "../modal/InnerUnit";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -30,6 +27,8 @@ export const options = [
 let categoryListVar = [];
 
 function Organisation() {
+  const [baseUnitModalOpen, setBaseUnitModalOpen] = useState(false);
+  const [innerUnitModalOpen, setInnerUnitModalOpen] = useState(false);
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [check, setCheck] = useState(false);
@@ -725,6 +724,52 @@ function Organisation() {
                                 options={categories}
                                 className="basic-multi-select "
                                 classNamePrefix="select"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-5 relative">
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
+                              htmlFor="CategoryList"
+                            >
+                              Base unit of measure
+                            </label>
+                            <div
+                              className="relative"
+                              onClick={() => {
+                                setBaseUnitModalOpen(true);
+                              }}
+                            >
+                              <div className="w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
+                                Add units
+                              </div>
+                              <AddCircleOutlineIcon
+                                className="absolute top-[8px] right-[12px]"
+                                style={{ fill: "#147D73" }}
+                              />
+                            </div>
+                          </div>
+                          <div className="w-full md:w-1/2 px-3 relative">
+                            <label
+                              className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
+                              htmlFor="CategoryList"
+                            >
+                              Inner unit of measure
+                            </label>
+                            <div
+                              className="relative"
+                              onClick={() => {
+                                setInnerUnitModalOpen(true);
+                              }}
+                            >
+                              <div className="w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
+                                Add units
+                              </div>
+                              <AddCircleOutlineIcon
+                                className="absolute top-[8px] right-[12px]"
+                                style={{ fill: "#147D73" }}
                               />
                             </div>
                           </div>
@@ -1657,6 +1702,25 @@ function Organisation() {
           </div>
         </form>
       </div>
+
+      <BaseUnit
+        open={baseUnitModalOpen}
+        onOk={() => {
+          setBaseUnitModalOpen(false);
+        }}
+        onCancel={() => {
+          setBaseUnitModalOpen(false);
+        }}
+      />
+      <InnerUnit
+        open={innerUnitModalOpen}
+        onOk={() => {
+          setInnerUnitModalOpen(false);
+        }}
+        onCancel={() => {
+          setInnerUnitModalOpen(false);
+        }}
+      />
     </>
   );
 }

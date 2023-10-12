@@ -93,7 +93,8 @@ function InvoiceModal({ show, setShow, invoiceData }) {
                                 font: "600 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              {invoiceData.businessName}
+                              {/* {invoiceData.businessName} */}
+                              hello
                             </div>
                             <div
                               className="text-gray-900 text-left w-[115px] h-[15px]"

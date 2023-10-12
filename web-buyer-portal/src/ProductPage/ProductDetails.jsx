@@ -6,7 +6,9 @@ import { useEffect } from "react";
 import { theme } from "antd";
 import { add, setCart, updateQuantity } from "../slices/CartSlice";
 import { message } from "antd";
-
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import BlockRoundedIcon from "@mui/icons-material/BlockRounded";
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
@@ -83,7 +85,9 @@ const ProductDetails = () => {
     const data = itemData.product;
     const quantity = itemData.quantity;
     console.log(quantity, "quantity");
-    const { buyerId, organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    const { buyerId, organisationId } = JSON.parse(
+      localStorage.getItem("buyerInfo")
+    );
     console.log("id", id, "item", data, "actionType", actionType);
 
     fetch(`${url}/api/Product/AddToCart`, {
@@ -131,7 +135,7 @@ const ProductDetails = () => {
         barcodes: data?.barcodes,
         esgStatus: data?.esgStatus,
         healthRating: data?.healthRating,
-        organisationId : organisationId,
+        organisationId: organisationId,
         isActive: true,
       }),
     })
@@ -229,30 +233,35 @@ const ProductDetails = () => {
                 {selectData?.product?.description}
               </p>
             </div>
-            <div className="flex  justify-between md:w-[365px] w-full items-center py-2 ">
-              <div className="border border-[#E7E7E7] py-[10px] px-[20px] rounded-md flex justify-center items-center gap-3">
-                <p
-                  className="text-[#637381] cursor-pointer"
-                  onClick={() =>
-                    handleIncrementDecrement(
-                      selectData?.product?.productId,
-                      "decrement"
-                    )
-                  }
-                >
-                  -
-                </p>
-                <p className="text-[#637381]"> {selectData?.quantity} </p>
-                <p
-                  className="text-[#637381] cursor-pointer"
-                  onClick={() =>
-                    handleIncrementDecrement(
-                      selectData?.product?.productId,
-                      "increment"
-                    )
-                  }
-                >
-                  +
+            <div className="flex  justify-between md:w-[365px] w-full items-center py-2  mt-6">
+              <div className="relative">
+                <div className="border border-[#E7E7E7] py-[10px] px-[24px] rounded-md flex justify-center items-center gap-3">
+                  <p
+                    className="text-[#637381] cursor-pointer"
+                    onClick={() =>
+                      handleIncrementDecrement(
+                        selectData?.product?.productId,
+                        "decrement"
+                      )
+                    }
+                  >
+                    -
+                  </p>
+                  <p className="text-[#637381]"> {selectData?.quantity} </p>
+                  <p
+                    className="text-[#637381] cursor-pointer"
+                    onClick={() =>
+                      handleIncrementDecrement(
+                        selectData?.product?.productId,
+                        "increment"
+                      )
+                    }
+                  >
+                    +
+                  </p>
+                </div>
+                <p className="text-sm font-medium text-[#2B4447] absolute top-[-10px] left-[11px] bg-white">
+                  Quantity
                 </p>
               </div>
               <button
@@ -270,9 +279,73 @@ const ProductDetails = () => {
                 disabled={selectData?.quantity <= 0}
               >
                 {" "}
-                <ShoppingBasketIcon style={{ fill: "#fff" }} />
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_128_2591)">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M10.6641 15.1105H4.48791C2.21924 15.1105 0.478794 14.2912 0.973161 10.9931L1.5488 6.52349C1.85354 4.87785 2.90323 4.24805 3.82425 4.24805H11.3549C12.2895 4.24805 13.2782 4.92526 13.6304 6.52349L14.2059 10.9931C14.6258 13.9187 12.9329 15.1105 10.6641 15.1105Z"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.7659 4.08516C10.7659 2.31981 9.33475 0.8887 7.56937 0.8887C6.71927 0.885107 5.90276 1.22028 5.30038 1.82012C4.698 2.41996 4.35937 3.23506 4.35938 4.08516"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M9.76376 7.41846H9.72998"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M5.44988 7.41846H5.41602"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_128_2591">
+                      <rect width="15.1111" height="16" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
                 Add To Cart
               </button>
+            </div>
+            <div className="my-6">
+              <div className="flex justify-start items-center gap-3">
+                <CheckCircleOutlineIcon style={{ fill: "#009900" }} />
+                <p className="text-base font-semibold text-[#2B4447]">
+                  Available in stock!
+                </p>
+              </div>
+              <div className="flex justify-start items-center gap-3">
+                <WarningRoundedIcon style={{ fill: "#FAD271" }} />
+                <p className="text-base font-semibold text-[#2B4447]">
+                  Stocks limited. Hurry!
+                </p>
+              </div>
+              <div className="flex justify-start items-center gap-3">
+                <BlockRoundedIcon style={{ fill: "#E94444" }} />
+                <p className="text-base font-semibold text-[#2B4447]">
+                  Out of stock
+                </p>
+              </div>
             </div>
             {selectData.product.categoryId === "C5000" && (
               <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
