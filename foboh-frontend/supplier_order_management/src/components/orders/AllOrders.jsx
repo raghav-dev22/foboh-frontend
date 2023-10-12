@@ -6,126 +6,85 @@ import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
+import { DatePicker } from "antd";
+
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import DatePicker from "react-datepicker";
+
 // import "react-datepicker/dist/react-datepicker.css";
 
 import { Menu } from "antd";
-import CustomCalender from "../datePicker/CustomCalender";
+
 import { useEffect } from "react";
 
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
+const AllOrders = () => {
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
   };
-}
-
-const menuItems = [
-  getItem(
-    <div className="flex items-center gap-3">
-      <h5 className="text-lg font-medium text-[#637381]">Status</h5>
-      <KeyboardArrowDownIcon />
-    </div>,
-    "sub1",
-    null,
-    [
-      getItem(
+  const [openStatus, setOpenStatus] = useState(false);
+  const [openDate, setOpenDate] = useState(false);
+  const [openRegion, setOpenRegion] = useState(false);
+  const statusMenu = (
+    <Menu>
+      <Menu.Item key="1">
         <Checkbox className="text-base font-medium text-[#637381]">
           Select all
-        </Checkbox>,
-        "1"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="2">
         <Checkbox className="text-base font-medium text-[#637381]">
           New
-        </Checkbox>,
-        "2"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="3">
         <Checkbox className="text-base font-medium text-[#637381]">
           Pending approval
-        </Checkbox>,
-        "3"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Changes requested
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="5">
         <Checkbox className="text-base font-medium text-[#637381]">
           Updated
-        </Checkbox>,
-        "4"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="6">
         <Checkbox className="text-base font-medium text-[#637381]">
           Processing
-        </Checkbox>,
-        "5"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="7">
         <Checkbox className="text-base font-medium text-[#637381]">
           Shipped
-        </Checkbox>,
-        "6"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="8 ">
         <Checkbox className="text-base font-medium text-[#637381]">
           Partially fulfilled
-        </Checkbox>,
-        "7"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="9 ">
         <Checkbox className="text-base font-medium text-[#637381]">
           Delivered
-        </Checkbox>,
-        "8"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="10 ">
         <Checkbox className="text-base font-medium text-[#637381]">
           Completed
-        </Checkbox>,
-        "9"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="11 ">
         <Checkbox className="text-base font-medium text-[#637381]">
-          Partially fulfilled
-        </Checkbox>,
-        "10"
-      ),
-      getItem(
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Delivered
-        </Checkbox>,
-        "11"
-      ),
-      getItem(
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Completed
-        </Checkbox>,
-        "12"
-      ),
-      getItem(
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Partially fulfilled
-        </Checkbox>,
-        "13"
-      ),
-    ]
-  ),
-
-  {
-    type: "divider",
-  },
-  getItem(
-    <div className="flex items-center gap-3">
-      <h5 className="text-lg font-medium text-[#637381]">Region </h5>
-      <KeyboardArrowDownIcon />
-    </div>,
-    "sub4",
-    null,
-    [
-      getItem(
+          Cancelled
+        </Checkbox>
+      </Menu.Item>
+    </Menu>
+  );
+  const regionMenu = (
+    <Menu>
+      <Menu.Item key="1">
         <div className="relative">
           <SearchIcon
             className="top-[8px] right-[8px] absolute"
@@ -135,74 +94,96 @@ const menuItems = [
             className=""
             style={{ border: "1px solid #E7E7E7 ", borderRadius: "8px" }}
           />
-        </div>,
-        "10"
-      ),
-      getItem(
+        </div>
+      </Menu.Item>
+      <Menu.Item key="2">
+        {" "}
         <Checkbox className="text-base font-medium text-[#637381]">
           City, State
-        </Checkbox>,
-        "11"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="3">
+        {" "}
         <Checkbox className="text-base font-medium text-[#637381]">
           City, State
-        </Checkbox>,
-        "12"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="4">
+        {" "}
         <Checkbox className="text-base font-medium text-[#637381]">
           City, State
-        </Checkbox>,
-        "13"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="5">
+        {" "}
         <Checkbox className="text-base font-medium text-[#637381]">
           City, State
-        </Checkbox>,
-        "13"
-      ),
-    ]
-  ),
-  getItem(
-    <div className="flex items-center gap-3">
-      <h5 className="text-lg font-medium text-[#637381]">Date</h5>
-      <KeyboardArrowDownIcon />
-    </div>,
-    "sub2",
-    null,
-    [
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="6">
+        {" "}
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="7">
+        {" "}
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="8">
+        {" "}
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="9">
+        {" "}
+        <Checkbox className="text-base font-medium text-[#637381]">
+          City, State
+        </Checkbox>
+      </Menu.Item>
+    </Menu>
+  );
+  const dateMenu = (
+    <Menu>
+      <Menu.Item key="1">
         <Checkbox className="text-base font-medium text-[#637381]">
           Last 7 days
-        </Checkbox>,
-        "5"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="2">
         <Checkbox className="text-base font-medium text-[#637381]">
           Last 14 days
-        </Checkbox>,
-        "6"
-      ),
-      getItem(
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="3">
         <Checkbox className="text-base font-medium text-[#637381]">
           Last 30 days
-        </Checkbox>,
-        "7"
-      ),
-      getItem(
-        <Checkbox className="text-base font-medium text-[#637381]">
-          <CustomCalender />
-        </Checkbox>,
-        "sub3",
-        null,
-        [getItem(<CustomCalender />, "7")]
-      ),
-    ]
-  ),
-];
-
-const AllOrders = () => {
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <div className="relative custom-datePicker">
+          <div className=" absolute top-0 left-0 w-full h-full">
+            <Checkbox className="text-base font-medium text-[#637381]">
+              Custom
+            </Checkbox>
+          </div>
+          <DatePicker onChange={onChange} />
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+  const handleOpenStatus = (flag) => {
+    setOpenStatus(flag);
+  };
+  const handleOpenDate = (flag) => {
+    setOpenDate(flag);
+  };
+  const handleOpenRegion = (flag) => {
+    setOpenRegion(flag);
+  };
   const items = [
     {
       key: "1",
@@ -357,52 +338,46 @@ const AllOrders = () => {
 
   const columns = [
     {
-      title: (
-        <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>
-      ),
+      title: <h5 className="text-base font-medium text-[#2B4447]">Order ID</h5>,
       dataIndex: "OrderID",
       width: 100,
     },
     {
-      title: (
-        <h5 className="text-base font-semibold text-[#2B4447]">Customer</h5>
-      ),
+      title: <h5 className="text-base font-medium text-[#2B4447]">Customer</h5>,
       dataIndex: "Customer",
       width: 160,
     },
     {
-      title: <h5 className="text-base font-semibold text-[#2B4447]">Region</h5>,
+      title: <h5 className="text-base font-medium text-[#2B4447]">Region</h5>,
       dataIndex: "Region",
       width: 150,
     },
     {
       title: (
-        <h5 className="text-base font-semibold text-[#2B4447]">Order Date</h5>
+        <h5 className="text-base font-medium text-[#2B4447]">Order Date</h5>
       ),
       dataIndex: "OrderDate",
       width: 120,
     },
     {
-      title: <h5 className="text-base font-semibold text-[#2B4447]">Amount</h5>,
+      title: <h5 className="text-base font-medium text-[#2B4447]">Amount</h5>,
       dataIndex: "Amount",
       width: 120,
     },
     {
       title: (
-        <h5 className="text-base font-semibold text-[#2B4447]">Last Updated</h5>
+        <h5 className="text-base font-medium text-[#2B4447]">Last Updated</h5>
       ),
       dataIndex: "LastUpdated",
       width: 180,
     },
     {
-      title: (
-        <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>
-      ),
+      title: <h5 className="text-base font-medium text-[#2B4447]">Payment</h5>,
       dataIndex: "Payment",
       width: 120,
     },
     {
-      title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
+      title: <h5 className="text-base font-medium text-[#2B4447]">Status</h5>,
       dataIndex: "Status",
       width: 180,
     },
@@ -412,23 +387,27 @@ const AllOrders = () => {
     return {
       key: index,
       OrderID: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
+        <p className="text-sm md:text-base font-normal text-[#637381]">
+          {item.orderId}
+        </p>
       ),
       Customer: (
-        <p className="text-[15px] font-medium text-[#637381]">
+        <p className="text-sm md:text-base font-normal text-[#637381]">
           {item.firstname}
         </p>
       ),
       Region: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.region}</p>
+        <p className="text-sm md:text-base font-normal text-[#637381]">
+          {item.region}
+        </p>
       ),
       OrderDate: (
-        <p className="text-[15px] font-medium text-[#637381]">
+        <p className="text-sm md:text-base font-normal text-[#637381]">
           {item.orderEntryDate}
         </p>
       ),
       Amount: (
-        <p className="text-[15px] font-medium text-[#637381]">
+        <p className="text-sm md:text-base font-normal text-[#637381]">
           {item.totalPrice}
         </p>
       ),
@@ -523,12 +502,62 @@ const AllOrders = () => {
           {showFilter && (
             <div className="flex justify-between items-center pt-5">
               <div className="flex justify-start custom-dropdown items-center gap-5 w-[50%]">
-                <Menu
-                  mode="horizontal"
-                  triggerSubMenuAction="click"
-                  items={menuItems}
-                  activeBarBorderWidth="false"
-                />
+                <div className="flex justify-center items-center gap-5">
+                  <Dropdown
+                    overlay={statusMenu}
+                    open={openStatus}
+                    onOpenChange={handleOpenStatus}
+                  >
+                    <a
+                      className="ant-dropdown-link"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <div className="flex items-center gap-3">
+                        <h5 className="text-lg font-medium text-[#637381]">
+                          Status
+                        </h5>
+
+                        <KeyboardArrowDownIcon />
+                      </div>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    overlay={regionMenu}
+                    open={openRegion}
+                    onOpenChange={handleOpenRegion}
+                  >
+                    <a
+                      className="ant-dropdown-link"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <div className="flex items-center gap-3">
+                        <h5 className="text-lg font-medium text-[#637381]">
+                          Region
+                        </h5>
+
+                        <KeyboardArrowDownIcon />
+                      </div>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    overlay={dateMenu}
+                    open={openDate}
+                    onOpenChange={handleOpenDate}
+                  >
+                    <a
+                      className="ant-dropdown-link"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <div className="flex items-center gap-3">
+                        <h5 className="text-lg font-medium text-[#637381]">
+                          Date
+                        </h5>
+
+                        <KeyboardArrowDownIcon />
+                      </div>
+                    </a>
+                  </Dropdown>
+                </div>
               </div>
               <div
                 className="cursor-pointer"

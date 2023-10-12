@@ -1283,3 +1283,6 @@ a:hover {
 .overflow-y-scroll {
   overflow-y: scroll !important;
 }
+.custom-datePicker .ant-picker {
+  opacity: 0;
+}

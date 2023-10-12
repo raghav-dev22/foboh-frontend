@@ -4,8 +4,20 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
 import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
-
+import { Dropdown, Space, Menu, Button } from "antd";
+window.ResizeObserver = undefined;
+const { SubMenu } = Menu;
+const menu = (
+  <Menu>
+    <Menu.Item key="1">Option 1</Menu.Item>
+    <Menu.Item key="2">Option 2</Menu.Item>
+    <Menu.Item key="3">Option 3</Menu.Item>
+    <SubMenu key="subMenu" title="Submenu">
+      <Menu.Item key="3">Submenu Item 1</Menu.Item>
+      <Menu.Item key="4">Submenu Item 2</Menu.Item>
+    </SubMenu>
+  </Menu>
+);
 const ActionRequired = () => {
   const [page, setPage] = useState(1);
   const [newTotalData, setNewTotalData] = useState();
@@ -603,26 +615,18 @@ const ActionRequired = () => {
                 children: (
                   <>
                     <div className="pb-5 flex justify-end">
-                      <Dropdown
-                        className=""
-                        menu={{
-                          items,
-                        }}
-                        trigger={["click"]}
-                      >
-                        <a onClick={(e) => e.preventDefault()}>
-                          <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
-                            <SortOutlinedIcon style={{ fill: "#637381" }} />
-                            <p className="text-base font-normal text-[#2B4447]">
-                              Sort
-                            </p>
-                            <KeyboardArrowDownIcon
-                              style={{ fill: "#2B4447" }}
-                              className=""
-                            />
-                          </button>
-                        </a>
-                      </Dropdown>
+                      <div className="cursor-pointer flex justify-center items-center gap-2	border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max ">
+                        <SortOutlinedIcon style={{ fill: "#637381" }} />
+                        <Dropdown overlay={menu}>
+                          <p className="text-base font-normal text-[#2B4447] ">
+                            Sort
+                          </p>
+                        </Dropdown>
+                        <KeyboardArrowDownIcon
+                          style={{ fill: "#2B4447" }}
+                          className=""
+                        />
+                      </div>
                     </div>
                     <div className="custom-table-pagination">
                       <Table
