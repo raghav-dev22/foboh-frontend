@@ -14,8 +14,8 @@ import { DatePicker } from "antd";
 import InvoiceModal from "../modal/InvoiceModal";
 import CustomCalender from "../datePicker/CustomerCalender";
 import { message } from "antd";
-
 import { Menu } from "antd";
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -25,9 +25,11 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
+
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
+
 const statusMenu = (
   <Menu>
     <Menu.Item key="1">
@@ -35,49 +37,59 @@ const statusMenu = (
         Select all
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="2">
       <Checkbox className="text-base font-medium text-[#637381]">New</Checkbox>
     </Menu.Item>
+
     <Menu.Item key="3">
       <Checkbox className="text-base font-medium text-[#637381]">
         Pending approval
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="4">
       <Checkbox className="text-base font-medium text-[#637381]">
         Changes requested
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="5">
       <Checkbox className="text-base font-medium text-[#637381]">
         Updated
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="6">
       <Checkbox className="text-base font-medium text-[#637381]">
         Processing
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="7">
       <Checkbox className="text-base font-medium text-[#637381]">
         Shipped
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="8 ">
       <Checkbox className="text-base font-medium text-[#637381]">
         Partially fulfilled
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="9 ">
       <Checkbox className="text-base font-medium text-[#637381]">
         Delivered
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="10 ">
       <Checkbox className="text-base font-medium text-[#637381]">
         Completed
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="11 ">
       <Checkbox className="text-base font-medium text-[#637381]">
         Cancelled
@@ -85,6 +97,7 @@ const statusMenu = (
     </Menu.Item>
   </Menu>
 );
+
 const regionMenu = (
   <Menu>
     <Menu.Item key="1">
@@ -93,54 +106,63 @@ const regionMenu = (
           className="top-[8px] right-[8px] absolute"
           style={{ fill: "rgb(164, 169, 174)" }}
         />
+
         <input
           className=""
           style={{ border: "1px solid #E7E7E7 ", borderRadius: "8px" }}
         />
       </div>
     </Menu.Item>
+
     <Menu.Item key="2">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
         City, State
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="3">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
         City, State
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="4">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
         City, State
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="5">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
         City, State
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="6">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
         City, State
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="7">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
         City, State
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="8">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
         City, State
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="9">
       {" "}
       <Checkbox className="text-base font-medium text-[#637381]">
@@ -149,6 +171,7 @@ const regionMenu = (
     </Menu.Item>
   </Menu>
 );
+
 const dateMenu = (
   <Menu>
     <Menu.Item key="1">
@@ -156,16 +179,19 @@ const dateMenu = (
         Last 7 days
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="2">
       <Checkbox className="text-base font-medium text-[#637381]">
         Last 14 days
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="3">
       <Checkbox className="text-base font-medium text-[#637381]">
         Last 30 days
       </Checkbox>
     </Menu.Item>
+
     <Menu.Item key="4">
       <div className="relative custom-datePicker">
         <div className=" absolute top-0 left-0 w-full h-full">
@@ -173,6 +199,7 @@ const dateMenu = (
             Custom
           </Checkbox>
         </div>
+
         <DatePicker onChange={onChange} />
       </div>
     </Menu.Item>
@@ -189,6 +216,7 @@ const items = [
         <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
       </div>
     ),
+
     children: [
       {
         key: "1-1",
@@ -198,6 +226,7 @@ const items = [
           </Checkbox>
         ),
       },
+
       {
         key: "1-2",
         label: (
@@ -208,6 +237,7 @@ const items = [
       },
     ],
   },
+
   {
     key: "2",
     type: "group",
@@ -217,6 +247,7 @@ const items = [
         <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
       </div>
     ),
+
     children: [
       {
         key: "1-3",
@@ -226,6 +257,7 @@ const items = [
           </Checkbox>
         ),
       },
+
       {
         key: "1-4",
         label: (
@@ -236,6 +268,7 @@ const items = [
       },
     ],
   },
+
   {
     key: "3",
     type: "group",
@@ -245,6 +278,7 @@ const items = [
         <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
       </div>
     ),
+
     children: [
       {
         key: "1-5",
@@ -254,6 +288,7 @@ const items = [
           </Checkbox>
         ),
       },
+
       {
         key: "1-6",
         label: (
@@ -264,15 +299,18 @@ const items = [
       },
     ],
   },
+
   {
     key: "4",
     type: "group",
     label: (
       <div className="flex justify-between items-center  my-2">
         <h5 className="text-base font-medium text-[#2B4447]">Customer Name</h5>
+
         <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
       </div>
     ),
+
     children: [
       {
         key: "1-7",
@@ -282,6 +320,7 @@ const items = [
           </Checkbox>
         ),
       },
+
       {
         key: "1-8",
         label: (
@@ -292,15 +331,18 @@ const items = [
       },
     ],
   },
+
   {
     key: "5",
     type: "group",
     label: (
       <div className="flex justify-between items-center  my-2">
         <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
+
         <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
       </div>
     ),
+
     children: [
       {
         key: "1-9",
@@ -310,6 +352,7 @@ const items = [
           </Checkbox>
         ),
       },
+
       {
         key: "1-10",
         label: (
@@ -328,6 +371,7 @@ const columns = [
     dataIndex: "OrderID",
     width: 100,
   },
+
   {
     title: (
       <h5 className="text-base font-semibold text-[#2B4447]">Order date</h5>
@@ -335,26 +379,31 @@ const columns = [
     dataIndex: "OrderDate",
     width: 140,
   },
+
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Items</h5>,
     dataIndex: "Items",
     width: 80,
   },
+
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Total</h5>,
     dataIndex: "Total",
     width: 120,
   },
+
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>,
     dataIndex: "Payment",
     width: 120,
   },
+
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
     dataIndex: "Status",
     width: 150,
   },
+
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Action</h5>,
     dataIndex: "Action",
@@ -370,15 +419,18 @@ const DownloadInvoice = (
 
 const MyOrders = () => {
   const [startDate, setStartDate] = useState(new Date());
+
   const onClick = (e) => {
     console.log("click ", e);
   };
+
   const [Sort, setSort] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [showPreview, setshowPreview] = useState(false);
   const [page, setPage] = useState(1);
   const [orderData, setOrderData] = useState([]);
-  const [invoiceData, setInvoiceData] = useState([]);
+  const [invoiceData, setInvoiceData] = useState({});
+  const [invoiceDataProducts, setInvoiceDataProducts] = useState({});
   const [totalData, setTotalData] = useState({});
   const [open, setOpen] = useState(false);
   const [openStatus, setOpenStatus] = useState(false);
@@ -386,32 +438,40 @@ const MyOrders = () => {
   const [openRegion, setOpenRegion] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
+
   const success = () => {
     messageApi.open({
       type: "success",
       content: "This is a success message",
     });
   };
+
   const warning = () => {
     messageApi.open({
       type: "warning",
       content: "This is a warning message",
     });
   };
+
   const handleOpenPayment = (flag) => {
     setOpen(flag);
   };
+
   const handleOpenStatus = (flag) => {
     setOpenStatus(flag);
   };
+
   const handleOpenDate = (flag) => {
     setOpenDate(flag);
   };
+
   const handleOpenRegion = (flag) => {
     setOpenRegion(flag);
   };
+
   const formattedData = orderData.map((order, index) => ({
     key: index,
+
     OrderID: (
       <h1
         // to={`/home/order-details/${order.orderId}`}
@@ -420,31 +480,37 @@ const MyOrders = () => {
         {order.orderId}
       </h1>
     ),
+
     OrderDate: (
       <p className="text-base font-medium text-[#2B4447]">
         {order.orderEntryDate}
       </p>
     ),
+
     Items: (
       <p className="text-base font-medium text-[#2B4447]">{order.quantity}</p>
     ),
+
     Total: (
       <p className="text-base font-medium text-[#2B4447]">
         ${order.totalPrice}
       </p>
     ),
+
     Payment: (
       <p className="text-base font-medium text-[#2B4447]">
         {order.paymentMethod}
       </p>
     ),
+
     Status: (
-      <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] max-w-max	  ">
+      <div className="bg-[#D5EEFF] rounded-md py-[4px] px-[8px] max-w-max   ">
         <p className="text-[#3498DB] text-[base] font-medium">
           {order.orderStatus}
         </p>
       </div>
     ),
+
     Action: (
       <div className="flex gap-2">
         <Tooltip placement="bottom" title={Reorder} color={"#DCDCDC"}>
@@ -463,15 +529,16 @@ const MyOrders = () => {
             />
           </svg>
         </Tooltip>
-
         <Tooltip placement="bottom" title={details} color={"#DCDCDC"}>
           {/* <Button>Bottom</Button> */}
+
           <RemoveRedEyeIcon
             style={{ fill: "#637381" }}
             onClick={() => navigate(`/order-details/${order.orderId}`)}
             className=" cursor-pointer"
           />
         </Tooltip>
+
         <Tooltip placement="bottom" title={DownloadInvoice} color={"#DCDCDC"}>
           <FileDownloadOutlinedIcon
             style={{ fill: "#637381" }}
@@ -495,6 +562,7 @@ const MyOrders = () => {
         }
         return response.json();
       })
+
       .then((data) => {
         console.log(data.total, "data------>");
         setOrderData(data.data);
@@ -509,10 +577,9 @@ const MyOrders = () => {
     console.log("page", current, pageSize);
     setPage(current.current);
   };
-  console.log(page, "rightpage");
 
   const fetchInvoice = (id) => {
-    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${id}`;
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${7877302005}`;
 
     fetch(apiUrl)
       .then((response) => {
@@ -520,8 +587,21 @@ const MyOrders = () => {
       })
       .then((data) => {
         console.log(data.total, "data------>");
-        setInvoiceData(data.data[0]);
         setshowPreview(true);
+        setInvoiceData(data.data[0]);
+        setInvoiceDataProducts(
+          data.data.map((item) => {
+            return {
+              productId: item.productId,
+              skUcode: item.skUcode,
+              configuration: item.configuration,
+              luCcost: item.luCcost,
+              buyPrice: item.buyPrice,
+              title: item.title,
+              unitofMeasure: item.unitofMeasure,
+            };
+          })
+        );
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
@@ -530,7 +610,6 @@ const MyOrders = () => {
 
   const reOrder = (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/ReOrder?OrderId=${id}`;
-
     fetch(apiUrl)
       .then((data) => {
         if (data.success) {
@@ -539,15 +618,15 @@ const MyOrders = () => {
           warning();
         }
       })
-
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
       });
   };
+
   return (
     <>
       {contextHolder}
-      <div className=" md:w-4/5	w-full mx-auto md:p-0 ">
+      <div className=" md:w-4/5 w-full mx-auto md:p-0 ">
         <div className="mb-6">
           <h1 className="text-[28px] font-semibold text-[#2B4447] ">
             My Orders
@@ -555,7 +634,7 @@ const MyOrders = () => {
         </div>
         <div className="border border-[#E7E7E7] rounded-[8px]   mb-6  p-5 bg-white">
           <div className="grid md:grid-cols-2 grid-cols-1 md:gap-0 gap-3 justify-between items-center ">
-            <div className="relative max-w-max	">
+            <div className="relative max-w-max  ">
               <input
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
                 placeholder="Search"
@@ -568,7 +647,7 @@ const MyOrders = () => {
             </div>
             <div className="flex justify-end items-center gap-3 ">
               <button
-                className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
+                className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2  "
                 onClick={() => {
                   setShowFilter(true);
                 }}
@@ -585,7 +664,7 @@ const MyOrders = () => {
                   trigger={["click"]}
                 >
                   <a onClick={(e) => e.preventDefault()}>
-                    <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
+                    <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2  ">
                       <SortOutlinedIcon style={{ fill: "#637381" }} />
                       <p className="text-base font-normal text-[#2B4447]">
                         Sort
@@ -600,6 +679,7 @@ const MyOrders = () => {
               </div>
             </div>
           </div>
+
           {showFilter && (
             <div className="flex justify-between items-center pt-5">
               <div className="flex justify-center items-center gap-5">
@@ -616,11 +696,11 @@ const MyOrders = () => {
                       <h5 className="text-lg font-medium text-[#637381]">
                         Status
                       </h5>
-
                       <KeyboardArrowDownIcon />
                     </div>
                   </a>
                 </Dropdown>
+
                 <Dropdown
                   overlay={regionMenu}
                   open={openRegion}
@@ -634,7 +714,6 @@ const MyOrders = () => {
                       <h5 className="text-lg font-medium text-[#637381]">
                         Region
                       </h5>
-
                       <KeyboardArrowDownIcon />
                     </div>
                   </a>
@@ -652,7 +731,6 @@ const MyOrders = () => {
                       <h5 className="text-lg font-medium text-[#637381]">
                         Date
                       </h5>
-
                       <KeyboardArrowDownIcon />
                     </div>
                   </a>
@@ -671,12 +749,14 @@ const MyOrders = () => {
             </div>
           )}
         </div>
+
         <div className="border border-[#E0E0E0] rounded-[8px] mb-8">
           {/* {showPreview && <Invoice />} */}
           <InvoiceModal
             show={showPreview}
             setShow={setshowPreview}
             invoiceData={invoiceData}
+            invoiceDataProducts={invoiceDataProducts}
           />
           <Table
             columns={columns}
@@ -699,4 +779,5 @@ const MyOrders = () => {
     </>
   );
 };
+
 export default MyOrders;

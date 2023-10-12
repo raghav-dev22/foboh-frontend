@@ -7,6 +7,8 @@ import Instruction from "../Svg/Instruction";
 import { Popover, Steps } from "antd";
 import InvoiceModal from "../modal/InvoiceModal";
 import { useParams } from "react-router-dom";
+import { message } from "antd";
+
 const OrderDetails = () => {
   const customDot = (dot, { status, index }) => (
     <Popover
@@ -23,6 +25,7 @@ const OrderDetails = () => {
   const [totalCost, setTotleCost] = useState(0);
   const [showPreview, setshowPreview] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
+  const [messageApi, contextHolder] = message.useMessage();
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -46,6 +49,20 @@ const OrderDetails = () => {
       console.log("hdgfj", total);
     });
     return total;
+  };
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "This is a success message",
+    });
+  };
+
+  const warning = () => {
+    messageApi.open({
+      type: "warning",
+      content: "This is a warning message",
+    });
   };
 
   useEffect(() => {
@@ -84,8 +101,24 @@ const OrderDetails = () => {
         console.error("There was a problem with the fetch operation:", error);
       });
   }, []);
+
+  const reOrder = (id) => {
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/ReOrder?OrderId=${id}`;
+    fetch(apiUrl)
+      .then((data) => {
+        if (data.success) {
+          success();
+        } else {
+          warning();
+        }
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  };
   return (
     <>
+      {contextHolder}
       <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
         <InvoiceModal show={showPreview} setShow={setshowPreview} />
         <div className="grid sm:grid-cols-2 grid-cols-1 justify-between items-center mb-6 sm:gap-0 gap-3 ">
@@ -94,6 +127,7 @@ const OrderDetails = () => {
           </h1>
           <div className="flex sm:justify-end justify-start items-center gap-3">
             <button
+              onClick={() => reOrder(id)}
               type="button"
               className="text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
             >
