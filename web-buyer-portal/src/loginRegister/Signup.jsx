@@ -38,6 +38,7 @@ function Signup() {
                 email: values.email,
                 password: values.password,
               };
+              
               localStorage.setItem("buyerCred", JSON.stringify(buyerCred));
               localStorage.setItem("buyerData", JSON.stringify(data?.data[0]));
               navigate("/create-account");
@@ -47,7 +48,7 @@ function Signup() {
           })
           .catch((error) => {
             console.log(error);
-          });
+        });
       },
     });
 

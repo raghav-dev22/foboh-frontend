@@ -30,6 +30,7 @@ import { getTags } from "../helpers/getTags";
 import { message } from "antd";
 import { setTotalProducts } from "../slices/totalPageSlice";
 
+
 let localFilterSort = {
   filter: {
     category: [],
@@ -50,6 +51,7 @@ let localFilterSort = {
   },
 };
 
+
 //   filter: {
 //     category: [],
 //     subcategory: [],
@@ -63,6 +65,7 @@ let localFilterSort = {
 //     sortOrder: "asc",
 //   },
 // };
+
 
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
