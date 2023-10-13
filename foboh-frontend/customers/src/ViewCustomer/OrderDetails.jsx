@@ -225,6 +225,19 @@ const OrderDetails = ({ datas }) => {
         billingPostalCode: values.postalCode,
         billingState: values.state,
       });
+    } else {
+      setValues({
+        ...values,
+        deliveryFirstName: data.orderingFirstName,
+        deliveryLastName: data.orderingLastName,
+        deliveryEmail: data.orderingEmail,
+        deliveryMobile: data.orderingMobile,
+        billingApartment: data.apartment,
+        billingAddress: data.address,
+        billingSuburb: data.suburb,
+        billingPostalCode: data.postalCode,
+        billingState: data.state,
+      });
     }
   };
 

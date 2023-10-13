@@ -107,8 +107,7 @@ function BulkEdit() {
               buyPrice: product?.buyPrice,
               configuration: product?.configuration,
               availableQty: product?.stockAlertLevel,
-              visibility:
-                product?.visibility?.label === "Visible" ? true : false,
+              visibility: product?.visibility?.label === "1" ? "1" : "0",
               productStatus: product?.status?.label,
             };
           })

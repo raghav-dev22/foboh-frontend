@@ -123,7 +123,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "400 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              Billed from{" "}
+                              billed from
                             </div>
                             <div
                               className="text-gray-900 text-left w-[115px] h-[15px]"
@@ -131,7 +131,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "600 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              Lo-Fi Wines{" "}
+                              {invoiceData?.businessName}
                             </div>
                             <div
                               className="text-gray-900 text-left w-[115px] h-[15px]"
@@ -139,7 +139,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "400 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              ABN 58 621 583 944{" "}
+                              {invoiceData?.abn}
                             </div>
                             <div
                               className="text-[#000000] text-left w-[115px]"
@@ -147,7 +147,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "400 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              106 Hardware St, Melbourne VIC 3000{" "}
+                              {invoiceData?.organisationAddress}
                             </div>
                           </div>
                         </div>
@@ -159,7 +159,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "400 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              Order number{" "}
+                              {invoiceData?.orderId}
                             </div>
                             <div
                               className="text-gray-900 text-left w-[69.37px] h-[17.44px]"
@@ -167,7 +167,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "600 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              123456790{" "}
+                              {invoiceData?.invoiceNo}
                             </div>
                           </div>
                           <div className="w-[83px] h-[33px] static mt-7">
@@ -185,7 +185,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "600 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              3rd Oct 2023{" "}
+                              {invoiceData?.orderEntryDate}
                             </div>
                           </div>
                         </div>
@@ -205,7 +205,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                 font: "600 10px/14px 'Inter', sans-serif",
                               }}
                             >
-                              123456790{" "}
+                              {invoiceData?.invoiceNo}
                             </div>
                           </div>
                           <div className="w-[83px] h-[33px] static mt-7">
@@ -241,7 +241,7 @@ function InvoiceModal({ show, setShow, invoiceData, invoiceDataProducts }) {
                                     font: "var(--outline-bold, 700 10px/133% 'Inter', sans-serif)",
                                   }}
                                 >
-                                  CODE
+                                  priduct ID CODE
                                 </th>
                                 <th
                                   scope="col"

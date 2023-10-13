@@ -553,7 +553,8 @@ const MyOrders = () => {
   }));
 
   useEffect(() => {
-    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/get?page=${page}`;
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/get?page=${page}&BuyerId=${buyerId}`;
 
     fetch(apiUrl)
       .then((response) => {
