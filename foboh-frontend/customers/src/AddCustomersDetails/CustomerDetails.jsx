@@ -45,7 +45,7 @@ const initialValues = {
   billingSuburb: "",
   billingPostalCode: "",
   billingState: {},
-  isActive: true,
+  isActive: "1",
 };
 
 function CustomerDetails() {
@@ -128,7 +128,9 @@ function CustomerDetails() {
   };
   const handleCancel = () => {
     setIsUpDate(false);
-    formik.setValues(initialValues);
+    formik.setValues({
+      ...initialValues,
+    });
   };
   const handleNext = () => {
     formik.validateForm().then((errors) => {

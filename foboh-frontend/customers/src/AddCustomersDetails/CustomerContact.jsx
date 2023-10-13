@@ -49,6 +49,14 @@ function CustomerContact({
         deliveryEmail: values.orderingEmail,
         deliveryMobile: values.orderingMobile,
       });
+    } else {
+      setValues({
+        ...values,
+        deliveryFirstName: "",
+        deliveryLastName: "",
+        deliveryEmail: "",
+        deliveryMobile: "",
+      });
     }
   };
   return (

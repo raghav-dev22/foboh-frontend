@@ -21,6 +21,15 @@ function CustomerAddress({
         billingPostalCode: values.postalCode,
         billingState: values.state,
       });
+    } else {
+      setValues({
+        ...values,
+        billingAddress: "",
+        billingApartment: "",
+        billingSuburb: "",
+        billingPostalCode: "",
+        billingState: "",
+      });
     }
   };
   const [stateOptions, setStateOptions] = useState([]);
