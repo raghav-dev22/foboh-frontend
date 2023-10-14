@@ -34,182 +34,6 @@ const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
 
-const statusMenu = (
-  <Menu>
-    <Menu.Item key="1">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Select all
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="2">
-      <Checkbox className="text-base font-medium text-[#637381]">New</Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="3">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Pending approval
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="4">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Changes requested
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="5">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Updated
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="6">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Processing
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="7">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Shipped
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="8 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Partially fulfilled
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="9 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Delivered
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="10 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Completed
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="11 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Cancelled
-      </Checkbox>
-    </Menu.Item>
-  </Menu>
-);
-
-const regionMenu = (
-  <Menu>
-    <Menu.Item key="1">
-      <div className="relative">
-        <SearchIcon
-          className="top-[8px] right-[8px] absolute"
-          style={{ fill: "rgb(164, 169, 174)" }}
-        />
-
-        <input
-          className=""
-          style={{ border: "1px solid #E7E7E7 ", borderRadius: "8px" }}
-        />
-      </div>
-    </Menu.Item>
-
-    <Menu.Item key="2">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="3">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="4">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="5">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="6">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="7">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="8">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="9">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-  </Menu>
-);
-
-const dateMenu = (
-  <Menu>
-    <Menu.Item key="1">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Last 7 days
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="2">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Last 14 days
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="3">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Last 30 days
-      </Checkbox>
-    </Menu.Item>
-
-    <Menu.Item key="4">
-      <div className="relative custom-datePicker">
-        <div className=" absolute top-0 left-0 w-full h-full">
-          <Checkbox className="text-base font-medium text-[#637381]">
-            Custom
-          </Checkbox>
-        </div>
-
-        <DatePicker onChange={onChange} />
-      </div>
-    </Menu.Item>
-  </Menu>
-);
-
 const items = [
   {
     key: "1",
@@ -503,7 +327,8 @@ const MyOrders = () => {
     <Menu className="region-menu">
       <Menu.Item key="1">
         <Select
-          open={isOpen}
+          // open={isOpen}
+          showSearch
           onBlur={handleBlur}
           MenuProps={{
             onBlur: handleBlur,
@@ -603,7 +428,7 @@ const MyOrders = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const childRef = useRef();
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState("");
   let orderId = "";
   const [isWine, setIsWine] = useState(false);
 
