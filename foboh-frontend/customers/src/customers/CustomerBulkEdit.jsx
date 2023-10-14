@@ -184,12 +184,12 @@ function CustomerBulkEdit() {
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">
               <tr>
-                <th
+                {/* <th
                   scope="col"
                   className="px-6 py-3 text-green	font-medium text-base	"
                 >
                   Pricing profile
-                </th>
+                </th> */}
 
                 <th
                   scope="col"
@@ -212,7 +212,7 @@ function CustomerBulkEdit() {
                     key={index.toString()}
                     className={`bg-white border-b  dark:border-gray-700   tableNo-${index}`}
                   >
-                    <td className={`px-6 py-4 selectId-${index}`}>
+                    {/* <td className={`px-6 py-4 selectId-${index}`}>
                       <div className="w-44">
                         <Select
                           name="colors"
@@ -229,7 +229,7 @@ function CustomerBulkEdit() {
                           classNamePrefix="select"
                         />
                       </div>
-                    </td>
+                    </td> */}
 
                     <td className={`px-6 py-4 selectId-${index}`}>
                       <div className="w-44">

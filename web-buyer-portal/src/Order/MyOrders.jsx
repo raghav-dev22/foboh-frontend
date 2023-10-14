@@ -36,100 +36,6 @@ const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
 
-const items = [
-  {
-    key: "2",
-    type: "group",
-    label: (
-      <div className="flex justify-between items-center  my-2">
-        <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
-        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-      </div>
-    ),
-
-    children: [
-      {
-        key: "1-3",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            Oldest - Newest
-          </Checkbox>
-        ),
-      },
-
-      {
-        key: "1-4",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            Newest - Oldest
-          </Checkbox>
-        ),
-      },
-    ],
-  },
-  {
-    key: "3",
-    type: "group",
-    label: (
-      <div className="flex justify-between items-center  my-2">
-        <h5 className="text-base font-medium text-[#2B4447]">Last Update</h5>
-        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-      </div>
-    ),
-
-    children: [
-      {
-        key: "1-5",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            Oldest - Newest
-          </Checkbox>
-        ),
-      },
-
-      {
-        key: "1-6",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            Newest - Oldest
-          </Checkbox>
-        ),
-      },
-    ],
-  },
-  {
-    key: "5",
-    type: "group",
-    label: (
-      <div className="flex justify-between items-center  my-2">
-        <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
-
-        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-      </div>
-    ),
-
-    children: [
-      {
-        key: "1-9",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            Low - High
-          </Checkbox>
-        ),
-      },
-
-      {
-        key: "1-10",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            High - Low
-          </Checkbox>
-        ),
-      },
-    ],
-  },
-];
-
 const columns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
@@ -207,6 +113,7 @@ const MyOrders = () => {
   useEffect(() => {
     getCityState().then((data) => {
       console.log("city, state", data);
+
       setRegions(
         data.map((item) => {
           return {
@@ -221,9 +128,15 @@ const MyOrders = () => {
   const handleBlur = () => {
     setIsOpen(false);
   };
+
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
+
+  const handleSort = (value) => {
+    console.log(value);
+  };
+
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleCheckboxChange = (e) => {
@@ -234,6 +147,113 @@ const MyOrders = () => {
     // Handle the date selection here
     console.log("Selected date:", date);
   };
+
+  const items = [
+    {
+      key: "2",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center  my-2">
+          <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+
+      children: [
+        {
+          key: "1-3",
+          label: (
+            <Checkbox
+              onChange={handleSort}
+              className="text-base font-normal text-[#637381]"
+            >
+              Oldest - Newest
+            </Checkbox>
+          ),
+        },
+        {
+          key: "1-4",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Newest - Oldest
+            </Checkbox>
+          ),
+        },
+      ],
+    },
+    {
+      key: "3",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center  my-2">
+          <h5 className="text-base font-medium text-[#2B4447]">Last Update</h5>
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+
+      children: [
+        {
+          key: "1-5",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Oldest - Newest
+            </Checkbox>
+          ),
+        },
+
+        {
+          key: "1-6",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Newest - Oldest
+            </Checkbox>
+          ),
+        },
+      ],
+    },
+    {
+      key: "5",
+      type: "group",
+      label: (
+        <div className="flex justify-between items-center  my-2">
+          <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
+
+          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+        </div>
+      ),
+
+      children: [
+        {
+          key: "1-9",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              Low - High
+            </Checkbox>
+          ),
+        },
+
+        {
+          key: "1-10",
+          label: (
+            <Checkbox className="text-base font-normal text-[#637381]">
+              High - Low
+            </Checkbox>
+          ),
+        },
+      ],
+    },
+  ];
+
+  const sortOptions = (
+    <Menu>
+      <Menu.Item key="1">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Select all
+        </Checkbox>
+      </Menu.Item>
+    </Menu>
+  )
+
   const statusMenu = (
     <Menu>
       <Menu.Item key="1">
