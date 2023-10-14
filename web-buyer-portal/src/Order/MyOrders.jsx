@@ -19,6 +19,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import InvoiceModal from "../modal/InvoiceModal";
+import { searchOrders } from "../helpers/searchOrders";
+import { getCityState } from "../helpers/getCityState";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -35,37 +37,6 @@ const onChange = (date, dateString) => {
 };
 
 const items = [
-  {
-    key: "1",
-    type: "group",
-    label: (
-      <div className="flex justify-between items-center my-2  ">
-        <h5 className="text-base font-medium text-[#2B4447]">Order ID</h5>
-        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-      </div>
-    ),
-
-    children: [
-      {
-        key: "1-1",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            A -Z
-          </Checkbox>
-        ),
-      },
-
-      {
-        key: "1-2",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            Z - A
-          </Checkbox>
-        ),
-      },
-    ],
-  },
-
   {
     key: "2",
     type: "group",
@@ -96,7 +67,6 @@ const items = [
       },
     ],
   },
-
   {
     key: "3",
     type: "group",
@@ -127,39 +97,6 @@ const items = [
       },
     ],
   },
-
-  {
-    key: "4",
-    type: "group",
-    label: (
-      <div className="flex justify-between items-center  my-2">
-        <h5 className="text-base font-medium text-[#2B4447]">Customer Name</h5>
-
-        <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-      </div>
-    ),
-
-    children: [
-      {
-        key: "1-7",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            A -Z
-          </Checkbox>
-        ),
-      },
-
-      {
-        key: "1-8",
-        label: (
-          <Checkbox className="text-base font-normal text-[#637381]">
-            Z - A
-          </Checkbox>
-        ),
-      },
-    ],
-  },
-
   {
     key: "5",
     type: "group",
@@ -246,7 +183,40 @@ const DownloadInvoice = (
 );
 
 const MyOrders = () => {
+  const [Sort, setSort] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showPreview, setshowPreview] = useState(false);
+  const [page, setPage] = useState(1);
+  const [orderData, setOrderData] = useState([]);
+  const [invoiceData, setInvoiceData] = useState({});
+  const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
+  const [totalData, setTotalData] = useState({});
+  const [open, setOpen] = useState(false);
+  const [openStatus, setOpenStatus] = useState(false);
+  const [openDate, setOpenDate] = useState(false);
+  const [openRegion, setOpenRegion] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
+  const childRef = useRef();
+  const [input, setInput] = useState("");
+  let orderId = "";
+  const [isWine, setIsWine] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
+  const [regions, setRegions] = useState([]);
+
+  useEffect(() => {
+    getCityState().then((data) => {
+      console.log("city, state", data);
+      setRegions(
+        data.map((item) => {
+          return {
+            value: item?.stateName,
+            label: `${item?.cityName}, ${item?.stateName}`,
+          };
+        })
+      );
+    });
+  }, []);
 
   const handleBlur = () => {
     setIsOpen(false);
@@ -323,12 +293,14 @@ const MyOrders = () => {
       </Menu.Item>
     </Menu>
   );
+
   const regionMenu = (
     <Menu className="region-menu">
       <Menu.Item key="1">
         <Select
           // open={isOpen}
-          showSearch
+          mode="multiple"
+          allowClear
           onBlur={handleBlur}
           MenuProps={{
             onBlur: handleBlur,
@@ -339,20 +311,7 @@ const MyOrders = () => {
             width: 120,
           }}
           onChange={handleChange}
-          options={[
-            {
-              value: "City-1",
-              label: "City, State",
-            },
-            {
-              value: "City-2",
-              label: "City, State",
-            },
-            {
-              value: "City-3",
-              label: "City, State",
-            },
-          ]}
+          options={regions}
         />
       </Menu.Item>
     </Menu>
@@ -412,25 +371,6 @@ const MyOrders = () => {
   const onClick = (e) => {
     console.log("click ", e);
   };
-
-  const [Sort, setSort] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
-  const [showPreview, setshowPreview] = useState(false);
-  const [page, setPage] = useState(1);
-  const [orderData, setOrderData] = useState([]);
-  const [invoiceData, setInvoiceData] = useState({});
-  const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
-  const [totalData, setTotalData] = useState({});
-  const [open, setOpen] = useState(false);
-  const [openStatus, setOpenStatus] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
-  const [openRegion, setOpenRegion] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate();
-  const childRef = useRef();
-  const [input, setInput] = useState("");
-  let orderId = "";
-  const [isWine, setIsWine] = useState(false);
 
   const handleInvoiceDownload = async (orderId) => {
     const invoiceData = await fetchInvoice(orderId);
@@ -684,13 +624,12 @@ const MyOrders = () => {
     };
   }
 
-  function saveInput() {
-    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-    // fetch(`https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderHistoryByOrderId?page=${}&OrderId=${}&BuyerId=${}`, {
-    //   method: "GET"
-    // })
-    
-  }
+  const saveInput = async () => {
+    const ordersData = await searchOrders(input, page);
+    console.log("ordersData", ordersData);
+    setOrderData(ordersData.data);
+    setTotalData(ordersData.total);
+  };
 
   const processChange = debounce(() => saveInput());
 
@@ -768,17 +707,12 @@ const MyOrders = () => {
                   trigger={["click"]}
                   className="cursor-pointer"
                 >
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <div className="flex items-center gap-3">
-                      <h5 className="text-lg font-medium text-[#637381]">
-                        Status
-                      </h5>
-                      <KeyboardArrowDownIcon />
-                    </div>
-                  </a>
+                  <div className="flex items-center gap-3">
+                    <h5 className="text-lg font-medium text-[#637381]">
+                      Status
+                    </h5>
+                    <KeyboardArrowDownIcon />
+                  </div>
                 </Dropdown>
 
                 <Dropdown
@@ -788,17 +722,12 @@ const MyOrders = () => {
                   open={openRegion}
                   onOpenChange={handleOpenRegion}
                 >
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <div className="flex items-center gap-3">
-                      <h5 className="text-lg font-medium text-[#637381]">
-                        Region
-                      </h5>
-                      <KeyboardArrowDownIcon />
-                    </div>
-                  </a>
+                  <div className="flex items-center gap-3">
+                    <h5 className="text-lg font-medium text-[#637381]">
+                      Region
+                    </h5>
+                    <KeyboardArrowDownIcon />
+                  </div>
                 </Dropdown>
                 <Dropdown
                   overlay={dateMenu}
