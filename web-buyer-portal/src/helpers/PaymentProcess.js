@@ -79,7 +79,7 @@ const getCalculations = async () => {
           console.log("subCatList", subCatList);
 
           // Managing all the calculations
-          const productPrice = item?.buyPrice || 0;
+          const productPrice = item?.globalPrice || 0;
           const subCat = item?.subCategoryId;
           const quantity = item?.quantity || 0;
           alltotal += productPrice * quantity;

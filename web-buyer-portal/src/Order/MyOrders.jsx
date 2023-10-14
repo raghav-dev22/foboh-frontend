@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Table } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
@@ -430,7 +430,7 @@ const MyOrders = () => {
   const [page, setPage] = useState(1);
   const [orderData, setOrderData] = useState([]);
   const [invoiceData, setInvoiceData] = useState({});
-  const [invoiceDataProducts, setInvoiceDataProducts] = useState({});
+  const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
   const [totalData, setTotalData] = useState({});
   const [open, setOpen] = useState(false);
   const [openStatus, setOpenStatus] = useState(false);
@@ -438,6 +438,17 @@ const MyOrders = () => {
   const [openRegion, setOpenRegion] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
+  const childRef = useRef();
+  const [input, setInput] = useState('')
+  let orderId = "";
+  const [isWine, setIsWine] = useState(false);
+
+  const handleInvoiceDownload = async (orderId) => {
+    const invoiceData = await fetchInvoice(orderId);
+    if (childRef.current && invoiceData) {
+      childRef.current.handlePrint(orderId);
+    }
+  };
 
   const success = () => {
     messageApi.open({
@@ -544,7 +555,7 @@ const MyOrders = () => {
             style={{ fill: "#637381" }}
             className=" cursor-pointer"
             onClick={() => {
-              fetchInvoice(order.orderId);
+              handleInvoiceDownload(order.orderId);
             }}
           />
         </Tooltip>
@@ -579,10 +590,10 @@ const MyOrders = () => {
     setPage(current.current);
   };
 
-  const fetchInvoice = (id) => {
+  const fetchInvoice = async (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${7877302005}`;
 
-    fetch(apiUrl)
+    const invoiceData = await fetch(apiUrl)
       .then((response) => {
         return response.json();
       })
@@ -590,23 +601,64 @@ const MyOrders = () => {
         console.log(data.total, "data------>");
         setshowPreview(true);
         setInvoiceData(data.data[0]);
+        orderId = data.data[0]?.orderId;
         setInvoiceDataProducts(
           data.data.map((item) => {
+            let gstPerItem = 0;
+            let wetPerItem = null;
+            let amountPerItem = 0;
+
+            const salePrice = item?.globalPrice;
+            const quantity = item?.quantity;
+            const subCatId = item?.subCategoryId;
+            const gst = 0.1;
+            const wet = 0.29;
+
+            const subTotal = salePrice * quantity;
+            const subTotalGst = subTotal * gst;
+            const subTotalIncGst = subTotal + subTotalGst;
+            let subTotalWet = 0;
+            let subTotalIncWet = 0;
+
+            if (subCatId === "SC500" || subCatId === "SC5000") {
+              setIsWine(true);
+              subTotalWet = subTotal * wet;
+              subTotalIncWet = subTotal + subTotalWet;
+              wetPerItem = subTotalIncWet;
+            }
+
+            amountPerItem = subTotalIncGst;
+            gstPerItem = subTotalGst;
+
             return {
-              productId: item.productId,
-              skUcode: item.skUcode,
-              configuration: item.configuration,
-              luCcost: item.luCcost,
-              buyPrice: item.buyPrice,
-              title: item.title,
-              unitofMeasure: item.unitofMeasure,
+              totalPrice: item?.totalPrice,
+              quantity: item?.quantity,
+              cartId: item?.cartId,
+              subTotalPrice: item?.subTotalPrice,
+              shippingcharges: item?.shippingcharges,
+              gst: item?.gst,
+              wet: item?.wet,
+              productId: item?.productId,
+              skUcode: item?.skUcode,
+              configuration: item?.configuration,
+              luCcost: item?.luCcost,
+              globalPrice: item?.globalPrice,
+              title: item?.title,
+              unitofMeasure: item?.unitofMeasure,
+              amountPerItem: amountPerItem,
+              gstPerItem: gstPerItem,
+              wetPerItem: wetPerItem,
             };
           })
         );
       })
+      .then(() => {
+        return true;
+      })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
       });
+    return invoiceData;
   };
 
   const reOrder = (id) => {
@@ -624,6 +676,36 @@ const MyOrders = () => {
       });
   };
 
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      processChange();
+    }, 1000);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [input]);
+
+  function debounce(func, timeout = 0) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
+  function saveInput() {
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    
+  }
+
+  const processChange = debounce(() => saveInput());
+
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    setInput(search);
+  };
+
   return (
     <>
       {contextHolder}
@@ -639,7 +721,9 @@ const MyOrders = () => {
               <input
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
                 placeholder="Search"
-                type="search"
+                type="
+                text"
+                onChange={handleSearch}
               />
               <SearchIcon
                 className="absolute top-[8px] right-[8px] "
@@ -754,10 +838,12 @@ const MyOrders = () => {
         <div className="border border-[#E0E0E0] rounded-[8px] mb-8">
           {/* {showPreview && <Invoice />} */}
           <InvoiceModal
+            ref={childRef}
             show={showPreview}
             setShow={setshowPreview}
             invoiceData={invoiceData}
             invoiceDataProducts={invoiceDataProducts}
+            isWine={isWine}
           />
           <Table
             columns={columns}

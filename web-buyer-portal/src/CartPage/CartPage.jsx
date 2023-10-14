@@ -107,7 +107,7 @@ const CartPage = () => {
             }
 
             // Managing all the calculations
-            const productPrice = item?.buyPrice || 0;
+            const productPrice = item?.globalPrice || 0;
             const subCat = item?.subCategoryId;
             const quantity = item?.quantity || 0;
             alltotal += productPrice * quantity;
@@ -340,7 +340,7 @@ const CartPage = () => {
                             </div>
                           </div>
                           <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
-                            ${item.product?.buyPrice}
+                            ${item.product?.globalPrice}
                           </h4>
                         </div>
 

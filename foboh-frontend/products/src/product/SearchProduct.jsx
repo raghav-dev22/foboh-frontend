@@ -202,6 +202,8 @@ const SearchProduct = forwardRef(
       }
     }
     const processChange = debounce((name) => saveInput(name));
+
+    
     useImperativeHandle(ref, () => ({
       handleFilterPagination(pageNumber) {
         console.log("handleFilterPagination");

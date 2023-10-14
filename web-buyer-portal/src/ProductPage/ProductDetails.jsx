@@ -225,7 +225,7 @@ const ProductDetails = () => {
             <div className="flex items-center gap-3">
               <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5>
               <h5 className="text-lg font-semibold">
-                {selectData?.product?.price}
+                {selectData?.product?.globalPrice}
               </h5>
             </div>
             <div className="py-3">

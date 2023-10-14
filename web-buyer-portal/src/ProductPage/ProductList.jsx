@@ -1649,7 +1649,7 @@ const ProductList = () => {
                       </div>
                       <div className="h-[150px] bg-[#c3c3c3]">
                         <img
-                          src={item?.product?.productImageUrls}
+                          src={item?.product?.productImageUrls[0]}
                           alt=""
                           className="cursor-pointer w-full h-full object-cover"
                           onClick={() =>
@@ -1687,7 +1687,7 @@ const ProductList = () => {
                     </p>
 
                     <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                      ${item?.product?.buyPrice}
+                      ${item?.product?.globalPrice}
                     </h4>
 
                     <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">

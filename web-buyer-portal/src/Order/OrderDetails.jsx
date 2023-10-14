@@ -41,7 +41,7 @@ const OrderDetails = () => {
   const calculateTotalCost = () => {
     let total = 0;
     CARTdata.forEach((item) => {
-      const productPrice = item?.product?.price;
+      const productPrice = item?.product?.globalPrice;
       const productPriceINR = productPrice;
       const quantity = parseInt(item.quantity);
       total += productPriceINR * quantity;
@@ -258,7 +258,7 @@ const OrderDetails = () => {
                           Quantity - {item?.quantity}
                         </p>
                         <h4 className=" text-base text-[#2B4447] font-semibold">
-                          {item.product?.buyPrice}
+                          {item.product?.globalPrice}
                         </h4>
                       </div>
                     </div>

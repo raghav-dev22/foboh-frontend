@@ -66,7 +66,7 @@ const Order = () => {
   const calculateTotalCost = () => {
     let total = 0;
     CARTdata.forEach((item) => {
-      const productPrice = item?.product?.buyPrice;
+      const productPrice = item?.product?.globalPrice;
       const productPriceINR = productPrice;
       const quantity = parseInt(item.quantity);
       total += productPriceINR * quantity;
@@ -100,7 +100,7 @@ const Order = () => {
           let totalCost = 0;
           let alltotal = 0;
           data.data.forEach((item) => {
-            const productPrice = item?.buyPrice;
+            const productPrice = item?.globalPrice;
             const subCat = item?.subCategoryId;
             const productPriceINR = productPrice;
             const quantity = parseInt(item?.quantity);
@@ -196,7 +196,7 @@ const Order = () => {
                     </h4>
 
                     <h4 className=" text-base text-[#2B4447] font-semibold">
-                      {item.product?.price}
+                      {item.product?.globalPrice}
                     </h4>
                   </div>
 
