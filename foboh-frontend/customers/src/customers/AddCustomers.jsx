@@ -247,7 +247,7 @@ function AddCustomers() {
                           </td>
                           <td className={classes}>
                             <td className={classes}>
-                              {product?.isActive === true ? (
+                              {product?.isActive === "1" ? (
                                 <div
                                   style={{
                                     background: "rgba(33, 150, 83, 0.08)",

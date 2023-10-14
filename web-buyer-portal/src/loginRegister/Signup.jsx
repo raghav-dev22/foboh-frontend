@@ -6,9 +6,17 @@ import { useFormik } from "formik";
 import { buyers } from "../data";
 import { useNavigate } from "react-router-dom";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
+import {
+  CheckBox,
+  CheckBoxOutlineBlank,
+  Visibility,
+  VisibilityOffOutlined,
+} from "@mui/icons-material";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 function Signup() {
   const [isValidBuyer, setIsValidBuyer] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = {
     name: "",
@@ -76,7 +84,10 @@ function Signup() {
       })
       .catch((error) => console.log(error));
   };
-
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+    console.log(showPassword);
+  };
   // console.log(values, "values");
   return (
     <>
@@ -184,7 +195,8 @@ function Signup() {
                     </label>
                     <div className="inset-y-0 right-0 flex items-center">
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
+                        // type="password"
                         id="password"
                         className={`js-password `}
                         autoComplete="off"
@@ -199,6 +211,18 @@ function Signup() {
                         onBlur={handleBlur}
                         value={values.password}
                       />
+                      <label
+                        style={{ zIndex: "50" }}
+                        className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
+                        htmlFor="password"
+                        onClick={handleTogglePassword}
+                      >
+                        {showPassword ? (
+                          <Visibility fontSize="small" />
+                        ) : (
+                          <VisibilityOffOutlinedIcon fontSize="small" />
+                        )}
+                      </label>
                     </div>
                     {!errors.password && values.password && (
                       <p className="mt-2 mb-2 text-green-500">
@@ -218,9 +242,6 @@ function Signup() {
                       <p className="mt-2 mb-2 text-red-500">
                         {errors.password}
                       </p>
-                    )}
-                    {errors.password && touched.password && (
-                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
                     <label
                       className="opacity-[0.5] mb-[5px] rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"

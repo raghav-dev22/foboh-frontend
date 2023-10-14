@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Select from "react-select";
+
 function CustomerAddress({
   values,
   handleChange,
@@ -8,6 +10,7 @@ function CustomerAddress({
   options,
   touched,
   setValues,
+  setIsUpDate,
 }) {
   console.log("contact address>>", errors, touched);
   const sameAddresses = (e) => {
@@ -52,6 +55,24 @@ function CustomerAddress({
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const handleSelect = (e, name) => {
+    console.log("selected state>>>>...", e, name);
+    if (name === "state") {
+      setValues({
+        ...values,
+        state: e,
+      });
+      setIsUpDate(true);
+    } else {
+      setValues({
+        ...values,
+        [name]: e,
+      });
+      setIsUpDate(true);
+    }
+    console.log("all values>>", values);
+  };
 
   return (
     <>
@@ -185,16 +206,17 @@ function CustomerAddress({
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
-              <label
+              {/* <label
                 className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
                 htmlFor="grid-last-name"
               >
                 State
-              </label>
-              <div className="relative">
+              </label> */}
+              {/* <div className="relative">
                 <select
                   name="state"
                   onChange={handleChange}
+                  value={values?.State}
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-state"
                 >
@@ -213,7 +235,22 @@ function CustomerAddress({
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                   </svg>
                 </div>
-              </div>
+              </div> */}
+              <Select
+                name="state"
+                // isMulti={true}
+                options={stateOptions}
+                // value={stateOptions.find(
+                //   (option) => option.value === values.state
+                // )}
+                value={values?.state}
+                onChange={(e) => handleSelect(e, "state")}
+                className="basic-multi-select "
+                classNamePrefix="select"
+                // style={{
+                //   border: errors?.defaultPaymentTerms && "1px solid red",
+                // }}
+              />
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 relative">

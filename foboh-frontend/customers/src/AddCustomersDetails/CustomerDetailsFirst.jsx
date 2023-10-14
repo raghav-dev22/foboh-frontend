@@ -182,6 +182,9 @@ function CustomerDetailsFirst({
               value={values.liquorLicence}
               onChange={handleChange}
               onBlur={handleBlur}
+              style={{
+                border: errors?.liquorLicence && "1px solid red",
+              }}
             />
             {errors?.liquorLicence && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
@@ -193,38 +196,38 @@ function CustomerDetailsFirst({
             )}
           </div>
         </div>
-        {/* <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+        <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className="  w-full relative md:w-1/2 px-3">
-            <h5 className="text-base font-medium text-green mb-3">Sales rep</h5>
+            <h5 className="text-base font-medium text-green mb-3">Status</h5>
             <div className=" top-16 w-full">
               <Select
-                id="salesRepId"
-                name="salesRepId"
-                isMulti={true}
+                id="isActive"
+                name="isActive"
+                // isMulti={true}
                 options={options}
-                value={values?.salesRepId}
+                value={values?.isActive}
                 // value={options.find(
                 //   (option) => option.value === values.salesRepId
                 // )}
-                onChange={(e) => handleSelect(e, "salesRepId")}
+                onChange={(e) => handleSelect(e, "isActive")}
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                  border: errors?.salesRepId && "1px solid red",
+                  border: errors?.isActive && "1px solid red",
                 }}
               />
 
-              {errors?.salesRepId && (
+              {errors?.isActive && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors?.salesRepId}
+                  {errors?.isActive}
                 </p>
               )}
-              {errors?.salesRepId && (
+              {/* {errors?.isActive && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-              )}
+              )} */}
             </div>
           </div>
-          <div className="  w-full relative md:w-1/2 px-3">
+          {/* <div className="  w-full relative md:w-1/2 px-3">
             <h5 className="text-base font-medium text-green mb-3">
               Pricing profile
             </h5>
@@ -252,8 +255,50 @@ function CustomerDetailsFirst({
                 </p>
               )}
             </div>
+          </div> */}
+          <div className=" w-full relative md:w-1/2 px-3">
+            <h5 className="text-base font-medium text-green mb-3">Tags</h5>
+            <div className=" top-16 w-full">
+              <Select
+                // value={options.find((option) => option.value === values.tags)}
+                value={values?.tags}
+                isMulti
+                name="tags"
+                options={customerTag}
+                onChange={(e) => handleSelect(e, "tags")}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                style={{
+                  border: errors?.tags && "1px solid red",
+                }}
+              />
+              {/* <Select
+                name="tags"
+                isMulti = {true}
+                // value={options.find(
+                //   (option) => option.value === values.tags
+                // )}
+                value={values?.tags}
+                options={customerTag}
+                onChange={(e) => handleSelect(e, "tags")}
+                // onChange={}
+                className="basic-multi-select "
+                classNamePrefix="select"
+                style={{
+                border:
+                  errors?.tags &&
+                  "1px solid red",
+              }}
+            /> */}
+
+              {errors?.tags && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.tags}
+                </p>
+              )}
+            </div>
           </div>
-        </div> */}
+        </div>
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className="  w-full relative md:w-1/2 px-3">
             <h5 className="text-base font-medium text-green mb-3">
@@ -315,49 +360,7 @@ function CustomerDetailsFirst({
 
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className=" w-full relative md:w-1/2 px-3">
-            <h5 className="text-base font-medium text-green mb-3">Tags</h5>
-            <div className=" top-16 w-full">
-              <Select
-                // value={options.find((option) => option.value === values.tags)}
-                value={values?.tags}
-                isMulti
-                name="tags"
-                options={customerTag}
-                onChange={(e) => handleSelect(e, "tags")}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                style={{
-                  border: errors?.tags && "1px solid red",
-                }}
-              />
-              {/* <Select
-                name="tags"
-                isMulti = {true}
-                // value={options.find(
-                //   (option) => option.value === values.tags
-                // )}
-                value={values?.tags}
-                options={customerTag}
-                onChange={(e) => handleSelect(e, "tags")}
-                // onChange={}
-                className="basic-multi-select "
-                classNamePrefix="select"
-                style={{
-                border:
-                  errors?.tags &&
-                  "1px solid red",
-              }}
-            /> */}
-
-              {errors?.tags && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors?.tags}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className=" w-full relative md:w-1/2 px-3">
-            <div className=" flex justify-between items-center mb-3">
+            <div className=" flex justify-between items-center mb-2 mt-4">
               <h5 className="text-green text-base font-medium">WET liable</h5>
               <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
@@ -366,6 +369,7 @@ function CustomerDetailsFirst({
                   id="toggle"
                   value={values.wetLiable}
                   onChange={handleChange}
+                  checked={values.wetLiable}
                   class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />
                 <label
