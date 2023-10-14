@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import AddProductListing from "../addProduct/AddProductListing";
+
 import UploadImg from "../addProduct/UploadImg";
 import AddInventory from "../addProduct/AddInventory";
 import AddProductDetails from "../addProduct/AddProductDetails";
@@ -31,6 +32,7 @@ import {
   options,
 } from "../data";
 import { Box } from "@mui/material";
+import DeleteModal from "../modal/DeleteModal";
 
 const initialValues = {
   visibility: "0",
@@ -71,6 +73,7 @@ const initialValues = {
 const status = ["Active", "Inactive", "Archived"];
 
 function AddProduct() {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
@@ -694,6 +697,7 @@ function AddProduct() {
       fontWeight: 600,
     },
   }));
+  const [deleteModal, setDeleteModal] = useState(false);
 
   return (
     <>
@@ -1757,8 +1761,31 @@ function AddProduct() {
               {/* Main Form End / */}
             </div>
           </div>
+
+          <div className="flex justify-end items-center gap-3">
+            <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
+              Archive
+            </div>
+            <div
+              onClick={() => {
+                setDeleteModalOpen(true);
+              }}
+              className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
+            >
+              Delete
+            </div>
+          </div>
         </div>
       </form>
+      <DeleteModal
+        open={deleteModalOpen}
+        onOk={() => {
+          setDeleteModalOpen(false);
+        }}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+        }}
+      />
     </>
   );
 }

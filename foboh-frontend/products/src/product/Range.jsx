@@ -15,6 +15,8 @@ import {
 import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 import { PaginationNav1Presentation } from "./Pagination";
 import { Avatar, List, Skeleton, Switch } from "antd";
+import Visible from "../modal/Visible";
+import HiddenModal from "../modal/HiddenModal";
 const TABLE_HEAD = [
   "Title",
   "Code",
@@ -25,6 +27,8 @@ const TABLE_HEAD = [
 ];
 
 function Range() {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [hiddenModalOpen, setHiddenModalOpen] = useState(false);
   const childRef = useRef(null);
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [products, setProducts] = useState([]);
@@ -109,7 +113,14 @@ function Range() {
   };
 
   // visibility handle
+
   const handleBulkVisibility = (name) => {
+    if (name === "visible") {
+      setDeleteModalOpen(true);
+    } else {
+      setHiddenModalOpen(true);
+    }
+
     // console.log("handle visibility >>",selectedProducts);
     // return true
 
@@ -471,6 +482,24 @@ function Range() {
           ""
         )}
       </div>
+      <Visible
+        open={deleteModalOpen}
+        onOk={() => {
+          setDeleteModalOpen(false);
+        }}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+        }}
+      />
+      <HiddenModal
+        open={hiddenModalOpen}
+        onOk={() => {
+          setHiddenModalOpen(false);
+        }}
+        onCancel={() => {
+          setHiddenModalOpen(false);
+        }}
+      />
     </>
   );
 }

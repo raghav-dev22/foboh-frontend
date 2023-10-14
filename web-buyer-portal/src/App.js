@@ -49,6 +49,7 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/invoice-including-wet" element={<InvoiceIncludingWET />} />
       <Route path="/invoice-excluding-wet" element={<InvoiceExcludingWET />} />
       <Route path="/verify-email" element={<Verifyemail />} />
+      <Route path="/verify-password" element={<VerifyPassword />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
       <Route path="/order-details/:id" element={<OrderDetails />} />

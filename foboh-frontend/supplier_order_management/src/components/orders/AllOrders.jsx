@@ -17,6 +17,15 @@ import { Menu } from "antd";
 import { useEffect } from "react";
 
 const AllOrders = () => {
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setShowDatePicker(e.target.checked);
+  };
+  const handleDatePickerChange = (date) => {
+    // Handle the date selection here
+    console.log("Selected date:", date);
+  };
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -24,7 +33,7 @@ const AllOrders = () => {
   const [openDate, setOpenDate] = useState(false);
   const [openRegion, setOpenRegion] = useState(false);
   const statusMenu = (
-    <Menu>
+    <Menu className="custom">
       <Menu.Item key="1">
         <Checkbox className="text-base font-medium text-[#637381]">
           Select all
@@ -164,13 +173,34 @@ const AllOrders = () => {
         </Checkbox>
       </Menu.Item>
       <Menu.Item key="4">
-        <div className="relative custom-datePicker">
+        <div className="relative custom-datePicker h-[40px]">
           <div className=" absolute top-0 left-0 w-full h-full">
-            <Checkbox className="text-base font-medium text-[#637381]">
-              Custom
-            </Checkbox>
+            <label className="text-base font-medium text-[#637381]">
+              <Checkbox
+                className="text-base font-medium text-[#637381]"
+                onChange={handleCheckboxChange}
+                checked={showDatePicker}
+              >
+                Custom
+              </Checkbox>
+            </label>
           </div>
-          <DatePicker onChange={onChange} />
+          {showDatePicker && (
+            <DatePicker
+              renderExtraFooter={() => (
+                <div className="flex justify-center items-center gap-2 ">
+                  <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                    Remove
+                  </div>
+                  <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                    Done
+                  </div>
+                </div>
+              )}
+              onChange={handleDatePickerChange}
+            />
+          )}
+          {/* <DatePicker onChange={onChange} /> */}
         </div>
       </Menu.Item>
     </Menu>
@@ -512,7 +542,7 @@ const AllOrders = () => {
                       className="ant-dropdown-link"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 cursor-pointer">
                         <h5 className="text-lg font-medium text-[#637381]">
                           Status
                         </h5>
@@ -530,7 +560,7 @@ const AllOrders = () => {
                       className="ant-dropdown-link"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 cursor-pointer">
                         <h5 className="text-lg font-medium text-[#637381]">
                           Region
                         </h5>
@@ -548,7 +578,7 @@ const AllOrders = () => {
                       className="ant-dropdown-link"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 cursor-pointer">
                         <h5 className="text-lg font-medium text-[#637381]">
                           Date
                         </h5>

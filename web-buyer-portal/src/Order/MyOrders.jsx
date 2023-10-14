@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "antd";
+import {
+  Table,
+  Select,
+  Dropdown,
+  Checkbox,
+  Tooltip,
+  DatePicker,
+  message,
+  Menu,
+} from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
-import { Dropdown, Space } from "antd";
-import { Checkbox, Col, Row } from "antd";
+
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Button, Tooltip } from "antd";
+
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { DatePicker } from "antd";
-import InvoiceModal from "../modal/InvoiceModal";
-import CustomCalender from "../datePicker/CustomerCalender";
-import { message } from "antd";
 
-import { Menu } from "antd";
+import InvoiceModal from "../modal/InvoiceModal";
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -28,156 +33,6 @@ function getItem(label, key, icon, children, type) {
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
-const statusMenu = (
-  <Menu>
-    <Menu.Item key="1">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Select all
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Checkbox className="text-base font-medium text-[#637381]">New</Checkbox>
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Pending approval
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="4">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Changes requested
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="5">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Updated
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="6">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Processing
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="7">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Shipped
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="8 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Partially fulfilled
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="9 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Delivered
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="10 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Completed
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="11 ">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Cancelled
-      </Checkbox>
-    </Menu.Item>
-  </Menu>
-);
-const regionMenu = (
-  <Menu>
-    <Menu.Item key="1">
-      <div className="relative">
-        <SearchIcon
-          className="top-[8px] right-[8px] absolute"
-          style={{ fill: "rgb(164, 169, 174)" }}
-        />
-        <input
-          className=""
-          style={{ border: "1px solid #E7E7E7 ", borderRadius: "8px" }}
-        />
-      </div>
-    </Menu.Item>
-    <Menu.Item key="2">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="3">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="4">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="5">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="6">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="7">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="8">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="9">
-      {" "}
-      <Checkbox className="text-base font-medium text-[#637381]">
-        City, State
-      </Checkbox>
-    </Menu.Item>
-  </Menu>
-);
-const dateMenu = (
-  <Menu>
-    <Menu.Item key="1">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Last 7 days
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Last 14 days
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Checkbox className="text-base font-medium text-[#637381]">
-        Last 30 days
-      </Checkbox>
-    </Menu.Item>
-    <Menu.Item key="4">
-      <div className="relative custom-datePicker">
-        <div className=" absolute top-0 left-0 w-full h-full">
-          <Checkbox className="text-base font-medium text-[#637381]">
-            Custom
-          </Checkbox>
-        </div>
-        <DatePicker onChange={onChange} />
-      </div>
-    </Menu.Item>
-  </Menu>
-);
 
 const items = [
   {
@@ -369,7 +224,168 @@ const DownloadInvoice = (
 );
 
 const MyOrders = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleBlur = () => {
+    setIsOpen(false);
+  };
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setShowDatePicker(e.target.checked);
+  };
+
+  const handleDatePickerChange = (date) => {
+    // Handle the date selection here
+    console.log("Selected date:", date);
+  };
   const [startDate, setStartDate] = useState(new Date());
+  const statusMenu = (
+    <Menu>
+      <Menu.Item key="1">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Select all
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          New
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Pending approval
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Changes requested
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="5">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Updated
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="6">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Processing
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="7">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Shipped
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="8 ">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Partially fulfilled
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="9 ">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Delivered
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="10 ">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Completed
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="11 ">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Cancelled
+        </Checkbox>
+      </Menu.Item>
+    </Menu>
+  );
+  const regionMenu = (
+    <Menu className="region-menu">
+      <Menu.Item key="1">
+        <Select
+          open={isOpen}
+          onBlur={handleBlur}
+          MenuProps={{
+            onBlur: handleBlur,
+          }}
+          defaultValue="city"
+          className="regionMenuSelect"
+          style={{
+            width: 120,
+          }}
+          onChange={handleChange}
+          options={[
+            {
+              value: "City-1",
+              label: "City, State",
+            },
+            {
+              value: "City-2",
+              label: "City, State",
+            },
+            {
+              value: "City-3",
+              label: "City, State",
+            },
+          ]}
+        />
+      </Menu.Item>
+    </Menu>
+  );
+  const dateMenu = (
+    <Menu>
+      <Menu.Item key="1">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Last 7 days
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Last 14 days
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Checkbox className="text-base font-medium text-[#637381]">
+          Last 30 days
+        </Checkbox>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <div className="relative custom-datePicker h-[40px]">
+          <div className=" absolute top-0 left-0 w-full h-full">
+            <label className="text-base font-medium text-[#637381]">
+              <Checkbox
+                className="text-base font-medium text-[#637381]"
+                onChange={handleCheckboxChange}
+                checked={showDatePicker}
+              >
+                Custom
+              </Checkbox>
+            </label>
+          </div>
+          {showDatePicker && (
+            <DatePicker
+              renderExtraFooter={() => (
+                <div className="flex justify-center items-center gap-2 ">
+                  <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                    Remove
+                  </div>
+                  <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                    Done
+                  </div>
+                </div>
+              )}
+              onChange={handleDatePickerChange}
+            />
+          )}
+          {/* <DatePicker onChange={onChange} /> */}
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+
   const onClick = (e) => {
     console.log("click ", e);
   };
@@ -409,6 +425,7 @@ const MyOrders = () => {
   };
   const handleOpenRegion = (flag) => {
     setOpenRegion(flag);
+    // setIsOpen(true);
   };
   const formattedData = orderData.map((order, index) => ({
     key: index,
@@ -607,6 +624,8 @@ const MyOrders = () => {
                   overlay={statusMenu}
                   open={openStatus}
                   onOpenChange={handleOpenStatus}
+                  trigger={["click"]}
+                  className="cursor-pointer"
                 >
                   <a
                     className="ant-dropdown-link"
@@ -623,6 +642,8 @@ const MyOrders = () => {
                 </Dropdown>
                 <Dropdown
                   overlay={regionMenu}
+                  className="cursor-pointer custom-menu"
+                  trigger={["click"]}
                   open={openRegion}
                   onOpenChange={handleOpenRegion}
                 >
@@ -641,6 +662,8 @@ const MyOrders = () => {
                 </Dropdown>
                 <Dropdown
                   overlay={dateMenu}
+                  trigger={["click"]}
+                  className="cursor-pointer"
                   open={openDate}
                   onOpenChange={handleOpenDate}
                 >
