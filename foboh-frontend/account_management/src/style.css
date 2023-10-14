@@ -1344,12 +1344,7 @@ a:hover {
   font-weight: 500 !important;
   color: #637381 !important;
 }
-.ant-picker-dropdown .ant-picker-date-panel .ant-picker-content {
-  width: 328px !important;
-}
-.ant-picker-dropdown .ant-picker-date-panel {
-  width: 350px !important;
-}
+
 .ant-picker-footer {
   border-top: 0 !important;
 }
@@ -1382,4 +1377,10 @@ a:hover {
   min-height: 150px;
   max-height: 210px;
   overflow-y: auto;
+}
+.rounded-\[4px\] {
+  border-radius: 4px;
+}
+.h-\[40px\] {
+  height: 40px;
 }

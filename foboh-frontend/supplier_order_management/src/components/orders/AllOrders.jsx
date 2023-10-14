@@ -1,22 +1,23 @@
 import { React, useState } from "react";
-import { Table, Checkbox } from "antd";
+
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
-import { DatePicker } from "antd";
-
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-// import "react-datepicker/dist/react-datepicker.css";
+import { Dropdown, Select, Space, DatePicker, Table, Checkbox } from "antd";
 
 import { Menu } from "antd";
 
 import { useEffect } from "react";
 
 const AllOrders = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  const handleBlur = () => {
+    setIsOpen(false);
+  };
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleCheckboxChange = (e) => {
@@ -33,7 +34,7 @@ const AllOrders = () => {
   const [openDate, setOpenDate] = useState(false);
   const [openRegion, setOpenRegion] = useState(false);
   const statusMenu = (
-    <Menu className="custom">
+    <Menu>
       <Menu.Item key="1">
         <Checkbox className="text-base font-medium text-[#637381]">
           Select all
@@ -92,66 +93,35 @@ const AllOrders = () => {
     </Menu>
   );
   const regionMenu = (
-    <Menu>
+    <Menu className="region-menu">
       <Menu.Item key="1">
-        <div className="relative">
-          <SearchIcon
-            className="top-[8px] right-[8px] absolute"
-            style={{ fill: "rgb(164, 169, 174)" }}
-          />
-          <input
-            className=""
-            style={{ border: "1px solid #E7E7E7 ", borderRadius: "8px" }}
-          />
-        </div>
-      </Menu.Item>
-      <Menu.Item key="2">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="3">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="4">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="5">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="6">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="7">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="8">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="9">
-        {" "}
-        <Checkbox className="text-base font-medium text-[#637381]">
-          City, State
-        </Checkbox>
+        <Select
+          open={isOpen}
+          onBlur={handleBlur}
+          MenuProps={{
+            onBlur: handleBlur,
+          }}
+          defaultValue="city"
+          className="regionMenuSelect"
+          style={{
+            width: 120,
+          }}
+          onChange={handleChange}
+          options={[
+            {
+              value: "City-1",
+              label: "City, State",
+            },
+            {
+              value: "City-2",
+              label: "City, State",
+            },
+            {
+              value: "City-3",
+              label: "City, State",
+            },
+          ]}
+        />
       </Menu.Item>
     </Menu>
   );
@@ -174,18 +144,7 @@ const AllOrders = () => {
       </Menu.Item>
       <Menu.Item key="4">
         <div className="relative custom-datePicker h-[40px]">
-          <div className=" absolute top-0 left-0 w-full h-full">
-            <label className="text-base font-medium text-[#637381]">
-              <Checkbox
-                className="text-base font-medium text-[#637381]"
-                onChange={handleCheckboxChange}
-                checked={showDatePicker}
-              >
-                Custom
-              </Checkbox>
-            </label>
-          </div>
-          {showDatePicker && (
+          {showDatePicker ? (
             <DatePicker
               renderExtraFooter={() => (
                 <div className="flex justify-center items-center gap-2 ">
@@ -199,6 +158,18 @@ const AllOrders = () => {
               )}
               onChange={handleDatePickerChange}
             />
+          ) : (
+            <div className=" absolute top-0 left-0 w-full h-full">
+              <label className="text-base font-medium text-[#637381]">
+                <Checkbox
+                  className="text-base font-medium text-[#637381]"
+                  onChange={handleCheckboxChange}
+                  checked={showDatePicker}
+                >
+                  Custom
+                </Checkbox>
+              </label>
+            </div>
           )}
           {/* <DatePicker onChange={onChange} /> */}
         </div>

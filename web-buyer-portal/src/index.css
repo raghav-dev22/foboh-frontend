@@ -589,12 +589,7 @@ select {
   font-weight: 500 !important;
   color: #637381 !important;
 }
-.ant-picker-dropdown .ant-picker-date-panel .ant-picker-content {
-  width: 328px !important;
-}
-.ant-picker-dropdown .ant-picker-date-panel {
-  width: 350px !important;
-}
+
 .ant-picker-footer {
   border-top: 0 !important;
 }

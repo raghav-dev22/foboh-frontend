@@ -242,7 +242,6 @@ const MyOrders = () => {
     // Handle the date selection here
     console.log("Selected date:", date);
   };
-  const [startDate, setStartDate] = useState(new Date());
   const statusMenu = (
     <Menu>
       <Menu.Item key="1">
@@ -354,18 +353,7 @@ const MyOrders = () => {
       </Menu.Item>
       <Menu.Item key="4">
         <div className="relative custom-datePicker h-[40px]">
-          <div className=" absolute top-0 left-0 w-full h-full">
-            <label className="text-base font-medium text-[#637381]">
-              <Checkbox
-                className="text-base font-medium text-[#637381]"
-                onChange={handleCheckboxChange}
-                checked={showDatePicker}
-              >
-                Custom
-              </Checkbox>
-            </label>
-          </div>
-          {showDatePicker && (
+          {showDatePicker ? (
             <DatePicker
               renderExtraFooter={() => (
                 <div className="flex justify-center items-center gap-2 ">
@@ -379,6 +367,18 @@ const MyOrders = () => {
               )}
               onChange={handleDatePickerChange}
             />
+          ) : (
+            <div className=" absolute top-0 left-0 w-full h-full">
+              <label className="text-base font-medium text-[#637381]">
+                <Checkbox
+                  className="text-base font-medium text-[#637381]"
+                  onChange={handleCheckboxChange}
+                  checked={showDatePicker}
+                >
+                  Custom
+                </Checkbox>
+              </label>
+            </div>
           )}
           {/* <DatePicker onChange={onChange} /> */}
         </div>
