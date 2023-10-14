@@ -602,3 +602,31 @@ select {
 .ant-picker-today-btn {
   display: none !important;
 }
+
+.ant-dropdown-menu {
+  min-height: auto;
+  max-height: 210px;
+  overflow-y: auto;
+}
+.ant-dropdown-menu::-webkit-scrollbar {
+  width: 8px !important;
+
+  height: 10px !important;
+  display: block !important;
+}
+
+.ant-dropdown-menu::-webkit-scrollbar-thumb {
+  width: 8px !important;
+
+  height: 8px !important;
+
+  background: #7a7a7a !important;
+
+  border-radius: 30px !important;
+}
+
+.ant-dropdown-menu {
+  min-height: auto;
+  max-height: 210px;
+  overflow-y: auto;
+}

@@ -96,7 +96,8 @@ const AllOrders = () => {
     <Menu className="region-menu">
       <Menu.Item key="1">
         <Select
-          open={isOpen}
+          // open={isOpen}
+          showSearch
           onBlur={handleBlur}
           MenuProps={{
             onBlur: handleBlur,

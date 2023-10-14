@@ -1374,7 +1374,7 @@ a:hover {
 }
 
 .ant-dropdown-menu {
-  min-height: 150px;
+  min-height: auto;
   max-height: 210px;
   overflow-y: auto;
 }
