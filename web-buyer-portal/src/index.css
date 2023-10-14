@@ -537,6 +537,68 @@ select {
   display: inline-block;
   position: relative;
 }
-.custom-datePicker .ant-picker {
+/* .custom-datePicker .ant-picker {
   opacity: 0;
+} */
+.regionMenuSelect .ant-select-selector {
+  padding: 0 !important;
+}
+.region-menu .ant-dropdown-menu-item {
+  padding: 0 !important;
+}
+.ant-dropdown {
+  min-width: 200px !important;
+}
+.region-menu .ant-select {
+  width: 100% !important;
+}
+.regionMenuSelect .ant-select-selection-item {
+  padding-left: 10px !important;
+}
+/*.................................datePicker..........................................*/
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-selected
+  .ant-picker-cell-inner {
+  background-color: #147d73 !important
+  ;
+}
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-today
+  .ant-picker-cell-inner::before {
+  border: 1px solid #147d73 !important;
+}
+.ant-picker-header-super-next-btn,
+.ant-picker-header-super-prev-btn {
+  display: none !important;
+}
+.ant-picker-year-btn,
+.ant-picker-month-btn {
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  color: #2b4447 !important;
+}
+.ant-picker-cell-inner {
+  width: 34px !important;
+  height: 34px !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.ant-picker-content th {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #637381 !important;
+}
+
+.ant-picker-footer {
+  border-top: 0 !important;
+}
+.ant-picker-footer-extra {
+  border-bottom: 0 !important;
+}
+.ant-picker-footer {
+  padding: 0 20px 20px 20px;
+}
+.ant-picker-today-btn {
+  display: none !important;
 }

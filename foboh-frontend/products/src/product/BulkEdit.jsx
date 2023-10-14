@@ -3,6 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import BulkEditTable from "../BulkEdit/BulkEditTable";
 import AlertModal from "../modal/AlertModal";
 import Select from "react-select";
+import { Button, message } from "antd";
+
 import { useFormik } from "formik";
 import { addProductSchema } from "../schemas";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -18,6 +20,7 @@ import {
   configurations,
 } from "../data";
 import { useNavigate } from "react-router-dom";
+import UnSavedModal from "../modal/UnSavedModal";
 function BulkEdit() {
   const [productTable, setProductTable] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -88,6 +91,13 @@ function BulkEdit() {
     });
 
   const handleSubmit = () => {
+    message.open({
+      type: "error",
+      content: "Products saved!",
+      className: "custom-class",
+      duration: 10,
+    });
+
     fetch(
       `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/UpdateProductBulkData`,
       {
@@ -220,6 +230,11 @@ function BulkEdit() {
     setIsUpdate(false);
     setValues(initialValues);
   };
+  const [unSaved, setUnSaved] = useState(false);
+  const backBtn = () => {
+    setUnSaved(true);
+    // navigate("/dashboard/products");
+  };
 
   return (
     <>
@@ -249,10 +264,7 @@ function BulkEdit() {
 
       <div className="py-8 flex flex-col items-start justify-start px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
-          <div
-            onClick={() => navigate("/dashboard/products")}
-            className="cursor-pointer"
-          >
+          <div onClick={backBtn} className="cursor-pointer">
             <img src="/assets/previousBtn.png" alt="" />
           </div>
           <div className="">
@@ -497,6 +509,15 @@ function BulkEdit() {
           </table>
         </div>
       </div>
+      <UnSavedModal
+        open={unSaved}
+        onOk={() => {
+          setUnSaved(false);
+        }}
+        onCancel={() => {
+          setUnSaved(false);
+        }}
+      />
     </>
   );
 }
