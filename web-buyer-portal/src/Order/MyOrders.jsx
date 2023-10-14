@@ -861,6 +861,9 @@ const MyOrders = () => {
 
   function saveInput() {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    // fetch(`https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderHistoryByOrderId?page=${}&OrderId=${}&BuyerId=${}`, {
+    //   method: "GET"
+    // })
     
   }
 
