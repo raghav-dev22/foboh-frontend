@@ -203,7 +203,22 @@ const MyOrders = () => {
   const [isWine, setIsWine] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const [regions, setRegions] = useState([]);
+  const statusMenuBtn = () => {
+    setStatusMenu(!statusMenu);
+    setRegionMenu(false);
+    setDateMenu(false);
+  };
+  const regionMenuBtn = () => {
+    setRegionMenu(!regionMenu);
+    setStatusMenu(false);
 
+    setDateMenu(false);
+  };
+  const dateBtn = () => {
+    setDateMenu(!dateMenu);
+    setStatusMenu(false);
+    setRegionMenu(false);
+  };
   useEffect(() => {
     getCityState().then((data) => {
       console.log("city, state", data);
@@ -234,139 +249,9 @@ const MyOrders = () => {
     // Handle the date selection here
     console.log("Selected date:", date);
   };
-  const statusMenu = (
-    <Menu>
-      <Menu.Item key="1">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Select all
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          New
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Pending approval
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="4">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Changes requested
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="5">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Updated
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="6">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Processing
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="7">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Shipped
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="8 ">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Partially fulfilled
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="9 ">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Delivered
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="10 ">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Completed
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="11 ">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Cancelled
-        </Checkbox>
-      </Menu.Item>
-    </Menu>
-  );
-
-  const regionMenu = (
-    <Menu className="region-menu">
-      <Menu.Item key="1">
-        <Select
-          // open={isOpen}
-          mode="multiple"
-          allowClear
-          onBlur={handleBlur}
-          MenuProps={{
-            onBlur: handleBlur,
-          }}
-          defaultValue="city"
-          className="regionMenuSelect"
-          style={{
-            width: 120,
-          }}
-          onChange={handleChange}
-          options={regions}
-        />
-      </Menu.Item>
-    </Menu>
-  );
-  const dateMenu = (
-    <Menu>
-      <Menu.Item key="1">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Last 7 days
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Last 14 days
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <Checkbox className="text-base font-medium text-[#637381]">
-          Last 30 days
-        </Checkbox>
-      </Menu.Item>
-      <Menu.Item key="4">
-        <div className="relative custom-datePicker h-[40px]">
-          {showDatePicker ? (
-            <DatePicker
-              renderExtraFooter={() => (
-                <div className="flex justify-center items-center gap-2 ">
-                  <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                    Remove
-                  </div>
-                  <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                    Done
-                  </div>
-                </div>
-              )}
-              onChange={handleDatePickerChange}
-            />
-          ) : (
-            <div className=" absolute top-0 left-0 w-full h-full">
-              <label className="text-base font-medium text-[#637381]">
-                <Checkbox
-                  className="text-base font-medium text-[#637381]"
-                  onChange={handleCheckboxChange}
-                  checked={showDatePicker}
-                >
-                  Custom
-                </Checkbox>
-              </label>
-            </div>
-          )}
-          {/* <DatePicker onChange={onChange} /> */}
-        </div>
-      </Menu.Item>
-    </Menu>
-  );
+  const [statusMenu, setStatusMenu] = useState(false);
+  const [regionMenu, setRegionMenu] = useState(false);
+  const [dateMenu, setDateMenu] = useState(false);
 
   const onClick = (e) => {
     console.log("click ", e);
@@ -662,6 +547,7 @@ const MyOrders = () => {
                 style={{ fill: "rgb(164 169 174)" }}
               />
             </div>
+
             <div className="flex justify-end items-center gap-3 ">
               <button
                 className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2  "
@@ -700,54 +586,178 @@ const MyOrders = () => {
           {showFilter && (
             <div className="flex justify-between items-center pt-5">
               <div className="flex justify-center items-center gap-5">
-                <Dropdown
-                  overlay={statusMenu}
-                  open={openStatus}
-                  onOpenChange={handleOpenStatus}
-                  trigger={["click"]}
-                  className="cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
+                    onClick={statusMenuBtn}
+                  >
                     <h5 className="text-lg font-medium text-[#637381]">
                       Status
                     </h5>
                     <KeyboardArrowDownIcon />
                   </div>
-                </Dropdown>
+                  {statusMenu && (
+                    <>
+                      <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                        <ul className="dropdown-content ">
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Select all
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              New
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Pending approval
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Changes requested
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Updated
+                            </Checkbox>
+                          </li>
 
-                <Dropdown
-                  overlay={regionMenu}
-                  className="cursor-pointer custom-menu"
-                  trigger={["click"]}
-                  open={openRegion}
-                  onOpenChange={handleOpenRegion}
-                >
-                  <div className="flex items-center gap-3">
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Processing
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Shipped
+                            </Checkbox>
+                          </li>
+
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Partially fulfilled
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Delivered
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Completed
+                            </Checkbox>
+                          </li>
+                          <li className="py-1">
+                            <Checkbox className="text-base font-medium text-[#637381]">
+                              Cancelled
+                            </Checkbox>
+                          </li>
+                        </ul>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className="relative">
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
+                    onClick={regionMenuBtn}
+                  >
                     <h5 className="text-lg font-medium text-[#637381]">
                       Region
                     </h5>
                     <KeyboardArrowDownIcon />
                   </div>
-                </Dropdown>
-                <Dropdown
-                  overlay={dateMenu}
-                  trigger={["click"]}
-                  className="cursor-pointer"
-                  open={openDate}
-                  onOpenChange={handleOpenDate}
-                >
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <div className="flex items-center gap-3">
-                      <h5 className="text-lg font-medium text-[#637381]">
-                        Date
-                      </h5>
-                      <KeyboardArrowDownIcon />
+
+                  {regionMenu && (
+                    <div className=" z-10 left-0 px-3 min-h-fit max-h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <Select
+                        // open={isOpen}
+                        mode="multiple"
+                        allowClear
+                        onBlur={handleBlur}
+                        MenuProps={{
+                          onBlur: handleBlur,
+                        }}
+                        defaultValue="city"
+                        className="regionMenuSelect"
+                        style={{
+                          width: 120,
+                        }}
+                        onChange={handleChange}
+                        options={regions}
+                      />
                     </div>
-                  </a>
-                </Dropdown>
+                  )}
+                </div>
+                <div className="relative">
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
+                    onClick={dateBtn}
+                  >
+                    <h5 className="text-lg font-medium text-[#637381]">Date</h5>
+                    <KeyboardArrowDownIcon />
+                  </div>
+
+                  {dateMenu && (
+                    <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <ul className="dropdown-content ">
+                        <li className="py-1">
+                          <Checkbox className="text-base font-medium text-[#637381]">
+                            Last 7 days
+                          </Checkbox>
+                        </li>
+                        <li className="py-1">
+                          <Checkbox className="text-base font-medium text-[#637381]">
+                            Last 14 days
+                          </Checkbox>
+                        </li>
+                        <li className="py-1">
+                          <Checkbox className="text-base font-medium text-[#637381]">
+                            Last 30 days
+                          </Checkbox>
+                        </li>
+                        <li className="py-1">
+                          <div className="relative custom-datePicker h-[40px]">
+                            {showDatePicker ? (
+                              <DatePicker
+                                renderExtraFooter={() => (
+                                  <div className="flex justify-center items-center gap-2 ">
+                                    <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                                      Remove
+                                    </div>
+                                    <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                                      Done
+                                    </div>
+                                  </div>
+                                )}
+                                onChange={handleDatePickerChange}
+                              />
+                            ) : (
+                              <div className=" absolute top-0 left-0 w-full h-full">
+                                <label className="text-base font-medium text-[#637381]">
+                                  <Checkbox
+                                    className="text-base font-medium text-[#637381]"
+                                    onChange={handleCheckboxChange}
+                                    checked={showDatePicker}
+                                  >
+                                    Custom
+                                  </Checkbox>
+                                </label>
+                              </div>
+                            )}
+                            {/* <DatePicker onChange={onChange} /> */}
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
               <div
                 className="cursor-pointer"
