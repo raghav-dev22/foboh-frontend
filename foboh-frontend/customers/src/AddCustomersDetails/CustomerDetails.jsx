@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
 import Toast from "../Toast";
 export const options = [
-  { value: 1234, label: "Chocolate" },
-  { value: 2345, label: "Strawberry" },
-  { value: 3456, label: "Vanilla" },
+  { value: "1", label: "Active" },
+  { value: "0", label: "Inactive" },
+  // { value: 3456, label: "Vanilla" },
 ];
 const initialValues = {
   buyerId: "",
@@ -25,7 +25,7 @@ const initialValues = {
   defaultPaymentMethodId: "",
   tags: "",
   organisationId: "",
-  wetLiable: true,
+  wetLiable: false,
   orderingFirstName: "",
   orderingLastName: "",
   orderingMobile: "",
@@ -38,14 +38,14 @@ const initialValues = {
   apartment: "",
   suburb: "",
   postalCode: "",
-  state: {},
+  state: "",
   deliveryNotes: "",
   billingAddress: "",
   billingApartment: "",
   billingSuburb: "",
   billingPostalCode: "",
   billingState: {},
-  isActive: "1",
+  isActive: "",
 };
 
 function CustomerDetails() {
@@ -66,7 +66,7 @@ function CustomerDetails() {
     },
   });
   const handleSubmit = () => {
-    console.log(">>>>>>>>>>>");
+    console.log(">>>>>>>>>>>", formik.values);
     const organisationId = localStorage.getItem("organisationId");
     // e.preventDefault();
     fetch(
@@ -78,37 +78,37 @@ function CustomerDetails() {
         },
         // body: JSON.stringify(formik.values),
         body: JSON.stringify({
-          buyerId: formik.values.buyerId,
-          businessName: formik.values.businessName,
-          abn: formik.values.abn,
-          liquorLicence: formik.values.liquorLicence,
-          salesRepId: formik.values.salesRepId.label,
-          pricingProfileId: formik.values.pricingProfileId.label,
-          defaultPaymentTerms: formik.values.defaultPaymentTerms.label,
-          defaultPaymentMethodId: formik.values.defaultPaymentMethodId.label,
-          tags: formik.values.tags.label,
+          buyerId: formik.values?.buyerId,
+          businessName: formik.values?.businessName,
+          abn: formik.values?.abn,
+          liquorLicence: formik.values?.liquorLicence,
+          salesRepId: "",
+          pricingProfileId: "",
+          defaultPaymentTerms: formik.values?.defaultPaymentTerms?.label,
+          defaultPaymentMethodId: formik.values?.defaultPaymentMethodId?.label,
+          tags: formik.values?.tags?.label,
           organisationId: organisationId,
           wetLiable: true,
-          orderingFirstName: formik.values.orderingFirstName,
-          orderingLastName: formik.values.orderingLastName,
-          orderingMobile: formik.values.orderingMobile,
-          orderingEmail: formik.values.orderingEmail,
-          deliveryFirstName: formik.values.deliveryFirstName,
-          deliveryLastName: formik.values.deliveryLastName,
-          deliveryMobile: formik.values.deliveryMobile,
-          deliveryEmail: formik.values.deliveryEmail,
-          address: formik.values.address,
-          apartment: formik.values.apartment,
-          suburb: formik.values.suburb,
-          postalCode: formik.values.postalCode,
-          state: formik.values.state.label,
-          deliveryNotes: formik.values.deliveryNotes,
-          billingAddress: formik.values.billingAddress,
-          billingApartment: formik.values.billingApartment,
-          billingSuburb: formik.values.billingSuburb,
-          billingPostalCode: formik.values.billingPostalCode,
-          billingState: formik.values.billingState.label,
-          isActive: "1",
+          orderingFirstName: formik.values?.orderingFirstName,
+          orderingLastName: formik.values?.orderingLastName,
+          orderingMobile: formik.values?.orderingMobile,
+          orderingEmail: formik.values?.orderingEmail,
+          deliveryFirstName: formik.values?.deliveryFirstName,
+          deliveryLastName: formik.values?.deliveryLastName,
+          deliveryMobile: formik.values?.deliveryMobile,
+          deliveryEmail: formik.values?.deliveryEmail,
+          address: formik.values?.address,
+          apartment: formik.values?.apartment,
+          suburb: formik.values?.suburb,
+          postalCode: formik.values?.postalCode,
+          state: formik.values?.state?.label,
+          deliveryNotes: formik.values?.deliveryNotes,
+          billingAddress: formik.values?.billingAddress,
+          billingApartment: formik.values?.billingApartment,
+          billingSuburb: formik.values?.billingSuburb,
+          billingPostalCode: formik.values?.billingPostalCode,
+          billingState: formik.values?.billingState.label,
+          isActive: formik.values?.isActive?.value,
         }),
       }
     )

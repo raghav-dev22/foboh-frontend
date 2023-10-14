@@ -178,8 +178,9 @@ const SearchProduct = forwardRef(
           })
           .catch((error) => console.log(error));
       } else {
+        const orgID = localStorage.getItem("organisationId");
         fetch(
-          `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAllByTitle?search=${input}`,
+          `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAllByTitle?search=${input}&OrganisationId=${orgID}`,
           {
             method: "GET",
           }
