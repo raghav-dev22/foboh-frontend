@@ -76,8 +76,10 @@ function AddCustomers() {
   };
 
   const searchApi = () => {
+    const orgID = localStorage.getItem("organisationId");
+
     fetch(
-      `https://fobohwepapifbh.azurewebsites.net/api/Customer/SearchByName?search=${inputValue}&page=1`,
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/SearchByName?search=${inputValue}&page=1&OrganisationId=${orgID}`,
       {
         method: "GET",
       }

@@ -276,7 +276,7 @@ const MyOrders = () => {
 
           <RemoveRedEyeIcon
             style={{ fill: "#637381" }}
-            onClick={() => navigate(`/order-details/${order.orderId}`)}
+            onClick={() => navigate(`/home/order-details/${order.orderId}`)}
             className=" cursor-pointer"
           />
         </Tooltip>
