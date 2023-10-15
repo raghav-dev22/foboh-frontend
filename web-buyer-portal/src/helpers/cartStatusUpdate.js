@@ -7,7 +7,7 @@ export const cartStatusUpdate = () => {
   fetch(
     `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/UpdateToCartStatusByCartId?CartId=${cartId}`,
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },

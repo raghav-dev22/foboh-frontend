@@ -87,7 +87,7 @@ const OrderDetails = () => {
   };
 
   useEffect(() => {
-    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderHistoryByOrderId?OrderId=${id}`;
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderDetailsByOrderId?OrderId=${id}`;
 
     fetch(apiUrl)
       .then((response) => {
@@ -116,6 +116,7 @@ const OrderDetails = () => {
         console.error("There was a problem with the fetch operation:", error);
       });
   };
+
   return (
     <>
       {contextHolder}
@@ -154,15 +155,15 @@ const OrderDetails = () => {
                 Delivery Address
               </h5>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                456 King Street, Newton, NSW
+                {`${orderDetails?.apartmentSuite} ${orderDetails?.streetaddress}, ${orderDetails?.city}, ${orderDetails?.state}`}
               </p>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                2304 Australia
+                {orderDetails?.postcode} Australia
               </p>
               <div className="flex gap-2 items-center">
                 <Instruction />
                 <p className="text-base font-normal text-[#637381]  leading-7	">
-                  Instruction
+                  {orderDetails?.instructionsNotes}
                 </p>
               </div>
             </div>
@@ -171,13 +172,13 @@ const OrderDetails = () => {
                 Contact
               </h5>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                Full Name
+                {orderDetails?.firstname} {orderDetails?.lastname}
               </p>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
                 {orderDetails.orderByEmailID}
               </p>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                0400 000 000
+                {orderDetails?.phoneNumber}
               </p>
             </div>
             <div className="">
@@ -185,7 +186,7 @@ const OrderDetails = () => {
                 Order Date
               </h5>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                19/11/2023
+                {orderDetails?.orderEntryDate}
               </p>
             </div>
             <div className="">
@@ -208,7 +209,7 @@ const OrderDetails = () => {
             progressDot={customDot}
             items={[
               {
-                title: "Order Placedd",
+                title: "Order Placed",
               },
               {
                 title: "Pending",

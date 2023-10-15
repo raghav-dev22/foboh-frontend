@@ -165,7 +165,7 @@ const ProductList = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "product successfully add",
+      content: "Product added successfully!",
     });
   };
 

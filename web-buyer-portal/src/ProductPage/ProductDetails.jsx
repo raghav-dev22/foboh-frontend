@@ -50,7 +50,7 @@ const ProductDetails = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "product successfully add",
+      content: "Product added successfully!",
     });
   };
 

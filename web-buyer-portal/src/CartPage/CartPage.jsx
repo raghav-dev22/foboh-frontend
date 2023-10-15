@@ -44,7 +44,7 @@ const CartPage = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "product successfully add",
+      content: "Quantity changed successfully!",
     });
   };
 
@@ -199,12 +199,12 @@ const CartPage = () => {
         .then((data) => {
           if (data.success) {
             success();
-            getCalculations();
           } else {
             if (updatedQuantity?.productId !== "") {
               warning(data.message);
             }
           }
+          getCalculations();
           //Calling back calculation api after updating qunatity
         })
         .catch((error) => {

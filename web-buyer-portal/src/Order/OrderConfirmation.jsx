@@ -19,8 +19,8 @@ const OrderConfirmation = () => {
     const handleBeforeUnload = (e) => {
       // Check if the user is navigating away from the page
       // Your action to remove items from localStorage
-      localStorage.removeItem("cartId");
       localStorage.removeItem("orderId");
+      localStorage.removeItem("cartId");
     };
 
     // Attach the event listener for beforeunload
@@ -46,35 +46,39 @@ const OrderConfirmation = () => {
 
   const getDeliveryAddress = () => {
     let statesData = [];
-    getStates().then((data) => {
-      statesData = data.map((state) => {
-        return {
-          label: state.stateName,
-          value: state.stateId,
-        };
+
+    getStates()
+      .then((data) => {
+        statesData = data.map((state) => {
+          return {
+            label: state.stateName,
+            value: state.stateId,
+          };
+        });
+      })
+      .then(() => {
+        getAddress("delivery-address").then((data) => {
+          console.log("delivery-address", data);
+          console.log("statesData", statesData);
+
+          if (data.success) {
+            const buyerData = data?.data[0];
+            const buyerState = statesData.find(
+              (stateInfo) => stateInfo?.label === buyerData?.state
+            );
+
+            const addressBody = {
+              Apartment: buyerData?.apartmentSuite,
+              Address: buyerData?.streetaddress,
+              Suburb: buyerData?.city,
+              State: buyerState?.label,
+              Postcode: buyerData?.postcode,
+              Notes: buyerData?.instructionsNotes,
+            };
+            setDeliveryAddress(addressBody);
+          }
+        });
       });
-    });
-
-    getAddress("delivery-address").then((data) => {
-      console.log('delivery-address', data);
-      if (data.success) {
-        const buyerData = data?.data[0];
-        const buyerState = statesData.find(
-          (state) => state?.label === buyerData.state
-        );
-
-        const addressBody = {
-          Apartment: buyerData?.apartmentSuite,
-          Address: buyerData?.streetaddress,
-          Suburb: buyerData?.city,
-          State: buyerState,
-          Postcode: buyerData?.postcode,
-          Notes: buyerData?.instructionsNotes,
-        };
-
-        setDeliveryAddress(addressBody);
-      }
-    });
   };
 
   return (
@@ -104,7 +108,7 @@ const OrderConfirmation = () => {
               <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
                 <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                   <img
-                    src={item.product?.productImageUrls[0]}
+                    src={item?.product?.productImageUrls[0]}
                     alt=""
                     className="w-[150px]  object-cover	rounded-md"
                   />
@@ -118,14 +122,14 @@ const OrderConfirmation = () => {
                           {item.product?.title}
                         </h4>
                         <p className="text-sm text-[#637381] font-medium ">
-                          {item.product?.configuration}
+                          {item?.product?.configuration}
                         </p>
                       </div>
                       <p className="text-sm font-medium text-[#2B4447]">
                         Quantity - {item?.quantity}
                       </p>
                       <h4 className=" text-base text-[#2B4447] font-semibold">
-                        ${item.product?.globalPrice}
+                        ${item?.product?.globalPrice}
                       </h4>
                     </div>
                   </div>
