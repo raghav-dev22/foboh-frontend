@@ -103,7 +103,6 @@ const DownloadInvoice = (
 );
 
 const MyOrders = () => {
-  const [Sort, setSort] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [showPreview, setshowPreview] = useState(false);
   const [page, setPage] = useState(1);
@@ -111,23 +110,22 @@ const MyOrders = () => {
   const [invoiceData, setInvoiceData] = useState({});
   const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
   const [totalData, setTotalData] = useState({});
-  const [open, setOpen] = useState(false);
-  const [openStatus, setOpenStatus] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
-  const [openRegion, setOpenRegion] = useState(false);
+
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const childRef = useRef();
   const [input, setInput] = useState("");
   let orderId = "";
   const [isWine, setIsWine] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
   const [regions, setRegions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState([]);
+  const [sortItem, setSortItem] = useState(false);
   const checkAll = statusOptionsList.length === selectedStatus.length;
   const paymentCheckAll = paymentOptionsList.length === selectedPayment.length;
-
+  const sortBtn = () => {
+    setSortItem(true);
+  };
   const statusMenuBtn = () => {
     setStatusMenu(!statusMenu);
     setPaymentMenu(false);
@@ -158,14 +156,6 @@ const MyOrders = () => {
     });
   }, []);
 
-  const handleBlur = () => {
-    setIsOpen(false);
-  };
-
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
   const handleSort = (value) => {
     console.log(value);
   };
@@ -181,79 +171,8 @@ const MyOrders = () => {
     console.log("Selected date:", date);
   };
   const [statusMenu, setStatusMenu] = useState(false);
-  const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
-  const [paymentMenu, setPaymentMenu] = useState(false)
-
-  const items = [
-    {
-      key: "2",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-
-      children: [
-        {
-          key: "1-3",
-          label: (
-            <Checkbox
-              onChange={handleSort}
-              className="text-base font-normal text-[#637381]"
-            >
-              Oldest - Newest
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-4",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Newest - Oldest
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "5",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Total</h5>
-
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-
-      children: [
-        {
-          key: "1-9",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Low - High
-            </Checkbox>
-          ),
-        },
-
-        {
-          key: "1-10",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              High - Low
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-  ];
-
-  const onClick = (e) => {
-    console.log("click ", e);
-  };
+  const [paymentMenu, setPaymentMenu] = useState(false);
 
   const handleInvoiceDownload = async (orderId) => {
     const invoiceData = await fetchInvoice(orderId);
@@ -274,23 +193,6 @@ const MyOrders = () => {
       type: "warning",
       content: "This is a warning message",
     });
-  };
-
-  const handleOpenPayment = (flag) => {
-    setOpen(flag);
-  };
-
-  const handleOpenStatus = (flag) => {
-    setOpenStatus(flag);
-  };
-
-  const handleOpenDate = (flag) => {
-    setOpenDate(flag);
-  };
-
-  const handleOpenRegion = (flag) => {
-    setOpenRegion(flag);
-    // setIsOpen(true);
   };
 
   const formattedData = orderData.map((order, index) => ({
@@ -577,27 +479,63 @@ const MyOrders = () => {
                 <p className="text-base font-normal text-[#2B4447]">Filter</p>
               </button>
               <div className="relative">
-                <Dropdown
-                  className=""
-                  menu={{
-                    items,
-                  }}
-                  
-                  trigger={["click"]}
+                <button
+                  onClick={sortBtn}
+                  className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2  "
                 >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2  ">
-                      <SortOutlinedIcon style={{ fill: "#637381" }} />
-                      <p className="text-base font-normal text-[#2B4447]">
-                        Sort
-                      </p>
-                      <KeyboardArrowDownIcon
-                        style={{ fill: "#2B4447" }}
-                        className=""
-                      />
-                    </button>
-                  </a>
-                </Dropdown>
+                  <SortOutlinedIcon style={{ fill: "#637381" }} />
+                  <p className="text-base font-normal text-[#2B4447]">Sort</p>
+                  <KeyboardArrowDownIcon
+                    style={{ fill: "#2B4447" }}
+                    className=""
+                  />
+                </button>
+                {sortItem && (
+                  <div className=" z-10 left-0 px-3 h-[180px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <ul className="dropdown-content ">
+                      <li className="py-1">
+                        <div className="flex justify-between items-center  my-2">
+                          <h5 className="text-base font-medium text-[#2B4447]">
+                            Date
+                          </h5>
+                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                        </div>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox
+                          onChange={handleSort}
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          Oldest - Newest
+                        </Checkbox>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox className="text-base font-normal text-[#637381]">
+                          Newest - Oldest
+                        </Checkbox>
+                      </li>
+                      <li className="py-1">
+                        <div className="flex justify-between items-center  my-2">
+                          <h5 className="text-base font-medium text-[#2B4447]">
+                            Total
+                          </h5>
+
+                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                        </div>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox className="text-base font-normal text-[#637381]">
+                          Low - High
+                        </Checkbox>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox className="text-base font-normal text-[#637381]">
+                          High - Low
+                        </Checkbox>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -617,7 +555,7 @@ const MyOrders = () => {
                   </div>
                   {paymentMenu && (
                     <>
-                      <div className=" z-10 left-0 px-3 h-[150px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <div className=" z-10 left-0 px-3 h-[180px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
                             <Checkbox
@@ -651,7 +589,7 @@ const MyOrders = () => {
                   </div>
                   {statusMenu && (
                     <>
-                      <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
                             <Checkbox
@@ -674,7 +612,6 @@ const MyOrders = () => {
                   )}
                 </div>
 
-               
                 <div className="relative">
                   <div
                     className="flex items-center gap-3 cursor-pointer"
@@ -685,7 +622,7 @@ const MyOrders = () => {
                   </div>
 
                   {dateMenu && (
-                    <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul className="dropdown-content ">
                         <li className="py-1">
                           <Checkbox className="text-base font-medium text-[#637381]">

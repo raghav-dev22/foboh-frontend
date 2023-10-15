@@ -250,3 +250,29 @@ a.foboh-green-btn:hover {
 .w-\[170px\] {
   width: 170px;
 }
+.custom-shadow {
+  box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 15%);
+}
+.max-h-\[180px\] {
+  max-height: 180px;
+}
+.min-h-fit {
+  min-height: fit-content;
+}
+.left-\[-20px\] {
+  left: -20px;
+}
+.top-\[110\%\] {
+  top: 110%;
+}
+.top-\[72\%\] {
+  top: 72%;
+}
+.py-\[12px\] {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.px-\[33px\] {
+  padding-left: 33px;
+  padding-right: 33px;
+}

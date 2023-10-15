@@ -1,11 +1,13 @@
 import React, { useState, useRef } from "react";
-import { Divider, Select, Space, Button, Modal } from "antd";
+import { Divider, Space, Button, Modal } from "antd";
+import Select from "react-select";
 import { Stepper, Step, Typography, button } from "@material-tailwind/react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import Link from "react-router-dom";
+import CallIcon from "@mui/icons-material/Call";
 import ShieldIcon from "@mui/icons-material/Shield";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -15,6 +17,30 @@ import AlertModal from "./AlertModal";
 let index = 0;
 
 const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
+  const [selectedState, setSelectedState] = useState(null);
+  const [customerSelectedOption, setCustomerSelectedOption] = useState(null);
+  const stateOptions = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+  const customerOptions = [
+    { value: "Apples", label: "Apples" },
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+  const options = [
+    { value: "Apples", label: "Apples" },
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [editDeliveryContact, setEditDeliveryContact] = useState(false);
+  const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
+  const [editBillingAddress, setEditBillingAddress] = useState(false);
+
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
   };
@@ -186,14 +212,125 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
               <div className="mt-24">
                 {activeStep === 0 && (
                   <>
-                    {selectedItems === "Apples" ? (
-                      <>
-                        <div className="mb-5">
-                          <h5 className="text-[24px] font-bold text-[#212B36] mb-5">
-                            Business full name
-                          </h5>
-                          <div className="h-[300px] overflow-y-scroll">
-                            <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                    <div className="mb-5">
+                      <h5 className="text-[24px] font-bold text-[#212B36] mb-5">
+                        Business full name
+                      </h5>
+                      <div className="h-[300px] overflow-y-scroll">
+                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                          {editDeliveryContact ? (
+                            <div className="  md:px-0 pb-4 px-6">
+                              <div className="flex  items-center gap-1.5 pb-6">
+                                <CallIcon
+                                  style={{ fill: "#2B4447" }}
+                                  className="w-[18px] h-[18px]"
+                                />
+                                <h5 className="text-lg font-semibold text-[#2B4447]">
+                                  Delivery Contact
+                                </h5>
+                              </div>
+
+                              <form className="">
+                                <div className="flex flex-nowrap  gap-8">
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      First Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="FirstName"
+                                      name="FirstName"
+                                      className=""
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      Last Name
+                                    </label>
+                                    <input
+                                      // placeholder="Last Name"
+                                      type="text"
+                                      id="LastName"
+                                      name="LastName"
+                                      className=""
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex flex-nowrap gap-8">
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      Email
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="email"
+                                      name="email"
+                                      className=""
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-nowrap gap-8">
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      Phone no.{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="Mobile"
+                                      name="Mobile"
+                                      className="border border-[#E0E0E0] "
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="flex gap-8 justify-end ">
+                                  <button
+                                    type="submit"
+                                    onClick={() => {
+                                      setEditDeliveryContact(false);
+                                    }}
+                                    className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+                                  >
+                                    Save
+                                  </button>
+                                  <button
+                                    className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+                                    onClick={() => {
+                                      setEditDeliveryContact(false);
+                                    }}
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          ) : (
+                            <div className="">
                               <div className="flex justify-between items-center ">
                                 <div className="flex justify-start items-center gap-2">
                                   <LocalPhoneRoundedIcon />
@@ -202,7 +339,12 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   </h4>
                                 </div>
 
-                                <button className="text-base font-semibold text-[#2B4447]">
+                                <button
+                                  onClick={() => {
+                                    setEditDeliveryContact(true);
+                                  }}
+                                  className="text-base font-semibold text-[#2B4447]"
+                                >
                                   Edit
                                 </button>
                               </div>
@@ -216,16 +358,166 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                 0400 000 000
                               </p>
                             </div>
+                          )}
+                        </div>
 
-                            <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                          {editDeliveryAddress ? (
+                            <div className="  md:px-0 pb-4 px-6">
+                              <div className="flex  items-center gap-1.5  pb-4">
+                                <HomeRoundedIcon
+                                  style={{ fill: "#2B4447" }}
+                                  className="w-[18px] h-[18px]"
+                                />
+                                <h5 className="text-lg font-semibold text-[#2B4447]">
+                                  Delivery Address
+                                </h5>
+                              </div>
+
+                              <form className="">
+                                <div className="flex flex-nowrap gap-8">
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      Address
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="Address"
+                                      name="Address"
+                                      className=""
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex flex-nowrap gap-8">
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      Apartment etc
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="Apartment"
+                                      name="Apartment"
+                                      className=""
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor="Suburb"
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      Suburb
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="Suburb"
+                                      className="custom-bg"
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-nowrap gap-8">
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      Postcode
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="Postcode"
+                                      name="Postcode"
+                                      className=""
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-full mb-4 relative">
+                                    <label
+                                      htmlFor=""
+                                      className="text-base font-normal text-[#2B4447]"
+                                    >
+                                      State
+                                    </label>
+                                    <Select
+                                      defaultValue={selectedOption}
+                                      onChange={setSelectedOption}
+                                      options={options}
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="w-full   mb-3 relative">
+                                  {" "}
+                                  <lable className="mb-2">Notes</lable>
+                                  <textarea
+                                    className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
+                                    id="Postcode"
+                                    type="text"
+                                    placeholder="Notes"
+                                    style={{
+                                      background: "#F8F8F8",
+                                    }}
+                                  />
+                                </div>
+
+                                <div className="flex gap-8 justify-end ">
+                                  {" "}
+                                  <button
+                                    onClick={() =>
+                                      setEditDeliveryAddress(false)
+                                    }
+                                    type="button"
+                                    className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+                                  >
+                                    Save
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+                                    onClick={() =>
+                                      setEditDeliveryAddress(false)
+                                    }
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          ) : (
+                            <div>
                               <div className="flex justify-between items-center ">
                                 <div className="flex justify-start items-center gap-2">
                                   <HomeRoundedIcon />
                                   <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                    Delivery Contact
+                                    Delivery Address
                                   </h4>
                                 </div>
-                                <button className="text-base font-semibold text-[#2B4447]">
+                                <button
+                                  className="text-base font-semibold text-[#2B4447]"
+                                  onClick={() => {
+                                    setEditDeliveryAddress(true);
+                                  }}
+                                >
                                   Edit
                                 </button>
                               </div>
@@ -243,28 +535,134 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                 </p>
                               </div>
                             </div>
-                            <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                              <div className="flex justify-between items-center ">
-                                <div className="flex justify-start items-center gap-2">
-                                  <ShieldIcon />
-                                  <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                    Payment
-                                  </h4>
+                          )}
+                        </div>
+                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                          <div className="flex justify-between items-center ">
+                            <div className="flex justify-start items-center gap-2">
+                              <ShieldIcon />
+                              <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
+                                Payment
+                              </h4>
+                            </div>
+                            <button className="text-base font-semibold text-[#2B4447]">
+                              Edit
+                            </button>
+                          </div>
+                          <p className="text-base font-normal text-[#2B4447] leading-[28px]">
+                            Your chosen payment terms
+                          </p>
+                          <div className="border mt-2 border-[#E0E0E0] rounded-[6px] py-2 px-4">
+                            <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
+                              Payment due in 14 days (dd/mm/yyyy)
+                            </h4>
+                          </div>
+                        </div>
+                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                          {editBillingAddress ? (
+                            <form className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3">
+                              <div className="">
+                                <div className="mb-3 relative">
+                                  <div className="flex justify-start items-center gap-1.5 mb-6">
+                                    <HomeRoundedIcon
+                                      style={{ fill: "#2B4447" }}
+                                      className="w-[18px] h-[18px]"
+                                    />
+                                    <label
+                                      className="block text-[#2B4447] text-lg font-semibold "
+                                      htmlFor="Country/Region"
+                                    >
+                                      Billing Address
+                                    </label>
+                                  </div>
                                 </div>
-                                <button className="text-base font-semibold text-[#2B4447]">
-                                  Edit
+
+                                <div className="flex md:flex-nowrap gap-4 my-3">
+                                  <div className="w-full   mb-3  md:mb-0 relative">
+                                    <lable>Address</lable>
+                                    <input
+                                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                                      id="Company"
+                                      type="text"
+                                      // placeholder="Company (Optional)"
+                                      name="Address"
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex md:flex-nowrap gap-4 my-3">
+                                  <div className="w-full   mb-3 relative">
+                                    <lable>Apartment, Suite, etc</lable>
+                                    <input
+                                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                                      id="Apartment"
+                                      type="text"
+                                      placeholder="Apartment, Suite, etc"
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-full   mb-3 relative md:mb-0 ">
+                                    <lable>Suburb</lable>
+                                    <input
+                                      type="text"
+                                      placeholder="Suburb"
+                                      id="Suburb"
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex md:flex-nowrap gap-4 my-3">
+                                  <div className="w-full   mb-3 relative">
+                                    <lable>Postcode</lable>
+                                    <input
+                                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                                      id="Postcode"
+                                      type="text"
+                                      placeholder="Apartment, Suite, etc"
+                                      style={{
+                                        background: "#F8F8F8",
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-full   mb-3 relative md:mb-0">
+                                    <lable>State</lable>
+                                    <Select
+                                      defaultValue={selectedState}
+                                      onChange={setSelectedState}
+                                      options={stateOptions}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="text-right flex justify-end items-center gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setEditBillingAddress(false);
+                                  }}
+                                  className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setEditBillingAddress(false);
+                                  }}
+                                  type="submit"
+                                  className="border-[#637381] border rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-[#637381]"
+                                >
+                                  Cancel
                                 </button>
                               </div>
-                              <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                Your chosen payment terms
-                              </p>
-                              <div className="border mt-2 border-[#E0E0E0] rounded-[6px] py-2 px-4">
-                                <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
-                                  Payment due in 14 days (dd/mm/yyyy)
-                                </h4>
-                              </div>
-                            </div>
-                            <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                            </form>
+                          ) : (
+                            <div>
                               <div className="flex justify-between items-center ">
                                 <div className="flex justify-start items-center gap-2">
                                   <HomeRoundedIcon />
@@ -273,7 +671,12 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   </h4>
                                 </div>
 
-                                <button className="text-base font-semibold text-[#2B4447]">
+                                <button
+                                  onClick={() => {
+                                    setEditBillingAddress(true);
+                                  }}
+                                  className="text-base font-semibold text-[#2B4447]"
+                                >
                                   Edit
                                 </button>
                               </div>
@@ -282,88 +685,45 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                 456 King Street, Newton, NSW 2304 Australia
                               </p>
                             </div>
-                            <div className=" mb-4 flex justify-center items-center gap-3">
-                              <div className="w-full">
-                                <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
-                                  Pricing
-                                </h4>
-                                <input
-                                  type="text"
-                                  disabled
-                                  value="Pricing"
-                                  className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
-                                />
-                              </div>
-                              <div className="w-full">
-                                <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
-                                  Freight
-                                </h4>
-                                <input
-                                  type="text"
-                                  disabled
-                                  value="Freight"
-                                  className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
-                                />
-                              </div>
-                            </div>
+                          )}
+                        </div>
+                        <div className=" mb-4 flex justify-center items-center gap-3">
+                          <div className="w-full">
+                            <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
+                              Pricing
+                            </h4>
+                            <input
+                              type="text"
+                              disabled
+                              value="Pricing"
+                              className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
+                            />
+                          </div>
+                          <div className="w-full">
+                            <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
+                              Freight
+                            </h4>
+                            <input
+                              type="text"
+                              disabled
+                              value="Freight"
+                              className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
+                            />
                           </div>
                         </div>
-                      </>
-                    ) : (
-                      <div className="  mb-5 ">
-                        <h5 className="text-lg font-semibold text-[#212B36] mb-5">
-                          Find Customer
-                        </h5>
-                        <Select
-                          // mode="multiple"
-                          value={selectedItems}
-                          onChange={setSelectedItems}
-                          style={{
-                            width: "300px",
-                          }}
-                          placeholder="custom dropdown render"
-                          dropdownRender={(menu) => (
-                            <>
-                              <Button
-                                type="text"
-                                // onClick={addItem}
-                                className=" py-3  bg-[#E0E0E0] rounded-md flex justify-start items-center gap-2 w-full my-3 "
-                              >
-                                {/* <AddCircleOutlineRoundedIcon
-                              style={{ fill: "#637381" }}
-                            /> */}
-                                <h5 className="text-sm font-medium text-[#637381]">
-                                  Create New Customer
-                                </h5>
-                              </Button>
-
-                              {menu}
-                              <Divider
-                                style={{
-                                  margin: "8px 0",
-                                }}
-                              />
-                              <Space
-                                style={{
-                                  padding: "0 8px 4px",
-                                }}
-                              ></Space>
-                            </>
-                          )}
-                          options={filteredOptions.map((item, index) => ({
-                            label: item,
-                            value: item,
-                            // <button
-                            //   className=""
-                            //   onClick={() => itemOption(item)}
-                            //   key={item}
-                            // >
-                            //   {item}
-                            // </button>
-                          }))}
-                        />
                       </div>
-                    )}
+                    </div>
+
+                    <div className="  mb-5 ">
+                      <h5 className="text-lg font-semibold text-[#212B36] mb-5">
+                        Find Customer
+                      </h5>
+                      <Select
+                        defaultValue={customerSelectedOption}
+                        onChange={setCustomerSelectedOption}
+                        options={customerOptions}
+                      />
+                    </div>
                   </>
                 )}
                 {activeStep === 1 && (
