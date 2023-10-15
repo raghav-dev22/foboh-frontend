@@ -121,7 +121,6 @@ const DownloadInvoice = (
 );
 
 const MyOrders = () => {
-  const [Sort, setSort] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [showPreview, setshowPreview] = useState(false);
   const [page, setPage] = useState(1);
@@ -129,25 +128,24 @@ const MyOrders = () => {
   const [invoiceData, setInvoiceData] = useState({});
   const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
   const [totalData, setTotalData] = useState({});
-  const [open, setOpen] = useState(false);
-  const [openStatus, setOpenStatus] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
-  const [openRegion, setOpenRegion] = useState(false);
+
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const childRef = useRef();
   const [input, setInput] = useState("");
   let orderId = "";
   const [isWine, setIsWine] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
   const [regions, setRegions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState([]);
   const [selectedDate, setSelectedDate] = useState([]);
 
+  const [sortItem, setSortItem] = useState(false);
   const checkAll = statusOptionsList.length === selectedStatus.length;
   const paymentCheckAll = paymentOptionsList.length === selectedPayment.length;
-
+  const sortBtn = () => {
+    setSortItem(!sortItem);
+  };
   const statusMenuBtn = () => {
     setStatusMenu(!statusMenu);
     setPaymentMenu(false);
@@ -178,18 +176,6 @@ const MyOrders = () => {
     });
   }, []);
 
-  const handleBlur = () => {
-    setIsOpen(false);
-  };
-
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
-  const handleSort = (value) => {
-    console.log(value);
-  };
-
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleCheckboxChange = (e) => {
@@ -201,79 +187,8 @@ const MyOrders = () => {
     console.log("Selected date:", date);
   };
   const [statusMenu, setStatusMenu] = useState(false);
-  const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
   const [paymentMenu, setPaymentMenu] = useState(false);
-
-  const items = [
-    {
-      key: "2",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-
-      children: [
-        {
-          key: "1-3",
-          label: (
-            <Checkbox
-              onChange={handleSort}
-              className="text-base font-normal text-[#637381]"
-            >
-              Oldest - Newest
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-4",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Newest - Oldest
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "5",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Total</h5>
-
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-
-      children: [
-        {
-          key: "1-9",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Low - High
-            </Checkbox>
-          ),
-        },
-
-        {
-          key: "1-10",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              High - Low
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-  ];
-
-  const onClick = (e) => {
-    console.log("click ", e);
-  };
 
   const handleInvoiceDownload = async (orderId) => {
     const invoiceData = await fetchInvoice(orderId);
@@ -294,23 +209,6 @@ const MyOrders = () => {
       type: "warning",
       content: "This is a warning message",
     });
-  };
-
-  const handleOpenPayment = (flag) => {
-    setOpen(flag);
-  };
-
-  const handleOpenStatus = (flag) => {
-    setOpenStatus(flag);
-  };
-
-  const handleOpenDate = (flag) => {
-    setOpenDate(flag);
-  };
-
-  const handleOpenRegion = (flag) => {
-    setOpenRegion(flag);
-    // setIsOpen(true);
   };
 
   const formattedData = orderData.map((order, index) => ({
@@ -432,6 +330,7 @@ const MyOrders = () => {
     };
   };
 
+  // Invoice API
   const fetchInvoice = async (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${7877302005}`;
 
@@ -503,6 +402,7 @@ const MyOrders = () => {
     return invoiceData;
   };
 
+  //ReOrder API
   const reOrder = (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/ReOrder?OrderId=${id}`;
     fetch(apiUrl)
@@ -519,6 +419,7 @@ const MyOrders = () => {
   };
 
   useEffect(() => {
+
     const debounceTimeout = setTimeout(() => {
       processChange();
     }, 1000);
@@ -526,7 +427,7 @@ const MyOrders = () => {
     return () => clearTimeout(debounceTimeout);
   }, [input]);
 
-  function debounce(func, timeout = 0) {
+  function debounce(func, timeout = input ? 0 : 1000) {
     let timer;
     return (...args) => {
       clearTimeout(timer);
@@ -536,14 +437,35 @@ const MyOrders = () => {
     };
   }
 
-  const saveInput = async () => {
-    const ordersData = await searchOrders(input, page);
-    console.log("ordersData", ordersData);
-    setOrderData(ordersData?.data ? ordersData?.data : []);
-    setTotalData(ordersData.total);
+  const saveInput = async (name) => {
+    const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    if (name === "filterAndSort") {
+      fetch(
+        `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/OrderHistory/Filter?BuyerId=${buyerId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(filterAndSort),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setOrderData(data?.data ? data?.data : []);
+          setTotalData(data.total);
+          console.log("filterAndSort response", data);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      const ordersData = await searchOrders(input, page);
+      console.log("ordersData", ordersData);
+      setOrderData(ordersData?.data ? ordersData?.data : []);
+      setTotalData(ordersData.total);
+    }
   };
 
-  const processChange = debounce(() => saveInput());
+  const processChange = debounce((name) => saveInput(name));
 
   const handleSearch = (e) => {
     const search = e.target.value;
@@ -612,8 +534,8 @@ const MyOrders = () => {
     } else if (name === "date") {
       // Initialize an empty array
       let dateArr = [];
-      
-      dateArr = [value[value.length - 1]]; 
+
+      dateArr = [value[value.length - 1]];
       // Set the latest value from the list
 
       console.log("dateArr", dateArr);
@@ -643,6 +565,37 @@ const MyOrders = () => {
         filter: newFilter,
       };
     }
+    processChange("filterAndSort");
+    console.log("filterAndSort", filterAndSort);
+  };
+
+  const handleSort = (value, order, name) => {
+    if (name === "date") {
+      const checked = value.target.checked;
+      const newSort = {
+        ...filterAndSort.sort,
+        sortBy: checked ? value.target.value : "",
+        sortOrder: checked ? order : "",
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        sort: newSort,
+      };
+    } else if (name === "orderamount") {
+      const checked = value.target.checked;
+      const newSort = {
+        ...filterAndSort.sort,
+        sortBy: checked ? value.target.value : "",
+        sortOrder: checked ? order : "",
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        sort: newSort,
+      };
+    }
+    processChange("filterAndSort");
     console.log("filterAndSort", filterAndSort);
   };
 
@@ -682,26 +635,98 @@ const MyOrders = () => {
                 <p className="text-base font-normal text-[#2B4447]">Filter</p>
               </button>
               <div className="relative">
-                <Dropdown
-                  className=""
-                  menu={{
-                    items,
-                  }}
-                  trigger={["click"]}
+                <button
+                  onClick={sortBtn}
+                  className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2  "
                 >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2  ">
-                      <SortOutlinedIcon style={{ fill: "#637381" }} />
-                      <p className="text-base font-normal text-[#2B4447]">
-                        Sort
-                      </p>
-                      <KeyboardArrowDownIcon
-                        style={{ fill: "#2B4447" }}
-                        className=""
-                      />
-                    </button>
-                  </a>
-                </Dropdown>
+                  <SortOutlinedIcon style={{ fill: "#637381" }} />
+                  <p className="text-base font-normal text-[#2B4447]">Sort</p>
+                  <KeyboardArrowDownIcon
+                    style={{ fill: "#2B4447" }}
+                    className=""
+                  />
+                </button>
+                {sortItem && (
+                  <div className=" z-10 left-0 px-3 h-[180px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <ul className="dropdown-content ">
+                      <li className="py-1">
+                        <div className="flex justify-between items-center  my-2">
+                          <h5 className="text-base font-medium text-[#2B4447]">
+                            Date
+                          </h5>
+                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                        </div>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox
+                          checked={
+                            filterAndSort?.sort.sortBy === "date" &&
+                            filterAndSort?.sort.sortOrder === "asc"
+                          }
+                          value={"date"}
+                          onChange={(value) => handleSort(value, "asc", "date")}
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          Oldest - Newest
+                        </Checkbox>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox
+                          value={"date"}
+                          checked={
+                            filterAndSort?.sort.sortBy === "date" &&
+                            filterAndSort?.sort.sortOrder === "desc"
+                          }
+                          onChange={(value) =>
+                            handleSort(value, "desc", "date")
+                          }
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          Newest - Oldest
+                        </Checkbox>
+                      </li>
+                      <li className="py-1">
+                        <div className="flex justify-between items-center  my-2">
+                          <h5 className="text-base font-medium text-[#2B4447]">
+                            Total
+                          </h5>
+
+                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                        </div>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox
+                          checked={
+                            filterAndSort?.sort.sortBy === "orderamount" &&
+                            filterAndSort?.sort.sortOrder === "asc"
+                          }
+                          value={"orderamount"}
+                          onChange={(value) =>
+                            handleSort(value, "asc", "orderamount")
+                          }
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          Low - High
+                        </Checkbox>
+                      </li>
+                      <li className="py-1">
+                        <Checkbox
+                          value={"orderamount"}
+                          checked={
+                            filterAndSort?.sort.sortBy === "orderamount" &&
+                            filterAndSort?.sort.sortOrder === "desc"
+                          }
+                          onChange={(value) =>
+                            handleSort(value, "desc", "orderamount")
+                          }
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          High - Low
+                        </Checkbox>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -721,7 +746,7 @@ const MyOrders = () => {
                   </div>
                   {paymentMenu && (
                     <>
-                      <div className=" z-10 left-0 px-3 h-[150px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <div className=" z-10 left-0 px-3 h-[180px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
                             <Checkbox
@@ -755,7 +780,7 @@ const MyOrders = () => {
                   </div>
                   {statusMenu && (
                     <>
-                      <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
                             <Checkbox
@@ -787,7 +812,7 @@ const MyOrders = () => {
                   </div>
 
                   {dateMenu && (
-                    <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul className="dropdown-content ">
                         <li className="py-1">
                           <Checkbox.Group

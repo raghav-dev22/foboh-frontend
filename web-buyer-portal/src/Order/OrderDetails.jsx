@@ -198,11 +198,11 @@ const OrderDetails = () => {
             </div>
           </div>
           <hr className="my-5" />
-          <div className="mb-5">
+          {/* <div className="mb-5">
             <h5 className="text-lg font-semibold text-[#2B4447]">
               Order Tracking ID - 012345678910
             </h5>
-          </div>
+          </div> */}
           <Steps
             current={1}
             progressDot={customDot}
@@ -251,7 +251,7 @@ const OrderDetails = () => {
                             {item.product?.title}
                           </h4>
                           <p className="text-sm text-[#637381] font-medium ">
-                            12 x 750ml
+                            {item.product?.configuration}
                           </p>
                         </div>
                         <p className="text-sm font-medium text-[#2B4447]">

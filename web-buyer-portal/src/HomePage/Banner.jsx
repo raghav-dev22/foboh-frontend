@@ -48,7 +48,11 @@ function Banner() {
           <div className="logo relative">
             {(
               <img
-                src="/assets/SUPPLIERLOGO.png"
+                src={
+                  organisation?.organisationlogo
+                    ? organisation?.organisationlogo
+                    : "/assets/SUPPLIERLOGO.png"
+                }
                 alt="organisationlogo"
                 className="mt-0 mr-0 mb-0 ml-[40px] max-h-[150px] w-full object-contain"
               />

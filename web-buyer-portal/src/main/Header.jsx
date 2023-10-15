@@ -31,6 +31,8 @@ function Header() {
   const { useToken } = theme;
   const { token } = useToken();
   const url = process.env.REACT_APP_PRODUCTS_URL;
+  const organisation = useSelector((state) => state.organisation);
+
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -138,13 +140,22 @@ function Header() {
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <h2
+        <div onClick={() => navigate('/home/main')}>
+        {
+          organisation?.organisationlogo ? (
+            <img className="h-[50px] w-[100px] cursor-pointer object-cover" src={organisation?.organisationlogo} alt="organisationlogo" />
+          ) : (
+            <h2
           style={{ color: token.commonThemeColor }}
           className="text-[#637381] font-bold md:text-3xl text-xl	"
         >
           {" "}
           LOGO
         </h2>
+          )
+        }
+
+        </div>
         <div className=" relative md:block hidden">
           <input
             type="text"

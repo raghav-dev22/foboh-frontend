@@ -3,21 +3,10 @@ import { Table, Collapse, Checkbox } from "antd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space, Menu, Button } from "antd";
+import { Space, Menu } from "antd";
 window.ResizeObserver = undefined;
 const { SubMenu } = Menu;
-const menu = (
-  <Menu>
-    <Menu.Item key="1">Option 1</Menu.Item>
-    <Menu.Item key="2">Option 2</Menu.Item>
-    <Menu.Item key="3">Option 3</Menu.Item>
-    <SubMenu key="subMenu" title="Submenu">
-      <Menu.Item key="3">Submenu Item 1</Menu.Item>
-      <Menu.Item key="4">Submenu Item 2</Menu.Item>
-    </SubMenu>
-  </Menu>
-);
+
 const ActionRequired = () => {
   const [page, setPage] = useState(1);
   const [newTotalData, setNewTotalData] = useState();
@@ -26,150 +15,25 @@ const ActionRequired = () => {
   const [orderNewOrder, setOrderNewOrder] = useState([]);
   const [modification, setModification] = useState([]);
   const [pendding, setpendding] = useState([]);
-  const items = [
-    {
-      key: "1",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center my-2  ">
-          <h5 className="text-base font-medium text-[#2B4447]">Order ID</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-1",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              A -Z
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-2",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Z - A
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "2",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-3",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Oldest - Newest
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-4",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Newest - Oldest
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "3",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Last Update</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-5",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Oldest - Newest
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-6",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Newest - Oldest
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "4",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">
-            Customer Name
-          </h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-7",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              A -Z
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-8",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Z - A
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "5",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-9",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Low - High
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-10",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              High - Low
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-  ];
+  const [newSortItem, setNewSortItem] = useState(false);
+  const [pandingSortItem, setPandingSortItem] = useState(false);
+  const [buyerSortItem, setBuyerSortItem] = useState(false);
+  const newSortBtn = () => {
+    setNewSortItem(!newSortItem);
+    setPandingSortItem(false);
+    setBuyerSortItem(false);
+  };
+
+  const pandingSortBtn = () => {
+    setPandingSortItem(!pandingSortItem);
+    setNewSortItem(false);
+    setBuyerSortItem(false);
+  };
+  const buyerSortBtn = () => {
+    setBuyerSortItem(!buyerSortItem);
+    setNewSortItem(false);
+    setPandingSortItem(false);
+  };
 
   const newColumns = [
     {
@@ -472,27 +336,107 @@ const ActionRequired = () => {
                 ),
                 children: (
                   <>
-                    <div className="pb-5 flex justify-end">
-                      <Dropdown
-                        className=""
-                        menu={{
-                          items,
-                        }}
-                        trigger={["click"]}
+                    <div className="pb-5 flex justify-end relative">
+                      <button
+                        onClick={newSortBtn}
+                        className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
                       >
-                        <a onClick={(e) => e.preventDefault()}>
-                          <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
-                            <SortOutlinedIcon style={{ fill: "#637381" }} />
-                            <p className="text-base font-normal text-[#2B4447]">
-                              Sort
-                            </p>
-                            <KeyboardArrowDownIcon
-                              style={{ fill: "#2B4447" }}
-                              className=""
-                            />
-                          </button>
-                        </a>
-                      </Dropdown>
+                        <SortOutlinedIcon style={{ fill: "#637381" }} />
+                        <p className="text-base font-normal text-[#2B4447]">
+                          Sort
+                        </p>
+                        <KeyboardArrowDownIcon
+                          style={{ fill: "#2B4447" }}
+                          className=""
+                        />
+                      </button>
+                      {newSortItem && (
+                        <div className=" z-10 right-0 top-[72%] px-3 min-h-fit max-h-[180px]  w-max   absolute  bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                          <ul className="dropdown-content ">
+                            <li className="py-1">
+                              <div className="flex justify-between items-center my-2  ">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Order ID
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                A -Z
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Z - A
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <div className="flex justify-between items-center  my-2">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Date
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Oldest - Newest
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Newest - Oldest
+                              </Checkbox>
+                            </li>
+
+                            <li className="py-1">
+                              <div className="flex justify-between items-center  my-2">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Customer Name
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                A -Z
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Z - A
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <div className="flex justify-between items-center  my-2">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Order Amount
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Low - High
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                High - Low
+                              </Checkbox>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </div>
                     <div className="custom-table-pagination">
                       <Table
@@ -544,27 +488,107 @@ const ActionRequired = () => {
                 ),
                 children: (
                   <>
-                    <div className="pb-5 flex justify-end">
-                      <Dropdown
-                        className=""
-                        menu={{
-                          items,
-                        }}
-                        trigger={["click"]}
+                    <div className="pb-5 flex justify-end relative">
+                      <button
+                        onClick={pandingSortBtn}
+                        className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
                       >
-                        <a onClick={(e) => e.preventDefault()}>
-                          <button className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	">
-                            <SortOutlinedIcon style={{ fill: "#637381" }} />
-                            <p className="text-base font-normal text-[#2B4447]">
-                              Sort
-                            </p>
-                            <KeyboardArrowDownIcon
-                              style={{ fill: "#2B4447" }}
-                              className=""
-                            />
-                          </button>
-                        </a>
-                      </Dropdown>
+                        <SortOutlinedIcon style={{ fill: "#637381" }} />
+                        <p className="text-base font-normal text-[#2B4447]">
+                          Sort
+                        </p>
+                        <KeyboardArrowDownIcon
+                          style={{ fill: "#2B4447" }}
+                          className=""
+                        />
+                      </button>
+                      {pandingSortItem && (
+                        <div className=" z-10 right-0 top-[72%] px-3 min-h-fit max-h-[180px]  w-max   absolute  bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                          <ul className="dropdown-content ">
+                            <li className="py-1">
+                              <div className="flex justify-between items-center my-2  ">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Order ID
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                A -Z
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Z - A
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <div className="flex justify-between items-center  my-2">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Date
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Oldest - Newest
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Newest - Oldest
+                              </Checkbox>
+                            </li>
+
+                            <li className="py-1">
+                              <div className="flex justify-between items-center  my-2">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Customer Name
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                A -Z
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Z - A
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <div className="flex justify-between items-center  my-2">
+                                <h5 className="text-base font-medium text-[#2B4447]">
+                                  Order Amount
+                                </h5>
+                                <KeyboardArrowDownIcon
+                                  style={{ fill: "#2B4447" }}
+                                />
+                              </div>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                Low - High
+                              </Checkbox>
+                            </li>
+                            <li className="py-1">
+                              <Checkbox className="text-base font-normal text-[#637381]">
+                                High - Low
+                              </Checkbox>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </div>
                     <div className="custom-table-pagination">
                       <Table
@@ -615,17 +639,107 @@ const ActionRequired = () => {
                 children: (
                   <>
                     <div className="pb-5 flex justify-end">
-                      <div className="cursor-pointer flex justify-center items-center gap-2	border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max ">
-                        <SortOutlinedIcon style={{ fill: "#637381" }} />
-                        <Dropdown overlay={menu}>
-                          <p className="text-base font-normal text-[#2B4447] ">
+                      <div className="pb-5 flex justify-end relative">
+                        <button
+                          onClick={buyerSortBtn}
+                          className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
+                        >
+                          <SortOutlinedIcon style={{ fill: "#637381" }} />
+                          <p className="text-base font-normal text-[#2B4447]">
                             Sort
                           </p>
-                        </Dropdown>
-                        <KeyboardArrowDownIcon
-                          style={{ fill: "#2B4447" }}
-                          className=""
-                        />
+                          <KeyboardArrowDownIcon
+                            style={{ fill: "#2B4447" }}
+                            className=""
+                          />
+                        </button>
+                        {buyerSortItem && (
+                          <div className=" z-10 right-0 top-[72%] px-3 min-h-fit max-h-[180px]  w-max   absolute  bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                            <ul className="dropdown-content ">
+                              <li className="py-1">
+                                <div className="flex justify-between items-center my-2  ">
+                                  <h5 className="text-base font-medium text-[#2B4447]">
+                                    Order ID
+                                  </h5>
+                                  <KeyboardArrowDownIcon
+                                    style={{ fill: "#2B4447" }}
+                                  />
+                                </div>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  A -Z
+                                </Checkbox>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  Z - A
+                                </Checkbox>
+                              </li>
+                              <li className="py-1">
+                                <div className="flex justify-between items-center  my-2">
+                                  <h5 className="text-base font-medium text-[#2B4447]">
+                                    Date
+                                  </h5>
+                                  <KeyboardArrowDownIcon
+                                    style={{ fill: "#2B4447" }}
+                                  />
+                                </div>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  Oldest - Newest
+                                </Checkbox>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  Newest - Oldest
+                                </Checkbox>
+                              </li>
+
+                              <li className="py-1">
+                                <div className="flex justify-between items-center  my-2">
+                                  <h5 className="text-base font-medium text-[#2B4447]">
+                                    Customer Name
+                                  </h5>
+                                  <KeyboardArrowDownIcon
+                                    style={{ fill: "#2B4447" }}
+                                  />
+                                </div>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  A -Z
+                                </Checkbox>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  Z - A
+                                </Checkbox>
+                              </li>
+                              <li className="py-1">
+                                <div className="flex justify-between items-center  my-2">
+                                  <h5 className="text-base font-medium text-[#2B4447]">
+                                    Order Amount
+                                  </h5>
+                                  <KeyboardArrowDownIcon
+                                    style={{ fill: "#2B4447" }}
+                                  />
+                                </div>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  Low - High
+                                </Checkbox>
+                              </li>
+                              <li className="py-1">
+                                <Checkbox className="text-base font-normal text-[#637381]">
+                                  High - Low
+                                </Checkbox>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="custom-table-pagination">
