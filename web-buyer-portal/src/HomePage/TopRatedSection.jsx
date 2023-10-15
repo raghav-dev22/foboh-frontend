@@ -10,18 +10,46 @@ function TopRatedSection() {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const data = () => {
-    // axios.get("https://fakestoreapi.com/products").then((resp) => {
-    //   console.log(resp.data);
-    //   setCartData(resp.data);
-    // });
-  };
+  // const data = () => {
+  //   axios
+  //     .get(
+  //       `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=TopRatedtags&page=1&OrganisationId=8931989992`
+  //     )
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       if (!Success) {
+  //         setCartData([]);
+  //       }
+  //       console.log(data);
+  //       setCartData(data.data);
+  //     });
+  // };
   const dispatch = useDispatch();
   const addCart = (item) => {
     dispatch(add(item));
   };
+  // useEffect(() => {
+  //   data();
+  // }, []);
   useEffect(() => {
-    data();
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=TopRatedtags&page=1&OrganisationId=8931989992`;
+
+    fetch(apiUrl)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          setCartData(data.data);
+        } else {
+          setCartData([]);
+        }
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
   }, []);
   return (
     <>

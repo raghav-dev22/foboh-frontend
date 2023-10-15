@@ -122,15 +122,18 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors?.businessName && "1px solid red",
+                border:
+                  errors?.businessName &&
+                  touched?.businessName &&
+                  "1px solid red",
               }}
             />
-            {errors?.businessName && (
+            {errors?.businessName && touched?.businessName && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.businessName}
               </p>
             )}
-            {errors?.businessName && (
+            {errors?.businessName && touched?.businessName && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
             )}
           </div>
@@ -153,15 +156,15 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors?.abn && "1px solid red",
+                border: errors?.abn && touched?.abn && "1px solid red",
               }}
             />
-            {errors?.abn && (
+            {errors?.abn && touched?.abn && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.abn}
               </p>
             )}
-            {errors?.abn && (
+            {errors?.abn && touched?.abn && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -183,15 +186,18 @@ function CustomerDetailsFirst({
               onChange={handleChange}
               onBlur={handleBlur}
               style={{
-                border: errors?.liquorLicence && "1px solid red",
+                border:
+                  errors?.liquorLicence &&
+                  touched?.liquorLicence &&
+                  "1px solid red",
               }}
             />
-            {errors?.liquorLicence && (
+            {errors?.liquorLicence && touched?.liquorLicence && (
               <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                 {errors?.liquorLicence}
               </p>
             )}
-            {errors?.liquorLicence && (
+            {errors?.liquorLicence && touched?.liquorLicence && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
             )}
           </div>
@@ -213,11 +219,12 @@ function CustomerDetailsFirst({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                  border: errors?.isActive && "1px solid red",
+                  border:
+                    errors?.isActive && touched?.isActive && "1px solid red",
                 }}
               />
 
-              {errors?.isActive && (
+              {errors?.isActive && touched?.isActive && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors?.isActive}
                 </p>
@@ -269,7 +276,7 @@ function CustomerDetailsFirst({
                 className="basic-multi-select"
                 classNamePrefix="select"
                 style={{
-                  border: errors?.tags && "1px solid red",
+                  border: errors?.tags && touched?.tags && "1px solid red",
                 }}
               />
               {/* <Select
@@ -291,7 +298,7 @@ function CustomerDetailsFirst({
               }}
             /> */}
 
-              {errors?.tags && (
+              {errors?.tags && touched?.tags && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors?.tags}
                 </p>
@@ -317,11 +324,14 @@ function CustomerDetailsFirst({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                  border: errors?.defaultPaymentTerms && "1px solid red",
+                  border:
+                    errors?.defaultPaymentTerms &&
+                    touched?.defaultPaymentTerms &&
+                    "1px solid red",
                 }}
               />
 
-              {errors?.defaultPaymentTerms && (
+              {errors?.defaultPaymentTerms && touched?.defaultPaymentTerms && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors?.defaultPaymentTerms}
                 </p>
@@ -345,15 +355,19 @@ function CustomerDetailsFirst({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                  border: errors?.defaultPaymentMethodId && "1px solid red",
+                  border:
+                    errors?.defaultPaymentMethodId &&
+                    touched?.defaultPaymentMethodId &&
+                    "1px solid red",
                 }}
               />
 
-              {errors?.defaultPaymentMethodId && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors?.defaultPaymentMethodId}
-                </p>
-              )}
+              {errors?.defaultPaymentMethodId &&
+                touched?.defaultPaymentMethodId && (
+                  <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                    {errors?.defaultPaymentMethodId}
+                  </p>
+                )}
             </div>
           </div>
         </div>

@@ -405,7 +405,9 @@ const MyOrders = () => {
   //ReOrder API
   const reOrder = (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/ReOrder?OrderId=${id}`;
-    fetch(apiUrl)
+    fetch(apiUrl, {
+      method: "POST",
+    })
       .then((data) => {
         if (data.success) {
           success();

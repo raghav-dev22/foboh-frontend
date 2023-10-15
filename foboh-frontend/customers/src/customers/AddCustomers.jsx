@@ -50,9 +50,10 @@ function AddCustomers() {
   useEffect(() => {
     callApi(1);
   }, []);
-  const callApi = (item) => {
+  const callApi = (page) => {
+    const orgID = localStorage.getItem("organisationId");
     fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=${item}`,
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=${page}&OrganisationId=${orgID}`,
       {
         method: "GET",
       }

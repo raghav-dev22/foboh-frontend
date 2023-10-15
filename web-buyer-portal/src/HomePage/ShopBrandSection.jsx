@@ -6,24 +6,26 @@ function ShopBrandSection() {
   const { token } = useToken();
   const [BrandData, setBrandData] = useState([]);
 
-
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
 
-    fetch(`https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByBrands?OrganisationId=${buyer?.organisationId}`, {
-      method : "GET",
-    })
-    .then((response => {
-      return response.json()
-    }))
-    .then(data => {
-      // setBrandData(data.data);
-      // console.log(data, "brand2")
-    })
-    .catch(error => console.log(error))
+    fetch(
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByBrands?OrganisationId=${buyer?.organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setBrandData(data.data);
+        console.log(data, "brand2");
+      })
+      .catch((error) => console.log(error));
   }, []);
-  console.log(BrandData, "brand")
- 
+  console.log(BrandData, "brand");
+
   return (
     <>
       <div className="Shop-brands-section bg-[#F4F7FF] md:p-0 p-6">
@@ -46,14 +48,17 @@ function ShopBrandSection() {
             return (
               <div className="rounded-lg	shadow-md	bg-white w-full py-12">
                 <h4 className="text-[#212B36] font-bold text-xl	text-center">
-                 {item.brand}
+                  {item.brand}
                 </h4>
               </div>
             );
           })}
         </div>
         <div className="text-center py-10">
-          <div  style={{background: token.buttonThemeColor}} className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto hidden xl:block md:block">
+          <div
+            style={{ background: token.buttonThemeColor }}
+            className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto hidden xl:block md:block"
+          >
             <h6 className="font-semibold text-white text-center text-base">
               Explore all products
             </h6>
