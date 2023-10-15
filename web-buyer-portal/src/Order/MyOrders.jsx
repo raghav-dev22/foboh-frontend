@@ -21,6 +21,8 @@ import { Link, useNavigate } from "react-router-dom";
 import InvoiceModal from "../modal/InvoiceModal";
 import { searchOrders } from "../helpers/searchOrders";
 import { getCityState } from "../helpers/getCityState";
+import { formatDateAfterRelativeDate } from "../helper/formatDateAfterRelativeDate";
+import { date } from "yup";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -82,6 +84,8 @@ const columns = [
   },
 ];
 
+const dateOptionsList = ["Last 7 days", "Last 14 days", "Last 30 days"];
+
 const statusOptionsList = [
   "New",
   "Pending approval",
@@ -93,6 +97,20 @@ const statusOptionsList = [
   "Completed",
   "Cancelled",
 ];
+
+let filterAndSort = {
+  filter: {
+    paymentStatus: [],
+    orderStatus: [],
+    orderEntryDate: "",
+    customeDate: "",
+    page: 0,
+  },
+  sort: {
+    sortBy: "",
+    sortOrder: "",
+  },
+};
 
 const paymentOptionsList = ["Authorised", "Paid", "Unpaid", "Overdue"];
 
@@ -125,6 +143,8 @@ const MyOrders = () => {
   const [regions, setRegions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState([]);
+  const [selectedDate, setSelectedDate] = useState([]);
+
   const checkAll = statusOptionsList.length === selectedStatus.length;
   const paymentCheckAll = paymentOptionsList.length === selectedPayment.length;
 
@@ -183,7 +203,7 @@ const MyOrders = () => {
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
-  const [paymentMenu, setPaymentMenu] = useState(false)
+  const [paymentMenu, setPaymentMenu] = useState(false);
 
   const items = [
     {
@@ -401,6 +421,15 @@ const MyOrders = () => {
   const onShowSizeChange = (current, pageSize) => {
     console.log("page", current, pageSize);
     setPage(current.current);
+    const newFilter = {
+      ...filterAndSort.filter,
+      page: current.current,
+    };
+
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+    };
   };
 
   const fetchInvoice = async (id) => {
@@ -521,24 +550,100 @@ const MyOrders = () => {
     setInput(search);
   };
 
-  const handleStatusChange = (value) => {
-    console.log("status", value);
-    setSelectedStatus(value);
-  };
-
+  //Order status select all Filter
   const handleSelectAll = (e) => {
     const checked = e.target.checked;
     setSelectedStatus(checked ? statusOptionsList : []);
+    const newFilter = {
+      ...filterAndSort.filter,
+      orderStatus: checked ? statusOptionsList : [],
+    };
+
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+    };
+    console.log("filterAndSort", filterAndSort);
   };
 
-  const handlePaymentChange = (value) => {
-    console.log("status", value);
-    setSelectedPayment(value);
-  };
-
+  //Payment select all Filter
   const handlePaymentAll = (e) => {
     const checked = e.target.checked;
     setSelectedPayment(checked ? paymentOptionsList : []);
+    const newFilter = {
+      ...filterAndSort.filter,
+      paymentStatus: checked ? paymentOptionsList : [],
+    };
+
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+    };
+    console.log("filterAndSort", filterAndSort);
+  };
+
+  //Handling Filter
+  const handleFilter = (value, name) => {
+    console.log(value, name);
+
+    if (name === "payment") {
+      setSelectedPayment(value);
+      const newFilter = {
+        ...filterAndSort.filter,
+        paymentStatus: value,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    } else if (name === "status") {
+      setSelectedStatus(value);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        orderStatus: value,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    } else if (name === "date") {
+      // Initialize an empty array
+      let dateArr = [];
+      
+      dateArr = [value[value.length - 1]]; 
+      // Set the latest value from the list
+
+      console.log("dateArr", dateArr);
+      setSelectedDate(dateArr);
+
+      const formattedData = formatDateAfterRelativeDate(dateArr);
+      const newFilter = {
+        ...filterAndSort.filter,
+        orderEntryDate: formattedData,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    } else if (name === "customDate") {
+      const formatedDate = `${value.$y}-${value.$M + 1}-${value.$D}`;
+      console.log("customDate", formatedDate);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        customeDate: formatedDate,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    }
+    console.log("filterAndSort", filterAndSort);
   };
 
   return (
@@ -582,7 +687,6 @@ const MyOrders = () => {
                   menu={{
                     items,
                   }}
-                  
                   trigger={["click"]}
                 >
                   <a onClick={(e) => e.preventDefault()}>
@@ -629,7 +733,7 @@ const MyOrders = () => {
                             </Checkbox>
                           </li>
                           <Checkbox.Group
-                            onChange={handlePaymentChange}
+                            onChange={(value) => handleFilter(value, "payment")}
                             options={paymentOptionsList}
                             value={selectedPayment}
                             className="text-base font-medium text-[#637381] grid"
@@ -663,7 +767,7 @@ const MyOrders = () => {
                             </Checkbox>
                           </li>
                           <Checkbox.Group
-                            onChange={handleStatusChange}
+                            onChange={(value) => handleFilter(value, "status")}
                             options={statusOptionsList}
                             value={selectedStatus}
                             className="text-base font-medium text-[#637381] grid"
@@ -673,8 +777,6 @@ const MyOrders = () => {
                     </>
                   )}
                 </div>
-
-               
                 <div className="relative">
                   <div
                     className="flex items-center gap-3 cursor-pointer"
@@ -688,19 +790,12 @@ const MyOrders = () => {
                     <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul className="dropdown-content ">
                         <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
-                            Last 7 days
-                          </Checkbox>
-                        </li>
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
-                            Last 14 days
-                          </Checkbox>
-                        </li>
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
-                            Last 30 days
-                          </Checkbox>
+                          <Checkbox.Group
+                            onChange={(value) => handleFilter(value, "date")}
+                            options={dateOptionsList}
+                            value={selectedDate}
+                            className="text-base font-medium grid text-[#637381]"
+                          />
                         </li>
                         <li className="py-1">
                           <div className="relative custom-datePicker h-[40px]">
@@ -716,7 +811,9 @@ const MyOrders = () => {
                                     </div>
                                   </div>
                                 )}
-                                onChange={handleDatePickerChange}
+                                onChange={(value) =>
+                                  handleFilter(value, "customDate")
+                                }
                               />
                             ) : (
                               <div className=" absolute top-0 left-0 w-full h-full">
