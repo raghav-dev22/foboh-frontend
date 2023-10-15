@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
-  Select,
   Dropdown,
   Checkbox,
   Tooltip,
@@ -9,6 +8,7 @@ import {
   message,
   Menu,
 } from "antd";
+import Select from "react-select";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
@@ -82,6 +82,20 @@ const columns = [
   },
 ];
 
+const statusOptionsList = [
+  "New",
+  "Pending approval",
+  "Changes requested",
+  "Updated",
+  "Processing",
+  "Shipped",
+  "Partially fulfilled",
+  "Completed",
+  "Cancelled",
+];
+
+const paymentOptionsList = ["Authorised", "Paid", "Unpaid", "Overdue"];
+
 const details = <span className="text-[#7D7C7C] ">View Details</span>;
 const Reorder = <span className="text-[#7D7C7C] ">Reorder</span>;
 const DownloadInvoice = (
@@ -109,21 +123,25 @@ const MyOrders = () => {
   const [isWine, setIsWine] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const [regions, setRegions] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState([]);
+  const [selectedPayment, setSelectedPayment] = useState([]);
+  const checkAll = statusOptionsList.length === selectedStatus.length;
+  const paymentCheckAll = paymentOptionsList.length === selectedPayment.length;
+
   const statusMenuBtn = () => {
     setStatusMenu(!statusMenu);
-    setRegionMenu(false);
+    setPaymentMenu(false);
     setDateMenu(false);
   };
-  const regionMenuBtn = () => {
-    setRegionMenu(!regionMenu);
+  const paymentMenuBtn = () => {
+    setPaymentMenu(!paymentMenu);
     setStatusMenu(false);
-
     setDateMenu(false);
   };
   const dateBtn = () => {
     setDateMenu(!dateMenu);
     setStatusMenu(false);
-    setRegionMenu(false);
+    setPaymentMenu(false);
   };
   useEffect(() => {
     getCityState().then((data) => {
@@ -165,6 +183,7 @@ const MyOrders = () => {
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
+  const [paymentMenu, setPaymentMenu] = useState(false)
 
   const items = [
     {
@@ -200,41 +219,11 @@ const MyOrders = () => {
       ],
     },
     {
-      key: "3",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Last Update</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-
-      children: [
-        {
-          key: "1-5",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Oldest - Newest
-            </Checkbox>
-          ),
-        },
-
-        {
-          key: "1-6",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Newest - Oldest
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
       key: "5",
       type: "group",
       label: (
         <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
+          <h5 className="text-base font-medium text-[#2B4447]">Total</h5>
 
           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
         </div>
@@ -261,7 +250,6 @@ const MyOrders = () => {
       ],
     },
   ];
-
 
   const onClick = (e) => {
     console.log("click ", e);
@@ -522,7 +510,7 @@ const MyOrders = () => {
   const saveInput = async () => {
     const ordersData = await searchOrders(input, page);
     console.log("ordersData", ordersData);
-    setOrderData(ordersData.data);
+    setOrderData(ordersData?.data ? ordersData?.data : []);
     setTotalData(ordersData.total);
   };
 
@@ -531,6 +519,26 @@ const MyOrders = () => {
   const handleSearch = (e) => {
     const search = e.target.value;
     setInput(search);
+  };
+
+  const handleStatusChange = (value) => {
+    console.log("status", value);
+    setSelectedStatus(value);
+  };
+
+  const handleSelectAll = (e) => {
+    const checked = e.target.checked;
+    setSelectedStatus(checked ? statusOptionsList : []);
+  };
+
+  const handlePaymentChange = (value) => {
+    console.log("status", value);
+    setSelectedPayment(value);
+  };
+
+  const handlePaymentAll = (e) => {
+    const checked = e.target.checked;
+    setSelectedPayment(checked ? paymentOptionsList : []);
   };
 
   return (
@@ -574,6 +582,7 @@ const MyOrders = () => {
                   menu={{
                     items,
                   }}
+                  
                   trigger={["click"]}
                 >
                   <a onClick={(e) => e.preventDefault()}>
@@ -599,6 +608,40 @@ const MyOrders = () => {
                 <div className="relative">
                   <div
                     className="flex items-center gap-3 cursor-pointer"
+                    onClick={paymentMenuBtn}
+                  >
+                    <h5 className="text-lg font-medium text-[#637381]">
+                      Payment
+                    </h5>
+                    <KeyboardArrowDownIcon />
+                  </div>
+                  {paymentMenu && (
+                    <>
+                      <div className=" z-10 left-0 px-3 h-[150px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                        <ul className="dropdown-content ">
+                          <li className="py-1">
+                            <Checkbox
+                              checked={paymentCheckAll}
+                              onChange={handlePaymentAll}
+                              className="text-base font-medium text-[#637381]"
+                            >
+                              Select all
+                            </Checkbox>
+                          </li>
+                          <Checkbox.Group
+                            onChange={handlePaymentChange}
+                            options={paymentOptionsList}
+                            value={selectedPayment}
+                            className="text-base font-medium text-[#637381] grid"
+                          />
+                        </ul>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className="relative">
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
                     onClick={statusMenuBtn}
                   >
                     <h5 className="text-lg font-medium text-[#637381]">
@@ -611,100 +654,27 @@ const MyOrders = () => {
                       <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                            <Checkbox
+                              checked={checkAll}
+                              onChange={handleSelectAll}
+                              className="text-base font-medium text-[#637381]"
+                            >
                               Select all
                             </Checkbox>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              New
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Pending approval
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Changes requested
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Updated
-                            </Checkbox>
-                          </li>
-
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Processing
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Shipped
-                            </Checkbox>
-                          </li>
-
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Partially fulfilled
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Delivered
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Completed
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Cancelled
-                            </Checkbox>
-                          </li>
+                          <Checkbox.Group
+                            onChange={handleStatusChange}
+                            options={statusOptionsList}
+                            value={selectedStatus}
+                            className="text-base font-medium text-[#637381] grid"
+                          />
                         </ul>
                       </div>
                     </>
                   )}
                 </div>
 
-                <div className="relative">
-                  <div
-                    className="flex items-center gap-3 cursor-pointer"
-                    onClick={regionMenuBtn}
-                  >
-                    <h5 className="text-lg font-medium text-[#637381]">
-                      Region
-                    </h5>
-                    <KeyboardArrowDownIcon />
-                  </div>
-
-                  {regionMenu && (
-                    <div className=" z-10 left-0 px-3 min-h-fit max-h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
-                      <Select
-                        // open={isOpen}
-                        mode="multiple"
-                        allowClear
-                        onBlur={handleBlur}
-                        MenuProps={{
-                          onBlur: handleBlur,
-                        }}
-                        defaultValue="city"
-                        className="regionMenuSelect"
-                        style={{
-                          width: 120,
-                        }}
-                        onChange={handleChange}
-                        options={regions}
-                      />
-                    </div>
-                  )}
-                </div>
+               
                 <div className="relative">
                   <div
                     className="flex items-center gap-3 cursor-pointer"
