@@ -15,6 +15,7 @@ import { timeline } from "@material-tailwind/react";
 import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
 import { theme } from "antd";
 import { Button, Modal, Space } from "antd";
+import { message } from "antd";
 
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
@@ -32,16 +33,18 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((items) => items.cart);
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const warning = () => {
-    Modal.warning({
-      title: "This is a warning message",
-      content: (
-        <div>
-          <h1>Please try again!</h1>
-          <p>Some error has occurred.</p>
-        </div>
-      ),
+  const warning = (message) => {
+    messageApi.open({
+      type: "warning",
+      content: message,
+    });
+  };
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "product successfully add",
     });
   };
 
@@ -141,10 +144,10 @@ const CartPage = () => {
         }
       })
       .catch((error) => console.log(error));
-  }
+  };
 
   useEffect(() => {
-    getCalculations()
+    getCalculations();
   }, []);
 
   useEffect(() => {
@@ -194,10 +197,15 @@ const CartPage = () => {
           return response.json();
         })
         .then((data) => {
-          console.log(data, "updatequantity");
-
+          if (data.success) {
+            success();
+            getCalculations();
+          } else {
+            if (updatedQuantity?.productId !== "") {
+              warning(data.message);
+            }
+          }
           //Calling back calculation api after updating qunatity
-          getCalculations()
         })
         .catch((error) => {
           console.error("Error updating data:", error);
@@ -272,6 +280,7 @@ const CartPage = () => {
 
   return (
     <>
+      {contextHolder}
       {/* <Header /> */}
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
         <div className="  mb-12 md:bg-white  bg-[#563FE3] md:p-0 p-4 relative">

@@ -17,7 +17,7 @@ const MainHomePage = () => {
       <Banner />
       <ShopSection />
       <TopRatedSection />
-      <ShopBrandSection />
+      {/* <ShopBrandSection /> */}
     </>
   );
 };

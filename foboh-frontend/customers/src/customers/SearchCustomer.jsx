@@ -7,7 +7,7 @@ import { Select, Space } from "antd";
 let filterAndSort = {
   filter: {
     businessName: "",
-    status: null,
+    status: "",
     postCode: "",
     state: [],
     page: 1,
@@ -145,7 +145,7 @@ function SearchCustomer({
   const toggleCategory = (e, value, category) => {
     const checked = e.target.checked;
 
-    const newStatus = checked ? value : null;
+    const newStatus = checked ? value : "";
 
     const updatedFilter = {
       ...filterAndSort.filter,
@@ -191,10 +191,10 @@ function SearchCustomer({
 
   const saveInput = (name) => {
     console.log("debounce val >>", filterAndSort);
-
+    const orgID = localStorage.getItem("organisationId");
     if (name === "filterAndSort") {
       fetch(
-        "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter",
+        `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter?OrganisationId=${orgID}`,
         {
           method: "POST",
           headers: {
@@ -219,8 +219,9 @@ function SearchCustomer({
         .catch((error) => console.log(error));
     } else {
       let search = filterAndSort?.filter?.businessName;
+      const orgID = localStorage.getItem("organisationId");
       fetch(
-        `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/SearchByName?search=${search}`,
+        `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/SearchByName?search=${search}&page=${pageIndex}&OrganisationId=${orgID}`,
         {
           method: "GET",
         }

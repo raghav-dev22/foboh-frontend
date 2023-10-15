@@ -593,7 +593,9 @@ const MyOrders = () => {
 
   const reOrder = (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/ReOrder?OrderId=${id}`;
-    fetch(apiUrl)
+    fetch(apiUrl, {
+      method: "POST",
+    })
       .then((data) => {
         if (data.success) {
           success();
@@ -627,7 +629,7 @@ const MyOrders = () => {
   const saveInput = async () => {
     const ordersData = await searchOrders(input, page);
     console.log("ordersData", ordersData);
-    setOrderData(ordersData.data);
+    setOrderData(ordersData?.data ? orderData?.data : []);
     setTotalData(ordersData.total);
   };
 

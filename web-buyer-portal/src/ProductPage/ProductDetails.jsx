@@ -41,10 +41,10 @@ const ProductDetails = () => {
   const handleClosePreview = () => {
     setSelectedImage(null);
   };
-  const warning = () => {
+  const warning = (message) => {
     messageApi.open({
       type: "warning",
-      content: "product not add",
+      content: message,
     });
   };
   const success = () => {
@@ -143,20 +143,21 @@ const ProductDetails = () => {
       .then((data) => {
         if (data.success) {
           success();
-        } else {
-          warning();
-        }
-        const cartId = data.data[0].cartId;
 
-        const updatedCartList = data?.data.map((item) => {
-          return {
-            product: item,
-            quantity: item?.quantity,
-          };
-        });
-        dispatch(setCart(updatedCartList));
-        localStorage.setItem("cartId", cartId);
-        console.log(data, "add data");
+          const cartId = data.data[0].cartId;
+
+          const updatedCartList = data?.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+          dispatch(setCart(updatedCartList));
+          localStorage.setItem("cartId", cartId);
+          console.log(data, "add data");
+        } else {
+          warning(data.message);
+        }
       });
   };
 

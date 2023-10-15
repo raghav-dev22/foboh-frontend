@@ -67,6 +67,18 @@ function CustomerDetails() {
   });
   const handleSubmit = () => {
     console.log(">>>>>>>>>>>", formik.values);
+    const defaultPaymentTermsList = formik.values?.defaultPaymentTerms.map(
+      (item) => {
+        return item.label;
+      }
+    );
+    const defaultPaymentMethodIdList =
+      formik.values?.defaultPaymentMethodId.map((item) => {
+        return item.label;
+      });
+    const tagsList = formik.values?.tags.map((item) => {
+      return item.label;
+    });
     const organisationId = localStorage.getItem("organisationId");
     // e.preventDefault();
     fetch(
@@ -84,9 +96,9 @@ function CustomerDetails() {
           liquorLicence: formik.values?.liquorLicence,
           salesRepId: "",
           pricingProfileId: "",
-          defaultPaymentTerms: formik.values?.defaultPaymentTerms?.label,
-          defaultPaymentMethodId: formik.values?.defaultPaymentMethodId?.label,
-          tags: formik.values?.tags?.label,
+          defaultPaymentTerm: defaultPaymentTermsList,
+          defaultPaymentMethodId: defaultPaymentMethodIdList,
+          tags: tagsList,
           organisationId: organisationId,
           wetLiable: true,
           orderingFirstName: formik.values?.orderingFirstName,
@@ -173,8 +185,26 @@ function CustomerDetails() {
                     Cancel
                   </button>
                   <button
-                    onClick={handleSubmit}
-                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                    // onClick={handleSubmit}
+                    onClick={
+                      formik.isValid &&
+                      activeStep === 2 &&
+                      formik.values !== null
+                        ? handleSubmit
+                        : undefined
+                    }
+                    disabled={
+                      !formik.isValid &&
+                      activeStep === 2 &&
+                      formik.values !== null
+                    }
+                    className={`rounded-md px-6 py-2.5 text-base font-medium ${
+                      formik.isValid &&
+                      activeStep === 2 &&
+                      formik.values !== null
+                        ? "bg-white text-light"
+                        : "bg-black border text-white"
+                    }`}
                   >
                     Save
                   </button>
