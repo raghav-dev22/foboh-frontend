@@ -253,7 +253,7 @@ const InvoiceModal = forwardRef(
 
                         <div class="invoice-table pb-10 border-b">
                           <div class="flex flex-col mt-8">
-                            <table class="min-w-full divide-slate-500 ">
+                            <table class="divide-slate-500 mr-[140px]">
                               <thead className="bg-neutral-slate-a-2 my-3 rounded-md">
                                 <tr>
                                   <th
@@ -403,7 +403,7 @@ const InvoiceModal = forwardRef(
                               </tbody>
                             </table>
 
-                            <div className="table-footer flex justify-end mt-4">
+                            <div className="table-footer flex justify-end mt-4 pr-[180px]">
                               <table className="w-[230px]">
                                 <tbody>
                                   <tr>
@@ -590,21 +590,29 @@ const InvoiceModal = forwardRef(
                               </tbody>
                             </table>
                           </div>
-                          <div className="bg-gray-2 rounded p-6 w-[245px] h-[140px]">
-                            <div className="flex justify-between items-center mb-5">
+                          <div className="bg-gray-2 rounded pr-[400px] w-[245px] h-[140px]">
+                            <div className="flex justify-between items-center mb-3 mt-3">
                               <h4
-                                className="text-[#687076] text-left "
+                                className="text-[#687076] text-left mb-6 mx-1"
                                 style={{
                                   font: "700 12px/150% 'Inter', sans-serif",
                                 }}
                               >
-                                Payment status
+                                Payment
+                              </h4>
+                              <h4
+                                className="text-[#687076] text-left mb-6 mx-1"
+                                style={{
+                                  font: "700 12px/150% 'Inter', sans-serif",
+                                }}
+                              >
+                                Status
                               </h4>
 
-                              <div>
-                                <span className="inline-flex items-center rounded-full bg-red-600 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-red-600/10">
+                              <div className="flex items-center justify-end ml-[80px]">
+                                <h6 className="inline-flex items-center rounded-full bg-red-700 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-red-600/10">
                                   Overdue
-                                </span>
+                                </h6>
                               </div>
                             </div>
                             <table>
@@ -655,7 +663,7 @@ const InvoiceModal = forwardRef(
                         </div>
 
                         <div
-                          className="text-[#000000] text-left mt-5"
+                          className="text-[#000000] text-left mb-3"
                           style={{ font: "400 8px/150% 'Inter', sans-serif" }}
                         >
                           <span>
