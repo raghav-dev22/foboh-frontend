@@ -46,10 +46,9 @@ function Signup() {
                 email: values.email,
                 password: values.password,
               };
-              
               localStorage.setItem("buyerCred", JSON.stringify(buyerCred));
               localStorage.setItem("buyerData", JSON.stringify(data?.data[0]));
-              navigate("/create-account");
+              sendVerificationMail()
             } else {
               setIsValidBuyer(false);
             }
@@ -62,18 +61,16 @@ function Signup() {
 
   const sendVerificationMail = () => {
     fetch(
-      `https://notificationapi-multimedia.azurewebsites.net/api/notify/sendNotification`,
+      `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          notificationType: "wbp-emailverification",
-          recieverId: values?.email,
-          recieverName: values?.name,
-          priority: 255,
-          mediaChannel: "email",
+          mailtype: "wbp-emailverification",
+          to: values?.email,
+          name: values?.name,
         }),
       }
     )
@@ -81,7 +78,7 @@ function Signup() {
       .then((data) => {
         console.log(data);
         localStorage.setItem("uniqueKey", data.key);
-        alert("Email sent successfully!");
+        navigate("/create-account");
       })
       .catch((error) => console.log(error));
   };
