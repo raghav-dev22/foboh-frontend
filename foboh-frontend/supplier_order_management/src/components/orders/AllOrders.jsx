@@ -328,37 +328,37 @@ const AllOrders = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      processChange();
-    }, 1000);
+  // useEffect(() => {
+  //   const debounceTimeout = setTimeout(() => {
+  //     processChange();
+  //   }, 1000);
 
-    return () => clearTimeout(debounceTimeout);
-  }, [input]);
+  //   return () => clearTimeout(debounceTimeout);
+  // }, [input]);
 
-  function debounce(func, timeout = 0) {
-    let timer;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        func.apply(this, args);
-      }, timeout);
-    };
-  }
+  // function debounce(func, timeout = 0) {
+  //   let timer;
+  //   return (...args) => {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       func.apply(this, args);
+  //     }, timeout);
+  //   };
+  // }
 
-  const saveInput = async () => {
-    const ordersData = await searchOrders(input, page);
-    console.log("ordersData", ordersData);
-    setOrderData(ordersData.data);
-    setTotalData(ordersData.total);
-  };
+  // const saveInput = async () => {
+  //   // const ordersData = await searchOrders(input, page);
+  //   console.log("ordersData", ordersData);
+  //   setOrderData(ordersData.data);
+  //   setTotalData(ordersData.total);
+  // };
 
-  const processChange = debounce(() => saveInput());
+  // const processChange = debounce(() => saveInput());
 
-  const handleSearch = (e) => {
-    const search = e.target.value;
-    setInput(search);
-  };
+  // const handleSearch = (e) => {
+  //   const search = e.target.value;
+  //   setInput(search);
+  // };
 
   return (
     <>
@@ -378,7 +378,6 @@ const AllOrders = () => {
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
                 placeholder="Search"
                 type="text"
-                onChange={handleSearch}
               />
               <SearchIcon
                 className="absolute top-[8px] right-[8px] "
