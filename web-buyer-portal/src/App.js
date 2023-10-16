@@ -10,8 +10,7 @@ import {
 } from "react-router-dom";
 import Signup from "./loginRegister/Signup";
 import { Provider } from "react-redux";
-import Verifyemail from "./loginRegister/Verifyemail";
-import VerifyPassword from "./loginRegister/VerifyPassword";
+
 import HomePage from "./HomePage/HomePage";
 import store from "./store/Store";
 import MainHomePage from "./HomePage/MainHomePage";
@@ -49,10 +48,8 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/invoice-including-wet" element={<InvoiceIncludingWET />} />
       <Route path="/invoice-excluding-wet" element={<InvoiceExcludingWET />} />
-      <Route path="/verify-email" element={<Verifyemail />} />
-      <Route path="/verify-password" element={<VerifyPassword />} />
-      <Route path="/forget-password" element={<ForgetPassword />} />
-      <Route path="/create-account" element={<CreateAccount />} />
+      
+      
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
       <Route path="/order-details/:id" element={<OrderDetails />} />
       <Route path="/MyOrders" element={<MyOrders />} />

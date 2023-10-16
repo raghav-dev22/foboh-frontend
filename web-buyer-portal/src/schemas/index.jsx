@@ -30,6 +30,10 @@ export const SignUpSchema = Yup.object().shape({
     ),
 });
 
+export const forgetPasswordSchema = Yup.object().shape({
+  email: Yup.string().required("Email is required").email("Invalid is email"),
+});
+
 // Personal Details Schema
 export const stepOneSchema = Yup.object().shape({
   BusinessName: Yup.string()
@@ -348,3 +352,19 @@ export const DeliveryAddressEditSchema = Yup.object().shape({
     .required("Delivery Instruction/Notes is required")
     .max(50),
 });
+
+export const ResetPasswordFormSchema = Yup.object().shape({
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
+  repeatPassword: Yup.string()
+    .required("Confirm Password is required")
+    .oneOf(
+      [Yup.ref("password"), null],
+      "Passwords do not match, please try again"
+    ),
+}); 

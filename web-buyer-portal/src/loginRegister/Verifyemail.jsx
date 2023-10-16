@@ -1,11 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 function verifyemail() {
-
-  const buyerCred = localStorage.getItem('buyerCred')
-  const email = buyerCred?.email
-
+  const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
+  const email = buyerCred?.email;
 
   const handleEmailLink = () => {
     //Email link
@@ -16,18 +13,16 @@ function verifyemail() {
     // const url = process.env.REACT_APP_URL
     //Resend Link
     fetch(
-      `https://notificationapi-multimedia.azurewebsites.net/api/notify/sendNotification`,
+      `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          notificationType: "wbp-emailverification",
-          recieverId: email,
-          recieverName: buyerCred?.name,
-          priority: 255,
-          mediaChannel: "email",
+          mailtype: "wbp-emailverification",
+          to: email,
+          name: buyerCred?.name,
         }),
       }
     )
@@ -64,7 +59,10 @@ function verifyemail() {
                 <p className="text-center">
                   Almost there! An email containing your verification link was
                   sent to{" "}
-                  <span onClick={handleEmailLink} className="text-[#563FE3]">
+                  <span
+                    onClick={handleEmailLink}
+                    className="text-[#563FE3] underline cursor-pointer"
+                  >
                     {email}
                   </span>
                 </p>
@@ -73,10 +71,10 @@ function verifyemail() {
                   the correct email address and check your spam folder.
                 </p>
                 <p className="text-center">
-                  Still no luck?
+                  Still no luck?{" "}
                   <span
-                  onClick={handleResendLink}
-                    className="font-semibold text-base	text-[#563FE3]"
+                    onClick={handleResendLink}
+                    className="font-semibold text-base cursor-pointer	text-[#563FE3]"
                   >
                     Resend email
                   </span>

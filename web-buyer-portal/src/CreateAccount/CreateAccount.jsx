@@ -7,6 +7,7 @@ import OrderContact from "./OrderContact";
 import SuccessModal from "../modal/SuccessModal";
 import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
 import separateFullName from "../helper/separateFullName";
+import { useParams } from "react-router-dom/dist";
 
 //Need to be deleted after api integration
 import { options } from "../data";
@@ -24,12 +25,19 @@ function CreateAccount() {
   const [buyer, setBuyer] = useState({});
   const [states, setStates] = useState([]);
   const [isBuyerExist, setIsbuyerExist] = useState(false);
+  const {id} = useParams()
 
   // Getting buyer data from local storage
   const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
   const buyerData = JSON.parse(localStorage.getItem("buyerData"));
+  const key = localStorage.getItem('uniqueKey')
 
   useEffect(() => {
+
+    if(key !== id){
+      navigate('/auth/sign-up')
+    }
+
     setBuyer(buyer);
 
     fetch(

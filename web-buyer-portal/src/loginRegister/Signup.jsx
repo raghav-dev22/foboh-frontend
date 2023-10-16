@@ -78,7 +78,7 @@ function Signup() {
       .then((data) => {
         console.log(data);
         localStorage.setItem("uniqueKey", data.key);
-        navigate("/create-account");
+        navigate("/auth/verify-email");
       })
       .catch((error) => console.log(error));
   };
