@@ -269,7 +269,7 @@ const AllOrders = () => {
     },
   ];
 
-  const data = orderData.map((item, index) => {
+  const data = orderData?.map((item, index) => {
     return {
       key: index,
       OrderID: (

@@ -167,7 +167,7 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
                 </p>
               )}
               {errors?.Address && touched?.Address && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
           </div>
@@ -203,7 +203,7 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
               <lable>Suburb</lable>
               <input
                 type="text"
-                placeholder="Suburb"
+                placeholder="suburb"
                 id="Suburb"
                 onChange={handleChange}
                 name="Suburb"
@@ -230,7 +230,7 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Postcode"
                 type="text"
-                placeholder="Apartment, Suite, etc"
+                placeholder="XXXX"
                 value={values?.Postcode}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -246,7 +246,7 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
                 </p>
               )}
               {errors?.Postcode && touched?.Postcode && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
+                <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
             <div className="w-full   mb-3 relative md:mb-0">
@@ -273,29 +273,6 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
               )}
             </div>
           </div>
-          {/* <div className="w-full   mb-3 relative">
-            {" "}
-            <lable className="mb-2">Notes</lable>
-            <textarea
-              className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
-              id="Postcode"
-              type="text"
-              placeholder="Notes"
-              value={values?.Notes}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              style={{
-                border: errors?.Notes && touched?.Notes && "1px solid red",
-                background: "#F8F8F8",
-              }}
-            />
-            {errors?.Notes && touched?.Notes && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.Notes}</p>
-            )}
-            {errors?.Postcode && touched?.Postcode && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
-            )}
-          </div> */}
         </div>
         <div className="text-right flex justify-end items-center gap-2">
           <button

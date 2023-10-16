@@ -1,16 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
+import { Tooltip } from "antd";
 import BillingAddress from "./BillingAddress";
-import DeliveryAddress from "./DeliveryAddress";
 import ModeIcon from "@mui/icons-material/Mode";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { Tabs, theme } from "antd";
 import CallIcon from "@mui/icons-material/Call";
-import { Link } from "react-router-dom";
 import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import AppleIcon from "@mui/icons-material/Apple";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import EditIcon from "@mui/icons-material/Edit";
 import { Select } from "antd";
@@ -74,6 +72,15 @@ const useOptions = () => {
 };
 
 const Payment = () => {
+  const text = <span>Edit</span>;
+
+  const buttonWidth = 78;
+
+  const btnProps = {
+    style: {
+      width: buttonWidth,
+    },
+  };
   const paymentMethod = [
     {
       value: "method-2",
@@ -367,10 +374,9 @@ const Payment = () => {
                       className="flex justify-start items-center gap-2 change-btn"
                       onClick={() => setEditContact(!editContact)}
                     >
-                      <h5 className="text-base font-semibold text-[#9F9F9F]">
-                        Change
-                      </h5>
-                      <EditIcon style={{ width: "18px" }} />
+                      <Tooltip placement="top" title={text}>
+                        <EditIcon {...btnProps} style={{ width: "25px" }} />
+                      </Tooltip>
                     </button>
                     {/* </Link> */}
                   </div>
@@ -412,10 +418,9 @@ const Payment = () => {
                       onClick={() => setEditDelivery(!editDelivery)}
                       className="flex justify-start items-center gap-2 change-btn"
                     >
-                      <h5 className="text-base font-semibold text-[#9F9F9F]">
-                        Change
-                      </h5>
-                      <EditIcon style={{ width: "18px" }} />
+                      <Tooltip placement="top" title={text}>
+                        <EditIcon {...btnProps} style={{ width: "25px" }} />
+                      </Tooltip>
                     </button>
                   </div>
                   <p className="text-base font-normal text-[#2B4447] my-1">
@@ -609,7 +614,7 @@ const Payment = () => {
                       }}
                     >
                       <div className=" flex items-center">
-                        <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
+                        <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center cursor-pointer">
                           <style>
                             {`.custom-radio:checked::after {background-color:${token.buttonThemeColor} }`}
                           </style>
@@ -661,14 +666,18 @@ const Payment = () => {
                               Credit card ending with 3259
                             </h5>
                           </div>
-                          <ModeIcon
-                            style={{ fill: token.buttonThemeColor }}
-                            onClick={() => {
-                              setCardDetails(!cardDetails);
-                              setIsChecked(isChecked);
-                              setTransfer(transfer);
-                            }}
-                          />
+                          <div className="change-btn cursor-pointer">
+                            <Tooltip placement="top" title={text}>
+                              <ModeIcon
+                                // style={{ fill: token.buttonThemeColor }}
+                                onClick={() => {
+                                  setCardDetails(!cardDetails);
+                                  setIsChecked(isChecked);
+                                  setTransfer(transfer);
+                                }}
+                              />
+                            </Tooltip>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -801,7 +810,7 @@ const Payment = () => {
                     )}
 
                     <div className=" flex items-center border-b border-[#E7E7E7] p-3">
-                      <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
+                      <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center cursor-pointer">
                         <input
                           defaultChecked=""
                           id="default-radio-2"

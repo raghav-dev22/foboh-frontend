@@ -1384,3 +1384,6 @@ a:hover {
 .h-\[40px\] {
   height: 40px;
 }
+.basic-multi-select .css-t3ipsp-control {
+  padding: 6px 0px 6px 0 !important;
+}

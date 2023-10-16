@@ -24,6 +24,7 @@ import OrderDetails from "./Order/OrderDetails";
 import MyOrders from "./Order/MyOrders";
 import InvoiceIncludingWET from "./invoice/InvoiceIncludingWET";
 import InvoiceExcludingWET from "./invoice/InvoiceExcludingWET";
+import ForgetPassword from "./loginRegister/ForgetPassword";
 
 function App() {
   const { getDesignToken, useToken } = theme;
@@ -50,6 +51,7 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/invoice-excluding-wet" element={<InvoiceExcludingWET />} />
       <Route path="/verify-email" element={<Verifyemail />} />
       <Route path="/verify-password" element={<VerifyPassword />} />
+      <Route path="/forget-password" element={<ForgetPassword />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
       <Route path="/order-details/:id" element={<OrderDetails />} />

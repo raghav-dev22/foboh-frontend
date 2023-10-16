@@ -32,21 +32,15 @@ const DeliveryEditForm = () => {
   const { token } = useToken();
 
   const stateOptions = [
-    { label: "Victoria", value: "option1" },
-    { label: "Queensland", value: "option2" },
-    { label: "Western Australia", value: "option3" },
-  ];
-
-  const countryOptions = [
-    { label: "Victoria", value: "option1" },
-    { label: "Queensland", value: "option2" },
-    { label: "Western Australia", value: "option3" },
+    { label: "Victoria", value: "state1" },
+    { label: "Queensland", value: "state2" },
+    { label: "Western Australia", value: "state3" },
   ];
 
   const cityOptions = [
-    { label: "Ballina", value: "option1" },
-    { label: "Balranald	", value: "option2" },
-    { label: "Batemans Bay", value: "option3" },
+    { label: "Ballina", value: "city1" },
+    { label: "Balranald	", value: "city2" },
+    { label: "Batemans Bay", value: "city3" },
   ];
 
   const {
@@ -173,23 +167,23 @@ const DeliveryEditForm = () => {
 
     checked
       ? setValues({
-        ...values,
-        BillingAddress: values?.DeliveryAddress,
-        BillingApartment: values?.Apartment,
-        BillingCity: values?.City,
-        BillingPostcode: values?.Postcode,
-        BillingNotes: values?.Notes,
-        BillingAddressState: values?.DeliveryAddressState,
-      })
+          ...values,
+          BillingAddress: values?.DeliveryAddress,
+          BillingApartment: values?.Apartment,
+          BillingCity: values?.City,
+          BillingPostcode: values?.Postcode,
+          BillingNotes: values?.Notes,
+          BillingAddressState: values?.DeliveryAddressState,
+        })
       : setValues({
-        ...values,
-        BillingAddress: "",
-        BillingApartment: "",
-        BillingCity: {},
-        BillingPostcode: "",
-        BillingNotes: "",
-        BillingAddressState: {},
-      });
+          ...values,
+          BillingAddress: "",
+          BillingApartment: "",
+          BillingCity: {},
+          BillingPostcode: "",
+          BillingNotes: "",
+          BillingAddressState: {},
+        });
   };
 
   console.log(isChecked, "toggleCheckbox");
@@ -231,7 +225,7 @@ const DeliveryEditForm = () => {
               htmlFor="Apartment"
               className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
             >
-              Appartment, Floor etc.
+              Apartment, Floor etc.
             </label>
             <input
               type="text"
@@ -404,7 +398,10 @@ const DeliveryEditForm = () => {
 
         <div className="">
           <div className="  pb-8">
-            <h2 style={{ color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
+            <h2
+              style={{ color: token.commonThemeColor }}
+              className="font-bold text-xl	 text-[#563FE3]"
+            >
               Billing Address
             </h2>
           </div>
@@ -456,7 +453,7 @@ const DeliveryEditForm = () => {
                 htmlFor="BusinessName"
                 className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
               >
-                Appartment, Floor etc.
+                Apartment, Floor etc.
               </label>
               <input
                 type="text"
@@ -552,7 +549,7 @@ const DeliveryEditForm = () => {
                 onChange={(e) => handleSelect(e, "BillingAddressState")}
                 name="BillingAddressState"
                 value={values.BillingAddressState}
-                options={cityOptions}
+                options={stateOptions}
                 className=""
                 style={{
                   border: errors.BillingAddressState && "1px solid red",
@@ -568,10 +565,13 @@ const DeliveryEditForm = () => {
         </div>
 
         <div className="flex gap-8 pt-5 pb-16">
-          <button style={{
-            color: token.buttonThemeColor,
-            borderColor: token.buttonThemeColor
-          }} className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal">
+          <button
+            style={{
+              color: token.buttonThemeColor,
+              borderColor: token.buttonThemeColor,
+            }}
+            className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+          >
             Cancel
           </button>
           <button
