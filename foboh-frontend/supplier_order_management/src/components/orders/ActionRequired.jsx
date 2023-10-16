@@ -262,8 +262,9 @@ const ActionRequired = () => {
   };
 
   useEffect(() => {
+    const orgId = localStorage.getItem("organisationId");
     fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getNew?page=${page}`,
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getNew?page=${page}&OrganisationId=${orgId}`,
       {
         method: "GET",
       }
@@ -277,7 +278,7 @@ const ActionRequired = () => {
       .catch((error) => console.log(error));
 
     fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getPending?page=${page}`,
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getPending?page=${page}&OrganisationId=${orgId}`,
       {
         method: "GET",
       }
@@ -291,7 +292,7 @@ const ActionRequired = () => {
       .catch((error) => console.log(error));
 
     fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getBuyerModification?page=${page}`,
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getBuyerModification?page=${page}&OrganisationId=${orgId}`,
       {
         method: "GET",
       }
