@@ -4,7 +4,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
 import { Space, Menu } from "antd";
-window.ResizeObserver = undefined;
 const { SubMenu } = Menu;
 
 const ActionRequired = () => {
