@@ -72,7 +72,7 @@ const ActionRequired = () => {
       width: 150,
     },
   ];
-  const newOrder = orderNewOrder.map((item, index) => {
+  const newOrder = orderNewOrder?.map((item, index) => {
     return {
       key: index,
       OrderID: (
@@ -144,7 +144,7 @@ const ActionRequired = () => {
       width: 180,
     },
   ];
-  const penddingData = pendding.map((item, index) => {
+  const penddingData = pendding?.map((item, index) => {
     return {
       key: index,
       OrderID: (
@@ -224,7 +224,7 @@ const ActionRequired = () => {
     },
   ];
 
-  const modificationData = modification.map((item, index) => {
+  const modificationData = modification?.map((item, index) => {
     return {
       key: index,
       OrderID: (

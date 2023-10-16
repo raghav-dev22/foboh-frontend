@@ -11,54 +11,94 @@ const BaseUnit = ({ open, onOk, onCancel }) => {
   };
   const baseUnitType = [
     {
-      value: "bottel",
-      label: "bottel",
+      value: "Bottle",
+      label: "Bottle",
     },
     {
-      value: "bottel",
-      label: "bottel",
+      value: "Can",
+      label: "Can",
     },
     {
-      value: "bottel",
-      label: "bottel",
+      value: "Bag",
+      label: "Bag",
     },
     {
-      value: "bottel",
-      label: "bottel",
+      value: "Jar",
+      label: "Jar",
     },
     {
-      value: "bottel",
-      label: "bottel",
+      value: "Box",
+      label: "Box",
     },
     {
-      value: "bottel",
-      label: "bottel",
+      value: "Carton",
+      label: "Carton",
+    },
+    {
+      value: "Case",
+      label: "Case",
+    },
+    {
+      value: "Pack",
+      label: "Pack",
+    },
+    {
+      value: "Barrel",
+      label: "Barrel",
+    },
+    {
+      value: "Keg",
+      label: "Keg",
+    },
+    {
+      value: "Crate",
+      label: "Crate",
+    },
+    {
+      value: "Pouch",
+      label: "Pouch",
+    },
+    {
+      value: "Bundle",
+      label: "Bundle",
+    },
+    {
+      value: "Tray",
+      label: "Tray",
+    },
+    {
+      value: "Slab",
+      label: "Slab",
     },
   ];
   const baseUnitOption = [
     {
-      value: "Not Identified",
-      label: "Not Identified",
+      value: "Milligram (mg)",
+      label: "Milligram (mg)",
     },
     {
-      value: "Closed",
-      label: "Closed",
+      value: "Gram (g)",
+      label: "Gram (g)",
     },
     {
-      value: "Communicated",
-      label: "Communicated",
+      value: "Kilogram (kg)",
+      label: "Kilogram (kg)",
     },
     {
-      value: "Identified",
-      label: "Identified",
+      value: "Milliliter (ml)",
+      label: "Milliliter (ml)",
     },
     {
-      value: "Resolved",
-      label: "Resolved",
+      value: "Liter (l)",
+      label: "Liter (l)",
     },
     {
-      value: "Cancelled",
-      label: "Cancelled",
+      value: "Count (ea)",
+      label: "Count (ea)",
+    },
+    {
+      value: "Piece (pc)",
+      label: "Piece (pc)",
     },
   ];
   const cancelButtonRef = useRef(null);

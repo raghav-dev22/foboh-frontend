@@ -176,7 +176,7 @@ function AddCustomers() {
                 </thead>
                 {isSearchResult && (
                   <tbody>
-                    {tableRecords.map((product, index) => {
+                    {tableRecords?.map((product, index) => {
                       const isLast = index === products.length - 1;
                       const classes = isLast ? "p-4" : "p-4  ";
 

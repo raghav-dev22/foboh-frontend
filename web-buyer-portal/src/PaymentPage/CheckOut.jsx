@@ -87,7 +87,7 @@ const CheckOut = () => {
           <h2 className="text-xl font-semibold text-[#2B4447] ">Details</h2>
           <div className="py-4">
             <div className="flex items-center mb-4 border border-[#E7E7E7] rounded-md p-3">
-              <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
+              <div className="cursor-pointer relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
                 <input
                   defaultChecked=""
                   id="default-radio-1"
@@ -108,7 +108,7 @@ const CheckOut = () => {
               </label>
             </div>
             <div className="flex items-center border border-[#E7E7E7] rounded-md p-3">
-              <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
+              <div className="cursor-pointer relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center ">
                 <input
                   defaultChecked=""
                   id="default-radio-2"

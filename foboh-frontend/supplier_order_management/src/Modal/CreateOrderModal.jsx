@@ -609,7 +609,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                     <lable>Suburb</lable>
                                     <input
                                       type="text"
-                                      placeholder="Suburb"
+                                      placeholder="suburb"
                                       id="Suburb"
                                       style={{
                                         background: "#F8F8F8",
@@ -624,14 +624,16 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                       className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                                       id="Postcode"
                                       type="text"
-                                      placeholder="Apartment, Suite, etc"
+                                      placeholder="XXXX"
                                       style={{
                                         background: "#F8F8F8",
                                       }}
                                     />
                                   </div>
-                                  <div className="w-full   mb-3 relative md:mb-0">
-                                    <lable>State</lable>
+                                  <div className="w-full   mb-3 relative md:mb-0 basic-multi-select">
+                                    <h5 style={{ marginBottom: "10px" }}>
+                                      State
+                                    </h5>
                                     <Select
                                       defaultValue={selectedState}
                                       onChange={setSelectedState}
@@ -646,7 +648,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   onClick={() => {
                                     setEditBillingAddress(false);
                                   }}
-                                  className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+                                  className="bg-[#563FE3] rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-white"
                                 >
                                   Save
                                 </button>
@@ -655,7 +657,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                     setEditBillingAddress(false);
                                   }}
                                   type="submit"
-                                  className="border-[#637381] border rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-[#637381]"
+                                  className="border-[#637381] border rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-[#637381]"
                                 >
                                   Cancel
                                 </button>

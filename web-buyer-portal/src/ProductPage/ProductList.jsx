@@ -1084,8 +1084,11 @@ const ProductList = () => {
           )}
         </div>
 
-        <div className="flex md:flex-nowrap	flex-wrap py-8" ref={dropdownRef}>
-          <div className="md:w-1/4 w-full overflow-y-scroll  md:pr-12 py-4">
+        <div
+          className="flex md:flex-nowrap  gap-10	flex-wrap py-8"
+          ref={dropdownRef}
+        >
+          <div className="md:w-1/4 w-full overflow-y-scroll   py-4">
             <div className="flex items-center gap-2 pb-3">
               <FilterAltIcon style={{ fill: "#fff", stroke: "#2B4447" }} />
               <h5 className="text-[20px] font-semibold text-[#2B4447]">
@@ -1150,7 +1153,7 @@ const ProductList = () => {
                                 style={{
                                   width: "100%",
                                 }}
-                                placeholder="select one country"
+                                placeholder="Search|"
                                 onChange={(e, value) =>
                                   toggleCategoryAndSubcategory(
                                     e,
@@ -1185,7 +1188,7 @@ const ProductList = () => {
             </div>
 
             {segments.length > 0 && (
-              <div className=" py-4 border-b border-[#E7E7E7]">
+              <div className=" border-b border-[#E7E7E7]">
                 <div
                   className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
                     Segment === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
@@ -1247,7 +1250,7 @@ const ProductList = () => {
             )}
 
             {isWine && (
-              <div className=" py-4 border-b border-[#E7E7E7]">
+              <div className="  border-b border-[#E7E7E7]">
                 <div
                   className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
                     Variety === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
@@ -1632,7 +1635,7 @@ const ProductList = () => {
           </div>
 
           <div className="md:w-9/12   w-full mx-auto">
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-3 grid-cols-2  md:gap-8 gap-6">
+            <div className="grid md:grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  md:gap-8 gap-6   ">
               {productData.map((item, index) => (
                 <Skeleton
                   style={{ padding: "10px" }}

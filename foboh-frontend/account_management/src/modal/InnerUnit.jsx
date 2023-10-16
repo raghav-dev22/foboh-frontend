@@ -6,6 +6,98 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 const InnerUnit = ({ open, onOk, onCancel }) => {
   const cancelButtonRef = useRef(null);
+  const baseUnitType = [
+    {
+      value: "Bottle",
+      label: "Bottle",
+    },
+    {
+      value: "Can",
+      label: "Can",
+    },
+    {
+      value: "Bag",
+      label: "Bag",
+    },
+    {
+      value: "Jar",
+      label: "Jar",
+    },
+    {
+      value: "Box",
+      label: "Box",
+    },
+    {
+      value: "Carton",
+      label: "Carton",
+    },
+    {
+      value: "Case",
+      label: "Case",
+    },
+    {
+      value: "Pack",
+      label: "Pack",
+    },
+    {
+      value: "Barrel",
+      label: "Barrel",
+    },
+    {
+      value: "Keg",
+      label: "Keg",
+    },
+    {
+      value: "Crate",
+      label: "Crate",
+    },
+    {
+      value: "Pouch",
+      label: "Pouch",
+    },
+    {
+      value: "Bundle",
+      label: "Bundle",
+    },
+    {
+      value: "Tray",
+      label: "Tray",
+    },
+    {
+      value: "Slab",
+      label: "Slab",
+    },
+  ];
+  const baseUnitOption = [
+    {
+      value: "Milligram (mg)",
+      label: "Milligram (mg)",
+    },
+    {
+      value: "Gram (g)",
+      label: "Gram (g)",
+    },
+    {
+      value: "Kilogram (kg)",
+      label: "Kilogram (kg)",
+    },
+    {
+      value: "Milliliter (ml)",
+      label: "Milliliter (ml)",
+    },
+    {
+      value: "Liter (l)",
+      label: "Liter (l)",
+    },
+    {
+      value: "Count (ea)",
+      label: "Count (ea)",
+    },
+    {
+      value: "Piece (pc)",
+      label: "Piece (pc)",
+    },
+  ];
   return (
     <>
       <Modal
@@ -88,32 +180,7 @@ const InnerUnit = ({ open, onOk, onCancel }) => {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                options={[
-                  {
-                    value: "1",
-                    label: "Not Identified",
-                  },
-                  {
-                    value: "2",
-                    label: "Closed",
-                  },
-                  {
-                    value: "3",
-                    label: "Communicated",
-                  },
-                  {
-                    value: "4",
-                    label: "Identified",
-                  },
-                  {
-                    value: "5",
-                    label: "Resolved",
-                  },
-                  {
-                    value: "6",
-                    label: "Cancelled",
-                  },
-                ]}
+                options={baseUnitOption}
               />
             </div>
             <div className="w-full  px-3 relative">
@@ -135,32 +202,7 @@ const InnerUnit = ({ open, onOk, onCancel }) => {
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                options={[
-                  {
-                    value: "1",
-                    label: "Not Identified",
-                  },
-                  {
-                    value: "2",
-                    label: "Closed",
-                  },
-                  {
-                    value: "3",
-                    label: "Communicated",
-                  },
-                  {
-                    value: "4",
-                    label: "Identified",
-                  },
-                  {
-                    value: "5",
-                    label: "Resolved",
-                  },
-                  {
-                    value: "6",
-                    label: "Cancelled",
-                  },
-                ]}
+                options={baseUnitType}
               />
             </div>
           </div>
