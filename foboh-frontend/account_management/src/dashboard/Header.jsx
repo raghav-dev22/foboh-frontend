@@ -251,11 +251,12 @@ const Header = () => {
                 dropDown ? "hidden" : "block"
               }  bg-white absolute top-8	right-0	z-50	shadow-md rounded-lg	h-44 w-64	`}
             >
-              <Link to="/dashboard/your-profile">
-                <li className="py-2.5	px-4 cursor-pointer">
-                  <h6 className="text-sm font-medium ">Profile</h6>
-                </li>
-              </Link>
+              <li
+                onClick={() => navigate("/dashboard/your-profile")}
+                className="py-2.5	px-4 cursor-pointer"
+              >
+                <h6 className="text-sm font-medium ">Profile</h6>
+              </li>
               <Link to="/dashboard/organisation-settings">
                 <li className="py-2.5	px-4 cursor-pointer">
                   <h6 className="text-sm font-medium">Settings</h6>

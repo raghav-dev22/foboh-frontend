@@ -77,6 +77,7 @@ function PreviewProductModal({
             const productImageUrls = splitRegions(product?.productImageUrls);
             const variety = splitRegions(product?.variety);
             const tags = splitRegions(product?.tags);
+            const organisationId = localStorage.getItem("organisationId");
 
             return {
               title: product?.title,
@@ -119,6 +120,9 @@ function PreviewProductModal({
               barcodes: "string",
               esgStatus: "string",
               healthRating: "string",
+              catalogueId: 0,
+              cCatalogueId: "string",
+              organisationId: organisationId,
               isActive: true,
             };
           })
