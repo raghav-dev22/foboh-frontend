@@ -139,6 +139,7 @@ const MyOrders = () => {
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState([]);
   const [selectedDate, setSelectedDate] = useState([]);
+  const dropdownRef = useRef(null);
 
   const [sortItem, setSortItem] = useState(false);
   const checkAll = statusOptionsList.length === selectedStatus.length;
@@ -421,7 +422,6 @@ const MyOrders = () => {
   };
 
   useEffect(() => {
-
     const debounceTimeout = setTimeout(() => {
       processChange();
     }, 1000);
@@ -600,6 +600,36 @@ const MyOrders = () => {
     processChange("filterAndSort");
     console.log("filterAndSort", filterAndSort);
   };
+
+  // useEffect(() => {
+  //   function handleClickOutside(event) {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       const selectDropdowns = document.querySelectorAll(
+  //         ".ant-select-dropdown"
+  //       );
+  //       let isInsideSelectDropdown = false;
+
+  //       for (const dropdown of selectDropdowns) {
+  //         if (dropdown.contains(event.target)) {
+  //           isInsideSelectDropdown = true;
+  //           break;
+  //         }
+  //       }
+
+  //       if (!isInsideSelectDropdown) {
+  //         setPaymentMenu(false);
+  //         setDateMenu(false);
+  //         setStatusMenu(false);
+  //       }
+  //     }
+  //   }
+
+  //   document.addEventListener("mousedown", handleClickOutside);
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [dropdownRef]);
 
   return (
     <>
@@ -782,7 +812,10 @@ const MyOrders = () => {
                   </div>
                   {statusMenu && (
                     <>
-                      <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <div
+                        // ref={dropdownRef}
+                        className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                      >
                         <ul className="dropdown-content ">
                           <li className="py-1">
                             <Checkbox
