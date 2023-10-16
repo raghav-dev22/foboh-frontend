@@ -269,7 +269,7 @@ const AllOrders = () => {
     },
   ];
 
-  const data = orderData.map((item, index) => {
+  const data = orderData?.map((item, index) => {
     return {
       key: index,
       OrderID: (
@@ -313,8 +313,9 @@ const AllOrders = () => {
   };
 
   useEffect(() => {
+    const orgId = localStorage.getItem("organisationId");
     fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getAll?page=${page}`,
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getAll?page=${page}&OrganisationId=${orgId}`,
       {
         method: "GET",
       }

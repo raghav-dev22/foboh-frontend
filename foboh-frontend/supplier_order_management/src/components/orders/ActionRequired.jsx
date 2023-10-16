@@ -72,7 +72,7 @@ const ActionRequired = () => {
       width: 150,
     },
   ];
-  const newOrder = orderNewOrder.map((item, index) => {
+  const newOrder = orderNewOrder?.map((item, index) => {
     return {
       key: index,
       OrderID: (
@@ -144,7 +144,7 @@ const ActionRequired = () => {
       width: 180,
     },
   ];
-  const penddingData = pendding.map((item, index) => {
+  const penddingData = pendding?.map((item, index) => {
     return {
       key: index,
       OrderID: (
@@ -224,7 +224,7 @@ const ActionRequired = () => {
     },
   ];
 
-  const modificationData = modification.map((item, index) => {
+  const modificationData = modification?.map((item, index) => {
     return {
       key: index,
       OrderID: (
@@ -262,8 +262,9 @@ const ActionRequired = () => {
   };
 
   useEffect(() => {
+    const orgId = localStorage.getItem("organisationId");
     fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getNew?page=${page}`,
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getNew?page=${page}&OrganisationId=${orgId}`,
       {
         method: "GET",
       }
@@ -277,7 +278,7 @@ const ActionRequired = () => {
       .catch((error) => console.log(error));
 
     fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getPending?page=${page}`,
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getPending?page=${page}&OrganisationId=${orgId}`,
       {
         method: "GET",
       }
@@ -291,7 +292,7 @@ const ActionRequired = () => {
       .catch((error) => console.log(error));
 
     fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getBuyerModification?page=${page}`,
+      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getBuyerModification?page=${page}&OrganisationId=${orgId}`,
       {
         method: "GET",
       }

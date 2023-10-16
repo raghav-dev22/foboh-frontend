@@ -34,6 +34,7 @@ function ViewProduct() {
   const [productImageUris, setProductImageUris] = useState([]);
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
+  const [isWet, setIsWet] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
   const [checkGST, setCheckGST] = useState(false);
   const [checkWET, setCheckWET] = useState(false);
@@ -436,7 +437,7 @@ function ViewProduct() {
                 };
               });
 
-              if (category.label.toLowerCase() === "alcoholic beverages") {
+              if (category.label.toLowerCase() === "alcoholic beverage") {
                 setIsAlcoholicBeverage(true);
               } else {
                 setIsAlcoholicBeverage(false);
@@ -719,6 +720,9 @@ function ViewProduct() {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [segment, setSegment] = useState([]);
+  const [variety, setVariety] = useState([]);
+  const [tag, setTag] = useState([]);
+  const [country, setCountry] = useState([]);
 
   const handleDepartmentChange = (e) => {
     setValues({
@@ -751,10 +755,13 @@ function ViewProduct() {
     const item = e.label;
     const itemId = e.value;
 
-    if (item.toLowerCase() === "alcoholic beverages") {
+    if (item.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
+      setShow(true);
     } else {
       setIsAlcoholicBeverage(false);
+      setIsWine(false);
+      setShow(true);
     }
 
     setValues({
@@ -788,8 +795,10 @@ function ViewProduct() {
     console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
+      setIsWet(true);
     } else {
       setIsWine(false);
+      setIsWet(false);
     }
     setValues({
       ...values,
@@ -1068,6 +1077,95 @@ function ViewProduct() {
     setValues(initialValues);
     setProductImageUris(prevImgUrl);
   };
+  useEffect(() => {
+    // Getting organization id
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+        "organisationID"
+      )}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("organization data--->", data);
+      });
+
+    // Department
+    fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("department -->", data);
+        if (data.success) {
+          setDepartment(
+            data.data.map((i) => {
+              return {
+                value: i.departmentId,
+                label: i.departmentName,
+              };
+            })
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+
+    // grapeVariety
+    fetch("https://masters-api-foboh.azurewebsites.net/api/GrapeVarieties", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("grapeVariety -->", data);
+        setVariety(
+          data.map((item) => {
+            return {
+              value: item.grapeVarietyId,
+              label: item.grapeVarietyName,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+
+    // tag
+    fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("tag -->", data);
+        setTag(
+          data.map((item) => {
+            return {
+              value: item.tagId,
+              label: item.tagName,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+
+    // for country
+    fetch("https://masters-api-foboh.azurewebsites.net/api/Country/get", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("country -->", data.data);
+        setCountry(
+          data.data.map((item) => {
+            return {
+              value: item.countryID,
+              label: item.countryName,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -1602,69 +1700,73 @@ function ViewProduct() {
                           )}
                         </div>
                       </div>
-                      <div className="  w-full  px-3">
-                        <h5 className="text-base font-medium text-green mb-3">
-                          Category
-                        </h5>
-                        <div className="w-full">
-                          <Select
-                            name="colors"
-                            options={category}
-                            isDisabled={!category.length}
-                            value={values.category}
-                            onChange={handleCategoryChange}
-                            className="basic-multi-select "
-                            classNamePrefix="select"
-                          />
-                          {errors.category && touched.category && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                              {errors.category}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                      <div className=" w-full  px-3">
-                        <h5 className="text-base font-medium text-green mb-3">
-                          Subcategory
-                        </h5>
-                        <div className="w-full">
-                          <Select
-                            name="colors"
-                            options={subCategory}
-                            isDisabled={!subCategory.length}
-                            value={values.subcategory}
-                            onChange={handleSubCategoryChange}
-                            className="basic-multi-select "
-                            classNamePrefix="select"
-                          />
-                          {errors.subcategory && touched.subcategory && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                              {errors.subcategory}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      {isAlcoholicBeverage && (
+                      {values.department && (
                         <div className="  w-full  px-3">
                           <h5 className="text-base font-medium text-green mb-3">
-                            Segment
+                            Category
                           </h5>
                           <div className="w-full">
                             <Select
                               name="colors"
-                              options={segment}
-                              isDisabled={!segment.length}
-                              value={values.segment}
-                              onChange={handleSegmentChange}
+                              options={category}
+                              isDisabled={!category.length}
+                              value={values.category}
+                              onChange={handleCategoryChange}
                               className="basic-multi-select "
                               classNamePrefix="select"
                             />
+                            {errors.category && touched.category && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                                {errors.category}
+                              </p>
+                            )}
                           </div>
                         </div>
                       )}
                     </div>
+                    {values.category && (
+                      <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                        <div className=" w-full  px-3">
+                          <h5 className="text-base font-medium text-green mb-3">
+                            Subcategory
+                          </h5>
+                          <div className="w-full">
+                            <Select
+                              name="colors"
+                              options={subCategory}
+                              isDisabled={!subCategory.length}
+                              value={values.subcategory}
+                              onChange={handleSubCategoryChange}
+                              className="basic-multi-select "
+                              classNamePrefix="select"
+                            />
+                            {errors.subcategory && touched.subcategory && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                                {errors.subcategory}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        {isAlcoholicBeverage && (
+                          <div className="  w-full  px-3">
+                            <h5 className="text-base font-medium text-green mb-3">
+                              Segment
+                            </h5>
+                            <div className="w-full">
+                              <Select
+                                name="colors"
+                                options={segment}
+                                isDisabled={!segment.length}
+                                value={values.segment}
+                                onChange={handleSegmentChange}
+                                className="basic-multi-select "
+                                classNamePrefix="select"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                     <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                       {isWine && (
                         <div className=" w-full  px-3">
@@ -1675,8 +1777,8 @@ function ViewProduct() {
                             <Select
                               isMulti
                               name="colors"
-                              isDisabled={!options.length}
-                              options={options}
+                              isDisabled={!variety.length}
+                              options={variety}
                               value={
                                 values.grapeVariety.length > 0
                                   ? values.grapeVariety
@@ -1906,8 +2008,8 @@ function ViewProduct() {
                             isMulti
                             id="tags"
                             name="colors"
-                            isDisabled={!options.length}
-                            options={options}
+                            isDisabled={!tag.length}
+                            options={tag}
                             value={values.tags.length > 0 ? values.tags : null}
                             onChange={handletagsChange}
                             className="basic-multi-select "
@@ -2074,23 +2176,25 @@ function ViewProduct() {
                           </p>
                         </label>
                       </div>
-                      <div className="flex items-center mb-4 gap-3">
-                        <input
-                          id="checked-checkbox"
-                          type="checkbox"
-                          checked={checkWET}
-                          onChange={handleWETChange}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-                        />
-                        <label
-                          htmlFor="checked-checkbox"
-                          className="ml-2  dark:text-gray-300"
-                        >
-                          <p className="text-sm	 font-medium text-gray">
-                            WET applicable
-                          </p>
-                        </label>
-                      </div>
+                      {isWet && (
+                        <div className="flex items-center mb-4 gap-3">
+                          <input
+                            id="checked-checkbox"
+                            type="checkbox"
+                            checked={checkWET}
+                            onChange={handleWETChange}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                          />
+                          <label
+                            htmlFor="checked-checkbox"
+                            className="ml-2  dark:text-gray-300"
+                          >
+                            <p className="text-sm	 font-medium text-gray">
+                              WET applicable
+                            </p>
+                          </label>
+                        </div>
+                      )}
                     </div>
                     <div className="mb-5">
                       <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-3">

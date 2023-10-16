@@ -196,7 +196,7 @@ function Organisation() {
               logisticsContactMobile: values.LogisticsContactMobile,
               logisticsContactEmail: values.LogisticsContactEmail,
               organisationAddress: values.organisationAddress,
-              apartment: values.organisationAddress,
+              apartment: values.organisationAddressApartment,
               city: "",
               state: values.state,
               postcode: values.organisationAddressPostcode,
@@ -990,27 +990,34 @@ function Organisation() {
                     active
                     avatar
                   >
+                    {/* organisationAddress: organisationSettings.organisationAddress,
+                  organisationAddressApartment: organisationSettings.apartment,
+                  organisationAddressSuburb: organisationSettings.suburb, */}
                     <div className="px-6 py-7">
                       <div className="w-full">
-                        {values.state && values.organisationAddressPostcode && (
-                          <div className="flex items-center mb-5 green-checkbox">
-                            <input
-                              onChange={handleCheckbox}
-                              id="same-address"
-                              type="checkbox"
-                              name="checkbox"
-                              checked={check}
-                              defaultValue=""
-                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              htmlFor="same-address"
-                              className="ml-2 sm:text-base text-sm		 font-normal	 text-green dark:text-gray-300"
-                            >
-                              Use same address as Organisation for Billing{" "}
-                            </label>
-                          </div>
-                        )}
+                        {values.state &&
+                          values.organisationAddressPostcode &&
+                          values.organisationAddressApartment &&
+                          values.organisationAddress &&
+                          values.organisationAddressSuburb && (
+                            <div className="flex items-center mb-5 green-checkbox">
+                              <input
+                                onChange={handleCheckbox}
+                                id="same-address"
+                                type="checkbox"
+                                name="checkbox"
+                                checked={check}
+                                defaultValue=""
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <label
+                                htmlFor="same-address"
+                                className="ml-2 sm:text-base text-sm		 font-normal	 text-green dark:text-gray-300"
+                              >
+                                Use same address as Organisation for Billing{" "}
+                              </label>
+                            </div>
+                          )}
                         <div className="flex flex-wrap -mx-3 mb-5 items-start">
                           <div className="w-full md:w-1/2 px-3 relative">
                             <label
