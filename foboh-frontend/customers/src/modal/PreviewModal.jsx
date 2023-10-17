@@ -38,7 +38,7 @@ function PreviewModal({
         salesRepId: customer.salesRepId,
         pricingProfileId: customer.pricingProfileId,
         defaultPaymentMethodId: customer.defaultPaymentMethodId,
-        defaultPaymentTerms: "",
+        defaultPaymentTerms: customer.defaultPaymentTerms,
         tags: customer.tags,
         wetLiable: customer.wetLiable,
         orderingFirstName: customer.orderingFirstName,
@@ -71,19 +71,50 @@ function PreviewModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           importedCustomers.map((customer) => {
-            return {
+            let defaultPaymentMethodIdS = [];
+            if (customer.defaultPaymentMethodId !== undefined) {
+              defaultPaymentMethodIdS =
+                customer.defaultPaymentMethodId.split(",");
+            }
+            let defaultPaymentTermsmain = [];
+            if (customer.defaultPaymentTerms !== undefined) {
+              defaultPaymentTermsmain =
+                customer?.defaultPaymentTerms.split(",");
+            }
+            let TagMain = [];
+            if (customer?.tags !== undefined) {
+              TagMain = customer?.tags.split(",");
+            }
+            let billingPost = "";
+            if (customer.billingPostalCode !== undefined) {
+              billingPost = customer.billingPostalCode.toString();
+            }
+            let abnMain = "";
+            if (customer?.abn !== undefined) {
+              abnMain = customer?.abn.toString();
+            }
+            let orderingMobileMain = "";
+            if (customer?.orderingMobile !== undefined) {
+              orderingMobileMain = customer?.orderingMobile.toString();
+            }
+            let postalCodeMain = "";
+            if (customer?.postalCode !== undefined) {
+              postalCodeMain = customer?.customer?.postalCode.toString();
+            }
+
+            const customerBody = {
               businessName: customer?.businessName || "",
-              abn: customer?.abn.toString() || "",
+              abn: abnMain,
               liquorLicence: customer?.liquorLicence,
               salesRepId: customer?.salesRepId,
               pricingProfileId: customer?.pricingProfileId,
-              defaultPaymentMethodId: customer?.defaultPaymentMethodId,
-              defaultPaymentTerms: "",
-              tags: customer?.tags,
+              defaultPaymentMethodId: defaultPaymentMethodIdS,
+              defaultPaymentTerm: defaultPaymentTermsmain,
+              tags: TagMain,
               wetLiable: customer?.wetLiable,
               orderingFirstName: customer?.orderingFirstName,
               orderingLastName: customer?.orderingLastName,
-              orderingMobile: customer?.orderingMobile.toString() || "",
+              orderingMobile: orderingMobileMain,
               orderingEmail: customer?.orderingEmail,
               deliveryFirstName: customer?.deliveryFirstName,
               deliveryLastName: customer?.deliveryLastName,
@@ -92,16 +123,18 @@ function PreviewModal({
               address: customer?.address,
               apartment: customer?.apartment,
               suburb: customer?.suburb || "",
-              postalCode: customer?.postalCode.toString() || "",
+              postalCode: postalCodeMain,
               state: customer?.state,
               deliveryNotes: customer?.deliveryNotes || "",
               billingAddress: customer?.billingAddress,
               billingApartment: customer?.billingApartment,
               billingSuburb: customer?.billingSuburb || "",
-              billingPostalCode: customer?.billingPostalCode || "",
+              billingPostalCode: billingPost,
               billingState: customer?.billingState || "",
               isActive: customer?.isActive || "1",
             };
+            console.log(customerBody, "customerimportdata");
+            return customerBody;
           })
         ),
       }
