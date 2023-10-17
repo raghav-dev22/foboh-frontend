@@ -34,7 +34,8 @@ function TopRatedSection() {
   //   data();
   // }, []);
   useEffect(() => {
-    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=TopRatedtags&page=1&OrganisationId=8931989992`;
+    const topRated = 'Top rated'
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=${topRated}&page=1&OrganisationId=8931989992`;
 
     fetch(apiUrl)
       .then((response) => {

@@ -6,6 +6,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
+import { getStates } from "../helpers/getStates";
 
 const DeliveryEditForm = () => {
   const initialValues = {
@@ -26,22 +27,12 @@ const DeliveryEditForm = () => {
 
   const navigate = useNavigate();
   // console.log(buyer, "hhhh");
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [stateOption, setStateOption] = useState(null);
   const [cart, setCart] = useState();
+
   const { useToken } = theme;
   const { token } = useToken();
-
-  const stateOptions = [
-    { label: "Victoria", value: "state1" },
-    { label: "Queensland", value: "state2" },
-    { label: "Western Australia", value: "state3" },
-  ];
-
-  const cityOptions = [
-    { label: "Ballina", value: "city1" },
-    { label: "Balranald	", value: "city2" },
-    { label: "Batemans Bay", value: "city3" },
-  ];
+  let states = [];
 
   const {
     values,
@@ -66,34 +57,28 @@ const DeliveryEditForm = () => {
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
 
-    getBuyerValues(buyerId).then((buyer) => {
-      const deliveryCity = cityOptions.find(
-        (city) => city.label === buyer?.suburb
-      );
+    getBuyerValues(buyerId).then(async (buyer) => {
+      await getStatesList();
 
-      const billingCity = cityOptions.find(
-        (city) => city.label === buyer?.billingSuburb
-      );
-
-      const deliveryState = stateOptions.find(
+      const deliveryState = states.find(
         (state) => state.label === buyer?.state
       );
 
-      const billingState = stateOptions.find(
+      const billingState = states.find(
         (state) => state.label === buyer?.billingState
       );
 
       setValues({
         DeliveryAddress: buyer?.address,
         Apartment: buyer?.apartment,
-        City: deliveryCity,
+        City: buyer?.suburb,
         Postcode: buyer?.postalCode,
         Notes: buyer?.deliveryNotes,
         DeliveryAddressState: deliveryState,
         Country: "",
         BillingAddress: buyer?.billingAddress,
         BillingApartment: buyer?.billingApartment,
-        BillingCity: billingCity,
+        BillingCity: buyer?.billingSuburb,
         BillingPostcode: buyer?.billingPostalCode,
         BillingNotes: "",
         BillingAddressState: billingState,
@@ -101,26 +86,28 @@ const DeliveryEditForm = () => {
     });
   }, []);
 
-  const handleSelect = (e, name) => {
-    if (name === "City") {
-      setValues({
-        ...values,
-        City: e,
+  const getStatesList = async () => {
+    await getStates().then((data) => {
+      states = data.map((state) => {
+        return {
+          label: state.stateName,
+          value: state.stateId,
+        };
       });
-    } else if (name === "DeliveryAddressState") {
+      setStateOption(states);
+    });
+  };
+
+  const handleSelect = (e, name) => {
+    if (name === "DeliveryAddressState") {
       setValues({
         ...values,
         DeliveryAddressState: e,
       });
-    } else if (name === "BillingCity") {
-      setValues({
-        ...values,
-        BillingCity: e,
-      });
     } else if (name === "BillingAddressState") {
       setValues({
         ...values,
-        BillingCity: e,
+        BillingAddressState: e,
       });
     }
   };
@@ -141,13 +128,13 @@ const DeliveryEditForm = () => {
         body: JSON.stringify({
           address: values?.DeliveryAddress,
           apartment: values?.Apartment,
-          suburb: values?.City?.label,
+          suburb: values?.City,
           postalCode: values?.Postcode,
           state: values?.DeliveryAddressState?.label,
           deliveryNotes: values?.Notes,
           billingAddress: values?.BillingAddress,
           billingApartment: values?.BillingApartment,
-          billingSuburb: values?.BillingCity?.label,
+          billingSuburb: values?.BillingCity,
           billingPostalCode: values?.BillingPostcode,
           billingState: values?.BillingAddressState?.label,
         }),
@@ -161,7 +148,6 @@ const DeliveryEditForm = () => {
       .catch((error) => console.log(error));
   };
 
-  const [isChecked, setIsChecked] = useState(false);
   const toggleCheckbox = (e) => {
     const checked = e.target.checked;
 
@@ -186,7 +172,6 @@ const DeliveryEditForm = () => {
         });
   };
 
-  console.log(isChecked, "toggleCheckbox");
   return (
     <>
       <form onSubmit={handleSubmit} className="">
@@ -254,16 +239,15 @@ const DeliveryEditForm = () => {
               htmlFor="City"
               className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
             >
-              City
+              Suburb
             </label>
-            <Select
+            <input
               type="text"
-              placeholder="City"
+              placeholder="Suburb"
               id="City"
-              onChange={(e) => handleSelect(e, "City")}
+              onChange={handleChange}
               name="City"
               value={values.City}
-              options={cityOptions}
               className=""
               style={{
                 border: errors.City && "1px solid red",
@@ -317,7 +301,7 @@ const DeliveryEditForm = () => {
               onChange={(e) => handleSelect(e, "DeliveryAddressState")}
               name="DeliveryAddressState"
               value={values.DeliveryAddressState}
-              options={stateOptions}
+              options={stateOption}
               className=""
               style={{
                 border: errors.DeliveryAddressState && "1px solid red",
@@ -481,16 +465,15 @@ const DeliveryEditForm = () => {
                 htmlFor="BillingCity"
                 className="md:text-base text-sm	 md:font-medium font-semibold text-[#1D1E20]"
               >
-                City
+                Suburb
               </label>
-              <Select
+              <input
                 type="text"
-                placeholder="City"
+                placeholder="Suburb"
                 id="BillingCity"
-                onChange={(e) => handleSelect(e, "BillingCity")}
+                onChange={handleChange}
                 name="BillingCity"
                 value={values?.BillingCity}
-                options={cityOptions}
                 className=""
                 style={{
                   border: errors.BillingCity && "1px solid red",
@@ -541,7 +524,6 @@ const DeliveryEditForm = () => {
               >
                 State{" "}
               </label>
-
               <Select
                 type="text"
                 placeholder="State"
@@ -549,7 +531,7 @@ const DeliveryEditForm = () => {
                 onChange={(e) => handleSelect(e, "BillingAddressState")}
                 name="BillingAddressState"
                 value={values.BillingAddressState}
-                options={stateOptions}
+                options={stateOption}
                 className=""
                 style={{
                   border: errors.BillingAddressState && "1px solid red",

@@ -23,44 +23,40 @@ function CreateAccount() {
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
   const [currentStep, setCurrentStep] = useState(0);
   const [buyer, setBuyer] = useState({});
-  const [states, setStates] = useState([]);
   const [isBuyerExist, setIsbuyerExist] = useState(false);
-  const {id} = useParams()
+  const { id } = useParams();
 
   // Getting buyer data from local storage
   const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
   const buyerData = JSON.parse(localStorage.getItem("buyerData"));
-  const key = localStorage.getItem('uniqueKey')
+  const key = localStorage.getItem("uniqueKey");
+  let states = [];
 
   useEffect(() => {
-
-    if(key !== id){
-      navigate('/auth/sign-up')
+    if (key !== id) {
+      navigate("/auth/sign-up");
     }
 
     setBuyer(buyer);
+    getStates();
+  }, []);
 
-    fetch(
-      "https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/PopulateState",
-      {
-        method: "GET",
-      }
-    )
+  const getStates = () => {
+    fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("states", data);
-        const statesData = data.map((state) => {
+        states = data.map((state) => {
           return {
             label: state.stateName,
-            value: state.id,
+            value: state.stateId,
           };
         });
-        setStates(statesData);
       })
-      .catch((error) => console.log(error))
-      .finally(() => {
+      .then(() => {
         const { firstName, lastName } = separateFullName(buyerCred?.name);
-
         formik.setValues({
           BusinessName: buyerData?.businessName,
           ABN: buyerData?.abn,
@@ -69,7 +65,7 @@ function CreateAccount() {
           Apartment: buyerData?.apartment,
           Suburb: buyerData?.suburb,
           Postcode: buyerData?.postalCode,
-          Notes: buyerData?.Notes,
+          Notes: buyerData?.deliveryNotes,
           FirstName: firstName,
           LastName: lastName,
           email: buyerCred?.email,
@@ -89,8 +85,9 @@ function CreateAccount() {
           DeliveryContactEmail: buyerData?.deliveryEmail,
           DeliveryContactMobile: buyerData?.deliveryMobile,
         });
-      });
-  }, []);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -150,7 +147,8 @@ function CreateAccount() {
       liquorLicence: values?.LiquerLicence || "",
       salesRepId: buyerData?.salesRepId || "",
       pricingProfileId: buyerData?.pricingProfileId || "",
-      defaultPaymentMethodId: buyerData?.defaultPaymentMethodId || "",
+      defaultPaymentMethodId: buyerData?.defaultPaymentMethodId || [],
+      defaultPaymentTerm : buyerData?.defaultPaymentTerm || [],
       tags: buyerData?.tags || [],
       organisationId: buyerData?.organisationId || "",
       wetLiable: buyerData?.wetLiable,
@@ -168,11 +166,11 @@ function CreateAccount() {
       postalCode: buyerData?.postalCode || "",
       state: buyerData?.state || "",
       deliveryNotes: values?.Notes || "",
-      billingAddress: values?.billingAddress || "",
-      billingApartment: values?.billingApartment || "",
-      billingSuburb: values?.billingSuburb || "",
-      billingPostalCode: values?.billingPostalCode || "",
-      billingState: values?.billingState || "",
+      billingAddress: buyerData?.billingAddress || "",
+      billingApartment: buyerData?.billingApartment || "",
+      billingSuburb: buyerData?.billingSuburb || "",
+      billingPostalCode: buyerData?.billingPostalCode || "",
+      billingState: buyerData?.billingState || "",
       isActive: "1",
       password: buyerCred?.password || "",
       status: true,
