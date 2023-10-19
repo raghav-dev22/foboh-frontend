@@ -11,7 +11,7 @@ const ordeItem = [
     image: <SellIcon />,
   },
   {
-    title: "Pricing profile",
+    title: "Customer Status",
     SubTitle: "Plus pricing",
     image: <SellIcon />,
   },
@@ -20,16 +20,7 @@ const ordeItem = [
     SubTitle: "12 345 678 910 ",
     image: <WorkIcon />,
   },
-  {
-    title: "Supplier rep",
-    SubTitle: "Jessica Smith",
-    image: <PersonIcon />,
-  },
-  {
-    title: "Freight profile",
-    SubTitle: "Regional - NSW",
-    image: <LocalShippingIcon />,
-  },
+
   {
     title: "Liquor licence",
     SubTitle: "LIQO660011539",
@@ -40,7 +31,7 @@ function CustomerAddress() {
   // const orderItem=ordeItem.from({ length: 6 });
   return (
     <>
-      <div className="grid gap-4 lg:grid-cols-3 grid-cols-1 px-12">
+      <div className="grid gap-4 lg:grid-cols-2 grid-cols-1 px-12">
         {ordeItem.map((item, index) => {
           return (
             <div

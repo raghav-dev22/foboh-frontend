@@ -34,7 +34,7 @@ const OrderListing = () => {
     },
   ];
   const data = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 30; i++) {
     data.push({
       key: i,
       ProductDetail: (
@@ -54,10 +54,10 @@ const OrderListing = () => {
   }
   return (
     <>
-      <div className="py-5 px-7">
+      <div className="padding-top-custom px-7 ">
         <OrderDetailHeader />
-        <div className="flex lg:flex-nowrap flex-wrap   gap-5 ">
-          <div className="lg:w-[75%] w-full">
+        <div className="grid lg:grid-cols-6 grid-cols-1   gap-5 ">
+          <div className="lg:col-span-4 w-full">
             <div className="bg-white rounded-[8px] custom-shadow">
               <Table
                 columns={columns}
@@ -249,7 +249,7 @@ const OrderListing = () => {
               </div>
             </div>
           </div>
-          <div className="lg:w-[25%] w-full">
+          <div className="lg:col-span-2 w-full">
             <div className="bg-white rounded-[8px] custom-shadow p-4">
               <h4 className="font-semibold text-[20px]">Delivery Contact</h4>
 

@@ -33,7 +33,6 @@ function Header() {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const organisation = useSelector((state) => state.organisation);
 
-
   useEffect(() => {
     window.addEventListener("scroll", () => {
       setScroll(window.scrollY > 50);
@@ -140,21 +139,22 @@ function Header() {
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div onClick={() => navigate('/home/main')}>
-        {
-          organisation?.organisationlogo ? (
-            <img className="h-[50px] w-[100px] cursor-pointer object-cover" src={organisation?.organisationlogo} alt="organisationlogo" />
+        <div onClick={() => navigate("/home/main")}>
+          {organisation?.organisationlogo ? (
+            <img
+              className="h-[50px] w-[100px] cursor-pointer object-cover"
+              src={organisation?.organisationlogo}
+              alt="organisationlogo"
+            />
           ) : (
             <h2
-          style={{ color: token.commonThemeColor }}
-          className="text-[#637381] font-bold md:text-3xl text-xl	"
-        >
-          {" "}
-          LOGO
-        </h2>
-          )
-        }
-
+              style={{ color: token.commonThemeColor }}
+              className="text-[#637381] font-bold md:text-3xl text-xl	"
+            >
+              {" "}
+              LOGO
+            </h2>
+          )}
         </div>
         <div className=" relative md:block hidden">
           <input
@@ -312,22 +312,17 @@ function Header() {
             <Popover className="relative"></Popover>
             <Link to="/home/product-list">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
-                Products
+                Product
               </h6>
             </Link>
             <Link to="#">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
-                Features
+                Order
               </h6>
             </Link>
             <Link to="#">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
-                Marketplace
-              </h6>
-            </Link>
-            <Link to="#">
-              <h6 className=" header-font text-base	text-white font-normal hover:font-bold">
-                Company
+                Account
               </h6>
             </Link>
           </Popover.Group>

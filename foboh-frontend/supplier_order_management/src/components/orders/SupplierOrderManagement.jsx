@@ -9,9 +9,9 @@ import CreateOrderHeader from "../createOrderHeader/CreateOrderHeader";
 const SupplierOrderManagement = () => {
   return (
     <>
-      <div className="py-5 px-7">
+      <div className=" px-7 padding-top-custom">
         <CreateOrderHeader />
-        <div className="h-[410px] overflow-y-scroll custom-scroll-bar">
+        <div className="overflow-y-scroll custom-scroll-bar">
           <TotalOrders />
           <div className="py-5">
             <h5 className=" mb-2 text-[#212B36] font-semibold text-[24px] leading-[30px]">

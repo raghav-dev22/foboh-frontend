@@ -240,53 +240,16 @@ function ImportModal({ show, setShow }) {
                         </>
                       )}
                     </div>
-                    {
-                      // errorData?.length > 0
-                      //   ?
-                      // (setErrorFoundModal(true), setShow(false))
-                      // : ""
-                      // <div
-                      //   style={{
-                      //     color: "red",
-                      //     maxHeight: "90px",
-                      //     background: "rgb(244 130 130 / 5%)",
-                      //     border: "1px solid #e11818",
-                      //   }}
-                      //   className="bg-red-100  border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 mx-6 flex-row items-center overflow-x-auto overflow-y-auto"
-                      //   role="alert"
-                      // >
-                      //   {errorData?.length && (
-                      //     <strong className="font-semibold">
-                      //       Below fields missing required data
-                      //     </strong>
-                      //   )}
-                      //   {errorData?.map((errors, errorRow) => (
-                      //     <div className="flex">
-                      //       <span className="pr-2">{`Row ${
-                      //         errorRow + 3
-                      //       } :`}</span>
-                      //       {errors.map((err) => {
-                      //         return (
-                      //           <span className="block sm:inline pl-2">
-                      //             {err},{" "}
-                      //           </span>
-                      //         );
-                      //       })}
-                      //       <span className="pl-2">fields.</span>
-                      //     </div>
-                      //   ))}
-                      // </div>
-                    }
-                    <div className="flex items-center ">
+
+                    <div className="grid grid-cols-12 items-center  green-checkbox">
                       <input
                         id="default-checkbox"
                         type="checkbox"
                         defaultValue=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500    dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
                         htmlFor="default-checkbox"
-                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 col-span-11"
                       >
                         <p className="text-gray text-sm	 font-normal	">
                           Overwrite any current products that have the same SKU

@@ -1635,175 +1635,189 @@ const ProductList = () => {
           </div>
 
           <div className="md:w-9/12   w-full mx-auto">
-            <div className="grid md:grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  md:gap-8 gap-6   ">
-              {productData.map((item, index) => (
-                <Skeleton
-                  style={{ padding: "10px" }}
-                  loading={loading}
-                  active
-                  avatar
-                >
-                  <div className="">
-                    <div className=" relative">
-                      <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
-                        <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+            {productData.length === 0 ? (
+              <div className="flex justify-center items-center h-full w-full">
+                {/* <h5 className="text-2xl font-semibold capitalize ">
+                no product found
+              </h5> */}
+                <img
+                  src="/assets/no-product.jpg"
+                  className="w-[100px]"
+                  alt=""
+                />
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  md:gap-8 gap-6   ">
+                {productData.map((item, index) => (
+                  <Skeleton
+                    style={{ padding: "10px" }}
+                    loading={loading}
+                    active
+                    avatar
+                  >
+                    <div className="">
+                      <div className=" relative">
+                        <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
+                          <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
+                        </div>
+                        <div className="h-[150px] bg-[#c3c3c3]">
+                          <img
+                            src={item?.product?.productImageUrls[0]}
+                            alt=""
+                            className="cursor-pointer w-full h-full object-cover"
+                            onClick={() =>
+                              navigate(
+                                `/home/product-details/${item?.product?.productId}`
+                              )
+                            }
+                          />
+                        </div>
                       </div>
-                      <div className="h-[150px] bg-[#c3c3c3]">
-                        <img
-                          src={item?.product?.productImageUrls[0]}
-                          alt=""
-                          className="cursor-pointer w-full h-full object-cover"
-                          onClick={() =>
-                            navigate(
-                              `/home/product-details/${item?.product?.productId}`
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                    <h4
-                      onClick={() =>
-                        navigate(
-                          `/home/product-details/${item?.product?.productId}`
-                        )
-                      }
-                      className="text-lg font-semibold mt-3 cursor-pointer"
-                    >
-                      {item?.product?.title}
-                    </h4>
-                    <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                      {item?.product?.brand}
-                    </h4>
+                      <h4
+                        onClick={() =>
+                          navigate(
+                            `/home/product-details/${item?.product?.productId}`
+                          )
+                        }
+                        className="text-lg font-semibold mt-3 cursor-pointer"
+                      >
+                        {item?.product?.title}
+                      </h4>
+                      <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
+                        {item?.product?.brand}
+                      </h4>
 
-                    <p
-                      className="md:text-base text-sm font-medium text-[#637381] mt-2"
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        maxWidth: "25ch",
-                      }}
-                    >
-                      {item?.product?.description}
-                    </p>
-
-                    <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
-                      ${item?.product?.globalPrice}
-                    </h4>
-
-                    <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
-                      <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
-                        <p
-                          className="text-[#637381] cursor-pointer"
-                          onClick={() =>
-                            handleIncrementDecrement(
-                              item?.product?.productId,
-                              "decrement"
-                            )
-                          }
-                        >
-                          -
-                        </p>
-
-                        <p className="text-[#637381] md:text-sm text-[10px]">
-                          {" "}
-                          {item?.quantity}
-                        </p>
-
-                        <p
-                          className="text-[#637381] cursor-pointer"
-                          onClick={() =>
-                            handleIncrementDecrement(
-                              item?.product?.productId,
-                              "increment"
-                            )
-                          }
-                        >
-                          +
-                        </p>
-                      </div>
-
-                      <div
-                        className={`${
-                          item?.quantity > 0 ? "bg-[#563FE3]" : "bg-[#D1D5DB]"
-                        } rounded-md py-2.5 px-3 md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
+                      <p
+                        className="md:text-base text-sm font-medium text-[#637381] mt-2"
                         style={{
-                          backgroundColor:
-                            item?.quantity > 0
-                              ? token.buttonThemeColor
-                              : "#D1D5DB",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "25ch",
                         }}
                       >
-                        <button
-                          className="flex justify-center items-center gap-2"
-                          onClick={() => {
-                            if (item?.quantity > 0) {
-                              addCart(
+                        {item?.product?.description}
+                      </p>
+
+                      <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
+                        ${item?.product?.globalPrice}
+                      </h4>
+
+                      <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
+                        <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
+                          <p
+                            className="text-[#637381] cursor-pointer"
+                            onClick={() =>
+                              handleIncrementDecrement(
                                 item?.product?.productId,
-                                item,
-                                "increment"
-                              );
+                                "decrement"
+                              )
                             }
-                          }}
-                          disabled={item?.quantity <= 0}
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            <g clip-path="url(#clip0_128_2591)">
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M10.6641 15.1105H4.48791C2.21924 15.1105 0.478794 14.2912 0.973161 10.9931L1.5488 6.52349C1.85354 4.87785 2.90323 4.24805 3.82425 4.24805H11.3549C12.2895 4.24805 13.2782 4.92526 13.6304 6.52349L14.2059 10.9931C14.6258 13.9187 12.9329 15.1105 10.6641 15.1105Z"
-                                stroke="white"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                              <path
-                                d="M10.7659 4.08516C10.7659 2.31981 9.33475 0.8887 7.56937 0.8887C6.71927 0.885107 5.90276 1.22028 5.30038 1.82012C4.698 2.41996 4.35937 3.23506 4.35938 4.08516"
-                                stroke="white"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                              <path
-                                d="M9.76376 7.41846H9.72998"
-                                stroke="white"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                              <path
-                                d="M5.44988 7.41846H5.41602"
-                                stroke="white"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_128_2591">
-                                <rect
-                                  width="15.1111"
-                                  height="16"
-                                  fill="white"
+                            -
+                          </p>
+
+                          <p className="text-[#637381] md:text-sm text-[10px]">
+                            {" "}
+                            {item?.quantity}
+                          </p>
+
+                          <p
+                            className="text-[#637381] cursor-pointer"
+                            onClick={() =>
+                              handleIncrementDecrement(
+                                item?.product?.productId,
+                                "increment"
+                              )
+                            }
+                          >
+                            +
+                          </p>
+                        </div>
+
+                        <div
+                          className={`${
+                            item?.quantity > 0 ? "bg-[#563FE3]" : "bg-[#D1D5DB]"
+                          } rounded-md py-2.5 px-3 md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
+                          style={{
+                            backgroundColor:
+                              item?.quantity > 0
+                                ? token.buttonThemeColor
+                                : "#D1D5DB",
+                          }}
+                        >
+                          <button
+                            className="flex justify-center items-center gap-2"
+                            onClick={() => {
+                              if (item?.quantity > 0) {
+                                addCart(
+                                  item?.product?.productId,
+                                  item,
+                                  "increment"
+                                );
+                              }
+                            }}
+                            disabled={item?.quantity <= 0}
+                          >
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g clip-path="url(#clip0_128_2591)">
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M10.6641 15.1105H4.48791C2.21924 15.1105 0.478794 14.2912 0.973161 10.9931L1.5488 6.52349C1.85354 4.87785 2.90323 4.24805 3.82425 4.24805H11.3549C12.2895 4.24805 13.2782 4.92526 13.6304 6.52349L14.2059 10.9931C14.6258 13.9187 12.9329 15.1105 10.6641 15.1105Z"
+                                  stroke="white"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
                                 />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                          Add To Cart
-                        </button>
+                                <path
+                                  d="M10.7659 4.08516C10.7659 2.31981 9.33475 0.8887 7.56937 0.8887C6.71927 0.885107 5.90276 1.22028 5.30038 1.82012C4.698 2.41996 4.35937 3.23506 4.35938 4.08516"
+                                  stroke="white"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                                <path
+                                  d="M9.76376 7.41846H9.72998"
+                                  stroke="white"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                                <path
+                                  d="M5.44988 7.41846H5.41602"
+                                  stroke="white"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_128_2591">
+                                  <rect
+                                    width="15.1111"
+                                    height="16"
+                                    fill="white"
+                                  />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                            Add To Cart
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Skeleton>
-              ))}
-            </div>
+                  </Skeleton>
+                ))}
+              </div>
+            )}
+
             <div className="mt-8">
               {loading === false && (
                 <Pagination

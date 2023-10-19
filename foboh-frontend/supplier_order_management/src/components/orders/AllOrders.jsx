@@ -20,30 +20,24 @@ const AllOrders = () => {
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState({});
   const [orderData, setOrderData] = useState([]);
-  const [Sort, setSort] = useState(false);
-  const [input, setInput] = useState("");
+
   const sortBtn = () => {
-    setSortItem(true);
+    setSortItem(!sortItem);
   };
-  const handleBlur = () => {
-    setIsOpen(false);
-  };
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleCheckboxChange = (e) => {
     setShowDatePicker(e.target.checked);
   };
   const handleDatePickerChange = (date) => {
-    // Handle the date selection here
     console.log("Selected date:", date);
   };
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
 
+  console.log(
+    orderData,
+    "orderData----------------------------------------------------->"
+  );
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
@@ -297,6 +291,16 @@ const AllOrders = () => {
           {item.totalPrice}
         </p>
       ),
+      LastUpdated: (
+        <p className="text-sm md:text-base font-normal text-[#637381]">
+          {item.orderEntryDate}
+        </p>
+      ),
+      Payment: (
+        <p className="text-sm md:text-base font-normal text-[#637381]">
+          {item.paymentMethod}
+        </p>
+      ),
       Status: (
         <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
           <p className="text-[#637381] text-[base] font-medium">
@@ -329,41 +333,9 @@ const AllOrders = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  // useEffect(() => {
-  //   const debounceTimeout = setTimeout(() => {
-  //     processChange();
-  //   }, 1000);
-
-  //   return () => clearTimeout(debounceTimeout);
-  // }, [input]);
-
-  // function debounce(func, timeout = 0) {
-  //   let timer;
-  //   return (...args) => {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       func.apply(this, args);
-  //     }, timeout);
-  //   };
-  // }
-
-  // const saveInput = async () => {
-  //   // const ordersData = await searchOrders(input, page);
-  //   console.log("ordersData", ordersData);
-  //   setOrderData(ordersData.data);
-  //   setTotalData(ordersData.total);
-  // };
-
-  // const processChange = debounce(() => saveInput());
-
-  // const handleSearch = (e) => {
-  //   const search = e.target.value;
-  //   setInput(search);
-  // };
-
   return (
     <>
-      <div className="py-5">
+      <div className="pt-5">
         <div className="mb-6">
           <h1 className="text-[24px] font-semibold text-[#212B36] leading-[30px] mb-2">
             All Orders
@@ -381,7 +353,7 @@ const AllOrders = () => {
                 type="text"
               />
               <SearchIcon
-                className="absolute top-[8px] right-[8px] "
+                className="absolute top-[22px] right-[8px] "
                 style={{ fill: "rgb(164 169 174)" }}
               />
             </div>
@@ -418,15 +390,25 @@ const AllOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           A -Z
-                        </Checkbox>
+                        </p>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Z - A
-                        </Checkbox>
+                        </p>
                       </li>
                       <li className="py-1">
                         <div className="flex justify-between items-center  my-2">
@@ -436,15 +418,25 @@ const AllOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Oldest - Newest
-                        </Checkbox>
+                        </p>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Newest - Oldest
-                        </Checkbox>
+                        </p>
                       </li>
                       <li className="py-1">
                         <div className="flex justify-between items-center  my-2">
@@ -454,15 +446,25 @@ const AllOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Oldest - Newest
-                        </Checkbox>
+                        </p>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Newest - Oldest
-                        </Checkbox>
+                        </p>
                       </li>
                     </ul>
                   </div>
@@ -487,62 +489,117 @@ const AllOrders = () => {
                     <>
                       <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Select all
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               New
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Pending approval
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Changes requested
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Updated
-                            </Checkbox>
+                            </p>
                           </li>
 
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Processing
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Shipped
-                            </Checkbox>
+                            </p>
                           </li>
 
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Partially fulfilled
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Delivered
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Completed
-                            </Checkbox>
+                            </p>
                           </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                          <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <p className="text-base font-medium text-[#637381]">
                               Cancelled
-                            </Checkbox>
+                            </p>
                           </li>
                         </ul>
                       </div>
@@ -591,22 +648,37 @@ const AllOrders = () => {
                   {dateMenu && (
                     <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul className="dropdown-content ">
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
+                        <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <p className="text-base font-medium text-[#637381]">
                             Last 7 days
-                          </Checkbox>
+                          </p>
                         </li>
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
+                        <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <p className="text-base font-medium text-[#637381]">
                             Last 14 days
-                          </Checkbox>
+                          </p>
                         </li>
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
+                        <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <p className="text-base font-medium text-[#637381]">
                             Last 30 days
-                          </Checkbox>
+                          </p>
                         </li>
-                        <li className="py-1">
+                        <li className="py-1 green-checkbox flex justify-start items-center gap-2">
                           <div className="relative custom-datePicker h-[40px]">
                             {showDatePicker ? (
                               <DatePicker
@@ -657,7 +729,7 @@ const AllOrders = () => {
           )}
         </div>
         <div
-          className="border border-[#E0E0E0] rounded-[8px] mb-8 bg-white custom-table-pagination
+          className="border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination
     "
         >
           <Table

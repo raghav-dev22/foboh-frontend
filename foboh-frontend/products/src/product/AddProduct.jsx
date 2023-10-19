@@ -701,534 +701,588 @@ function AddProduct() {
 
   return (
     <>
-      <AddProductHeader />
-      <form
-        onChange={handleFormChange}
-        className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar"
-        style={{ height: "545px" }}
-      >
-        {show && (
-          <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-            <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
-              <div className="block">
-                <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                  <button
-                    onClick={handleReset}
-                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleSubmit}
-                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-                  >
-                    Save
-                  </button>
-                </nav>
+      <div className="padding-top-custom">
+        <AddProductHeader />
+        <form
+          onChange={handleFormChange}
+          className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar"
+          style={{ height: "545px" }}
+        >
+          {show && (
+            <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+              <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+                <div className="block">
+                  <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                    <button
+                      onClick={handleReset}
+                      className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleSubmit}
+                      className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                    >
+                      Save
+                    </button>
+                  </nav>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        <div className="w-full lg:w-2/5	 h-full	">
-          <div className="grid gap-3">
-            {/* Upload Image  */}
-            <div className="edit-img">
-              <img src="/assets/inventory-img.png" alt="" className=" w-full" />
-            </div>
+          )}
+          <div className="w-full lg:w-2/5	 h-full	">
+            <div className="grid gap-3">
+              {/* Upload Image  */}
+              <div className="edit-img">
+                <img
+                  src="/assets/inventory-img.png"
+                  alt=""
+                  className=" w-full"
+                />
+              </div>
 
-            <label
-              htmlFor="imageUpload"
-              onChange={handleProductImage}
-              type="file"
-              className="update-img-btn rounded-md cursor-pointer	w-full py-3	bg-custom-skyBlue flex justify-center"
-            >
-              <input
-                id="imageUpload"
-                multiple
-                hidden
-                type="file"
+              <label
+                htmlFor="imageUpload"
                 onChange={handleProductImage}
-              />
-              <div className="flex gap-2 items-center justify-center">
-                <div className="">
-                  <svg
-                    width={20}
-                    height={21}
-                    viewBox="0 0 20 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <mask
-                      id="mask0_555_25257"
-                      style={{ maskType: "alpha" }}
-                      maskUnits="userSpaceOnUse"
-                      x={0}
-                      y={0}
+                type="file"
+                className="update-img-btn rounded-md cursor-pointer	w-full py-3	bg-custom-skyBlue flex justify-center"
+              >
+                <input
+                  id="imageUpload"
+                  multiple
+                  hidden
+                  type="file"
+                  onChange={handleProductImage}
+                />
+                <div className="flex gap-2 items-center justify-center">
+                  <div className="">
+                    <svg
                       width={20}
                       height={21}
+                      viewBox="0 0 20 21"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect y="0.5" width={20} height={20} fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_555_25257)">
-                      <path
-                        d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
-                        fill="white"
-                      />
-                    </g>
-                  </svg>
-                </div>
-                <div className="">
-                  <p className="text-white font-medium	text-base	">
-                    Upload images
-                  </p>
-                </div>
-              </div>
-            </label>
-
-            {/*   */}
-            <div className="rounded-lg	border border-inherit	bg-white">
-              <div className="border-b border-inherit  py-3 px-5">
-                <h5 className="font-medium	text-lg	text-green"> </h5>
-              </div>
-              <div className="p-5">
-                <div className="">
-                  <h5 className="text-base font-medium text-green mb-3">
-                    Status
-                  </h5>
-                  {status.map((state, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center mb-4 gap-3 green-checkbox"
-                    >
-                      <input
-                        id={state}
-                        onChange={handleStateSelection}
-                        type="checkbox"
-                        value={state}
-                        name="status"
-                        checked={selectedState === state}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor={state}
-                        className="ml-2  dark:text-gray-300"
+                      <mask
+                        id="mask0_555_25257"
+                        style={{ maskType: "alpha" }}
+                        maskUnits="userSpaceOnUse"
+                        x={0}
+                        y={0}
+                        width={20}
+                        height={21}
                       >
-                        <p className="text-sm	 font-medium text-gray">{state}</p>
-                      </label>
-                    </div>
-                  ))}
-                  {errors.status && touched.status && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                      {errors.status}
+                        <rect y="0.5" width={20} height={20} fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_555_25257)">
+                        <path
+                          d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
+                          fill="white"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                  <div className="">
+                    <p className="text-white font-medium	text-base	">
+                      Upload images
                     </p>
-                  )}
+                  </div>
                 </div>
-                <div className="pb-5">
-                  <h5 className="text-base font-medium text-green mb-2">
-                    Product Visibility
-                  </h5>
-                  <p className="text-gray text-sm font-normal	">
-                    Set globally whether this product is shown to customers or
-                    not
-                  </p>
-                </div>
-                <div className="pb-4 flex justify-between items-center">
-                  <h5 className="text-green text-base font-medium">
-                    Visible to customers
-                  </h5>
+              </label>
 
-                  <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
-                    <input
-                      onChange={(e) => handleVisibility(e)}
-                      type="checkbox"
-                      name="availability"
-                      id="toggle"
-                      className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                    />
-                    <label
-                      htmlFor="toggle"
-                      className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                    ></label>
-                  </div>
+              {/*   */}
+              <div className="rounded-lg	border border-inherit	bg-white">
+                <div className="border-b border-inherit  py-3 px-5">
+                  <h5 className="font-medium	text-lg	text-green"> </h5>
                 </div>
-                <div className="">
-                  <h5 className="text-base font-medium text-green mb-3">
-                    Region availability
-                  </h5>
-                  {regionAvailability.map((region, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center mb-4 gap-3 green-checkbox"
-                    >
-                      <input
-                        onChange={handleRegionAvailability}
-                        id={region}
-                        type="checkbox"
-                        checked={values.region.includes(region)}
-                        value={region}
-                        onBlur={handleBlur}
-                        name="region"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor={region}
-                        className="ml-2  dark:text-gray-300"
-                      >
-                        <p className="text-sm	 font-medium text-gray">
-                          {region}
-                        </p>
-                      </label>
-                    </div>
-                  ))}
-                  {errors.region && touched.region && (
-                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                      {errors.region}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Inventory  */}
-            <div className="rounded-lg	border border-inherit	bg-white">
-              <div className="border-b border-inherit  py-3 px-5">
-                <h5 className="font-medium	text-lg	text-green"> Inventory </h5>
-              </div>
-              <div className="p-5">
-                <div className=" pb-5">
-                  <h5 className="text-base font-medium text-green mb-3">
-                    Minimum order quantity
-                  </h5>
-                  <div className="w-72">
-                    <input
-                      onChange={handleMinimumOrderQuantity}
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="grid-last-name"
-                      value={values.minimumOrder}
-                      name="minimumOrder"
-                      type="number"
-                      placeholder="2 cases"
-                    />
-                    {errors.minimumOrder && touched.minimumOrder && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.minimumOrder}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className=" pb-5">
-                  <h5 className="text-base font-medium text-green mb-3">
-                    Available quantity
-                  </h5>
-                  <div className="w-72">
-                    <input
-                      onChange={handleAvailableQuantity}
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="handleAvailableQuantity"
-                      name="availableQty"
-                      type="number"
-                      value={values.availableQty}
-                      placeholder="2 cases"
-                    />
-                    {errors.availableQty && touched.availableQty && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.availableQty}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="pb-5">
-                  <div className=" flex justify-between items-center mb-3">
-                    <h5 className="text-green text-base font-medium">
-                      Track inventory
+                <div className="p-5">
+                  <div className="">
+                    <h5 className="text-base font-medium text-green mb-3">
+                      Status
                     </h5>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+                    {status.map((state, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center mb-4 gap-3 green-checkbox"
+                      >
+                        <input
+                          id={state}
+                          onChange={handleStateSelection}
+                          type="checkbox"
+                          value={state}
+                          name="status"
+                          checked={selectedState === state}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={state}
+                          className="ml-2  dark:text-gray-300"
+                        >
+                          <p className="text-sm	 font-medium text-gray">
+                            {state}
+                          </p>
+                        </label>
+                      </div>
+                    ))}
+                    {errors.status && touched.status && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.status}
+                      </p>
+                    )}
+                  </div>
+                  <div className="pb-5">
+                    <h5 className="text-base font-medium text-green mb-2">
+                      Product Visibility
+                    </h5>
+                    <p className="text-gray text-sm font-normal	">
+                      Set globally whether this product is shown to customers or
+                      not
+                    </p>
+                  </div>
+                  <div className="pb-4 flex justify-between items-center">
+                    <h5 className="text-green text-base font-medium">
+                      Visible to customers
+                    </h5>
+
+                    <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
                       <input
-                        onChange={handleTrackInventory}
-                        checked={values.trackInventory}
+                        onChange={(e) => handleVisibility(e)}
                         type="checkbox"
-                        name="track-inventory"
-                        id="track-inventory"
-                        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                        name="availability"
+                        id="toggle"
+                        className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                       />
                       <label
-                        for="track-inventory"
-                        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                        htmlFor="toggle"
+                        className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                       ></label>
                     </div>
                   </div>
-                  <p className="text-gray text-sm font-normal	">
-                    Keep track of inventory to receive notifications when
-                    products are low or out of stock
-                  </p>
+                  <div className="">
+                    <h5 className="text-base font-medium text-green mb-3">
+                      Region availability
+                    </h5>
+                    {regionAvailability.map((region, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center mb-4 gap-3 green-checkbox"
+                      >
+                        <input
+                          onChange={handleRegionAvailability}
+                          id={region}
+                          type="checkbox"
+                          checked={values.region.includes(region)}
+                          value={region}
+                          onBlur={handleBlur}
+                          name="region"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={region}
+                          className="ml-2  dark:text-gray-300"
+                        >
+                          <p className="text-sm	 font-medium text-gray">
+                            {region}
+                          </p>
+                        </label>
+                      </div>
+                    ))}
+                    {errors.region && touched.region && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.region}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className=" pb-5">
+              </div>
+
+              {/* Inventory  */}
+              <div className="rounded-lg	border border-inherit	bg-white">
+                <div className="border-b border-inherit  py-3 px-5">
+                  <h5 className="font-medium	text-lg	text-green"> Inventory </h5>
+                </div>
+                <div className="p-5">
                   <div className=" pb-5">
                     <h5 className="text-base font-medium text-green mb-3">
-                      Stock alert level
+                      Minimum order quantity
                     </h5>
                     <div className="w-72">
                       <input
-                        onChange={handleStockAlertLevel}
-                        value={values.stockAlertLevel}
+                        onChange={handleMinimumOrderQuantity}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="stock-alert-level"
-                        name="stockAlertLevel"
+                        id="grid-last-name"
+                        value={values.minimumOrder}
+                        name="minimumOrder"
                         type="number"
                         placeholder="2 cases"
                       />
-                      {errors.stockAlertLevel && touched.stockAlertLevel && (
+                      {errors.minimumOrder && touched.minimumOrder && (
                         <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.stockAlertLevel}
+                          {errors.minimumOrder}
                         </p>
                       )}
                     </div>
                   </div>
-                </div>
-                <div className="pb-5">
-                  <div className=" flex justify-between items-center mb-3">
-                    <h5 className="text-green text-base font-medium">
-                      Sell when out of stock
+                  <div className=" pb-5">
+                    <h5 className="text-base font-medium text-green mb-3">
+                      Available quantity
                     </h5>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+                    <div className="w-72">
                       <input
-                        onChange={handleSellOutOfStock}
-                        checked={values.sellOutOfStock}
-                        type="checkbox"
-                        name="SellOutOfStock"
-                        id="SellOutOfStock"
-                        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                        onChange={handleAvailableQuantity}
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="handleAvailableQuantity"
+                        name="availableQty"
+                        type="number"
+                        value={values.availableQty}
+                        placeholder="2 cases"
                       />
-                      <label
-                        for="SellOutOfStock"
-                        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                      ></label>
+                      {errors.availableQty && touched.availableQty && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.availableQty}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <p className="text-gray text-sm font-normal	">
-                    If not selected, customers can still view the product but
-                    won’t be able to add to cart
-                  </p>
+                  <div className="pb-5">
+                    <div className=" flex justify-between items-center mb-3">
+                      <h5 className="text-green text-base font-medium">
+                        Track inventory
+                      </h5>
+                      <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+                        <input
+                          onChange={handleTrackInventory}
+                          checked={values.trackInventory}
+                          type="checkbox"
+                          name="track-inventory"
+                          id="track-inventory"
+                          class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                        />
+                        <label
+                          for="track-inventory"
+                          class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                        ></label>
+                      </div>
+                    </div>
+                    <p className="text-gray text-sm font-normal	">
+                      Keep track of inventory to receive notifications when
+                      products are low or out of stock
+                    </p>
+                  </div>
+                  <div className=" pb-5">
+                    <div className=" pb-5">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Stock alert level
+                      </h5>
+                      <div className="w-72">
+                        <input
+                          onChange={handleStockAlertLevel}
+                          value={values.stockAlertLevel}
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="stock-alert-level"
+                          name="stockAlertLevel"
+                          type="number"
+                          placeholder="2 cases"
+                        />
+                        {errors.stockAlertLevel && touched.stockAlertLevel && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.stockAlertLevel}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pb-5">
+                    <div className=" flex justify-between items-center mb-3">
+                      <h5 className="text-green text-base font-medium">
+                        Sell when out of stock
+                      </h5>
+                      <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+                        <input
+                          onChange={handleSellOutOfStock}
+                          checked={values.sellOutOfStock}
+                          type="checkbox"
+                          name="SellOutOfStock"
+                          id="SellOutOfStock"
+                          class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                        />
+                        <label
+                          for="SellOutOfStock"
+                          class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                        ></label>
+                      </div>
+                    </div>
+                    <p className="text-gray text-sm font-normal	">
+                      If not selected, customers can still view the product but
+                      won’t be able to add to cart
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className=" lg:w-3/5 w-full h-full	 grid gap-3	  ">
-          {/* Product Details  */}
-          <div className=" w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
-            <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
-              <h6 className="text-base	font-medium	 text-green">
-                Product details
-              </h6>
-            </div>
-            <div className="px-6 py-7">
-              <div className="w-full ">
-                <div className="flex flex-wrap -mx-3 mb-5">
-                  <div className="w-full px-3 relative">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="title"
-                    >
-                      Title
-                    </label>
-                    <input
-                      onChange={handleChange}
-                      value={values.title}
-                      maxLength={101}
-                      onBlur={handleBlur}
-                      style={{
-                        border:
-                          errors.title && touched.title && "1px solid red",
-                      }}
-                      className="appearance-none  block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="title"
-                      type="text"
-                      name="title"
-                      autoComplete="on"
-                      placeholder="Enter Title..."
-                    />
-                    {errors.title && touched.title && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.title}
-                      </p>
-                    )}
-                    {errors.title && touched.title && (
-                      <ErrorOutlineIcon className="absolute text-red-500 error-icon-position right-5 transition-all duration-[0.3s]" />
-                    )}
-                  </div>
-                </div>
-                {/* <ComboBoxMultiSelect/> */}
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="w-full px-3 relative">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="sku-code"
-                    >
-                      SKU code
-                      <CustomTooltip
-                        placement="right"
-                        arrow
-                        title="Stock Keeping Unit - this is your product identifier which will be shown on customer invoices"
+          <div className=" lg:w-3/5 w-full h-full	 grid gap-3	  ">
+            {/* Product Details  */}
+            <div className=" w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
+              <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
+                <h6 className="text-base	font-medium	 text-green">
+                  Product details
+                </h6>
+              </div>
+              <div className="px-6 py-7">
+                <div className="w-full ">
+                  <div className="flex flex-wrap -mx-3 mb-5">
+                    <div className="w-full px-3 relative">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                        htmlFor="title"
                       >
-                        <HelpIcon
-                          sx={{
-                            color: "#E0E0E0",
-                            width: "20px",
-                            marginLeft: "15px",
-                          }}
-                        />{" "}
-                      </CustomTooltip>
-                    </label>
-                    <input
-                      onChange={handleChange}
-                      value={values.skuCode}
-                      onBlur={handleBlur}
-                      style={{
-                        border:
-                          errors.skuCode && touched.skuCode && "1px solid red",
-                      }}
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="sku-code"
-                      name="skuCode"
-                      type="text"
-                      placeholder="Enter SKU code..."
-                    />
-                    {errors.skuCode && touched.skuCode && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.skuCode}
-                      </p>
-                    )}
-                    {errors.skuCode && touched.skuCode && (
-                      <ErrorOutlineIcon
-                        style={{ top: "47px" }}
-                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
-                      />
-                    )}
-                  </div>
-                  <div className="w-full px-3 relative">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="brand"
-                    >
-                      Brands
-                    </label>
-                    <input
-                      onChange={handleChange}
-                      value={values.brand}
-                      onBlur={handleBlur}
-                      style={{
-                        border:
-                          errors.brand && touched.brand && "1px solid red",
-                      }}
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="brand"
-                      type="text"
-                      name="brand"
-                      placeholder="Lo-Fi Wines"
-                    />
-                    {errors.brand && touched.brand && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.brand}
-                      </p>
-                    )}
-                    {errors.brand && touched.brand && (
-                      <ErrorOutlineIcon
-                        style={{ top: "45px" }}
-                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Department
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        name="colors"
-                        options={department}
-                        value={values.department}
+                        Title
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        value={values.title}
+                        maxLength={101}
                         onBlur={handleBlur}
-                        onChange={handleDepartmentChange}
-                        className="basic-multi-select "
-                        classNamePrefix="select"
                         style={{
                           border:
-                            errors.department &&
-                            touched.department &&
-                            "1px solid red",
+                            errors.title && touched.title && "1px solid red",
                         }}
+                        className="appearance-none  block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="title"
+                        type="text"
+                        name="title"
+                        autoComplete="on"
+                        placeholder="Enter Title..."
                       />
-                      {errors.department && touched.department && (
+                      {errors.title && touched.title && (
                         <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.department}
+                          {errors.title}
                         </p>
+                      )}
+                      {errors.title && touched.title && (
+                        <ErrorOutlineIcon className="absolute text-red-500 error-icon-position right-5 transition-all duration-[0.3s]" />
                       )}
                     </div>
                   </div>
-                  {values.department && (
+                  {/* <ComboBoxMultiSelect/> */}
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className="w-full px-3 relative">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                        htmlFor="sku-code"
+                      >
+                        SKU code
+                        <CustomTooltip
+                          placement="right"
+                          arrow
+                          title="Stock Keeping Unit - this is your product identifier which will be shown on customer invoices"
+                        >
+                          <HelpIcon
+                            sx={{
+                              color: "#E0E0E0",
+                              width: "20px",
+                              marginLeft: "15px",
+                            }}
+                          />{" "}
+                        </CustomTooltip>
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        value={values.skuCode}
+                        onBlur={handleBlur}
+                        style={{
+                          border:
+                            errors.skuCode &&
+                            touched.skuCode &&
+                            "1px solid red",
+                        }}
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="sku-code"
+                        name="skuCode"
+                        type="text"
+                        placeholder="Enter SKU code..."
+                      />
+                      {errors.skuCode && touched.skuCode && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.skuCode}
+                        </p>
+                      )}
+                      {errors.skuCode && touched.skuCode && (
+                        <ErrorOutlineIcon
+                          style={{ top: "47px" }}
+                          className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                        />
+                      )}
+                    </div>
+                    <div className="w-full px-3 relative">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                        htmlFor="brand"
+                      >
+                        Brands
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        value={values.brand}
+                        onBlur={handleBlur}
+                        style={{
+                          border:
+                            errors.brand && touched.brand && "1px solid red",
+                        }}
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="brand"
+                        type="text"
+                        name="brand"
+                        placeholder="Lo-Fi Wines"
+                      />
+                      {errors.brand && touched.brand && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.brand}
+                        </p>
+                      )}
+                      {errors.brand && touched.brand && (
+                        <ErrorOutlineIcon
+                          style={{ top: "45px" }}
+                          className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                     <div className="w-full  px-3">
                       <h5 className="text-base font-medium text-green mb-3">
-                        Category
+                        Department
                       </h5>
                       <div className="w-full">
                         <Select
                           name="colors"
-                          options={category}
-                          isDisabled={!category.length}
+                          options={department}
+                          value={values.department}
                           onBlur={handleBlur}
-                          value={values.category}
-                          onChange={handleCategoryChange}
+                          onChange={handleDepartmentChange}
                           className="basic-multi-select "
                           classNamePrefix="select"
+                          style={{
+                            border:
+                              errors.department &&
+                              touched.department &&
+                              "1px solid red",
+                          }}
                         />
-                        {errors.category && touched.category && (
+                        {errors.department && touched.department && (
                           <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                            {errors.category}
+                            {errors.department}
                           </p>
                         )}
                       </div>
                     </div>
-                  )}
-                </div>
-                {values.category && (
-                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                    <div className=" w-full  px-3">
-                      <h5 className="text-base font-medium text-green mb-3">
-                        Subcategory
-                      </h5>
-                      <div className="w-full">
-                        <Select
-                          name="colors"
-                          options={subCategory}
-                          onBlur={handleBlur}
-                          isDisabled={!subCategory.length}
-                          value={values.subcategory}
-                          onChange={handleSubCategoryChange}
-                          className="basic-multi-select "
-                          classNamePrefix="select"
-                        />
-                        {errors.subcategory && touched.subcategory && (
-                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                            {errors.subcategory}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    {isAlcoholicBeverage && (
-                      <div className="  w-full  px-3">
+                    {values.department && (
+                      <div className="w-full  px-3">
                         <h5 className="text-base font-medium text-green mb-3">
-                          Segment
+                          Category
                         </h5>
                         <div className="w-full">
                           <Select
                             name="colors"
-                            options={segment}
-                            // isDisabled={!segment.length}
-                            value={values.segment}
-                            onChange={handleSegmentChange}
+                            options={category}
+                            isDisabled={!category.length}
+                            onBlur={handleBlur}
+                            value={values.category}
+                            onChange={handleCategoryChange}
+                            className="basic-multi-select "
+                            classNamePrefix="select"
+                          />
+                          {errors.category && touched.category && (
+                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                              {errors.category}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {values.category && (
+                    <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                      <div className=" w-full  px-3">
+                        <h5 className="text-base font-medium text-green mb-3">
+                          Subcategory
+                        </h5>
+                        <div className="w-full">
+                          <Select
+                            name="colors"
+                            options={subCategory}
+                            onBlur={handleBlur}
+                            isDisabled={!subCategory.length}
+                            value={values.subcategory}
+                            onChange={handleSubCategoryChange}
+                            className="basic-multi-select "
+                            classNamePrefix="select"
+                          />
+                          {errors.subcategory && touched.subcategory && (
+                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                              {errors.subcategory}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      {isAlcoholicBeverage && (
+                        <div className="  w-full  px-3">
+                          <h5 className="text-base font-medium text-green mb-3">
+                            Segment
+                          </h5>
+                          <div className="w-full">
+                            <Select
+                              name="colors"
+                              options={segment}
+                              // isDisabled={!segment.length}
+                              value={values.segment}
+                              onChange={handleSegmentChange}
+                              className="basic-multi-select "
+                              classNamePrefix="select"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    {isWine && (
+                      <div className=" w-full  px-3">
+                        <h5 className="text-base font-medium text-green mb-3">
+                          Grape variety
+                        </h5>
+                        <div className="w-full">
+                          <Select
+                            isMulti
+                            name="variety"
+                            // isDisabled={!variety.length}
+                            options={variety}
+                            value={
+                              values.grapeVariety.length > 0
+                                ? values.grapeVariety
+                                : null
+                            }
+                            onChange={handleGrapeVarietyChange}
+                            className="basic-multi-select "
+                            classNamePrefix="select"
+                            closeMenuOnSelect={false}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {isWine && (
+                      <div className="w-full  px-3">
+                        <h5 className="text-base font-medium text-green mb-3">
+                          Region
+                        </h5>
+                        <div className=" w-full">
+                          <Select
+                            name="colors"
+                            isDisabled={!region.length}
+                            options={region}
+                            value={values.regionSelect}
+                            onChange={handleregionSelectChange}
                             className="basic-multi-select "
                             classNamePrefix="select"
                           />
@@ -1236,556 +1290,515 @@ function AddProduct() {
                       </div>
                     )}
                   </div>
-                )}
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  {isWine && (
-                    <div className=" w-full  px-3">
-                      <h5 className="text-base font-medium text-green mb-3">
-                        Grape variety
-                      </h5>
-                      <div className="w-full">
-                        <Select
-                          isMulti
-                          name="variety"
-                          // isDisabled={!variety.length}
-                          options={variety}
-                          value={
-                            values.grapeVariety.length > 0
-                              ? values.grapeVariety
-                              : null
-                          }
-                          onChange={handleGrapeVarietyChange}
-                          className="basic-multi-select "
-                          classNamePrefix="select"
-                          closeMenuOnSelect={false}
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    {isWine && (
+                      <div className="w-full  px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                          htmlFor="vintage"
+                        >
+                          Vintage
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="vintage"
+                          name="vintage"
+                          type="text"
+                          value={values.vintage}
+                          onChange={handleChange}
+                          placeholder="2004"
                         />
                       </div>
-                    </div>
-                  )}
-                  {isWine && (
-                    <div className="w-full  px-3">
-                      <h5 className="text-base font-medium text-green mb-3">
-                        Region
-                      </h5>
-                      <div className=" w-full">
-                        <Select
-                          name="colors"
-                          isDisabled={!region.length}
-                          options={region}
-                          value={values.regionSelect}
-                          onChange={handleregionSelectChange}
-                          className="basic-multi-select "
-                          classNamePrefix="select"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  {isWine && (
-                    <div className="w-full  px-3">
-                      <label
-                        className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                        htmlFor="vintage"
-                      >
-                        Vintage
-                      </label>
-                      <input
-                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="vintage"
-                        name="vintage"
-                        type="text"
-                        value={values.vintage}
-                        onChange={handleChange}
-                        placeholder="2004"
-                      />
-                    </div>
-                  )}
+                    )}
 
-                  <div className="w-full  px-3 relative">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="awards"
-                    >
-                      Awards
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="awards"
-                      name="awards"
-                      onChange={handleChange}
-                      onKeyPress={(event) => {
-                        const allowedCharacters = /^[A-Za-z0-9]*$/;
-                        if (!allowedCharacters.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                      value={values.awards}
-                      type="text"
-                      placeholder="WS 93"
-                      style={{
-                        border:
-                          errors.awards && touched.awards && "1px solid red",
-                      }}
-                    />
-                    {errors.awards && touched.awards && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.awards}
-                      </p>
-                    )}
-                    {errors.awards && touched.awards && (
-                      <ErrorOutlineIcon
-                        style={{ top: "45px" }}
-                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className=" w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Country
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        name="colors"
-                        isDisabled={!country.length}
-                        options={country}
-                        value={values.country}
-                        onChange={handleCountryChange}
-                        className="basic-multi-select "
-                        classNamePrefix="select"
-                      />
-                      {errors.country && touched.country && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
-                          {errors.country}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  {isAlcoholicBeverage && (
-                    <div className="w-full  px-3">
+                    <div className="w-full  px-3 relative">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                        htmlFor="abv"
+                        htmlFor="awards"
                       >
-                        ABV
+                        Awards
                       </label>
                       <input
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="abv"
-                        name="abv"
+                        id="awards"
+                        name="awards"
                         onChange={handleChange}
                         onKeyPress={(event) => {
-                          const allowedCharacters = /^[0-9.%]*$/;
+                          const allowedCharacters = /^[A-Za-z0-9]*$/;
                           if (!allowedCharacters.test(event.key)) {
                             event.preventDefault();
                           }
                         }}
-                        value={values.abv}
+                        value={values.awards}
                         type="text"
-                        placeholder="please enter ABV..."
+                        placeholder="WS 93"
+                        style={{
+                          border:
+                            errors.awards && touched.awards && "1px solid red",
+                        }}
                       />
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Base unit of measure
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        isDisabled={!baseUnitOfMeasurement.length}
-                        options={baseUnitOfMeasurement}
-                        onBlur={handleBlur}
-                        value={values.baseUnitMeasure || null} // Set value to null when no option is selected
-                        name="baseUnitMeasure"
-                        onChange={handlebaseUnitOfMeasurement}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                      />
-                      {errors.baseUnitMeasure && touched.baseUnitMeasure && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
-                          {errors.baseUnitMeasure}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Inner unit of measure
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        isDisabled={!innerUnitOfMeasurement.length}
-                        options={innerUnitOfMeasurement}
-                        value={values.innerUnitMeasure}
-                        onChange={handleinnerUnitOfMeasurement}
-                        onBlur={handleBlur}
-                        name="innerUnitMeasure"
-                        className="basic-multi-select "
-                        classNamePrefix="select"
-                      />
-                      {errors.innerUnitMeasure && touched.innerUnitMeasure && (
+                      {errors.awards && touched.awards && (
                         <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.innerUnitMeasure}
+                          {errors.awards}
                         </p>
+                      )}
+                      {errors.awards && touched.awards && (
+                        <ErrorOutlineIcon
+                          style={{ top: "45px" }}
+                          className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                        />
                       )}
                     </div>
                   </div>
-                </div>
-                <div className="flex flex-nowrap -mx-3 mb-5">
-                  <div className="w-full px-3">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="grid-password"
-                    >
-                      Configuration (ordering unit of measure)
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="grid-password"
-                      type="text"
-                      name="configuration"
-                      disabled
-                      value={
-                        values.configuration &&
-                        `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
-                      }
-                      placeholder={
-                        values.configuration &&
-                        `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-nowrap -mx-3 mb-5">
-                  <div className=" w-full px-3">
-                    <label
-                      htmlFor="message"
-                      className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
-                    >
-                      Description
-                      <CustomTooltip
-                        placement="right"
-                        arrow
-                        title="This is the description of your product which will appear to customers when visible on the site"
-                      >
-                        <HelpIcon
-                          sx={{
-                            color: "#E0E0E0",
-                            width: "20px",
-                            marginLeft: "15px",
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className=" w-full  px-3">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Country
+                      </h5>
+                      <div className="w-full">
+                        <Select
+                          name="colors"
+                          isDisabled={!country.length}
+                          options={country}
+                          value={values.country}
+                          onChange={handleCountryChange}
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                        />
+                        {errors.country && touched.country && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
+                            {errors.country}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    {isAlcoholicBeverage && (
+                      <div className="w-full  px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                          htmlFor="abv"
+                        >
+                          ABV
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="abv"
+                          name="abv"
+                          onChange={handleChange}
+                          onKeyPress={(event) => {
+                            const allowedCharacters = /^[0-9.%]*$/;
+                            if (!allowedCharacters.test(event.key)) {
+                              event.preventDefault();
+                            }
                           }}
-                        />{" "}
-                      </CustomTooltip>
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={4}
-                      maxLength={257}
-                      className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
-                      placeholder="Leave a comment..."
-                      defaultValue={""}
-                      name="description"
-                      value={values.description}
-                      onChange={handleChange}
-                    />
-                    {errors.description && touched.description && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.description}
-                      </p>
+                          value={values.abv}
+                          type="text"
+                          placeholder="please enter ABV..."
+                        />
+                      </div>
                     )}
                   </div>
-                </div>
-                <div className="flex flex-nowrap -mx-3 mb-5">
-                  <div className="w-full px-3">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="tags"
-                    >
-                      Tags
-                    </label>
-                    <div className="w-full">
-                      <Select
-                        id="tags"
-                        name="tags"
-                        isMulti
-                        value={values.tags.length ? values.tags : null}
-                        onChange={handletagsChange}
-                        options={tag}
-                        className="basic-multi-select "
-                        classNamePrefix="select"
-                        isClearable={true}
-                        closeMenuOnSelect={false}
+
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className="w-full  px-3">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Base unit of measure
+                      </h5>
+                      <div className="w-full">
+                        <Select
+                          isDisabled={!baseUnitOfMeasurement.length}
+                          options={baseUnitOfMeasurement}
+                          onBlur={handleBlur}
+                          value={values.baseUnitMeasure || null} // Set value to null when no option is selected
+                          name="baseUnitMeasure"
+                          onChange={handlebaseUnitOfMeasurement}
+                          className="basic-multi-select"
+                          classNamePrefix="select"
+                        />
+                        {errors.baseUnitMeasure && touched.baseUnitMeasure && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
+                            {errors.baseUnitMeasure}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-full  px-3">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Inner unit of measure
+                      </h5>
+                      <div className="w-full">
+                        <Select
+                          isDisabled={!innerUnitOfMeasurement.length}
+                          options={innerUnitOfMeasurement}
+                          value={values.innerUnitMeasure}
+                          onChange={handleinnerUnitOfMeasurement}
+                          onBlur={handleBlur}
+                          name="innerUnitMeasure"
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                        />
+                        {errors.innerUnitMeasure &&
+                          touched.innerUnitMeasure && (
+                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                              {errors.innerUnitMeasure}
+                            </p>
+                          )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap -mx-3 mb-5">
+                    <div className="w-full px-3">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                        htmlFor="grid-password"
+                      >
+                        Configuration (ordering unit of measure)
+                      </label>
+                      <input
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="grid-password"
+                        type="text"
+                        name="configuration"
+                        disabled
+                        value={
+                          values.configuration &&
+                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                        }
+                        placeholder={
+                          values.configuration &&
+                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                        }
                       />
-                      {errors.tags && touched.tags && (
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap -mx-3 mb-5">
+                    <div className=" w-full px-3">
+                      <label
+                        htmlFor="message"
+                        className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
+                      >
+                        Description
+                        <CustomTooltip
+                          placement="right"
+                          arrow
+                          title="This is the description of your product which will appear to customers when visible on the site"
+                        >
+                          <HelpIcon
+                            sx={{
+                              color: "#E0E0E0",
+                              width: "20px",
+                              marginLeft: "15px",
+                            }}
+                          />{" "}
+                        </CustomTooltip>
+                      </label>
+                      <textarea
+                        id="message"
+                        rows={4}
+                        maxLength={257}
+                        className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
+                        placeholder="Leave a comment..."
+                        defaultValue={""}
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                      />
+                      {errors.description && touched.description && (
                         <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.tags}
+                          {errors.description}
                         </p>
                       )}
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap -mx-3 mb-5">
+                    <div className="w-full px-3">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                        htmlFor="tags"
+                      >
+                        Tags
+                      </label>
+                      <div className="w-full">
+                        <Select
+                          id="tags"
+                          name="tags"
+                          isMulti
+                          value={values.tags.length ? values.tags : null}
+                          onChange={handletagsChange}
+                          options={tag}
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                          isClearable={true}
+                          closeMenuOnSelect={false}
+                        />
+                        {errors.tags && touched.tags && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.tags}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Pricing Details  */}
-          <div className="  w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
-            <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
-              <h6 className="text-base	font-medium	 text-green">
-                Pricing details
-              </h6>
-            </div>
-            <div className="px-6 py-7">
-              <div className="w-full ">
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="w-full relative md:w-1/2 px-3">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="Sale-price"
-                    >
-                      Sale price exc. GST
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="Sale-price"
-                      name="salePrice"
-                      onKeyPress={(e) => {
-                        const isValidKey = /[0-9]/.test(e.key); // Test if the pressed key is a number
-                        if (!isValidKey) {
-                          e.preventDefault(); // Prevent input of non-numeric characters
-                        }
-                      }}
-                      onChange={handleSalePrice}
-                      prefix="$"
-                      value={values.salePrice}
-                      onBlur={handleBlur}
-                      type="text"
-                      placeholder="$330.00"
-                    />
-                    {errors.salePrice && touched.salePrice && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.salePrice}
-                      </p>
-                    )}
-                  </div>
-                  <div className="w-full relative md:w-1/2 px-3">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="Buy-price"
-                    >
-                      Buy price
-                      <CustomTooltip
-                        placement="right"
-                        arrow
-                        title={
-                          <p className="text-white">
-                            This is the cost you paid per item.
-                            <br /> Customers will not see this
-                          </p>
-                        }
-                      >
-                        <HelpIcon
-                          sx={{
-                            color: "#E0E0E0",
-                            width: "20px",
-                            marginLeft: "15px",
-                          }}
-                        />{" "}
-                      </CustomTooltip>
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="Buy-price"
-                      type="text"
-                      name="buyPrice"
-                      onKeyPress={(event) => {
-                        const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
-                        if (!allowedCharacters.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                      onChange={handleBuyPrice}
-                      value={values.buyPrice}
-                      onBlur={handleBlur}
-                      placeholder="$250.00"
-                    />
-                    {errors.buyPrice && touched.buyPrice && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.buyPrice}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="mb-5">
-                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-3">
+            {/* Pricing Details  */}
+            <div className="  w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
+              <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
+                <h6 className="text-base	font-medium	 text-green">
+                  Pricing details
+                </h6>
+              </div>
+              <div className="px-6 py-7">
+                <div className="w-full ">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                     <div className="w-full relative md:w-1/2 px-3">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                        htmlFor="Profit"
+                        htmlFor="Sale-price"
                       >
-                        Profit
+                        Sale price exc. GST
                       </label>
                       <input
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="Profit"
-                        disabled
-                        value={
-                          values.salePrice && values.buyPrice && values.profit
-                        }
-                        name="firstName"
+                        id="Sale-price"
+                        name="salePrice"
+                        onKeyPress={(e) => {
+                          const isValidKey = /[0-9]/.test(e.key); // Test if the pressed key is a number
+                          if (!isValidKey) {
+                            e.preventDefault(); // Prevent input of non-numeric characters
+                          }
+                        }}
+                        onChange={handleSalePrice}
+                        prefix="$"
+                        value={values.salePrice}
+                        onBlur={handleBlur}
                         type="text"
-                        placeholder="$80.00"
+                        placeholder="$330.00"
                       />
+                      {errors.salePrice && touched.salePrice && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.salePrice}
+                        </p>
+                      )}
                     </div>
                     <div className="w-full relative md:w-1/2 px-3">
                       <label
                         className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                        htmlFor="Margin"
+                        htmlFor="Buy-price"
                       >
-                        Margin
+                        Buy price
+                        <CustomTooltip
+                          placement="right"
+                          arrow
+                          title={
+                            <p className="text-white">
+                              This is the cost you paid per item.
+                              <br /> Customers will not see this
+                            </p>
+                          }
+                        >
+                          <HelpIcon
+                            sx={{
+                              color: "#E0E0E0",
+                              width: "20px",
+                              marginLeft: "15px",
+                            }}
+                          />{" "}
+                        </CustomTooltip>
                       </label>
                       <input
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="Margin"
-                        disabled
-                        value={
-                          values.salePrice &&
-                          values.buyPrice &&
-                          `${values.margin}%`
-                        }
+                        id="Buy-price"
                         type="text"
-                        name="lastName"
-                        placeholder="24.2%"
+                        name="buyPrice"
+                        onKeyPress={(event) => {
+                          const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
+                          if (!allowedCharacters.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                        onChange={handleBuyPrice}
+                        value={values.buyPrice}
+                        onBlur={handleBlur}
+                        placeholder="$250.00"
                       />
+                      {errors.buyPrice && touched.buyPrice && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.buyPrice}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <p className="text-center text-xs font-normal	text-gray">
-                    Customers won’t see this
-                  </p>
-                </div>
-                <div className="  mb-5">
-                  <h5 className="text-base font-medium text-green mb-3">Tax</h5>
-                  <div className="flex items-center mb-4 gap-3 green-checkbox">
-                    <input
-                      id="default-checkbox"
-                      checked={checkGST}
-                      type="checkbox"
-                      value={checkGST}
-                      onChange={handleGSTChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
-                    />
-                    <label
-                      htmlFor="default-checkbox"
-                      className="ml-2  dark:text-gray-300"
-                    >
-                      <p className="text-sm	 font-medium text-gray">
-                        GST applicable
-                      </p>
-                    </label>
+                  <div className="mb-5">
+                    <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-3">
+                      <div className="w-full relative md:w-1/2 px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                          htmlFor="Profit"
+                        >
+                          Profit
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="Profit"
+                          disabled
+                          value={
+                            values.salePrice && values.buyPrice && values.profit
+                          }
+                          name="firstName"
+                          type="text"
+                          placeholder="$80.00"
+                        />
+                      </div>
+                      <div className="w-full relative md:w-1/2 px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                          htmlFor="Margin"
+                        >
+                          Margin
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="Margin"
+                          disabled
+                          value={
+                            values.salePrice &&
+                            values.buyPrice &&
+                            `${values.margin}%`
+                          }
+                          type="text"
+                          name="lastName"
+                          placeholder="24.2%"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-center text-xs font-normal	text-gray">
+                      Customers won’t see this
+                    </p>
                   </div>
-                  {isWet && (
+                  <div className="  mb-5">
+                    <h5 className="text-base font-medium text-green mb-3">
+                      Tax
+                    </h5>
                     <div className="flex items-center mb-4 gap-3 green-checkbox">
                       <input
-                        id="checked-checkbox"
+                        id="default-checkbox"
+                        checked={checkGST}
                         type="checkbox"
-                        value={checkWET}
-                        checked={checkWET}
-                        onChange={handleWETChange}
+                        value={checkGST}
+                        onChange={handleGSTChange}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                       />
-
                       <label
-                        htmlFor="checked-checkbox"
+                        htmlFor="default-checkbox"
                         className="ml-2  dark:text-gray-300"
                       >
                         <p className="text-sm	 font-medium text-gray">
-                          WET applicable
+                          GST applicable
                         </p>
                       </label>
                     </div>
-                  )}
-                </div>
-                <div className="mb-5">
-                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-3">
-                    {isWine && checkWET && (
-                      <div className="w-full relative md:w-1/2 px-3">
-                        <label
-                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                          htmlFor="Wine-equalisation-tax"
-                        >
-                          Wine equalisation tax
-                        </label>
+                    {isWet && (
+                      <div className="flex items-center mb-4 gap-3 green-checkbox">
                         <input
-                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="Wine-equalisation-tax"
-                          name="firstName"
-                          type="text"
-                          disabled
-                          value={`$${values.wineEqualisationTax}`}
-                          placeholder="$105.27"
+                          id="checked-checkbox"
+                          type="checkbox"
+                          value={checkWET}
+                          checked={checkWET}
+                          onChange={handleWETChange}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
                         />
-                      </div>
-                    )}
-                    {isWine && checkWET && (
-                      <div className="w-full relative md:w-1/2 px-3">
+
                         <label
-                          className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                          htmlFor="Landed-unit-cost"
+                          htmlFor="checked-checkbox"
+                          className="ml-2  dark:text-gray-300"
                         >
-                          Landed unit cost
+                          <p className="text-sm	 font-medium text-gray">
+                            WET applicable
+                          </p>
                         </label>
-                        <input
-                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="Landed-unit-cost"
-                          type="text"
-                          disabled
-                          value={`$${values.landedUnitCost}`}
-                          name="lastName"
-                          placeholder="$224.73"
-                        />
                       </div>
                     )}
                   </div>
-                  {isWine && checkWET && (
-                    <p className="text-center justify-center text-xs font-normal	text-gray">
-                      Customers won’t see this
-                    </p>
-                  )}
+                  <div className="mb-5">
+                    <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-3">
+                      {isWine && checkWET && (
+                        <div className="w-full relative md:w-1/2 px-3">
+                          <label
+                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                            htmlFor="Wine-equalisation-tax"
+                          >
+                            Wine equalisation tax
+                          </label>
+                          <input
+                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="Wine-equalisation-tax"
+                            name="firstName"
+                            type="text"
+                            disabled
+                            value={`$${values.wineEqualisationTax}`}
+                            placeholder="$105.27"
+                          />
+                        </div>
+                      )}
+                      {isWine && checkWET && (
+                        <div className="w-full relative md:w-1/2 px-3">
+                          <label
+                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                            htmlFor="Landed-unit-cost"
+                          >
+                            Landed unit cost
+                          </label>
+                          <input
+                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="Landed-unit-cost"
+                            type="text"
+                            disabled
+                            value={`$${values.landedUnitCost}`}
+                            name="lastName"
+                            placeholder="$224.73"
+                          />
+                        </div>
+                      )}
+                    </div>
+                    {isWine && checkWET && (
+                      <p className="text-center justify-center text-xs font-normal	text-gray">
+                        Customers won’t see this
+                      </p>
+                    )}
+                  </div>
                 </div>
+                {/* Main Form End / */}
               </div>
-              {/* Main Form End / */}
             </div>
-          </div>
 
-          <div className="flex justify-end items-center gap-3">
-            <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
-              Archive
-            </div>
-            <div
-              onClick={() => {
-                setDeleteModalOpen(true);
-              }}
-              className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
-            >
-              Delete
+            <div className="flex justify-end items-center gap-3">
+              <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
+                Archive
+              </div>
+              <div
+                onClick={() => {
+                  setDeleteModalOpen(true);
+                }}
+                className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
+              >
+                Delete
+              </div>
             </div>
           </div>
-        </div>
-      </form>
-      <DeleteModal
-        open={deleteModalOpen}
-        onOk={() => {
-          setDeleteModalOpen(false);
-        }}
-        onCancel={() => {
-          setDeleteModalOpen(false);
-        }}
-      />
+        </form>
+        <DeleteModal
+          open={deleteModalOpen}
+          onOk={() => {
+            setDeleteModalOpen(false);
+          }}
+          onCancel={() => {
+            setDeleteModalOpen(false);
+          }}
+        />
+      </div>
     </>
   );
 }

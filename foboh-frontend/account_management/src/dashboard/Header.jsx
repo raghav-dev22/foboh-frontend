@@ -64,7 +64,7 @@ const Header = () => {
   };
 
   return (
-    <div className="container-fluid ">
+    <div className="container-fluid custom-header md:w-[80%] w-full ">
       <div className="bg-custom-skyBlue shadow-lg py-3 px-7 	">
         <div className="hidden md:block">
           <nav className="flex justify-between  ">

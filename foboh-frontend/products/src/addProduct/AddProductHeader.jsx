@@ -6,7 +6,7 @@ function AddProductHeader() {
 
     return (
         <>
-            <div className="py-6 sm:flex grid items-center justify-between px-6 gap-5">
+            <div className="pb-6 sm:flex grid items-center justify-between px-6 gap-5">
                 <div className="flex justify-start gap-3 items-center">
                     <div className="">
                     <button onClick={() => navigate('/dashboard/products')} className="">

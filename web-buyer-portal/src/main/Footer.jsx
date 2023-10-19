@@ -43,10 +43,8 @@ function Footer() {
 
         <div className="">
           <p className="font-[500] text-sm text-white mb-5">Contact us</p>
-          <p className="font-normal text-sm mb-5 text-[#676b6ef5]">
-            0400 000 000
-          </p>
-          <p className="font-normal text-sm text-[#676b6ef5] mb-5">
+          <p className="font-normal text-sm mb-5 text-[#fff]">0400 000 000</p>
+          <p className="font-normal text-sm text-[#fff] mb-5">
             help@logoipsum.com
           </p>
         </div>
@@ -74,11 +72,11 @@ function Footer() {
           </div>
 
           <div className="text-start md:text-start xl:text-center">
-            <p className="text-sm font-bold text-[#676b6ef5]">
+            <p className="text-sm font-bold text-[#fff]">
               © 2023 — Copyright —{" "}
               {organisation.businessName || "Supplier name"}
             </p>
-            <p className="text-[14px] font-[400] text-[#676b6ef5] my-2">
+            <p className="text-[14px] font-[400] text-[#fff] my-2">
               Liquor Licence: LIQP770016926
             </p>
           </div>

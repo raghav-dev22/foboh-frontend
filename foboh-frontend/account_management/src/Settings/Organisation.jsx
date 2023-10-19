@@ -504,7 +504,7 @@ function Organisation() {
     <>
       <div>
         <form onChange={handleFormChange}>
-          <div className="profile-section  sm:px-11 px-5 h-[86vh] overflow-y-scroll	scroll-smooth	scrollable	">
+          <div className="profile-section  sm:px-11 px-5 padding-top-custom overflow-y-scroll	scroll-smooth	scrollable	">
             {show && (
               <ProfileHeader
                 handleSubmit={handleSubmit}

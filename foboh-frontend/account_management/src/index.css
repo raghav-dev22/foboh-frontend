@@ -276,3 +276,43 @@ a.foboh-green-btn:hover {
   padding-left: 33px;
   padding-right: 33px;
 }
+.bg-\[\#EAEAEA\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(234 234 234 / var(--tw-bg-opacity));
+}
+.gap-2\.5 {
+  gap: 0.625rem /* 10px */;
+}
+.top-\[22px\] {
+  top: 22px;
+}
+.mb-\[10px\] {
+  margin-bottom: 10px;
+}
+.select__multi-value__label {
+  color: #fff !important;
+}
+.col-span-11 {
+  grid-column: span 11 / span 11;
+}
+
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.custom-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  /* width: 80%; */
+  z-index: 40;
+}
+.padding-top-custom {
+  padding-top: 88px !important;
+  height: 96vh;
+  overflow-y: scroll;
+}
+@media (min-width: 1024px) {
+  .lg\:col-span-4 {
+    grid-column: span 4 / span 4;
+  }
+}
