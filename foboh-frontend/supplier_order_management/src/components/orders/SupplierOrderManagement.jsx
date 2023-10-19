@@ -11,7 +11,7 @@ const SupplierOrderManagement = () => {
     <>
       <div className=" px-7 padding-top-custom">
         <CreateOrderHeader />
-        <div className="overflow-y-scroll custom-scroll-bar">
+        <div className="">
           <TotalOrders />
           <div className="py-5">
             <h5 className=" mb-2 text-[#212B36] font-semibold text-[24px] leading-[30px]">
