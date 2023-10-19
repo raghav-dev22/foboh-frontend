@@ -316,3 +316,11 @@ a.foboh-green-btn:hover {
     grid-column: span 4 / span 4;
   }
 }
+@media (min-width: 1024px) {
+  .lg\:flex-nowrap {
+    flex-wrap: nowrap;
+  }
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}

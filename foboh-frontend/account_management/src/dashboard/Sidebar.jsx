@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <>
       <div>
-        <div className="p-6 placeholder-box">
+        <div className="py-2 px-6 placeholder-box">
           <div className="border-2	border-dark	bg-custom-gray w-full	h-16 flex justify-center items-center	">
             <div className="">
               {logoURI ? (

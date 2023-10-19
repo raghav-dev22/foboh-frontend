@@ -204,7 +204,6 @@ const SearchProduct = forwardRef(
     }
     const processChange = debounce((name) => saveInput(name));
 
-    
     useImperativeHandle(ref, () => ({
       handleFilterPagination(pageNumber) {
         console.log("handleFilterPagination");
@@ -696,7 +695,12 @@ const SearchProduct = forwardRef(
                   )}
                 </div>
               </div>
-              <div className="">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setShowFilter(false);
+                }}
+              >
                 <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
                   Clear filters
                 </h2>

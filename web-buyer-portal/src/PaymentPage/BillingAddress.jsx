@@ -107,7 +107,7 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
 
   return (
     <>
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-4 green-checkbox">
         <input
           id="same-as"
           type="checkbox"

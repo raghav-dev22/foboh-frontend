@@ -315,12 +315,15 @@ function Header() {
                 Product
               </h6>
             </Link>
-            <Link to="#">
+            <Link
+              to="/home/MyOrders"
+              className="focus-visible:outline-offset-0 focus-visible:outline-0		"
+            >
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
                 Order
               </h6>
             </Link>
-            <Link to="#">
+            <Link to="/home/account">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
                 Account
               </h6>

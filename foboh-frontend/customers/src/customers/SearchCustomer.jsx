@@ -487,7 +487,12 @@ function SearchCustomer({
                 )}
               </div>
             </div>
-            <div className="">
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setIsFilter(false);
+              }}
+            >
               <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
                 Clear filters
               </h2>
