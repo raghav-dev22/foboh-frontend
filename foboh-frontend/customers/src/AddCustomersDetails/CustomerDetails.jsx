@@ -185,7 +185,6 @@ function CustomerDetails() {
                     Cancel
                   </button>
                   <button
-                    // onClick={handleSubmit}
                     onClick={
                       formik.isValid &&
                       activeStep === 2 &&
@@ -195,8 +194,8 @@ function CustomerDetails() {
                     }
                     disabled={
                       !formik.isValid &&
-                      activeStep === 2 &&
-                      formik.values !== null
+                      formik.values === null &&
+                      activeStep !== 2
                     }
                     className={`rounded-md px-6 py-2.5 text-base font-medium ${
                       formik.isValid &&

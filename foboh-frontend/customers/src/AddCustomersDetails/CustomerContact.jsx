@@ -81,7 +81,7 @@ function CustomerContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                placeholder="Tom"
+                placeholder="Enter First Name"
                 name="orderingFirstName"
                 value={values.orderingFirstName}
                 onChange={handleChange}
@@ -113,7 +113,7 @@ function CustomerContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                placeholder="Jones"
+                placeholder="Enter Last Name"
                 name="orderingLastName"
                 value={values.orderingLastName}
                 onChange={handleChange}
@@ -160,7 +160,7 @@ function CustomerContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                placeholder="Tom"
+                placeholder="Enter Mobile Number"
                 maxLength={20}
                 name="orderingMobile"
                 value={values.orderingMobile}
@@ -199,7 +199,7 @@ function CustomerContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="email"
-                placeholder="Jones"
+                placeholder="Enter Ordering Mail"
                 name="orderingEmail"
                 value={values.orderingEmail}
                 onChange={handleChange}
@@ -227,7 +227,7 @@ function CustomerContact({
                 Delivery contact
               </h5>
             </div>
-            <div className="w-full relative md:w-1/2 px-3">
+            <div className="w-full relative md:w-1/2 px-3 green-checkbox">
               <div className="flex gap-2 items-center">
                 <input
                   id="default-checkbox"
@@ -258,7 +258,7 @@ function CustomerContact({
                 name="deliveryFirstName"
                 value={values.deliveryFirstName}
                 type="text"
-                placeholder="Tom"
+                placeholder="Enter Frist Name"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
@@ -290,7 +290,7 @@ function CustomerContact({
                 type="text"
                 name="deliveryLastName"
                 value={values.deliveryLastName}
-                placeholder="Jones"
+                placeholder="Enter Last Name"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 style={{
@@ -335,7 +335,7 @@ function CustomerContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                placeholder="Tom"
+                placeholder="Enter Mobile Number"
                 name="deliveryMobile"
                 maxLength={20}
                 value={values.deliveryMobile}
@@ -368,7 +368,7 @@ function CustomerContact({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="email"
-                placeholder="Jones"
+                placeholder="Enter Delivery Mail"
                 name="deliveryEmail"
                 value={values.deliveryEmail}
                 onChange={handleChange}

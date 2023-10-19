@@ -50,9 +50,9 @@ const initialValues = {
   segment: "",
   grapeVariety: [],
   regionSelect: "",
-  vintage: 0,
+  vintage: null,
   awards: "",
-  abv: 0,
+  abv: null,
   country: "",
   baseUnitMeasure: "",
   innerUnitMeasure: "",
@@ -77,6 +77,7 @@ function AddProduct() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
+  const [Stock, setStock] = useState(false);
   const [isWet, setIsWet] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
   const [checkGST, setCheckGST] = useState(false);
@@ -296,7 +297,12 @@ function AddProduct() {
       ...values,
       trackInventory: !values.trackInventory,
     });
-    console.log(values.trackInventory);
+    if (values.trackInventory === false) {
+      setStock(true);
+    } else {
+      setStock(false);
+    }
+    console.log(values.trackInventory, "hhhhhhhhh");
   };
 
   const handleStockAlertLevel = (e) => {
@@ -795,10 +801,96 @@ function AddProduct() {
                 <div className="border-b border-inherit  py-3 px-5">
                   <h5 className="font-medium	text-lg	text-green"> </h5>
                 </div>
-                <div className="p-5">
-                  <div className="">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Status
+                <div className="">
+                  <h5 className="text-base font-medium text-green mb-3">
+                    Region availability
+                  </h5>
+                  {regionAvailability.map((region, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center mb-4 gap-3 green-checkbox"
+                    >
+                      <input
+                        onChange={handleRegionAvailability}
+                        id={region}
+                        type="checkbox"
+                        checked={values.region.includes(region)}
+                        value={region}
+                        onBlur={handleBlur}
+                        name="region"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800  dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor={region}
+                        className="ml-2  dark:text-gray-300"
+                      >
+                        <p className="text-sm	 font-medium text-gray">
+                          {region}
+                        </p>
+                      </label>
+                    </div>
+                  ))}
+                  {errors.region && touched.region && (
+                    <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                      {errors.region}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Inventory  */}
+            <div className="rounded-lg	border border-inherit	bg-white">
+              <div className="border-b border-inherit  py-3 px-5">
+                <h5 className="font-medium	text-lg	text-green"> Inventory </h5>
+              </div>
+              <div className="p-5">
+                <div className=" pb-5">
+                  <h5 className="text-base font-medium text-green mb-3">
+                    Minimum order quantity
+                  </h5>
+                  <div className="w-72">
+                    <input
+                      onChange={handleMinimumOrderQuantity}
+                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-last-name"
+                      value={values.minimumOrder}
+                      name="minimumOrder"
+                      type="number"
+                      placeholder="Select"
+                    />
+                    {errors.minimumOrder && touched.minimumOrder && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.minimumOrder}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className=" pb-5">
+                  <h5 className="text-base font-medium text-green mb-3">
+                    Available quantity
+                  </h5>
+                  <div className="w-72">
+                    <input
+                      onChange={handleAvailableQuantity}
+                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="handleAvailableQuantity"
+                      name="availableQty"
+                      type="number"
+                      value={values.availableQty}
+                      placeholder="Select"
+                    />
+                    {errors.availableQty && touched.availableQty && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                        {errors.availableQty}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="pb-5">
+                  <div className=" flex justify-between items-center mb-3">
+                    <h5 className="text-green text-base font-medium">
+                      Track inventory
                     </h5>
                     {status.map((state, index) => (
                       <div
@@ -894,38 +986,36 @@ function AddProduct() {
                     )}
                   </div>
                 </div>
-              </div>
-
-              {/* Inventory  */}
-              <div className="rounded-lg	border border-inherit	bg-white">
-                <div className="border-b border-inherit  py-3 px-5">
-                  <h5 className="font-medium	text-lg	text-green"> Inventory </h5>
-                </div>
-                <div className="p-5">
+                {Stock && (
                   <div className=" pb-5">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Minimum order quantity
-                    </h5>
-                    <div className="w-72">
-                      <input
-                        onChange={handleMinimumOrderQuantity}
-                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="grid-last-name"
-                        value={values.minimumOrder}
-                        name="minimumOrder"
-                        type="number"
-                        placeholder="2 cases"
-                      />
-                      {errors.minimumOrder && touched.minimumOrder && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.minimumOrder}
-                        </p>
-                      )}
+                    <div className=" pb-5">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Stock alert level
+                      </h5>
+                      <div className="w-72">
+                        <input
+                          onChange={handleStockAlertLevel}
+                          value={values.stockAlertLevel}
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="stock-alert-level"
+                          name="stockAlertLevel"
+                          type="number"
+                          placeholder="2 cases"
+                        />
+                        {errors.stockAlertLevel && touched.stockAlertLevel && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.stockAlertLevel}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className=" pb-5">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Available quantity
+                )}
+
+                <div className="pb-5">
+                  <div className=" flex justify-between items-center mb-3">
+                    <h5 className="text-green text-base font-medium">
+                      Sell when out of stock
                     </h5>
                     <div className="w-72">
                       <input
@@ -1575,7 +1665,7 @@ function AddProduct() {
                         value={values.salePrice}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="$330.00"
+                        placeholder="Profit"
                       />
                       {errors.salePrice && touched.salePrice && (
                         <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">

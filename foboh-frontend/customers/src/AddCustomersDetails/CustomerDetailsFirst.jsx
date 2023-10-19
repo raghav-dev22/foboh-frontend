@@ -116,7 +116,7 @@ function CustomerDetailsFirst({
               id="grid-password"
               type="text"
               maxLength={50}
-              placeholder="Business Name"
+              placeholder=" Enter Business Name"
               name="businessName"
               value={values.businessName}
               onChange={handleChange}
@@ -150,7 +150,7 @@ function CustomerDetailsFirst({
               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-last-name"
               type="text"
-              placeholder="Tom"
+              placeholder="Enter ABN"
               name="abn"
               value={values.abn}
               onChange={handleChange}
@@ -179,7 +179,7 @@ function CustomerDetailsFirst({
               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-last-name"
               type="text"
-              placeholder="Jones"
+              placeholder="Enter Liquor Licence"
               name="liquorLicence"
               maxLength={13}
               value={values.liquorLicence}
@@ -202,110 +202,7 @@ function CustomerDetailsFirst({
             )}
           </div>
         </div>
-        <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-          <div className="  w-full relative md:w-1/2 px-3">
-            <h5 className="text-base font-medium text-green mb-3">Status</h5>
-            <div className=" top-16 w-full">
-              <Select
-                id="isActive"
-                name="isActive"
-                // isMulti={true}
-                options={options}
-                value={values?.isActive}
-                // value={options.find(
-                //   (option) => option.value === values.salesRepId
-                // )}
-                onChange={(e) => handleSelect(e, "isActive")}
-                className="basic-multi-select "
-                classNamePrefix="select"
-                style={{
-                  border:
-                    errors?.isActive && touched?.isActive && "1px solid red",
-                }}
-              />
 
-              {errors?.isActive && touched?.isActive && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors?.isActive}
-                </p>
-              )}
-              {/* {errors?.isActive && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-              )} */}
-            </div>
-          </div>
-          {/* <div className="  w-full relative md:w-1/2 px-3">
-            <h5 className="text-base font-medium text-green mb-3">
-              Pricing profile
-            </h5>
-            <div className=" top-16 w-full">
-              <Select
-                id="pricingProfileId"
-                name="pricingProfileId"
-                isMulti={true}
-                // value={options.find(
-                //   (option) => option.value === values.pricingProfileId
-                // )}
-                value={values?.pricingProfileId}
-                options={options}
-                onChange={(e) => handleSelect(e, "pricingProfileId")}
-                className="basic-multi-select "
-                classNamePrefix="select"
-                style={{
-                  border: errors?.pricingProfileId && "1px solid red",
-                }}
-              />
-
-              {errors?.pricingProfileId && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors?.pricingProfileId}
-                </p>
-              )}
-            </div>
-          </div> */}
-          <div className=" w-full relative md:w-1/2 px-3">
-            <h5 className="text-base font-medium text-green mb-3">Tags</h5>
-            <div className=" top-16 w-full">
-              <Select
-                // value={options.find((option) => option.value === values.tags)}
-                value={values?.tags}
-                isMulti
-                name="tags"
-                options={customerTag}
-                onChange={(e) => handleSelect(e, "tags")}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                style={{
-                  border: errors?.tags && touched?.tags && "1px solid red",
-                }}
-              />
-              {/* <Select
-                name="tags"
-                isMulti = {true}
-                // value={options.find(
-                //   (option) => option.value === values.tags
-                // )}
-                value={values?.tags}
-                options={customerTag}
-                onChange={(e) => handleSelect(e, "tags")}
-                // onChange={}
-                className="basic-multi-select "
-                classNamePrefix="select"
-                style={{
-                border:
-                  errors?.tags &&
-                  "1px solid red",
-              }}
-            /> */}
-
-              {errors?.tags && touched?.tags && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors?.tags}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className="  w-full relative md:w-1/2 px-3">
             <h5 className="text-base font-medium text-green mb-3">
@@ -370,6 +267,62 @@ function CustomerDetailsFirst({
                 )}
             </div>
           </div>
+        </div>
+        <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
+          <div className="  w-full relative md:w-full px-3">
+            <h5 className="text-base font-medium text-green mb-3">Status</h5>
+            <div className=" top-16 w-full">
+              <Select
+                id="isActive"
+                name="isActive"
+                // isMulti={true}
+                options={options}
+                value={values?.isActive}
+                // value={options.find(
+                //   (option) => option.value === values.salesRepId
+                // )}
+                onChange={(e) => handleSelect(e, "isActive")}
+                className="basic-multi-select "
+                classNamePrefix="select"
+                style={{
+                  border:
+                    errors?.isActive && touched?.isActive && "1px solid red",
+                }}
+              />
+
+              {errors?.isActive && touched?.isActive && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.isActive}
+                </p>
+              )}
+              {/* {errors?.isActive && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+              )} */}
+            </div>
+          </div>
+          {/* <div className=" w-full relative md:w-1/2 px-3">
+            <h5 className="text-base font-medium text-green mb-3">Tags</h5>
+            <div className=" top-16 w-full">
+              <Select
+                // value={options.find((option) => option.value === values.tags)}
+                value={values?.tags}
+                isMulti
+                name="tags"
+                options={customerTag}
+                onChange={(e) => handleSelect(e, "tags")}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                style={{
+                  border: errors?.tags && touched?.tags && "1px solid red",
+                }}
+              />
+              {errors?.tags && touched?.tags && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors?.tags}
+                </p>
+              )}
+            </div>
+          </div> */}
         </div>
 
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
