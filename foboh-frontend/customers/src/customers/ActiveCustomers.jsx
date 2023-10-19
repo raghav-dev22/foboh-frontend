@@ -7,7 +7,7 @@ import AddCustomerBtn from "./AddCustomerBtn";
 function ActiveCustomers({ selectedProductsLength, product, totalProducts }) {
   return (
     <>
-      <div className="py-6 sm:flex grid items-center justify-between px-6 gap-5">
+      <div className="pb-6 sm:flex grid items-center justify-between px-6 gap-5">
         <div className="">
           <h4 className=" text-2xl	font-semibold pb-2	text-darkGreen">
             {" "}

@@ -65,27 +65,22 @@ const AllOrders = () => {
   let stateList = [];
 
   const sortBtn = () => {
-    setSortItem(true);
+    setSortItem(!sortItem);
   };
-  const handleBlur = () => {
-    setIsOpen(false);
-  };
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleCheckboxChange = (e) => {
     setShowDatePicker(e.target.checked);
   };
   const handleDatePickerChange = (date) => {
-    // Handle the date selection here
     console.log("Selected date:", date);
   };
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
 
+  console.log(
+    orderData,
+    "orderData----------------------------------------------------->"
+  );
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
@@ -194,6 +189,16 @@ const AllOrders = () => {
       Amount: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
           {item.totalPrice}
+        </p>
+      ),
+      LastUpdated: (
+        <p className="text-sm md:text-base font-normal text-[#637381]">
+          {item.orderEntryDate}
+        </p>
+      ),
+      Payment: (
+        <p className="text-sm md:text-base font-normal text-[#637381]">
+          {item.paymentMethod}
         </p>
       ),
       Status: (
@@ -375,7 +380,7 @@ const AllOrders = () => {
 
   return (
     <>
-      <div className="py-5">
+      <div className="pt-5">
         <div className="mb-6">
           <h1 className="text-[24px] font-semibold text-[#212B36] leading-[30px] mb-2">
             All Orders
@@ -431,19 +436,25 @@ const AllOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1 flex gap-1">
-                        <input type="checkbox" id="" />
-                        <label htmlFor="">A - Z</label>
-                      </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           A -Z
-                        </Checkbox>
+                        </p>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Z - A
-                        </Checkbox>
+                        </p>
                       </li>
                       <li className="py-1">
                         <div className="flex justify-between items-center  my-2">
@@ -453,15 +464,25 @@ const AllOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Oldest - Newest
-                        </Checkbox>
+                        </p>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Newest - Oldest
-                        </Checkbox>
+                        </p>
                       </li>
                       <li className="py-1">
                         <div className="flex justify-between items-center  my-2">
@@ -471,15 +492,25 @@ const AllOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Oldest - Newest
-                        </Checkbox>
+                        </p>
                       </li>
-                      <li className="py-1">
-                        <Checkbox className="text-base font-normal text-[#637381]">
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <p className="text-base font-normal text-[#637381]">
                           Newest - Oldest
-                        </Checkbox>
+                        </p>
                       </li>
                     </ul>
                   </div>
@@ -574,7 +605,7 @@ const AllOrders = () => {
                     <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul className="dropdown-content ">
                         {lastDateList.map((date) => (
-                          <li className="py-1 flex gap-1">
+                          <li className="py-1 green-checkbox flex gap-1">
                             <input
                               onChange={(e) =>
                                 handleFilter(e, "lastDate")
@@ -650,7 +681,7 @@ const AllOrders = () => {
           )}
         </div>
         <div
-          className="border border-[#E0E0E0] rounded-[8px] mb-8 bg-white custom-table-pagination
+          className="border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination
     "
         >
           <Table

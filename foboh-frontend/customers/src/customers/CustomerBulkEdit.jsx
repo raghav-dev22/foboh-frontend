@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
 import { useFormik } from "formik";
+import UnSavedCustomerModal from "../modal/UnsavedCustomerModal";
 
 export const options = [
   { value: 1234, label: "Chocolate" },
@@ -23,6 +24,11 @@ function CustomerBulkEdit() {
       defaultPaymenterms: {},
     },
   ]);
+  const [unSaved, setUnSaved] = useState(false);
+  const backBtn = () => {
+    setUnSaved(true);
+    // navigate("/dashboard/products");
+  };
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
@@ -139,7 +145,7 @@ function CustomerBulkEdit() {
     <>
       {isUpdate && (
         <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-          <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+          <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
             <div className="block">
               <nav className="flex h-[65px] items-center justify-end gap-5 ">
                 <button
@@ -160,10 +166,11 @@ function CustomerBulkEdit() {
           {/* <AlertModal show={show} setShow={(set) => setShow(set)} /> */}
         </div>
       )}
-      <div className="py-8 flex flex-col items-start justify-start px-6 gap-5">
+      <div className="padding-top-custom flex flex-col items-start justify-start px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
           <div
-            onClick={() => navigate("/dashboard/customers")}
+            onClick={backBtn}
+            // onClick={() => navigate("/dashboard/customers")}
             className="cursor-pointer"
           >
             <img src="/assets/previousBtn.png" alt="" />
@@ -275,6 +282,17 @@ function CustomerBulkEdit() {
           </table>
         </div>
       </div>
+
+      <UnSavedCustomerModal
+        open={unSaved}
+        onOk={() => {
+          setUnSaved(false);
+        }}
+        onCancel={() => {
+          setUnSaved(false);
+        }}
+        onStay={() => navigate("/dashboard/customers")}
+      />
     </>
   );
 }

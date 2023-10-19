@@ -172,10 +172,10 @@ function CustomerDetails() {
 
   return (
     <>
-      <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper">
+      <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper ">
         {isUpdate && (
           <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-            <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+            <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
               <div className="block">
                 <nav className="flex h-[65px] items-center justify-end gap-5 ">
                   <button
@@ -276,7 +276,7 @@ function CustomerDetails() {
       </div>
       <form
         onChange={onChangeText}
-        className=" mx-auto lg:w-3/5 w-full   rounded-lg AddCustomerHeight		 border border-inherit bg-white h-96 	overflow-y-scroll		 flex flex-col	  "
+        className=" mx-auto lg:w-3/5 w-full   rounded-lg 		 border border-inherit bg-white  	overflow-y-scroll		 flex flex-col	  "
       >
         {activeStep === 0 ? (
           <CustomerDetailsFirst

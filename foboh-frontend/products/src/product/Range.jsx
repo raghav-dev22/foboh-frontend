@@ -222,284 +222,286 @@ function Range() {
 
   return (
     <>
-      <ActiveProduct
-        totalProducts={totalProducts}
-        selectedProductsLength={selectedProducts.length}
-        productId={selectedProducts[0]?.productId}
-      />
-      <div className="" style={{ height: "100%" }}>
-        <div className="box-3 px-6 ">
-          <SearchProduct
-            ref={childRef}
-            setLoading={setLoading}
-            pageIndex={pageIndex}
-            setPageIndex={setPageIndex}
-            setisSearchResult={setisSearchResult}
-            setProducts={setProducts}
-            products={products}
-            prevProducts={prevProducts}
-            setTotalPages={setTotalPages}
-          />
-        </div>
-        <div className="pt-6 px-6 relative">
-          <div
-            className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
-            style={{ height: "420px" }}
-          >
-            <CardBody className="p-0">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead>
-                  <tr>
-                    <th scope="col" className="p-4 border-y green-checkbox">
-                      <div className="flex items-center">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          checked={selectedProducts.length > 0 ? true : false}
-                          // defaultValue=""
-                          onChange={(e) => handleSelectAllChange(e)}
-                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                        />
-                      </div>
-                    </th>
-                    <th scope="col" className="p-4 border-y">
-                      <div className="flex items-center"></div>
-                    </th>
-
-                    {TABLE_HEAD.map((head) => (
-                      <th
-                        key={head}
-                        className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                      >
-                        <Typography
-                          variant="small"
-                          className="font-medium leading-none text-base text-[#2B4447]"
-                        >
-                          {head}
-                        </Typography>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                {isSearchResult && (
-                  <tbody>
-                    {products.map((product, index) => {
-                      const isLast = index === products.length - 1;
-                      const classes = isLast ? "p-4" : "p-4  ";
-
-                      return (
-                        <tr
-                          key={name}
-                          style={
-                            loading
-                              ? { position: "relative", height: "85px" }
-                              : { position: "relative" }
-                          }
-                          className="border-b border-blue-gray-50"
-                        >
-                          <Skeleton
-                            style={{
-                              padding: "10px",
-                              width: "95%",
-                              position: "absolute",
-                              top: "20px",
-                              left: "14px",
-                            }}
-                            paragraph={{ rows: 1 }}
-                            loading={loading}
-                            active
-                            avatar
-                            className="custom-skeleton"
-                          >
-                            <td className={classes}>
-                              <div className="flex items-center gap-3 cursor-pointer green-checkbox">
-                                <input
-                                  id="default-checkbox"
-                                  type="checkbox"
-                                  name={product.title}
-                                  checked={selectedProducts.includes(product)}
-                                  onClick={(e) => handleCheckbox(e, product)}
-                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
-                                />
-                              </div>
-                            </td>
-                            <td className={classes}>
-                              <div
-                                onClick={() =>
-                                  navigate(
-                                    `/dashboard/view-product/${product.productId}`
-                                  )
-                                }
-                                className="flex items-center gap-3"
-                              >
-                                {product.productImageUrls ? (
-                                  <>
-                                    <div className="">
-                                      <img
-                                        src={product.productImageUrls[0]}
-                                        alt=""
-                                        className="object-cover cursor-pointer	"
-                                        style={{
-                                          borderRadius: "6px",
-                                          height: "40px",
-                                          width: "40px",
-                                        }}
-                                      />
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div
-                                    className=" rounded-[6px] bg-[#D9D9D9]"
-                                    style={{
-                                      height: "40px",
-                                      width: "40px",
-                                      borderRadius: "6px",
-                                    }}
-                                  ></div>
-                                )}
-                              </div>
-                            </td>
-                            <td className={classes}>
-                              <div
-                                onClick={() =>
-                                  navigate(
-                                    `/dashboard/view-product/${product.productId}`
-                                  )
-                                }
-                                className="flex items-center gap-3"
-                              >
-                                <Typography className="font-medium	md:text-base text-sm text-[#637381] cursor-pointer">
-                                  {product.title}
-                                </Typography>
-                              </div>
-                            </td>
-                            <td className={classes}>
-                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                {product.skUcode}
-                              </Typography>
-                            </td>
-                            <td className={`${classes} w-44`}>
-                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                {product.configuration}
-                              </Typography>
-                            </td>
-                            <td className={classes}>
-                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                {`$${product.globalPrice}`}
-                              </Typography>
-                            </td>
-                            <td className={classes}>
-                              {stockStatus(
-                                product.availableQty,
-                                product.stockThreshold
-                              )}
-                            </td>
-                            <td className={classes}>
-                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                {product.stockStatus}
-                                <br />
-                                {product.visibility ? "Visible" : "Hidden"}
-                              </Typography>
-                            </td>
-                          </Skeleton>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                )}
-              </table>
-            </CardBody>
-            <CardFooter
-              className={
-                isSearchResult
-                  ? "flex w-full items-center justify-between border-t border-blue-gray-50 p-4"
-                  : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
-              }
-            >
-              {!loading && isSearchResult && (
-                <PaginationNav1Presentation
-                  totalPages={totalPages}
-                  getProductList={getProductList}
-                  pageIndex={pageIndex}
-                  setPageIndex={setPageIndex}
-                />
-              )}
-              {!isSearchResult && (
-                <div
-                  style={{
-                    marginTop: "30px",
-                  }}
-                  className="text-center mt-7"
-                >
-                  <SearchOffIcon fontSize="large" />
-                  <p className="font-semibold">No Result Found</p>
-                </div>
-              )}
-            </CardFooter>
+      <div className="padding-top-custom">
+        <ActiveProduct
+          totalProducts={totalProducts}
+          selectedProductsLength={selectedProducts.length}
+          productId={selectedProducts[0]?.productId}
+        />
+        <div className="" style={{ height: "100%" }}>
+          <div className="box-3 px-6 ">
+            <SearchProduct
+              ref={childRef}
+              setLoading={setLoading}
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
+              setisSearchResult={setisSearchResult}
+              setProducts={setProducts}
+              products={products}
+              prevProducts={prevProducts}
+              setTotalPages={setTotalPages}
+            />
           </div>
-        </div>
-        {isBulkEdit ? (
-          <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
-            <button
-              onClick={handleBulkEdit}
-              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
-            >
-              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
-                Bulk edit{" "}
-              </h6>
-            </button>
-
-            <button
-              onClick={() => handleBulkVisibility("visible")}
-              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
-            >
-              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                Set as Visible{" "}
-              </h6>
-            </button>
-
-            <button
-              onClick={() => handleBulkVisibility("hidden")}
-              className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
-            >
-              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                Set as Hidden{" "}
-              </h6>
-            </button>
-
+          <div className="pt-6 px-6 relative">
             <div
-              className="cursor-pointer"
-              onClick={() => {
-                setIsBulkEdit(false);
-              }}
+              className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
+              style={{ height: "420px" }}
             >
-              <div onClick={() => setSelectedProducts([])}>
-                <CloseIcon />
-              </div>
+              <CardBody className="p-0">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead>
+                    <tr>
+                      <th scope="col" className="p-4 border-y green-checkbox">
+                        <div className="flex items-center">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            checked={selectedProducts.length > 0 ? true : false}
+                            // defaultValue=""
+                            onChange={(e) => handleSelectAllChange(e)}
+                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                          />
+                        </div>
+                      </th>
+                      <th scope="col" className="p-4 border-y">
+                        <div className="flex items-center"></div>
+                      </th>
+
+                      {TABLE_HEAD.map((head) => (
+                        <th
+                          key={head}
+                          className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                        >
+                          <Typography
+                            variant="small"
+                            className="font-medium leading-none text-base text-[#2B4447]"
+                          >
+                            {head}
+                          </Typography>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  {isSearchResult && (
+                    <tbody>
+                      {products.map((product, index) => {
+                        const isLast = index === products.length - 1;
+                        const classes = isLast ? "p-4" : "p-4  ";
+
+                        return (
+                          <tr
+                            key={name}
+                            style={
+                              loading
+                                ? { position: "relative", height: "85px" }
+                                : { position: "relative" }
+                            }
+                            className="border-b border-blue-gray-50"
+                          >
+                            <Skeleton
+                              style={{
+                                padding: "10px",
+                                width: "95%",
+                                position: "absolute",
+                                top: "20px",
+                                left: "14px",
+                              }}
+                              paragraph={{ rows: 1 }}
+                              loading={loading}
+                              active
+                              avatar
+                              className="custom-skeleton"
+                            >
+                              <td className={classes}>
+                                <div className="flex items-center gap-3 cursor-pointer green-checkbox">
+                                  <input
+                                    id="default-checkbox"
+                                    type="checkbox"
+                                    name={product.title}
+                                    checked={selectedProducts.includes(product)}
+                                    onClick={(e) => handleCheckbox(e, product)}
+                                    className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div
+                                  onClick={() =>
+                                    navigate(
+                                      `/dashboard/view-product/${product.productId}`
+                                    )
+                                  }
+                                  className="flex items-center gap-3"
+                                >
+                                  {product.productImageUrls ? (
+                                    <>
+                                      <div className="">
+                                        <img
+                                          src={product.productImageUrls[0]}
+                                          alt=""
+                                          className="object-cover cursor-pointer	"
+                                          style={{
+                                            borderRadius: "6px",
+                                            height: "40px",
+                                            width: "40px",
+                                          }}
+                                        />
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div
+                                      className=" rounded-[6px] bg-[#D9D9D9]"
+                                      style={{
+                                        height: "40px",
+                                        width: "40px",
+                                        borderRadius: "6px",
+                                      }}
+                                    ></div>
+                                  )}
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <div
+                                  onClick={() =>
+                                    navigate(
+                                      `/dashboard/view-product/${product.productId}`
+                                    )
+                                  }
+                                  className="flex items-center gap-3"
+                                >
+                                  <Typography className="font-medium	md:text-base text-sm text-[#637381] cursor-pointer">
+                                    {product.title}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                  {product.skUcode}
+                                </Typography>
+                              </td>
+                              <td className={`${classes} w-44`}>
+                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                  {product.configuration}
+                                </Typography>
+                              </td>
+                              <td className={classes}>
+                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                  {`$${product.globalPrice}`}
+                                </Typography>
+                              </td>
+                              <td className={classes}>
+                                {stockStatus(
+                                  product.availableQty,
+                                  product.stockThreshold
+                                )}
+                              </td>
+                              <td className={classes}>
+                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                  {product.stockStatus}
+                                  <br />
+                                  {product.visibility ? "Visible" : "Hidden"}
+                                </Typography>
+                              </td>
+                            </Skeleton>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  )}
+                </table>
+              </CardBody>
+              <CardFooter
+                className={
+                  isSearchResult
+                    ? "flex w-full items-center justify-between border-t border-blue-gray-50 p-4"
+                    : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
+                }
+              >
+                {!loading && isSearchResult && (
+                  <PaginationNav1Presentation
+                    totalPages={totalPages}
+                    getProductList={getProductList}
+                    pageIndex={pageIndex}
+                    setPageIndex={setPageIndex}
+                  />
+                )}
+                {!isSearchResult && (
+                  <div
+                    style={{
+                      marginTop: "30px",
+                    }}
+                    className="text-center mt-7"
+                  >
+                    <SearchOffIcon fontSize="large" />
+                    <p className="font-semibold">No Result Found</p>
+                  </div>
+                )}
+              </CardFooter>
             </div>
           </div>
-        ) : (
-          ""
-        )}
+          {isBulkEdit ? (
+            <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
+              <button
+                onClick={handleBulkEdit}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              >
+                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
+                  Bulk edit{" "}
+                </h6>
+              </button>
+
+              <button
+                onClick={() => handleBulkVisibility("visible")}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              >
+                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                  Set as Visible{" "}
+                </h6>
+              </button>
+
+              <button
+                onClick={() => handleBulkVisibility("hidden")}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
+              >
+                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
+                  Set as Hidden{" "}
+                </h6>
+              </button>
+
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setIsBulkEdit(false);
+                }}
+              >
+                <div onClick={() => setSelectedProducts([])}>
+                  <CloseIcon />
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <Visible
+          open={deleteModalOpen}
+          onOk={() => {
+            setDeleteModalOpen(false);
+          }}
+          onCancel={() => {
+            setDeleteModalOpen(false);
+          }}
+        />
+        <HiddenModal
+          open={hiddenModalOpen}
+          onOk={() => {
+            setHiddenModalOpen(false);
+          }}
+          onCancel={() => {
+            setHiddenModalOpen(false);
+          }}
+        />
       </div>
-      <Visible
-        open={deleteModalOpen}
-        onOk={() => {
-          setDeleteModalOpen(false);
-        }}
-        onCancel={() => {
-          setDeleteModalOpen(false);
-        }}
-      />
-      <HiddenModal
-        open={hiddenModalOpen}
-        onOk={() => {
-          setHiddenModalOpen(false);
-        }}
-        onCancel={() => {
-          setHiddenModalOpen(false);
-        }}
-      />
     </>
   );
 }

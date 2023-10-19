@@ -120,225 +120,212 @@ function AddCustomers() {
 
   return (
     <>
-      <ActiveCustomers
-        selectedProductsLength={selectedProducts.length}
-        product={selectedProducts[0]}
-        totalProducts={totalProducts}
-      />
-      <div className="   " style={{ height: "503px", overflowY: "scroll" }}>
-        <div className="box-3 px-6 ">
-          <SearchCustomer
-            setProducts={setTableRecords}
-            products={tableRecords}
-            prevProducts={prevCustomer}
-            totalPages={setTotalPages}
-            setisSearchResult={setisSearchResult}
-            pageIndex={pageIndex}
-            setPageIndex={setPageIndex}
-          />
-        </div>
-        <div className="pt-6 px-6 relative">
-          <div
-            className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
-            style={{ height: "428px" }}
-          >
-            <CardBody className="p-0">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead>
-                  <tr>
-                    <th scope="col" className="p-4 border-y">
-                      <div className="flex items-center green-checkbox">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          onChange={(e) => handleSelectAllChange(e)}
-                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                        />
-                      </div>
-                    </th>
-                    <th scope="col" className="p-4 border-y">
-                      <div className="flex items-center"></div>
-                    </th>
-                    {TABLE_HEAD.map((head) => (
-                      <th
-                        key={head}
-                        className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                      >
-                        <Typography
-                          variant="small"
-                          className="font-medium leading-none text-base text-[#2B4447]"
-                        >
-                          {head}
-                        </Typography>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                {isSearchResult && (
-                  <tbody>
-                    {tableRecords?.map((product, index) => {
-                      const isLast = index === products.length - 1;
-                      const classes = isLast ? "p-4" : "p-4  ";
-
-                      return (
-                        <tr
-                          key={name}
-                          style={
-                            loading
-                              ? { position: "relative", height: "55px" }
-                              : { position: "relative" }
-                          }
-                          className="border-b border-blue-gray-50"
-                        >
-                          {/* <Skeleton
-                          style={{
-                            padding: "10px",
-                            width: "95%",
-                            position: "absolute",
-                            top: "20px",
-                            left: "14px",
-                          }}
-                          paragraph={{ rows: 1 }}
-                          loading={loading}
-                          active
-                          avatar
-                          className="custom-skeleton"
-                        > */}
-                          <td className={classes}>
-                            <div className="flex items-center gap-3 green-checkbox">
-                              <input
-                                id="default-checkbox"
-                                type="checkbox"
-                                name={product.title}
-                                checked={
-                                  selectedProducts.includes(product)
-                                    ? true
-                                    : false
-                                }
-                                onClick={(e) => handleCheckbox(e, product)}
-                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                              />
-                            </div>
-                          </td>
-                          <td className={classes}></td>
-                          <td className={classes}>
-                            <div
-                              onClick={
-                                () => handleCustomerId(product)
-                                // navigate(
-                                //   `/dashboard/view-product/${product.productId}`
-                                // )
-                              }
-                              className="flex items-center gap-3 cursor-pointer"
-                            >
-                              <Typography className="font-medium	md:text-base text-sm text-[#637381]">
-                                {product.businessName}
-                                {/* {item?.businessName} */}
-                              </Typography>
-                            </div>
-                          </td>
-                          <td className={classes}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.orderingEmail}
-                            </Typography>
-                          </td>
-                          <td className={`${classes} w-44`}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product.address}
-                              {product.state}
-                            </Typography>
-                          </td>
-                          <td className={classes}>
-                            <td className={classes}>
-                              {product?.isActive === "1" ? (
-                                <div
-                                  style={{
-                                    background: "rgba(33, 150, 83, 0.08)",
-                                    borderRadius: "30px",
-                                  }}
-                                  className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3"
-                                >
-                                  <p className="text-green-dark font-normal	text-sm	">
-                                    Active
-                                  </p>
-                                </div>
-                              ) : (
-                                <div
-                                  style={{
-                                    background: "rgba(255, 167, 11, 0.08)",
-                                    borderRadius: "30px",
-                                  }}
-                                  className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3"
-                                >
-                                  <p
-                                    style={{ color: "#FFA70B" }}
-                                    className="text-red-dark font-normal text-sm	"
-                                  >
-                                    Inactive
-                                  </p>
-                                </div>
-                              )}
-                            </td>
-                          </td>
-                          <td className={classes}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product?.noOfOrders}
-                            </Typography>
-                          </td>
-                          <td className={classes}>
-                            <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              ${product?.totalspendAmount}
-                            </Typography>
-                          </td>
-                          {/* </Skeleton> */}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                )}
-              </table>
-            </CardBody>
-            <CardFooter
-              className={
-                isSearchResult
-                  ? "flex w-full items-center justify-between border-t border-blue-gray-50 p-4"
-                  : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
-              }
-            >
-              {!loading && isSearchResult && (
-                <PaginationCustomer
-                  totalPages={totalPages}
-                  getProductList={callApi}
-                  pageIndex={pageIndex}
-                  setPageIndex={setPageIndex}
-                />
-              )}
-              {!isSearchResult && (
-                <div
-                  style={{
-                    marginTop: "30px",
-                  }}
-                  className="text-center mt-7"
-                >
-                  <SearchOffIcon fontSize="large" />
-                  <p className="font-semibold">No Result Found</p>
-                </div>
-              )}
-            </CardFooter>
+      <div className=" padding-top-custom">
+        <ActiveCustomers
+          selectedProductsLength={selectedProducts.length}
+          product={selectedProducts[0]}
+          totalProducts={totalProducts}
+        />
+        <div className="   ">
+          <div className="box-3 px-6 ">
+            <SearchCustomer
+              setProducts={setTableRecords}
+              products={tableRecords}
+              prevProducts={prevCustomer}
+              totalPages={setTotalPages}
+              setisSearchResult={setisSearchResult}
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
+            />
           </div>
-        </div>
-        {isBulkEdit ? (
-          <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
-            <button
-              onClick={handleBulkEdit}
-              className="rounded-md bg-custom-skyBlue py-2.5  px-12  "
+          <div className="pt-6 px-6 relative">
+            <div
+              className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
+              style={{ height: "428px" }}
             >
-              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
-                Bulk edit
-              </h6>
-            </button>
+              <CardBody className="p-0">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead>
+                    <tr>
+                      <th scope="col" className="p-4 border-y">
+                        <div className="flex items-center green-checkbox">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            onChange={(e) => handleSelectAllChange(e)}
+                            className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                          />
+                        </div>
+                      </th>
+                      <th scope="col" className="p-4 border-y">
+                        <div className="flex items-center"></div>
+                      </th>
+                      {TABLE_HEAD.map((head) => (
+                        <th
+                          key={head}
+                          className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                        >
+                          <Typography
+                            variant="small"
+                            className="font-medium leading-none text-base text-[#2B4447]"
+                          >
+                            {head}
+                          </Typography>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  {isSearchResult && (
+                    <tbody>
+                      {tableRecords?.map((product, index) => {
+                        const isLast = index === products.length - 1;
+                        const classes = isLast ? "p-4" : "p-4  ";
 
-            {/* <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
+                        return (
+                          <tr
+                            key={name}
+                            style={
+                              loading
+                                ? { position: "relative", height: "55px" }
+                                : { position: "relative" }
+                            }
+                            className="border-b border-blue-gray-50"
+                          >
+                            <td className={classes}>
+                              <div className="flex items-center gap-3 green-checkbox">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  name={product.title}
+                                  checked={
+                                    selectedProducts.includes(product)
+                                      ? true
+                                      : false
+                                  }
+                                  onClick={(e) => handleCheckbox(e, product)}
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+                              </div>
+                            </td>
+                            <td className={classes}></td>
+                            <td className={classes}>
+                              <div
+                                onClick={
+                                  () => handleCustomerId(product)
+                                  // navigate(
+                                  //   `/dashboard/view-product/${product.productId}`
+                                  // )
+                                }
+                                className="flex items-center gap-3 cursor-pointer"
+                              >
+                                <Typography className="font-medium	md:text-base text-sm text-[#637381]">
+                                  {product.businessName}
+                                  {/* {item?.businessName} */}
+                                </Typography>
+                              </div>
+                            </td>
+                            <td className={classes}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                {product.orderingEmail}
+                              </Typography>
+                            </td>
+                            <td className={`${classes} w-44`}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                {product.address}
+                                {product.state}
+                              </Typography>
+                            </td>
+                            <td className={classes}>
+                              <td className={classes}>
+                                {product?.isActive === "1" ? (
+                                  <div
+                                    style={{
+                                      background: "rgba(33, 150, 83, 0.08)",
+                                      borderRadius: "30px",
+                                    }}
+                                    className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3"
+                                  >
+                                    <p className="text-green-dark font-normal	text-sm	">
+                                      Active
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <div
+                                    style={{
+                                      background: "rgba(255, 167, 11, 0.08)",
+                                      borderRadius: "30px",
+                                    }}
+                                    className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3"
+                                  >
+                                    <p
+                                      style={{ color: "#FFA70B" }}
+                                      className="text-red-dark font-normal text-sm	"
+                                    >
+                                      Inactive
+                                    </p>
+                                  </div>
+                                )}
+                              </td>
+                            </td>
+                            <td className={classes}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                10
+                              </Typography>
+                            </td>
+                            <td className={classes}>
+                              <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                ${10 * 20}
+                              </Typography>
+                            </td>
+                            {/* </Skeleton> */}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  )}
+                </table>
+              </CardBody>
+              <CardFooter
+                className={
+                  isSearchResult
+                    ? "flex w-full items-center justify-between border-t border-blue-gray-50 p-4"
+                    : "flex w-full items-center justify-center border-t border-blue-gray-50 p-4"
+                }
+              >
+                {!loading && isSearchResult && (
+                  <PaginationCustomer
+                    totalPages={totalPages}
+                    getProductList={callApi}
+                    pageIndex={pageIndex}
+                    setPageIndex={setPageIndex}
+                  />
+                )}
+                {!isSearchResult && (
+                  <div
+                    style={{
+                      marginTop: "30px",
+                    }}
+                    className="text-center mt-7"
+                  >
+                    <SearchOffIcon fontSize="large" />
+                    <p className="font-semibold">No Result Found</p>
+                  </div>
+                )}
+              </CardFooter>
+            </div>
+          </div>
+          {isBulkEdit ? (
+            <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
+              <button
+                onClick={handleBulkEdit}
+                className="rounded-md bg-custom-skyBlue py-2.5  px-12  "
+              >
+                <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
+                  Bulk edit
+                </h6>
+              </button>
+
+              {/* <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
                 Set as Visible
               </h6>
@@ -350,18 +337,19 @@ function AddCustomers() {
               </h6>
             </button> */}
 
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                setIsBulkEdit(false);
-              }}
-            >
-              <CloseIcon />
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setIsBulkEdit(false);
+                }}
+              >
+                <CloseIcon />
+              </div>
             </div>
-          </div>
-        ) : (
-          ""
-        )}
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </>
   );

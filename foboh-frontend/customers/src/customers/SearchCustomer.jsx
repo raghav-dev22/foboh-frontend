@@ -361,7 +361,7 @@ function SearchCustomer({
                       <ul className="dropdown-content    ">
                         {status.map((sts) => (
                           <li className="py-2.5 px-4  ">
-                            <div className="flex items-center">
+                            <div className="flex items-center ">
                               <input
                                 id={sts.label}
                                 checked={

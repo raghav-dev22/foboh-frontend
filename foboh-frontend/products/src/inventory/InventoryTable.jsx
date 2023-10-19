@@ -28,12 +28,19 @@ const InventoryTable = () => {
     {
       title: <h5 className=" text-base font-medium text-[#F4F7FF]">Title</h5>,
       dataIndex: "Title",
-      width: 380,
+      width: 364,
+    },
+    {
+      title: (
+        <h5 className=" text-base font-medium text-[#F4F7FF]">SKU Code</h5>
+      ),
+      dataIndex: "SKUcode",
+      width: 200,
     },
     {
       title: <h5 className=" text-base font-medium text-[#F4F7FF]">Status</h5>,
       dataIndex: "Status",
-      width: 280,
+      width: 210,
     },
     {
       title: (
@@ -46,7 +53,7 @@ const InventoryTable = () => {
       ),
 
       dataIndex: "Committed",
-      width: 120,
+      width: 160,
     },
     {
       title: (
@@ -58,7 +65,7 @@ const InventoryTable = () => {
         </div>
       ),
       dataIndex: "Available",
-      width: 120,
+      width: 150,
     },
     {
       title: (
@@ -70,12 +77,13 @@ const InventoryTable = () => {
         </div>
       ),
       dataIndex: "OnHand",
-      width: 180,
+      width: 136,
     },
   ];
   const data = [
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#EDF7F1] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#219653] text-center">
@@ -93,6 +101,7 @@ const InventoryTable = () => {
     },
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#F5EEE1] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#FFA70B] text-center">
@@ -110,6 +119,7 @@ const InventoryTable = () => {
     },
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#FDF5F6] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#DC3545] text-center">
@@ -127,6 +137,7 @@ const InventoryTable = () => {
     },
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#EDF7F1] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#219653] text-center">
@@ -144,6 +155,7 @@ const InventoryTable = () => {
     },
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#EDF7F1] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#219653] text-center">
@@ -161,6 +173,7 @@ const InventoryTable = () => {
     },
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#EDF7F1] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#219653] text-center">
@@ -178,6 +191,7 @@ const InventoryTable = () => {
     },
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#EDF7F1] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#219653] text-center">
@@ -195,6 +209,7 @@ const InventoryTable = () => {
     },
     {
       Title: "Good Intentions 'Cape  Jaffa' Chardonnay",
+      SKUcode: "ABC-12345-S-BL",
       Status: (
         <div className="bg-[#EDF7F1] rounded-[30px] py-1.5 px-3">
           <p className="text-sm font-medium text-[#219653] text-center">
@@ -219,6 +234,9 @@ const InventoryTable = () => {
           <div className="h-[50] w-[50] bg-[#D9D9D9]"></div>
           <p className="text-base font-medium text-[#637381]">{item.Title}</p>
         </div>
+      ),
+      SKUcode: (
+        <p className="text-base font-normal text-[#637381]">{item.SKUcode}</p>
       ),
       Status: <>{item.Status}</>,
       Committed: (
@@ -305,6 +323,10 @@ const InventoryTable = () => {
         </div>
         <div className="py-6">
           <Table
+            scroll={{
+              x: 700,
+              y: 500,
+            }}
             className="custom-table"
             rowSelection={rowSelection}
             columns={columns}

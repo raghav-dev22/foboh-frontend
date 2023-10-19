@@ -1387,3 +1387,6 @@ a:hover {
 .basic-multi-select .css-t3ipsp-control {
   padding: 6px 0px 6px 0 !important;
 }
+.ant-table-body {
+  max-height: 486px !important;
+}

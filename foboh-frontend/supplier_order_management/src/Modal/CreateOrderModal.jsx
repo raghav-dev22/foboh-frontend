@@ -6,7 +6,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
-import Link from "react-router-dom";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import CallIcon from "@mui/icons-material/Call";
 import ShieldIcon from "@mui/icons-material/Shield";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -25,6 +25,17 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     { value: "vanilla", label: "Vanilla" },
   ];
   const customerOptions = [
+    {
+      value: "createNew",
+      label: (
+        <div className=" cursor-pointer bg-[#EAEAEA] rounded-[6px] py-2 w-full px-3 flex justify-start items-center gap-2.5">
+          <AddCircleOutlineRoundedIcon style={{ fill: "#637381" }} />
+          <p className="text-sm font-medium text-[#637381]">
+            Create New Customer
+          </p>
+        </div>
+      ),
+    },
     { value: "Apples", label: "Apples" },
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },

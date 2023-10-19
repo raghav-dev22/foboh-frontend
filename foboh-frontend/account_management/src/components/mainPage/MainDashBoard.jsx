@@ -6,7 +6,7 @@ import StockDetails from "../../mainDashboard/StockDetails";
 // import StockDetails from '../mainDashboard/StockDetails';
 function MainDashBoard() {
   return (
-    <div className="h-custom-half     overflow-y-scroll	scroll-smooth	scrollable">
+    <div className="    overflow-y-scroll	scroll-smooth	scrollable padding-top-custom">
       <div className="box pt-6 px-6 ">
         <div className="  lg:flex gap-6 grid sm:grid-cols-2 	grid-cols-1 	">
           {/* <StockDetails /> */}

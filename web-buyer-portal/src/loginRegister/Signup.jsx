@@ -48,14 +48,14 @@ function Signup() {
               };
               localStorage.setItem("buyerCred", JSON.stringify(buyerCred));
               localStorage.setItem("buyerData", JSON.stringify(data?.data[0]));
-              sendVerificationMail()
+              sendVerificationMail();
             } else {
               setIsValidBuyer(false);
             }
           })
           .catch((error) => {
             console.log(error);
-        });
+          });
       },
     });
 
@@ -223,9 +223,14 @@ function Signup() {
                       </label>
                     </div>
                     {!errors.password && values.password && (
-                      <p className="mt-2 mb-2 text-green-500">
-                        Your password is strong.
-                      </p>
+                      <div className="flex justify-start items-center gap-2">
+                        {!errors.password && values.password && (
+                          <TaskAltOutlinedIcon className=" text-green-500  transition-all duration-[0.3s]" />
+                        )}
+                        <p className="mt-2 mb-2 text-green-500">
+                          Your password is strong.
+                        </p>
+                      </div>
                     )}
                     {!isValidBuyer && (
                       <p className="mt-2 mb-2 text-red-500">
@@ -233,9 +238,7 @@ function Signup() {
                         different account.
                       </p>
                     )}
-                    {!errors.password && values.password && (
-                      <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                    )}
+
                     {errors.password && touched.password && (
                       <p className="mt-2 mb-2 text-red-500">
                         {errors.password}

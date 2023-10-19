@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 function DetailsHeader() {
   return (
     <>
-      <div className="py-6 sm:flex grid items-center justify-between px-6 gap-5 2xl:container 2xl:mx-auto">
+      <div className="pb-6 sm:flex grid items-center justify-between px-6 gap-5 2xl:container 2xl:mx-auto">
         <div className="flex justify-start gap-3 items-center">
-          <Link
-            to="/dashboard/customers"
-          >
+          <Link to="/dashboard/customers">
             <div className="">
               <img src="/assets/previousBtn.png" alt="" />
             </div>

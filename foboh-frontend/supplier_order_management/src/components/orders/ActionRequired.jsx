@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Table, Collapse, Checkbox } from "antd";
+import { Table, Collapse } from "antd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
@@ -363,15 +363,26 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className=" text-base font-normal text-[#637381]">
                                 A -Z
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <p className="text-base font-normal text-[#637381]">
                                 Z - A
-                              </Checkbox>
+                              </p>
                             </li>
                             <li className="py-1">
                               <div className="flex justify-between items-center  my-2">
@@ -383,15 +394,27 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 Oldest - Newest
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 Newest - Oldest
-                              </Checkbox>
+                              </p>
                             </li>
 
                             <li className="py-1">
@@ -404,15 +427,27 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 A -Z
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 Z - A
-                              </Checkbox>
+                              </p>
                             </li>
                             <li className="py-1">
                               <div className="flex justify-between items-center  my-2">
@@ -424,15 +459,27 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 Low - High
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 High - Low
-                              </Checkbox>
+                              </p>
                             </li>
                           </ul>
                         </div>
@@ -515,15 +562,25 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className=" py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <p className="text-base font-normal text-[#637381]">
                                 A -Z
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <p className="text-base font-normal text-[#637381]">
                                 Z - A
-                              </Checkbox>
+                              </p>
                             </li>
                             <li className="py-1">
                               <div className="flex justify-between items-center  my-2">
@@ -535,15 +592,27 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 Oldest - Newest
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 Newest - Oldest
-                              </Checkbox>
+                              </p>
                             </li>
 
                             <li className="py-1">
@@ -556,15 +625,25 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <p className="text-base font-normal text-[#637381]">
                                 A -Z
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <p className="text-base font-normal text-[#637381]">
                                 Z - A
-                              </Checkbox>
+                              </p>
                             </li>
                             <li className="py-1">
                               <div className="flex justify-between items-center  my-2">
@@ -576,15 +655,27 @@ const ActionRequired = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 Low - High
-                              </Checkbox>
+                              </p>
                             </li>
-                            <li className="py-1">
-                              <Checkbox className="text-base font-normal text-[#637381]">
+                            <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                              <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                              />
+
+                              <p className="text-base font-normal text-[#637381]">
                                 High - Low
-                              </Checkbox>
+                              </p>
                             </li>
                           </ul>
                         </div>
@@ -666,15 +757,27 @@ const ActionRequired = () => {
                                   />
                                 </div>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+
+                                <p className="text-base font-normal text-[#637381]">
                                   A -Z
-                                </Checkbox>
+                                </p>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+
+                                <p className="text-base font-normal text-[#637381]">
                                   Z - A
-                                </Checkbox>
+                                </p>
                               </li>
                               <li className="py-1">
                                 <div className="flex justify-between items-center  my-2">
@@ -686,15 +789,25 @@ const ActionRequired = () => {
                                   />
                                 </div>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <p className="text-base font-normal text-[#637381]">
                                   Oldest - Newest
-                                </Checkbox>
+                                </p>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <p className="text-base font-normal text-[#637381]">
                                   Newest - Oldest
-                                </Checkbox>
+                                </p>
                               </li>
 
                               <li className="py-1">
@@ -707,15 +820,27 @@ const ActionRequired = () => {
                                   />
                                 </div>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+
+                                <p className="text-base font-normal text-[#637381]">
                                   A -Z
-                                </Checkbox>
+                                </p>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+
+                                <p className="text-base font-normal text-[#637381]">
                                   Z - A
-                                </Checkbox>
+                                </p>
                               </li>
                               <li className="py-1">
                                 <div className="flex justify-between items-center  my-2">
@@ -727,15 +852,25 @@ const ActionRequired = () => {
                                   />
                                 </div>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <p className="text-base font-normal text-[#637381]">
                                   Low - High
-                                </Checkbox>
+                                </p>
                               </li>
-                              <li className="py-1">
-                                <Checkbox className="text-base font-normal text-[#637381]">
+                              <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                                <input
+                                  id="default-checkbox"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <p className="text-base font-normal text-[#637381]">
                                   High - Low
-                                </Checkbox>
+                                </p>
                               </li>
                             </ul>
                           </div>
