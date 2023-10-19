@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 function CreateAccount() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const validationSchemas = [stepOneSchema, stepTwoSchema, stepThreeSchema];
   const [currentStep, setCurrentStep] = useState(0);

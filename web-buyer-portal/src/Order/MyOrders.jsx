@@ -23,6 +23,8 @@ import { searchOrders } from "../helpers/searchOrders";
 import { getCityState } from "../helpers/getCityState";
 import { formatDateAfterRelativeDate } from "../helper/formatDateAfterRelativeDate";
 import { date } from "yup";
+import { setCart } from "../slices/CartSlice";
+import { useDispatch } from "react-redux";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -140,7 +142,7 @@ const MyOrders = () => {
   const [selectedPayment, setSelectedPayment] = useState([]);
   const [selectedDate, setSelectedDate] = useState([]);
   const dropdownRef = useRef(null);
-
+  const dispatch = useDispatch();
   const [sortItem, setSortItem] = useState(false);
   const checkAll = statusOptionsList.length === selectedStatus.length;
   const paymentCheckAll = paymentOptionsList.length === selectedPayment.length;
@@ -201,14 +203,14 @@ const MyOrders = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "This is a success message",
+      content: "Reorder succeeeded, items added to your cart.",
     });
   };
 
   const warning = () => {
     messageApi.open({
       type: "warning",
-      content: "This is a warning message",
+      content: "Error has occurred, please try again.",
     });
   };
 
@@ -230,9 +232,7 @@ const MyOrders = () => {
       </p>
     ),
 
-    Items: (
-      <p className="text-base font-medium text-[#2B4447]">{order.quantity}</p>
-    ),
+    Items: <p className="text-base font-medium text-[#2B4447]">{order.cnt}</p>,
 
     Total: (
       <p className="text-base font-medium text-[#2B4447]">
@@ -242,7 +242,7 @@ const MyOrders = () => {
 
     Payment: (
       <p className="text-base font-medium text-[#2B4447]">
-        {order.paymentMethod}
+        {order.transactionStatus}
       </p>
     ),
 
@@ -333,7 +333,7 @@ const MyOrders = () => {
 
   // Invoice API
   const fetchInvoice = async (id) => {
-    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${7877302005}`;
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${id}`;
 
     const invoiceData = await fetch(apiUrl)
       .then((response) => {
@@ -409,9 +409,19 @@ const MyOrders = () => {
     fetch(apiUrl, {
       method: "POST",
     })
+      .then((response) => response.json())
       .then((data) => {
         if (data.success) {
           success();
+          const cartId = data.data[0].cartId;
+          const updatedCartList = data?.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+          dispatch(setCart(updatedCartList));
+          localStorage.setItem("cartId", cartId);
         } else {
           warning();
         }

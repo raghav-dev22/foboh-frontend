@@ -35,6 +35,7 @@ import { paymentProcessUpdate } from "../helpers/paymentProcessUpdate";
 import { cartStatusUpdate } from "../helpers/cartStatusUpdate";
 import { Modal } from "antd";
 import { Spin } from "antd";
+import { orderStatusUpdate } from "../helpers/orderStatusUpdate";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -341,6 +342,7 @@ const Payment = () => {
         setLoading(false);
         paymentProcessUpdate(orderId, cardHolderName);
         cartStatusUpdate();
+        orderStatusUpdate()
         countDown();
       }
     }

@@ -4,9 +4,43 @@ import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Dropdown, Select, Space, DatePicker, Table, Checkbox } from "antd";
+import { Dropdown, Space, DatePicker, Table, Checkbox } from "antd";
 import { Menu } from "antd";
 import { useEffect } from "react";
+import { searchOrders } from "../../helpers/searchOrders";
+import Select from "react-select";
+import { getCityStates } from "../../helpers/getCityStates";
+import { formatDateAfterRelativeDate } from "../../helpers/dateFormatter";
+
+let filterAndSort = {
+  filter: {
+    searchByValue: "",
+    region: [],
+    orderStatus: [],
+    orderEntryDate: "",
+    customeDate: "",
+    page: 0,
+  },
+  sort: {
+    sortBy: "",
+    sortOrder: "",
+  },
+};
+
+const statusList = [
+  "New",
+  "Pending approval",
+  "Changes requested",
+  "Updated",
+  "Processing",
+  "Shipped",
+  "Partially fulfilled",
+  "Delivered",
+  "Completed",
+  "Cancelled",
+];
+
+const lastDateList = ["Last 7 days", "Last 14 days", "Last 30 days"];
 
 const AllOrders = () => {
   const [sortItem, setSortItem] = useState(false);
@@ -20,6 +54,16 @@ const AllOrders = () => {
   const [orderData, setOrderData] = useState([]);
   const [Sort, setSort] = useState(false);
   const [input, setInput] = useState("");
+  const [states, setStates] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [lastDate, setLastDate] = useState("");
+
+  const [selectedStatus, setSelectedStatus] = useState([]);
+
+  const statusCheckAll = statusList.length === selectedStatus.length;
+
+  let stateList = [];
+
   const sortBtn = () => {
     setSortItem(true);
   };
@@ -74,150 +118,7 @@ const AllOrders = () => {
   const handleOpenRegion = (flag) => {
     setOpenRegion(flag);
   };
-  const items = [
-    {
-      key: "1",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center my-2  ">
-          <h5 className="text-base font-medium text-[#2B4447]">Order ID</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-1",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              A -Z
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-2",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Z - A
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "2",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Date</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-3",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Oldest - Newest
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-4",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Newest - Oldest
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "3",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Last Update</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-5",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Oldest - Newest
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-6",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Newest - Oldest
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "4",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">
-            Customer Name
-          </h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-7",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              A -Z
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-8",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Z - A
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-    {
-      key: "5",
-      type: "group",
-      label: (
-        <div className="flex justify-between items-center  my-2">
-          <h5 className="text-base font-medium text-[#2B4447]">Order Amount</h5>
-          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-        </div>
-      ),
-      children: [
-        {
-          key: "1-9",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              Low - High
-            </Checkbox>
-          ),
-        },
-        {
-          key: "1-10",
-          label: (
-            <Checkbox className="text-base font-normal text-[#637381]">
-              High - Low
-            </Checkbox>
-          ),
-        },
-      ],
-    },
-  ];
+
   // const [startDate, setStartDate] = useState(new Date());
 
   const columns = [
@@ -311,6 +212,8 @@ const AllOrders = () => {
   };
 
   useEffect(() => {
+    getStateList();
+
     const orgId = localStorage.getItem("organisationId");
     fetch(
       `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getAll?page=${page}&OrganisationId=${orgId}`,
@@ -327,37 +230,148 @@ const AllOrders = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  // useEffect(() => {
-  //   const debounceTimeout = setTimeout(() => {
-  //     processChange();
-  //   }, 1000);
+  const getStateList = () => {
+    getCityStates().then((data) => {
+      stateList = data.map((state) => {
+        return {
+          label: `${state?.cityName}, ${state?.stateName}`,
+          value: state?.cityName,
+        };
+      });
+      setStates(stateList);
+    });
+  };
 
-  //   return () => clearTimeout(debounceTimeout);
-  // }, [input]);
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      processChange();
+    }, 1000);
 
-  // function debounce(func, timeout = 0) {
-  //   let timer;
-  //   return (...args) => {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       func.apply(this, args);
-  //     }, timeout);
-  //   };
-  // }
+    return () => clearTimeout(debounceTimeout);
+  }, [input]);
 
-  // const saveInput = async () => {
-  //   // const ordersData = await searchOrders(input, page);
-  //   console.log("ordersData", ordersData);
-  //   setOrderData(ordersData.data);
-  //   setTotalData(ordersData.total);
-  // };
+  function debounce(func, timeout = input ? 0 : 1000) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
 
-  // const processChange = debounce(() => saveInput());
+  const saveInput = async () => {
+    const ordersData = await searchOrders(filterAndSort);
+    console.log("ordersData", ordersData);
+    if (ordersData.success) {
+      setOrderData(ordersData?.data);
+      setTotalData(ordersData?.total);
+    } else {
+      setOrderData([]);
+      setTotalData(0);
+    }
+  };
 
-  // const handleSearch = (e) => {
-  //   const search = e.target.value;
-  //   setInput(search);
-  // };
+  const processChange = debounce(() => saveInput());
+
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    const newFilter = {
+      ...filterAndSort.filter,
+      searchByValue: search,
+    };
+
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+    };
+    setInput(search);
+  };
+
+  const handleCheckAll = (e, name) => {
+    const checked = e.target.checked;
+
+    if (name === "status") {
+      const newFilter = {
+        ...filterAndSort.filter,
+        orderStatus: checked ? statusList : [],
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+      setSelectedStatus(checked ? statusList : []);
+    }
+
+    processChange("filterAndSort");
+  };
+
+  const handleFilter = (value, name) => {
+    console.log(value, name);
+
+    if (name === "status") {
+      setSelectedStatus(value);
+      const newFilter = {
+        ...filterAndSort.filter,
+        orderStatus: value,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    } else if (name === "region") {
+      const regions = value.map((state) => state.value);
+      setRegions(value);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        region: regions,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    } else if (name === "lastDate") {
+      const date = value.target.value;
+      const checked = value.target.checked;
+      setLastDate(checked ? date : "");
+
+      const formattedData = formatDateAfterRelativeDate(date);
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        orderEntryDate: checked ? formattedData : "",
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    } else if (name === "customDate") {
+      const formatedDate = value
+        ? `${value.$y}-${value.$M + 1}-${value.$D}`
+        : "";
+
+      const newFilter = {
+        ...filterAndSort.filter,
+        customeDate: formatedDate,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    }
+    processChange("filterAndSort");
+    console.log("filterAndSort", filterAndSort);
+  };
+
+  const handleSort = () => {
+
+  }
 
   return (
     <>
@@ -377,10 +391,11 @@ const AllOrders = () => {
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
                 placeholder="Search"
                 type="text"
+                onChange={handleSearch}
               />
               <SearchIcon
-                className="absolute top-[8px] right-[8px] "
-                style={{ fill: "rgb(164 169 174)" }}
+                className="absolute right-[8px] "
+                style={{ fill: "rgb(164 169 174)", top: "20px" }}
               />
             </div>
             <div className="flex justify-end items-center gap-3 ">
@@ -415,6 +430,10 @@ const AllOrders = () => {
                           </h5>
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
+                      </li>
+                      <li className="py-1 flex gap-1">
+                        <input type="checkbox" id="" />
+                        <label htmlFor="">A - Z</label>
                       </li>
                       <li className="py-1">
                         <Checkbox className="text-base font-normal text-[#637381]">
@@ -486,61 +505,23 @@ const AllOrders = () => {
                       <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
+                            <Checkbox
+                              checked={statusCheckAll}
+                              onChange={(e) => handleCheckAll(e, "status")}
+                              className="text-base font-medium text-[#637381]"
+                            >
                               Select all
                             </Checkbox>
                           </li>
                           <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              New
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Pending approval
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Changes requested
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Updated
-                            </Checkbox>
-                          </li>
-
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Processing
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Shipped
-                            </Checkbox>
-                          </li>
-
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Partially fulfilled
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Delivered
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Completed
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox className="text-base font-medium text-[#637381]">
-                              Cancelled
-                            </Checkbox>
+                            <Checkbox.Group
+                              onChange={(value) =>
+                                handleFilter(value, "status")
+                              }
+                              options={statusList}
+                              value={selectedStatus}
+                              className="text-base grid font-medium text-[#637381]"
+                            />
                           </li>
                         </ul>
                       </div>
@@ -560,19 +541,22 @@ const AllOrders = () => {
                   </div>
 
                   {regionMenu && (
-                    <div className=" z-10 left-0 px-3 min-h-fit max-h-[200px]  w-[170px]  absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <div
+                      style={{ width: "350px", height: "380px" }}
+                      className="z-10 left-0 px-3 absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                    >
                       <Select
-                        mode="multiple"
-                        placeholder="enter city"
-                        value={selectedItems}
-                        onChange={setSelectedItems}
-                        style={{
-                          width: "100%",
-                        }}
-                        options={filteredOptions.map((item) => ({
-                          value: item,
-                          label: item,
-                        }))}
+                        name="colors"
+                        isMulti={true}
+                        isDisabled={!states.length}
+                        menuIsOpen={true}
+                        options={states}
+                        value={regions}
+                        onChange={(value) =>
+                          handleFilter(value, "region")
+                        }
+                        className="basic-multi-select "
+                        classNamePrefix="select"
                       />
                     </div>
                   )}
@@ -589,21 +573,25 @@ const AllOrders = () => {
                   {dateMenu && (
                     <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul className="dropdown-content ">
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
-                            Last 7 days
-                          </Checkbox>
-                        </li>
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
-                            Last 14 days
-                          </Checkbox>
-                        </li>
-                        <li className="py-1">
-                          <Checkbox className="text-base font-medium text-[#637381]">
-                            Last 30 days
-                          </Checkbox>
-                        </li>
+                        {lastDateList.map((date) => (
+                          <li className="py-1 flex gap-1">
+                            <input
+                              onChange={(e) =>
+                                handleFilter(e, "lastDate")
+                              }
+                              value={date}
+                              checked={date === lastDate}
+                              id={date}
+                              type="checkbox"
+                            />
+                            <label
+                              htmlFor={date}
+                              className="text-base font-medium text-[#637381]"
+                            >
+                              {date}
+                            </label>
+                          </li>
+                        ))}
                         <li className="py-1">
                           <div className="relative custom-datePicker h-[40px]">
                             {showDatePicker ? (
@@ -618,19 +606,26 @@ const AllOrders = () => {
                                     </div>
                                   </div>
                                 )}
-                                onChange={handleDatePickerChange}
+                                onChange={(value) =>
+                                  handleFilter(value, "customDate")
+                                }
                               />
                             ) : (
                               <div className=" absolute top-0 left-0 w-full h-full">
-                                <label className="text-base font-medium text-[#637381]">
-                                  <Checkbox
-                                    className="text-base font-medium text-[#637381]"
+                                <div className="flex gap-1">
+                                  <input
+                                    id="datePicker"
+                                    type="checkbox"
                                     onChange={handleCheckboxChange}
                                     checked={showDatePicker}
+                                  ></input>
+                                  <label
+                                    htmlFor="datePicker"
+                                    className="text-base font-medium text-[#637381]"
                                   >
                                     Custom
-                                  </Checkbox>
-                                </label>
+                                  </label>
+                                </div>
                               </div>
                             )}
                             {/* <DatePicker onChange={onChange} /> */}
@@ -665,7 +660,7 @@ const AllOrders = () => {
             onChange={onShowSizeChange}
             pagination={{
               current: page,
-              pageSize: 9,
+              pageSize: 15,
               total: totalData,
               showSizeChanger: false,
               showQuickJumper: false,

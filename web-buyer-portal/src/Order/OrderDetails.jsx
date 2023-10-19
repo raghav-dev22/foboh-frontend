@@ -8,38 +8,33 @@ import { Popover, Steps } from "antd";
 import InvoiceModal from "../modal/InvoiceModal";
 import { useParams } from "react-router-dom";
 import { message } from "antd";
+import { getTrackerStatus } from "../helpers/getTrackerStatus";
+import { getSealedCart } from "../helpers/getSealedCart";
 
 const OrderDetails = () => {
   const customDot = (dot, { status, index }) => (
-    <Popover
-      content={
-        <span>
-          step {index} status: {status}
-        </span>
-      }
-    >
-      {dot}
-    </Popover>
+    <Popover content={<span>Status: {status}</span>}>{dot}</Popover>
   );
 
   const [totalCost, setTotleCost] = useState(0);
   const [showPreview, setshowPreview] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
+  const [currentStep, setCurrentStep] = useState(0);
+  const [productList, setProductList] = useState([])
+
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
   console.log(id, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-  const removeItem = (cartItem) => {
-    dispatch(remove(cartItem));
-  };
-
-  const handleIncrementDecrement = (id, actionType) => {
-    dispatch(updateQuantity({ id, actionType }));
-  };
+  let cart = ""
+ 
 
   const calculateTotalCost = () => {
     let total = 0;
+
+    const {totalPrice, payAmountLong, gst, wet, subCategoryId} = cart[0]
+
     CARTdata.forEach((item) => {
       const productPrice = item?.product?.globalPrice;
       const productPriceINR = productPrice;
@@ -66,10 +61,40 @@ const OrderDetails = () => {
   };
 
   useEffect(() => {
-    const newTotal = calculateTotalCost();
-    setTotleCost(newTotal.toFixed(2));
-    console.log("Total Cost:", totalCost);
-  }, [CARTdata]);
+    //Handling Stepper
+    getTrackerStatus(id).then((status) => {
+      if (status === "Order Placed") {
+        setCurrentStep(0);
+      } else if (status === "Pending") {
+        setCurrentStep(1);
+      } else if (status === "Processing") {
+        setCurrentStep(2);
+      } else if (status === "Shipped") {
+        setCurrentStep(3);
+      } else if (status === "Delivered") {
+        setCurrentStep(4);
+      }
+    });
+
+    //Handling Cart details of order
+    getSealedCart(id).then((data) => {
+      if (data.success) {
+        const updatedList = data.data.map(product => {
+
+          return {
+            product : product,
+            quantity : product?.quantity
+          }
+        })
+
+        cart = updatedList
+        setProductList(updatedList)
+        calculateTotalCost()
+      }
+    });
+  }, []);
+
+  
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -205,7 +230,7 @@ const OrderDetails = () => {
             </h5>
           </div> */}
           <Steps
-            current={1}
+            current={currentStep}
             progressDot={customDot}
             items={[
               {
@@ -227,14 +252,14 @@ const OrderDetails = () => {
           />
         </div>
         <div className="my-3">
-          {CARTdata.length === 0 ? (
+          {productList.length === 0 ? (
             <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
               Your cart is empty.
             </h5>
           ) : (
             <>
               {" "}
-              {CARTdata.map((item, index) => (
+              {productList.map((item, index) => (
                 <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
                   <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                     <img
