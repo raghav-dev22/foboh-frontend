@@ -3,8 +3,13 @@ import { Button, Modal } from "antd";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import { Select } from "antd";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
+import { useNavigate } from "react-router-dom";
 const UnSavedModal = ({ open, onOk, onCancel }) => {
   const cancelButtonRef = useRef(null);
+  const navigate = useNavigate();
+  const handleLeave = () => {
+    navigate("/dashboard/products");
+  };
 
   return (
     <>
@@ -32,7 +37,7 @@ const UnSavedModal = ({ open, onOk, onCancel }) => {
             <Button
               key="ok"
               type="primary"
-              onClick={onCancel}
+              onClick={handleLeave}
               className="bg-[#DC3545] text-white text-base font-medium rounded-[8px]  h-[44px] w-[33%] flex justify-center items-center px-5"
             >
               Leave page

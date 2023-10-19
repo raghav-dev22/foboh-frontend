@@ -22,6 +22,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import UnSavedModal from "../modal/UnSavedModal";
 function BulkEdit() {
+  const [unSaved, setUnSaved] = useState(false);
   const [productTable, setProductTable] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const [initialValues, setInitialValues] = useState([
@@ -230,7 +231,6 @@ function BulkEdit() {
     setIsUpdate(false);
     setValues(initialValues);
   };
-  const [unSaved, setUnSaved] = useState(false);
   const backBtn = () => {
     setUnSaved(true);
     // navigate("/dashboard/products");

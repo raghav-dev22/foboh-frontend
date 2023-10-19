@@ -50,9 +50,9 @@ const initialValues = {
   segment: "",
   grapeVariety: [],
   regionSelect: "",
-  vintage: 0,
+  vintage: null,
   awards: "",
-  abv: 0,
+  abv: null,
   country: "",
   baseUnitMeasure: "",
   innerUnitMeasure: "",
@@ -77,6 +77,7 @@ function AddProduct() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
+  const [Stock, setStock] = useState(false);
   const [isWet, setIsWet] = useState(false);
   const [isAlcoholicBeverage, setIsAlcoholicBeverage] = useState(false);
   const [checkGST, setCheckGST] = useState(false);
@@ -296,7 +297,12 @@ function AddProduct() {
       ...values,
       trackInventory: !values.trackInventory,
     });
-    console.log(values.trackInventory);
+    if (values.trackInventory === false) {
+      setStock(true);
+    } else {
+      setStock(false);
+    }
+    console.log(values.trackInventory, "hhhhhhhhh");
   };
 
   const handleStockAlertLevel = (e) => {
@@ -907,7 +913,7 @@ function AddProduct() {
                       value={values.minimumOrder}
                       name="minimumOrder"
                       type="number"
-                      placeholder="2 cases"
+                      placeholder="Select"
                     />
                     {errors.minimumOrder && touched.minimumOrder && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
@@ -928,7 +934,7 @@ function AddProduct() {
                       name="availableQty"
                       type="number"
                       value={values.availableQty}
-                      placeholder="2 cases"
+                      placeholder="Select"
                     />
                     {errors.availableQty && touched.availableQty && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
@@ -962,29 +968,32 @@ function AddProduct() {
                     products are low or out of stock
                   </p>
                 </div>
-                <div className=" pb-5">
+                {Stock && (
                   <div className=" pb-5">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Stock alert level
-                    </h5>
-                    <div className="w-72">
-                      <input
-                        onChange={handleStockAlertLevel}
-                        value={values.stockAlertLevel}
-                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="stock-alert-level"
-                        name="stockAlertLevel"
-                        type="number"
-                        placeholder="2 cases"
-                      />
-                      {errors.stockAlertLevel && touched.stockAlertLevel && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                          {errors.stockAlertLevel}
-                        </p>
-                      )}
+                    <div className=" pb-5">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Stock alert level
+                      </h5>
+                      <div className="w-72">
+                        <input
+                          onChange={handleStockAlertLevel}
+                          value={values.stockAlertLevel}
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="stock-alert-level"
+                          name="stockAlertLevel"
+                          type="number"
+                          placeholder="2 cases"
+                        />
+                        {errors.stockAlertLevel && touched.stockAlertLevel && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                            {errors.stockAlertLevel}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
+
                 <div className="pb-5">
                   <div className=" flex justify-between items-center mb-3">
                     <h5 className="text-green text-base font-medium">
@@ -1125,7 +1134,7 @@ function AddProduct() {
                       id="brand"
                       type="text"
                       name="brand"
-                      placeholder="Lo-Fi Wines"
+                      placeholder="Enter brand..."
                     />
                     {errors.brand && touched.brand && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
@@ -1301,45 +1310,46 @@ function AddProduct() {
                       />
                     </div>
                   )}
-
-                  <div className="w-full  px-3 relative">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                      htmlFor="awards"
-                    >
-                      Awards
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="awards"
-                      name="awards"
-                      onChange={handleChange}
-                      onKeyPress={(event) => {
-                        const allowedCharacters = /^[A-Za-z0-9]*$/;
-                        if (!allowedCharacters.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                      value={values.awards}
-                      type="text"
-                      placeholder="WS 93"
-                      style={{
-                        border:
-                          errors.awards && touched.awards && "1px solid red",
-                      }}
-                    />
-                    {errors.awards && touched.awards && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                        {errors.awards}
-                      </p>
-                    )}
-                    {errors.awards && touched.awards && (
-                      <ErrorOutlineIcon
-                        style={{ top: "45px" }}
-                        className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                  {isWine && (
+                    <div className="w-full  px-3 relative">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                        htmlFor="awards"
+                      >
+                        Awards
+                      </label>
+                      <input
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="awards"
+                        name="awards"
+                        onChange={handleChange}
+                        onKeyPress={(event) => {
+                          const allowedCharacters = /^[A-Za-z0-9]*$/;
+                          if (!allowedCharacters.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                        value={values.awards}
+                        type="text"
+                        placeholder="WS 93"
+                        style={{
+                          border:
+                            errors.awards && touched.awards && "1px solid red",
+                        }}
                       />
-                    )}
-                  </div>
+                      {errors.awards && touched.awards && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                          {errors.awards}
+                        </p>
+                      )}
+                      {errors.awards && touched.awards && (
+                        <ErrorOutlineIcon
+                          style={{ top: "45px" }}
+                          className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                   <div className=" w-full  px-3">
@@ -1384,7 +1394,7 @@ function AddProduct() {
                         }}
                         value={values.abv}
                         type="text"
-                        placeholder="please enter ABV..."
+                        placeholder="Enter ABV..."
                       />
                     </div>
                   )}
@@ -1565,7 +1575,7 @@ function AddProduct() {
                       value={values.salePrice}
                       onBlur={handleBlur}
                       type="text"
-                      placeholder="$330.00"
+                      placeholder="Enter Sale Price"
                     />
                     {errors.salePrice && touched.salePrice && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
@@ -1612,7 +1622,7 @@ function AddProduct() {
                       onChange={handleBuyPrice}
                       value={values.buyPrice}
                       onBlur={handleBlur}
-                      placeholder="$250.00"
+                      placeholder="Buy Price"
                     />
                     {errors.buyPrice && touched.buyPrice && (
                       <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
@@ -1639,7 +1649,7 @@ function AddProduct() {
                         }
                         name="firstName"
                         type="text"
-                        placeholder="$80.00"
+                        placeholder="Profit"
                       />
                     </div>
                     <div className="w-full relative md:w-1/2 px-3">
@@ -1660,7 +1670,7 @@ function AddProduct() {
                         }
                         type="text"
                         name="lastName"
-                        placeholder="24.2%"
+                        placeholder="Margin"
                       />
                     </div>
                   </div>

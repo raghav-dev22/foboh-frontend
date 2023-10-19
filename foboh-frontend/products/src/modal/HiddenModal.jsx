@@ -3,7 +3,7 @@ import { Button, Modal } from "antd";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import { Select } from "antd";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
-const HiddenModal = ({ open, onOk, onCancel }) => {
+const HiddenModal = ({ open, onOk, onCancel, handleBulkVisibility }) => {
   const cancelButtonRef = useRef(null);
 
   return (
@@ -32,7 +32,10 @@ const HiddenModal = ({ open, onOk, onCancel }) => {
             <Button
               key="ok"
               type="primary"
-              onClick={onCancel}
+              onClick={() => {
+                handleBulkVisibility("hidden");
+                onCancel();
+              }}
               className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[33%] flex justify-center items-center px-5"
             >
               Set as Hidden

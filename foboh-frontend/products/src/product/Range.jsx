@@ -114,13 +114,15 @@ function Range() {
 
   // visibility handle
 
-  const handleBulkVisibility = (name) => {
+  const handleVisible = (name) => {
     if (name === "visible") {
       setDeleteModalOpen(true);
     } else {
       setHiddenModalOpen(true);
     }
+  };
 
+  const handleBulkVisibility = (name) => {
     // console.log("handle visibility >>",selectedProducts);
     // return true
 
@@ -141,7 +143,7 @@ function Range() {
               globalPrice: product.globalPrice,
               buyPrice: product.buyPrice,
               availableQty: product.availableQty,
-              visibility: name === "visible" ? true : false,
+              visibility: name === "visible" ? "1" : "0",
               productStatus: product.productStatus,
             };
           })
@@ -156,6 +158,7 @@ function Range() {
         console.log("response data1:", data);
         setIsBulkEdit(false);
         setSelectedProducts([]);
+        // setProducts(data.data);
         getAllproduct();
       })
       .catch((error) => console.log(error));
@@ -398,7 +401,9 @@ function Range() {
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
                                 {product.stockStatus}
                                 <br />
-                                {product.visibility ? "Visible" : "Hidden"}
+                                {product.visibility === "1"
+                                  ? "Visible"
+                                  : "Hidden"}
                               </Typography>
                             </td>
                           </Skeleton>
@@ -450,7 +455,7 @@ function Range() {
             </button>
 
             <button
-              onClick={() => handleBulkVisibility("visible")}
+              onClick={() => handleVisible("visible")}
               className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
             >
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
@@ -459,7 +464,7 @@ function Range() {
             </button>
 
             <button
-              onClick={() => handleBulkVisibility("hidden")}
+              onClick={() => handleVisible("hidden")}
               className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
             >
               <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
@@ -483,6 +488,7 @@ function Range() {
         )}
       </div>
       <Visible
+        handleBulkVisibility={handleBulkVisibility}
         open={deleteModalOpen}
         onOk={() => {
           setDeleteModalOpen(false);
@@ -492,8 +498,10 @@ function Range() {
         }}
       />
       <HiddenModal
+        handleBulkVisibility={handleBulkVisibility}
         open={hiddenModalOpen}
         onOk={() => {
+          // handleBulkVisibility("hidden");
           setHiddenModalOpen(false);
         }}
         onCancel={() => {

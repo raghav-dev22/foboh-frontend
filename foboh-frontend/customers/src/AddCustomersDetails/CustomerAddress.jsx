@@ -38,6 +38,15 @@ function CustomerAddress({
   const [stateOptions, setStateOptions] = useState([]);
   useEffect(() => {
     // defaultPaymentTrems
+    setValues({
+      ...values,
+      billingAddress: "",
+      billingApartment: "",
+      billingSuburb: "",
+      billingPostalCode: "",
+      billingState: "",
+    });
+
     fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
       method: "GET",
     })
@@ -102,7 +111,7 @@ function CustomerAddress({
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.address}
-                placeholder="126 Juliett Street"
+                placeholder="Enter Delivery Address"
                 style={{
                   border: errors.address && touched?.address && "1px solid red",
                 }}
@@ -130,21 +139,21 @@ function CustomerAddress({
                 onBlur={handleBlur}
                 value={values.apartment}
                 onChange={handleChange}
-                placeholder="Jones"
+                placeholder="Enter Apartment"
                 name="apartment"
-                style={{
-                  border:
-                    errors.apartment && touched?.apartment && "1px solid red",
-                }}
+                // style={{
+                //   border:
+                //     errors.apartment && touched?.apartment && "1px solid red",
+                // }}
               />
-              {errors.apartment && touched?.apartment && (
+              {/* {errors.apartment && touched?.apartment && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.apartment}
                 </p>
               )}
               {errors.apartment && touched?.apartment && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
-              )}
+              )} */}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 items-start">
@@ -162,7 +171,7 @@ function CustomerAddress({
                 value={values.suburb}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="Marrickville"
+                placeholder="Enter Suburb"
                 name="suburb"
                 style={{
                   border: errors.suburb && touched?.suburb && "1px solid red",
@@ -191,7 +200,7 @@ function CustomerAddress({
                 value={values.postalCode}
                 onBlur={handleBlur}
                 onChange={handleChange}
-                placeholder="2204"
+                placeholder="Enter Postcode"
                 name="postalCode"
                 style={{
                   border:
@@ -227,9 +236,14 @@ function CustomerAddress({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                  border: errors?.defaultPaymentTerms && "1px solid red",
+                  border: errors?.state && "1px solid red",
                 }}
               />
+              {errors.state && touched?.state && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.state}
+                </p>
+              )}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 relative">
@@ -273,7 +287,7 @@ function CustomerAddress({
                 Billing address
               </h5>
             </div>
-            <div className="w-full relative md:w-1/2 px-3">
+            <div className="w-full relative md:w-1/2 px-3 green-checkbox">
               <div className="flex gap-2 items-center">
                 <input
                   id="default-checkbox"
@@ -300,7 +314,7 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                placeholder="126 Juliett Street"
+                placeholder="Enter Billing Address"
                 value={values?.billingAddress}
                 name="billingAddress"
                 onBlur={handleBlur}
@@ -335,23 +349,23 @@ function CustomerAddress({
                 onBlur={handleBlur}
                 value={values.billingApartment}
                 onChange={handleChange}
-                placeholder="Jones"
+                placeholder="Enter Apartment"
                 name="billingApartment"
-                style={{
-                  border:
-                    errors.billingApartment &&
-                    touched?.billingApartment &&
-                    "1px solid red",
-                }}
+                // style={{
+                //   border:
+                //     errors.billingApartment &&
+                //     touched?.billingApartment &&
+                //     "1px solid red",
+                // }}
               />
-              {errors.billingApartment && touched?.billingApartment && (
+              {/* {errors.billingApartment && touched?.billingApartment && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.billingApartment}
                 </p>
               )}
               {errors.billingApartment && touched?.billingApartment && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
-              )}
+              )} */}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 items-start">
@@ -366,7 +380,7 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                placeholder="Marrickville"
+                placeholder="Enter Suburb"
                 onBlur={handleBlur}
                 name="billingSuburb"
                 value={values.billingSuburb}
@@ -401,7 +415,7 @@ function CustomerAddress({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.billingPostalCode}
-                placeholder="2204"
+                placeholder="Enter Postcode"
                 name="billingPostalCode"
                 style={{
                   border:
@@ -420,35 +434,33 @@ function CustomerAddress({
               )}
             </div>
             <div className="w-full md:w-1/3	 px-3 relative">
-              <label
-                className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
-                htmlFor="billingState"
+              <h5
+                className="block  tracking-wide text-gray-700 text-sm	 font-medium mb-[10px]	 "
+                htmlFor="grid-last-name"
               >
                 State
-              </label>
-              <div className="relative">
-                <select
-                  onChange={handleChange}
-                  name="billingState"
-                  className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="billingState"
-                >
-                  {stateOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    className="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div>
-              </div>
+              </h5>
+
+              <Select
+                name="billingState"
+                // isMulti={true}
+                options={stateOptions}
+                // value={stateOptions.find(
+                //   (option) => option.value === values.state
+                // )}
+                value={values?.billingState}
+                onChange={(e) => handleSelect(e, "billingState")}
+                className="basic-multi-select "
+                classNamePrefix="select"
+                style={{
+                  border: errors?.billingState && "1px solid red",
+                }}
+              />
+              {errors.billingState && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.billingState}
+                </p>
+              )}
             </div>
           </div>
         </div>

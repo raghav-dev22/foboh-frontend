@@ -153,9 +153,11 @@ export const stepOneSchema = Yup.object().shape({
     .required("Liquor licence is required"),
   isActive: Yup.mixed().required("Status is required"),
   // pricingProfileId: Yup.mixed().required("State is required"),
-  defaultPaymentTerms: Yup.mixed().required("State is required"),
-  defaultPaymentMethodId: Yup.mixed().required("State is required"),
-  tags: Yup.mixed().required("State is required"),
+  defaultPaymentTerms: Yup.mixed().required("defaultPaymentTerms is required"),
+  defaultPaymentMethodId: Yup.mixed().required(
+    "defaultPaymentMethodId is required"
+  ),
+  // tags: Yup.mixed().required("State is required"),
 });
 
 export const stepTwoSchema = Yup.object().shape({
@@ -205,10 +207,10 @@ export const stepThreeSchema = Yup.object().shape({
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
-  apartment: Yup.string()
-    .min(2, "Address should have atleast 2 letters")
-    .max(50)
-    .required("Address is required"),
+  // apartment: Yup.string()
+  //   .min(2, "Address should have atleast 2 letters")
+  //   .max(50)
+  //   .required("Address is required"),
 
   suburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
@@ -217,20 +219,22 @@ export const stepThreeSchema = Yup.object().shape({
 
   postalCode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
-    .required("suburb is required"),
-  deliveryNotes: Yup.string()
-    .min(2, "postalCode should have atleast 5 letters")
-    .max(50)
-    .required("postalCode name is required"),
+    .required("Postcode is required"),
+  // deliveryNotes: Yup.string()
+  //   .min(2, "postalCode should have atleast 5 letters")
+  //   .max(50)
+  //   .required("postalCode name is required"),
+  state: Yup.mixed().required("state is required"),
+  billingState: Yup.mixed().required("billingState is required"),
 
   billingAddress: Yup.string()
     .min(2, "Address should have atleast 2 letters")
     .max(50)
     .required("Address is required"),
-  billingApartment: Yup.string()
-    .min(2, "Address should have atleast 2 letters")
-    .max(50)
-    .required("Address is required"),
+  // billingApartment: Yup.string()
+  //   .min(2, "Address should have atleast 2 letters")
+  //   .max(50)
+  //   .required("Address is required"),
 
   billingSuburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
