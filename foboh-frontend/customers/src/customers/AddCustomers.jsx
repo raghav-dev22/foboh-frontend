@@ -208,7 +208,7 @@ function AddCustomers() {
                               </div>
                             </td>
                             <td className={classes}></td>
-                            <td className={classes}>
+                            <td className={`${classes} w-44`}>
                               <div
                                 onClick={
                                   () => handleCustomerId(product)

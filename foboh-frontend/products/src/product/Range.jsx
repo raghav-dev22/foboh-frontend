@@ -9,7 +9,7 @@ import SearchOffIcon from "@mui/icons-material/SearchOff";
 import ActiveProduct from "./ActiveProduct";
 
 import { useNavigate } from "react-router-dom";
-
+import { Button, message } from "antd";
 import "../style.css";
 
 import {
@@ -73,10 +73,65 @@ function Range() {
   const [selected, setSlected] = useState(0);
 
   const [loading, setLoading] = useState(true);
+  const isTrue = localStorage.getItem("productAdded");
+  // const importTrue = localStorage.getItem("productImport");
 
   const [isSearchResult, setisSearchResult] = useState(true);
+  const [messageApi, contextHolder] = message.useMessage();
+  // const importProduct = () => {
+  //   messageApi.open({
+  //     content: (
+  //       <div className="flex justify-center gap-2 items-center">
+  //         <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+  //         <p className="text-base font-semibold text-[#F8FAFC]">
+  //           Import complete!
+  //         </p>
+  //       </div>
+  //     ),
+  //     className: "custom-class",
+  //     rtl: true,
+  //   });
+  // };
+  const saveProduct = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Products saved!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
 
   const productUrl = process.env.REACT_APP_PRODUCT_API_URL;
+  // useEffect(() => {
+  //   console.log("importTrue", importTrue);
+  //   if (importTrue === "true") {
+  //     importProduct();
+  //   }
+  //   const timeout = setTimeout(() => {
+  //     localStorage.setItem("productImport", false);
+  //   }, 300000);
+
+  //   return () => clearTimeout(timeout);
+  // }, []);
+
+  useEffect(() => {
+    console.log("isTrue", isTrue);
+    if (isTrue === "true") {
+      saveProduct();
+    }
+
+    const timeout = setTimeout(() => {
+      localStorage.setItem("productAdded", false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   useEffect(() => {
     getProductList(1);
@@ -96,7 +151,6 @@ function Range() {
         console.log("product list >>", data);
 
         console.log("bbbbbb", data.total);
-
         setProducts(data.data);
 
         setPrevProducts(data.data);
@@ -560,6 +614,9 @@ function Range() {
                   </div>
                 )}
               </CardFooter>
+              {/* <div className="custom-message">
+                <Button onClick={success}>Customized style</Button>
+              </div> */}
             </div>
           </div>
 
@@ -631,6 +688,7 @@ function Range() {
             setHiddenModalOpen(false);
           }}
         />
+        {contextHolder}
       </div>
     </>
   );

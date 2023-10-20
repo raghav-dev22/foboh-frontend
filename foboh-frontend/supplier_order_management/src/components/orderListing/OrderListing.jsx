@@ -56,7 +56,7 @@ const OrderListing = () => {
     <>
       <div className="padding-top-custom px-7 ">
         <OrderDetailHeader />
-        <div className="grid lg:grid-cols-6 grid-cols-1   gap-5 ">
+        <div className="flex lg:flex-nowrap flex-wrap   gap-5 ">
           <div className="lg:col-span-4 w-full">
             <div className="bg-white rounded-[8px] custom-shadow">
               <Table

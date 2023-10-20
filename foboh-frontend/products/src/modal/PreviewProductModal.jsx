@@ -62,6 +62,7 @@ function PreviewProductModal({
     });
     console.log(importedProducts, "importedProducts");
     console.log("prod", prod);
+    localStorage.setItem("productImport", true);
     setLoading(true);
     fetch(
       "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
@@ -147,7 +148,7 @@ function PreviewProductModal({
         console.log("import data response >>", data.data);
         console.log("err list", errList);
       })
-      .catch((error) => console.log(error, "csv"));
+      .catch((error) => console.log(error));
   };
   const previousModal = () => {
     previous(true);

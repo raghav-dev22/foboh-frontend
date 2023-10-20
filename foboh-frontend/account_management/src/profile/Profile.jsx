@@ -5,23 +5,20 @@ function Profile() {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [profileUri, setProfileUri] = useState("");
   const [show, setShow] = useState(false);
-  
+
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
 
   const resetProfileImage = (imgUrl) => {
-    setProfileUri(imgUrl)
-  }
-
-
-  
+    setProfileUri(imgUrl);
+  };
 
   return (
     <>
-      <div>
+      <div className="padding-top-custom">
         <div className="profile-section  sm:px-11 px-5      	">
-          <div className="sm:py-12 py-8	">
+          <div className="sm:pb-12 pb-8	sm:pt-5 pt-4">
             <h4 className="text-green text-2xl	font-semibold pb-2	">
               {" "}
               Your profile
@@ -30,12 +27,18 @@ function Profile() {
               Customise your public profile
             </p>
           </div>
-          <div
-            className="grid gap-5 lg:flex  overflow-y-scroll	scroll-smooth	scrollable"
-           
-          >
-            <PersonalDetails resetProfileImage={resetProfileImage} profileUri={profileUri} setShow={setShow} show={show} />
-            <EditProfile setProfileUri={setProfileUri} setShow={setShow} show={show} />
+          <div className="grid gap-5 lg:flex  overflow-y-scroll	scroll-smooth	scrollable">
+            <PersonalDetails
+              resetProfileImage={resetProfileImage}
+              profileUri={profileUri}
+              setShow={setShow}
+              show={show}
+            />
+            <EditProfile
+              setProfileUri={setProfileUri}
+              setShow={setShow}
+              show={show}
+            />
           </div>
         </div>
       </div>

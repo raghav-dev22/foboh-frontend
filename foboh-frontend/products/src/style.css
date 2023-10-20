@@ -325,7 +325,7 @@ color: #fff !important;
   background: #0000000f;
 }
 .custom-scroll-bar::-webkit-scrollbar {
-  width: 0px !important;
+  width: 6px !important;
   height: 10px !important;
 }
 

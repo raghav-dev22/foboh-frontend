@@ -316,3 +316,23 @@ a.foboh-green-btn:hover {
     grid-column: span 4 / span 4;
   }
 }
+@media (min-width: 1024px) {
+  .lg\:flex-nowrap {
+    flex-wrap: nowrap;
+  }
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.custom-class .ant-message-notice-content {
+  background-color: #2b4447 !important;
+  border-radius: 0px !important;
+}
+.ant-message.ant-message-top {
+  top: auto !important;
+  bottom: 10px !important;
+}
+.text-\[\#F8FAFC\] {
+  --tw-text-opacity: 1;
+  color: rgb(248 250 252 / var(--tw-text-opacity));
+}

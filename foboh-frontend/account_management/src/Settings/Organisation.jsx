@@ -742,7 +742,7 @@ function Organisation() {
                                 setBaseUnitModalOpen(true);
                               }}
                             >
-                              <div className="w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
+                              <div className=" cursor-pointer w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
                                 Add units
                               </div>
                               <AddCircleOutlineIcon
@@ -764,7 +764,7 @@ function Organisation() {
                                 setInnerUnitModalOpen(true);
                               }}
                             >
-                              <div className="w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
+                              <div className="cursor-pointer w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
                                 Add units
                               </div>
                               <AddCircleOutlineIcon

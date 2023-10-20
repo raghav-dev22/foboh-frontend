@@ -166,7 +166,7 @@ function CustomerBulkEdit() {
           {/* <AlertModal show={show} setShow={(set) => setShow(set)} /> */}
         </div>
       )}
-      <div className="padding-top-custom flex flex-col items-start justify-start px-6 gap-5">
+      <div className="padding-top-custom flex flex-col items-start justify-between px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
           <div
             onClick={backBtn}
