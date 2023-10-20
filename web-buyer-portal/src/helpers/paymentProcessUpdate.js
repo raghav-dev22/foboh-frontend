@@ -9,7 +9,7 @@ export const paymentProcessUpdate = (orderId, orderBy) => {
       body: JSON.stringify({
         orderId: orderId,
         orderBy: orderBy,
-        orderStatus: "OrderConfirmed",
+        orderStatus: "OrderPlaced",
       }),
     }
   )

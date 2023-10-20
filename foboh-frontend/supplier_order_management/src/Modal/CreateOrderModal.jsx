@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Divider, Space, Button, Modal } from "antd";
 import Select from "react-select";
 import { Stepper, Step, Typography, button } from "@material-tailwind/react";
@@ -12,6 +12,7 @@ import ShieldIcon from "@mui/icons-material/Shield";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AlertModal from "./AlertModal";
+import { getCustomers } from "../helpers/getCustomer";
 // import { Select } from "antd";
 
 let index = 0;
@@ -19,6 +20,9 @@ let index = 0;
 const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const [selectedState, setSelectedState] = useState(null);
   const [customerSelectedOption, setCustomerSelectedOption] = useState(null);
+  const [customerList, setCustomerList] = useState([])
+
+
   const stateOptions = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
@@ -47,6 +51,8 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
+
+
   const [selectedOption, setSelectedOption] = useState(null);
   const [editDeliveryContact, setEditDeliveryContact] = useState(false);
   const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
@@ -124,6 +130,15 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const itemOption = (itemIndex) => {
     console.log(selectedItems, "itemIndex");
   };
+
+
+  useEffect(() => {
+    getCustomers().then(data => {
+      if(data.success){
+        // setCustomerList()
+      }
+    })
+  }, [])
 
   return (
     <>
