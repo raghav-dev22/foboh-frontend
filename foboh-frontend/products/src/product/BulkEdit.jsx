@@ -4,9 +4,17 @@ import BulkEditTable from "../BulkEdit/BulkEditTable";
 import AlertModal from "../modal/AlertModal";
 import Select from "react-select";
 import { Button, message } from "antd";
-
+import useUnsavedChangesWarning from "../helpers/useUnsavedChangesWarning";
 import { useFormik } from "formik";
 import { addProductSchema } from "../schemas";
+import {
+  Prompt,
+  Redirect,
+  withRouter,
+  BrowserRouter,
+  Link,
+  Route,
+} from "react-router-dom";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import {
@@ -25,6 +33,7 @@ function BulkEdit() {
   const [unSaved, setUnSaved] = useState(false);
   const [productTable, setProductTable] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [Prompt, setDirty, setPrestine] = useUnsavedChangesWarning();
   const [initialValues, setInitialValues] = useState([
     {
       visibility: false,
@@ -63,7 +72,6 @@ function BulkEdit() {
     },
   ]);
   const navigate = useNavigate();
-
   const status = [
     { value: 1, label: "Active" },
     { value: 2, label: "Inactive" },
@@ -233,11 +241,11 @@ function BulkEdit() {
   };
   const backBtn = () => {
     setUnSaved(true);
-    // navigate("/dashboard/products");
   };
 
   return (
     <>
+      <Prompt when={true} message="111" />
       {isUpdate && (
         <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
           <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
@@ -250,7 +258,9 @@ function BulkEdit() {
                   Cancel
                 </button>
                 <button
-                  onClick={handleSubmit}
+                  onClick={() => {
+                    handleSubmit();
+                  }}
                   className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
                 >
                   Save
@@ -261,7 +271,6 @@ function BulkEdit() {
           <AlertModal show={show} setShow={(set) => setShow(set)} />
         </div>
       )}
-
       <div className="padding-top-custom flex flex-col items-start justify-start px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
           <div onClick={backBtn} className="cursor-pointer">

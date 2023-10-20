@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { remove, updateQuantity } from "../slices/CartSlice";
 import { PoweroffOutlined } from "@ant-design/icons";
@@ -15,32 +15,32 @@ const OrderDetails = () => {
   const customDot = (dot, { status, index }) => (
     <Popover content={<span>Status: {status}</span>}>{dot}</Popover>
   );
-
+  const childRef = useRef();
   const [totalCost, setTotleCost] = useState(0);
   const [showPreview, setshowPreview] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const [currentStep, setCurrentStep] = useState(0);
-  const [productList, setProductList] = useState([])
-
+  const [productList, setProductList] = useState([]);
+  const [isWine, setIsWine] = useState(false);
+  const [invoiceData, setInvoiceData] = useState({});
+  const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
+  let orderId = "";
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log(id, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-  let cart = ""
- 
+  let cart = "";
 
   const calculateTotalCost = () => {
     let total = 0;
 
-    const {totalPrice, payAmountLong, gst, wet, subCategoryId} = cart[0]
-
+    const { totalPrice, payAmountLong, gst, wet, subCategoryId } = cart[0];
+    console.log(CARTdata, "jjjjjjjjjjj");
     CARTdata.forEach((item) => {
       const productPrice = item?.product?.globalPrice;
       const productPriceINR = productPrice;
       const quantity = parseInt(item.quantity);
       total += productPriceINR * quantity;
-
       console.log("hdgfj", total);
     });
     return total;
@@ -79,22 +79,20 @@ const OrderDetails = () => {
     //Handling Cart details of order
     getSealedCart(id).then((data) => {
       if (data.success) {
-        const updatedList = data.data.map(product => {
-
+        const updatedList = data.data.map((product) => {
           return {
-            product : product,
-            quantity : product?.quantity
-          }
-        })
+            product: product,
+            quantity: product?.quantity,
+          };
+        });
 
-        cart = updatedList
-        setProductList(updatedList)
-        calculateTotalCost()
+        cart = updatedList;
+        setProductList(updatedList);
+        calculateTotalCost();
       }
     });
   }, []);
 
-  
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -142,11 +140,96 @@ const OrderDetails = () => {
       });
   };
 
+  const handleInvoiceDownload = async (orderId) => {
+    const invoiceData = await fetchInvoice(orderId);
+    if (childRef.current && invoiceData) {
+      childRef.current.handlePrint(orderId);
+    }
+  };
+
+  const fetchInvoice = async (id) => {
+    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${id}`;
+
+    const invoiceData = await fetch(apiUrl)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.total, "data------>");
+        setshowPreview(true);
+        setInvoiceData(data.data[0]);
+        orderId = data.data[0]?.orderId;
+        setInvoiceDataProducts(
+          data.data.map((item) => {
+            let gstPerItem = 0;
+            let wetPerItem = null;
+            let amountPerItem = 0;
+
+            const salePrice = item?.globalPrice;
+            const quantity = item?.quantity;
+            const subCatId = item?.subCategoryId;
+            const gst = 0.1;
+            const wet = 0.29;
+
+            const subTotal = salePrice * quantity;
+            const subTotalGst = subTotal * gst;
+            const subTotalIncGst = subTotal + subTotalGst;
+            let subTotalWet = 0;
+            let subTotalIncWet = 0;
+
+            if (subCatId === "SC500" || subCatId === "SC5000") {
+              setIsWine(true);
+              subTotalWet = subTotal * wet;
+              subTotalIncWet = subTotal + subTotalWet;
+              wetPerItem = subTotalIncWet;
+            }
+
+            amountPerItem = subTotalIncGst;
+            gstPerItem = subTotalGst;
+
+            return {
+              totalPrice: item?.totalPrice,
+              quantity: item?.quantity,
+              cartId: item?.cartId,
+              subTotalPrice: item?.subTotalPrice,
+              shippingcharges: item?.shippingcharges,
+              gst: item?.gst,
+              wet: item?.wet,
+              productId: item?.productId,
+              skUcode: item?.skUcode,
+              configuration: item?.configuration,
+              luCcost: item?.luCcost,
+              globalPrice: item?.globalPrice,
+              title: item?.title,
+              unitofMeasure: item?.unitofMeasure,
+              amountPerItem: amountPerItem,
+              gstPerItem: gstPerItem,
+              wetPerItem: wetPerItem,
+            };
+          })
+        );
+      })
+      .then(() => {
+        return true;
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+    return invoiceData;
+  };
+
   return (
     <>
       {contextHolder}
       <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
-        <InvoiceModal show={showPreview} setShow={setshowPreview} />
+        <InvoiceModal
+          ref={childRef}
+          show={showPreview}
+          setShow={setshowPreview}
+          invoiceData={invoiceData}
+          invoiceDataProducts={invoiceDataProducts}
+          isWine={isWine}
+        />
         <div className="grid sm:grid-cols-2 grid-cols-1 justify-between items-center mb-6 sm:gap-0 gap-3 ">
           <h1 className="md:text-[30px] text-[25px] font-semibold text-[#2B4447] ">
             Order {orderDetails.orderId}
@@ -164,7 +247,7 @@ const OrderDetails = () => {
               loading={loadings[1]}
               // onClick={() => enterLoading(1)}
               onClick={() => {
-                setshowPreview(true);
+                handleInvoiceDownload(id);
               }}
               className=" h-full text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
             >
@@ -329,7 +412,7 @@ const OrderDetails = () => {
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">
-                  ${totalCost}
+                  ${CARTdata.total}
                 </h5>
               </div>
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">

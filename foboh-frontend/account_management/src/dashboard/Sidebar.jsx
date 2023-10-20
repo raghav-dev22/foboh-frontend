@@ -86,7 +86,7 @@ const Sidebar = () => {
                 </svg>
               </div>
               <Link to="/dashboard/main" className="no-underline">
-                <h6 className="text-base	font-medium  text-gray	">Dashboard</h6>
+                <h6 className="text-base	font-medium  text-gray">Dashboard</h6>
               </Link>
             </div>
           </li>
