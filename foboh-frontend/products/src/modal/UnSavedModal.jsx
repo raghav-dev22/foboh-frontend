@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const UnSavedModal = ({ open, onOk, onCancel }) => {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
+
   const handleLeave = () => {
     navigate("/dashboard/products");
   };

@@ -526,7 +526,7 @@ const InvoiceModal = forwardRef(
                                         font: "var(--paragraph-2-bold, 700 14px/33% 'Inter', sans-serif)",
                                       }}
                                     >
-                                      ${invoiceData?.totalPrice}
+                                      ${invoiceData?.payAmountLong}
                                     </td>
                                   </tr>
                                 </tbody>

@@ -47,6 +47,7 @@ function ViewProduct() {
   const [productName, setProductName] = useState("");
   const [prevImgUrl, setPrevImgUrl] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [Stock, setStock] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
     visibility: false,
@@ -178,6 +179,13 @@ function ViewProduct() {
       console.log("product promise --->", data);
 
       const product = data;
+      if (product.trackInventory === true) {
+        setStock(true);
+      } else {
+        setStock(false);
+      }
+      console.log(values.trackInventory);
+
       const productId = product.productId;
       setProductName(product.title);
       setProductId(productId);
@@ -692,16 +700,18 @@ function ViewProduct() {
 
   // Inventory ----START
   const handleMinimumOrderQuantity = (e) => {
+    const inputValue = parseInt(e.target.value, 10);
     setValues({
       ...values,
-      minimumOrder: e.target.value,
+      minimumOrder: Math.max(0, inputValue),
     });
   };
 
   const handleAvailableQuantity = (e) => {
+    const inputValue = parseInt(e.target.value, 10);
     setValues({
       ...values,
-      availableQty: e.target.value,
+      availableQty: Math.max(0, inputValue),
     });
   };
 
@@ -710,13 +720,19 @@ function ViewProduct() {
       ...values,
       trackInventory: !values.trackInventory,
     });
+    if (values.trackInventory === false) {
+      setStock(true);
+    } else {
+      setStock(false);
+    }
     console.log(values.trackInventory);
   };
 
   const handleStockAlertLevel = (e) => {
+    const inputValue = parseInt(e.target.value, 10);
     setValues({
       ...values,
-      stockAlertLevel: e.target.value,
+      stockAlertLevel: Math.max(0, inputValue),
     });
     console.log(values.stockAlertLevel);
   };
@@ -1521,24 +1537,26 @@ function ViewProduct() {
                           products are low or out of stock
                         </p>
                       </div>
-                      <div className=" pb-5">
+                      {Stock && (
                         <div className=" pb-5">
-                          <h5 className="text-base font-medium text-green mb-3">
-                            Stock alert level
-                          </h5>
-                          <div className="w-72">
-                            <input
-                              onChange={handleStockAlertLevel}
-                              value={values.stockAlertLevel}
-                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="stock-alert-level"
-                              name="stock-alert-level"
-                              type="number"
-                              placeholder="2 cases"
-                            />
+                          <div className=" pb-5">
+                            <h5 className="text-base font-medium text-green mb-3">
+                              Stock alert level
+                            </h5>
+                            <div className="w-72">
+                              <input
+                                onChange={handleStockAlertLevel}
+                                value={values.stockAlertLevel}
+                                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="stock-alert-level"
+                                name="stock-alert-level"
+                                type="number"
+                                placeholder="2 cases"
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      )}
                       <div className="pb-5">
                         <div className=" flex justify-between items-center mb-3">
                           <h5 className="text-green text-base font-medium">

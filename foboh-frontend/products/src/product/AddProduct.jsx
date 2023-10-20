@@ -280,16 +280,22 @@ function AddProduct() {
 
   // Inventory ----START
   const handleMinimumOrderQuantity = (e) => {
+    const inputValue = parseInt(e.target.value, 10);
+
     setValues({
       ...values,
-      minimumOrder: e.target.value,
+
+      minimumOrder: Math.max(0, inputValue),
     });
   };
 
   const handleAvailableQuantity = (e) => {
+    const inputValue = parseInt(e.target.value, 10);
+
     setValues({
       ...values,
-      availableQty: e.target.value,
+
+      availableQty: Math.max(0, inputValue),
     });
   };
 
@@ -307,10 +313,14 @@ function AddProduct() {
   };
 
   const handleStockAlertLevel = (e) => {
+    const inputValue = parseInt(e.target.value, 10);
+
     setValues({
       ...values,
-      stockAlertLevel: e.target.value,
+
+      stockAlertLevel: Math.max(0, inputValue),
     });
+
     console.log(values.stockAlertLevel);
   };
 
@@ -1303,211 +1313,213 @@ function AddProduct() {
                         </div>
                       </div>
                     )}
-                </div>
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  {isWine && (
-                    <div className="w-full  px-3">
-                      <label
-                        className="block  tracking-wide text-gray-700 text-base font-medium "
-                        htmlFor="vintage"
-                      >
-                        Vintage
-                      </label>
-                      <input
-                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="vintage"
-                        name="vintage"
-                        type="text"
-                        value={values?.vintage !== 0 ? values?.vintage : null}
-                        onChange={handleChange}
-                        placeholder="2004"
-                      />
-                    </div>
-                  )}
-                  {isWine && (
-                    <div className="w-full  px-3 relative">
-                      <label
-                        className="block  tracking-wide text-gray-700 text-base font-medium "
-                        htmlFor="awards"
-                      >
-                        Awards
-                      </label>
-                      <input
-                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="awards"
-                        name="awards"
-                        onChange={handleChange}
-                        onKeyPress={(event) => {
-                          const allowedCharacters = /^[A-Za-z0-9]*$/;
-                          if (!allowedCharacters.test(event.key)) {
-                            event.preventDefault();
-                          }
-                        }}
-                        value={values.awards}
-                        type="text"
-                        placeholder="WS 93"
-                        style={{
-                          border:
-                            errors.awards && touched.awards && "1px solid red",
-                        }}
-                      />
-                      {errors.awards && touched.awards && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                          {errors.awards}
-                        </p>
-                      )}
-                      {errors.awards && touched.awards && (
-                        <ErrorOutlineIcon
-                          style={{ top: "45px" }}
-                          className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                  </div>
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    {isWine && (
+                      <div className="w-full  px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base font-medium "
+                          htmlFor="vintage"
+                        >
+                          Vintage
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="vintage"
+                          name="vintage"
+                          type="text"
+                          value={values?.vintage !== 0 ? values?.vintage : null}
+                          onChange={handleChange}
+                          placeholder="2004"
                         />
-                      )}
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className=" w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Country
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        name="colors"
-                        isDisabled={!country.length}
-                        options={country}
-                        value={values.country}
-                        onChange={handleCountryChange}
-                        className="basic-multi-select "
-                        classNamePrefix="select"
-                      />
-                      {errors.country && touched.country && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
-                          {errors.country}
-                        </p>
-                      )}
-                    </div>
+                      </div>
+                    )}
+                    {isWine && (
+                      <div className="w-full  px-3 relative">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base font-medium "
+                          htmlFor="awards"
+                        >
+                          Awards
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="awards"
+                          name="awards"
+                          onChange={handleChange}
+                          onKeyPress={(event) => {
+                            const allowedCharacters = /^[A-Za-z0-9]*$/;
+                            if (!allowedCharacters.test(event.key)) {
+                              event.preventDefault();
+                            }
+                          }}
+                          value={values.awards}
+                          type="text"
+                          placeholder="WS 93"
+                          style={{
+                            border:
+                              errors.awards &&
+                              touched.awards &&
+                              "1px solid red",
+                          }}
+                        />
+                        {errors.awards && touched.awards && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                            {errors.awards}
+                          </p>
+                        )}
+                        {errors.awards && touched.awards && (
+                          <ErrorOutlineIcon
+                            style={{ top: "45px" }}
+                            className="absolute text-red-500  right-5 transition-all duration-[0.3s]"
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
-                  {isAlcoholicBeverage && (
-                    <div className="w-full  px-3">
-                      <label
-                        className="block  tracking-wide text-gray-700 text-base font-medium "
-                        htmlFor="abv"
-                      >
-                        ABV
-                      </label>
-                      <input
-                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="abv"
-                        name="abv"
-                        onChange={handleChange}
-                        onKeyPress={(event) => {
-                          const allowedCharacters = /^[0-9.%]*$/;
-                          if (!allowedCharacters.test(event.key)) {
-                            event.preventDefault();
-                          }
-                        }}
-                        value={values.abv}
-                        type="text"
-                        placeholder="Enter ABV..."
-                      />
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className=" w-full  px-3">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Country
+                      </h5>
+                      <div className="w-full">
+                        <Select
+                          name="colors"
+                          isDisabled={!country.length}
+                          options={country}
+                          value={values.country}
+                          onChange={handleCountryChange}
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                        />
+                        {errors.country && touched.country && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
+                            {errors.country}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
-
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Base unit of measure
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        isDisabled={!baseUnitOfMeasurement.length}
-                        options={baseUnitOfMeasurement}
-                        onBlur={handleBlur}
-                        value={values.baseUnitMeasure || null} // Set value to null when no option is selected
-                        name="baseUnitMeasure"
-                        onChange={handlebaseUnitOfMeasurement}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                      />
-                      {errors.baseUnitMeasure && touched.baseUnitMeasure && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
-                          {errors.baseUnitMeasure}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="w-full  px-3">
-                    <h5 className="text-base font-medium text-green mb-3">
-                      Inner unit of measure
-                    </h5>
-                    <div className="w-full">
-                      <Select
-                        isDisabled={!innerUnitOfMeasurement.length}
-                        options={innerUnitOfMeasurement}
-                        value={values.innerUnitMeasure}
-                        onChange={handleinnerUnitOfMeasurement}
-                        onBlur={handleBlur}
-                        name="innerUnitMeasure"
-                        className="basic-multi-select "
-                        classNamePrefix="select"
-                      />
-                      {errors.innerUnitMeasure && touched.innerUnitMeasure && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                          {errors.innerUnitMeasure}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-nowrap -mx-3 mb-5">
-                  <div className="w-full px-3">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base font-medium "
-                      htmlFor="grid-password"
-                    >
-                      Configuration (ordering unit of measure)
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="grid-password"
-                      type="text"
-                      name="configuration"
-                      disabled
-                      value={
-                        values.configuration &&
-                        `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
-                      }
-                      placeholder={
-                        values.configuration &&
-                        `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-nowrap -mx-3 mb-5">
-                  <div className=" w-full px-3">
-                    <label
-                      htmlFor="message"
-                      className="block mb-2 text-base font-medium text-gray-700 dark:text-white"
-                    >
-                      Description
-                      <CustomTooltip
-                        placement="right"
-                        arrow
-                        title="This is the description of your product which will appear to customers when visible on the site"
-                      >
-                        <HelpIcon
-                          sx={{
-                            color: "#E0E0E0",
-                            width: "20px",
-                            marginLeft: "15px",
+                    {isAlcoholicBeverage && (
+                      <div className="w-full  px-3">
+                        <label
+                          className="block  tracking-wide text-gray-700 text-base font-medium "
+                          htmlFor="abv"
+                        >
+                          ABV
+                        </label>
+                        <input
+                          className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="abv"
+                          name="abv"
+                          onChange={handleChange}
+                          onKeyPress={(event) => {
+                            const allowedCharacters = /^[0-9.%]*$/;
+                            if (!allowedCharacters.test(event.key)) {
+                              event.preventDefault();
+                            }
                           }}
                           value={values.abv}
                           type="text"
                           placeholder="Enter ABV..."
                         />
-                     
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className="w-full  px-3">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Base unit of measure
+                      </h5>
+                      <div className="w-full">
+                        <Select
+                          isDisabled={!baseUnitOfMeasurement.length}
+                          options={baseUnitOfMeasurement}
+                          onBlur={handleBlur}
+                          value={values.baseUnitMeasure || null} // Set value to null when no option is selected
+                          name="baseUnitMeasure"
+                          onChange={handlebaseUnitOfMeasurement}
+                          className="basic-multi-select"
+                          classNamePrefix="select"
+                        />
+                        {errors.baseUnitMeasure && touched.baseUnitMeasure && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
+                            {errors.baseUnitMeasure}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-full  px-3">
+                      <h5 className="text-base font-medium text-green mb-3">
+                        Inner unit of measure
+                      </h5>
+                      <div className="w-full">
+                        <Select
+                          isDisabled={!innerUnitOfMeasurement.length}
+                          options={innerUnitOfMeasurement}
+                          value={values.innerUnitMeasure}
+                          onChange={handleinnerUnitOfMeasurement}
+                          onBlur={handleBlur}
+                          name="innerUnitMeasure"
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                        />
+                        {errors.innerUnitMeasure &&
+                          touched.innerUnitMeasure && (
+                            <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                              {errors.innerUnitMeasure}
+                            </p>
+                          )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap -mx-3 mb-5">
+                    <div className="w-full px-3">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base font-medium "
+                        htmlFor="grid-password"
+                      >
+                        Configuration (ordering unit of measure)
+                      </label>
+                      <input
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="grid-password"
+                        type="text"
+                        name="configuration"
+                        disabled
+                        value={
+                          values.configuration &&
+                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                        }
+                        placeholder={
+                          values.configuration &&
+                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap -mx-3 mb-5">
+                    <div className=" w-full px-3">
+                      <label
+                        htmlFor="message"
+                        className="block mb-2 text-base font-medium text-gray-700 dark:text-white"
+                      >
+                        Description
+                        <CustomTooltip
+                          placement="right"
+                          arrow
+                          title="This is the description of your product which will appear to customers when visible on the site"
+                        >
+                          <HelpIcon
+                            sx={{
+                              color: "#E0E0E0",
+                              width: "20px",
+                              marginLeft: "15px",
+                            }}
+                            value={values.abv}
+                            type="text"
+                            placeholder="Enter ABV..."
+                          />
                         </CustomTooltip>
                       </label>
                       <textarea
@@ -1561,96 +1573,96 @@ function AddProduct() {
               </div>
             </div>
 
-          {/* Pricing Details  */}
-          <div className="  w-full  rounded-lg border border-inherit bg-white h-full grid  ">
-            <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
-              <h6 className="text-base font-medium text-green">
-                Pricing details
-              </h6>
-            </div>
-            <div className="px-6 py-7">
-              <div className="w-full ">
-                <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                  <div className="w-full relative md:w-1/2 px-3">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base font-medium "
-                      htmlFor="Sale-price"
-                    >
-                      Sale price exc. GST
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="Sale-price"
-                      name="salePrice"
-                      onKeyPress={(e) => {
-                        const isValidKey = /[0-9]/.test(e.key); // Test if the pressed key is a number
-                        if (!isValidKey) {
-                          e.preventDefault(); // Prevent input of non-numeric characters
-                        }
-                      }}
-                      onChange={handleSalePrice}
-                      prefix="$"
-                      value={values.salePrice !== 0 ? values.salePrice : null}
-                      onBlur={handleBlur}
-                      type="text"
-                      placeholder="Enter Sale Price"
-                    />
-                    {errors.salePrice && touched.salePrice && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                        {errors.salePrice}
-                      </p>
-                    )}
-                  </div>
-                  <div className="w-full relative md:w-1/2 px-3">
-                    <label
-                      className="block  tracking-wide text-gray-700 text-base font-medium "
-                      htmlFor="Buy-price"
-                    >
-                      Buy price
-                      <CustomTooltip
-                        placement="right"
-                        arrow
-                        title={
-                          <p className="text-white">
-                            This is the cost you paid per item.
-                            <br /> Customers will not see this
-                          </p>
-                        }
+            {/* Pricing Details  */}
+            <div className="  w-full  rounded-lg border border-inherit bg-white h-full grid  ">
+              <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
+                <h6 className="text-base font-medium text-green">
+                  Pricing details
+                </h6>
+              </div>
+              <div className="px-6 py-7">
+                <div className="w-full ">
+                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
+                    <div className="w-full relative md:w-1/2 px-3">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base font-medium "
+                        htmlFor="Sale-price"
                       >
-                        <HelpIcon
-                          sx={{
-                            color: "#E0E0E0",
-                            width: "20px",
-                            marginLeft: "15px",
-                          }}
-                        />{" "}
-                      </CustomTooltip>
-                    </label>
-                    <input
-                      className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="Buy-price"
-                      type="text"
-                      name="buyPrice"
-                      onKeyPress={(event) => {
-                        const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
-                        if (!allowedCharacters.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                      onChange={handleBuyPrice}
-                      value={values.buyPrice !== 0 ? values.buyPrice : null}
-                      onBlur={handleBlur}
-                      placeholder="Buy Price"
-                    />
-                    {errors.buyPrice && touched.buyPrice && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                        {errors.buyPrice}
-                      </p>
-                    )}
+                        Sale price exc. GST
+                      </label>
+                      <input
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="Sale-price"
+                        name="salePrice"
+                        onKeyPress={(e) => {
+                          const isValidKey = /[0-9]/.test(e.key); // Test if the pressed key is a number
+                          if (!isValidKey) {
+                            e.preventDefault(); // Prevent input of non-numeric characters
+                          }
+                        }}
+                        onChange={handleSalePrice}
+                        prefix="$"
+                        value={values.salePrice !== 0 ? values.salePrice : null}
+                        onBlur={handleBlur}
+                        type="text"
+                        placeholder="Enter Sale Price"
+                      />
+                      {errors.salePrice && touched.salePrice && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.salePrice}
+                        </p>
+                      )}
+                    </div>
+                    <div className="w-full relative md:w-1/2 px-3">
+                      <label
+                        className="block  tracking-wide text-gray-700 text-base font-medium "
+                        htmlFor="Buy-price"
+                      >
+                        Buy price
+                        <CustomTooltip
+                          placement="right"
+                          arrow
+                          title={
+                            <p className="text-white">
+                              This is the cost you paid per item.
+                              <br /> Customers will not see this
+                            </p>
+                          }
+                        >
+                          <HelpIcon
+                            sx={{
+                              color: "#E0E0E0",
+                              width: "20px",
+                              marginLeft: "15px",
+                            }}
+                          />{" "}
+                        </CustomTooltip>
+                      </label>
+                      <input
+                        className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="Buy-price"
+                        type="text"
+                        name="buyPrice"
+                        onKeyPress={(event) => {
+                          const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
+                          if (!allowedCharacters.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                        onChange={handleBuyPrice}
+                        value={values.buyPrice !== 0 ? values.buyPrice : null}
+                        onBlur={handleBlur}
+                        placeholder="Buy Price"
+                      />
+                      {errors.buyPrice && touched.buyPrice && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.buyPrice}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="mb-5">
-                  <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-3">
+                  <div className="mb-5">
+                    <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-3">
                       <div className="w-full relative md:w-1/2 px-3">
                         <label
                           className="block  tracking-wide text-gray-700 text-base font-medium "
