@@ -28,7 +28,7 @@ function ImportModal({ show, setShow }) {
         let productList = [...data[firstSheet]].filter((i) => i.length);
         if (productList.length) {
           console.log("productList", productList);
-
+          localStorage.setItem("productImport", true);
           const dataStructure = [...productList].slice(0, 2);
           const productData = [...productList].slice(2);
           console.log("product data", productData);
@@ -85,6 +85,7 @@ function ImportModal({ show, setShow }) {
   const showModal = () => {
     if (addedFile && !errorData?.length) {
       setShowPreviewModal(true);
+
       setShow(false);
     } else {
       setErrorFoundModal(true);

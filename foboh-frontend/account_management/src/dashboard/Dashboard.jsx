@@ -166,7 +166,7 @@ function Dashboard() {
                 path="/bank-information"
                 element={<BankingInformation />}
               />
-              <Route path="/order-listing" element={<OrderListing />} />
+              <Route path="/order-details/:id" element={<OrderListing />} />
               <Route
                 path="/customer-bulk-edit"
                 element={<CustomerBulkEdit />}

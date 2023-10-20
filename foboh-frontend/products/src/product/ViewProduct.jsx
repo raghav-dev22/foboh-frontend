@@ -5,9 +5,10 @@ import Select from "react-select";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import HelpIcon from "@mui/icons-material/Help";
-
+import CloseIcon from "@mui/icons-material/Close";
 // import ActiveProduct from './ActiveProduct'
 
+import { Button, message } from "antd";
 import ViewProductHeader from "./ViewProductHeader";
 import EditProductDetails from "../editProduct/EditProductDetails";
 import UpdateImg from "../editProduct/UpdateImg";
@@ -154,6 +155,21 @@ function ViewProduct() {
         reject(error);
       });
   });
+  const [messageApi, contextHolder] = message.useMessage();
+  const updateProduct = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Products saved!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
 
   useEffect(() => {
     productPromise.then((data) => {
@@ -615,6 +631,7 @@ function ViewProduct() {
         })
         .then((data) => {
           console.log("response after update>>", data);
+          updateProduct();
           setShow(false);
         })
         .catch((error) => console.log(error));
@@ -2267,6 +2284,7 @@ function ViewProduct() {
           </div>
         </form>
       </div>
+      {contextHolder}
     </>
   );
 }

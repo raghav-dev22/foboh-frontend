@@ -76,7 +76,7 @@ function CustomerDetails() {
       formik.values?.defaultPaymentMethodId.map((item) => {
         return item.label;
       });
-    const tagsList = formik.values?.tags.map((item) => {
+    const tagsList = formik.values?.tags?.map((item) => {
       return item.label;
     });
     const organisationId = localStorage.getItem("organisationId");
