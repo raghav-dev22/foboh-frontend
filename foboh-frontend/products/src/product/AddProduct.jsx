@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react"; 
+import React, { Fragment, useEffect, useState } from "react";
 import AddProductListing from "../addProduct/AddProductListing";
 
 import UploadImg from "../addProduct/UploadImg";
@@ -37,9 +37,9 @@ import DeleteModal from "../modal/DeleteModal";
 const initialValues = {
   visibility: "0",
   region: [],
-  minimumOrder: null,
+  minimumOrder: 0,
   trackInventory: false,
-  stockAlertLevel: null,
+  stockAlertLevel: 0,
   sellOutOfStock: false,
   title: "",
   skuCode: "",
@@ -50,17 +50,17 @@ const initialValues = {
   segment: "",
   grapeVariety: [],
   regionSelect: "",
-  vintage: null,
+  vintage: 0,
   awards: "",
-  abv: null,
+  abv: "",
   country: "",
   baseUnitMeasure: "",
   innerUnitMeasure: "",
   configuration: "",
   description: "",
   tags: "",
-  salePrice: null,
-  buyPrice: null,
+  salePrice: 0,
+  buyPrice: 0,
   profit: "",
   margin: "",
   tax: "",
@@ -1304,7 +1304,7 @@ function AddProduct() {
                         id="vintage"
                         name="vintage"
                         type="text"
-                        value={values.vintage}
+                        value={values?.vintage !== 0 ? values?.vintage : null}
                         onChange={handleChange}
                         placeholder="2004"
                       />
@@ -1572,7 +1572,7 @@ function AddProduct() {
                       }}
                       onChange={handleSalePrice}
                       prefix="$"
-                      value={values.salePrice}
+                      value={values.salePrice !== 0 ? values.salePrice : null}
                       onBlur={handleBlur}
                       type="text"
                       placeholder="Enter Sale Price"
@@ -1620,7 +1620,7 @@ function AddProduct() {
                         }
                       }}
                       onChange={handleBuyPrice}
-                      value={values.buyPrice}
+                      value={values.buyPrice !== 0 ? values.buyPrice : null}
                       onBlur={handleBlur}
                       placeholder="Buy Price"
                     />

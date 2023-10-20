@@ -236,7 +236,7 @@ const MyOrders = () => {
 
     Total: (
       <p className="text-base font-medium text-[#2B4447]">
-        ${order.totalPrice}
+        ${order.payAmountLong}
       </p>
     ),
 

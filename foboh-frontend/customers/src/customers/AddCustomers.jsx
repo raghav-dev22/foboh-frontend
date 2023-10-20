@@ -269,12 +269,12 @@ function AddCustomers() {
                             </td>
                             <td className={classes}>
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                10
+                              {product?.noOfOrders}
                               </Typography>
                             </td>
                             <td className={classes}>
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                ${10 * 20}
+                                ${product?.totalspendAmount}
                               </Typography>
                             </td>
                             {/* </Skeleton> */}

@@ -7,15 +7,13 @@ export const getTrackerStatus = async (orderId) => {
   )
     .then((response) => response.json())
     .then((data) => {
-        let status = ''
+      let status = "";
       if (data.success) {
-        status = data?.orderStatus
-        return status;
-      } else {
-        return status
+        status = data?.data[0]?.orderStatus;
       }
+      return status;
     })
     .catch((error) => console.log(error));
 
-    return orderStatus
+  return orderStatus;
 };

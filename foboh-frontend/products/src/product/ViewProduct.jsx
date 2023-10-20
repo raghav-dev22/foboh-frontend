@@ -304,7 +304,7 @@ function ViewProduct() {
               data[3].data.find((obj) => obj.segmentId === segmentId),
             ];
 
-            const grapeVarietyObj = options.filter((option) =>
+            const grapeVarietyObj = variety.filter((option) =>
               grapeVarietyName.includes(option.label)
             );
 
@@ -320,9 +320,7 @@ function ViewProduct() {
               (IUM) => IUM.value === parseInt(innerUnitMeasure)
             );
 
-            const tagsObj = options.filter((option) =>
-              tags.includes(option.label)
-            );
+            const tagsObj = tag.filter((option) => tags.includes(option.label));
             console.log("tags : --->", tagsObj);
 
             const regionObj = region.find((rgn) => rgn.label === regionName);

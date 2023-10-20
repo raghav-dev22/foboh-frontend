@@ -9,7 +9,6 @@ export const addProductSchema = Yup.object().shape({
   availableQty: Yup.string().required("Available quantity is required"),
   minimumOrder: Yup.string().required("Minimum order is required"),
   trackInventory: Yup.boolean(),
-  stockAlertLevel: Yup.string().required("Stock alert level is required"),
   title: Yup.string()
     .required("Please Enter Title")
     .min(2, "Title must have at least 2 characters")
@@ -21,14 +20,11 @@ export const addProductSchema = Yup.object().shape({
     .required("Brand is required")
     .min(2, "Brand must have at least 2 characters"),
   department: Yup.object().required("Department is required"),
-  awards: Yup.string().required("awards is required"),
   category: Yup.object().required("Category is required"),
   subcategory: Yup.object().required("Subcategory is required"),
   segment: Yup.mixed(),
   grapeVariety: Yup.array(),
   regionSelect: Yup.mixed(),
-  vintage: Yup.string(),
-  abv: Yup.string(),
   country: Yup.mixed().required("country is required"),
   baseUnitMeasure: Yup.object().required("Base unit measure is required"),
   innerUnitMeasure: Yup.object().required("Inner unit measure is required"),

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { remove, updateQuantity } from "../slices/CartSlice";
+import { remove, setCart, updateQuantity } from "../slices/CartSlice";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Instruction from "../Svg/Instruction";
@@ -21,19 +21,18 @@ const OrderDetails = () => {
   const [orderDetails, setOrderDetails] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const [currentStep, setCurrentStep] = useState(0);
-  const [productList, setProductList] = useState([])
+  const [productList, setProductList] = useState([]);
 
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
   console.log(id, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-  let cart = ""
- 
+  let cart = "";
 
   const calculateTotalCost = () => {
     let total = 0;
 
-    const {totalPrice, payAmountLong, gst, wet, subCategoryId} = cart[0]
+    const { totalPrice, payAmountLong, gst, wet, subCategoryId } = cart[0];
 
     CARTdata.forEach((item) => {
       const productPrice = item?.product?.globalPrice;
@@ -49,20 +48,21 @@ const OrderDetails = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "This is a success message",
+      content: "Reorder succeeeded, items added to your cart.",
     });
   };
 
   const warning = () => {
     messageApi.open({
       type: "warning",
-      content: "This is a warning message",
+      content: "Error has occurred, please try again.",
     });
   };
 
   useEffect(() => {
     //Handling Stepper
     getTrackerStatus(id).then((status) => {
+      console.log("getTrackerStatus", status);
       if (status === "Order Placed") {
         setCurrentStep(0);
       } else if (status === "Pending") {
@@ -79,22 +79,20 @@ const OrderDetails = () => {
     //Handling Cart details of order
     getSealedCart(id).then((data) => {
       if (data.success) {
-        const updatedList = data.data.map(product => {
-
+        const updatedList = data.data.map((product) => {
           return {
-            product : product,
-            quantity : product?.quantity
-          }
-        })
+            product: product,
+            quantity: product?.quantity,
+          };
+        });
 
-        cart = updatedList
-        setProductList(updatedList)
-        calculateTotalCost()
+        cart = updatedList;
+        setProductList(updatedList);
+        calculateTotalCost();
       }
     });
   }, []);
 
-  
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -133,6 +131,15 @@ const OrderDetails = () => {
       .then((data) => {
         if (data.success) {
           success();
+          const cartId = data.data[0].cartId;
+          const updatedCartList = data?.data.map((item) => {
+            return {
+              product: item,
+              quantity: item?.quantity,
+            };
+          });
+          dispatch(setCart(updatedCartList));
+          localStorage.setItem("cartId", cartId);
         } else {
           warning();
         }

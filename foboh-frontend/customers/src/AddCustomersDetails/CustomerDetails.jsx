@@ -67,6 +67,7 @@ function CustomerDetails() {
   });
   const handleSubmit = () => {
     console.log(">>>>>>>>>>>", formik.values);
+
     const defaultPaymentTermsList = formik.values?.defaultPaymentTerms.map(
       (item) => {
         return item.label;
@@ -76,9 +77,7 @@ function CustomerDetails() {
       formik.values?.defaultPaymentMethodId.map((item) => {
         return item.label;
       });
-    const tagsList = formik.values?.tags.map((item) => {
-      return item.label;
-    });
+    
     const organisationId = localStorage.getItem("organisationId");
     // e.preventDefault();
     fetch(
@@ -98,7 +97,7 @@ function CustomerDetails() {
           pricingProfileId: "",
           defaultPaymentTerm: defaultPaymentTermsList,
           defaultPaymentMethodId: defaultPaymentMethodIdList,
-          tags: tagsList,
+          tags: [],
           wetLiable: true,
           organisationId: organisationId,
           orderingFirstName: formik.values?.orderingFirstName,

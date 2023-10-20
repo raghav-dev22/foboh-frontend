@@ -57,6 +57,10 @@ const AllOrders = () => {
   const [states, setStates] = useState([]);
   const [regions, setRegions] = useState([]);
   const [lastDate, setLastDate] = useState("");
+  const [sortValue, setSortValue] = useState({
+    sortBy: "",
+    sortOrder: "",
+  });
 
   const [selectedStatus, setSelectedStatus] = useState([]);
 
@@ -374,9 +378,22 @@ const AllOrders = () => {
     console.log("filterAndSort", filterAndSort);
   };
 
-  const handleSort = () => {
+  const handleSort = (name, value) => {
+    const newSort = {
+      ...filterAndSort.sort,
+      sortBy: name,
+      sortOrder: value,
+    };
 
-  }
+    setSortValue(newSort);
+
+    filterAndSort = {
+      ...filterAndSort,
+      sort: newSort,
+    };
+
+    processChange("filterAndSort");
+  };
 
   return (
     <>
@@ -429,34 +446,6 @@ const AllOrders = () => {
                   <div className=" z-10 left-[-20px] top-[110%] px-3 min-h-fit max-h-[180px]  w-max   absolute  bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                     <ul className="dropdown-content ">
                       <li className="py-1">
-                        <div className="flex justify-between items-center my-2  ">
-                          <h5 className="text-base font-medium text-[#2B4447]">
-                            Order ID
-                          </h5>
-                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
-                        </div>
-                      </li>
-                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <p className="text-base font-normal text-[#637381]">
-                          A -Z
-                        </p>
-                      </li>
-                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
-                        <input
-                          id="default-checkbox"
-                          type="checkbox"
-                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <p className="text-base font-normal text-[#637381]">
-                          Z - A
-                        </p>
-                      </li>
-                      <li className="py-1">
                         <div className="flex justify-between items-center  my-2">
                           <h5 className="text-base font-medium text-[#2B4447]">
                             Date
@@ -466,23 +455,41 @@ const AllOrders = () => {
                       </li>
                       <li className="py-1 green-checkbox flex justify-start items-center gap-2">
                         <input
-                          id="default-checkbox"
+                          id="checkbox-Oldest-Newest"
+                          value={"asc"}
+                          checked={
+                            sortValue.sortBy === "date" &&
+                            sortValue.sortOrder === "asc"
+                          }
+                          onChange={(e) => handleSort("date", e.target.value)}
                           type="checkbox"
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <p className="text-base font-normal text-[#637381]">
+                        <label
+                          htmlFor="checkbox-Oldest-Newest"
+                          className="text-base font-normal text-[#637381]"
+                        >
                           Oldest - Newest
-                        </p>
+                        </label>
                       </li>
                       <li className="py-1 green-checkbox flex justify-start items-center gap-2">
                         <input
-                          id="default-checkbox"
+                          id="checkbox-Newest-Oldest"
                           type="checkbox"
+                          value={"desc"}
+                          checked={
+                            sortValue.sortBy === "date" &&
+                            sortValue.sortOrder === "desc"
+                          }
+                          onChange={(e) => handleSort("date", e.target.value)}
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <p className="text-base font-normal text-[#637381]">
+                        <label
+                          htmlFor="checkbox-Newest-Oldest"
+                          className="text-base font-normal text-[#637381]"
+                        >
                           Newest - Oldest
-                        </p>
+                        </label>
                       </li>
                       <li className="py-1">
                         <div className="flex justify-between items-center  my-2">
@@ -494,23 +501,145 @@ const AllOrders = () => {
                       </li>
                       <li className="py-1 green-checkbox flex justify-start items-center gap-2">
                         <input
-                          id="default-checkbox"
+                          value={"asc"}
+                          id="default-Oldest-Newest"
                           type="checkbox"
+                          checked={
+                            sortValue.sortBy === "modifieddate" &&
+                            sortValue.sortOrder === "asc"
+                          }
+                          onChange={(e) =>
+                            handleSort("modifieddate", e.target.value)
+                          }
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <p className="text-base font-normal text-[#637381]">
+                        <label
+                          htmlFor="default-Oldest-Newest"
+                          className="text-base font-normal text-[#637381]"
+                        >
                           Oldest - Newest
-                        </p>
+                        </label>
                       </li>
                       <li className="py-1 green-checkbox flex justify-start items-center gap-2">
                         <input
-                          id="default-checkbox"
+                          id="default-Newest-Oldest"
                           type="checkbox"
+                          value={"desc"}
+                          checked={
+                            sortValue.sortBy === "modifieddate" &&
+                            sortValue.sortOrder === "desc"
+                          }
+                          onChange={(e) =>
+                            handleSort("modifieddate", e.target.value)
+                          }
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <p className="text-base font-normal text-[#637381]">
+                        <label
+                          htmlFor="default-Newest-Oldest"
+                          className="text-base font-normal text-[#637381]"
+                        >
                           Newest - Oldest
-                        </p>
+                        </label>
+                      </li>
+                      <li className="py-1">
+                        <div className="flex justify-between items-center my-2  ">
+                          <h5 className="text-base font-medium text-[#2B4447]">
+                            Customer Name
+                          </h5>
+                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                        </div>
+                      </li>
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="checkbox-A-Z"
+                          type="checkbox"
+                          value={"asc"}
+                          checked={
+                            sortValue.sortBy === "customername" &&
+                            sortValue.sortOrder === "asc"
+                          }
+                          onChange={(e) =>
+                            handleSort("customername", e.target.value)
+                          }
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor="checkbox-A-Z"
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          A - Z
+                        </label>
+                      </li>
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="checkbox-Z-A"
+                          type="checkbox"
+                          checked={
+                            sortValue.sortBy === "customername" &&
+                            sortValue.sortOrder === "desc"
+                          }
+                          value={"desc"}
+                          onChange={(e) =>
+                            handleSort("customername", e.target.value)
+                          }
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor="checkbox-Z-A"
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          Z - A
+                        </label>
+                      </li>
+                      <li className="py-1">
+                        <div className="flex justify-between items-center my-2  ">
+                          <h5 className="text-base font-medium text-[#2B4447]">
+                            Order Amount
+                          </h5>
+                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                        </div>
+                      </li>
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="Order-A-Z"
+                          type="checkbox"
+                          value={"asc"}
+                          checked={
+                            sortValue.sortBy === "paymentpmount" &&
+                            sortValue.sortOrder === "asc"
+                          }
+                          onChange={(e) =>
+                            handleSort("paymentpmount", e.target.value)
+                          }
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor="Order-A-Z"
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          Low - High
+                        </label>
+                      </li>
+                      <li className="py-1 green-checkbox flex justify-start items-center gap-2">
+                        <input
+                          id="Order-Z-A"
+                          type="checkbox"
+                          checked={
+                            sortValue.sortBy === "paymentpmount" &&
+                            sortValue.sortOrder === "desc"
+                          }
+                          value={"desc"}
+                          onChange={(e) =>
+                            handleSort("paymentpmount", e.target.value)
+                          }
+                          className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor="Order-Z-A"
+                          className="text-base font-normal text-[#637381]"
+                        >
+                          High - Low
+                        </label>
                       </li>
                     </ul>
                   </div>
@@ -583,9 +712,7 @@ const AllOrders = () => {
                         menuIsOpen={true}
                         options={states}
                         value={regions}
-                        onChange={(value) =>
-                          handleFilter(value, "region")
-                        }
+                        onChange={(value) => handleFilter(value, "region")}
                         className="basic-multi-select "
                         classNamePrefix="select"
                       />
@@ -607,9 +734,7 @@ const AllOrders = () => {
                         {lastDateList.map((date) => (
                           <li className="py-1 green-checkbox flex gap-1">
                             <input
-                              onChange={(e) =>
-                                handleFilter(e, "lastDate")
-                              }
+                              onChange={(e) => handleFilter(e, "lastDate")}
                               value={date}
                               checked={date === lastDate}
                               id={date}
