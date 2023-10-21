@@ -665,3 +665,15 @@ select {
 
   color: #147d73;
 }
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+.custom-step .ant-steps-item-icon {
+  width: 22px !important;
+  height: 22px !important;
+}
+.custom-step .ant-steps-item-tail {
+  top: 8px !important;
+  left: 7px !important;
+}

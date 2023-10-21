@@ -295,34 +295,8 @@ function CustomerDetailsFirst({
                   {errors?.isActive}
                 </p>
               )}
-              {/* {errors?.isActive && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-              )} */}
             </div>
           </div>
-          {/* <div className=" w-full relative md:w-1/2 px-3">
-            <h5 className="text-base font-medium text-green mb-3">Tags</h5>
-            <div className=" top-16 w-full">
-              <Select
-                // value={options.find((option) => option.value === values.tags)}
-                value={values?.tags}
-                isMulti
-                name="tags"
-                options={customerTag}
-                onChange={(e) => handleSelect(e, "tags")}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                style={{
-                  border: errors?.tags && touched?.tags && "1px solid red",
-                }}
-              />
-              {errors?.tags && touched?.tags && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors?.tags}
-                </p>
-              )}
-            </div>
-          </div> */}
         </div>
 
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">

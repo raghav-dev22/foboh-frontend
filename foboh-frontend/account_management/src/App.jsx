@@ -24,6 +24,10 @@ import Dashboard from "./dashboard/Dashboard";
 import { Provider } from "react-redux";
 import { store } from "./Redux/store";
 
+import NewOrder from "orders/NewOrder";
+import PaidOrder from "orders/PaidOrder";
+import OrderUpdate from "orders/OrderUpdate";
+
 // const url = process.env.REACT_APP_EXPRESS_SERVER_URL
 
 const Root = () => {
@@ -75,6 +79,9 @@ const Root = () => {
         element={<PasswordResetSuccess />}
       />
       <Route path="/dashboard/my-account" element={<MyAccount />} />
+      <Route path="new-order" element={<NewOrder />} />
+      <Route path="paid-order" element={<PaidOrder />} />
+      <Route path="update-order" element={<OrderUpdate />} />
     </Routes>
   );
 };

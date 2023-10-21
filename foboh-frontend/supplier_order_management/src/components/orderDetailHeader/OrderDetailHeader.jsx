@@ -8,7 +8,7 @@ const handleChange = (value) => {
 const OrderDetailHeader = () => {
   return (
     <>
-      <div className="flex justify-between mb-5">
+      <div className="flex justify-between mb-5 py-4">
         <div className=" flex justify-start items-start gap-5">
           <div className="border border-[#EDEFF1] bg-white rounded-[6px] p-2">
             <ChevronLeftIcon />

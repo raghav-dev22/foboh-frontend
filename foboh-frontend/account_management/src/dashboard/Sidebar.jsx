@@ -437,10 +437,7 @@ const Sidebar = () => {
                     </defs>
                   </svg>
                 </div>
-                <Link
-                  to={"/dashboard/organisation-settings"}
-                  className="no-underline"
-                >
+                <Link to={"/dashboard/settings"} className="no-underline">
                   <h6 className="text-base	font-medium  text-gray	">Settings</h6>
                 </Link>
               </div>
