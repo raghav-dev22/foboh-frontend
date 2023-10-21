@@ -22,16 +22,17 @@ const OrderDetails = ({ datas }) => {
   const [toastSeverity, setToastSeverity] = useState("success");
   const [isUpdate, setIsUpDate] = useState(false);
   const [initialValues, setInitialValues] = useState({
-    createdBy: "",
+    buyerId: "",
     businessName: "",
     abn: "",
     liquorLicence: "",
     salesRepId: "",
     pricingProfileId: "",
+    defaultPaymentTerms: "",
     defaultPaymentMethodId: "",
-    tags: [""],
+    tags: "",
     organisationId: "",
-    wetLiable: true,
+    wetLiable: false,
     orderingFirstName: "",
     orderingLastName: "",
     orderingMobile: "",
@@ -50,8 +51,8 @@ const OrderDetails = ({ datas }) => {
     billingApartment: "",
     billingSuburb: "",
     billingPostalCode: "",
-    billingState: "",
-    isActive: true,
+    billingState: {},
+    isActive: "",
   });
   useEffect(() => {
     callCustomerDetails();
@@ -69,39 +70,40 @@ const OrderDetails = ({ datas }) => {
         console.log("Customer data --->", data.orderingFirstName);
         setInitialValues({
           ...initialValues,
-          createdBy: data.createdBy,
-          businessName: data.businessName,
-          abn: data.abn,
-          liquorLicence: data.liquorLicence,
-          salesRepId: data.salesRepId,
-          pricingProfileId: data.pricingProfileId,
-          defaultPaymentMethodId: data.defaultPaymentMethodId,
-          tags: [data.tags],
-          organisationId: data.organisationId,
-          wetLiable: true,
+          buyerId: data?.buyerId,
           orderingFirstName: data.orderingFirstName,
           orderingLastName: data.orderingLastName,
           orderingMobile: data.orderingMobile,
           orderingEmail: data.orderingEmail,
-          deliveryFirstName: data.deliveryFirstName,
-          deliveryLastName: data.deliveryLastName,
-          deliveryMobile: data.deliveryMobile,
-          deliveryEmail: data.deliveryEmail,
           address: data.address,
           apartment: data.apartment,
           suburb: data.suburb,
-          postalCode: data.postalCode,
-          state: data.state,
+          billingState: data.billingState,
+          billingPostalCode: data.billingPostalCode,
+          billingSuburb: data.billingSuburb,
+          billingApartment: data.billingApartment,
           deliveryNotes: data.deliveryNotes,
           billingAddress: data.billingAddress,
-          billingApartment: data.billingApartment,
-          billingSuburb: data.billingSuburb,
-          billingPostalCode: data.billingPostalCode,
-          billingState: data.billingState,
-          isActive: true,
+          state: data.state,
+          postalCode: data.postalCode,
+          deliveryEmail: data.deliveryEmail,
+          deliveryMobile: data.deliveryMobile,
+          deliveryLastName: data.deliveryLastName,
+          deliveryFirstName: data.deliveryFirstName,
+          businessName: data.businessName,
+          abn: data.abn,
+          liquorLicence: data.liquorLicence,
+          organisationId: data?.organisationId,
+          defaultPaymentMethodId: data?.defaultPaymentMethodId,
+          defaultPaymentTerms: data?.defaultPaymentTerm,
+          tags : [],
+          pricingProfileId: "",
+          salesRepId: "",
+          isActive: data?.isActive
         });
         setValues({
           ...values,
+          buyerId: data?.buyerId,
           orderingFirstName: data.orderingFirstName,
           orderingLastName: data.orderingLastName,
           orderingMobile: data.orderingMobile,
@@ -124,6 +126,13 @@ const OrderDetails = ({ datas }) => {
           businessName: data.businessName,
           abn: data.abn,
           liquorLicence: data.liquorLicence,
+          organisationId: data?.organisationId,
+          defaultPaymentMethodId: data?.defaultPaymentMethodId,
+          defaultPaymentTerms: data?.defaultPaymentTerm,
+          tags : [],
+          pricingProfileId: "",
+          salesRepId: "",
+          isActive: data?.isActive
         });
         setCustomerDetails(data);
       });
@@ -133,6 +142,18 @@ const OrderDetails = ({ datas }) => {
     console.log(datas, "data");
     event.preventDefault();
     // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/6191384906
+    const organisationId = localStorage.getItem("organisationId");
+
+    // const defaultPaymentTermsList = values?.defaultPaymentTerms.map(
+    //   (item) => {
+    //     return item.label;
+    //   }
+    // );
+
+    // const defaultPaymentMethodIdList = values?.defaultPaymentMethodId.map((item) => {
+    //     return item.label;
+    //   });
+
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/${datas}`,
       {
@@ -141,6 +162,7 @@ const OrderDetails = ({ datas }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          buyerId: values?.buyerId,
           orderingFirstName: values?.orderingFirstName,
           orderingLastName: values?.orderingLastName,
           orderingMobile: values?.orderingMobile,
@@ -161,8 +183,17 @@ const OrderDetails = ({ datas }) => {
           deliveryLastName: values?.deliveryLastName,
           deliveryFirstName: values?.deliveryFirstName,
           businessName: values?.businessName,
+          defaultPaymentMethodId: "",
+          defaultPaymentTerm: "",
           abn: values?.abn,
           liquorLicence: values?.liquorLicence,
+          organisationId: organisationId,
+          defaultPaymentMethodId: values?.defaultPaymentMethodId,
+          defaultPaymentTerm: values?.defaultPaymentTerms,
+          tags : [],
+          pricingProfileId: "",
+          salesRepId: "",
+          isActive: values?.isActive
         }),
       }
     ).then((response) => {

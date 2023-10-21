@@ -22,7 +22,7 @@ function SearchCustomer({
   products,
   setProducts,
   prevProducts,
-  totalPages,
+  setTotalPages,
   pageIndex,
   setPageIndex,
   setisSearchResult,
@@ -206,14 +206,14 @@ function SearchCustomer({
         .then((response) => response.json())
         .then((data) => {
           if (data?.data?.length > 0) {
-            totalPages(data.total);
+            setTotalPages(data.last_page);
             console.log("filter customer table", data.data);
             setProducts(data.data);
             setSearch(data.data.length);
             setisSearchResult(true);
           } else {
             setisSearchResult(false);
-            totalPages(0);
+            setTotalPages(0);
           }
         })
         .catch((error) => console.log(error));

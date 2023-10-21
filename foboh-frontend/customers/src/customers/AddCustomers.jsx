@@ -97,7 +97,7 @@ function AddCustomers() {
       ? [...selectedProducts, product]
       : selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
-    setIsBulkEdit(updatedSelectedProducts.length > 1);
+    // setIsBulkEdit(updatedSelectedProducts.length > 1);
     console.log("selected products >>", selectedProducts);
     setSlected(selectedProducts.length);
   };
@@ -111,7 +111,7 @@ function AddCustomers() {
     console.log("flag >>", e);
     const checked = e.target.checked;
     checked ? setSelectedProducts([...tableRecords]) : setSelectedProducts([]);
-    setIsBulkEdit(true);
+    // setIsBulkEdit(true);
     if (!checked) {
       setIsBulkEdit(false);
     }
@@ -132,7 +132,7 @@ function AddCustomers() {
               setProducts={setTableRecords}
               products={tableRecords}
               prevProducts={prevCustomer}
-              totalPages={setTotalPages}
+              setTotalPages={setTotalPages}
               setisSearchResult={setisSearchResult}
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}

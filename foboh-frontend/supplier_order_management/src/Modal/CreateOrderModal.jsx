@@ -57,6 +57,11 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const [editDeliveryContact, setEditDeliveryContact] = useState(false);
   const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
   const [editBillingAddress, setEditBillingAddress] = useState(false);
+  const [alertModal, setAlertModal] = useState(false);
+  const [details, setDetails] = useState(false);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [isLastStep, setIsLastStep] = React.useState(false);
+  const [isFirstStep, setIsFirstStep] = React.useState(false);
 
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
@@ -111,11 +116,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
       ),
     },
   ];
-  const [alertModal, setAlertModal] = useState(false);
-  const [details, setDetails] = useState(false);
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [isLastStep, setIsLastStep] = React.useState(false);
-  const [isFirstStep, setIsFirstStep] = React.useState(false);
+
 
   const handleNext = () => {
     !isLastStep && setActiveStep((cur) => cur + 1),
@@ -135,7 +136,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   useEffect(() => {
     getCustomers().then(data => {
       if(data.success){
-        // setCustomerList()
+        setCustomerList(data.data)
       }
     })
   }, [])
@@ -747,9 +748,8 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                         Find Customer
                       </h5>
                       <Select
-                        defaultValue={customerSelectedOption}
-                        onChange={setCustomerSelectedOption}
-                        options={customerOptions}
+                        onChange={() => handleCustomerSelect()}
+                        options={customerList}
                       />
                     </div>
                   </>
