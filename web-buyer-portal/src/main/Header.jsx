@@ -111,6 +111,9 @@ function Header() {
             )
           );
           dispatch(setTotalProducts(data.total));
+        } else {
+          dispatch(setProductData([]));
+          dispatch(setTotalProducts(0));
         }
       })
       .catch((error) => console.log(error));

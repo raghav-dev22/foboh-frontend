@@ -1662,7 +1662,11 @@ const ProductList = () => {
                         </div>
                         <div className="h-[150px] bg-[#c3c3c3]">
                           <img
-                            src={item?.product?.productImageUrls ? item?.product?.productImageUrls[0] : ""}
+                            src={
+                              item?.product?.productImageUrls
+                                ? item?.product?.productImageUrls[0]
+                                : ""
+                            }
                             alt=""
                             className="cursor-pointer w-full h-full object-cover"
                             onClick={() =>

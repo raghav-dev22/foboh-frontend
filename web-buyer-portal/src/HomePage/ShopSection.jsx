@@ -13,18 +13,18 @@ function ShopSection() {
 
   useEffect(() => {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-    const apiUrl = `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1&OrganisationId=${organisationId}`;
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllBySubcategory?OrganisationId=${organisationId}`;
     fetch(apiUrl)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        // if (!response.ok) {
+        //   throw new Error("Network response was not ok");
+        // }
         return response.json();
       })
       .then((data) => {
+        console.log(data.data, "products data");
         const limitedProducts = data.data.slice(0, 8);
         setProducts(limitedProducts);
-        console.log(data.data, "products data");
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
@@ -73,7 +73,7 @@ function ShopSection() {
                             )
                           }
                         >
-                          {product.title}
+                          {product.subCategoryName}
                         </h2>
                         <p
                           className="text-[#637381] text-center text-sm md:block hidden cursor-pointer"
@@ -83,7 +83,7 @@ function ShopSection() {
                             )
                           }
                         >
-                          {product.description}
+                          {product.configuration}
                         </p>
                       </div>
                     </div>

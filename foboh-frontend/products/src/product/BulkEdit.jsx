@@ -89,6 +89,7 @@ function BulkEdit() {
       region: e,
     });
   };
+  console.log(Prompt, "");
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
@@ -245,7 +246,7 @@ function BulkEdit() {
 
   return (
     <>
-      <Prompt when={true} message="111" />
+      {/* <Prompt when={true} message="111" /> */}
       {isUpdate && (
         <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
           <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
