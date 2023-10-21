@@ -22,6 +22,12 @@ const OrderDetails = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [currentStep, setCurrentStep] = useState(0);
   const [productList, setProductList] = useState([]);
+  const [calculations, setCalculations] = useState({
+    total: 0,
+    subTotal: 0,
+    gst: 0,
+    wet: 0,
+  });
   const [isWine, setIsWine] = useState(false);
   const [invoiceData, setInvoiceData] = useState({});
   const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
@@ -35,7 +41,6 @@ const OrderDetails = () => {
     let total = 0;
 
     const { totalPrice, payAmountLong, gst, wet, subCategoryId } = cart[0];
-    console.log(CARTdata, "jjjjjjjjjjj");
     CARTdata.forEach((item) => {
       const productPrice = item?.product?.globalPrice;
       const productPriceINR = productPrice;
@@ -80,6 +85,21 @@ const OrderDetails = () => {
     //Handling Cart details of order
     getSealedCart(id).then((data) => {
       if (data.success) {
+        const { gst, payAmountLong, totalPrice, wet } = data?.data[0];
+        setCalculations({
+          total: payAmountLong,
+          subTotal: totalPrice,
+          gst: gst,
+          wet: wet,
+        });
+        data.data.forEach((subCat) => {
+          if (
+            subCat.subCategoryId === "SC5000" ||
+            subCat.subCategoryId === "SC500"
+          ) {
+            setIsWine(true);
+          }
+        });
         const updatedList = data.data.map((product) => {
           return {
             product: product,
@@ -93,6 +113,7 @@ const OrderDetails = () => {
       }
     });
   }, []);
+  console.log(productList[0], "kkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
@@ -293,7 +314,7 @@ const OrderDetails = () => {
                 {orderDetails?.firstname} {orderDetails?.lastname}
               </p>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                {orderDetails.orderByEmailID}
+                {orderDetails.emailId}
               </p>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
                 {orderDetails?.phoneNumber}
@@ -396,7 +417,7 @@ const OrderDetails = () => {
         </div>
 
         <div className="grid sm:grid-cols-2 grid-cols-1 justify-between gap-6">
-          <div className="border h-[200px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
+          <div className="border h-[235px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
             <div className="mb-4">
               <h5 className="text-lg font-semibold text-[#2B4447] mb-1">
                 Payment
@@ -417,32 +438,41 @@ const OrderDetails = () => {
               Payment Status - <span className="font-medium">Paid </span>
             </h5>
           </div>
-          <div className="border  h-[200px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 mb-4 w-full">
+          <div className="border  h-[235px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 mb-4 w-full">
             <div className="">
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">
-                  ${CARTdata.total}
+                  ${calculations.subTotal}
                 </h5>
               </div>
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">
                   Shipping estimate
                 </h5>
-                <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
+                <h5 className="text-sm font-medium text-[#2B4447]">$60</h5>
               </div>
+
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">
-                  Tax estimate
+                  ${calculations.gst}
                 </h5>
-                <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
               </div>
+              {isWine && (
+                <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                  <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
+                  <h5 className="text-sm font-medium text-[#2B4447]">
+                    ${calculations.wet}
+                  </h5>
+                </div>
+              )}
               <div className="flex justify-between py-3 ">
                 <h5 className="text-base font-semibold text-[#2B4447]">
                   Order total
                 </h5>
                 <h5 className="text-base font-semibold text-[#2B4447]">
-                  $60.00
+                  ${calculations.total}
                 </h5>
               </div>
             </div>

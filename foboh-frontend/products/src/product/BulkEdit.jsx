@@ -89,6 +89,7 @@ function BulkEdit() {
       region: e,
     });
   };
+  console.log(Prompt, "");
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
