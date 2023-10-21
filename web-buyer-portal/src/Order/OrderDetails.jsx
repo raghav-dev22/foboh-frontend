@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { remove, setCart, updateQuantity } from "../slices/CartSlice";
+import { DownloadOutlined } from "@ant-design/icons";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Instruction from "../Svg/Instruction";
@@ -273,8 +274,9 @@ const OrderDetails = () => {
             >
               Reorder
             </button>
+
             <Button
-              icon={<PoweroffOutlined />}
+              icon={<DownloadOutlined />}
               loading={loadings[1]}
               // onClick={() => enterLoading(1)}
               onClick={() => {
@@ -338,32 +340,34 @@ const OrderDetails = () => {
             </div>
           </div>
           <hr className="my-5" />
-          {/* <div className="mb-5">
+          <div className="mb-5">
             <h5 className="text-lg font-semibold text-[#2B4447]">
               Order Tracking ID - 012345678910
             </h5>
-          </div> */}
-          <Steps
-            current={currentStep}
-            progressDot={customDot}
-            items={[
-              {
-                title: "Order Placed",
-              },
-              {
-                title: "Pending",
-              },
-              {
-                title: "Processing",
-              },
-              {
-                title: "Shipped",
-              },
-              {
-                title: "Delivered",
-              },
-            ]}
-          />
+          </div>
+          <div className="custom-step">
+            <Steps
+              current={currentStep}
+              progressDot={customDot}
+              items={[
+                {
+                  title: "Order Placed",
+                },
+                {
+                  title: "Pending",
+                },
+                {
+                  title: "Processing",
+                },
+                {
+                  title: "Shipped",
+                },
+                {
+                  title: "Delivered",
+                },
+              ]}
+            />
+          </div>
         </div>
         <div className="my-3">
           {productList.length === 0 ? (

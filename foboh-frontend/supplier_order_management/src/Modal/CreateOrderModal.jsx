@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Divider, Space, Button, Modal } from "antd";
-import Select from "react-select";
 import { Stepper, Step, Typography, button } from "@material-tailwind/react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -13,11 +12,38 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AlertModal from "./AlertModal";
 import { getCustomers } from "../helpers/getCustomer";
+import Select from "react-select";
 // import { Select } from "antd";
 
 let index = 0;
 
 const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
+  const [checked, setChecked] = useState(false);
+  const handleCheckboxChange = () => {
+    setChecked(!checked);
+  };
+  const productQty = [
+    { value: "1", label: "1" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+    { value: "6", label: "6" },
+    { value: "7", label: "7" },
+    { value: "8", label: "8" },
+    { value: "9", label: "9" },
+    { value: "10", label: "10" },
+    { value: "11", label: "11" },
+    { value: "12", label: "12" },
+    { value: "13", label: "13" },
+    { value: "14", label: "14" },
+    { value: "15", label: "15" },
+    { value: "16", label: "16" },
+    { value: "17", label: "17" },
+    { value: "18", label: "18" },
+    { value: "19", label: "19" },
+    { value: "20", label: "20" },
+  ];
   const [selectedState, setSelectedState] = useState(null);
   const [customerSelectedOption, setCustomerSelectedOption] = useState(null);
   const [customerList, setCustomerList] = useState([])
@@ -28,6 +54,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
+
   const customerOptions = [
     {
       value: "createNew",
@@ -149,8 +176,17 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
         className="custom-modal-height"
         title={
           <>
-            <div className="flex justify-between items-center bg-[#F8F8F8] p-2.5 rounded-t-[8px]">
-              <div className=" flex justify-center items-center border border-[#EDEFF1] rounded-[8px] h-[35px] w-[35px] bg-white ">
+            <div
+              className={`flex  items-center bg-[#F8F8F8] p-2.5 rounded-t-[8px] ${
+                isFirstStep ? "justify-end" : " justify-between"
+              }`}
+            >
+              <div
+                onClick={handlePrev}
+                className={` flex justify-center items-center border border-[#EDEFF1] rounded-[8px] h-[35px] w-[35px] bg-white ${
+                  isFirstStep && "hidden"
+                } `}
+              >
                 <ArrowBackIosRoundedIcon
                   style={{ width: "14px", fill: "#2B4447" }}
                 />
@@ -757,21 +793,18 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                 {activeStep === 1 && (
                   <>
                     <div className="my-5">
-                      <h4 className="text-xl font-bold  text-[#2B4447]">
+                      <h4 className="text-[24px] font-bold  text-[#2B4447] text-center">
                         Business full name
                       </h4>
                     </div>
                     <div className="">
-                      <h5 className="font-semibold text-lg text-[#212B36] mb-5">
-                        Add product
+                      <h5 className="font-semibold text-lg text-[#212B36] mb-3">
+                        Select Products
                       </h5>
                       <div className="flex justify-between items-center mb-10">
                         <Select
                           showSearch
-                          style={{
-                            width: 200,
-                          }}
-                          placeholder="Search to Select"
+                          placeholder="Search product by name"
                           optionFilterProp="children"
                           filterOption={(input, option) =>
                             (option?.label ?? "").includes(input)
@@ -823,89 +856,11 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                             <h3 className="text-xl font-semibold text-[#2B4447]">
                               Write Product Full Name
                             </h3>
-                            <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
-                              <p className="text-sm font-normal text-[#637381] ">
-                                1
-                              </p>
-                              <KeyboardArrowDownIcon />
-                            </div>
-                            <h4 className="text-lg font-semibold text-[#2B4447]">
-                              $369.00
-                            </h4>
-                          </div>
-                          <p className="text-base font-medium text-[#637381] ">
-                            12 x 750ml
-                          </p>
-                          <div className="flex justify-between  items-center mt-6 ">
-                            <div className="flex justify-start items-center gap-3">
-                              <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
-                                In stock
-                              </button>
-                              <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
-                                Hidden
-                              </button>
-                            </div>
-                            <a href="#" className="">
-                              <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
-                                Remove
-                              </p>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                        <div className="">
-                          <img src="/assets/customProduct.png" alt="" />
-                        </div>
-                        <div className="w-full">
-                          <div className="flex justify-between items-center w-full">
-                            <h3 className="text-xl font-semibold text-[#2B4447]">
-                              Write Product Full Name
-                            </h3>
-                            <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
-                              <p className="text-sm font-normal text-[#637381] ">
-                                1
-                              </p>
-                              <KeyboardArrowDownIcon />
-                            </div>
-                            <h4 className="text-lg font-semibold text-[#2B4447]">
-                              $369.00
-                            </h4>
-                          </div>
-                          <p className="text-base font-medium text-[#637381] ">
-                            12 x 750ml
-                          </p>
-                          <div className="flex justify-between  items-center mt-6 ">
-                            <div className="flex justify-start items-center gap-3">
-                              <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
-                                In stock
-                              </button>
-                              <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
-                                Hidden
-                              </button>
-                            </div>
-                            <a href="#" className="">
-                              <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
-                                Remove
-                              </p>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                        <div className="">
-                          <img src="/assets/customProduct.png" alt="" />
-                        </div>
-                        <div className="w-full">
-                          <div className="flex justify-between items-center w-full">
-                            <h3 className="text-xl font-semibold text-[#2B4447]">
-                              Write Product Full Name
-                            </h3>
-                            <div className="py-1 px-4 border border-[#E7E7E7] rounded-md flex justify-center items-center">
-                              <p className="text-sm font-normal text-[#637381] ">
-                                1
-                              </p>
-                              <KeyboardArrowDownIcon />
+                            <div className="">
+                              <Select
+                                options={productQty}
+                                defaultInputValue="1"
+                              />
                             </div>
                             <h4 className="text-lg font-semibold text-[#2B4447]">
                               $369.00
@@ -936,40 +891,69 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                 )}
                 {activeStep === 2 && (
                   <>
-                    <div className="my-5">
+                    <div className="flex justify-between items-center mt-5">
                       <h4 className="text-xl font-bold  text-[#2B4447]">
-                        Business full name
+                        Add Shipping Details
                       </h4>
+                      <div class="relative inline-block w-[50px] mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+                        <input
+                          type="checkbox"
+                          name="wetLiable"
+                          checked={checked}
+                          onChange={handleCheckboxChange}
+                          id="toggle"
+                          class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                        />
+                        <label
+                          for="toggle"
+                          class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                        ></label>
+                      </div>
                     </div>
-                    <div className="">
-                      <h5 className="font-semibold text-lg text-[#212B36] mb-5">
-                        Add product
-                      </h5>
-                      <form>
-                        <div className="flex flex-col mb-5 w-[50%]">
-                          <label className="text-[#2B4447] text-base font-normal ">
-                            Shipping Name
-                          </label>
-                          <input
-                            type="text"
-                            className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
-                            disabled
-                            value="Shipping name"
-                          />
+                    {checked === true && (
+                      <div>
+                        <div className="md:w-[60%] w-full mb-5">
+                          <h5 className="text-lg font-semibold text-[#212B36] mt-3">
+                            Add shipping estimate as a separate line item during
+                            checkout.
+                          </h5>
+                          <p className="text-sm font-normal text-[#637381] mt-2">
+                            Turning this On will add the Shipping Estimate
+                            separately during checkout. Turning this Off will
+                            NOT add it as a separate line item.
+                          </p>
                         </div>
-                        <div className="flex flex-col mb-5 w-[50%]">
-                          <label className="text-[#2B4447] text-base font-normal ">
-                            Price
-                          </label>
-                          <input
-                            type="text"
-                            className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
-                            disabled
-                            value="$350"
-                          />
+                        <div className="">
+                          <h5 className="font-semibold text-lg text-[#212B36] mb-5">
+                            Add product
+                          </h5>
+                          <form>
+                            <div className="flex flex-col mb-5 w-[50%]">
+                              <label className="text-[#2B4447] text-base font-normal ">
+                                Shipping Name
+                              </label>
+                              <input
+                                type="text"
+                                className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
+                                disabled
+                                value="Shipping name"
+                              />
+                            </div>
+                            <div className="flex flex-col mb-5 w-[50%]">
+                              <label className="text-[#2B4447] text-base font-normal ">
+                                Price
+                              </label>
+                              <input
+                                type="text"
+                                className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
+                                disabled
+                                value="$350"
+                              />
+                            </div>
+                          </form>
                         </div>
-                      </form>
-                    </div>
+                      </div>
+                    )}
                   </>
                 )}
                 {activeStep === 3 && (
@@ -1319,7 +1303,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
           </>
         }
         footer={[
-          <div className="flex justify-end items-center  px-5 pb-5">
+          <div className="flex justify-end items-center  px-5 pb-5 mt-5">
             <Button
               // onClick={handlePrev}
               disabled={isFirstStep}

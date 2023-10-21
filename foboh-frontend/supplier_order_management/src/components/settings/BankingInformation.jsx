@@ -3,15 +3,15 @@ import { Select } from "antd";
 const BankingInformation = () => {
   return (
     <>
-      <div className="bank-information-page">
-        <div className="py-6 px-6">
+      <div className="bank-information-page padding-top-custom">
+        <div className="pb-6 px-6">
           <h4 className="text-xl font-semibold text-[#2B4447]">
             Set up banking Information
           </h4>
         </div>
-        <div className="lg:flex gap-5 px-6 ">
+        <div className="lg:flex gap-5 px-6 h-[423px]">
           <div className=" lg:w-3/5 w-full  gap-5 h-full	 grid	  ">
-            <div className="border border-[#E7E7E7] rounded-md bg-white h-[423px] overflow-y-scroll">
+            <div className="border border-[#E7E7E7] rounded-md bg-white  overflow-y-scroll">
               <div className="px-6 py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-base font-medium text-[#2B4447]">
                   Business Details
@@ -257,7 +257,7 @@ const BankingInformation = () => {
               </div>
             </div>
           </div>
-          <div className="w-full lg:w-2/5 gap-5 h-[423px] overflow-y-scroll	">
+          <div className="w-full lg:w-2/5 gap-5  overflow-y-scroll	">
             <div className="border border-[#E7E7E7] rounded-md mb-6 bg-white ">
               <div className="px-6 py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-base font-medium text-[#2B4447] mb-2">

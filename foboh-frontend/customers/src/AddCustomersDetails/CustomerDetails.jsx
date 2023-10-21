@@ -77,7 +77,7 @@ function CustomerDetails() {
       formik.values?.defaultPaymentMethodId.map((item) => {
         return item.label;
       });
-    
+
     const organisationId = localStorage.getItem("organisationId");
     // e.preventDefault();
     fetch(
@@ -126,7 +126,8 @@ function CustomerDetails() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer added>>", data);
-        window.alert("Customer added successfully!");
+        localStorage.setItem("customerAdded", true);
+        // window.alert("Customer added successfully!");
         navigate("/dashboard/customers/");
       })
       .catch((error) => console.log(error));
@@ -157,7 +158,9 @@ function CustomerDetails() {
       ) {
         console.log("Form submitted");
         formik.submitForm();
+
         handleSubmit();
+        localStorage.setItem("customerAdded", true);
       }
     });
   };
