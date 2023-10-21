@@ -443,11 +443,7 @@ function CustomerAddress({
 
               <Select
                 name="billingState"
-                // isMulti={true}
                 options={stateOptions}
-                // value={stateOptions.find(
-                //   (option) => option.value === values.state
-                // )}
                 value={values?.billingState}
                 onChange={(e) => handleSelect(e, "billingState")}
                 className="basic-multi-select "

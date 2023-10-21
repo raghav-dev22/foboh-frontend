@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { Button, message } from "antd";
+
 import "../style.css";
 import ActiveCustomers from "./ActiveCustomers";
 import SearchCustomer from "./SearchCustomer";
@@ -28,12 +30,28 @@ function AddCustomers() {
   const [inputValue, setInputValue] = useState("");
   const [isBulkEdit, setIsBulkEdit] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [messageApi, contextHolder] = message.useMessage();
   const [pageIndex, setPageIndex] = useState(1);
   const [selected, setSlected] = useState(0);
   const [isSearchResult, setisSearchResult] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
 
   let timeoutId;
+  const saveProduct = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Customer saved!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
+  const isTrue = localStorage.getItem("customerAdded");
   const handleDebounce = (value) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
@@ -47,6 +65,18 @@ function AddCustomers() {
     setInputValue(newValue);
     handleDebounce(newValue);
   };
+  useEffect(() => {
+    console.log("isTrue", isTrue);
+    if (isTrue === "true") {
+      saveProduct();
+    }
+
+    const timeout = setTimeout(() => {
+      localStorage.setItem("customerAdded", false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, []);
   useEffect(() => {
     callApi(1);
   }, []);
@@ -120,6 +150,7 @@ function AddCustomers() {
 
   return (
     <>
+      {contextHolder}
       <div className=" padding-top-custom">
         <ActiveCustomers
           selectedProductsLength={selectedProducts.length}
@@ -269,7 +300,7 @@ function AddCustomers() {
                             </td>
                             <td className={classes}>
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                              {product?.noOfOrders}
+                                {product?.noOfOrders}
                               </Typography>
                             </td>
                             <td className={classes}>

@@ -1,9 +1,9 @@
 import React from "react";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-const OrderPlaced = () => {
+const OrderApproved = () => {
   return (
     <>
-      <div className="w-full flex justify-center h-full bg-[#F8FAFC] py-4  ">
+      <div className="w-full flex justify-center h-full bg-[#F8FAFC] py-4">
         <div className="h-full  md:w-[825px] w-full flex justify-center flex-col items-center">
           <div className="w-full md:w-[550px] p-6 md:mx-0 mx-6 border border-[#E7E7E7] rounded-[8px] bg-white">
             <div className="w-full flex justify-center">
@@ -14,14 +14,14 @@ const OrderPlaced = () => {
               </div>
             </div>
             <h4 className="text-[24px] font-semibold text-[#2B4447] my-4">
-              Order placed
+              Order approved
             </h4>
             <p className="my-2 text-sm font-normal text-[#5C5E64]">
               15th October, 2023
             </p>
             <p className="my-2 text-sm font-normal text-[#1C1E23]">
-              [SUPPLIER NAME] Order #[ORDER NUMBER] has been received and is
-              being reviewed. We will confirm it as soon as possible.
+              [SUPPLIER NAME] Order #[ORDER NUMBER] is confirmed. We're getting
+              your order ready and will notify you when it has been sent.
             </p>
             <button className="my-2 py-2 px-4 bg-[#2B4447] text-sm font-semibold text-white rounded-[8px]">
               View order
@@ -52,7 +52,7 @@ const OrderPlaced = () => {
                     </div>
                   </div>
                   <p className="text-sm font-normal text-[#8F98B1] ">
-                    1 x 750ml Bottle
+                    Configuration
                   </p>
                   <p className="text-sm font-bold text-[#8F98B1]">
                     PROMOCODE (-$X.XX)
@@ -126,7 +126,7 @@ const OrderPlaced = () => {
                     Payment status
                   </h5>
                   <p className="text-sm font-normal text-[#1C1E23]">
-                    Due on XX/XX/XX
+                    Due on XX/XX/XX invoice attached
                   </p>
                 </div>
                 <div className="">
@@ -170,4 +170,4 @@ const OrderPlaced = () => {
   );
 };
 
-export default OrderPlaced;
+export default OrderApproved;

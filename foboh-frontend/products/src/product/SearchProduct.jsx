@@ -553,22 +553,24 @@ const SearchProduct = forwardRef(
                         {stock.map((ele, idx) => (
                           <li className="py-2.5 px-4  ">
                             <div className="flex items-center">
-                              <input
-                                id={`${ele.label}-${idx}`}
-                                type="checkbox"
-                                value={ele.value}
-                                onClick={(e) =>
-                                  toggleCategoryAndSubcategory(
-                                    e,
-                                    ele.value,
-                                    "stock"
-                                  )
-                                }
-                                checked={filterAndSort.filter.stock.includes(
-                                  ele.value
-                                )}
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                              />
+                              <div className="flex items-center gap-3 green-checkbox">
+                                <input
+                                  id={`${ele.label}-${idx}`}
+                                  type="checkbox"
+                                  value={ele.value}
+                                  onClick={(e) =>
+                                    toggleCategoryAndSubcategory(
+                                      e,
+                                      ele.value,
+                                      "stock"
+                                    )
+                                  }
+                                  checked={filterAndSort.filter.stock.includes(
+                                    ele.value
+                                  )}
+                                  className=""
+                                />
+                              </div>
                               <label
                                 htmlFor={`${ele.label}-${idx}`}
                                 className="ml-2 text-sm font-medium text-gray"
@@ -598,22 +600,24 @@ const SearchProduct = forwardRef(
                         {status.map((sts) => (
                           <li className="py-2.5 px-4  ">
                             <div className="flex items-center">
-                              <input
-                                id={sts.value}
-                                type="checkbox"
-                                value={sts.value}
-                                checked={filterAndSort.filter.productStatus.includes(
-                                  sts.value
-                                )}
-                                onClick={(e) =>
-                                  toggleCategoryAndSubcategory(
-                                    e,
-                                    sts.value,
-                                    "status"
-                                  )
-                                }
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                              />
+                              <div className="flex items-center gap-3 green-checkbox">
+                                <input
+                                  id={sts.value}
+                                  type="checkbox"
+                                  value={sts.value}
+                                  checked={filterAndSort.filter.productStatus.includes(
+                                    sts.value
+                                  )}
+                                  onClick={(e) =>
+                                    toggleCategoryAndSubcategory(
+                                      e,
+                                      sts.value,
+                                      "status"
+                                    )
+                                  }
+                                  className=""
+                                />
+                              </div>
                               <label
                                 htmlFor={sts.value}
                                 className="ml-2 text-sm font-medium text-gray"
@@ -645,19 +649,23 @@ const SearchProduct = forwardRef(
                       <ul className="dropdown-content    ">
                         <li className="py-2.5 px-4  ">
                           <div className="flex items-center">
-                            <input
-                              id="Visible"
-                              type="checkbox"
-                              onClick={(e) =>
-                                toggleCategoryAndSubcategory(
-                                  e,
-                                  "1",
-                                  "visibility"
-                                )
-                              }
-                              checked={filterAndSort.filter.visibility === "1"}
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
+                            <div className="flex items-center gap-3 green-checkbox">
+                              <input
+                                id="Visible"
+                                type="checkbox"
+                                onClick={(e) =>
+                                  toggleCategoryAndSubcategory(
+                                    e,
+                                    "1",
+                                    "visibility"
+                                  )
+                                }
+                                checked={
+                                  filterAndSort.filter.visibility === "1"
+                                }
+                                className=""
+                              />
+                            </div>
                             <label
                               htmlFor="Visible"
                               className="ml-2 text-sm font-medium text-gray"
@@ -669,19 +677,23 @@ const SearchProduct = forwardRef(
 
                         <li className="py-2.5 px-4  ">
                           <div className="flex items-center">
-                            <input
-                              id="Hidden"
-                              type="checkbox"
-                              onClick={(e) =>
-                                toggleCategoryAndSubcategory(
-                                  e,
-                                  "0",
-                                  "visibility"
-                                )
-                              }
-                              checked={filterAndSort.filter.visibility === "0"}
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                            />
+                            <div className="flex items-center gap-3 green-checkbox">
+                              <input
+                                id="Hidden"
+                                type="checkbox"
+                                onClick={(e) =>
+                                  toggleCategoryAndSubcategory(
+                                    e,
+                                    "0",
+                                    "visibility"
+                                  )
+                                }
+                                checked={
+                                  filterAndSort.filter.visibility === "0"
+                                }
+                                className=""
+                              />
+                            </div>
                             <label
                               htmlFor="Hidden"
                               className="ml-2 text-sm font-medium text-gray"

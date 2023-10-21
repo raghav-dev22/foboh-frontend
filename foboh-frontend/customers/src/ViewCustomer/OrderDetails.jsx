@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import OrderTable from "./OrderTable";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
+import CloseIcon from "@mui/icons-material/Close";
 import { AddCustomerSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
@@ -11,9 +12,11 @@ import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import Toast from "../Toast";
+import { Button, message } from "antd";
 const OrderDetails = ({ datas }) => {
   console.log(datas, ">>id");
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const [data, setCustomerDetails] = React.useState();
   const [activeStatus, setActiveStatus] = React.useState(1);
   const [show, setShow] = React.useState(false);
@@ -21,6 +24,20 @@ const OrderDetails = ({ datas }) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastSeverity, setToastSeverity] = useState("success");
   const [isUpdate, setIsUpDate] = useState(false);
+  const saveCustomer = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Customer saved!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
   const [initialValues, setInitialValues] = useState({
     buyerId: "",
     businessName: "",
@@ -96,10 +113,10 @@ const OrderDetails = ({ datas }) => {
           organisationId: data?.organisationId,
           defaultPaymentMethodId: data?.defaultPaymentMethodId,
           defaultPaymentTerms: data?.defaultPaymentTerm,
-          tags : [],
+          tags: [],
           pricingProfileId: "",
           salesRepId: "",
-          isActive: data?.isActive
+          isActive: data?.isActive,
         });
         setValues({
           ...values,
@@ -129,10 +146,10 @@ const OrderDetails = ({ datas }) => {
           organisationId: data?.organisationId,
           defaultPaymentMethodId: data?.defaultPaymentMethodId,
           defaultPaymentTerms: data?.defaultPaymentTerm,
-          tags : [],
+          tags: [],
           pricingProfileId: "",
           salesRepId: "",
-          isActive: data?.isActive
+          isActive: data?.isActive,
         });
         setCustomerDetails(data);
       });
@@ -190,17 +207,27 @@ const OrderDetails = ({ datas }) => {
           organisationId: organisationId,
           defaultPaymentMethodId: values?.defaultPaymentMethodId,
           defaultPaymentTerm: values?.defaultPaymentTerms,
-          tags : [],
+          tags: [],
           pricingProfileId: "",
           salesRepId: "",
-          isActive: values?.isActive
+          isActive: values?.isActive,
         }),
       }
-    ).then((response) => {
-      console.log("updatedd", data);
-      setShow(false);
-      window.alert("Customer updated successful! ");
-    });
+    )
+      .then((response) => {
+        console.log("updatedd", response);
+        // setShow(false);
+        // if (response.ok) {
+        //   saveCustomer();
+        // }
+      })
+      .then((data) => {
+        console.log("response after update>>", data);
+        setShow(false);
+        saveCustomer();
+        // if (response.ok) {
+        // }
+      });
   };
   const {
     values,
@@ -280,12 +307,13 @@ const OrderDetails = ({ datas }) => {
   };
   return (
     <>
-      <Toast
+      {/* <Toast
         open={openToast}
         onClose={handleCloseToast}
         message={toastMessage}
         severity={toastSeverity}
-      />
+      /> */}
+      {contextHolder}
       <div className="px-12 pt-6">
         <form onChange={handleInputChange}>
           <div className="xl:w-full xl:mx-0  sm:block rounded-lg border border-darkGreen	">
