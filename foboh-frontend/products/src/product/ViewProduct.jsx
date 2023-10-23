@@ -7,6 +7,8 @@ import { styled } from "@mui/material/styles";
 import HelpIcon from "@mui/icons-material/Help";
 import CloseIcon from "@mui/icons-material/Close";
 // import ActiveProduct from './ActiveProduct'
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteModal from "../modal/DeleteModal";
 
 import { Button, message } from "antd";
 import ViewProductHeader from "./ViewProductHeader";
@@ -31,8 +33,9 @@ import { Skeleton } from "antd";
 
 function ViewProduct() {
   const { id } = useParams();
-  // console.log("product id>>",id)
+  console.log("product id>>", id);
   const [productImageUris, setProductImageUris] = useState([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
   const [isWet, setIsWet] = useState(false);
@@ -88,7 +91,6 @@ function ViewProduct() {
     cCatalogueId: "string",
     organisationId: "string",
   });
-
 
   const asyncFunction = async () => {
     // Getting organization id
@@ -2302,10 +2304,33 @@ function ViewProduct() {
                   </Skeleton>
                 </div>
               </div>
+              <div className="flex justify-end items-center gap-3">
+                {/* <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
+                  Archive
+                </div> */}
+                <div
+                  onClick={() => {
+                    setDeleteModalOpen(true);
+                  }}
+                  className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
+                >
+                  Delete
+                </div>
+              </div>
               {/* Pricing Details ---END */}
             </div>
           </div>
         </form>
+        <DeleteModal
+          open={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          onOk={() => {
+            setDeleteModalOpen(false);
+          }}
+          onCancel={() => {
+            setDeleteModalOpen(false);
+          }}
+        />
       </div>
       {contextHolder}
     </>

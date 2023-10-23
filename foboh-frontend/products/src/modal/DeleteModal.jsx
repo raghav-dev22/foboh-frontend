@@ -3,8 +3,31 @@ import { Button, Modal } from "antd";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import { Select } from "antd";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
-const DeleteModal = ({ open, onOk, onCancel }) => {
+import { useNavigate, useParams } from "react-router-dom";
+const DeleteModal = ({ open, onOk, onCancel, setDeleteModalOpen }) => {
   const cancelButtonRef = useRef(null);
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const handleDelete = async () => {
+    await fetch(
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/Delete/${id}`,
+      {
+        method: "Delete",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {})
+      .catch((error) => console.log(error));
+
+    setDeleteModalOpen(false);
+    localStorage.setItem("productDelete", true);
+    const timeout = setTimeout(() => {
+      navigate("/dashboard/products");
+    }, 1000);
+
+    return () => clearInterval(timeout);
+  };
 
   return (
     <>
@@ -32,7 +55,7 @@ const DeleteModal = ({ open, onOk, onCancel }) => {
             <Button
               key="ok"
               type="primary"
-              onClick={onCancel}
+              onClick={handleDelete}
               className="bg-[#DC3545] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
             >
               Delete
