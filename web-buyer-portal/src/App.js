@@ -23,11 +23,7 @@ import MyOrders from "./Order/MyOrders";
 import InvoiceIncludingWET from "./invoice/InvoiceIncludingWET";
 import InvoiceExcludingWET from "./invoice/InvoiceExcludingWET";
 import ForgetPassword from "./loginRegister/ForgetPassword";
-import OrderPlaced from "./Notification/OrderPlaced";
-import OrderPaid from "./Notification/OrderPaid";
-import OrderCancelled from "./Notification/OrderCancelled";
-import OrderApproved from "./Notification/OrderApproved";
-import ConfirmationOrder from "./Notification/ConfirmationOrder";
+
 
 function App() {
   const { getDesignToken, useToken } = theme;
@@ -52,11 +48,6 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/invoice-including-wet" element={<InvoiceIncludingWET />} />
       <Route path="/invoice-excluding-wet" element={<InvoiceExcludingWET />} />
-      <Route path="/placed-order" element={<OrderPlaced />} />
-      <Route path="/paid-order" element={<OrderPaid />} />
-      <Route path="/confirmation-order" element={<ConfirmationOrder />} />
-      <Route path="/cancel-order" element={<OrderCancelled />} />
-      <Route path="/approved-order" element={<OrderApproved />} />
       <Route path="/order-details/:id" element={<OrderDetails />} />
       <Route path="/MyOrders" element={<MyOrders />} />
       <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
