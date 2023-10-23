@@ -6,22 +6,47 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import CallIcon from "@mui/icons-material/Call";
 import ShieldIcon from "@mui/icons-material/Shield";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AlertModal from "./AlertModal";
 import { getCustomers } from "../helpers/getCustomer";
 import Select from "react-select";
+import { getCustomerDetails } from "../helpers/getCustomerDetails";
+import DeliveryContactForm from "./DeliveryContactForm";
+import DeliveryAddressForm from "./DeliveryAddressForm";
+import { getDefaultPaymentTerms } from "../helpers/getDefaultPaymentTerms";
+import { postBuyerDetails } from "../helpers/postBuyerDetails";
+
 // import { Select } from "antd";
 
 let index = 0;
 
 const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const [checked, setChecked] = useState(false);
+  const [selectedState, setSelectedState] = useState(null);
+  const [customerSelectedOption, setCustomerSelectedOption] = useState(null);
+  const [customerList, setCustomerList] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [editDeliveryContact, setEditDeliveryContact] = useState(false);
+  const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
+  const [editBillingAddress, setEditBillingAddress] = useState(false);
+  const [editPayment, setEditPayment] = useState(false);
+  const [alertModal, setAlertModal] = useState(false);
+  const [details, setDetails] = useState(false);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [isLastStep, setIsLastStep] = React.useState(false);
+  const [isFirstStep, setIsFirstStep] = React.useState(false);
+  const [isCustomerSelected, setIsCustomerSelected] = useState(false);
+  const [customerDetails, setCustomerDetails] = useState({});
+  const [defaultPaymentTerms, setDefaultPaymentTerms] = useState([]);
+  const [defaultPaymentTermsValue, setDefaultPaymentTermsValue] = useState({});
+  let defaultPaymentTermsList = [];
+
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
+
   const productQty = [
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -44,51 +69,12 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     { value: "19", label: "19" },
     { value: "20", label: "20" },
   ];
-  const [selectedState, setSelectedState] = useState(null);
-  const [customerSelectedOption, setCustomerSelectedOption] = useState(null);
-  const [customerList, setCustomerList] = useState([])
-
 
   const stateOptions = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
-
-  const customerOptions = [
-    {
-      value: "createNew",
-      label: (
-        <div className=" cursor-pointer bg-[#EAEAEA] rounded-[6px] py-2 w-full px-3 flex justify-start items-center gap-2.5">
-          <AddCircleOutlineRoundedIcon style={{ fill: "#637381" }} />
-          <p className="text-sm font-medium text-[#637381]">
-            Create New Customer
-          </p>
-        </div>
-      ),
-    },
-    { value: "Apples", label: "Apples" },
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-  const options = [
-    { value: "Apples", label: "Apples" },
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-
-
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [editDeliveryContact, setEditDeliveryContact] = useState(false);
-  const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
-  const [editBillingAddress, setEditBillingAddress] = useState(false);
-  const [alertModal, setAlertModal] = useState(false);
-  const [details, setDetails] = useState(false);
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [isLastStep, setIsLastStep] = React.useState(false);
-  const [isFirstStep, setIsFirstStep] = React.useState(false);
 
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
@@ -144,7 +130,6 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     },
   ];
 
-
   const handleNext = () => {
     !isLastStep && setActiveStep((cur) => cur + 1),
       setDetails(true),
@@ -159,14 +144,60 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     console.log(selectedItems, "itemIndex");
   };
 
-
   useEffect(() => {
-    getCustomers().then(data => {
-      if(data.success){
-        setCustomerList(data.data)
+    // Getting all the customer list
+    getCustomers().then((data) => {
+      if (data.success) {
+        setCustomerList(
+          data.data.map((customer) => {
+            return {
+              label: customer?.businessName,
+              value: customer?.buyerId,
+            };
+          })
+        );
       }
-    })
-  }, [])
+    });
+
+    // Getting all the
+    getDefaultPaymentTermsValue();
+  }, []);
+
+  // Setting Default payment terms list
+  const getDefaultPaymentTermsValue = async () => {
+    await getDefaultPaymentTerms().then((data) => {
+      defaultPaymentTermsList = data.map((item) => {
+        return {
+          label: item?.paymentTermName,
+          value: item?.id,
+        };
+      });
+      setDefaultPaymentTerms(defaultPaymentTermsList);
+    });
+  };
+
+  // Handle defaultPaymentTerms
+  const handledefaultPaymentTerms = (value) => {
+    setDefaultPaymentTermsValue(value);
+  };
+
+  const handleCustomerSelect = async (value) => {
+    const customerInfo = await getCustomerDetails(value?.value);
+
+    if (customerInfo.success) {
+      // Posting customer info on loading modal
+      setIsCustomerSelected(true);
+      const postBuyerDetailsResponse = await postBuyerDetails(
+        customerInfo.data[0]
+      );
+
+      console.log("postBuyerDetailsResponse", postBuyerDetailsResponse);
+
+      if (postBuyerDetailsResponse.success) {
+        getBuyerDetails(value?.value);
+      }
+    }
+  };
 
   return (
     <>
@@ -275,519 +306,293 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
               <div className="mt-24">
                 {activeStep === 0 && (
                   <>
-                    <div className="mb-5">
-                      <h5 className="text-[24px] font-bold text-[#212B36] mb-5">
-                        Business full name
-                      </h5>
-                      <div className="h-[300px] overflow-y-scroll">
-                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                          {editDeliveryContact ? (
-                            <div className="  md:px-0 pb-4 px-6">
-                              <div className="flex  items-center gap-1.5 pb-6">
-                                <CallIcon
-                                  style={{ fill: "#2B4447" }}
-                                  className="w-[18px] h-[18px]"
-                                />
-                                <h5 className="text-lg font-semibold text-[#2B4447]">
-                                  Delivery Contact
-                                </h5>
-                              </div>
+                    {isCustomerSelected ? (
+                      <div className="mb-5">
+                        <h5 className="text-[24px] font-bold text-[#212B36] mb-5">
+                          Business full name
+                        </h5>
+                        <div className="h-[300px] overflow-y-scroll">
+                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                            {editDeliveryContact ? (
+                              <DeliveryContactForm
+                                customerDetails={customerDetails}
+                                setEditDeliveryContact={setEditDeliveryContact}
+                              />
+                            ) : (
+                              <div className="">
+                                <div className="flex justify-between items-center ">
+                                  <div className="flex justify-start items-center gap-2">
+                                    <LocalPhoneRoundedIcon />
+                                    <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
+                                      Delivery Contact
+                                    </h4>
+                                  </div>
 
-                              <form className="">
-                                <div className="flex flex-nowrap  gap-8">
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      First Name
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="FirstName"
-                                      name="FirstName"
-                                      className=""
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      Last Name
-                                    </label>
-                                    <input
-                                      // placeholder="Last Name"
-                                      type="text"
-                                      id="LastName"
-                                      name="LastName"
-                                      className=""
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="flex flex-nowrap gap-8">
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      Email
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="email"
-                                      name="email"
-                                      className=""
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="flex flex-nowrap gap-8">
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      Phone no.{" "}
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="Mobile"
-                                      name="Mobile"
-                                      className="border border-[#E0E0E0] "
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="flex gap-8 justify-end ">
                                   <button
-                                    type="submit"
                                     onClick={() => {
-                                      setEditDeliveryContact(false);
+                                      setEditDeliveryContact(true);
                                     }}
-                                    className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+                                    className="text-base font-semibold text-[#2B4447]"
                                   >
-                                    Save
-                                  </button>
-                                  <button
-                                    className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
-                                    onClick={() => {
-                                      setEditDeliveryContact(false);
-                                    }}
-                                  >
-                                    Cancel
+                                    Edit
                                   </button>
                                 </div>
-                              </form>
-                            </div>
-                          ) : (
-                            <div className="">
-                              <div className="flex justify-between items-center ">
-                                <div className="flex justify-start items-center gap-2">
-                                  <LocalPhoneRoundedIcon />
-                                  <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                    Delivery Contact
-                                  </h4>
-                                </div>
-
-                                <button
-                                  onClick={() => {
-                                    setEditDeliveryContact(true);
-                                  }}
-                                  className="text-base font-semibold text-[#2B4447]"
-                                >
-                                  Edit
-                                </button>
-                              </div>
-                              <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                Full Name
-                              </p>
-                              <p className="text-base font-normal text-[#2B4447] leading-[28px] ">
-                                myemail@gmail.com.au
-                              </p>
-                              <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                0400 000 000
-                              </p>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                          {editDeliveryAddress ? (
-                            <div className="  md:px-0 pb-4 px-6">
-                              <div className="flex  items-center gap-1.5  pb-4">
-                                <HomeRoundedIcon
-                                  style={{ fill: "#2B4447" }}
-                                  className="w-[18px] h-[18px]"
-                                />
-                                <h5 className="text-lg font-semibold text-[#2B4447]">
-                                  Delivery Address
-                                </h5>
-                              </div>
-
-                              <form className="">
-                                <div className="flex flex-nowrap gap-8">
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      Address
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="Address"
-                                      name="Address"
-                                      className=""
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="flex flex-nowrap gap-8">
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      Apartment etc
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="Apartment"
-                                      name="Apartment"
-                                      className=""
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor="Suburb"
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      Suburb
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="Suburb"
-                                      className="custom-bg"
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="flex flex-nowrap gap-8">
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      Postcode
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="Postcode"
-                                      name="Postcode"
-                                      className=""
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="w-full mb-4 relative">
-                                    <label
-                                      htmlFor=""
-                                      className="text-base font-normal text-[#2B4447]"
-                                    >
-                                      State
-                                    </label>
-                                    <Select
-                                      defaultValue={selectedOption}
-                                      onChange={setSelectedOption}
-                                      options={options}
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="w-full   mb-3 relative">
-                                  {" "}
-                                  <lable className="mb-2">Notes</lable>
-                                  <textarea
-                                    className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
-                                    id="Postcode"
-                                    type="text"
-                                    placeholder="Notes"
-                                    style={{
-                                      background: "#F8F8F8",
-                                    }}
-                                  />
-                                </div>
-
-                                <div className="flex gap-8 justify-end ">
-                                  {" "}
-                                  <button
-                                    onClick={() =>
-                                      setEditDeliveryAddress(false)
-                                    }
-                                    type="button"
-                                    className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
-                                  >
-                                    Save
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
-                                    onClick={() =>
-                                      setEditDeliveryAddress(false)
-                                    }
-                                  >
-                                    Cancel
-                                  </button>
-                                </div>
-                              </form>
-                            </div>
-                          ) : (
-                            <div>
-                              <div className="flex justify-between items-center ">
-                                <div className="flex justify-start items-center gap-2">
-                                  <HomeRoundedIcon />
-                                  <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                    Delivery Address
-                                  </h4>
-                                </div>
-                                <button
-                                  className="text-base font-semibold text-[#2B4447]"
-                                  onClick={() => {
-                                    setEditDeliveryAddress(true);
-                                  }}
-                                >
-                                  Edit
-                                </button>
-                              </div>
-                              <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                456 King Street, Newton, NSW 2304 Australia
-                              </p>
-                              <h4 className=" mt-2 text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                Notes
-                              </h4>
-                              <div className="flex justify-start items-center gap-2">
-                                <img src="/assets/notesIcon.png" alt="" />
-
+                                <p className="text-base font-normal text-[#2B4447] leading-[28px]">
+                                  {`${customerDetails?.deliveryFirstName} ${customerDetails?.deliveryLastName}`}
+                                </p>
                                 <p className="text-base font-normal text-[#2B4447] leading-[28px] ">
-                                  Delivery instruction
+                                  {customerDetails?.deliveryEmail}
+                                </p>
+                                <p className="text-base font-normal text-[#2B4447] leading-[28px]">
+                                  {customerDetails?.deliveryMobile}
                                 </p>
                               </div>
-                            </div>
-                          )}
-                        </div>
-                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                          <div className="flex justify-between items-center ">
-                            <div className="flex justify-start items-center gap-2">
-                              <ShieldIcon />
-                              <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                Payment
-                              </h4>
-                            </div>
-                            <button className="text-base font-semibold text-[#2B4447]">
-                              Edit
-                            </button>
+                            )}
                           </div>
-                          <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                            Your chosen payment terms
-                          </p>
-                          <div className="border mt-2 border-[#E0E0E0] rounded-[6px] py-2 px-4">
-                            <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
-                              Payment due in 14 days (dd/mm/yyyy)
-                            </h4>
-                          </div>
-                        </div>
-                        <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                          {editBillingAddress ? (
-                            <form className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3">
-                              <div className="">
-                                <div className="mb-3 relative">
-                                  <div className="flex justify-start items-center gap-1.5 mb-6">
-                                    <HomeRoundedIcon
-                                      style={{ fill: "#2B4447" }}
-                                      className="w-[18px] h-[18px]"
-                                    />
-                                    <label
-                                      className="block text-[#2B4447] text-lg font-semibold "
-                                      htmlFor="Country/Region"
-                                    >
-                                      Billing Address
-                                    </label>
-                                  </div>
-                                </div>
 
-                                <div className="flex md:flex-nowrap gap-4 my-3">
-                                  <div className="w-full   mb-3  md:mb-0 relative">
-                                    <lable>Address</lable>
-                                    <input
-                                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                                      id="Company"
-                                      type="text"
-                                      // placeholder="Company (Optional)"
-                                      name="Address"
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
+                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                            {editDeliveryAddress ? (
+                              <DeliveryAddressForm
+                                customerDetails={customerDetails}
+                                setEditDeliveryAddress={setEditDeliveryAddress}
+                              />
+                            ) : (
+                              <div>
+                                <div className="flex justify-between items-center ">
+                                  <div className="flex justify-start items-center gap-2">
+                                    <HomeRoundedIcon />
+                                    <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
+                                      Delivery Address
+                                    </h4>
                                   </div>
+                                  <button
+                                    className="text-base font-semibold text-[#2B4447]"
+                                    onClick={() => {
+                                      setEditDeliveryAddress(true);
+                                    }}
+                                  >
+                                    Edit
+                                  </button>
                                 </div>
-                                <div className="flex md:flex-nowrap gap-4 my-3">
-                                  <div className="w-full   mb-3 relative">
-                                    <lable>Apartment, Suite, etc</lable>
-                                    <input
-                                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                                      id="Apartment"
-                                      type="text"
-                                      placeholder="Apartment, Suite, etc"
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="w-full   mb-3 relative md:mb-0 ">
-                                    <lable>Suburb</lable>
-                                    <input
-                                      type="text"
-                                      placeholder="suburb"
-                                      id="Suburb"
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="flex md:flex-nowrap gap-4 my-3">
-                                  <div className="w-full   mb-3 relative">
-                                    <lable>Postcode</lable>
-                                    <input
-                                      className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                                      id="Postcode"
-                                      type="text"
-                                      placeholder="XXXX"
-                                      style={{
-                                        background: "#F8F8F8",
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="w-full   mb-3 relative md:mb-0 basic-multi-select">
-                                    <h5 style={{ marginBottom: "10px" }}>
-                                      State
-                                    </h5>
-                                    <Select
-                                      defaultValue={selectedState}
-                                      onChange={setSelectedState}
-                                      options={stateOptions}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="text-right flex justify-end items-center gap-2">
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setEditBillingAddress(false);
-                                  }}
-                                  className="bg-[#563FE3] rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-white"
-                                >
-                                  Save
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setEditBillingAddress(false);
-                                  }}
-                                  type="submit"
-                                  className="border-[#637381] border rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-[#637381]"
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                            </form>
-                          ) : (
-                            <div>
-                              <div className="flex justify-between items-center ">
+                                <p className="text-base font-normal text-[#2B4447] leading-[28px]">
+                                  {`${customerDetails?.apartment} ${customerDetails?.organisationAddress}, ${customerDetails?.suburb}, ${customerDetails?.state} ${customerDetails?.postcode} Australia`}
+                                </p>
+                                <h4 className=" mt-2 text-xl font-semibold text-[#2B4447] leading-[30px]">
+                                  Notes
+                                </h4>
                                 <div className="flex justify-start items-center gap-2">
-                                  <HomeRoundedIcon />
-                                  <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                    Billing Address
-                                  </h4>
+                                  <img src="/assets/notesIcon.png" alt="" />
+
+                                  <p className="text-base font-normal text-[#2B4447] leading-[28px] ">
+                                    {customerDetails?.description}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                            <div className="flex justify-between items-center ">
+                              <div className="flex justify-start items-center gap-2">
+                                <ShieldIcon />
+                                <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
+                                  Payment
+                                </h4>
+                              </div>
+                              <button
+                                onClick={() => setEditPayment(!editPayment)}
+                                className="text-base font-semibold text-[#2B4447]"
+                              >
+                                Edit
+                              </button>
+                            </div>
+                            <p className="text-base font-normal text-[#2B4447] leading-[28px]">
+                              Your chosen payment terms
+                            </p>
+                            <div className="border mt-2 border-[#E0E0E0] rounded-[6px] py-2 px-4">
+                              {editPayment ? (
+                                <Select
+                                  onChange={handledefaultPaymentTerms}
+                                  options={defaultPaymentTerms}
+                                  value={defaultPaymentTermsValue}
+                                  style={{
+                                    background: "#F8F8F8",
+                                  }}
+                                />
+                              ) : (
+                                <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
+                                  Payment due in 14 days (dd/mm/yyyy)
+                                </h4>
+                              )}
+                            </div>
+                          </div>
+                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
+                            {editBillingAddress ? (
+                              <form className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3">
+                                <div className="">
+                                  <div className="mb-3 relative">
+                                    <div className="flex justify-start items-center gap-1.5 mb-6">
+                                      <HomeRoundedIcon
+                                        style={{ fill: "#2B4447" }}
+                                        className="w-[18px] h-[18px]"
+                                      />
+                                      <label
+                                        className="block text-[#2B4447] text-lg font-semibold "
+                                        htmlFor="Country/Region"
+                                      >
+                                        Billing Address
+                                      </label>
+                                    </div>
+                                  </div>
+
+                                  <div className="flex md:flex-nowrap gap-4 my-3">
+                                    <div className="w-full   mb-3  md:mb-0 relative">
+                                      <lable>Address</lable>
+                                      <input
+                                        className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                                        id="Company"
+                                        type="text"
+                                        // placeholder="Company (Optional)"
+                                        name="Address"
+                                        style={{
+                                          background: "#F8F8F8",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex md:flex-nowrap gap-4 my-3">
+                                    <div className="w-full   mb-3 relative">
+                                      <lable>Apartment, Suite, etc</lable>
+                                      <input
+                                        className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                                        id="Apartment"
+                                        type="text"
+                                        placeholder="Apartment, Suite, etc"
+                                        style={{
+                                          background: "#F8F8F8",
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="w-full   mb-3 relative md:mb-0 ">
+                                      <lable>Suburb</lable>
+                                      <input
+                                        type="text"
+                                        placeholder="suburb"
+                                        id="Suburb"
+                                        style={{
+                                          background: "#F8F8F8",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex md:flex-nowrap gap-4 my-3">
+                                    <div className="w-full   mb-3 relative">
+                                      <lable>Postcode</lable>
+                                      <input
+                                        className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
+                                        id="Postcode"
+                                        type="text"
+                                        placeholder="XXXX"
+                                        style={{
+                                          background: "#F8F8F8",
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="w-full   mb-3 relative md:mb-0 basic-multi-select">
+                                      <h5 style={{ marginBottom: "10px" }}>
+                                        State
+                                      </h5>
+                                      <Select
+                                        defaultValue={selectedState}
+                                        onChange={setSelectedState}
+                                        options={stateOptions}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="text-right flex justify-end items-center gap-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setEditBillingAddress(false);
+                                    }}
+                                    className="bg-[#563FE3] rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-white"
+                                  >
+                                    Save
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setEditBillingAddress(false);
+                                    }}
+                                    type="submit"
+                                    className="border-[#637381] border rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-[#637381]"
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </form>
+                            ) : (
+                              <div>
+                                <div className="flex justify-between items-center ">
+                                  <div className="flex justify-start items-center gap-2">
+                                    <HomeRoundedIcon />
+                                    <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
+                                      Billing Address
+                                    </h4>
+                                  </div>
+
+                                  <button
+                                    onClick={() => {
+                                      setEditBillingAddress(true);
+                                    }}
+                                    className="text-base font-semibold text-[#2B4447]"
+                                  >
+                                    Edit
+                                  </button>
                                 </div>
 
-                                <button
-                                  onClick={() => {
-                                    setEditBillingAddress(true);
-                                  }}
-                                  className="text-base font-semibold text-[#2B4447]"
-                                >
-                                  Edit
-                                </button>
+                                <p className="text-base font-normal text-[#2B4447] leading-[28px]">
+                                  456 King Street, Newton, NSW 2304 Australia
+                                </p>
                               </div>
-
-                              <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                456 King Street, Newton, NSW 2304 Australia
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                        <div className=" mb-4 flex justify-center items-center gap-3">
-                          <div className="w-full">
-                            <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
-                              Pricing
-                            </h4>
-                            <input
-                              type="text"
-                              disabled
-                              value="Pricing"
-                              className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
-                            />
+                            )}
                           </div>
-                          <div className="w-full">
-                            <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
-                              Freight
-                            </h4>
-                            <input
-                              type="text"
-                              disabled
-                              value="Freight"
-                              className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
-                            />
+                          <div className=" mb-4 flex justify-center items-center gap-3">
+                            <div className="w-full">
+                              <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
+                                Pricing
+                              </h4>
+                              <input
+                                type="text"
+                                disabled
+                                value="Pricing"
+                                className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
+                              />
+                            </div>
+                            <div className="w-full">
+                              <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
+                                Freight
+                              </h4>
+                              <input
+                                type="text"
+                                disabled
+                                value="Freight"
+                                className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="  mb-5 ">
-                      <h5 className="text-lg font-semibold text-[#212B36] mb-5">
-                        Find Customer
-                      </h5>
-                      <Select
-                        onChange={() => handleCustomerSelect()}
-                        options={customerList}
-                      />
-                    </div>
+                    ) : (
+                      <div className="  mb-5 ">
+                        <h5 className="text-lg font-semibold text-[#212B36] mb-5">
+                          Find Customer
+                        </h5>
+                        <Select
+                          onChange={handleCustomerSelect}
+                          options={customerList}
+                        />
+                      </div>
+                    )}
                   </>
                 )}
                 {activeStep === 1 && (

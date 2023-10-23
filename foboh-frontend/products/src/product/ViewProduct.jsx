@@ -89,90 +89,99 @@ function ViewProduct() {
     organisationId: "string",
   });
 
-  const productPromise = new Promise((resolve, reject) => {
-    fetch(
-      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/${id}`,
+
+  const asyncFunction = async () => {
+    // Getting organization id
+    await fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+        "organisationID"
+      )}`,
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
+        console.log("organization data--->", data);
       });
-  });
 
-  const departmentPromise = new Promise((resolve, reject) => {
-    fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
+    // Department
+    await fetch(
+      "https://masters-api-foboh.azurewebsites.net/api/Department/get",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("department -->", data);
+        if (data.success) {
+          setDepartment(
+            data.data.map((i) => {
+              return {
+                value: i.departmentId,
+                label: i.departmentName,
+              };
+            })
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+
+    // grapeVariety
+    await fetch(
+      "https://masters-api-foboh.azurewebsites.net/api/GrapeVarieties",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("grapeVariety -->", data);
+        varietyList = data.map((item) => {
+          return {
+            value: item.grapeVarietyId,
+            label: item.grapeVarietyName,
+          };
+        });
+        setVariety(varietyList);
+      })
+      .catch((error) => console.log(error));
+
+    // tag
+    await fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        resolve(data);
+        console.log("tag -->", data);
+        tagList = data.map((item) => {
+          return {
+            value: item.tagId,
+            label: item.tagName,
+          };
+        });
+        setTag(tagList);
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch((error) => console.log(error));
 
-  const categoryPromise = new Promise((resolve, reject) => {
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
+    // for country
+    await fetch("https://masters-api-foboh.azurewebsites.net/api/Country/get", {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        resolve(data);
+        console.log("country -->", data.data);
+        countryList = data.data.map((item) => {
+          return {
+            value: item.countryID,
+            label: item.countryName,
+          };
+        });
+        setCountry(countryList);
       })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+      .catch((error) => console.log(error));
 
-  const subCategoryPromise = new Promise((resolve, reject) => {
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-
-  const segmentPromise = new Promise((resolve, reject) => {
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/Segment/get`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-  const [messageApi, contextHolder] = message.useMessage();
-  const updateProduct = () => {
-    messageApi.open({
-      content: (
-        <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
-          <p className="text-base font-semibold text-[#F8FAFC]">
-            Products saved!
-          </p>
-        </div>
-      ),
-      className: "custom-class",
-      rtl: true,
-    });
-  };
-
-  useEffect(() => {
     productPromise.then((data) => {
       console.log("selected product data>>", data);
 
@@ -192,7 +201,7 @@ function ViewProduct() {
       const departmentId = product.departmentId;
       const categoryId = product.categoryId;
       const subCategoryId = product.subCategoryId;
-      const segmentId = product.segmentId;
+      const segmentId = product?.segmentId;
       const grapeVarietyName = product.variety;
       const countryOfOrigin = product.countryOfOrigin;
       const baseUnitMeasure = product.unitofMeasure;
@@ -324,15 +333,22 @@ function ViewProduct() {
               };
             });
 
-            const segmentObj = [
-              data[3].data.find((obj) => obj.segmentId === segmentId),
-            ];
+            let segment = {};
+            data[3]?.data.forEach((obj) => {
+              if (obj.segmentId == segmentId) {
+                segment = {
+                  label: obj?.segmentName,
+                  value: obj?.segmentId,
+                };
+              }
+            });
+            console.log("segmentObj", segment);
 
-            const grapeVarietyObj = variety.filter((option) =>
+            const grapeVarietyObj = varietyList.filter((option) =>
               grapeVarietyName.includes(option.label)
             );
 
-            const countryObj = country.find(
+            const countryObj = countryList.find(
               (country) => country.label === countryOfOrigin
             );
 
@@ -344,7 +360,9 @@ function ViewProduct() {
               (IUM) => IUM.value === parseInt(innerUnitMeasure)
             );
 
-            const tagsObj = tag.filter((option) => tags.includes(option.label));
+            const tagsObj = tagList.filter((option) =>
+              tags.includes(option.label)
+            );
             console.log("tags : --->", tagsObj);
 
             const regionObj = region.find((rgn) => rgn.label === regionName);
@@ -369,14 +387,7 @@ function ViewProduct() {
               productImageUrls: imageUris,
               category: categoryId && cate,
               subcategory: subCategoryId && subCate,
-              segment:
-                segmentId &&
-                segmentObj.map((item) => {
-                  return {
-                    label: item.segmentName,
-                    value: item.segmentId,
-                  };
-                }),
+              segment: segmentId && segment,
               grapeVariety: grapeVarietyObj,
               vintage: product.vintage,
               awards: product.award,
@@ -415,14 +426,7 @@ function ViewProduct() {
               productImageUrls: imageUris,
               category: categoryId && cate,
               subcategory: subCategoryId && subCate,
-              segment:
-                segmentId &&
-                segmentObj.map((item) => {
-                  return {
-                    label: item.segmentName,
-                    value: item.segmentId,
-                  };
-                }),
+              segment: segmentId && segment,
               grapeVariety: grapeVarietyObj,
               vintage: product.vintage,
               awards: product.award,
@@ -515,7 +519,96 @@ function ViewProduct() {
           .catch((error) => console.log(error));
       });
     });
+  };
+
+  useEffect(() => {
+    asyncFunction();
   }, []);
+
+  const productPromise = new Promise((resolve, reject) => {
+    fetch(
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/${id}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
+  const departmentPromise = new Promise((resolve, reject) => {
+    fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
+  const categoryPromise = new Promise((resolve, reject) => {
+    fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
+  const subCategoryPromise = new Promise((resolve, reject) => {
+    fetch(`https://masters-api-foboh.azurewebsites.net/api/SubCategory/get`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
+  const segmentPromise = new Promise((resolve, reject) => {
+    fetch(`https://masters-api-foboh.azurewebsites.net/api/Segment/get`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+  const [messageApi, contextHolder] = message.useMessage();
+  const updateProduct = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Products saved!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
+
+  useEffect(() => {}, []);
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
@@ -754,6 +847,9 @@ function ViewProduct() {
   const [variety, setVariety] = useState([]);
   const [tag, setTag] = useState([]);
   const [country, setCountry] = useState([]);
+  let varietyList = [];
+  let countryList = [];
+  let tagList = [];
 
   const handleDepartmentChange = (e) => {
     setValues({
@@ -1108,95 +1204,6 @@ function ViewProduct() {
     setValues(initialValues);
     setProductImageUris(prevImgUrl);
   };
-  useEffect(() => {
-    // Getting organization id
-    fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-        "organisationID"
-      )}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("organization data--->", data);
-      });
-
-    // Department
-    fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("department -->", data);
-        if (data.success) {
-          setDepartment(
-            data.data.map((i) => {
-              return {
-                value: i.departmentId,
-                label: i.departmentName,
-              };
-            })
-          );
-        }
-      })
-      .catch((error) => console.log(error));
-
-    // grapeVariety
-    fetch("https://masters-api-foboh.azurewebsites.net/api/GrapeVarieties", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("grapeVariety -->", data);
-        setVariety(
-          data.map((item) => {
-            return {
-              value: item.grapeVarietyId,
-              label: item.grapeVarietyName,
-            };
-          })
-        );
-      })
-      .catch((error) => console.log(error));
-
-    // tag
-    fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("tag -->", data);
-        setTag(
-          data.map((item) => {
-            return {
-              value: item.tagId,
-              label: item.tagName,
-            };
-          })
-        );
-      })
-      .catch((error) => console.log(error));
-
-    // for country
-    fetch("https://masters-api-foboh.azurewebsites.net/api/Country/get", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("country -->", data.data);
-        setCountry(
-          data.data.map((item) => {
-            return {
-              value: item.countryID,
-              label: item.countryName,
-            };
-          })
-        );
-      })
-      .catch((error) => console.log(error));
-  }, []);
 
   return (
     <>

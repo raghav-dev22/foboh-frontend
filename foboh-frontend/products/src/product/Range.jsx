@@ -142,9 +142,12 @@ function Range() {
   const getAllproduct = () => {
     const orgID = localStorage.getItem("organisationId");
 
-    fetch(`${productUrl}/api/product/GetAll?page=1&OrganisationId=${orgID}`, {
-      method: "GET",
-    })
+    fetch(
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1&OrganisationId=${orgID}`,
+      {
+        method: "GET",
+      }
+    )
       .then((response) => response.json())
 
       .then((data) => {
