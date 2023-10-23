@@ -153,6 +153,7 @@ const OrderPlaced = () => {
               <HelpOutlineIcon style={{ fill: "#5C5E64", width: "19px" }} />
               <p className="text-sm font-normal text-[#5C5E64]">
                 If you have any questions, contact us at
+                
                 [orderingcontact@email.com]
               </p>
             </div>
