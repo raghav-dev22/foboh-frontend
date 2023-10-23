@@ -362,18 +362,20 @@ function SearchCustomer({
                         {status.map((sts) => (
                           <li className="py-2.5 px-4  ">
                             <div className="flex items-center ">
-                              <input
-                                id={sts.label}
-                                checked={
-                                  filterAndSort?.filter?.status === sts.value
-                                }
-                                type="checkbox"
-                                value={sts.value}
-                                onClick={(e) =>
-                                  toggleCategory(e, sts.value, "status")
-                                }
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                              />
+                              <div className="flex items-center gap-3 green-checkbox">
+                                <input
+                                  id={sts.label}
+                                  checked={
+                                    filterAndSort?.filter?.status === sts.value
+                                  }
+                                  type="checkbox"
+                                  value={sts.value}
+                                  onClick={(e) =>
+                                    toggleCategory(e, sts.value, "status")
+                                  }
+                                  className=""
+                                />
+                              </div>
 
                               <label
                                 htmlFor={sts.label}
@@ -407,33 +409,6 @@ function SearchCustomer({
                     className=" z-10	left-0   w-60 absolute product-dropdown rounded-lg	 overflow-y-scroll py-3	"
                     style={{ height: "175px" }}
                   >
-                    {/* <ul className="dropdown-content">
-                    {State.map((item, index) => {
-                      return (
-                        <>
-                          <li className="py-2.5	px-4">
-                            <div className="flex items-center">
-                              <input
-                                onClick={() => {
-                                  addState(item);
-                                }}
-                                id={item}
-                                type="checkbox"
-                                defaultValue=""
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                              />
-                              <label
-                                htmlFor={item}
-                                className="ml-2 text-sm font-medium text-gray"
-                              >
-                                {item}
-                              </label>
-                            </div>
-                          </li>
-                        </>
-                      );
-                    })}
-                  </ul> */}
                     <Select
                       mode="multiple"
                       style={{

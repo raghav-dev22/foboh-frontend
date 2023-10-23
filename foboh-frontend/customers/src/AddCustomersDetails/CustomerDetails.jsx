@@ -127,7 +127,7 @@ function CustomerDetails() {
       .then((data) => {
         console.log("Customer added>>", data);
         localStorage.setItem("customerAdded", true);
-        // window.alert("Customer added successfully!");
+
         navigate("/dashboard/customers/");
       })
       .catch((error) => console.log(error));
@@ -160,7 +160,6 @@ function CustomerDetails() {
         formik.submitForm();
 
         handleSubmit();
-        localStorage.setItem("customerAdded", true);
       }
     });
   };

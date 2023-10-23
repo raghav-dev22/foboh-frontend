@@ -26,13 +26,15 @@ function Category() {
             <ul className="dropdown-content 	 ">
               <li className="py-2.5	px-4	">
                 <div className="flex items-center" onClick={toggleCategory}>
-                  <input
-                    defaultChecked=""
-                    id="checked-checkbox"
-                    type="checkbox"
-                    defaultValue=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                  />
+                  <div className="flex items-center gap-3 green-checkbox">
+                    <input
+                      defaultChecked=""
+                      id="checked-checkbox"
+                      type="checkbox"
+                      defaultValue=""
+                      className=""
+                    />
+                  </div>
                   <label
                     htmlFor="checked-checkbox"
                     className="ml-2 text-sm font-medium text-gray"
@@ -44,13 +46,15 @@ function Category() {
                   <ul className="dropdown-content 	 ">
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
-                        <input
-                          defaultChecked=""
-                          id="checked-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                        />
+                        <div className="flex items-center gap-3 green-checkbox">
+                          <input
+                            defaultChecked=""
+                            id="checked-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className=""
+                          />
+                        </div>
                         <label
                           htmlFor="checked-checkbox"
                           className="ml-2 text-sm font-medium text-gray"
@@ -61,13 +65,15 @@ function Category() {
                     </li>
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
-                        <input
-                          defaultChecked=""
-                          id="checked-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                        />
+                        <div className="flex items-center gap-3 green-checkbox">
+                          <input
+                            defaultChecked=""
+                            id="checked-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className=""
+                          />
+                        </div>
                         <label
                           htmlFor="checked-checkbox"
                           className="ml-2 text-sm font-medium text-gray"
@@ -78,13 +84,15 @@ function Category() {
                     </li>
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
-                        <input
-                          defaultChecked=""
-                          id="checked-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                        />
+                        <div className="flex items-center gap-3 green-checkbox">
+                          <input
+                            defaultChecked=""
+                            id="checked-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className=""
+                          />
+                        </div>
                         <label
                           htmlFor="checked-checkbox"
                           className="ml-2 text-sm font-medium text-gray"
@@ -95,13 +103,15 @@ function Category() {
                     </li>
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
-                        <input
-                          defaultChecked=""
-                          id="checked-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                        />
+                        <div className="flex items-center gap-3 green-checkbox">
+                          <input
+                            defaultChecked=""
+                            id="checked-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className=""
+                          />
+                        </div>
                         <label
                           htmlFor="checked-checkbox"
                           className="ml-2 text-sm font-medium text-gray"
@@ -112,13 +122,15 @@ function Category() {
                     </li>
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
-                        <input
-                          defaultChecked=""
-                          id="checked-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                        />
+                        <div className="flex items-center gap-3 green-checkbox">
+                          <input
+                            defaultChecked=""
+                            id="checked-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className=""
+                          />
+                        </div>
                         <label
                           htmlFor="checked-checkbox"
                           className="ml-2 text-sm font-medium text-gray"
@@ -129,13 +141,15 @@ function Category() {
                     </li>
                     <li className="py-2.5	px-4	">
                       <div className="flex items-center">
-                        <input
-                          defaultChecked=""
-                          id="checked-checkbox"
-                          type="checkbox"
-                          defaultValue=""
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                        />
+                        <div className="flex items-center gap-3 green-checkbox">
+                          <input
+                            defaultChecked=""
+                            id="checked-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            className=""
+                          />
+                        </div>
                         <label
                           htmlFor="checked-checkbox"
                           className="ml-2 text-sm font-medium text-gray"
@@ -150,13 +164,15 @@ function Category() {
 
               <li className="py-2.5	px-4	">
                 <div className="flex items-center">
-                  <input
-                    defaultChecked=""
-                    id="checked-checkbox"
-                    type="checkbox"
-                    defaultValue=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                  />
+                  <div className="flex items-center gap-3 green-checkbox">
+                    <input
+                      defaultChecked=""
+                      id="checked-checkbox"
+                      type="checkbox"
+                      defaultValue=""
+                      className=""
+                    />
+                  </div>
                   <label
                     htmlFor="checked-checkbox"
                     className="ml-2 text-sm font-medium text-gray"
@@ -168,13 +184,15 @@ function Category() {
 
               <li className="py-2.5	px-4 	">
                 <div className="flex items-center">
-                  <input
-                    defaultChecked=""
-                    id="checked-checkbox"
-                    type="checkbox"
-                    defaultValue=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded       dark:bg-gray-700 dark:border-gray-600"
-                  />
+                  <div className="flex items-center gap-3 green-checkbox">
+                    <input
+                      defaultChecked=""
+                      id="checked-checkbox"
+                      type="checkbox"
+                      defaultValue=""
+                      className=""
+                    />
+                  </div>
                   <label
                     htmlFor="checked-checkbox"
                     className="ml-2 text-sm font-medium text-gray"
