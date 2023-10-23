@@ -89,7 +89,6 @@ function ViewProduct() {
     organisationId: "string",
   });
 
-
   const asyncFunction = async () => {
     // Getting organization id
     await fetch(
@@ -680,7 +679,7 @@ function ViewProduct() {
             award: values?.awards,
             articleId: 0,
             skUcode: values?.skuCode,
-            productImageUrls: productImageUris,
+            productImageUrls: productImageUris === null ? [] : productImageUris,
             unitofMeasure: values?.baseUnitMeasure?.value.toString(),
             innerUnitofMeasure: values?.innerUnitMeasure?.value.toString(),
             configuration: values?.configuration,

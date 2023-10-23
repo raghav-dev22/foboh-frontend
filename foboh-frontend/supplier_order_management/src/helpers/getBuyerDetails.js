@@ -1,4 +1,4 @@
-const getBuyerDetails = async (buyerId) => {
+export const getBuyerDetails = async (buyerId) => {
   const buyer = await fetch(
     `https://suppliercreateorderfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/getOrderInformationBuyerId?BuyerId=${buyerId}`,
     {

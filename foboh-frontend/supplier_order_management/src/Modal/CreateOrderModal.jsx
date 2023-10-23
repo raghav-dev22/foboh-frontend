@@ -17,6 +17,8 @@ import DeliveryContactForm from "./DeliveryContactForm";
 import DeliveryAddressForm from "./DeliveryAddressForm";
 import { getDefaultPaymentTerms } from "../helpers/getDefaultPaymentTerms";
 import { postBuyerDetails } from "../helpers/postBuyerDetails";
+import { getBuyerDetails } from "../helpers/getBuyerDetails";
+import { convertDefaultPaymentTermValue } from "../helpers/convertDefaultPaymentTermValue";
 
 // import { Select } from "antd";
 
@@ -41,6 +43,8 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const [customerDetails, setCustomerDetails] = useState({});
   const [defaultPaymentTerms, setDefaultPaymentTerms] = useState([]);
   const [defaultPaymentTermsValue, setDefaultPaymentTermsValue] = useState({});
+  const [defaultPaymentTermsDate, setDefaultPaymentTermsDate] = useState("");
+
   let defaultPaymentTermsList = [];
 
   const handleCheckboxChange = () => {
@@ -187,14 +191,29 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     if (customerInfo.success) {
       // Posting customer info on loading modal
       setIsCustomerSelected(true);
-      const postBuyerDetailsResponse = await postBuyerDetails(
-        customerInfo.data[0]
-      );
+      await postBuyerDetails(customerInfo.data[0]);
 
-      console.log("postBuyerDetailsResponse", postBuyerDetailsResponse);
+      const buyerDetails = await getBuyerDetails(value?.value);
 
-      if (postBuyerDetailsResponse.success) {
-        getBuyerDetails(value?.value);
+      if (buyerDetails.success) {
+        const buyerData = buyerDetails.data[0];
+        setCustomerDetails(buyerData);
+        const defaultPaymentTermsListValue = defaultPaymentTerms.find(
+          (item) => item.label === buyerDetails.data[0].defaultPaymentTerm[0]
+        );
+
+        setDefaultPaymentTermsValue(defaultPaymentTermsListValue);
+
+        const defaultPaymentTermsDateValue = convertDefaultPaymentTermValue(
+          defaultPaymentTermsListValue.label
+        );
+
+        console.log(
+          "defaultPaymentTermsDateValue",
+          defaultPaymentTermsDateValue
+        );
+
+        setDefaultPaymentTermsDate(defaultPaymentTermsDateValue);
       }
     }
   };
@@ -420,7 +439,8 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                 />
                               ) : (
                                 <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
-                                  Payment due in 14 days (dd/mm/yyyy)
+                                  {defaultPaymentTermsValue?.label}{" "}
+                                  {`(${defaultPaymentTermsDate})`}
                                 </h4>
                               )}
                             </div>
