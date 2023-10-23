@@ -1370,7 +1370,7 @@ function ViewProduct() {
                         {status.map((state, index) => (
                           <div
                             key={index}
-                            className="flex items-center mb-4 gap-3"
+                            className="flex items-center mb-4 gap-3 green-checkbox"
                           >
                             <input
                               id={state}
@@ -1433,7 +1433,7 @@ function ViewProduct() {
                         {regionAvailability.map((region, index) => (
                           <div
                             key={index}
-                            className="flex items-center mb-4 gap-3"
+                            className="flex items-center mb-4 gap-3 green-checkbox"
                           >
                             <input
                               onChange={handleRegionAvailability}
@@ -1911,7 +1911,7 @@ function ViewProduct() {
                               name="colors"
                               isDisabled={!country.length}
                               options={country}
-                              value={values.country}
+                              value={values?.country}
                               onChange={handleCountryChange}
                               className="basic-multi-select "
                               classNamePrefix="select"
@@ -2207,7 +2207,7 @@ function ViewProduct() {
                         <h5 className="text-base font-medium text-green mb-3">
                           Tax
                         </h5>
-                        <div className="flex items-center mb-4 gap-3">
+                        <div className="flex items-center mb-4 gap-3 green-checkbox">
                           <input
                             id="default-checkbox"
                             type="checkbox"
@@ -2225,7 +2225,7 @@ function ViewProduct() {
                           </label>
                         </div>
                         {isWet && (
-                          <div className="flex items-center mb-4 gap-3">
+                          <div className="flex items-center mb-4 gap-3 green-checkbox">
                             <input
                               id="checked-checkbox"
                               type="checkbox"

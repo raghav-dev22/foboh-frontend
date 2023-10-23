@@ -21,7 +21,7 @@ export const ResetPasswordFormSchema = Yup.object().shape({
       [Yup.ref("password"), null],
       "Passwords do not match, please try again"
     ),
-}); 
+});
 
 //Sign-up Schema
 export const SignUpSchema = Yup.object().shape({
@@ -72,7 +72,7 @@ export const SignInSchema = Yup.object().shape({
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
- 
+
 // Personal Details Schema [User Profile]
 export const PersonalDetailsSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -101,9 +101,13 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .max(50)
     .matches(/^[^\d]*$/, "Business name should not contain numbers")
     .required("Business name is required"),
-    abn: Yup.string().matches(/^\d{11}$/, "Invalid ABN format").required('ABN is required'),
-    liquorLicence: Yup.string().max(13, "Liquor licence cannot be more than 13 characters").required("Liquor licence is required"),
-    description: Yup.string().max(255, "Bio cannot be more than 255 characters"),
+  abn: Yup.string()
+    .matches(/^\d{11}$/, "Invalid ABN format")
+    .required("ABN is required"),
+  liquorLicence: Yup.string()
+    .max(13, "Liquor licence cannot be more than 13 characters")
+    .required("Liquor licence is required"),
+  description: Yup.string().max(255, "Bio cannot be more than 255 characters"),
 
   //Organization Address
   organisationAddress: Yup.string()
