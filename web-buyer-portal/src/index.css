@@ -677,3 +677,41 @@ select {
   top: 8px !important;
   left: 7px !important;
 }
+.custom-product-dropdown .ant-checkbox-group {
+  gap: 10px;
+}
+.custom-product-dropdown .ant-checkbox-wrapper {
+  font-size: 16px;
+  font-weight: 500;
+  color: #637381;
+}
+.ant-checkbox-checked .ant-checkbox-inner:after {
+  content: "\2713";
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  line-height: 0px;
+
+  color: #147d73 !important;
+  transform: rotate(0deg);
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: white;
+
+  border: 1px solid #147d73;
+}
+.ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  .ant-checkbox-checked:not(.ant-checkbox-disabled)
+  .ant-checkbox-inner {
+  background-color: white;
+
+  border: 1px solid #147d73;
+}
+.ant-checkbox .ant-checkbox-inner:after {
+  height: 0px;
+  width: 0px;
+}
+.ant-checkbox .ant-checkbox-inner {
+  width: 20px;
+  height: 20px;
+}

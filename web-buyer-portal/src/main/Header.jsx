@@ -128,6 +128,20 @@ function Header() {
 
   return (
     <>
+      <style>
+        {`
+      .headerList:hover {
+        background: ${token.bannerThemeColor} !important;
+    }
+    .headerList:hover h6{
+      color:${token.buttonThemeColor} !important
+    }
+    .headerList:hover svg{
+      fill:${token.buttonThemeColor} !important
+    }
+    
+      `}
+      </style>
       <div
         className={`top-header bg-white flex justify-between items-center p-6 ${
           scroll && "fixed top-0 right-0 left-0 z-40 border-b border-inherit"
@@ -229,7 +243,7 @@ function Header() {
                         to="/home/product-list"
                         className="focus-visible:outline-offset-0 focus-visible:outline-0		"
                       >
-                        <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2 hover:bg-[#f4f7ff]">
+                        <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2 headerList">
                           <FormatListBulletedIcon style={{ fill: "#637381" }} />
                           <h6 className="text-sm font-medium		text-[#637381]">
                             Lists
@@ -241,7 +255,7 @@ function Header() {
                         to="/home/MyOrders"
                         className="focus-visible:outline-offset-0 focus-visible:outline-0		"
                       >
-                        <li className="py-2.5	px-4 cursor-pointer flex items-center justify-between gap-2	hover:bg-[#f4f7ff]">
+                        <li className="py-2.5	px-4 cursor-pointer flex items-center justify-between gap-2	headerList">
                           <div className=" flex items-center gap-2">
                             <ShoppingBasketIcon style={{ fill: "#637381" }} />
                             <h6 className="text-sm font-medium text-[#637381]">
@@ -256,14 +270,14 @@ function Header() {
                           </div>
                         </li>
                       </Link>
-                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 hover:bg-[#f4f7ff]">
+                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
                         <CreditCardIcon style={{ fill: "#637381" }} />
                         <h6 className="text-sm font-medium	text-[#637381]	">
                           Payments
                         </h6>
                       </li>
                       <Link to="/home/account">
-                        <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 hover:bg-[#f4f7ff]">
+                        <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
                           <AccountCircleIcon style={{ fill: "#637381" }} />
                           <h6 className="text-sm font-medium		text-[#637381]">
                             Account
@@ -275,7 +289,7 @@ function Header() {
                   <ul className="dropdown-content pb-3">
                     <li
                       onClick={handleLogout}
-                      className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2 hover:bg-[#f4f7ff]"
+                      className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2 headerList"
                     >
                       <LogoutIcon style={{ fill: "#FF5757" }} />
                       <h6 className="text-sm font-medium text-[#FF5757]">

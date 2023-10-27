@@ -754,7 +754,7 @@ function AddProduct() {
                 <img
                   src="/assets/inventory-img.png"
                   alt=""
-                  className=" w-full"
+                  className=" w-full h-[357px] object-contain"
                 />
               </div>
 

@@ -65,7 +65,7 @@ const DeliveryAddressForm = ({ setEditDeliveryAddress, customerDetails }) => {
   };
 
   return (
-    <div className="  md:px-0 pb-4 px-6">
+    <div className="  md:px-0 pb-4 ">
       <div className="flex  items-center gap-1.5  pb-4">
         <HomeRoundedIcon
           style={{ fill: "#2B4447" }}

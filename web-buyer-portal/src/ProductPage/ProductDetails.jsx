@@ -9,6 +9,7 @@ import { message } from "antd";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import BlockRoundedIcon from "@mui/icons-material/BlockRounded";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
@@ -184,24 +185,33 @@ const ProductDetails = () => {
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
               {selectedImage && (
-                <div className="bg-[#C4C4C4] rounded-md">
+                <div className="bg-[#C4C4C4] rounded-md flex justify-center relative h-[225px]">
+                  <div className="absolute top-[10px] right-[10px] bg-white rounded-full h-[30px] w-[30px] flex justify-center items-center">
+                    <FavoriteBorderRoundedIcon className="" />
+                  </div>
                   <img
                     src={selectedImage}
                     alt="Selected Image"
-                    className="mix-blend-multiply"
+                    className="mix-blend-multiply h-[225px] object-contain"
                   />
                 </div>
               )}
 
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
                 {images.map((image, index) => (
-                  <div className="bg-[#C4C4C4] rounded-md">
+                  <div className="bg-[#C4C4C4] rounded-md h-[99px] flex justify-center  relative">
+                    <div className="absolute top-[5px] right-[5px] bg-white rounded-full h-[20px] w-[20px] flex justify-center items-center">
+                      <FavoriteBorderRoundedIcon
+                        className=""
+                        style={{ width: "10px" }}
+                      />
+                    </div>
+
                     <img
                       key={index}
                       src={image}
-                      alt={`Image ${index}`}
                       onClick={() => handleImageClick(image)}
-                      className="mix-blend-multiply"
+                      className="mix-blend-multiply h-[99px] object-contain"
                     />
                   </div>
                 ))}

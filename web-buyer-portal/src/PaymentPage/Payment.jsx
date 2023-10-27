@@ -342,7 +342,7 @@ const Payment = () => {
         setLoading(false);
         paymentProcessUpdate(orderId, cardHolderName);
         cartStatusUpdate();
-        orderStatusUpdate()
+        orderStatusUpdate();
         countDown();
       }
     }
@@ -350,6 +350,24 @@ const Payment = () => {
 
   return (
     <>
+      <style>
+        {`
+     .ant-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled){
+      background:${token.bannerThemeColor} !important
+    }
+   
+    .ant-select-item:hover h5,.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) h5,.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state{
+      color:${token.commonThemeColor} !important;
+    }
+    .green-checkbox input[type="checkbox"]:checked::before {
+      color: ${token.commonThemeColor} !important;
+    }
+    .green-checkbox input[type="checkbox"]:checked {
+    
+      border: 1px solid ${token.commonThemeColor} !important;
+    }
+    `}
+      </style>
       <Spin spinning={loading} size="large" delay={500}>
         <div className="">
           <div className="py-4">
@@ -506,16 +524,38 @@ const Payment = () => {
                   tab={
                     <>
                       <div
-                        className={` ${
-                          activeKey === "1"
-                            ? "bg-[#F0EDFF] border border-[#563FE3]"
-                            : "bg-[#fff] border border-[#E7E7E7]"
-                        }  rounded-md w-[175px] py-[18px]`}
+                        className={`  rounded-md w-[175px] py-[18px]`}
+                        style={{
+                          background:
+                            activeKey === "1" ? token.bannerThemeColor : "#fff",
+                          border: `1px solid ${
+                            activeKey === "1"
+                              ? token.commonThemeColor
+                              : "#E7E7E7"
+                          }
+                          `,
+                        }}
                       >
-                        <h5 className="text-[#2B4447] font-semibold text-base text-center mb-1">
+                        <h5
+                          className="text-[#2B4447] font-semibold text-base text-center mb-1"
+                          style={{
+                            color:
+                              activeKey === "1"
+                                ? token.commonThemeColor
+                                : "#2B4447",
+                          }}
+                        >
                           Pay Later
                         </h5>
-                        <p className="text-base text-[#637381] text-center">
+                        <p
+                          className="text-base text-[#637381] text-center"
+                          style={{
+                            color:
+                              activeKey === "1"
+                                ? token.commonThemeColor
+                                : "#637381",
+                          }}
+                        >
                           {" "}
                           14 days, EFT
                         </p>
@@ -588,16 +628,36 @@ const Payment = () => {
                 <TabPane
                   tab={
                     <div
-                      className={` ${
-                        activeKey === "2"
-                          ? "bg-[#F0EDFF] border border-[#563FE3]"
-                          : "bg-[#fff] border border-[#E7E7E7]"
-                      }  rounded-md w-[175px] py-[18px]`}
+                      className={`  rounded-md w-[175px] py-[18px]`}
+                      style={{
+                        background:
+                          activeKey === "2" ? token.bannerThemeColor : "#fff",
+                        border: `1px solid ${
+                          activeKey === "2" ? token.commonThemeColor : "#E7E7E7"
+                        }
+                        `,
+                      }}
                     >
-                      <h5 className="text-[#2B4447] font-semibold text-base text-center mb-1">
+                      <h5
+                        className="text-[#2B4447] font-semibold text-base text-center mb-1"
+                        style={{
+                          color:
+                            activeKey === "2"
+                              ? token.commonThemeColor
+                              : "#2B4447",
+                        }}
+                      >
                         Pay Now
                       </h5>
-                      <p className="text-sm text-[#637381] text-center">
+                      <p
+                        className="text-sm text-[#637381] text-center"
+                        style={{
+                          color:
+                            activeKey === "2"
+                              ? token.commonThemeColor
+                              : "#637381",
+                        }}
+                      >
                         Credit or Debit Card
                       </p>
                     </div>

@@ -311,7 +311,7 @@ const CartPage = () => {
                       <img
                         src={item.product?.productImageUrls}
                         alt=""
-                        className="w-[150px]  object-cover	rounded-md"
+                        className="w-[150px] h-[100px]  object-cover	rounded-md"
                       />
                     </div>
                     <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">

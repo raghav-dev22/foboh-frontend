@@ -9,32 +9,12 @@ function TopRatedSection() {
   const [CartData, setCartData] = useState([]);
   const { useToken } = theme;
   const { token } = useToken();
-
-  // const data = () => {
-  //   axios
-  //     .get(
-  //       `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=TopRatedtags&page=1&OrganisationId=8931989992`
-  //     )
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       if (!Success) {
-  //         setCartData([]);
-  //       }
-  //       console.log(data);
-  //       setCartData(data.data);
-  //     });
-  // };
   const dispatch = useDispatch();
   const addCart = (item) => {
     dispatch(add(item));
   };
-  // useEffect(() => {
-  //   data();
-  // }, []);
   useEffect(() => {
-    const topRated = 'Top rated'
+    const topRated = "Top rated";
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=${topRated}&page=1&OrganisationId=8931989992`;
 
     fetch(apiUrl)
@@ -54,6 +34,13 @@ function TopRatedSection() {
   }, []);
   return (
     <>
+      <style>
+        {`
+      .top-rated-section .dZkckO:hover,.top-rated-section .bBfHpH:hover {
+        background:${token.commonThemeColor} !important;
+      }
+      `}
+      </style>
       <div className="top-rated-section md:w-4/5	w-full mx-auto md:p-0 px-6  ">
         <div className="relative">
           <h2 className="text-left xl:text-center md:text-center xl:mx-0 md:mx-0 mx-3 xl:font-bold md:font-bold font-[500] text-[#212B36] xl:text-3xl md:text-3xl text-[16px]	xl:py-10 md:py-10 py-7">

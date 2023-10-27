@@ -52,7 +52,7 @@ const DeliveryContactForm = ({ setEditDeliveryContact, customerDetails }) => {
   };
 
   return (
-    <div className="  md:px-0 pb-4 px-6">
+    <div className="  md:px-0 pb-4 ">
       <div className="flex  items-center gap-1.5 pb-6">
         <CallIcon style={{ fill: "#2B4447" }} className="w-[18px] h-[18px]" />
         <h5 className="text-lg font-semibold text-[#2B4447]">
