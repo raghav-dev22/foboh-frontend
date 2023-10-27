@@ -11,10 +11,13 @@ function CustomerAddress({
   touched,
   setValues,
   setIsUpDate,
+  setIsAddressChecked,
+  isAddressChecked,
 }) {
   console.log("contact address>>", errors, touched);
   const sameAddresses = (e) => {
     console.log("e --->", e.target.checked);
+    setIsAddressChecked(e.target.checked);
     if (e.target.checked) {
       setValues({
         ...values,
@@ -38,15 +41,6 @@ function CustomerAddress({
   const [stateOptions, setStateOptions] = useState([]);
   useEffect(() => {
     // defaultPaymentTrems
-    setValues({
-      ...values,
-      billingAddress: "",
-      billingApartment: "",
-      billingSuburb: "",
-      billingPostalCode: "",
-      billingState: "",
-    });
-
     fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
       method: "GET",
     })
@@ -130,7 +124,7 @@ function CustomerAddress({
                 className="block  tracking-wide text-gray-700 text-sm	 font-medium	 "
                 htmlFor="grid-last-name"
               >
-                Apartment, floor etc. (optional)
+                Apartment, floor etc. (Optional)
               </label>
               <input
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -294,6 +288,7 @@ function CustomerAddress({
                   type="checkbox"
                   defaultValue=""
                   onClick={sameAddresses}
+                  checked={isAddressChecked}
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                 />
                 <h5 className="text-base font-normal">
@@ -449,10 +444,13 @@ function CustomerAddress({
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{
-                  border: errors?.billingState && "1px solid red",
+                  border:
+                    errors?.billingState &&
+                    touched?.billingState &&
+                    "1px solid red",
                 }}
               />
-              {errors.billingState && (
+              {errors.billingState && touched?.billingState && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
                   {errors.billingState}
                 </p>

@@ -36,9 +36,9 @@ import { Box } from "@mui/material";
 const initialValues = {
   visibility: "0",
   region: [],
-  minimumOrder: 0,
+  minimumOrder: "",
   trackInventory: false,
-  stockAlertLevel: 0,
+  stockAlertLevel: "",
   sellOutOfStock: false,
   title: "",
   skuCode: "",
@@ -929,9 +929,7 @@ function AddProduct() {
                         onChange={handleMinimumOrderQuantity}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-last-name"
-                        value={
-                          values.minimumOrder !== 0 ? values.minimumOrder : null
-                        }
+                        value={values.minimumOrder}
                         name="minimumOrder"
                         type="number"
                         placeholder="Select"
@@ -998,11 +996,12 @@ function AddProduct() {
                         <div className="w-72">
                           <input
                             onChange={handleStockAlertLevel}
-                            value={
-                              values.stockAlertLevel !== 0
-                                ? values.stockAlertLevel
-                                : null
-                            }
+                            // value={
+                            //   values.stockAlertLevel !== 0
+                            //     ? values.stockAlertLevel
+                            //     : null
+                            // }
+                            value={values.stockAlertLevel}
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="stock-alert-level"
                             name="stockAlertLevel"

@@ -58,6 +58,8 @@ function CustomerDetails() {
   const [toastMessage, setToastMessage] = useState("");
   const [toastSeverity, setToastSeverity] = useState("success");
   const [isUpdate, setIsUpDate] = useState(false);
+  const [isChecked, setIsChecked] = useState();
+  const [isAddressChecked, setIsAddressChecked] = useState();
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchemas[activeStep],
@@ -167,7 +169,7 @@ function CustomerDetails() {
     if (activeStep > 0) {
       setActiveStep((cur) => cur - 1);
       formik.setErrors({});
-      formik.setValues(formik.values);
+      formik.setValues(formik?.values);
     }
   };
 
@@ -276,7 +278,7 @@ function CustomerDetails() {
       </div>
       <form
         onChange={onChangeText}
-        className=" mx-auto lg:w-3/5 w-full   rounded-lg 		 border border-inherit bg-white  	overflow-y-scroll		 flex flex-col	  "
+        className=" mx-auto lg:w-3/5 w-full rounded-lg border border-inherit bg-white overflow-y-scroll	flex flex-col"
       >
         {activeStep === 0 ? (
           <CustomerDetailsFirst
@@ -294,10 +296,12 @@ function CustomerDetails() {
             touched={formik.touched}
             options={options}
             values={formik.values}
+            setValues={formik.setValues}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
-            setValues={formik.setValues}
             errors={formik.errors}
+            setIsChecked={setIsChecked}
+            isChecked={isChecked}
           />
         ) : activeStep === 2 ? (
           <CustomerAddress
@@ -309,6 +313,8 @@ function CustomerDetails() {
             handleBlur={formik.handleBlur}
             errors={formik.errors}
             setIsUpDate={setIsUpDate}
+            setIsAddressChecked={setIsAddressChecked}
+            isAddressChecked={isAddressChecked}
           />
         ) : null}
         <div className="px-6 pb-7 flex justify-between">

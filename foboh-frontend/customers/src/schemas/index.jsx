@@ -148,9 +148,9 @@ export const stepOneSchema = Yup.object().shape({
     .max(50)
     .required("ABN is required"),
   // liquorLicence: Yup.string()
-  liquorLicence: Yup.string()
-    .max(13, "Liquor licence cannot be more than 13 characters")
-    .required("Liquor licence is required"),
+  // liquorLicence: Yup.string()
+  //   .max(13, "Liquor licence cannot be more than 13 characters")
+  //   .required("Liquor licence is required"),
   isActive: Yup.mixed().required("Status is required"),
   // pricingProfileId: Yup.mixed().required("State is required"),
   defaultPaymentTerms: Yup.mixed().required("defaultPaymentTerms is required"),

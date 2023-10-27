@@ -21,7 +21,7 @@ export const BankingSchema = Yup.object().shape({
   LegalBusiness: Yup.string()
     .min(2, "Your trading name should have at least 2 letters")
     .max(50)
-    .matches(/^[^\d]*$/, "Trading name should not contain numbers")
+    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
     .required("Trading name is required"),
 
   ACNABN: Yup.string()
@@ -31,7 +31,7 @@ export const BankingSchema = Yup.object().shape({
   BusinessAddress: Yup.string()
     .min(2, "Your trading name should have at least 2 letters")
     .max(50)
-    .matches(/^[^\d]*$/, "Trading name should not contain numbers")
+    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
     .required("Trading name is required"),
 
   Suburb: Yup.string()
@@ -51,7 +51,7 @@ export const BankingSchema = Yup.object().shape({
     .required("Account Number is required")
     .matches(
       /^[A-Za-z0-9]{16}$/,
-      "IBAN must be 16 characters containing numbers and letters"
+      "Account number00 must be 16 characters containing numbers and letters"
     ),
 
   StatementDescriptor: Yup.string().required("StatementDescriptor is required"),
@@ -63,10 +63,10 @@ export const BankingSchema = Yup.object().shape({
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
-  businessName: Yup.string()
-    .min(2, "Business name should have atleast 2 letters")
-    .max(50)
-    .required("Business name is required"),
+  // businessName: Yup.string()
+  //   .min(2, "Business name should have atleast 2 letters")
+  //   .max(50)
+  //   .required("Business name is required"),
 });
 
 export const deliveryAddressSchema = Yup.object().shape({

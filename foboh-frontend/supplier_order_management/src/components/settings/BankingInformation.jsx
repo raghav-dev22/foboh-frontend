@@ -4,9 +4,15 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 import { BankingSchema } from "../../schemas";
+import { getOrganisationDetails } from "../../helpers/getOrganisationDetails";
+import { postSetupBankingDetails } from "../../helpers/postSetupBankinDetails";
+import { getSetupBankingDetails } from "../../helpers/getSetupBankingDetails";
+import { Button, message } from "antd";
+import CloseIcon from "@mui/icons-material/Close";
 
 const BankingInformation = () => {
   const [bankingDetails, setBankingDetails] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
   const [show, setShow] = useState(false);
   const [stateOptions, setStateOptions] = useState([]);
   const [businessType, setBusinessType] = useState([]);
@@ -18,7 +24,7 @@ const BankingInformation = () => {
     Suburb: "",
     Postcode: "",
     State: "",
-    Country: "",
+    Country: "Australia",
     BSB: "",
     AccountNumber: "",
     StatementDescriptor: "",
@@ -33,6 +39,7 @@ const BankingInformation = () => {
     handleSubmit,
     touched,
     setValues,
+    isValid,
   } = useFormik({
     initialValues: initialValues,
     validationSchema: BankingSchema,
@@ -41,38 +48,22 @@ const BankingInformation = () => {
     },
   });
 
-  useEffect(() => {
-    const orgID = localStorage.getItem("organisationId");
-    fetch(
-      `https://setupbankinginfofobohwebapi-fbh.azurewebsites.net/api/SetupBanking/getSetupbankingInfoByOrganisationID?OrganisationID=${orgID}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("bankingDetails -->", data.data[0]);
-        setBankingDetails(data.data[0]);
-        setInitialValues({
-          ...initialValues,
-          LegalBusiness: data.data[0].legalbusinessname,
-          ACNABN: data.data[0].acnabn,
-          BusinessAddress: data.data[0].businessAddress,
-          Suburb: data.data[0].city,
-          Postcode: data.data[0].postcode,
-          State: data.data[0].state,
-        });
-        setValues({
-          LegalBusiness: data.data[0].legalbusinessname,
-          ACNABN: data.data[0].acnabn,
-          BusinessAddress: data.data[0].businessAddress,
-          Suburb: data.data[0].city,
-          Postcode: data.data[0].postcode,
-          State: data.data[0].state,
-        });
-      })
-      .catch((error) => console.log(error));
+  const DetilsUpdated = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Details updated!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
 
+  useEffect(() => {
     fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
       method: "GET",
     })
@@ -104,7 +95,86 @@ const BankingInformation = () => {
         }));
         setBusinessType(businessTypeOptions);
       });
+
+    asyncFuntion();
   }, []);
+
+  const asyncFuntion = async () => {
+    const organisationDetails = await getOrganisationDetails();
+    console.log(organisationDetails, "mainData");
+    await postSetupBankingDetails(organisationDetails);
+
+    const setupBankingDetails = await getSetupBankingDetails();
+    setInitialValues({
+      LegalBusiness: setupBankingDetails.legalbusinessname,
+      ACNABN: setupBankingDetails.acnabn,
+      BusinessAddress: setupBankingDetails.businessAddress,
+      Suburb: setupBankingDetails.city,
+      Postcode: setupBankingDetails.postcode,
+      State: setupBankingDetails.state,
+      BSB: setupBankingDetails.bsBnumber,
+      AccountNumber: setupBankingDetails.accountNumber,
+      StatementDescriptor: setupBankingDetails.statementDescriptor,
+      PhoneNumber: setupBankingDetails.phoneNumber,
+      BusinessName: setupBankingDetails.businessType,
+    });
+    setValues({
+      LegalBusiness: setupBankingDetails.legalbusinessname,
+      ACNABN: setupBankingDetails.acnabn,
+      BusinessAddress: setupBankingDetails.businessAddress,
+      Suburb: setupBankingDetails.city,
+      Postcode: setupBankingDetails.postcode,
+      State: setupBankingDetails.state,
+      BSB: setupBankingDetails.bsBnumber,
+      AccountNumber: setupBankingDetails.accountNumber,
+      StatementDescriptor: setupBankingDetails.statementDescriptor,
+      PhoneNumber: setupBankingDetails.phoneNumber,
+      BusinessName: setupBankingDetails.businessType,
+    });
+  };
+
+  const handleSave = () => {
+    if (isValid) {
+      const orgID = localStorage.getItem("organisationId");
+      fetch(
+        `https://setupbankinginfofobohwebapi-fbh.azurewebsites.net/api/SetupBanking/UpdateBankingInfo?OrganisationID=${orgID}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            organisationID: localStorage.getItem("organisationId"),
+            businessType: values?.BusinessName,
+            legalbusinessname: values?.LegalBusiness,
+            acnabn: values?.ACNABN,
+            businessAddress: values?.BusinessAddress,
+            city: values?.Suburb,
+            postcode: values?.Postcode,
+            state: values?.State,
+            country: "Australia",
+            bsBnumber: values?.BSB,
+            accountNumber: values?.AccountNumber,
+            statementDescriptor: values?.StatementDescriptor,
+            phoneNumber: values?.PhoneNumber,
+            createdBy: "string",
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setShow(false);
+          DetilsUpdated();
+          console.log(data, "postbanking data");
+        })
+        .catch((error) => console.log(error));
+    } else {
+      console.log(
+        "Form has validation errors. Save operation aborted.",
+        errors
+      );
+    }
+  };
 
   const handleState = (e) => {
     const item = e.label;
@@ -129,12 +199,15 @@ const BankingInformation = () => {
   const formChange = () => {
     setShow(true);
   };
+
   const handleReset = () => {
     setValues(initialValues);
     setShow(false);
   };
+
   return (
     <>
+      {contextHolder}
       {show && (
         <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
           <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
@@ -147,7 +220,7 @@ const BankingInformation = () => {
                   Cancel
                 </button>
                 <button
-                  // onClick={handleSubmit}
+                  onClick={handleSave}
                   className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium "
                 >
                   Save
@@ -192,6 +265,7 @@ const BankingInformation = () => {
                       onChange={handleBusinessDetails}
                       onBlur={handleBlur}
                       name="BusinessName"
+                      value={values.BusinessName}
                     />
                     {errors.BusinessName && touched.BusinessName && (
                       <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
@@ -357,6 +431,7 @@ const BankingInformation = () => {
                         id="username"
                         type="text"
                         placeholder="Australia "
+                        value={values.Country}
                       />
                     </div>
                   </div>
@@ -391,6 +466,7 @@ const BankingInformation = () => {
                       name="BSB"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      value={values.BSB}
                     />
                     {errors.BSB && touched.BSB && (
                       <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
@@ -413,6 +489,7 @@ const BankingInformation = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       name="AccountNumber"
+                      value={values.AccountNumber}
                     />
                     {errors.AccountNumber && touched.AccountNumber && (
                       <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
@@ -449,6 +526,7 @@ const BankingInformation = () => {
                       name="StatementDescriptor"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      value={values.StatementDescriptor}
                     />
                     {errors.StatementDescriptor &&
                       touched.StatementDescriptor && (
@@ -471,6 +549,7 @@ const BankingInformation = () => {
                       name="PhoneNumber"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      value={values.PhoneNumber}
                       placeholder="04XX XXX XXX / +61 4XX XXX XXX
                       "
                     />
