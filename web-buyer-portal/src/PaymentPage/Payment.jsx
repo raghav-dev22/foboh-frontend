@@ -329,9 +329,12 @@ const Payment = () => {
         cardHolderName
       );
 
-      const { error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: pm_id,
-      });
+      const { error, status, id } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: pm_id,
+        }
+      );
 
       console.log("error", error);
 
@@ -340,9 +343,9 @@ const Payment = () => {
         errorMessage(error?.message);
       } else {
         setLoading(false);
-        paymentProcessUpdate(orderId, cardHolderName);
+        paymentProcessUpdate(orderId, cardHolderName, status, id);
         cartStatusUpdate();
-        orderStatusUpdate()
+        orderStatusUpdate();
         countDown();
       }
     }

@@ -28,6 +28,7 @@ export const postBuyerDetails = async (buyer) => {
         address: buyer?.address,
         apartment: buyer?.apartment,
         suburb: buyer?.suburb,
+        state : buyer?.state,
         postalCode: buyer?.postalCode,
         deliveryNotes: buyer?.deliveryNotes,
         billingAddress: buyer?.billingAddress,

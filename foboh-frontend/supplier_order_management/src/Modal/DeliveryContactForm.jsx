@@ -4,8 +4,14 @@ import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { deliveryContactSchema } from "../schemas";
 import { useEffect } from "react";
+import { updateDeliveryContact } from "../helpers/updateDeliveryContact";
 
-const DeliveryContactForm = ({ setEditDeliveryContact, customerDetails }) => {
+const DeliveryContactForm = ({
+  setEditDeliveryContact,
+  customerDetails,
+  success,
+  error,
+}) => {
   const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
@@ -24,8 +30,19 @@ const DeliveryContactForm = ({ setEditDeliveryContact, customerDetails }) => {
   } = useFormik({
     initialValues: initialValues,
     validationSchema: deliveryContactSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(JSON.stringify(values));
+      //Update api fot delivery contact
+      const update = await updateDeliveryContact(
+        customerDetails?.buyerId,
+        values
+      );
+
+      update
+        ? success("Delivery contact updated!")
+        : error("Error occurred, please try again!");
+
+      setEditDeliveryContact(false);
     },
   });
 
@@ -42,9 +59,7 @@ const DeliveryContactForm = ({ setEditDeliveryContact, customerDetails }) => {
     setValues(customerDetailsBody);
   }, []);
 
-  const handleSave = () => {
-    setEditDeliveryContact(false);
-  };
+  const handleSave = async () => {};
 
   const handleCancel = () => {
     setValues(initialValues);
@@ -196,9 +211,9 @@ const DeliveryContactForm = ({ setEditDeliveryContact, customerDetails }) => {
         <div className="flex gap-8 justify-end ">
           <button
             type="submit"
-            onClick={() => {
-              handleSave();
-            }}
+            // onClick={() => {
+            //   handleSave();
+            // }}
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
           >
             Save
