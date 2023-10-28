@@ -206,7 +206,7 @@ const AllOrders = () => {
         </p>
       ),
       Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	  ">
+        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	 flex justify-center items-center  ">
           <p className="text-[#637381] text-[base] font-medium">
             {item.orderStatus}
           </p>
@@ -662,7 +662,7 @@ const AllOrders = () => {
                   </div>
                   {statusMenu && (
                     <>
-                      <div className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <div className=" z-10 left-0 px-3 h-[200px] custom-product-dropdown  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
                             <Checkbox
@@ -768,7 +768,7 @@ const AllOrders = () => {
                               />
                             ) : (
                               <div className=" absolute top-0 left-0 w-full h-full">
-                                <div className="flex gap-1">
+                                <div className="flex gap-1  green-checkbox ">
                                   <input
                                     id="datePicker"
                                     type="checkbox"

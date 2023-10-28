@@ -1251,7 +1251,7 @@ function ViewProduct() {
                   active
                   avatar
                 >
-                  <div className="edit-img">
+                  <div className="edit-img ">
                     <img
                       src={
                         productImageUris
@@ -1259,7 +1259,7 @@ function ViewProduct() {
                           : "/assets/inventory-img.png"
                       }
                       alt=""
-                      className=" w-full"
+                      className=" w-full h-[357px] object-contain"
                     />
                   </div>
                 </Skeleton>
@@ -1278,7 +1278,7 @@ function ViewProduct() {
                             : "/assets/inventory-img.png"
                         }
                         alt=""
-                        className=""
+                        className=" h-[173px] object-contain"
                       />
                     </div>
                   </Skeleton>
@@ -1296,7 +1296,7 @@ function ViewProduct() {
                             : "/assets/inventory-img.png"
                         }
                         alt=""
-                        className=""
+                        className="h-[173px] object-contain"
                       />
                     </div>
                   </Skeleton>

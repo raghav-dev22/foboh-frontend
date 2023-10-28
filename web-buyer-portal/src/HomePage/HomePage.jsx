@@ -17,7 +17,7 @@ import DeliveryEdit from "../MyAccount/DeliveryEdit";
 import CartPage from "../CartPage/CartPage";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import Link from "antd/es/typography/Link";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, theme } from "antd";
 import CheckOut from "../PaymentPage/CheckOut";
 import Delivery from "../PaymentPage/Delivery";
 import Payment from "../PaymentPage/Payment";
@@ -99,9 +99,17 @@ function HomePage({ setConfig }) {
       ),
     },
   ];
-
+  const { useToken } = theme;
+  const { token } = useToken();
   return (
     <>
+      <style>
+        {`
+      .ant-breadcrumb a:hover{
+        color:${token.commonThemeColor}
+      } 
+      `}
+      </style>
       <Header />
       {location.pathname !== "/home/main" && (
         <div className="md:w-4/5	w-full mx-auto md:px-0 px-6 md:flex gap-3 py-8 hidden ">

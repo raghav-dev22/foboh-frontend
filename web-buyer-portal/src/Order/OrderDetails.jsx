@@ -5,7 +5,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Instruction from "../Svg/Instruction";
-import { Popover, Steps } from "antd";
+import { Popover, Steps, theme } from "antd";
 import InvoiceModal from "../modal/InvoiceModal";
 import { useParams } from "react-router-dom";
 import { message } from "antd";
@@ -178,7 +178,8 @@ const OrderDetails = () => {
       childRef.current.handlePrint(orderId);
     }
   };
-
+  const { useToken } = theme;
+  const { token } = useToken();
   const fetchInvoice = async (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${id}`;
 
@@ -252,6 +253,14 @@ const OrderDetails = () => {
 
   return (
     <>
+      <style>
+        {`
+.ant-steps .ant-steps-item-process .ant-steps-item-icon >.ant-steps-icon .ant-steps-icon-dot {
+  background:${token.buttonThemeColor} !important;
+}
+`}
+      </style>
+
       {contextHolder}
       <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
         <InvoiceModal
@@ -383,7 +392,7 @@ const OrderDetails = () => {
                     <img
                       src={item.product?.productImageUrls}
                       alt=""
-                      className="w-[150px]  object-cover	rounded-md"
+                      className="w-[150px]  h-[100px] object-cover	rounded-md"
                     />
                   </div>
 

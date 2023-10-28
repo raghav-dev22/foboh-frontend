@@ -4,7 +4,7 @@ import EastIcon from "@mui/icons-material/East";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Select, Space, theme } from "antd";
@@ -954,6 +954,29 @@ const ProductList = () => {
 
   return (
     <>
+      <style>
+        {`
+        .green-checkbox input[type="checkbox"]:checked::before {
+         
+          color: ${token.commonThemeColor} !important;
+        }
+        .green-checkbox input[type="checkbox"]:checked {
+          background-color: white;
+        
+          border: 1px solid ${token.commonThemeColor} !important;
+        }
+        .ant-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled){
+          background:${token.bannerThemeColor} !important
+        }
+       
+        .ant-select-item:hover h5,.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) h5,.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state,.ant-pagination .ant-pagination-item-active a{
+          color:${token.commonThemeColor} !important;
+        }
+        .ant-pagination .ant-pagination-item-active{
+          border-color:${token.commonThemeColor} !important;
+        }
+        `}
+      </style>
       {contextHolder}
       <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto">
         <div
@@ -995,10 +1018,10 @@ const ProductList = () => {
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Alphabetical
                   </h5>
-                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                  <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} />
                 </div>
                 <div className="pb-4 border-b border-[#E7E7E7]">
-                  <div className="flex items-center mt-3">
+                  <div className="flex items-center mt-3 green-checkbox">
                     <input
                       id="az"
                       type="checkbox"
@@ -1016,7 +1039,7 @@ const ProductList = () => {
                       </h5>
                     </label>
                   </div>
-                  <div className="flex items-center mt-3">
+                  <div className="flex items-center mt-3 green-checkbox">
                     <input
                       id="za"
                       type="checkbox"
@@ -1039,10 +1062,10 @@ const ProductList = () => {
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Price
                   </h5>
-                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                  <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} />
                 </div>
                 <div className="pb-4 border-b border-[#E7E7E7]">
-                  <div className="flex items-center mt-3">
+                  <div className="flex items-center mt-3 green-checkbox">
                     <input
                       id="lowHigh"
                       type="checkbox"
@@ -1060,7 +1083,7 @@ const ProductList = () => {
                       </h5>
                     </label>
                   </div>
-                  <div className="flex items-center mt-3">
+                  <div className="flex items-center mt-3 green-checkbox">
                     <input
                       id="highLow"
                       type="checkbox"
@@ -1097,20 +1120,28 @@ const ProductList = () => {
             </div>
             <div className="border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
-                  wine === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
-                }`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] `}
                 onClick={() => {
                   WineBtn();
                 }}
+                style={{
+                  background: wine === true ? token.bannerThemeColor : "#fff",
+                }}
               >
-                <h5 className="text-base font-medium text-[#2B4447]">
+                <h5
+                  className={`text-base font-medium `}
+                  style={{
+                    color: wine === true ? token.commonThemeColor : "#2B4447",
+                  }}
+                >
                   Sub-category
                 </h5>
 
-                <KeyboardArrowDownIcon
-                  style={{ fill: "#2B4447" }}
-                  className={` ${wine === true ? "rotate-180" : "rotate-0"}`}
+                <KeyboardArrowRightIcon
+                  style={{
+                    fill: wine === true ? token.buttonThemeColor : "#2B4447",
+                  }}
+                  className={` ${wine === true ? "rotate-90" : "rotate-0"}`}
                 />
               </div>
               {wine && (
@@ -1119,7 +1150,7 @@ const ProductList = () => {
                     {categoryAndSubcategory &&
                       categoryAndSubcategory.map((category, idx) => (
                         <li className="py-2.5	px-4	">
-                          <div className="flex items-center">
+                          <div className="flex items-center green-checkbox">
                             <input
                               id={idx}
                               type="checkbox"
@@ -1190,18 +1221,34 @@ const ProductList = () => {
             {segments.length > 0 && (
               <div className=" border-b border-[#E7E7E7]">
                 <div
-                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
-                    Segment === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
-                  }`}
+                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff]
+                 
+                  `}
                   onClick={() => {
                     SegmentBtn();
                   }}
+                  style={{
+                    background:
+                      Segment === true ? token.bannerThemeColor : "#fff",
+                  }}
                 >
-                  <h5 className="text-base font-medium text-[#2B4447]">
+                  <h5
+                    className={`text-base font-medium  `}
+                    style={{
+                      color:
+                        Segment === true ? token.commonThemeColor : "#2B4447",
+                    }}
+                  >
                     Segment
                   </h5>
 
-                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                  <KeyboardArrowRightIcon
+                    style={{
+                      fill:
+                        Segment === true ? token.buttonThemeColor : "#2B4447",
+                    }}
+                    className={`${Segment === true ? "rotate-90" : "rotate-0"}`}
+                  />
                 </div>
 
                 {Segment && (
@@ -1263,7 +1310,7 @@ const ProductList = () => {
                     Variety
                   </h5>
 
-                  <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                  <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} />
                 </div>
 
                 {Variety && (
@@ -1313,20 +1360,32 @@ const ProductList = () => {
 
             <div className="  border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
-                  Country === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
-                }`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+              
+                `}
                 onClick={() => {
                   CountryBtn();
                 }}
+                style={{
+                  background:
+                    Country === true ? token.bannerThemeColor : "#fff",
+                }}
               >
-                <h5 className="text-base font-medium text-[#2B4447]">
+                <h5
+                  className={`text-base font-medium`}
+                  style={{
+                    color:
+                      Country === true ? token.commonThemeColor : "#2B4447",
+                  }}
+                >
                   Country
                 </h5>
 
-                <KeyboardArrowDownIcon
-                  style={{ fill: "#2B4447" }}
-                  className={` ${Country === true ? "rotate-180" : "rotate-0"}`}
+                <KeyboardArrowRightIcon
+                  style={{
+                    fill: Country === true ? token.buttonThemeColor : "#2B4447",
+                  }}
+                  className={` ${Country === true ? "rotate-90" : "rotate-0"}`}
                 />
               </div>
 
@@ -1376,21 +1435,37 @@ const ProductList = () => {
 
             <div className="  border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
-                  Availability === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
-                }`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+`}
                 onClick={() => {
                   AvailabilityBtn();
                 }}
+                style={{
+                  background:
+                    Availability === true ? token.bannerThemeColor : "#fff",
+                }}
               >
-                <h5 className="text-base font-medium text-[#2B4447]">
+                <h5
+                  className={`text-base font-medium `}
+                  style={{
+                    color:
+                      Availability === true
+                        ? token.commonThemeColor
+                        : "#2B4447",
+                  }}
+                >
                   Region availability
                 </h5>
 
-                <KeyboardArrowDownIcon
-                  style={{ fill: "#2B4447" }}
+                <KeyboardArrowRightIcon
+                  style={{
+                    fill:
+                      Availability === true
+                        ? token.buttonThemeColor
+                        : "#2B4447",
+                  }}
                   className={` ${
-                    Availability === true ? "rotate-180" : "rotate-0"
+                    Availability === true ? "rotate-90" : "rotate-0"
                   }`}
                 />
               </div>
@@ -1446,22 +1521,33 @@ const ProductList = () => {
             {isWine && (
               <div className=" border-b border-[#E7E7E7] cursor-pointer">
                 <div
-                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
-                    Region === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
-                  }`}
+                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+                
+                  `}
                   onClick={() => {
                     RegionBtn();
                   }}
+                  style={{
+                    background:
+                      Region === true ? token.bannerThemeColor : "#fff",
+                  }}
                 >
-                  <h5 className="text-base font-medium text-[#2B4447]">
+                  <h5
+                    className={`text-base font-medium `}
+                    style={{
+                      color:
+                        Region === true ? token.commonThemeColor : "#2B4447",
+                    }}
+                  >
                     Region
                   </h5>
 
-                  <KeyboardArrowDownIcon
-                    style={{ fill: "#2B4447" }}
-                    className={` ${
-                      Region === true ? "rotate-180" : "rotate-0"
-                    }`}
+                  <KeyboardArrowRightIcon
+                    style={{
+                      fill:
+                        Region === true ? token.buttonThemeColor : "#2B4447",
+                    }}
+                    className={` ${Region === true ? "rotate-90" : "rotate-0"}`}
                   />
                 </div>
 
@@ -1512,18 +1598,30 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
-                  Price === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
-                }`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+               
+                `}
                 onClick={() => {
                   PriceBtn();
                 }}
+                style={{
+                  background: Price === true ? token.bannerThemeColor : "#fff",
+                }}
               >
-                <h5 className="text-base font-medium text-[#2B4447]">Price</h5>
+                <h5
+                  className={`text-base font-medium `}
+                  style={{
+                    color: Price === true ? token.commonThemeColor : "#2B4447",
+                  }}
+                >
+                  Price
+                </h5>
 
-                <KeyboardArrowDownIcon
-                  style={{ fill: "#2B4447" }}
-                  className={` ${Price === true ? "rotate-180" : "rotate-0"}`}
+                <KeyboardArrowRightIcon
+                  style={{
+                    fill: Price === true ? token.buttonThemeColor : "#2B4447",
+                  }}
+                  className={` ${Price === true ? "rotate-90" : "rotate-0"}`}
                 />
               </div>
 
@@ -1574,18 +1672,30 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] ${
-                  Tags === true ? "bg-[#f4f7ff]" : "bg-[#fff]"
-                }`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+               
+                `}
                 onClick={() => {
                   TagsBtn();
                 }}
+                style={{
+                  background: Tags === true ? token.bannerThemeColor : "#fff",
+                }}
               >
-                <h5 className="text-base font-medium text-[#2B4447]">Tags</h5>
+                <h5
+                  className={`text-base font-medium`}
+                  style={{
+                    color: Tags === true ? token.commonThemeColor : "#2B4447",
+                  }}
+                >
+                  Tags
+                </h5>
 
-                <KeyboardArrowDownIcon
-                  style={{ fill: "#2B4447" }}
-                  className={` ${Tags === true ? "rotate-180" : "rotate-0"}`}
+                <KeyboardArrowRightIcon
+                  style={{
+                    fill: Tags === true ? token.buttonThemeColor : "#2B4447",
+                  }}
+                  className={` ${Tags === true ? "rotate-90" : "rotate-0"}`}
                 />
               </div>
 
@@ -1685,7 +1795,9 @@ const ProductList = () => {
                         }
                         className="text-lg font-semibold mt-3 cursor-pointer"
                       >
-                        {item?.product?.title}
+                        {item?.product?.title.length > 6
+                          ? `${item?.product?.title.slice(0, 6)}...`
+                          : item?.product?.title}
                       </h4>
                       <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">
                         {item?.product?.brand}
@@ -1744,9 +1856,9 @@ const ProductList = () => {
                             item?.quantity > 0 ? "bg-[#563FE3]" : "bg-[#D1D5DB]"
                           } rounded-md py-2.5 px-3 md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
                           style={{
-                            backgroundColor:
+                            background:
                               item?.quantity > 0
-                                ? token.buttonThemeColor
+                                ? token.commonThemeColor
                                 : "#D1D5DB",
                           }}
                         >
