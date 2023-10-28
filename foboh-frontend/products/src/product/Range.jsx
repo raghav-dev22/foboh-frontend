@@ -74,6 +74,7 @@ function Range() {
 
   const [loading, setLoading] = useState(true);
   const isTrue = localStorage.getItem("productAdded");
+  const isProductDeleted = localStorage.getItem("productDelete");
   // const importTrue = localStorage.getItem("productImport");
 
   const [isSearchResult, setisSearchResult] = useState(true);
@@ -106,7 +107,20 @@ function Range() {
       rtl: true,
     });
   };
-
+  const DeleteProduct = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Product Deleted!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
   const productUrl = process.env.REACT_APP_PRODUCT_API_URL;
   // useEffect(() => {
   //   console.log("importTrue", importTrue);
@@ -124,10 +138,13 @@ function Range() {
     console.log("isTrue", isTrue);
     if (isTrue === "true") {
       saveProduct();
+    } else if (isProductDeleted === "true") {
+      DeleteProduct();
     }
 
     const timeout = setTimeout(() => {
       localStorage.setItem("productAdded", false);
+      localStorage.setItem("productDelete", false);
     }, 3000);
 
     return () => clearTimeout(timeout);

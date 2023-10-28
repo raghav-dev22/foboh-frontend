@@ -173,7 +173,7 @@ function CustomerDetailsFirst({
               className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
               htmlFor="grid-last-name"
             >
-              Liquor licence
+              Liquor licence (Optional)
             </label>
             <input
               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -185,21 +185,7 @@ function CustomerDetailsFirst({
               value={values.liquorLicence}
               onChange={handleChange}
               onBlur={handleBlur}
-              style={{
-                border:
-                  errors?.liquorLicence &&
-                  touched?.liquorLicence &&
-                  "1px solid red",
-              }}
             />
-            {errors?.liquorLicence && touched?.liquorLicence && (
-              <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                {errors?.liquorLicence}
-              </p>
-            )}
-            {errors?.liquorLicence && touched?.liquorLicence && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-            )}
           </div>
         </div>
 

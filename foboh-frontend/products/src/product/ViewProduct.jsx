@@ -7,6 +7,8 @@ import { styled } from "@mui/material/styles";
 import HelpIcon from "@mui/icons-material/Help";
 import CloseIcon from "@mui/icons-material/Close";
 // import ActiveProduct from './ActiveProduct'
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteModal from "../modal/DeleteModal";
 
 import { Button, message } from "antd";
 import ViewProductHeader from "./ViewProductHeader";
@@ -31,8 +33,9 @@ import { Skeleton } from "antd";
 
 function ViewProduct() {
   const { id } = useParams();
-  // console.log("product id>>",id)
+  console.log("product id>>", id);
   const [productImageUris, setProductImageUris] = useState([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
   const [isWet, setIsWet] = useState(false);
@@ -367,7 +370,9 @@ function ViewProduct() {
             const regionObj = region.find((rgn) => rgn.label === regionName);
 
             console.log("region obj ---->", regionObj);
-
+            if (subCategoryId === "SC500" || "SC5000") {
+              setIsWet(true);
+            }
             const imageUris = product.productImageUrls;
             setProductImageUris(imageUris);
             setPrevImgUrl(imageUris);
@@ -606,8 +611,6 @@ function ViewProduct() {
       rtl: true,
     });
   };
-
-  useEffect(() => {}, []);
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
@@ -1494,7 +1497,7 @@ function ViewProduct() {
                           <input
                             onChange={handleMinimumOrderQuantity}
                             value={values.minimumOrder}
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            className="appearance-none block w-full text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-last-name"
                             name="firstName"
                             type="number"
@@ -1509,7 +1512,7 @@ function ViewProduct() {
                         <div className="w-72">
                           <input
                             onChange={handleAvailableQuantity}
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            className="appearance-none block w-full text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="handleAvailableQuantity"
                             name="availableQty"
                             type="number"
@@ -1882,30 +1885,31 @@ function ViewProduct() {
                             />
                           </div>
                         )}
-
-                        <div className="w-full  px-3">
-                          <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="awards"
-                          >
-                            Awards
-                          </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="awards"
-                            name="awards"
-                            onChange={handleChange}
-                            onKeyPress={(event) => {
-                              const allowedCharacters = /^[A-Za-z0-9]*$/;
-                              if (!allowedCharacters.test(event.key)) {
-                                event.preventDefault();
-                              }
-                            }}
-                            value={values.awards}
-                            type="text"
-                            placeholder="WS 93"
-                          />
-                        </div>
+                        {isWine && (
+                          <div className="w-full  px-3">
+                            <label
+                              className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                              htmlFor="awards"
+                            >
+                              Awards
+                            </label>
+                            <input
+                              className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              id="awards"
+                              name="awards"
+                              onChange={handleChange}
+                              onKeyPress={(event) => {
+                                const allowedCharacters = /^[A-Za-z0-9]*$/;
+                                if (!allowedCharacters.test(event.key)) {
+                                  event.preventDefault();
+                                }
+                              }}
+                              value={values.awards}
+                              type="text"
+                              placeholder="WS 93"
+                            />
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                         <div className=" w-full  px-3">
@@ -2301,10 +2305,33 @@ function ViewProduct() {
                   </Skeleton>
                 </div>
               </div>
+              <div className="flex justify-end items-center gap-3">
+                {/* <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
+                  Archive
+                </div> */}
+                <div
+                  onClick={() => {
+                    setDeleteModalOpen(true);
+                  }}
+                  className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
+                >
+                  Delete
+                </div>
+              </div>
               {/* Pricing Details ---END */}
             </div>
           </div>
         </form>
+        <DeleteModal
+          open={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          onOk={() => {
+            setDeleteModalOpen(false);
+          }}
+          onCancel={() => {
+            setDeleteModalOpen(false);
+          }}
+        />
       </div>
       {contextHolder}
     </>

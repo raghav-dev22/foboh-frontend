@@ -32,14 +32,13 @@ import {
   options,
 } from "../data";
 import { Box } from "@mui/material";
-import DeleteModal from "../modal/DeleteModal";
 
 const initialValues = {
   visibility: "0",
   region: [],
-  minimumOrder: 0,
+  minimumOrder: "",
   trackInventory: false,
-  stockAlertLevel: 0,
+  stockAlertLevel: "",
   sellOutOfStock: false,
   title: "",
   skuCode: "",
@@ -73,7 +72,6 @@ const initialValues = {
 const status = ["Active", "Inactive", "Archived"];
 
 function AddProduct() {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [isWine, setIsWine] = useState(false);
@@ -931,9 +929,7 @@ function AddProduct() {
                         onChange={handleMinimumOrderQuantity}
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-last-name"
-                        value={
-                          values.minimumOrder !== 0 ? values.minimumOrder : null
-                        }
+                        value={values.minimumOrder}
                         name="minimumOrder"
                         type="number"
                         placeholder="Select"
@@ -1000,11 +996,12 @@ function AddProduct() {
                         <div className="w-72">
                           <input
                             onChange={handleStockAlertLevel}
-                            value={
-                              values.stockAlertLevel !== 0
-                                ? values.stockAlertLevel
-                                : null
-                            }
+                            // value={
+                            //   values.stockAlertLevel !== 0
+                            //     ? values.stockAlertLevel
+                            //     : null
+                            // }
+                            value={values.stockAlertLevel}
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="stock-alert-level"
                             name="stockAlertLevel"
@@ -1809,31 +1806,8 @@ function AddProduct() {
                 {/* Main Form End / */}
               </div>
             </div>
-
-            <div className="flex justify-end items-center gap-3">
-              <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
-                Archive
-              </div>
-              <div
-                onClick={() => {
-                  setDeleteModalOpen(true);
-                }}
-                className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
-              >
-                Delete
-              </div>
-            </div>
           </div>
         </form>
-        <DeleteModal
-          open={deleteModalOpen}
-          onOk={() => {
-            setDeleteModalOpen(false);
-          }}
-          onCancel={() => {
-            setDeleteModalOpen(false);
-          }}
-        />
       </div>
     </>
   );

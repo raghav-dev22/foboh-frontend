@@ -6,6 +6,7 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
+import { useState } from "react";
 const initialValues = {
   FirstName: "",
   LastName: "",
@@ -21,6 +22,8 @@ function CustomerContact({
   options,
   touched,
   setValues,
+  setIsChecked,
+  isChecked,
 }) {
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -38,9 +41,9 @@ function CustomerContact({
       fontWeight: 600,
     },
   }));
-  // console.log("errors and touch on contact page",errors)
+
   const contactSame = (e) => {
-    // console.log("e --->", e.target.checked);
+    setIsChecked(e.target.checked);
     if (e.target.checked) {
       setValues({
         ...values,
@@ -234,7 +237,8 @@ function CustomerContact({
                   type="checkbox"
                   name="deliveryMobile"
                   onClick={contactSame}
-                  value={values.deliveryMobile}
+                  checked={isChecked}
+                  // value={values.deliveryMobile}
                   defaultValue=""
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                 />
