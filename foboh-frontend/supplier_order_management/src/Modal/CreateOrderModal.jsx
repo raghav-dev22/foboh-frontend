@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Divider, Space, Button, Modal } from "antd";
+import { Divider, Space, Button, Modal, Flex } from "antd";
 import { Stepper, Step, Typography, button } from "@material-tailwind/react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -17,17 +17,22 @@ import DeliveryContactForm from "./DeliveryContactForm";
 import DeliveryAddressForm from "./DeliveryAddressForm";
 import { getDefaultPaymentTerms } from "../helpers/getDefaultPaymentTerms";
 import { postBuyerDetails } from "../helpers/postBuyerDetails";
-
-// import { Select } from "antd";
-
-let index = 0;
+import { getBuyerDetails } from "../helpers/getBuyerDetails";
+import { convertDefaultPaymentTermValue } from "../helpers/convertDefaultPaymentTermValue";
+import BillingAddressForm from "./BillingAddressForm";
+import { message } from "antd";
+import { getProducts } from "../helpers/getProducts";
+import { getCartList } from "../helpers/getCartList";
+import { addToCart } from "../helpers/addToCart";
+import { stockStatus } from "../helpers/stockStatus";
+import { removeToCart } from "../helpers/removeTocart";
+import { removeAllCart } from "../helpers/removeAllCart";
+import { updateProductQuantityCart } from "../helpers/updateProductQuantityCart";
+import { updateDefaultPaymentTerms } from "../helpers/updateDefaultPaymentTerms";
 
 const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const [checked, setChecked] = useState(false);
-  const [selectedState, setSelectedState] = useState(null);
-  const [customerSelectedOption, setCustomerSelectedOption] = useState(null);
   const [customerList, setCustomerList] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
   const [editDeliveryContact, setEditDeliveryContact] = useState(false);
   const [editDeliveryAddress, setEditDeliveryAddress] = useState(false);
   const [editBillingAddress, setEditBillingAddress] = useState(false);
@@ -41,40 +46,80 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const [customerDetails, setCustomerDetails] = useState({});
   const [defaultPaymentTerms, setDefaultPaymentTerms] = useState([]);
   const [defaultPaymentTermsValue, setDefaultPaymentTermsValue] = useState({});
+  const [defaultPaymentTermsDate, setDefaultPaymentTermsDate] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
+  const [productSelectList, setProductSelectList] = useState([
+    {
+      value: "title",
+      label: (
+        <>
+          <p style={{ fontSize: "16px" }}>Title</p>
+          <p style={{ fontSize: "12px", color: "gray" }}>configuration</p>
+        </>
+      ),
+      key: {},
+    },
+  ]);
+  const [cart, setCart] = useState([]);
+  const [updatedQuantity, setUpdatedQuantity] = useState({
+    product: {},
+    quantity: {},
+  });
+  const [shippingcharges, setSippingCharges] = useState({
+    name: "",
+    value: 0,
+  });
+
   let defaultPaymentTermsList = [];
+  let list = [];
+
+  const productQty = [
+    { value: 1, label: "1" },
+    { value: 2, label: "2" },
+    { value: 3, label: "3" },
+    { value: 4, label: "4" },
+    { value: 5, label: "5" },
+    { value: 6, label: "6" },
+    { value: 7, label: "7" },
+    { value: 8, label: "8" },
+    { value: 9, label: "9" },
+    { value: 10, label: "10" },
+    { value: 11, label: "11" },
+    { value: 12, label: "12" },
+    { value: 13, label: "13" },
+    { value: 14, label: "14" },
+    { value: 15, label: "15" },
+    { value: 16, label: "16" },
+    { value: 17, label: "17" },
+    { value: 18, label: "18" },
+    { value: 19, label: "19" },
+    { value: 20, label: "20" },
+  ];
 
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
 
-  const productQty = [
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-    { value: "4", label: "4" },
-    { value: "5", label: "5" },
-    { value: "6", label: "6" },
-    { value: "7", label: "7" },
-    { value: "8", label: "8" },
-    { value: "9", label: "9" },
-    { value: "10", label: "10" },
-    { value: "11", label: "11" },
-    { value: "12", label: "12" },
-    { value: "13", label: "13" },
-    { value: "14", label: "14" },
-    { value: "15", label: "15" },
-    { value: "16", label: "16" },
-    { value: "17", label: "17" },
-    { value: "18", label: "18" },
-    { value: "19", label: "19" },
-    { value: "20", label: "20" },
-  ];
+  const success = (message) => {
+    messageApi.open({
+      type: "success",
+      content: message,
+    });
+  };
 
-  const stateOptions = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  const error = (message) => {
+    messageApi.open({
+      type: "error",
+      content: message,
+    });
+  };
+
+  const warning = (message) => {
+    messageApi.open({
+      type: "warning",
+      content: message,
+    });
+  };
 
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
@@ -138,11 +183,6 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
   const items = ["Apples", "Nails", "Bananas", "Helicopters"];
   const [selectedItems, setSelectedItems] = useState([]);
-  const filteredOptions = items.filter((o) => !selectedItems.includes(o));
-  const [show, setShow] = useState(false);
-  const itemOption = (itemIndex) => {
-    console.log(selectedItems, "itemIndex");
-  };
 
   useEffect(() => {
     // Getting all the customer list
@@ -159,9 +199,83 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
       }
     });
 
-    // Getting all the
     getDefaultPaymentTermsValue();
+    asyncFunction();
+    asyncGetCart();
   }, []);
+
+  // Using useEffect to handle debounce function not to call the api multiple times
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      debouncedHandleIncrementDecrement(
+        updatedQuantity.product?.productId,
+        updatedQuantity.quantity.value,
+        updatedQuantity.product?.globalPrice
+      );
+    }, 1000);
+    return () => clearTimeout(debounceTimeout);
+  }, [updatedQuantity]);
+
+  // Debounce function
+  function debounce(func, timeout = 0) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
+  // Calling debounce function
+  const debouncedHandleIncrementDecrement = debounce(
+    (productId, quantity, globalPrice) => {
+      updateProductQuantityCart(
+        productId,
+        customerDetails?.buyerId,
+        globalPrice,
+        quantity,
+        success,
+        error
+      );
+    }
+  );
+
+  const asyncFunction = async () => {
+    const productList = await getProducts();
+
+    list = productList.map((item) => {
+      return {
+        value: `${item?.title} ${item?.configuration}`,
+        label: (
+          <>
+            <p style={{ fontSize: "16px" }}>{item?.title}</p>
+            <p style={{ fontSize: "12px", color: "gray" }}>
+              {item?.configuration}
+            </p>
+          </>
+        ),
+        key: item,
+      };
+    });
+    console.log("list", list);
+    setProductSelectList(list);
+  };
+
+  const asyncGetCart = async () => {
+    const cartList = await getCartList();
+    const cartUpdatedList = cartList.map((product) => {
+      return {
+        product: product,
+        quantity: {
+          label: `${product?.quantity}`,
+          value: product?.quantity,
+        },
+      };
+    });
+    setCart(cartUpdatedList);
+  };
 
   // Setting Default payment terms list
   const getDefaultPaymentTermsValue = async () => {
@@ -172,13 +286,27 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
           value: item?.id,
         };
       });
+
+      defaultPaymentTermsList.pop();
+      defaultPaymentTermsList.shift();
+
       setDefaultPaymentTerms(defaultPaymentTermsList);
     });
   };
 
   // Handle defaultPaymentTerms
-  const handledefaultPaymentTerms = (value) => {
+  const handledefaultPaymentTerms = async (value) => {
     setDefaultPaymentTermsValue(value);
+
+    const defaultPaymentTermsResponse = await updateDefaultPaymentTerms(
+      customerDetails?.buyerId,
+      value.label,
+      shippingcharges.value
+    );
+
+    defaultPaymentTermsResponse
+      ? success("Default payment term updated!")
+      : error("Some error occurred, please try again!");
   };
 
   const handleCustomerSelect = async (value) => {
@@ -187,20 +315,122 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     if (customerInfo.success) {
       // Posting customer info on loading modal
       setIsCustomerSelected(true);
-      const postBuyerDetailsResponse = await postBuyerDetails(
-        customerInfo.data[0]
-      );
+      await postBuyerDetails(customerInfo.data[0]);
 
-      console.log("postBuyerDetailsResponse", postBuyerDetailsResponse);
+      const buyerDetails = await getBuyerDetails(value?.value);
 
-      if (postBuyerDetailsResponse.success) {
-        getBuyerDetails(value?.value);
+      if (buyerDetails.success) {
+        const buyerData = buyerDetails.data[0];
+        setCustomerDetails(buyerData);
+        const defaultPaymentTermsListValue = defaultPaymentTerms.find(
+          (item) => item.label === buyerDetails.data[0].defaultPaymentTerm[0]
+        );
+
+        setDefaultPaymentTermsValue(defaultPaymentTermsListValue);
+
+        const defaultPaymentTermsDateValue = convertDefaultPaymentTermValue(
+          defaultPaymentTermsListValue.label
+        );
+
+        setDefaultPaymentTermsDate(defaultPaymentTermsDateValue);
       }
     }
   };
 
+  // Select product to add to cart
+  const handleSelectProduct = async (product) => {
+    const addToCartResponse = await addToCart(
+      product?.key,
+      customerDetails?.buyerId
+    );
+    console.log("addToCartResponse", addToCartResponse);
+
+    addToCartResponse &&
+      localStorage.setItem("cartId", addToCartResponse[0]?.cartId);
+
+    addToCartResponse
+      ? success("Product added successfully!")
+      : error("Some error occurred, please try again!");
+
+    if (addToCartResponse) {
+      const cartUpdatedList = addToCartResponse.map((product) => {
+        return {
+          product: product,
+          quantity: {
+            label: `${product?.quantity}`,
+            value: product?.quantity,
+          },
+        };
+      });
+      setCart(cartUpdatedList);
+    }
+  };
+
+  // Handle for removing product from cart
+  const handleRemoveCart = async (productId) => {
+    const removeCart = await removeToCart(productId, customerDetails?.buyerId);
+    console.log("removeCart", removeCart);
+    removeCart
+      ? warning("Product removed from cart!")
+      : error("Some error occurred, please try again!");
+
+    if (removeCart) {
+      const cartUpdatedList = removeCart.map((product) => {
+        return {
+          product: product,
+          quantity: {
+            label: `${product?.quantity}`,
+            value: product?.quantity,
+          },
+        };
+      });
+      setCart(cartUpdatedList);
+    }
+  };
+
+  // Handle for removing all products from cart
+  const handleRemoveAllCart = async () => {
+    const removeAll = await removeAllCart(customerDetails?.buyerId);
+    removeAll
+      ? success("Products removed from cart!")
+      : error("Some error occurred, please try again!");
+
+    removeAll && setCart([]);
+  };
+
+  // Handle for changing the quantity of products in cart
+  const handleQuantity = (value, productId) => {
+
+    const updateList = () => {
+      return cart.map((item) => {
+        if (item.product.productId === productId) {
+          let newQuantityValue = {
+            ...item.quantity,
+            label: value.label,
+            value: value.value,
+          };
+
+          setUpdatedQuantity({
+            ...item,
+            quantity: newQuantityValue,
+          });
+
+          return {
+            ...item,
+            quantity: newQuantityValue,
+          };
+        }
+        return item;
+      });
+    };
+
+    const updatedCartList = updateList();
+    setCart(updatedCartList);
+  };
+
   return (
     <>
+      {contextHolder}
       <Modal
         width="75%"
         // height="100%"
@@ -309,12 +539,14 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                     {isCustomerSelected ? (
                       <div className="mb-5">
                         <h5 className="text-[24px] font-bold text-[#212B36] mb-5">
-                          Business full name
+                          {customerDetails?.businessName}
                         </h5>
                         <div className="h-[300px] overflow-y-scroll">
                           <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
                             {editDeliveryContact ? (
                               <DeliveryContactForm
+                                success={success}
+                                error={error}
                                 customerDetails={customerDetails}
                                 setEditDeliveryContact={setEditDeliveryContact}
                               />
@@ -353,6 +585,8 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                           <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
                             {editDeliveryAddress ? (
                               <DeliveryAddressForm
+                                success={success}
+                                error={error}
                                 customerDetails={customerDetails}
                                 setEditDeliveryAddress={setEditDeliveryAddress}
                               />
@@ -375,7 +609,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   </button>
                                 </div>
                                 <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                  {`${customerDetails?.apartment} ${customerDetails?.organisationAddress}, ${customerDetails?.suburb}, ${customerDetails?.state} ${customerDetails?.postcode} Australia`}
+                                  {`${customerDetails?.apartment} ${customerDetails?.address}, ${customerDetails?.suburb}, ${customerDetails?.state} ${customerDetails?.postalCode} Australia`}
                                 </p>
                                 <h4 className=" mt-2 text-xl font-semibold text-[#2B4447] leading-[30px]">
                                   Notes
@@ -420,116 +654,20 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                 />
                               ) : (
                                 <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
-                                  Payment due in 14 days (dd/mm/yyyy)
+                                  {defaultPaymentTermsValue?.label}{" "}
+                                  {`(${defaultPaymentTermsDate})`}
                                 </h4>
                               )}
                             </div>
                           </div>
                           <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
                             {editBillingAddress ? (
-                              <form className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3">
-                                <div className="">
-                                  <div className="mb-3 relative">
-                                    <div className="flex justify-start items-center gap-1.5 mb-6">
-                                      <HomeRoundedIcon
-                                        style={{ fill: "#2B4447" }}
-                                        className="w-[18px] h-[18px]"
-                                      />
-                                      <label
-                                        className="block text-[#2B4447] text-lg font-semibold "
-                                        htmlFor="Country/Region"
-                                      >
-                                        Billing Address
-                                      </label>
-                                    </div>
-                                  </div>
-
-                                  <div className="flex md:flex-nowrap gap-4 my-3">
-                                    <div className="w-full   mb-3  md:mb-0 relative">
-                                      <lable>Address</lable>
-                                      <input
-                                        className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                                        id="Company"
-                                        type="text"
-                                        // placeholder="Company (Optional)"
-                                        name="Address"
-                                        style={{
-                                          background: "#F8F8F8",
-                                        }}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="flex md:flex-nowrap gap-4 my-3">
-                                    <div className="w-full   mb-3 relative">
-                                      <lable>Apartment, Suite, etc</lable>
-                                      <input
-                                        className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                                        id="Apartment"
-                                        type="text"
-                                        placeholder="Apartment, Suite, etc"
-                                        style={{
-                                          background: "#F8F8F8",
-                                        }}
-                                      />
-                                    </div>
-                                    <div className="w-full   mb-3 relative md:mb-0 ">
-                                      <lable>Suburb</lable>
-                                      <input
-                                        type="text"
-                                        placeholder="suburb"
-                                        id="Suburb"
-                                        style={{
-                                          background: "#F8F8F8",
-                                        }}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="flex md:flex-nowrap gap-4 my-3">
-                                    <div className="w-full   mb-3 relative">
-                                      <lable>Postcode</lable>
-                                      <input
-                                        className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
-                                        id="Postcode"
-                                        type="text"
-                                        placeholder="XXXX"
-                                        style={{
-                                          background: "#F8F8F8",
-                                        }}
-                                      />
-                                    </div>
-                                    <div className="w-full   mb-3 relative md:mb-0 basic-multi-select">
-                                      <h5 style={{ marginBottom: "10px" }}>
-                                        State
-                                      </h5>
-                                      <Select
-                                        defaultValue={selectedState}
-                                        onChange={setSelectedState}
-                                        options={stateOptions}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="text-right flex justify-end items-center gap-2">
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setEditBillingAddress(false);
-                                    }}
-                                    className="bg-[#563FE3] rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-white"
-                                  >
-                                    Save
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      setEditBillingAddress(false);
-                                    }}
-                                    type="submit"
-                                    className="border-[#637381] border rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-[#637381]"
-                                  >
-                                    Cancel
-                                  </button>
-                                </div>
-                              </form>
+                              <BillingAddressForm
+                                success={success}
+                                error={error}
+                                setEditBillingAddress={setEditBillingAddress}
+                                customerDetails={customerDetails}
+                              />
                             ) : (
                               <div>
                                 <div className="flex justify-between items-center ">
@@ -551,34 +689,10 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                 </div>
 
                                 <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                  456 King Street, Newton, NSW 2304 Australia
+                                  {`${customerDetails?.billingApartment} ${customerDetails?.billingAddress}, ${customerDetails?.billingSuburb}, ${customerDetails?.billingState} ${customerDetails?.billingPostalCode} Australia`}
                                 </p>
                               </div>
                             )}
-                          </div>
-                          <div className=" mb-4 flex justify-center items-center gap-3">
-                            <div className="w-full">
-                              <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
-                                Pricing
-                              </h4>
-                              <input
-                                type="text"
-                                disabled
-                                value="Pricing"
-                                className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
-                              />
-                            </div>
-                            <div className="w-full">
-                              <h4 className="text-xl font-semibold text-[#2B4447] mb-3">
-                                Freight
-                              </h4>
-                              <input
-                                type="text"
-                                disabled
-                                value="Freight"
-                                className="bg-[#DCDCDC] border border-[#B5B4B4] p-2 rounded-md  w-full"
-                              />
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -599,7 +713,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                   <>
                     <div className="my-5">
                       <h4 className="text-[24px] font-bold  text-[#2B4447] text-center">
-                        Business full name
+                        {customerDetails?.businessName}
                       </h4>
                     </div>
                     <div className="">
@@ -607,89 +721,93 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                         Select Products
                       </h5>
                       <div className="flex justify-between items-center mb-10">
-                        <Select
-                          showSearch
-                          placeholder="Search product by name"
-                          optionFilterProp="children"
-                          filterOption={(input, option) =>
-                            (option?.label ?? "").includes(input)
-                          }
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? "")
-                              .toLowerCase()
-                              .localeCompare(
-                                (optionB?.label ?? "").toLowerCase()
-                              )
-                          }
-                          options={[
-                            {
-                              value: "1",
-                              label: "Not Identified",
-                            },
-                            {
-                              value: "2",
-                              label: "Closed",
-                            },
-                            {
-                              value: "3",
-                              label: "Communicated",
-                            },
-                            {
-                              value: "4",
-                              label: "Identified",
-                            },
-                            {
-                              value: "5",
-                              label: "Resolved",
-                            },
-                            {
-                              value: "6",
-                              label: "Cancelled",
-                            },
-                          ]}
-                        />
-                        <button className="border border-[#DC3545] rounded-[6px] p-2 text-base font-medium text-[#DC3545]">
+                        <div>
+                          <Select
+                            onChange={handleSelectProduct}
+                            options={productSelectList}
+                          />{" "}
+                        </div>
+                        <button
+                          onClick={handleRemoveAllCart}
+                          className="border border-[#DC3545] rounded-[6px] p-2 text-base font-medium text-[#DC3545]"
+                        >
                           Remove All
                         </button>
                       </div>
-                      <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                        <div className="">
-                          <img src="/assets/customProduct.png" alt="" />
-                        </div>
-                        <div className="w-full">
-                          <div className="flex justify-between items-center w-full">
-                            <h3 className="text-xl font-semibold text-[#2B4447]">
-                              Write Product Full Name
-                            </h3>
-                            <div className="">
-                              <Select
-                                options={productQty}
-                                defaultInputValue="1"
-                              />
+                      <div
+                        style={{
+                          maxHeight: "465px",
+                          overflowY: "scroll",
+                        }}
+                        className="max-h-[465px] overflow-y-scroll"
+                      >
+                        {cart?.length === 0 ? (
+                          <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
+                            Your cart is empty.
+                          </h5>
+                        ) : (
+                          cart.map(({ product, quantity }) => (
+                            <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
+                              <div className="">
+                                <img
+                                  src={
+                                    (product?.productImageUrls &&
+                                      product?.productImageUrls[0]) ||
+                                    "/assets/customProduct.png"
+                                  }
+                                  style={{ width: "120px" }}
+                                  alt="productImageUrls"
+                                />
+                              </div>
+                              <div className="w-full">
+                                <div className="flex justify-between items-center w-full">
+                                  <h3 className="text-xl font-semibold text-[#2B4447]">
+                                    {product?.title}
+                                  </h3>
+                                  <div className="">
+                                    <Select
+                                      onChange={(value) =>
+                                        handleQuantity(
+                                          value,
+                                          product?.productId
+                                        )
+                                      }
+                                      options={productQty}
+                                      value={quantity}
+                                    />
+                                  </div>
+                                  <h4 className="text-lg font-semibold text-[#2B4447]">
+                                    ${product?.globalPrice}
+                                  </h4>
+                                </div>
+                                <p className="text-base font-medium text-[#637381] ">
+                                  {product?.configuration}
+                                </p>
+                                <div className="flex justify-between  items-center mt-6 ">
+                                  <div className="flex justify-start items-center gap-3">
+                                    {stockStatus(
+                                      product?.availableQty,
+                                      product?.stockThreshold
+                                    )}
+                                    <p className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
+                                      {product?.visibility === "1"
+                                        ? "Visible"
+                                        : "Hidden"}
+                                    </p>
+                                  </div>
+                                  <p
+                                    onClick={() =>
+                                      handleRemoveCart(product?.productId)
+                                    }
+                                    className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]"
+                                  >
+                                    Remove
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                            <h4 className="text-lg font-semibold text-[#2B4447]">
-                              $369.00
-                            </h4>
-                          </div>
-                          <p className="text-base font-medium text-[#637381] ">
-                            12 x 750ml
-                          </p>
-                          <div className="flex justify-between  items-center mt-6 ">
-                            <div className="flex justify-start items-center gap-3">
-                              <button className="px-4 py-1 bg-[#EEF7F2] rounded-[30px] text-sm font-medium text-[#219653]">
-                                In stock
-                              </button>
-                              <button className="bg-[#F0F0F0] px-4 py-1  rounded-[30px] text-sm font-medium text-[#656565]">
-                                Hidden
-                              </button>
-                            </div>
-                            <a href="#" className="">
-                              <p className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]">
-                                Remove
-                              </p>
-                            </a>
-                          </div>
-                        </div>
+                          ))
+                        )}
                       </div>
                     </div>
                   </>

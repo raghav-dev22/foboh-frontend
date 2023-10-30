@@ -17,6 +17,28 @@ export const deliveryContactSchema = Yup.object().shape({
     ),
 });
 
+
+export const deliveryAddressSchema = Yup.object().shape({
+  address: Yup.string()
+    .min(10, "Your address should have atleast 10 letters")
+    .max(100),
+  apartment: Yup.string(),
+  suburb: Yup.string().min(2, "Suburb should have atleast 2 letters").max(50),
+  postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+  state: Yup.mixed().required("State is required"),
+});
+
+export const billingAddressSchema = Yup.object().shape({
+  address: Yup.string()
+    .min(10, "Your address should have atleast 10 letters")
+    .max(100),
+  apartment: Yup.string(),
+  suburb: Yup.string().min(2, "Suburb should have atleast 2 letters").max(50),
+  postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+  state: Yup.mixed().required("State is required"),
+});
+
+
 export const BankingSchema = Yup.object().shape({
   LegalBusiness: Yup.string()
     .min(2, "Your trading name should have at least 2 letters")
@@ -69,12 +91,4 @@ export const BankingSchema = Yup.object().shape({
   //   .required("Business name is required"),
 });
 
-export const deliveryAddressSchema = Yup.object().shape({
-  address: Yup.string()
-    .min(10, "Your address should have atleast 10 letters")
-    .max(100),
-  apartment: Yup.string(),
-  suburb: Yup.string().min(2, "Suburb should have atleast 2 letters").max(50),
-  postcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
-  state: Yup.mixed().required("State is required"),
-});
+

@@ -7,6 +7,7 @@ import {
   DatePicker,
   message,
   Menu,
+  theme,
 } from "antd";
 import Select from "react-select";
 import SearchIcon from "@mui/icons-material/Search";
@@ -56,31 +57,31 @@ const columns = [
   },
 
   {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Items</h5>,
+    title: <h5 className="text-lg font-semibold text-[#2B4447]">Items</h5>,
     dataIndex: "Items",
     width: 80,
   },
 
   {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Total</h5>,
+    title: <h5 className="text-lg font-semibold text-[#2B4447]">Total</h5>,
     dataIndex: "Total",
-    width: 120,
+    width: 80,
   },
 
   {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>,
+    title: <h5 className="text-lg font-semibold text-[#2B4447]">Payment</h5>,
     dataIndex: "Payment",
-    width: 120,
+    width: 90,
   },
 
   {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
+    title: <h5 className="text-lg font-semibold text-[#2B4447]">Status</h5>,
     dataIndex: "Status",
-    width: 150,
+    width: 100,
   },
 
   {
-    title: <h5 className="text-base font-semibold text-[#2B4447]">Action</h5>,
+    title: <h5 className="text-lg font-semibold text-[#2B4447]">Action</h5>,
     dataIndex: "Action",
     width: 120,
   },
@@ -476,7 +477,8 @@ const MyOrders = () => {
       setTotalData(ordersData.total);
     }
   };
-
+  const { useToken } = theme;
+  const { token } = useToken();
   const processChange = debounce((name) => saveInput(name));
 
   const handleSearch = (e) => {
@@ -643,6 +645,39 @@ const MyOrders = () => {
 
   return (
     <>
+      <style>
+        {`
+        .green-checkbox input[type="checkbox"]:checked::before,.ant-pagination .ant-pagination-item-active a {
+          
+         
+          color: ${token.commonThemeColor} !important;
+        }
+        .ant-pagination .ant-pagination-item-active{
+          border-color:${token.commonThemeColor} !important;
+        }
+        .green-checkbox input[type="checkbox"]:checked {
+          background-color: white;
+        
+          border: 1px solid ${token.commonThemeColor} !important;
+        }
+        .ant-checkbox-checked .ant-checkbox-inner:after{
+          color: ${token.commonThemeColor}  !important;
+        }
+        .ant-checkbox-checked .ant-checkbox-inner {
+       
+        
+          border: 1px solid ${token.commonThemeColor} !important;
+        }
+        .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  .ant-checkbox-checked:not(.ant-checkbox-disabled)
+  .ant-checkbox-inner {
+  border: 1px solid ${token.commonThemeColor} !important;
+}
+.ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+  border-color: ${token.commonThemeColor} !important
+}
+        `}
+      </style>
       {contextHolder}
       <div className=" md:w-4/5 w-full mx-auto md:p-0 ">
         <div className="mb-6">
@@ -689,9 +724,9 @@ const MyOrders = () => {
                   />
                 </button>
                 {sortItem && (
-                  <div className=" z-10 left-0 px-3 h-[180px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                  <div className=" z-10 left-0 px-3 h-[180px]  w-max custom-product-dropdown  absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                     <ul className="dropdown-content ">
-                      <li className="py-1">
+                      <li className="py-1 flex gap-1  green-checkbox">
                         <div className="flex justify-between items-center  my-2">
                           <h5 className="text-base font-medium text-[#2B4447]">
                             Date
@@ -699,22 +734,27 @@ const MyOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1">
-                        <Checkbox
+                      <li className="py-1 flex gap-1  green-checkbox ">
+                        <input
+                          type="checkbox"
                           checked={
                             filterAndSort?.sort.sortBy === "date" &&
                             filterAndSort?.sort.sortOrder === "asc"
                           }
                           value={"date"}
                           onChange={(value) => handleSort(value, "asc", "date")}
+                        ></input>
+                        <label
+                          htmlFor=""
                           className="text-base font-normal text-[#637381]"
                         >
                           Oldest - Newest
-                        </Checkbox>
+                        </label>
                       </li>
-                      <li className="py-1">
-                        <Checkbox
+                      <li className="py-1 flex gap-1  green-checkbox">
+                        <input
                           value={"date"}
+                          type="checkbox"
                           checked={
                             filterAndSort?.sort.sortBy === "date" &&
                             filterAndSort?.sort.sortOrder === "desc"
@@ -722,12 +762,16 @@ const MyOrders = () => {
                           onChange={(value) =>
                             handleSort(value, "desc", "date")
                           }
+                        ></input>
+                        <label
+                          htmlFor=""
                           className="text-base font-normal text-[#637381]"
                         >
+                          {" "}
                           Newest - Oldest
-                        </Checkbox>
+                        </label>
                       </li>
-                      <li className="py-1">
+                      <li className="py-1 flex gap-1  green-checkbox">
                         <div className="flex justify-between items-center  my-2">
                           <h5 className="text-base font-medium text-[#2B4447]">
                             Total
@@ -736,8 +780,9 @@ const MyOrders = () => {
                           <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
                         </div>
                       </li>
-                      <li className="py-1">
-                        <Checkbox
+                      <li className="py-1 flex gap-1  green-checkbox">
+                        <input
+                          type="checkbox"
                           checked={
                             filterAndSort?.sort.sortBy === "orderamount" &&
                             filterAndSort?.sort.sortOrder === "asc"
@@ -746,13 +791,17 @@ const MyOrders = () => {
                           onChange={(value) =>
                             handleSort(value, "asc", "orderamount")
                           }
+                        ></input>
+                        <label
+                          htmlFor=""
                           className="text-base font-normal text-[#637381]"
                         >
                           Low - High
-                        </Checkbox>
+                        </label>
                       </li>
-                      <li className="py-1">
-                        <Checkbox
+                      <li className="py-1 flex gap-1  green-checkbox">
+                        <input
+                          type="checkbox"
                           value={"orderamount"}
                           checked={
                             filterAndSort?.sort.sortBy === "orderamount" &&
@@ -761,10 +810,14 @@ const MyOrders = () => {
                           onChange={(value) =>
                             handleSort(value, "desc", "orderamount")
                           }
+                        ></input>
+                        <label
+                          htmlFor=""
                           className="text-base font-normal text-[#637381]"
                         >
+                          {" "}
                           High - Low
-                        </Checkbox>
+                        </label>
                       </li>
                     </ul>
                   </div>
@@ -788,7 +841,7 @@ const MyOrders = () => {
                   </div>
                   {paymentMenu && (
                     <>
-                      <div className=" z-10 left-0 px-3 h-[180px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <div className=" z-10 left-0 px-3 h-[180px]  w-max custom-product-dropdown  absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                         <ul className="dropdown-content ">
                           <li className="py-1">
                             <Checkbox
@@ -824,17 +877,22 @@ const MyOrders = () => {
                     <>
                       <div
                         // ref={dropdownRef}
-                        className=" z-10 left-0 px-3 h-[200px]  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                        className=" z-10 left-0 px-3 h-[200px] custom-product-dropdown  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3"
                       >
                         <ul className="dropdown-content ">
-                          <li className="py-1">
-                            <Checkbox
+                          <li className="py-1 flex gap-1  green-checkbox">
+                            <input
+                              type="checkbox"
                               checked={checkAll}
                               onChange={handleSelectAll}
+                            ></input>
+                            <label
+                              htmlFor=""
                               className="text-base font-medium text-[#637381]"
                             >
+                              {" "}
                               Select all
-                            </Checkbox>
+                            </label>
                           </li>
                           <Checkbox.Group
                             onChange={(value) => handleFilter(value, "status")}
@@ -857,7 +915,7 @@ const MyOrders = () => {
                   </div>
 
                   {dateMenu && (
-                    <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <div className=" z-10 left-0 custom-product-dropdown px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul className="dropdown-content ">
                         <li className="py-1">
                           <Checkbox.Group
@@ -876,7 +934,12 @@ const MyOrders = () => {
                                     <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
                                       Remove
                                     </div>
-                                    <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                                    <div
+                                      className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm"
+                                      style={{
+                                        background: token.buttonThemeColor,
+                                      }}
+                                    >
                                       Done
                                     </div>
                                   </div>
@@ -887,15 +950,20 @@ const MyOrders = () => {
                               />
                             ) : (
                               <div className=" absolute top-0 left-0 w-full h-full">
-                                <label className="text-base font-medium text-[#637381]">
-                                  <Checkbox
-                                    className="text-base font-medium text-[#637381]"
+                                <div className="flex gap-1  green-checkbox ">
+                                  <input
+                                    id="datePicker"
+                                    type="checkbox"
                                     onChange={handleCheckboxChange}
                                     checked={showDatePicker}
+                                  ></input>
+                                  <label
+                                    htmlFor="datePicker"
+                                    className="text-base font-medium text-[#637381]"
                                   >
                                     Custom
-                                  </Checkbox>
-                                </label>
+                                  </label>
+                                </div>
                               </div>
                             )}
                             {/* <DatePicker onChange={onChange} /> */}
@@ -944,6 +1012,7 @@ const MyOrders = () => {
             }}
             scroll={{
               y: 240,
+              x: 1400,
             }}
           />
         </div>

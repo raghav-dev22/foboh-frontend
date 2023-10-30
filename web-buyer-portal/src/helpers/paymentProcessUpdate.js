@@ -1,4 +1,4 @@
-export const paymentProcessUpdate = (orderId, orderBy) => {
+export const paymentProcessUpdate = (orderId, orderBy, status, pi_id) => {
   fetch(
     "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/OrderMain_InProcessToDeliveredStatusUpdation",
     {
@@ -10,6 +10,8 @@ export const paymentProcessUpdate = (orderId, orderBy) => {
         orderId: orderId,
         orderBy: orderBy,
         orderStatus: "OrderPlaced",
+        TransactionStatus: status,
+        OrderPaymentIntentId: pi_id,
       }),
     }
   )

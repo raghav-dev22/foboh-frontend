@@ -9,6 +9,8 @@ import Header from "../main/Header";
 import Footer from "../main/Footer";
 import { useSelector } from "react-redux";
 import { getBuyerValues } from "../helpers/setBuyerValues";
+import HomeIcon from "@mui/icons-material/Home";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { theme } from "antd";
 
 const Profile = () => {
@@ -126,7 +128,7 @@ const Profile = () => {
             <Tab style={{ border: "none", margin: "5px 0" }}>
               <div className="flex justify-between items-center">
                 <div className="flex justify-start  items-center gap-2">
-                  <PersonOutlineIcon style={{ fill: "#637381" }} />
+                  <HomeIcon style={{ fill: "#637381" }} />
                   <h5 className="text-lg font-semibold text-[#637381]">
                     Address
                   </h5>
@@ -137,7 +139,7 @@ const Profile = () => {
             <Tab style={{ border: "none", margin: "5px 0" }}>
               <div className="flex justify-between items-center">
                 <div className="flex justify-start  items-center gap-2">
-                  <PersonOutlineIcon style={{ fill: "#637381" }} />
+                  <SettingsIcon style={{ fill: "#637381" }} />
                   <h5 className="text-lg font-semibold text-[#637381]">
                     Setting
                   </h5>

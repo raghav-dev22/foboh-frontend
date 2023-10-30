@@ -1390,3 +1390,23 @@ a:hover {
 .ant-table-body {
   max-height: 486px !important;
 }
+.custom-product-dropdown .ant-checkbox-group {
+  gap: 10px;
+}
+.custom-product-dropdown .ant-checkbox-wrapper {
+  font-size: 16px;
+  font-weight: 500;
+  color: #637381;
+}
+.gap-1\.5 {
+  gap: 0.375rem /* 6px */;
+}
+.h-\[357px\] {
+  height: 357px;
+}
+.object-contain {
+  object-fit: contain;
+}
+.h-\[173px\] {
+  height: 173px;
+}

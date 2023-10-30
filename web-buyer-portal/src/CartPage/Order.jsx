@@ -184,7 +184,7 @@ const Order = () => {
                 <img
                   src={item.product?.productImageUrls}
                   alt=""
-                  className="w-[150px]  object-cover	rounded-md"
+                  className="w-[150px]  h-[100px]  object-cover	rounded-md"
                 />
               </div>
 
