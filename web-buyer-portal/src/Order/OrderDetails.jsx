@@ -133,6 +133,7 @@ const OrderDetails = () => {
   };
 
   useEffect(() => {
+    console.log(id, "testing id ");
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderDetailsByOrderId?OrderId=${id}`;
 
     fetch(apiUrl)

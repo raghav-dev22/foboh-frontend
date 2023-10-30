@@ -124,7 +124,7 @@ function HomePage({ setConfig }) {
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/payment-page*" element={<PaymentDetail />} />
-        <Route path="/order-details" element={<OrderDetails />} />
+        <Route path="/order-details/:id" element={<OrderDetails />} />
       </Routes>
       <Footer />
       <BottomToTop />
