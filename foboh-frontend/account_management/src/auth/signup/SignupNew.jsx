@@ -216,7 +216,7 @@ const SignupNew = () => {
                       Your email
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       name="email"
                       id="email"
                       className="transition-all duration-[0.3s]"

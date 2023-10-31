@@ -12,7 +12,7 @@ function SuccessModal({ show, setShow }) {
         <Dialog
           as="div"
           className="relative z-10"
-          initialFocus={cancelButtonRef}
+          // initialFocus={cancelButtonRef}
           onClose={setShow}
         >
           <Transition.Child

@@ -11,8 +11,12 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function StockDetails() {
+  const [order, setOrder] = useState();
+  const [customer, setCustomer] = useState();
   const stockBox = [
     {
       title: "$12,489",
@@ -39,7 +43,7 @@ function StockDetails() {
     },
 
     {
-      title: "585",
+      title: order?.noOfOrders,
 
       description: "Total orders",
 
@@ -51,7 +55,7 @@ function StockDetails() {
     },
 
     {
-      title: "120",
+      title: customer?.noOfCustomer,
 
       description: "Active customers",
 
@@ -62,6 +66,36 @@ function StockDetails() {
       Arrow: <ArrowDownwardIcon style={{ fill: "#DC3545" }} />,
     },
   ];
+  useEffect(() => {
+    const organisationId = localStorage.getItem("organisationId");
+
+    fetch(
+      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getCustomer?OrganisationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("order -->", data.data[0]);
+        setCustomer(data.data[0]);
+      })
+      .catch((error) => console.log(error));
+
+    // // defaultPaymentMethod
+    fetch(
+      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getNoOfoders?OrganisationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("customer -->", data.data[0]);
+        setOrder(data.data[0]);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>

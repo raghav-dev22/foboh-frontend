@@ -255,6 +255,7 @@ function CustomerAddress({
                 onChange={handleChange}
                 name="deliveryNotes"
                 onBlur={handleBlur}
+                maxLength={250}
                 className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                 placeholder="Leave a comment..."
                 defaultValue={""}

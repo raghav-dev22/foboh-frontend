@@ -23,11 +23,11 @@ const Cart = ({ open, onClose, addCart }) => {
 
   const warning = () => {
     Modal.warning({
-      title: "This is a warning message",
+      title: "Warning",
       content: (
         <div>
-          <h1>Please try again!</h1>
-          <p>Some error has occurred.</p>
+          <h1>No products are available on your cart page</h1>
+          {/* <p>Some error has occurred.</p> */}
         </div>
       ),
     });

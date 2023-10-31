@@ -168,6 +168,17 @@ const AllOrders = () => {
   ];
 
   const data = orderData?.map((item, index) => {
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.getMonth() + 1; // Months are zero-based
+      const year = date.getFullYear();
+
+      const formattedDay = String(day).padStart(2, "0");
+      const formattedMonth = String(month).padStart(2, "0");
+
+      return `${formattedDay}/${formattedMonth}/${year}`;
+    };
     return {
       key: index,
       OrderID: (
@@ -177,7 +188,7 @@ const AllOrders = () => {
       ),
       Customer: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item.firstname}
+          {item.customerName}
         </p>
       ),
       Region: (
@@ -187,7 +198,7 @@ const AllOrders = () => {
       ),
       OrderDate: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item.orderEntryDate}
+          {formatDate(item.orderEntryDate)}
         </p>
       ),
       Amount: (
@@ -197,7 +208,7 @@ const AllOrders = () => {
       ),
       LastUpdated: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item.orderEntryDate}
+          {formatDate(item.modifiedDate)}
         </p>
       ),
       Payment: (

@@ -55,10 +55,10 @@ export const stepTwoSchema = Yup.object().shape({
     .min(2, "Delivery address should have atleast 2 letters")
     .max(50)
     .required("Delivery address is required"),
-  Apartment: Yup.string()
-    .required("Apartment is required")
-    .min(2, "Suburb should have atleast 2 letters")
-    .max(50),
+  // Apartment: Yup.string()
+  //   .required("Apartment is required")
+  //   .min(2, "Suburb should have atleast 2 letters")
+  //   .max(50),
   Suburb: Yup.string()
     .required("Suburb is required")
     .min(2, "Suburb should have atleast 2 letters")
@@ -66,10 +66,10 @@ export const stepTwoSchema = Yup.object().shape({
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
-  Notes: Yup.string()
-    .required("Notes is required")
-    .min(2, "Notes should have atleast 2 letters")
-    .max(50),
+  // Notes: Yup.string()
+  //   .required("Notes is required")
+  //   .min(2, "Notes should have atleast 2 letters")
+  //   .max(50),
   DeliveryAddressState: Yup.mixed().required("State is required"),
 });
 
@@ -366,4 +366,4 @@ export const ResetPasswordFormSchema = Yup.object().shape({
       [Yup.ref("password"), null],
       "Passwords do not match, please try again"
     ),
-}); 
+});

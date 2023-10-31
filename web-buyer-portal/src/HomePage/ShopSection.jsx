@@ -22,7 +22,7 @@ function ShopSection() {
         return response.json();
       })
       .then((data) => {
-        console.log(data.data, "products data");
+        console.log(data.data, "products data1111");
         const limitedProducts = data.data.slice(0, 8);
         setProducts(limitedProducts);
       })

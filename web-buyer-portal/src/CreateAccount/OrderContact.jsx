@@ -12,7 +12,6 @@ function OrderContact({
   isBuyerExist,
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
-
   const handleState = (e) => {
     console.log("state", e);
     setValues({
@@ -20,8 +19,10 @@ function OrderContact({
       OrderContactState: e.value,
     });
   };
+  const [Ischecked, setIsChecked] = useState();
 
   const handleCheckbox = (e) => {
+    setIsChecked(e.target.checked);
     const checked = e.target.checked;
     checked
       ? setValues({
@@ -202,6 +203,7 @@ function OrderContact({
               id="default-checkbox"
               type="checkbox"
               onChange={(e) => handleCheckbox(e)}
+              checked={Ischecked}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:bg-gray-700 dark:border-gray-600"
             />
             {/* <CheckBoxOutlinedIcon className="text-[#147D73] cursor-pointer" /> */}
