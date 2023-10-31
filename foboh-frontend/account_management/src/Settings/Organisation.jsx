@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-
+import { useNavigate, Navigate } from "react-router-dom";
 import ProfileHeader from "../dashboard/ProfileHeader";
 import { OrganisationSettingsSchema } from "../schemas";
 import { useFormik } from "formik";
@@ -27,6 +27,7 @@ export const options = [
 let categoryListVar = [];
 
 function Organisation() {
+  const navigate = useNavigate();
   const [baseUnitModalOpen, setBaseUnitModalOpen] = useState(false);
   const [innerUnitModalOpen, setInnerUnitModalOpen] = useState(false);
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -512,14 +513,26 @@ function Organisation() {
                 setShow={setShow}
               />
             )}
-            <div className="sm:py-12 py-8">
-              <h4 className="text-green text-2xl	font-semibold pb-2	">
-                {" "}
-                Organisation settings
-              </h4>
-              <p className="text-gray font-medium	 text-sm	">
-                Keep your organisation details up to date
-              </p>
+            <div className="sm:py-12 py-8 flex justify-start items-start gap-2">
+              {/* <Link to="/dashboard/settings"> */}
+              <div
+                className=""
+                onClick={() => {
+                  navigate("/dashboard/settings");
+                }}
+              >
+                <img src="/assets/previousBtn.png" alt="" />
+              </div>
+              {/* </Link> */}
+              <div className="">
+                <h4 className="text-green text-2xl	font-semibold pb-1  leading-[26px]">
+                  {" "}
+                  Organisation settings
+                </h4>
+                <p className="text-gray font-medium	 text-sm	">
+                  Keep your organisation details up to date
+                </p>
+              </div>
             </div>
             <div className="lg:flex gap-5 ">
               <div className=" lg:w-3/5 w-full  gap-5 h-full	 grid	  ">

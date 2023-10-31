@@ -1,6 +1,7 @@
 import React from "react";
 import { Select } from "antd";
 import { useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 import { BankingSchema } from "../../schemas";
@@ -11,6 +12,7 @@ import { Button, message } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
 
 const BankingInformation = () => {
+  const navigate = useNavigate();
   const [bankingDetails, setBankingDetails] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
   const [show, setShow] = useState(false);
@@ -210,7 +212,7 @@ const BankingInformation = () => {
       {contextHolder}
       {show && (
         <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-          <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+          <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
             <div className="block">
               <nav className="flex h-[65px] items-center justify-end gap-5 ">
                 <button
@@ -231,13 +233,21 @@ const BankingInformation = () => {
         </div>
       )}
       <div className="bank-information-page padding-top-custom">
-        <div className="pb-6 px-6">
+        <div className="pb-6 px-6 flex justify-start items-center gap-2">
+          <div
+            className=""
+            onClick={() => {
+              navigate("/dashboard/settings");
+            }}
+          >
+            <img src="/assets/previousBtn.png" alt="" />
+          </div>
           <h4 className="text-xl font-semibold text-[#2B4447]">
             Set up banking Information
           </h4>
         </div>
-        <div className="lg:flex gap-5 px-6 h-[423px]">
-          <div className=" lg:w-3/5 w-full  gap-5 h-full	 grid	  ">
+        <div className="lg:flex flex-col gap-5 px-6 ">
+          <div className="  w-full  gap-5 h-full	 grid	  ">
             <div className="border border-[#E7E7E7] rounded-md bg-white  overflow-y-scroll">
               <div className="px-6 py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-base font-medium text-[#2B4447]">
@@ -274,7 +284,7 @@ const BankingInformation = () => {
                     )}
                   </div>
                   <div className="flex flex-nowrap gap-2">
-                    <div className="mb-4 ">
+                    <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
@@ -297,7 +307,7 @@ const BankingInformation = () => {
                         </p>
                       )}
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
@@ -439,8 +449,200 @@ const BankingInformation = () => {
               </div>
             </div>
           </div>
-          <div className="w-full lg:w-2/5 gap-5  overflow-y-scroll	">
-            <div className="border border-[#E7E7E7] rounded-md mb-6 bg-white ">
+          <div className="  w-full  gap-5 h-full	 grid	  ">
+            <div className="border border-[#E7E7E7] rounded-md bg-white  overflow-y-scroll">
+              <div className="px-6 py-3 border-b border-[#E7E7E7]">
+                <h5 className="text-base font-medium text-[#2B4447]">
+                  Representative Information
+                </h5>
+              </div>
+              <div className="py-6 px-6">
+                <form action="">
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        First Name
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id=" FirstName"
+                        type="text"
+                        name=" FirstName"
+                        placeholder="Enter first name"
+                      />
+                    </div>
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        Last Name
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="LastName"
+                        type="text"
+                        name="LastName"
+                        placeholder="Enter last name"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="Dateofbirth"
+                      >
+                        Date of birth
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="Dateofbirth"
+                        type="text"
+                        name="DateOfBirth"
+                        placeholder="dd/mm/yyyy"
+                      />
+                    </div>
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        Address
+                      </label>
+
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="Suburb"
+                        type="text"
+                        name="Suburb"
+                        placeholder="Enter address"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="City"
+                      >
+                        City
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="City"
+                        type="text"
+                        placeholder="Enter city"
+                        name="City"
+                      />
+                    </div>
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="Postcode"
+                      >
+                        Postcode
+                      </label>
+                      <input
+                        disabled
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="Postcode"
+                        type="text"
+                        placeholder="XXXX "
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        State
+                      </label>
+                      <Select
+                        className="mt-[3px]"
+                        showSearch
+                        name="State"
+                        style={{ width: "100%", height: "48px" }}
+                        placeholder="Search to Select"
+                        options={stateOptions}
+                        onChange={handleState}
+                        onBlur={handleBlur}
+                        value={values.State}
+                      />
+                      {errors.State && touched.State && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.State}
+                        </p>
+                      )}
+                    </div>
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="PhoneNo"
+                      >
+                        Phone No.
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="PhoneNo"
+                        type="text"
+                        placeholder="04XX XXX XXX / +61 4XX XXX XXX"
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-4 w-full">
+                    <label
+                      className="block text-[#2B4447] text-base font-medium mb-2"
+                      htmlFor="EmailID"
+                    >
+                      Email ID
+                    </label>
+                    <input
+                      className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="EmailID"
+                      type="text"
+                      placeholder="Enter valid email ID"
+                    />
+                  </div>
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full green-checkbox flex justify-start items-center">
+                      <input
+                        id="default-checkbox"
+                        type="checkbox"
+                        defaultValue=""
+                      />
+                      <label
+                        htmlFor="default-checkbox"
+                        className="ml-2 text-lg font-normal text-[#2B4447] "
+                      >
+                        I own more than 25% of the company
+                      </label>
+                    </div>
+                    <div className="mb-4 w-full green-checkbox flex justify-start items-center ">
+                      <input
+                        id="default-checkbox"
+                        type="checkbox"
+                        defaultValue=""
+                      />
+                      <label
+                        htmlFor="default-checkbox"
+                        className="ml-2 text-lg font-normal text-[#2B4447] "
+                      >
+                        I am a member of the governing board of the company
+                      </label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div className="w-full  gap-5  overflow-y-scroll	lg:flex">
+            <div className="border w-full border-[#E7E7E7] rounded-md  bg-white ">
               <div className="px-6 py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-base font-medium text-[#2B4447] mb-2">
                   Banking information
@@ -500,7 +702,7 @@ const BankingInformation = () => {
                 </form>
               </div>
             </div>
-            <div className="border border-[#E7E7E7] rounded-md bg-white">
+            <div className="border w-full border-[#E7E7E7] rounded-md bg-white">
               <div className="px-6 py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-base font-medium text-[#2B4447] mb-2">
                   Customer billing statement
