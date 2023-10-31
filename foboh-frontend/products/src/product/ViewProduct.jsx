@@ -30,6 +30,8 @@ import {
   options,
 } from "../data";
 import { Skeleton } from "antd";
+import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
+import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
 
 function ViewProduct() {
   const { id } = useParams();
@@ -51,6 +53,10 @@ function ViewProduct() {
   const [prevImgUrl, setPrevImgUrl] = useState([]);
   const [loading, setLoading] = useState(true);
   const [Stock, setStock] = useState(false);
+  const [baseUnitMeasureSelect, setBaseUnitMeasureSelect] = useState([]);
+  const [innerUnitMeasureSelect, setInnerUnitMeasureSelect] = useState([]);
+  let baseUnitMeasureList = [];
+  let innerUnitMeasureList = [];
 
   const [initialValues, setInitialValues] = useState({
     visibility: false,
@@ -93,6 +99,28 @@ function ViewProduct() {
   });
 
   const asyncFunction = async () => {
+    const baseUnitMeasureResponse = await getBaseUnitMeasure();
+
+    baseUnitMeasureList = baseUnitMeasureResponse.map((item) => {
+      return {
+        label: `${item.unit} ${item.type}`,
+        value: item.unit,
+        key: item.type,
+      };
+    });
+    setBaseUnitMeasureSelect(baseUnitMeasureList);
+
+    const innerUnitMeasureResponse = await getInnerUnitMeasure();
+
+    innerUnitMeasureList = innerUnitMeasureResponse.map((item) => {
+      return {
+        label: `${item.unit} ${item.type}`,
+        value: item.unit,
+        key: item.type,
+      };
+    });
+    setInnerUnitMeasureSelect(innerUnitMeasureList);
+
     // Getting organization id
     await fetch(
       `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
@@ -354,12 +382,12 @@ function ViewProduct() {
               (country) => country.label === countryOfOrigin
             );
 
-            const baseUnitOfMeasureObj = baseUnitOfMeasurement.find(
-              (BUM) => BUM.value === parseInt(baseUnitMeasure)
+            const baseUnitOfMeasureObj = baseUnitMeasureList.find(
+              (BUM) => BUM.label === baseUnitMeasure
             );
 
-            const innerUnitofMeasureObj = innerUnitOfMeasurement.find(
-              (IUM) => IUM.value === parseInt(innerUnitMeasure)
+            const innerUnitofMeasureObj = innerUnitMeasureList.find(
+              (IUM) => IUM.label === innerUnitMeasure
             );
 
             const tagsObj = tagList.filter((option) =>
@@ -683,8 +711,8 @@ function ViewProduct() {
             articleId: 0,
             skUcode: values?.skuCode,
             productImageUrls: productImageUris === null ? [] : productImageUris,
-            unitofMeasure: values?.baseUnitMeasure?.value.toString(),
-            innerUnitofMeasure: values?.innerUnitMeasure?.value.toString(),
+            unitofMeasure: values?.baseUnitMeasure?.label.toString(),
+            innerUnitofMeasure: values?.innerUnitMeasure?.label.toString(),
             configuration: values?.configuration,
             brand: values?.brand,
             region: values?.regionSelect ? values.regionSelect.label : "",
@@ -992,7 +1020,7 @@ function ViewProduct() {
       setValues({
         ...values,
         baseUnitMeasure: e,
-        configuration: `${values.innerUnitMeasure.value} x ${e.label}`,
+        configuration: `(${e.value} x ${values.innerUnitMeasure.value}) ${values.innerUnitMeasure.key}`,
       });
     } else {
       setValues({
@@ -1010,7 +1038,7 @@ function ViewProduct() {
       setValues({
         ...values,
         innerUnitMeasure: e,
-        configuration: `${e.value} x ${values.baseUnitMeasure.label}`,
+        configuration: `(${values.baseUnitMeasure.key} x ${e.value}) ${e.key}`,
       });
     } else {
       setValues({
@@ -1957,7 +1985,7 @@ function ViewProduct() {
                           <div className="w-full">
                             <Select
                               isDisabled={!baseUnitOfMeasurement.length}
-                              options={baseUnitOfMeasurement}
+                              options={baseUnitMeasureSelect}
                               value={values.baseUnitMeasure}
                               onChange={handlebaseUnitOfMeasurement}
                               className="basic-multi-select "
@@ -1978,7 +2006,7 @@ function ViewProduct() {
                           <div className="w-full">
                             <Select
                               isDisabled={!innerUnitOfMeasurement.length}
-                              options={innerUnitOfMeasurement}
+                              options={innerUnitMeasureSelect}
                               value={values.innerUnitMeasure}
                               onChange={handleinnerUnitOfMeasurement}
                               className="basic-multi-select "
@@ -2009,11 +2037,11 @@ function ViewProduct() {
                             disabled
                             value={
                               values.configuration &&
-                              `${values?.innerUnitMeasure?.value} x ${values?.baseUnitMeasure?.label}`
+                              `(${values?.baseUnitMeasure?.value} x ${values?.innerUnitMeasure.value}) ${values?.innerUnitMeasure?.key}`
                             }
                             placeholder={
                               values.configuration &&
-                              `${values?.innerUnitMeasure?.value} x ${values?.baseUnitMeasure?.label}`
+                              `(${values?.baseUnitMeasure?.value} x ${values?.innerUnitMeasure?.value}) ${values?.innerUnitMeasure?.key}`
                             }
                           />
                         </div>

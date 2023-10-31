@@ -6,6 +6,8 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { postBaseUnitMeasure } from "../helpers/postBaseUnitMeasure";
+import { message } from "antd";
 
 const BaseUnit = ({
   baseUnitMeasureTypeList,
@@ -19,7 +21,7 @@ const BaseUnit = ({
   const [selectedBaseUnit, setSelectedBaseUnit] = useState(null);
   const [selectedBaseType, setSelectedBaseType] = useState(null);
   const [amount, setAmount] = useState(0);
-  const [IsEdit, setIsEdit] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleSelectUnit = (value) => {
     setSelectedBaseUnit(value);
@@ -28,11 +30,24 @@ const BaseUnit = ({
     setSelectedBaseType(value);
   };
 
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Base unit measure added successfully!",
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Some error has occurred, please try again!",
+    });
+  };
+
   const addBtn = () => {
     setUnit((prev) => [
       ...prev,
       {
-        unit: `${prev.amount}${prev.bumUnit}`,
         type: selectedBaseType,
         amount: amount,
         bumUnit: selectedBaseUnit,
@@ -83,8 +98,29 @@ const BaseUnit = ({
     );
   };
 
+  const handleSaveEdit = (idx) => {
+    setUnit((prev) =>
+      prev.map((item, itemIndex) => {
+        if (itemIndex === idx) {
+          return {
+            ...item,
+            editable: false,
+          };
+        }
+        return item;
+      })
+    );
+  };
+
+  const handleUpload = async () => {
+    const response = await postBaseUnitMeasure(unit);
+    response ? success() : error();
+    onCancel();
+  };
+
   return (
     <>
+      {contextHolder}
       <Modal
         title={
           <div className="flex justify-start items-center gap-3">
@@ -109,7 +145,7 @@ const BaseUnit = ({
             <Button
               key="ok"
               type="primary"
-              onClick={onCancel}
+              onClick={handleUpload}
               className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
             >
               Upload
@@ -128,9 +164,11 @@ const BaseUnit = ({
           </p>
           {unit && (
             <div className="my-6">
-              <h5 className="text-base font-normal text-[#147D73]">
-                Added units:
-              </h5>
+              {unit.length > 0 && (
+                <h5 className="text-base font-normal text-[#147D73]">
+                  Added units:
+                </h5>
+              )}
               {unit?.map((item, idx) => (
                 <div className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7]">
                   {item.editable ? (
@@ -207,12 +245,19 @@ const BaseUnit = ({
                           />
                         </div>
                       </div>
-                      <CheckCircleOutlineIcon style={{ fill: "#147D73" }} />
+                      <div
+                        onClick={() => handleSaveEdit(idx)}
+                        className="ml-[16px]"
+                      >
+                        <CheckCircleOutlineIcon
+                          style={{ fill: "#147D73", cursor: "pointer" }}
+                        />
+                      </div>
                     </div>
                   ) : (
                     <>
                       <h5 className="text-base font-bold text-[#637381]">
-                        {item?.unit} {item?.type}
+                        {`${item?.amount} ${item?.bumUnit}`} {item?.type}
                       </h5>
                       <div className="flex items-center justify-end gap-3">
                         <div
@@ -298,7 +343,11 @@ const BaseUnit = ({
                 />
                 <AddCircleOutlineIcon
                   className=""
-                  style={{ fill: "#147D73" }}
+                  style={{
+                    fill: "#147D73",
+                    cursor: "pointer",
+                    marginLeft: "16px",
+                  }}
                   onClick={addBtn}
                 />
               </div>

@@ -21,6 +21,7 @@ import BaseUnit from "../modal/BaseUnit";
 import InnerUnit from "../modal/InnerUnit";
 import { getBaseUnitMeasureType } from "../helpers/getBaseUnitOfMeasureType";
 import { baseUnitMeasureUnit } from "../helpers/getBaseUnitOfMeasureUnit";
+import { getInnerUnitMeasureType } from "../helpers/getInnerUnitMeasureType";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -44,6 +45,7 @@ function Organisation() {
   const user = useSelector((state) => state.user);
   const [baseUnitMeasureTypeList, setBaseMeasureTypeList] = useState([]);
   const [baseUnitMeasureUnitList, setBaseMeasureUnitList] = useState([]);
+  const [innerUnitTypeList, setInnerUnitTypeList] = useState([]);
 
   const [initialValues, setInitialValues] = useState({
     tradingName: "",
@@ -383,12 +385,21 @@ function Organisation() {
     );
 
     const baseUnitMeasureUnitResponse = await baseUnitMeasureUnit();
-
     setBaseMeasureUnitList(
       baseUnitMeasureUnitResponse.map((item) => {
         return {
           label: item.value,
           value: item.value,
+        };
+      })
+    );
+
+    const innerUnitMeasureTypeResponse = await getInnerUnitMeasureType();
+    setInnerUnitTypeList(
+      innerUnitMeasureTypeResponse.map((item) => {
+        return {
+          label: item.type,
+          value: item.type,
         };
       })
     );
@@ -1761,6 +1772,8 @@ function Organisation() {
         }}
       />
       <InnerUnit
+        baseUnitMeasureTypeList={baseUnitMeasureTypeList}
+        innerUnitTypeList={innerUnitTypeList}
         open={innerUnitModalOpen}
         onOk={() => {
           setInnerUnitModalOpen(false);

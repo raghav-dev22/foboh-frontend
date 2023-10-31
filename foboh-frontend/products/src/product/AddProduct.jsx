@@ -32,6 +32,8 @@ import {
   options,
 } from "../data";
 import { Box } from "@mui/material";
+import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
+import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
 
 const initialValues = {
   visibility: "0",
@@ -86,6 +88,8 @@ function AddProduct() {
   const [variety, setVariety] = useState([]);
   const [tag, setTag] = useState([]);
   const [country, setCountry] = useState([]);
+  const [baseUnitMeasure, setBaseUnitMeasure] = useState([]);
+  const [innerUnitMeasure, setInnerUnitMeasure] = useState([]);
 
   const {
     values,
@@ -117,8 +121,8 @@ function AddProduct() {
             articleId: 0,
             skUcode: values.skuCode,
             productImageUrls: [],
-            unitofMeasure: values.baseUnitMeasure.value.toString(),
-            innerUnitofMeasure: values.innerUnitMeasure.value.toString(),
+            unitofMeasure: values.baseUnitMeasure.label.toString(),
+            innerUnitofMeasure: values.innerUnitMeasure.label.toString(),
             configuration: values.configuration,
             brand: values.brand,
             region: values.regionSelect ? values.regionSelect.label : "",
@@ -170,7 +174,33 @@ function AddProduct() {
     },
   });
 
-  console.log("err ->", errors);
+  useEffect(() => {
+    asyncFunction();
+  }, []);
+
+  const asyncFunction = async () => {
+    const baseUnitMeasureResponse = await getBaseUnitMeasure();
+    setBaseUnitMeasure(
+      baseUnitMeasureResponse.map((item) => {
+        return {
+          label: `${item.unit} ${item.type}`,
+          value: item.unit,
+          key: item.type,
+        };
+      })
+    );
+
+    const innerUnitMeasureResponse = await getInnerUnitMeasure();
+    setInnerUnitMeasure(
+      innerUnitMeasureResponse.map((item) => {
+        return {
+          label: `${item.unit} ${item.type}`,
+          value: item.unit,
+          key: item.type,
+        };
+      })
+    );
+  };
 
   const handleReset = () => {
     setShow(false);
@@ -185,8 +215,6 @@ function AddProduct() {
     setCheckGST(false);
     setCheckWET(false);
   };
-
-  console.log(values, "ggggggggggggggggggggggg");
 
   // Handle product image
   const handleProductImage = (e) => {
@@ -472,7 +500,7 @@ function AddProduct() {
       setValues({
         ...values,
         baseUnitMeasure: e,
-        configuration: `${values.innerUnitMeasure.value} x ${e.label}`,
+        configuration: `(${e.value} x ${values.innerUnitMeasure.value}) ${values.innerUnitMeasure.key}`,
       });
       setShow(true);
     } else {
@@ -491,7 +519,7 @@ function AddProduct() {
       setValues({
         ...values,
         innerUnitMeasure: e,
-        configuration: `${e.value} x ${values.baseUnitMeasure.label}`,
+        configuration: `(${values.baseUnitMeasure.key} x ${e.value}) ${e.key}`,
       });
       setShow(true);
     } else {
@@ -1437,7 +1465,7 @@ function AddProduct() {
                       <div className="w-full">
                         <Select
                           isDisabled={!baseUnitOfMeasurement.length}
-                          options={baseUnitOfMeasurement}
+                          options={baseUnitMeasure}
                           onBlur={handleBlur}
                           value={values.baseUnitMeasure || null} // Set value to null when no option is selected
                           name="baseUnitMeasure"
@@ -1459,7 +1487,7 @@ function AddProduct() {
                       <div className="w-full">
                         <Select
                           isDisabled={!innerUnitOfMeasurement.length}
-                          options={innerUnitOfMeasurement}
+                          options={innerUnitMeasure}
                           value={values.innerUnitMeasure}
                           onChange={handleinnerUnitOfMeasurement}
                           onBlur={handleBlur}
@@ -1492,11 +1520,11 @@ function AddProduct() {
                         disabled
                         value={
                           values.configuration &&
-                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                          `(${values.baseUnitMeasure.value} x ${values.innerUnitMeasure.value}) ${values.innerUnitMeasure.key}`
                         }
                         placeholder={
                           values.configuration &&
-                          `${values.innerUnitMeasure.value} x ${values.baseUnitMeasure.label}`
+                          `(${values.baseUnitMeasure.value} x ${values.innerUnitMeasure.value}) ${values.innerUnitMeasure.key}`
                         }
                       />
                     </div>
