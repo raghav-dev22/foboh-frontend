@@ -22,6 +22,7 @@ const CreateOrderHeader = () => {
         </button>
       </div>
       <CreateOrderModal
+        setCreateOrderModal ={setCreateOrderModal}
         handleCancel={() => {
           setCreateOrderModal(false);
         }}

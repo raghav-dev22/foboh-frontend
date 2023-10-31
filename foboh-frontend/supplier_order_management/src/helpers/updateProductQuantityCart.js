@@ -34,7 +34,7 @@ export const updateProductQuantityCart = async (
       if (data.success) {
         count++;
         success("Quantity updated successfully!");
-      } else if (count > 0) return error(data.message);
+      } else if (!data.success && data.message) return error(data.message);
     })
     .catch((error) => console.log(error));
 

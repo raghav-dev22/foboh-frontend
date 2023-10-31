@@ -19,6 +19,8 @@ import { styled } from "@mui/material";
 import { Avatar, List, Skeleton, Switch } from "antd";
 import BaseUnit from "../modal/BaseUnit";
 import InnerUnit from "../modal/InnerUnit";
+import { getBaseUnitMeasureType } from "../helpers/getBaseUnitOfMeasureType";
+import { baseUnitMeasureUnit } from "../helpers/getBaseUnitOfMeasureUnit";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -39,6 +41,9 @@ function Organisation() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [baseUnitMeasureTypeList, setBaseMeasureTypeList] = useState([]);
+  const [baseUnitMeasureUnitList, setBaseMeasureUnitList] = useState([]);
+
   const [initialValues, setInitialValues] = useState({
     tradingName: "",
     businessName: "",
@@ -362,10 +367,31 @@ function Organisation() {
       setLoading(false);
     }
 
-    console.log("userData >>", user);
+    asyncFunction();
   }, []);
 
-  console.log(values);
+  const asyncFunction = async () => {
+    const baseUnitMeasureTypeResponse = await getBaseUnitMeasureType();
+    setBaseMeasureTypeList(
+      baseUnitMeasureTypeResponse.map((item) => {
+        return {
+          label: item.type,
+          value: item.type,
+        };
+      })
+    );
+
+    const baseUnitMeasureUnitResponse = await baseUnitMeasureUnit();
+
+    setBaseMeasureUnitList(
+      baseUnitMeasureUnitResponse.map((item) => {
+        return {
+          label: item.value,
+          value: item.value,
+        };
+      })
+    );
+  };
 
   // Category List
   const handleCategoriesChange = (e) => {
@@ -1711,6 +1737,8 @@ function Organisation() {
       </div>
 
       <BaseUnit
+        baseUnitMeasureTypeList={baseUnitMeasureTypeList}
+        baseUnitMeasureUnitList={baseUnitMeasureUnitList}
         open={baseUnitModalOpen}
         onOk={() => {
           setBaseUnitModalOpen(false);

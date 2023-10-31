@@ -7,7 +7,6 @@ import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import ShieldIcon from "@mui/icons-material/Shield";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AlertModal from "./AlertModal";
 import { getCustomers } from "../helpers/getCustomer";
@@ -29,8 +28,18 @@ import { removeToCart } from "../helpers/removeTocart";
 import { removeAllCart } from "../helpers/removeAllCart";
 import { updateProductQuantityCart } from "../helpers/updateProductQuantityCart";
 import { updateDefaultPaymentTerms } from "../helpers/updateDefaultPaymentTerms";
+import ShippingDetailsForm from "./ShippingDetailsForm";
+import FinalOrder from "./FinalOrder";
+import { getCalculations } from "../helpers/getCalculations";
+import { createOrder } from "../helpers/createOrder";
+import { updateCartStatus } from "../helpers/updateCartStatus";
 
-const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
+const CreateOrderModal = ({
+  setCreateOrderModal,
+  handleOk,
+  isModalOpen,
+  handleCancel,
+}) => {
   const [checked, setChecked] = useState(false);
   const [customerList, setCustomerList] = useState([]);
   const [editDeliveryContact, setEditDeliveryContact] = useState(false);
@@ -67,7 +76,13 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   });
   const [shippingcharges, setSippingCharges] = useState({
     name: "",
-    value: 0,
+    price: 0,
+  });
+  const [cartCalculations, setCartCalculations] = useState({
+    gst: 0,
+    wet: 0,
+    subTotal: 0,
+    total: 0,
   });
 
   let defaultPaymentTermsList = [];
@@ -121,68 +136,35 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     });
   };
 
-  const handleChange = (value) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-  };
-  const paymentOption = [
-    {
-      value: "opt-1",
-      label: (
-        <h5 className="text-base font-medium text-[#637381] py-1">
-          7 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "opt-2",
-      label: (
-        <h5 className="text-base font-medium text-[#637381] py-1">
-          15 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "opt-3",
-      label: (
-        <h5 className="text-base font-medium text-[#637381] py-1">
-          30 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "opt-4",
-      label: (
-        <h5 className="text-base font-medium text-[#637381] py-1">
-          45 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "opt-5",
-      label: (
-        <h5 className="text-base font-medium text-[#637381] py-1">
-          60 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "opt-6",
-      label: (
-        <h5 className="text-base font-medium text-[#637381] py-1">
-          90 days from Invoice date
-        </h5>
-      ),
-    },
-  ];
-
   const handleNext = () => {
     !isLastStep && setActiveStep((cur) => cur + 1),
       setDetails(true),
       setSelectedItems("");
   };
+
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
   const items = ["Apples", "Nails", "Bananas", "Helicopters"];
   const [selectedItems, setSelectedItems] = useState([]);
+
+  // Handle submitting the order
+  const handleSubmit = async () => {
+    const orderResponse = await createOrder(
+      customerDetails,
+      defaultPaymentTermsValue,
+      cartCalculations,
+      shippingcharges
+    );
+
+    if (orderResponse) {
+      const cartStatus = await updateCartStatus(customerDetails);
+
+      cartStatus
+        ? success("Order placed successfully!")
+        : error("Some error has occurred! Please try again");
+
+      setCreateOrderModal(false);
+    }
+  };
 
   useEffect(() => {
     // Getting all the customer list
@@ -215,6 +197,24 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
     }, 1000);
     return () => clearTimeout(debounceTimeout);
   }, [updatedQuantity]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      asyncCartCalculation();
+    }, 2000);
+
+    return () => clearInterval(timeout);
+  }, [cart]);
+
+  const asyncCartCalculation = async () => {
+    const { gst, wt, subTotal, total } = await getCalculations();
+    setCartCalculations({
+      gst: gst,
+      wet: wt,
+      subTotal: subTotal,
+      total: total,
+    });
+  };
 
   // Debounce function
   function debounce(func, timeout = 0) {
@@ -399,8 +399,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
   };
 
   // Handle for changing the quantity of products in cart
-  const handleQuantity = (value, productId) => {
-
+  const handleQuantity = async (value, productId) => {
     const updateList = () => {
       return cart.map((item) => {
         if (item.product.productId === productId) {
@@ -618,7 +617,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                   <img src="/assets/notesIcon.png" alt="" />
 
                                   <p className="text-base font-normal text-[#2B4447] leading-[28px] ">
-                                    {customerDetails?.description}
+                                    {customerDetails?.deliveryNotes}
                                   </p>
                                 </div>
                               </div>
@@ -799,7 +798,7 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                                     onClick={() =>
                                       handleRemoveCart(product?.productId)
                                     }
-                                    className="text-base font-medium  text-[#DC3545] border-b border-[#DC3545]"
+                                    className="text-base font-medium cursor-pointer text-[#DC3545] border-b border-[#DC3545]"
                                   >
                                     Remove
                                   </p>
@@ -813,413 +812,23 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
                   </>
                 )}
                 {activeStep === 2 && (
-                  <>
-                    <div className="flex justify-between items-center mt-5">
-                      <h4 className="text-xl font-bold  text-[#2B4447]">
-                        Add Shipping Details
-                      </h4>
-                      <div class="relative inline-block w-[50px] mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
-                        <input
-                          type="checkbox"
-                          name="wetLiable"
-                          checked={checked}
-                          onChange={handleCheckboxChange}
-                          id="toggle"
-                          class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                        />
-                        <label
-                          for="toggle"
-                          class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                        ></label>
-                      </div>
-                    </div>
-                    {checked === true && (
-                      <div>
-                        <div className="md:w-[60%] w-full mb-5">
-                          <h5 className="text-lg font-semibold text-[#212B36] mt-3">
-                            Add shipping estimate as a separate line item during
-                            checkout.
-                          </h5>
-                          <p className="text-sm font-normal text-[#637381] mt-2">
-                            Turning this On will add the Shipping Estimate
-                            separately during checkout. Turning this Off will
-                            NOT add it as a separate line item.
-                          </p>
-                        </div>
-                        <div className="">
-                          <h5 className="font-semibold text-lg text-[#212B36] mb-5">
-                            Add product
-                          </h5>
-                          <form>
-                            <div className="flex flex-col mb-5 w-[50%]">
-                              <label className="text-[#2B4447] text-base font-normal ">
-                                Shipping Name
-                              </label>
-                              <input
-                                type="text"
-                                className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
-                                disabled
-                                value="Shipping name"
-                              />
-                            </div>
-                            <div className="flex flex-col mb-5 w-[50%]">
-                              <label className="text-[#2B4447] text-base font-normal ">
-                                Price
-                              </label>
-                              <input
-                                type="text"
-                                className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
-                                disabled
-                                value="$350"
-                              />
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    )}
-                  </>
+                  <ShippingDetailsForm
+                    checked={checked}
+                    handleCheckboxChange={handleCheckboxChange}
+                    setSippingCharges={setSippingCharges}
+                    shippingcharges={shippingcharges}
+                  />
                 )}
                 {activeStep === 3 && (
-                  <>
-                    <div className="my-5">
-                      <h4 className="text-xl font-bold  text-[#2B4447]">
-                        Business full name
-                      </h4>
-                    </div>
-                    <div className="">
-                      <h5 className="font-semibold text-lg text-[#212B36] mb-5">
-                        Add product
-                      </h5>
-                      <div className="grid md:grid-cols-2 gap-3 ">
-                        <div className="h-[600px] overflow-y-scroll">
-                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                            <div className="flex justify-between items-center ">
-                              <div className="flex justify-start items-center gap-2">
-                                <LocalPhoneRoundedIcon />
-                                <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                  Delivery Contact
-                                </h4>
-                              </div>
-                              {/* 
-                              <button className="text-base font-semibold text-[#2B4447]">
-                                Edit
-                              </button> */}
-                            </div>
-                            <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                              Full Name
-                            </p>
-                            <p className="text-base font-normal text-[#2B4447] leading-[28px] ">
-                              myemail@gmail.com.au
-                            </p>
-                            <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                              0400 000 000
-                            </p>
-                          </div>
-
-                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                            <div className="flex justify-between items-center ">
-                              <div className="flex justify-start items-center gap-2">
-                                <HomeRoundedIcon />
-                                <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                  Delivery Contact
-                                </h4>
-                              </div>
-                              {/* <button className="text-base font-semibold text-[#2B4447]">
-                                Edit
-                              </button> */}
-                            </div>
-                            <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                              456 King Street, Newton, NSW 2304 Australia
-                            </p>
-                            <h4 className=" mt-2 text-xl font-semibold text-[#2B4447] leading-[30px]">
-                              Notes
-                            </h4>
-                            <div className="flex justify-start items-center gap-2">
-                              <img src="/assets/notesIcon.png" alt="" />
-
-                              <p className="text-base font-normal text-[#2B4447] leading-[28px] ">
-                                Delivery instruction
-                              </p>
-                            </div>
-                          </div>
-                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                            <div className="flex justify-between items-center ">
-                              <div className="flex justify-start items-center gap-2">
-                                <ShieldIcon />
-                                <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                  Payment
-                                </h4>
-                              </div>
-                              {/* <button className="text-base font-semibold text-[#2B4447]">
-                                Edit
-                              </button> */}
-                            </div>
-                            <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                              Your chosen payment terms
-                            </p>
-
-                            <Select
-                              labelInValue
-                              className="payment-dropdown mt-3"
-                              defaultValue={{
-                                value: "lucy",
-                                label: (
-                                  <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
-                                    Payment due in 14 days (dd/mm/yyyy)
-                                  </h4>
-                                ),
-                              }}
-                              style={{
-                                width: "100%",
-                              }}
-                              onChange={handleChange}
-                              options={paymentOption}
-                            />
-                          </div>
-                          <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
-                            <div className="flex justify-between items-center ">
-                              <div className="flex justify-start items-center gap-2">
-                                <HomeRoundedIcon />
-                                <h4 className="text-xl font-semibold text-[#2B4447] leading-[30px]">
-                                  Billing Address
-                                </h4>
-                              </div>
-
-                              {/* <button className="text-base font-semibold text-[#2B4447]">
-                                Edit
-                              </button> */}
-                            </div>
-
-                            <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                              456 King Street, Newton, NSW 2304 Australia
-                            </p>
-                          </div>
-                        </div>
-                        <div className="">
-                          <div className="h-[300px] overflow-y-scroll">
-                            <div className="flex justify-start items-center gap-2 pb-5 border-b border-[#E7E7E7]">
-                              <img src="/assets/customProduct.png" alt="" />
-
-                              <div className="w-full h-full">
-                                <div className="flex justify-between ">
-                                  <div>
-                                    <h5 className="text-base font-semibold text-[#2B4447] ">
-                                      Write Product Full Name
-                                    </h5>
-                                    <p className="text-base font-medium text-[#637381]">
-                                      Quantity - 1
-                                    </p>
-                                  </div>
-                                  <h5 className="text-base font-semibold text-[#2B4447]">
-                                    $369
-                                  </h5>
-                                </div>
-                                <div className="mt-10 flex justify-between items-center">
-                                  <div className="flex justify-start gap-1.5">
-                                    <h5 className="text-base font-normal text-[#2B4447]">
-                                      Available In Stock
-                                    </h5>
-                                  </div>
-                                  <a href="" className="">
-                                    <p className="text-base font-medium text-[#DC3545]">
-                                      Remove
-                                    </p>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex justify-start items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                              <img src="/assets/customProduct.png" alt="" />
-
-                              <div className="w-full h-full">
-                                <div className="flex justify-between ">
-                                  <div>
-                                    <h5 className="text-base font-semibold text-[#2B4447] ">
-                                      Write Product Full Name
-                                    </h5>
-                                    <p className="text-base font-medium text-[#637381]">
-                                      Quantity - 1
-                                    </p>
-                                  </div>
-                                  <h5 className="text-base font-semibold text-[#2B4447]">
-                                    $369
-                                  </h5>
-                                </div>
-                                <div className="mt-10 flex justify-between items-center">
-                                  <div className="flex justify-start gap-1.5">
-                                    <h5 className="text-base font-normal text-[#2B4447]">
-                                      Available In Stock
-                                    </h5>
-                                  </div>
-                                  <a href="" className="">
-                                    <p className="text-base font-medium text-[#DC3545]">
-                                      Remove
-                                    </p>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex justify-start items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                              <img src="/assets/customProduct.png" alt="" />
-
-                              <div className="w-full h-full">
-                                <div className="flex justify-between ">
-                                  <div>
-                                    <h5 className="text-base font-semibold text-[#2B4447] ">
-                                      Write Product Full Name
-                                    </h5>
-                                    <p className="text-base font-medium text-[#637381]">
-                                      Quantity - 1
-                                    </p>
-                                  </div>
-                                  <h5 className="text-base font-semibold text-[#2B4447]">
-                                    $369
-                                  </h5>
-                                </div>
-                                <div className="mt-10 flex justify-between items-center">
-                                  <div className="flex justify-start gap-1.5">
-                                    <h5 className="text-base font-normal text-[#2B4447]">
-                                      Available In Stock
-                                    </h5>
-                                  </div>
-                                  <a href="" className="">
-                                    <p className="text-base font-medium text-[#DC3545]">
-                                      Remove
-                                    </p>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex justify-start items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                              <img src="/assets/customProduct.png" alt="" />
-
-                              <div className="w-full h-full">
-                                <div className="flex justify-between ">
-                                  <div>
-                                    <h5 className="text-base font-semibold text-[#2B4447] ">
-                                      Write Product Full Name
-                                    </h5>
-                                    <p className="text-base font-medium text-[#637381]">
-                                      Quantity - 1
-                                    </p>
-                                  </div>
-                                  <h5 className="text-base font-semibold text-[#2B4447]">
-                                    $369
-                                  </h5>
-                                </div>
-                                <div className="mt-10 flex justify-between items-center">
-                                  <div className="flex justify-start gap-1.5">
-                                    <h5 className="text-base font-normal text-[#2B4447]">
-                                      Available In Stock
-                                    </h5>
-                                  </div>
-                                  <a href="" className="">
-                                    <p className="text-base font-medium text-[#DC3545]">
-                                      Remove
-                                    </p>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex justify-start items-center gap-2 py-5 border-b border-[#E7E7E7]">
-                              <img src="/assets/customProduct.png" alt="" />
-
-                              <div className="w-full h-full">
-                                <div className="flex justify-between ">
-                                  <div>
-                                    <h5 className="text-base font-semibold text-[#2B4447] ">
-                                      Write Product Full Name
-                                    </h5>
-                                    <p className="text-base font-medium text-[#637381]">
-                                      Quantity - 1
-                                    </p>
-                                  </div>
-                                  <h5 className="text-base font-semibold text-[#2B4447]">
-                                    $369
-                                  </h5>
-                                </div>
-                                <div className="mt-10 flex justify-between items-center">
-                                  <div className="flex justify-start gap-1.5">
-                                    <h5 className="text-base font-normal text-[#2B4447]">
-                                      Available In Stock
-                                    </h5>
-                                  </div>
-                                  <a href="" className="">
-                                    <p className="text-base font-medium text-[#DC3545]">
-                                      Remove
-                                    </p>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="pt-5">
-                            <h4 className="text-lg font-semibold text-[#2B4447]">
-                              Promo Code
-                            </h4>
-                            <div className="relative mt-3">
-                              <input
-                                className={`placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-[#563FE3]`}
-                                id="grid-first-name"
-                                type="text"
-                                placeholder="Promotional Code"
-                                value="CODE001"
-                              />
-                              <button
-                                className={`bg-[#563FE3] absolute top-0 right-0 h-full w-[65px] flex justify-center items-center rounded-r-[8px]`}
-                                // onClick={applyPromoCode}
-                              >
-                                <ChevronRightIcon style={{ fill: "#fff" }} />
-                              </button>
-                            </div>
-                          </div>
-                          <div className="py-4">
-                            <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                Subtotal
-                              </h5>
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                $1280
-                              </h5>
-                            </div>
-                            <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                Shipping estimate
-                              </h5>
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                $60.00
-                              </h5>
-                            </div>
-                            <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                GST
-                              </h5>
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                $60.00
-                              </h5>
-                            </div>
-                            <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                WET
-                              </h5>
-                              <h5 className="text-sm font-medium text-[#637381]">
-                                $60.00
-                              </h5>
-                            </div>
-                            <div className="flex justify-between py-3 ">
-                              <h5 className="text-base font-semibold text-[#2B4447]">
-                                Order total
-                              </h5>
-                              <h5 className="text-base font-semibold text-[#2B4447]">
-                                $60.00
-                              </h5>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
+                  <FinalOrder
+                    customerDetails={customerDetails}
+                    cart={cart}
+                    handleRemoveCart={handleRemoveCart}
+                    defaultPaymentTermsValue={defaultPaymentTermsValue}
+                    defaultPaymentTermsDate={defaultPaymentTermsDate}
+                    shippingcharges={shippingcharges}
+                    cartCalculations={cartCalculations}
+                  />
                 )}
               </div>
             </div>
@@ -1236,14 +845,25 @@ const CreateOrderModal = ({ handleOk, isModalOpen, handleCancel }) => {
             >
               Save & Exit
             </Button>
-            <Button
-              onClick={handleNext}
-              onCancel={handleCancel}
-              // disabled={isLastStep}
-              className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
-            >
-              Next
-            </Button>
+            {activeStep !== 3 ? (
+              <Button
+                onClick={handleNext}
+                onCancel={handleCancel}
+                // disabled={isLastStep}
+                className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
+              >
+                Next
+              </Button>
+            ) : (
+              <Button
+                onClick={handleSubmit}
+                onCancel={handleCancel}
+                // disabled={isLastStep}
+                className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
+              >
+                Place order
+              </Button>
+            )}
           </div>,
         ]}
         onCancel={handleCancel}

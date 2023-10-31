@@ -4,112 +4,85 @@ import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import { Select } from "antd";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
-const BaseUnit = ({ open, onOk, onCancel }) => {
-  const [unit, setUnit] = useState(false);
-  const addBtn = () => {
-    setUnit(true);
-  };
-  const baseUnitType = [
-    {
-      value: "Bottle",
-      label: "Bottle",
-    },
-    {
-      value: "Can",
-      label: "Can",
-    },
-    {
-      value: "Bag",
-      label: "Bag",
-    },
-    {
-      value: "Jar",
-      label: "Jar",
-    },
-    {
-      value: "Box",
-      label: "Box",
-    },
-    {
-      value: "Carton",
-      label: "Carton",
-    },
-    {
-      value: "Case",
-      label: "Case",
-    },
-    {
-      value: "Pack",
-      label: "Pack",
-    },
-    {
-      value: "Barrel",
-      label: "Barrel",
-    },
-    {
-      value: "Keg",
-      label: "Keg",
-    },
-    {
-      value: "Crate",
-      label: "Crate",
-    },
-    {
-      value: "Pouch",
-      label: "Pouch",
-    },
-    {
-      value: "Bundle",
-      label: "Bundle",
-    },
-    {
-      value: "Tray",
-      label: "Tray",
-    },
-    {
-      value: "Slab",
-      label: "Slab",
-    },
-  ];
-  const baseUnitOption = [
-    {
-      value: "Milligram (mg)",
-      label: "Milligram (mg)",
-    },
-    {
-      value: "Gram (g)",
-      label: "Gram (g)",
-    },
-    {
-      value: "Kilogram (kg)",
-      label: "Kilogram (kg)",
-    },
-    {
-      value: "Milliliter (ml)",
-      label: "Milliliter (ml)",
-    },
-    {
-      value: "Liter (l)",
-      label: "Liter (l)",
-    },
-    {
-      value: "Count (ea)",
-      label: "Count (ea)",
-    },
-    {
-      value: "Piece (pc)",
-      label: "Piece (pc)",
-    },
-  ];
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
+const BaseUnit = ({
+  baseUnitMeasureTypeList,
+  baseUnitMeasureUnitList,
+  open,
+  onOk,
+  onCancel,
+}) => {
+  const [unit, setUnit] = useState([]);
   const cancelButtonRef = useRef(null);
   const [selectedBaseUnit, setSelectedBaseUnit] = useState(null);
   const [selectedBaseType, setSelectedBaseType] = useState(null);
+  const [amount, setAmount] = useState(0);
+  const [IsEdit, setIsEdit] = useState(false);
+
   const handleSelectUnit = (value) => {
     setSelectedBaseUnit(value);
   };
   const handleSelectType = (value) => {
     setSelectedBaseType(value);
   };
+
+  const addBtn = () => {
+    setUnit((prev) => [
+      ...prev,
+      {
+        unit: `${prev.amount}${prev.bumUnit}`,
+        type: selectedBaseType,
+        amount: amount,
+        bumUnit: selectedBaseUnit,
+        editable: false,
+      },
+    ]);
+  };
+
+  const handleDelete = (idx) => {
+    setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
+  };
+
+  const handleIsEdit = (idx) => {
+    setUnit((prev) =>
+      prev.map((item, itemIndex) => {
+        if (itemIndex === idx) {
+          return {
+            ...item,
+            editable: true,
+          };
+        }
+        return item;
+      })
+    );
+  };
+
+  const handleEdit = (idx, name, value) => {
+    setUnit((prev) =>
+      prev.map((item, itemIndex) => {
+        if (itemIndex === idx && name === "amount") {
+          return {
+            ...item,
+            amount: value,
+          };
+        } else if (itemIndex === idx && name === "baseUnitMeasureUnit") {
+          return {
+            ...item,
+            bumUnit: value,
+          };
+        } else if (itemIndex === idx && name === "baseUnitMeasureTypeList") {
+          return {
+            ...item,
+            type: value,
+          };
+        }
+        return item;
+      })
+    );
+  };
+
   return (
     <>
       <Modal
@@ -158,19 +131,107 @@ const BaseUnit = ({ open, onOk, onCancel }) => {
               <h5 className="text-base font-normal text-[#147D73]">
                 Added units:
               </h5>
-              <div className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7]">
-                <h5 className="text-base font-bold text-[#637381]">
-                  {selectedBaseUnit} {selectedBaseType}
-                </h5>
-                <div className="flex items-center justify-end gap-3">
-                  <div className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center">
-                    <EditRoundedIcon style={{ fill: "#147D73" }} />
-                  </div>
-                  <div className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center">
-                    <DeleteIcon style={{ fill: "#147D73" }} />
-                  </div>
+              {unit?.map((item, idx) => (
+                <div className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7]">
+                  {item.editable ? (
+                    <div className="flex flex-nowrap -mx-3 mb-5 relative">
+                      <div className="w-full  px-3 relative">
+                        <h5 className="text-base font-medium text-[#2B4447] mb-2">
+                          Base unit of measure
+                        </h5>
+                        <div className="flex items-center justify-center">
+                          <input
+                            style={{ width: "150px", height: "32px" }}
+                            placeholder="Enter amount"
+                            type="text"
+                            onChange={(e) =>
+                              handleEdit(idx, "amount", e.target.value)
+                            }
+                            onKeyPress={(event) => {
+                              const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
+                          />
+                          <Select
+                            showSearch
+                            style={{
+                              width: "50px",
+                            }}
+                            placeholder="Enter amount"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "").includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={baseUnitMeasureUnitList}
+                            onChange={(value) =>
+                              handleEdit(idx, "baseUnitMeasureUnit", value)
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="w-full  px-3 relative">
+                        <h5 className="text-base font-medium text-[#2B4447] mb-2">
+                          Type
+                        </h5>
+                        <div className="flex items-center">
+                          <Select
+                            showSearch
+                            onChange={(value) =>
+                              handleEdit(idx, "baseUnitMeasureTypeList", value)
+                            }
+                            style={{
+                              width: "100%",
+                            }}
+                            placeholder="Select type"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "").includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            options={baseUnitMeasureTypeList}
+                          />
+                        </div>
+                      </div>
+                      <CheckCircleOutlineIcon style={{ fill: "#147D73" }} />
+                    </div>
+                  ) : (
+                    <>
+                      <h5 className="text-base font-bold text-[#637381]">
+                        {item?.unit} {item?.type}
+                      </h5>
+                      <div className="flex items-center justify-end gap-3">
+                        <div
+                          onClick={() => handleIsEdit(idx)}
+                          className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
+                        >
+                          <EditRoundedIcon style={{ fill: "#147D73" }} />
+                        </div>
+                        <div
+                          onClick={() => handleDelete(idx)}
+                          className="border cursor-pointer border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
+                        >
+                          <DeleteIcon style={{ fill: "#147D73" }} />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
+              ))}
             </div>
           )}
 
@@ -179,56 +240,70 @@ const BaseUnit = ({ open, onOk, onCancel }) => {
               <h5 className="text-base font-medium text-[#2B4447] mb-2">
                 Base unit of measure
               </h5>
-              <Select
-                showSearch
-                style={{
-                  width: "100%",
-                }}
-                placeholder="Enter amount"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
-                }
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                }
-                options={baseUnitOption}
-                onChange={handleSelectUnit}
-              />
+              <div className="flex items-center justify-center">
+                <input
+                  style={{ width: "150px", height: "32px" }}
+                  placeholder="Enter amount"
+                  type="text"
+                  onChange={(e) => setAmount(e.target.value)}
+                  onKeyPress={(event) => {
+                    const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
+                    if (!allowedCharacters.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                />
+                <Select
+                  showSearch
+                  style={{
+                    width: "50px",
+                  }}
+                  placeholder="Enter amount"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    (option?.label ?? "").includes(input)
+                  }
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? "")
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                  }
+                  options={baseUnitMeasureUnitList}
+                  onChange={handleSelectUnit}
+                />
+              </div>
             </div>
             <div className="w-full  px-3 relative">
               <h5 className="text-base font-medium text-[#2B4447] mb-2">
                 Type
               </h5>
-              <Select
-                showSearch
-                onChange={handleSelectType}
-                style={{
-                  width: "100%",
-                }}
-                placeholder="Select type"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
-                }
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                }
-                options={baseUnitType}
-              />
+              <div className="flex items-center">
+                <Select
+                  showSearch
+                  onChange={handleSelectType}
+                  style={{
+                    width: "100%",
+                  }}
+                  placeholder="Select type"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    (option?.label ?? "").includes(input)
+                  }
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? "")
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                  }
+                  options={baseUnitMeasureTypeList}
+                />
+                <AddCircleOutlineIcon
+                  className=""
+                  style={{ fill: "#147D73" }}
+                  onClick={addBtn}
+                />
+              </div>
             </div>
           </div>
-          <button
-            type="button"
-            className="text-[#147D73] text-base font-bold"
-            onClick={addBtn}
-          >
-            Add another
-          </button>
         </div>
       </Modal>
     </>
