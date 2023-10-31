@@ -65,7 +65,7 @@ function PaginationNav1({
         onClick={() => {
           if (pageIndex > 1) {
             onPageChange(pageIndex - 1);
-            gotoPage(pageIndex - 1)
+            gotoPage(pageIndex - 1);
           }
         }}
         disabled={!canPreviousPage}
@@ -90,14 +90,19 @@ function PaginationNav1({
   );
 }
 
-function PaginationCustomer({ totalPages, getProductList, pageIndex, setPageIndex }) {
+function PaginationCustomer({
+  totalPages,
+  getProductList,
+  pageIndex,
+  setPageIndex,
+}) {
   const pageCount = totalPages;
 
   return (
     <PaginationNav1
       gotoPage={setPageIndex}
       canPreviousPage={pageIndex > 0}
-      canNextPage={pageIndex < pageCount - 1}
+      canNextPage={pageIndex < pageCount}
       pageCount={pageCount}
       pageIndex={pageIndex}
       onPageChange={(newPageIndex) => {

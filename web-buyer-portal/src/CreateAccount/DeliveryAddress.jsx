@@ -95,18 +95,18 @@ function DeliveryAddress({
               value={values.Apartment}
               onChange={handleChange}
               onBlur={handleBlur}
-              style={{
-                border: errors.Apartment && "1px solid red",
-              }}
+              // style={{
+              //   border: errors.Apartment && "1px solid red",
+              // }}
             />
-            {errors.Apartment && (
+            {/* {errors.Apartment && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.Apartment}
               </p>
             )}
             {errors.Apartment && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-            )}
+            )} */}
           </div>
           <div className="w-full md:w-1/2	 px-3 relative mb-5">
             <label
@@ -199,16 +199,17 @@ function DeliveryAddress({
             value={values.Notes}
             onChange={handleChange}
             onBlur={handleBlur}
-            style={{
-              border: errors.Notes && "1px solid red",
-            }}
+            maxLength={250}
+            // style={{
+            //   border: errors.Notes && "1px solid red",
+            // }}
           />
-          {errors.Notes && (
+          {/* {errors.Notes && (
             <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Notes}</p>
           )}
           {errors.Notes && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-          )}
+          )} */}
           <div className=" absolute top-[48px] left-4">
             <svg
               width="20"
