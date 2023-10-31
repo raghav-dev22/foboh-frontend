@@ -19,7 +19,7 @@ const Cart = ({ open, onClose, addCart }) => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
   const CARTdata = useSelector((items) => items.cart);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const warning = () => {
     Modal.warning({
@@ -112,6 +112,12 @@ const Cart = ({ open, onClose, addCart }) => {
 
   return (
     <>
+      <style>
+        {`
+      .ant-btn{
+        background:${token.commonThemeColor} !important
+      }`}
+      </style>
       <Dialog
         as="div"
         className=""
@@ -193,6 +199,7 @@ const Cart = ({ open, onClose, addCart }) => {
                                 // item.product?.productId
                               );
                             }}
+                            style={{ background: token.commonThemeColor }}
                           >
                             <DeleteIcon style={{ fill: "#fff" }} />
                           </button>

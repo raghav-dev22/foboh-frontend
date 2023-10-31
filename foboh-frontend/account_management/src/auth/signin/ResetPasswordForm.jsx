@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { ResetPasswordFormSchema } from "../../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { Visibility } from "@mui/icons-material";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 import CryptoJS from "crypto-js";
 
@@ -12,6 +14,14 @@ const initialValues = {
 };
 
 const ResetPasswordForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const handleToggleRepeatPassword = () => {
+    setShowRepeatPassword((prevShowPassword) => !prevShowPassword);
+  };
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -65,7 +75,7 @@ const ResetPasswordForm = () => {
             }),
           }
         )
-          .then(response => response.json())
+          .then((response) => response.json())
           .then((data) => {
             console.log(data);
             if (data.success) {
@@ -117,6 +127,7 @@ const ResetPasswordForm = () => {
               <label htmlFor="newPassword">New password</label>
               <input
                 id="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Your new password"
                 className="transition-all duration-[0.3s]"
@@ -127,9 +138,20 @@ const ResetPasswordForm = () => {
                   border:
                     errors.password && touched.password && "1px solid red",
                 }}
-                type="password"
                 autoComplete="off"
               />
+              <label
+                style={{ zIndex: "50" }}
+                className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
+                htmlFor="password"
+                onClick={handleTogglePassword}
+              >
+                {showPassword ? (
+                  <Visibility fontSize="small" />
+                ) : (
+                  <VisibilityOffOutlinedIcon fontSize="small" />
+                )}
+              </label>
               {!errors.password && values.password && (
                 <p className="mt-2 mb-2 text-green-500">
                   Your password is strong.
@@ -140,10 +162,6 @@ const ResetPasswordForm = () => {
               )}
 
               {<p className="mt-2 mb-2 text-red-500">{errors.password}</p>}
-
-              {errors.password && touched.password && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-              )}
             </div>
 
             {/* Business name input  */}
@@ -151,7 +169,7 @@ const ResetPasswordForm = () => {
             <div className="relative mb-6" data-te-input-wrapper-init>
               <label htmlFor="repeatPassword">Repeat password</label>
               <input
-                type="password"
+                type={showRepeatPassword ? "text" : "password"}
                 id="repeatPassword"
                 name="repeatPassword"
                 className="transition duration-[0.3s]"
@@ -167,6 +185,18 @@ const ResetPasswordForm = () => {
                     "1px solid red ",
                 }}
               />
+              <label
+                style={{ zIndex: "50" }}
+                className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
+                htmlFor="password"
+                onClick={handleToggleRepeatPassword}
+              >
+                {showRepeatPassword ? (
+                  <Visibility fontSize="small" />
+                ) : (
+                  <VisibilityOffOutlinedIcon fontSize="small" />
+                )}
+              </label>
               {!errors.repeatPassword && values.repeatPassword && (
                 <p className="mt-2 mb-2 text-green-500">
                   Your password is matched.
@@ -176,9 +206,6 @@ const ResetPasswordForm = () => {
                 <p className="mt-2 mb-2 text-red-500">
                   {errors.repeatPassword}
                 </p>
-              )}
-              {errors.repeatPassword && touched.repeatPassword && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
             </div>
 

@@ -329,7 +329,7 @@ function Header() {
             <Popover className="relative"></Popover>
             <Link to="/home/product-list">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
-                Product
+                Products
               </h6>
             </Link>
             <Link
@@ -337,7 +337,7 @@ function Header() {
               className="focus-visible:outline-offset-0 focus-visible:outline-0		"
             >
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
-                Order
+                Orders
               </h6>
             </Link>
             <Link to="/home/account">

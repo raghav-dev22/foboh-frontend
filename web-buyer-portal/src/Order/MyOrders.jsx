@@ -287,9 +287,10 @@ const MyOrders = () => {
           <FileDownloadOutlinedIcon
             style={{ fill: "#637381" }}
             className=" cursor-pointer"
-            onClick={() => {
-              handleInvoiceDownload(order.orderId);
-            }}
+            // onClick={() => {
+            //   handleInvoiceDownload(order.orderId);
+            // }}
+            onClick={() => setshowPreview(true)}
           />
         </Tooltip>
       </div>
@@ -999,6 +1000,7 @@ const MyOrders = () => {
             isWine={isWine}
           />
           <Table
+            className="custom-scroll-table "
             columns={columns}
             dataSource={formattedData}
             showSizeChanger={false}

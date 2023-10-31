@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Tree } from "antd";
-import EastIcon from "@mui/icons-material/East";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Select, Space, theme } from "antd";
-import makeAnimated from "react-select/animated";
+import {
+  Select,
+  Space,
+  Skeleton,
+  theme,
+  Pagination,
+  Slider,
+  message,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { add, setCart, updateQuantity } from "../slices/CartSlice";
+import { setCart } from "../slices/CartSlice";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { listdata } from "../data";
 import { useNavigate } from "react-router";
-import { Slider } from "antd";
 import { setProductData } from "../slices/ProductSlice";
-import { Pagination } from "antd";
-import { Checkbox } from "antd";
-import { button, select } from "@material-tailwind/react";
-import { Avatar, List, Skeleton, Switch } from "antd";
 import { useRef } from "react";
 import { getCountry } from "../helpers/getCountry";
 import { getSegments } from "../helpers/getSegments";
@@ -27,7 +26,6 @@ import { getVariety } from "../helpers/getVariety";
 import { getRegion } from "../helpers/getRegion";
 import { getRegionAvailable } from "../helpers/getRegionAvailable";
 import { getTags } from "../helpers/getTags";
-import { message } from "antd";
 import { setTotalProducts } from "../slices/totalPageSlice";
 
 let localFilterSort = {
@@ -79,7 +77,7 @@ const ProductList = () => {
   const itemRender = (_, type, originalElement) => {
     if (type === "prev") {
       return (
-        <a className="border-[#E7E7E7] border rounded-[8px] py- px-5 flex justify-center items-center gap-3">
+        <a className="border-[#E7E7E7] border rounded-[8px] py- px-5 flex justify-center items-center gap-3 hover:text-black">
           <ArrowBackIcon style={{ width: "22px" }} />
           Previous
         </a>
@@ -88,7 +86,7 @@ const ProductList = () => {
     }
     if (type === "next") {
       return (
-        <a className="border-[#E7E7E7] border rounded-[8px] py- px-5 flex justify-center items-center gap-3">
+        <a className="border-[#E7E7E7] border rounded-[8px] py- px-5 flex justify-center items-center gap-3 hover:text-black">
           Next
           <ArrowForwardIcon style={{ width: "22px" }} />
         </a>
@@ -956,6 +954,7 @@ const ProductList = () => {
     <>
       <style>
         {`
+       
         .green-checkbox input[type="checkbox"]:checked::before {
          
           color: ${token.commonThemeColor} !important;
@@ -1852,18 +1851,20 @@ const ProductList = () => {
                         </div>
 
                         <div
-                          className={`${
-                            item?.quantity > 0 ? "bg-[#563FE3]" : "bg-[#D1D5DB]"
+                          className={`add-to-cart-btn ${
+                            item?.quantity > 0
+                              ? "bg-[#563FE3] "
+                              : "bg-[#D1D5DB]"
                           } rounded-md py-2.5 px-3 md:text-sm text-[10px] font-medium text-white flex justify-center items-center gap-2`}
                           style={{
                             background:
                               item?.quantity > 0
-                                ? token.commonThemeColor
+                                ? token.buttonThemeColor
                                 : "#D1D5DB",
                           }}
                         >
                           <button
-                            className="flex justify-center items-center gap-2"
+                            className="flex justify-center items-center gap-2 "
                             onClick={() => {
                               if (item?.quantity > 0) {
                                 addCart(
