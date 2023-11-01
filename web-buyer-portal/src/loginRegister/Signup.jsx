@@ -30,7 +30,7 @@ function Signup() {
       validationSchema: SignUpSchema,
       onSubmit: (values) => {
         fetch(
-          `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyers?email=${values.email}`,
+          `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyers?email=${values.email.toLowerCase()}`,
           {
             method: "GET",
           }

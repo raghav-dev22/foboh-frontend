@@ -142,7 +142,8 @@ function AddProduct() {
             gstFlag: checkGST,
             wetFlag: checkWET,
             availableQty: values.availableQty,
-            stockThreshold: values.stockAlertLevel,
+            stockThreshold:
+              values.stockAlertLevel === "" ? 0 : values.stockAlertLevel,
             stockStatus: values.status,
             regionAvailability: values.region,
             productStatus: values.status,
@@ -325,15 +326,25 @@ function AddProduct() {
     });
   };
 
-  const handleTrackInventory = () => {
+  const handleTrackInventory = (e) => {
+    const checked = e.target.checked;
     setValues({
       ...values,
-      trackInventory: !values.trackInventory,
+      trackInventory: checked,
     });
-    if (values.trackInventory === false) {
+    if (checked) {
       setStock(true);
+      setValues({
+        ...values,
+        trackInventory: true,
+      });
     } else {
       setStock(false);
+      setValues({
+        ...values,
+        trackInventory: false,
+        stockAlertLevel: 0,
+      });
     }
     console.log(values.trackInventory, "hhhhhhhhh");
   };
@@ -719,8 +730,6 @@ function AddProduct() {
     console.log(e.target.value, "inputvalues");
     if (e.target.value) {
       setShow(true);
-    } else {
-      setShow(false);
     }
   };
 

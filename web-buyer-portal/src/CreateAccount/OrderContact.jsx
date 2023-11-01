@@ -10,6 +10,7 @@ function OrderContact({
   touched,
   setValues,
   isBuyerExist,
+  initialValues,
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const handleState = (e) => {
@@ -34,10 +35,10 @@ function OrderContact({
         })
       : setValues({
           ...values,
-          DeliveryContactFirstName: "",
-          DeliveryContactLastName: "",
-          DeliveryContactEmail: "",
-          DeliveryContactMobile: "",
+          DeliveryContactFirstName: initialValues.OrderingContactFirstName,
+          DeliveryContactLastName: initialValues.OrderingContactLastName,
+          DeliveryContactEmail: initialValues.OrderingContactEmail,
+          DeliveryContactMobile: initialValues.OrderingContactMobile,
         });
   };
 

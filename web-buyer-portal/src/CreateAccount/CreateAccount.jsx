@@ -24,6 +24,30 @@ function CreateAccount() {
   const [buyer, setBuyer] = useState({});
   const [isBuyerExist, setIsbuyerExist] = useState(false);
   const { id } = useParams();
+  const [initialValues, setInitialValues] = useState({
+    BusinessName: "",
+    ABN: "",
+    LiquerLicence: "",
+    DeliveryAddress: "",
+    Apartment: "",
+    Suburb: "",
+    Postcode: "",
+    Notes: "",
+    FirstName: "",
+    LastName: "",
+    email: "",
+    Mobile: "",
+    DeliveryAddressState: "",
+    OrderContactState: "",
+    OrderingContactFirstName: "",
+    OrderingContactLastName: "",
+    OrderingContactEmail: "",
+    OrderingContactMobile: "",
+    DeliveryContactFirstName: "",
+    DeliveryContactLastName: "",
+    DeliveryContactEmail: "",
+    DeliveryContactMobile: "",
+  });
 
   // Getting buyer data from local storage
   const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
@@ -56,6 +80,34 @@ function CreateAccount() {
       })
       .then(() => {
         const { firstName, lastName } = separateFullName(buyerCred?.name);
+        setInitialValues({
+          BusinessName: buyerData?.businessName,
+          ABN: buyerData?.abn,
+          LiquerLicence: buyerData?.liquorLicence,
+          DeliveryAddress: buyerData?.address,
+          Apartment: buyerData?.apartment,
+          Suburb: buyerData?.suburb,
+          Postcode: buyerData?.postalCode,
+          Notes: buyerData?.deliveryNotes,
+          FirstName: firstName,
+          LastName: lastName,
+          email: buyerCred?.email,
+          Mobile: buyerData?.mobile,
+          DeliveryAddressState: states.find(
+            (state) => state?.label === buyerData?.state
+          ),
+          OrderContactState: states.find(
+            (state) => state?.label === buyerData?.billingState
+          ),
+          OrderingContactFirstName: buyerData?.orderingFirstName,
+          OrderingContactLastName: buyerData?.orderingLastName,
+          OrderingContactEmail: buyerData?.orderingEmail,
+          OrderingContactMobile: buyerData?.orderingMobile,
+          DeliveryContactFirstName: buyerData?.deliveryFirstName,
+          DeliveryContactLastName: buyerData?.deliveryLastName,
+          DeliveryContactEmail: buyerData?.deliveryEmail,
+          DeliveryContactMobile: buyerData?.deliveryMobile,
+        });
         formik.setValues({
           BusinessName: buyerData?.businessName,
           ABN: buyerData?.abn,
@@ -89,30 +141,7 @@ function CreateAccount() {
   };
 
   const formik = useFormik({
-    initialValues: {
-      BusinessName: "",
-      ABN: "",
-      LiquerLicence: "",
-      DeliveryAddress: "",
-      Apartment: "",
-      Suburb: "",
-      Postcode: "",
-      Notes: "",
-      FirstName: "",
-      LastName: "",
-      email: "",
-      Mobile: "",
-      DeliveryAddressState: "",
-      OrderContactState: "",
-      OrderingContactFirstName: "",
-      OrderingContactLastName: "",
-      OrderingContactEmail: "",
-      OrderingContactMobile: "",
-      DeliveryContactFirstName: "",
-      DeliveryContactLastName: "",
-      DeliveryContactEmail: "",
-      DeliveryContactMobile: "",
-    },
+    initialValues,
     validationSchema: validationSchemas[currentStep],
   });
 
@@ -147,18 +176,18 @@ function CreateAccount() {
       salesRepId: buyerData?.salesRepId || "",
       pricingProfileId: buyerData?.pricingProfileId || "",
       defaultPaymentMethodId: buyerData?.defaultPaymentMethodId || [],
-      defaultPaymentTerm : buyerData?.defaultPaymentTerm || [],
+      defaultPaymentTerm: buyerData?.defaultPaymentTerm || [],
       tags: buyerData?.tags || [],
       organisationId: buyerData?.organisationId || "",
       wetLiable: buyerData?.wetLiable,
       orderingFirstName: values?.OrderingContactFirstName || "",
       orderingLastName: values?.OrderingContactLastName || "",
       orderingMobile: values?.OrderingContactMobile || "",
-      orderingEmail: values?.OrderingContactEmail || "",
+      orderingEmail: values?.OrderingContactEmail.toLowerCase() || "",
       deliveryFirstName: values?.DeliveryContactFirstName || "",
       deliveryLastName: values?.DeliveryContactLastName || "",
       deliveryMobile: values?.DeliveryContactMobile || "",
-      deliveryEmail: values?.DeliveryContactEmail || "",
+      deliveryEmail: values?.DeliveryContactEmail.toLowerCase() || "",
       address: buyerData?.address || "",
       apartment: buyerData?.apartment || "",
       suburb: buyerData?.suburb || "",
@@ -277,6 +306,7 @@ function CreateAccount() {
                       touched={formik.touched}
                       setValues={formik.setValues}
                       isBuyerExist={isBuyerExist}
+                      initialValues={initialValues}
                     />
                   </>
                 )}

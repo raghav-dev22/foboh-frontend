@@ -44,10 +44,10 @@ export const stepOneSchema = Yup.object().shape({
   ABN: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
     .required("ABN is required"),
-  LiquerLicence: Yup.string()
-    .min(2, "Your Liquor licence should have at least 2 letters")
-    .max(13, "Liquor licence cannot be more than 13 characters")
-    .required("Liquor licence is required"),
+  // LiquerLicence: Yup.string()
+  //   .min(2, "Your Liquor licence should have at least 2 letters")
+  //   .max(13, "Liquor licence cannot be more than 13 characters")
+  //   .required("Liquor licence is required"),
 });
 
 export const stepTwoSchema = Yup.object().shape({
