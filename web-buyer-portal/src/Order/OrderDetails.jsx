@@ -329,6 +329,7 @@ const OrderDetails = () => {
               </p>
               <div className="flex gap-2 items-center">
                 <Instruction />
+                {orderDetails?.instructionsNotes}
                 <p className="text-base font-normal text-[#637381]  leading-7	">
                   {orderDetails?.instructionsNotes}
                 </p>

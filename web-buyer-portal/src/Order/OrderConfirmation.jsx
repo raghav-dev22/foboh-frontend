@@ -287,7 +287,7 @@ const OrderConfirmation = () => {
                   </g>
                 </g>
               </svg>
-              Instruction
+              {deliveryAddress.Notes}
             </p>
           </div>
         </div>
