@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Divider, Space, Button, Modal, Flex } from "antd";
+import CloseIcon from "@mui/icons-material/Close";
 import { Stepper, Step, Typography, button } from "@material-tailwind/react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -117,22 +118,38 @@ const CreateOrderModal = ({
 
   const success = (message) => {
     messageApi.open({
-      type: "success",
-      content: message,
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+      // content: message,
     });
   };
 
   const error = (message) => {
     messageApi.open({
-      type: "error",
-      content: message,
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
     });
   };
 
   const warning = (message) => {
     messageApi.open({
-      type: "warning",
-      content: message,
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
     });
   };
 
@@ -159,8 +176,8 @@ const CreateOrderModal = ({
       const cartStatus = await updateCartStatus(customerDetails);
 
       cartStatus
-        ? success("Order placed successfully!")
-        : error("Some error has occurred! Please try again");
+        ? success("  Order placed successfully!")
+        : error(" Some error has occurred! Please try again");
 
       setCreateOrderModal(false);
     }

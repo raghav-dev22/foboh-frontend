@@ -364,7 +364,7 @@ input[type="radio"]:checked:after {
   width: 9px;
   height: 9px;
   border-radius: 100%;
-  top: 3px;
+  top: 4px;
   left: 4px;
   position: absolute;
   background-color: #147d73;
@@ -653,4 +653,3 @@ input[type="radio"]:checked:before {
   background: #7a7a7a !important;
   border-radius: 30px !important;
 }
-

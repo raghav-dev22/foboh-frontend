@@ -256,34 +256,34 @@ const BankingInformation = () => {
               </div>
               <div className="py-6 px-6">
                 <form onChange={formChange} action="">
-                  <div className="mb-4">
-                    <label
-                      className="block text-[#2B4447] text-base font-medium mb-2"
-                      htmlFor="username"
-                    >
-                      Business type
-                    </label>
-                    <Select
-                      className="mt-[3px]"
-                      showSearch
-                      style={{
-                        width: "100%",
-                        height: "48px",
-                      }}
-                      placeholder="Search to Select"
-                      options={businessType}
-                      onChange={handleBusinessDetails}
-                      onBlur={handleBlur}
-                      name="BusinessName"
-                      value={values.BusinessName}
-                    />
-                    {errors.BusinessName && touched.BusinessName && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                        {errors.BusinessName}
-                      </p>
-                    )}
-                  </div>
                   <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        Business type
+                      </label>
+                      <Select
+                        className="mt-[3px]"
+                        showSearch
+                        style={{
+                          width: "100%",
+                          height: "48px",
+                        }}
+                        placeholder="Search to Select"
+                        options={businessType}
+                        onChange={handleBusinessDetails}
+                        onBlur={handleBlur}
+                        name="BusinessName"
+                        value={values.BusinessName}
+                      />
+                      {errors.BusinessName && touched.BusinessName && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.BusinessName}
+                        </p>
+                      )}
+                    </div>
                     <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
@@ -307,52 +307,6 @@ const BankingInformation = () => {
                         </p>
                       )}
                     </div>
-                    <div className="mb-4 w-full">
-                      <label
-                        className="block text-[#2B4447] text-base font-medium mb-2"
-                        htmlFor="username"
-                      >
-                        ACN/ABN
-                      </label>
-                      <input
-                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="ACNABN"
-                        type="text"
-                        name="ACNABN"
-                        placeholder="XX XXX XXX XXX"
-                        value={values.ACNABN}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      {errors.ACNABN && touched.ACNABN && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                          {errors.ACNABN}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="mb-4 w-full">
-                    <label
-                      className="block text-[#2B4447] text-base font-medium mb-2"
-                      htmlFor="username"
-                    >
-                      Business address
-                    </label>
-                    <input
-                      className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="username"
-                      type="text"
-                      name="BusinessAddress"
-                      placeholder="Apartment , Street Name , etc."
-                      value={values.BusinessAddress}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    {errors.BusinessAddress && touched.BusinessAddress && (
-                      <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                        {errors.BusinessAddress}
-                      </p>
-                    )}
                   </div>
                   <div className="flex flex-nowrap gap-2">
                     <div className="mb-4 w-full">
@@ -360,22 +314,119 @@ const BankingInformation = () => {
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
                       >
-                        Suburb
+                        ACN
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="ACN"
+                        type="text"
+                        name="ACN"
+                        placeholder="XX XXX XXX XXX"
+                        value={values.ACN}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.ACN && touched.ACN && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.ACN}
+                        </p>
+                      )}
+                    </div>
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        ABN
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="ABN"
+                        type="text"
+                        name="ABN"
+                        placeholder="XX XXX XXX XXX"
+                        value={values.ABN}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.ABN && touched.ABN && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.ABN}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        Business address
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="username"
+                        type="text"
+                        name="BusinessAddress"
+                        placeholder="Apartment , Street Name , etc."
+                        value={values.BusinessAddress}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.BusinessAddress && touched.BusinessAddress && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.BusinessAddress}
+                        </p>
+                      )}
+                    </div>
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        Business Phone Number
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="username"
+                        type="text"
+                        name="BusinessPhoneNumber"
+                        placeholder="Apartment , Street Name , etc."
+                        value={values.BusinessPhoneNumber}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.BusinessPhoneNumber &&
+                        touched.BusinessPhoneNumber && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                            {errors.BusinessPhoneNumber}
+                          </p>
+                        )}
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        City
                       </label>
 
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Suburb"
+                        id="City"
                         type="text"
-                        name="Suburb"
-                        placeholder="Lo-Fi Wines"
-                        value={values.Suburb}
+                        name="City"
+                        placeholder="Enter city"
+                        value={values.City}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
-                      {errors.Suburb && touched.Suburb && (
+                      {errors.City && touched.City && (
                         <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                          {errors.Suburb}
+                          {errors.City}
                         </p>
                       )}
                     </div>
@@ -611,26 +662,34 @@ const BankingInformation = () => {
                   </div>
                   <div className="flex flex-nowrap gap-2">
                     <div className="mb-4 w-full green-checkbox flex justify-start items-center">
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                      />
+                      <div className="w-4 h-4">
+                        <input
+                          className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
+                          id="default-radio-1"
+                          type="radio"
+                          defaultValue=""
+                          name="default-radio"
+                        />
+                      </div>
                       <label
-                        htmlFor="default-checkbox"
+                        for="default-radio-1"
                         className="ml-2 text-lg font-normal text-[#2B4447] "
                       >
                         I own more than 25% of the company
                       </label>
                     </div>
                     <div className="mb-4 w-full green-checkbox flex justify-start items-center ">
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        defaultValue=""
-                      />
+                      <div className="w-4 h-4">
+                        <input
+                          id="default-radio-1"
+                          type="radio"
+                          name="default-radio"
+                          defaultValue=""
+                          className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
+                        />
+                      </div>
                       <label
-                        htmlFor="default-checkbox"
+                        for="default-radio-1"
                         className="ml-2 text-lg font-normal text-[#2B4447] "
                       >
                         I am a member of the governing board of the company
