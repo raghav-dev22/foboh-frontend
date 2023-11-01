@@ -338,7 +338,8 @@ const ProductDetails = () => {
             </div>
             <div className="mt-2">
               <h5 className="text-base font-medium text-[#2B4447]">
-                Minimum Order Quantity (MOQ): 2 Case
+                Minimum Order Quantity (MOQ):{" "}
+                {selectData?.product?.minimumOrder} Case
               </h5>
             </div>
             <div className="my-6">

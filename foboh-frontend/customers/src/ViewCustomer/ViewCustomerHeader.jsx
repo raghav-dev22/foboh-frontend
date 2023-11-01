@@ -37,7 +37,9 @@ function ViewCustomerHeader() {
             </div>
             <h6 className="text-darkGreen">Edit</h6>
           </button>
-          <AddCustomerBtn title="Create Order" />
+          <Link to="/dashboard/supplier-order-management">
+            <AddCustomerBtn title="Create Order" />
+          </Link>
         </div>
       </div>
     </>

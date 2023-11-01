@@ -7,9 +7,9 @@ import { useFormik } from "formik";
 import { BankingSchema } from "../../schemas";
 import { getOrganisationDetails } from "../../helpers/getOrganisationDetails";
 import { postSetupBankingDetails } from "../../helpers/postSetupBankinDetails";
-import { getSetupBankingDetails } from "../../helpers/getSetupBankingDetails";
 import { Button, message } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
+import { getSetupBankingDetails } from "../../helpers/getSetupBankingDetails";
 
 const BankingInformation = () => {
   const navigate = useNavigate();
