@@ -183,7 +183,7 @@ const Header = () => {
                           <h6 className="text-sm font-medium		">Profile</h6>
                         </li>
                       </Link>
-                      <Link to="dashboard/settings">
+                      <Link to="/dashboard/settings">
                         <li className="py-2.5	px-4 cursor-pointer	hover:bg-[#147d7317]">
                           <h6 className="text-sm font-medium">Settings</h6>
                         </li>

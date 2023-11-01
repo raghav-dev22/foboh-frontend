@@ -1007,14 +1007,14 @@ const MyOrders = () => {
             onChange={onShowSizeChange}
             pagination={{
               current: page,
-              pageSize: 9,
+              pageSize: 3,
               total: totalData,
               showSizeChanger: false,
               showQuickJumper: false,
             }}
             scroll={{
               y: 240,
-              x: 1400,
+              x: 1121,
             }}
           />
         </div>

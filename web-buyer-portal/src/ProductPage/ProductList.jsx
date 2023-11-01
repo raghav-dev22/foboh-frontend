@@ -68,6 +68,7 @@ const ProductList = () => {
   console.log("url", url);
 
   const [loading, setLoading] = useState(true);
+  const [countryList, setCountryList] = useState([]);
 
   const { Option } = Select;
   const handleChangeOption = (value) => {
@@ -659,6 +660,8 @@ const ProductList = () => {
   const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
   const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
   const [selectedKeys, setSelectedKeys] = useState([]);
+  const [regionAvailability, setRegionAvailability] = useState([]);
+  const [tagsValue, setTagsvalue] = useState([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const onExpand = (expandedKeysValue) => {
     console.log("onExpand", expandedKeysValue);
@@ -754,6 +757,7 @@ const ProductList = () => {
   const updatedFilterAndSort = () => {
     return filterAndSort;
   };
+  const [filter, setFilter] = useState(false);
 
   const toggleCategoryAndSubcategory = (e, id, name) => {
     console.log("toggleCategoryAndSubcategory", e, id, name);
@@ -769,6 +773,12 @@ const ProductList = () => {
         ...localFilterSort.filter,
         category: newCategoryIds,
       };
+      console.log(newCategoryIds, "id.key");
+      if (e.target.checked) {
+        setFilter(true);
+      } else {
+        setFilter(false);
+      }
 
       localFilterSort = {
         ...localFilterSort,
@@ -779,7 +789,7 @@ const ProductList = () => {
         ...localFilterSort,
         filter: newFilter,
       });
-      console.log(newCategoryIds);
+      console.log(newCategoryIds, "newCategoryIds--->");
     } else if (name === "subcategory") {
       const newSubcategoryIds = id.map((subCat) => subCat.key);
 
@@ -852,6 +862,8 @@ const ProductList = () => {
       });
     } else if (name === "country") {
       const newCountryIds = id.map((country) => country.key);
+      setCountryList(id);
+      id.length > 0 ? setFilter(true) : setFilter(false);
 
       const newFilter = {
         ...localFilterSort.filter,
@@ -862,7 +874,6 @@ const ProductList = () => {
         ...localFilterSort,
         filter: newFilter,
       };
-
       setFilterAndSort({
         ...localFilterSort,
         filter: newFilter,
@@ -886,7 +897,8 @@ const ProductList = () => {
       });
     } else if (name === "regionAvailable") {
       const newRegionAvailableIds = id.map((region) => region.key);
-
+      setRegionAvailability(id);
+      id.length > 0 ? setFilter(true) : setFilter(false);
       const newFilter = {
         ...localFilterSort.filter,
         regionAvailability: newRegionAvailableIds,
@@ -902,7 +914,10 @@ const ProductList = () => {
         filter: newFilter,
       });
     } else if (name === "tags") {
+      id.length > 0 ? setFilter(true) : setFilter(false);
+
       const newTagsIds = id.map((tag) => tag.key);
+      setTagsvalue(id);
 
       const newFilter = {
         ...localFilterSort.filter,
@@ -954,7 +969,15 @@ const ProductList = () => {
     <>
       <style>
         {`
-       
+       .product-list:hover{
+        background:${token.bannerThemeColor} !important
+       }
+       .product-list:hover h5{
+        color: ${token.commonThemeColor} !important;
+       }
+       .product-list:hover svg{
+        fill: ${token.commonThemeColor} !important;
+       }
         .green-checkbox input[type="checkbox"]:checked::before {
          
           color: ${token.commonThemeColor} !important;
@@ -1112,14 +1135,19 @@ const ProductList = () => {
         >
           <div className="md:w-1/4 w-full overflow-y-scroll   py-4">
             <div className="flex items-center gap-2 pb-3">
-              <FilterAltIcon style={{ fill: "#fff", stroke: "#2B4447" }} />
+              {filter === true ? (
+                <FilterAltIcon style={{ fill: "#2B4447", stroke: "#2B4447" }} />
+              ) : (
+                <FilterAltIcon style={{ fill: "#fff", stroke: "#2B4447" }} />
+              )}
+
               <h5 className="text-[20px] font-semibold text-[#2B4447]">
                 Filter
               </h5>
             </div>
             <div className="border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] `}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list `}
                 onClick={() => {
                   WineBtn();
                 }}
@@ -1161,10 +1189,6 @@ const ProductList = () => {
                                   "category"
                                 )
                               }
-                              // checked={filterAndSort.filter.category.includes(
-                              //   category.categoryId
-                              // )}
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
                               htmlFor={idx}
@@ -1359,7 +1383,7 @@ const ProductList = () => {
 
             <div className="  border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
               
                 `}
                 onClick={() => {
@@ -1403,6 +1427,7 @@ const ProductList = () => {
                       placeholder="Search"
                       className=""
                       optionLabelProp="label"
+                      value={countryList}
                       onChange={(e, value) =>
                         toggleCategoryAndSubcategory(e, value, "country")
                       }
@@ -1432,9 +1457,9 @@ const ProductList = () => {
               )}
             </div>
 
-            <div className="  border-b border-[#E7E7E7] cursor-pointer">
+            <div className="  border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff]  product-list
 `}
                 onClick={() => {
                   AvailabilityBtn();
@@ -1520,7 +1545,7 @@ const ProductList = () => {
             {isWine && (
               <div className=" border-b border-[#E7E7E7] cursor-pointer">
                 <div
-                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+                  className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
                 
                   `}
                   onClick={() => {
@@ -1565,6 +1590,7 @@ const ProductList = () => {
                         placeholder="Search"
                         className=""
                         optionLabelProp="label"
+                        value={regionAvailability}
                         onChange={(e, value) =>
                           toggleCategoryAndSubcategory(e, value, "region")
                         }
@@ -1597,7 +1623,7 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
                
                 `}
                 onClick={() => {
@@ -1671,7 +1697,7 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] 
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
                
                 `}
                 onClick={() => {
@@ -1717,6 +1743,7 @@ const ProductList = () => {
                         toggleCategoryAndSubcategory(e, value, "tags")
                       }
                       open={true}
+                      value={tagsValue}
                     >
                       {tagsList.map((item) => {
                         return (

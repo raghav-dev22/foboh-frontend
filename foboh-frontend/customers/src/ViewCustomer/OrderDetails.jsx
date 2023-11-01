@@ -419,7 +419,7 @@ const OrderDetails = ({ datas }) => {
             </ul>
             {show ? (
               <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-                <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+                <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
                   <div className="block">
                     <nav className="flex h-[65px] items-center justify-end gap-5 ">
                       <button
@@ -672,11 +672,11 @@ const OrderDetails = ({ datas }) => {
                 </div>
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4 flex justify-between items-center ">
-                    <h6 className="text-lg md:w-1/2 w-full	 font-bold text-darkGreen">
+                    <h6 className="text-lg 	 font-bold text-darkGreen">
                       Delivery contact
                     </h6>
 
-                    <div className="flex items-center  gap-1 md:w-1/2 w-full">
+                    <div className="flex items-center  gap-1 green-checkbox">
                       <input
                         id="default-checkbox"
                         type="checkbox"
@@ -1063,11 +1063,11 @@ const OrderDetails = ({ datas }) => {
                 </div>
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4 flex justify-between items-center">
-                    <h6 className="text-lg	 font-bold text-darkGreen md:w-1/2 w-full">
+                    <h6 className="text-lg	 font-bold text-darkGreen ">
                       Billing address
                     </h6>
 
-                    <div className="flex items-center  gap-1 md:w-1/2 w-full">
+                    <div className="flex items-center  gap-1  green-checkbox">
                       <input
                         id="default-checkbox"
                         type="checkbox"
