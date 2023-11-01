@@ -8,14 +8,12 @@ import Instruction from "../Svg/Instruction";
 import { Popover, Steps } from "antd";
 import InvoiceModal from "../modal/InvoiceModal";
 import { useParams } from "react-router-dom";
-import { message } from "antd";
+import { message, theme } from "antd";
 import { getTrackerStatus } from "../helpers/getTrackerStatus";
 import { getSealedCart } from "../helpers/getSealedCart";
 
 const OrderDetails = () => {
-  const customDot = (dot, { status, index }) => (
-    <Popover content={<span>Status: {status}</span>}>{dot}</Popover>
-  );
+  const customDot = (dot, { status, index }) => <Popover>{dot}</Popover>;
   const childRef = useRef();
   const [totalCost, setTotleCost] = useState(0);
   const [showPreview, setshowPreview] = useState(false);
@@ -29,6 +27,8 @@ const OrderDetails = () => {
     gst: 0,
     wet: 0,
   });
+  const { useToken } = theme;
+  const { token } = useToken();
   const [isWine, setIsWine] = useState(false);
   const [invoiceData, setInvoiceData] = useState({});
   const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
@@ -253,6 +253,16 @@ const OrderDetails = () => {
 
   return (
     <>
+      <style>
+        {`
+        .ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title,.ant-steps .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+          color: ${token.commonThemeColor} !important;
+      }
+      .ant-steps .ant-steps-item-finish .ant-steps-item-icon >.ant-steps-icon .ant-steps-icon-dot,.ant-steps .ant-steps-item-process .ant-steps-item-icon >.ant-steps-icon .ant-steps-icon-dot  {
+        background: ${token.commonThemeColor} !important;
+    }
+      `}
+      </style>
       {contextHolder}
       <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
         <InvoiceModal

@@ -364,3 +364,6 @@ a.foboh-green-btn:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+.custom-border-none .ant-select-selector {
+  border: 0px !important;
+}

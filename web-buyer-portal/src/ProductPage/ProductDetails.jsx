@@ -185,33 +185,33 @@ const ProductDetails = () => {
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
               {selectedImage && (
-                <div className="bg-[#C4C4C4] rounded-md flex justify-center relative h-[225px]">
-                  <div className="absolute top-[10px] right-[10px] bg-white rounded-full h-[30px] w-[30px] flex justify-center items-center">
+                <div className=" rounded-md flex justify-center relative h-[225px]">
+                  {/* <div className="absolute top-[10px] right-[10px] bg-white rounded-full h-[30px] w-[30px] flex justify-center items-center">
                     <FavoriteBorderRoundedIcon className="" />
-                  </div>
+                  </div> */}
                   <img
                     src={selectedImage}
                     alt="Selected Image"
-                    className="mix-blend-multiply h-[225px] object-contain w-full"
+                    className=" h-[225px] object-contain w-full"
                   />
                 </div>
               )}
 
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
                 {images.map((image, index) => (
-                  <div className="bg-[#C4C4C4] rounded-md h-[99px] flex justify-center  relative">
-                    <div className="absolute top-[5px] right-[5px] bg-white rounded-full h-[20px] w-[20px] flex justify-center items-center">
+                  <div className=" rounded-md h-[99px] flex justify-center  relative">
+                    {/* <div className="absolute top-[5px] right-[5px] bg-white rounded-full h-[20px] w-[20px] flex justify-center items-center">
                       <FavoriteBorderRoundedIcon
                         className=""
                         style={{ width: "10px" }}
                       />
-                    </div>
+                    </div> */}
 
                     <img
                       key={index}
                       src={image}
                       onClick={() => handleImageClick(image)}
-                      className="mix-blend-multiply h-[99px] object-contain w-full rounded-md"
+                      className=" h-[99px] object-contain w-full rounded-md"
                     />
                   </div>
                 ))}
@@ -228,13 +228,13 @@ const ProductDetails = () => {
               {selectData?.product?.brand}
             </h5>
             <div className="flex  items-center gap-2">
-              <h5 className="text-lg font-medium text-[#2B4447]">*</h5>
+              {/* <h5 className="text-lg font-medium text-[#2B4447]">*</h5> */}
               <h5 className="text-lg font-medium text-[#2B4447]">
                 {selectData?.product?.configuration}{" "}
               </h5>
             </div>
             <div className="flex items-center gap-3">
-              <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5>
+              {/* <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5> */}
               <h5 className="text-lg font-semibold">
                 {selectData?.product?.globalPrice}
               </h5>
@@ -244,7 +244,7 @@ const ProductDetails = () => {
                 {selectData?.product?.description}
               </p>
             </div>
-            <div className="flex  justify-between md:w-[365px] w-full items-center py-2  mt-6">
+            <div className="flex  justify-between md:w-[365px] w-full items-center py-2  mt-2">
               <div className="relative">
                 <div className="border border-[#E7E7E7] py-[10px] px-[24px] rounded-md flex justify-center items-center gap-3">
                   <p
@@ -338,7 +338,12 @@ const ProductDetails = () => {
                 Add To Cart
               </button>
             </div>
-            <div className="my-6">
+            <div className="mt-2">
+              <h5 className="text-base font-medium text-[#2B4447]">
+                Minimum Order Quantity (MOQ): 2 Case
+              </h5>
+            </div>
+            <div className="my-4">
               <div className="flex justify-start items-center gap-3">
                 <CheckCircleOutlineIcon style={{ fill: "#009900" }} />
                 <p className="text-base font-semibold text-[#2B4447]">
@@ -421,7 +426,7 @@ const ProductDetails = () => {
               </div>
             )}
             {selectData.product.categoryId === "C6000" && (
-              <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
+              <div className="flex justify-between items-center md:w-[365px] w-full ">
                 <div>
                   <div className="">
                     <p className="text-base font-normal text-[#2B4447] py-2">

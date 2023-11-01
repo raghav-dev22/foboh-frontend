@@ -364,7 +364,7 @@ input[type="radio"]:checked:after {
   width: 9px;
   height: 9px;
   border-radius: 100%;
-  top: 3px;
+  top: 4px;
   left: 4px;
   position: absolute;
   background-color: #147d73;
@@ -630,4 +630,3 @@ input[type="radio"]:checked:before {
   padding: 5px 45px 5px 20px !important;
     min-height: 48px !important;
   }; */
-

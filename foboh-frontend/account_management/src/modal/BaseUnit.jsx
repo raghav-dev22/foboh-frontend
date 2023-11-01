@@ -177,9 +177,15 @@ const BaseUnit = ({
                         <h5 className="text-base font-medium text-[#2B4447] mb-2">
                           Base unit of measure
                         </h5>
-                        <div className="flex items-center justify-center">
+                        <div className="flex items-center  justify-start border rounded-[6px] border-[#E0E0E0]">
                           <input
-                            style={{ width: "150px", height: "32px" }}
+                            className="border-0 placeholder:text-[15px] placeholder:font-normal "
+                            style={{
+                              width: "70%",
+                              height: "32px",
+                              marginTop: "0px ",
+                              paddingRight: "40px",
+                            }}
                             placeholder="Enter amount"
                             type="text"
                             onChange={(e) =>
@@ -194,8 +200,9 @@ const BaseUnit = ({
                           />
                           <Select
                             showSearch
+                            className="custom-border-none"
                             style={{
-                              width: "50px",
+                              width: "30%",
                             }}
                             placeholder="Enter amount"
                             optionFilterProp="children"
@@ -243,15 +250,15 @@ const BaseUnit = ({
                             }
                             options={baseUnitMeasureTypeList}
                           />
+                          <div
+                            onClick={() => handleSaveEdit(idx)}
+                            className="ml-[16px]"
+                          >
+                            <CheckCircleOutlineIcon
+                              style={{ fill: "#147D73", cursor: "pointer" }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        onClick={() => handleSaveEdit(idx)}
-                        className="ml-[16px]"
-                      >
-                        <CheckCircleOutlineIcon
-                          style={{ fill: "#147D73", cursor: "pointer" }}
-                        />
                       </div>
                     </div>
                   ) : (
@@ -285,9 +292,15 @@ const BaseUnit = ({
               <h5 className="text-base font-medium text-[#2B4447] mb-2">
                 Base unit of measure
               </h5>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-start border rounded-[6px] border-[#E0E0E0]">
                 <input
-                  style={{ width: "150px", height: "32px" }}
+                  className="border-0 placeholder:text-[15px] placeholder:font-normal "
+                  style={{
+                    width: "70%",
+                    height: "32px",
+                    marginTop: "0px ",
+                    paddingRight: "40px",
+                  }}
                   placeholder="Enter amount"
                   type="text"
                   onChange={(e) => setAmount(e.target.value)}
@@ -300,8 +313,9 @@ const BaseUnit = ({
                 />
                 <Select
                   showSearch
+                  className="custom-border-none"
                   style={{
-                    width: "50px",
+                    width: "30%",
                   }}
                   placeholder="Enter amount"
                   optionFilterProp="children"

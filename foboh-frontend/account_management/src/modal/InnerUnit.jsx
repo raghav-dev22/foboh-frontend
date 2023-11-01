@@ -178,10 +178,18 @@ const InnerUnit = ({
                       <h5 className="text-base font-medium text-[#2B4447] mb-2">
                         Inner unit of measure
                       </h5>
-                      <div className="flex">
+                      <div className="flex items-center  justify-start border rounded-[6px] border-[#E0E0E0]">
                         <input
+                          className="border-0 placeholder:text-[15px] placeholder:font-normal "
                           type="text"
-                          style={{ width: "150px" }}
+                          placeholder="Enter amount"
+                          style={{
+                            width: "60%",
+                            height: "32px",
+                            marginTop: "0px ",
+                            paddingRight: "18px",
+                            paddingLeft: "18px",
+                          }}
                           onChange={(e) =>
                             handleEdit(idx, "amount", e.target.value)
                           }
@@ -194,8 +202,9 @@ const InnerUnit = ({
                         />
                         <Select
                           showSearch
+                          className="custom-border-none"
                           style={{
-                            width: "100px",
+                            width: "40%",
                           }}
                           placeholder="Enter amount"
                           optionFilterProp="children"
@@ -220,7 +229,7 @@ const InnerUnit = ({
                       <h5 className="text-base font-medium text-[#2B4447] mb-2">
                         Type
                       </h5>
-                      <div>
+                      <div className="flex items-center">
                         <Select
                           showSearch
                           style={{
@@ -283,10 +292,18 @@ const InnerUnit = ({
               <h5 className="text-base font-medium text-[#2B4447] mb-2">
                 Inner unit of measure
               </h5>
-              <div className="flex">
+              <div className="flex items-center  justify-start border rounded-[6px] border-[#E0E0E0]">
                 <input
+                  className="border-0 placeholder:text-[15px] placeholder:font-normal "
                   type="text"
-                  style={{ width: "150px" }}
+                  style={{
+                    width: "60%",
+                    height: "32px",
+                    marginTop: "0px ",
+                    paddingRight: "18px",
+                    paddingLeft: "18px",
+                  }}
+                  placeholder="Enter amount"
                   onChange={(e) => setAmount(e.target.value)}
                   onKeyPress={(event) => {
                     const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
@@ -297,8 +314,9 @@ const InnerUnit = ({
                 />
                 <Select
                   showSearch
+                  className="custom-border-none"
                   style={{
-                    width: "100px",
+                    width: "40%",
                   }}
                   placeholder="Enter amount"
                   optionFilterProp="children"
