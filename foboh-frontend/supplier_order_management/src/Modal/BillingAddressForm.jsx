@@ -6,12 +6,16 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { getStates } from "../helpers/getStates";
 import Select from "react-select";
 import { updateBillingAddress } from "../helpers/updateBillingAddress";
+import { convertDefaultPaymentTermValue } from "../helpers/convertDefaultPaymentTermValue";
 
 const BillingAddressForm = ({
   setEditBillingAddress,
   customerDetails,
   error,
   success,
+  setCustomerDetails,
+  setDefaultPaymentTermsValue,
+  setDefaultPaymentTermsDate,
 }) => {
   const [states, setStates] = useState([]);
   const [initialValues, setInitialValues] = useState({
@@ -42,6 +46,27 @@ const BillingAddressForm = ({
         ? success("Billing address updated!")
         : error("Error occurred, please try again!");
       update && setEditBillingAddress(false);
+
+      if (update) {
+        const buyerDetails = await getBuyerDetails(customerDetails?.buyerId);
+
+
+        if (buyerDetails.success) {
+          const buyerData = buyerDetails.data[0];
+          setCustomerDetails(buyerData);
+          const defaultPaymentTermsListValue = defaultPaymentTerms.find(
+            (item) => item.label === buyerDetails.data[0].defaultPaymentTerm[0]
+          );
+
+          setDefaultPaymentTermsValue(defaultPaymentTermsListValue);
+
+          const defaultPaymentTermsDateValue = convertDefaultPaymentTermValue(
+            defaultPaymentTermsListValue.label
+          );
+
+          setDefaultPaymentTermsDate(defaultPaymentTermsDateValue);
+        }
+      }
     },
   });
 
@@ -71,7 +96,7 @@ const BillingAddressForm = ({
       suburb: customerDetails?.billingSuburb,
       postCode: customerDetails?.billingPostalCode,
       state: stateOption,
-    })
+    });
 
     setValues({
       address: customerDetails?.billingAddress,
@@ -85,8 +110,8 @@ const BillingAddressForm = ({
   const handleState = (stateValue) => {
     setValues((prev) => {
       return { ...prev, state: stateValue };
-    })
-  }
+    });
+  };
 
   return (
     <form

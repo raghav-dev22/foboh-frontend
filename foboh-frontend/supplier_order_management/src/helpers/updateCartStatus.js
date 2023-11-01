@@ -17,8 +17,10 @@ export const updateCartStatus = async (customerDetails) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      if (data.success) return true;
-      else return false;
+      if (data.success) {
+        localStorage.removeItem("cartId");
+        return true;
+      } else return false;
     })
     .catch((error) => console.log(error));
 

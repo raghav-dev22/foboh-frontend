@@ -28,7 +28,9 @@ export const postBuyerDetails = async (buyer) => {
         address: buyer?.address,
         apartment: buyer?.apartment,
         suburb: buyer?.suburb,
-        state : buyer?.state,
+        state: buyer?.state,
+        city: buyer?.suburb,
+        country: "Australia",
         postalCode: buyer?.postalCode,
         deliveryNotes: buyer?.deliveryNotes,
         billingAddress: buyer?.billingAddress,
@@ -43,6 +45,9 @@ export const postBuyerDetails = async (buyer) => {
   )
     .then((response) => response.json())
     .then((data) => {
+      if (data.success) {
+        localStorage.setItem("orderId", data?.data?.orderId);
+      }
       return data;
     })
     .catch((error) => console.log(error));
@@ -63,9 +68,9 @@ const getDefaultPaymentTermValue = async (defaultPaymentTerms) => {
       item === " 90 days from invoice date" ||
       item === " 30 days from end of month"
     ) {
-        defaultPaymentTermList.push(item)
+      defaultPaymentTermList.push(item);
     }
   });
 
-  return defaultPaymentTermList[0]
+  return defaultPaymentTermList[0];
 };

@@ -41,7 +41,7 @@ export const addToCart = async (value, buyerId) => {
         stockThreshold: value?.stockThreshold || 0,
         stockStatus: value?.stockStatus || "",
         regionAvailability: value?.regionAvailability || [],
-        productStatus: value?.productStatus || "",
+        productStatus: "Cart",
         visibility: value?.visibility || "",
         minimumOrder: value?.minimumOrder || 0,
         tags: value?.tags || [],
@@ -60,6 +60,5 @@ export const addToCart = async (value, buyerId) => {
     })
     .catch((error) => console.log(error));
 
-
-    return cart
+  return cart;
 };

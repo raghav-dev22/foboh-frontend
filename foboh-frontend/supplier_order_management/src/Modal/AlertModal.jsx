@@ -8,9 +8,15 @@ const AlertModal = ({
   isModalOpen,
   handleCancel,
   SaveCancel,
+  handleDeleteOrder,
+  setActiveStep,
+  setIsCustomerSelected,
 }) => {
   const saveBtn = () => {
     handleCancel(), SaveCancel();
+    handleDeleteOrder();
+    setActiveStep(0);
+    setIsCustomerSelected(false);
   };
   return (
     <>

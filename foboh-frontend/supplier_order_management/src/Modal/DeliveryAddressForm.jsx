@@ -6,12 +6,17 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Select from "react-select";
 import { getStates } from "../helpers/getStates";
 import { updateDeliveryAddress } from "../helpers/updateDeliveryAddress";
+import { getBuyerDetails } from "../helpers/getBuyerDetails";
+import { convertDefaultPaymentTermValue } from "../helpers/convertDefaultPaymentTermValue";
 
 const DeliveryAddressForm = ({
   setEditDeliveryAddress,
   customerDetails,
   success,
   error,
+  setCustomerDetails,
+  setDefaultPaymentTermsValue,
+  setDefaultPaymentTermsDate,
 }) => {
   const [states, setStates] = useState([]);
 
@@ -44,7 +49,27 @@ const DeliveryAddressForm = ({
         ? success("Delivery address updated!")
         : error("Error occurred, please try again!");
 
-        update && setEditDeliveryAddress(false);
+      update && setEditDeliveryAddress(false);
+
+      if (update) {
+        const buyerDetails = await getBuyerDetails(customerDetails?.buyerId);
+
+        if (buyerDetails.success) {
+          const buyerData = buyerDetails.data[0];
+          setCustomerDetails(buyerData);
+          const defaultPaymentTermsListValue = defaultPaymentTerms.find(
+            (item) => item.label === buyerDetails.data[0].defaultPaymentTerm[0]
+          );
+
+          setDefaultPaymentTermsValue(defaultPaymentTermsListValue);
+
+          const defaultPaymentTermsDateValue = convertDefaultPaymentTermValue(
+            defaultPaymentTermsListValue.label
+          );
+
+          setDefaultPaymentTermsDate(defaultPaymentTermsDateValue);
+        }
+      }
     },
   });
 

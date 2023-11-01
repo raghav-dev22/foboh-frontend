@@ -5,10 +5,15 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { deliveryContactSchema } from "../schemas";
 import { useEffect } from "react";
 import { updateDeliveryContact } from "../helpers/updateDeliveryContact";
+import { getBuyerDetails } from "../helpers/getBuyerDetails";
+import { convertDefaultPaymentTermValue } from "../helpers/convertDefaultPaymentTermValue";
 
 const DeliveryContactForm = ({
   setEditDeliveryContact,
+  setCustomerDetails,
   customerDetails,
+  setDefaultPaymentTermsValue,
+  setDefaultPaymentTermsDate,
   success,
   error,
 }) => {
@@ -43,6 +48,26 @@ const DeliveryContactForm = ({
         : error("Error occurred, please try again!");
 
       setEditDeliveryContact(false);
+
+      if (update) {
+        const buyerDetails = await getBuyerDetails(customerDetails?.buyerId);
+
+        if (buyerDetails.success) {
+          const buyerData = buyerDetails.data[0];
+          setCustomerDetails(buyerData);
+          const defaultPaymentTermsListValue = defaultPaymentTerms.find(
+            (item) => item.label === buyerDetails.data[0].defaultPaymentTerm[0]
+          );
+
+          setDefaultPaymentTermsValue(defaultPaymentTermsListValue);
+
+          const defaultPaymentTermsDateValue = convertDefaultPaymentTermValue(
+            defaultPaymentTermsListValue.label
+          );
+
+          setDefaultPaymentTermsDate(defaultPaymentTermsDateValue);
+        }
+      }
     },
   });
 

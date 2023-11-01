@@ -33,6 +33,8 @@ import FinalOrder from "./FinalOrder";
 import { getCalculations } from "../helpers/getCalculations";
 import { createOrder } from "../helpers/createOrder";
 import { updateCartStatus } from "../helpers/updateCartStatus";
+import { updateOrderStatus } from "../helpers/updateOrderStatus";
+import { deleteOrder } from "../helpers/deleteOrder";
 
 const CreateOrderModal = ({
   setCreateOrderModal,
@@ -148,7 +150,7 @@ const CreateOrderModal = ({
 
   // Handle submitting the order
   const handleSubmit = async () => {
-    const orderResponse = await createOrder(
+    const orderResponse = await updateOrderStatus(
       customerDetails,
       defaultPaymentTermsValue,
       cartCalculations,
@@ -164,6 +166,13 @@ const CreateOrderModal = ({
 
       setCreateOrderModal(false);
     }
+  };
+
+  //Delete an order
+  const handleDeleteOrder = async () => {
+    const orderResponse = await deleteOrder();
+    orderResponse && setCart([]);
+    orderResponse && warning("Order information removed!");
   };
 
   useEffect(() => {
@@ -547,7 +556,14 @@ const CreateOrderModal = ({
                                 success={success}
                                 error={error}
                                 customerDetails={customerDetails}
+                                setCustomerDetails={setCustomerDetails}
                                 setEditDeliveryContact={setEditDeliveryContact}
+                                setDefaultPaymentTermsValue={
+                                  setDefaultPaymentTermsValue
+                                }
+                                setDefaultPaymentTermsDate={
+                                  setDefaultPaymentTermsDate
+                                }
                               />
                             ) : (
                               <div className="">
@@ -588,6 +604,13 @@ const CreateOrderModal = ({
                                 error={error}
                                 customerDetails={customerDetails}
                                 setEditDeliveryAddress={setEditDeliveryAddress}
+                                setCustomerDetails={setCustomerDetails}
+                                setDefaultPaymentTermsValue={
+                                  setDefaultPaymentTermsValue
+                                }
+                                setDefaultPaymentTermsDate={
+                                  setDefaultPaymentTermsDate
+                                }
                               />
                             ) : (
                               <div>
@@ -666,6 +689,13 @@ const CreateOrderModal = ({
                                 error={error}
                                 setEditBillingAddress={setEditBillingAddress}
                                 customerDetails={customerDetails}
+                                setCustomerDetails={setCustomerDetails}
+                                setDefaultPaymentTermsValue={
+                                  setDefaultPaymentTermsValue
+                                }
+                                setDefaultPaymentTermsDate={
+                                  setDefaultPaymentTermsDate
+                                }
                               />
                             ) : (
                               <div>
@@ -839,6 +869,7 @@ const CreateOrderModal = ({
             <Button
               // onClick={handlePrev}
               disabled={isFirstStep}
+              onClick={() => setCreateOrderModal(false)}
               className={`bg-[#2B4447] text-white text-base font-medium rounded-[8px]  h-[44px] w-fit flex justify-center items-center px-5 
               ${isFirstStep && "hidden"}
               }`}
@@ -872,6 +903,9 @@ const CreateOrderModal = ({
         closeIcon={false}
       ></Modal>
       <AlertModal
+        setIsCustomerSelected={setIsCustomerSelected}
+        setActiveStep={setActiveStep}
+        handleDeleteOrder={handleDeleteOrder}
         SaveCancel={handleCancel}
         handleCancel={() => {
           setAlertModal(false);
