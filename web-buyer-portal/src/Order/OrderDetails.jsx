@@ -151,7 +151,10 @@ const OrderDetails = () => {
 
   const reOrder = (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/ReOrder?OrderId=${id}`;
-    fetch(apiUrl)
+    fetch(apiUrl, {
+      method: "POST",
+    })
+      .then((response) => response.json())
       .then((data) => {
         if (data.success) {
           success();
@@ -251,6 +254,18 @@ const OrderDetails = () => {
     return invoiceData;
   };
 
+  const formattedDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-based
+    const year = date.getFullYear();
+
+    const formattedDay = String(day).padStart(2, "0");
+    const formattedMonth = String(month).padStart(2, "0");
+
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  };
+
   return (
     <>
       <style>
@@ -338,7 +353,7 @@ const OrderDetails = () => {
                 Order Date
               </h5>
               <p className="text-base font-normal text-[#2B4447] leading-7	">
-                {orderDetails?.orderEntryDate}
+                {formattedDate(orderDetails?.orderEntryDate)}
               </p>
             </div>
             <div className="">
@@ -351,11 +366,6 @@ const OrderDetails = () => {
             </div>
           </div>
           <hr className="my-5" />
-          <div className="mb-5">
-            <h5 className="text-lg font-semibold text-[#2B4447]">
-              Order Tracking ID - 012345678910
-            </h5>
-          </div>
           <div className="custom-step">
             <Steps
               current={currentStep}
@@ -413,15 +423,8 @@ const OrderDetails = () => {
                           Quantity - {item?.quantity}
                         </p>
                         <h4 className=" text-base text-[#2B4447] font-semibold">
-                          {item.product?.globalPrice}
+                          ${item.product?.globalPrice}
                         </h4>
-                      </div>
-                    </div>
-                    <div className="flex justify-between">
-                      <div className="flex gap-2 items-center">
-                        <p className="text-sm font-normal text-[#637381]">
-                          Delivery By 14 August
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -465,14 +468,7 @@ const OrderDetails = () => {
                 <h5 className="text-sm font-medium text-[#2B4447]">
                   Shipping estimate
                 </h5>
-                <h5 className="text-sm font-medium text-[#2B4447]">$60</h5>
-              </div>
-
-              <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
-                <h5 className="text-sm font-medium text-[#2B4447]">
-                  ${calculations.gst}
-                </h5>
+                <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
               </div>
               {isWine && (
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
@@ -482,6 +478,12 @@ const OrderDetails = () => {
                   </h5>
                 </div>
               )}
+              <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
+                <h5 className="text-sm font-medium text-[#2B4447]">
+                  ${calculations.gst}
+                </h5>
+              </div>
               <div className="flex justify-between py-3 ">
                 <h5 className="text-base font-semibold text-[#2B4447]">
                   Order total

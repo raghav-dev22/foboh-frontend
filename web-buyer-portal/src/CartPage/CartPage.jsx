@@ -401,11 +401,7 @@ const CartPage = () => {
                   <h5 className="text-sm font-medium text-[#2B4447]">
                     Shipping estimate
                   </h5>
-                  <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
-                </div>
-                <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                  <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
-                  <h5 className="text-sm font-medium text-[#2B4447]">10%</h5>
+                  <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
                 </div>
                 {isWineSubcat && (
                   <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
@@ -413,6 +409,10 @@ const CartPage = () => {
                     <h5 className="text-sm font-medium text-[#2B4447]">29%</h5>
                   </div>
                 )}
+                <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                  <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
+                  <h5 className="text-sm font-medium text-[#2B4447]">10%</h5>
+                </div>
                 <div className="flex justify-between py-3 ">
                   <h5 className="text-sm font-medium text-[#2B4447]">
                     Order total
@@ -431,7 +431,6 @@ const CartPage = () => {
                 {" "}
                 Checkout
               </button>
-
               {/* </Link> */}
             </div>
           </div>

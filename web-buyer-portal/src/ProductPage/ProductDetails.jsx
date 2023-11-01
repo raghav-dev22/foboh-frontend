@@ -7,9 +7,8 @@ import { theme } from "antd";
 import { add, setCart, updateQuantity } from "../slices/CartSlice";
 import { message } from "antd";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
-import BlockRoundedIcon from "@mui/icons-material/BlockRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import { stockStatus } from "../helpers/getStockStatus";
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
@@ -23,6 +22,7 @@ const ProductDetails = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const productData = products.find((item) => item?.product?.productId === +id);
   const dispatch = useDispatch();
+
   // const addCart = (product) => {
   //   dispatch(add(product));
   // };
@@ -228,13 +228,11 @@ const ProductDetails = () => {
               {selectData?.product?.brand}
             </h5>
             <div className="flex  items-center gap-2">
-              {/* <h5 className="text-lg font-medium text-[#2B4447]">*</h5> */}
               <h5 className="text-lg font-medium text-[#2B4447]">
                 {selectData?.product?.configuration}{" "}
               </h5>
             </div>
             <div className="flex items-center gap-3">
-              {/* <h5 className="text-[#DC3545] text-lg font-medium">25% off</h5> */}
               <h5 className="text-lg font-semibold">
                 {selectData?.product?.globalPrice}
               </h5>
@@ -343,25 +341,11 @@ const ProductDetails = () => {
                 Minimum Order Quantity (MOQ): 2 Case
               </h5>
             </div>
-            <div className="my-4">
-              <div className="flex justify-start items-center gap-3">
-                <CheckCircleOutlineIcon style={{ fill: "#009900" }} />
-                <p className="text-base font-semibold text-[#2B4447]">
-                  Available in stock!
-                </p>
-              </div>
-              <div className="flex justify-start items-center gap-3">
-                <WarningRoundedIcon style={{ fill: "#FAD271" }} />
-                <p className="text-base font-semibold text-[#2B4447]">
-                  Stocks limited. Hurry!
-                </p>
-              </div>
-              <div className="flex justify-start items-center gap-3">
-                <BlockRoundedIcon style={{ fill: "#E94444" }} />
-                <p className="text-base font-semibold text-[#2B4447]">
-                  Out of stock
-                </p>
-              </div>
+            <div className="my-6">
+              {stockStatus(
+                selectData?.product?.availableQty,
+                selectData?.product?.stockThreshold
+              )}
             </div>
             {selectData.product.categoryId === "C5000" && (
               <div className="flex justify-between items-center md:w-[365px] w-full pt-3">

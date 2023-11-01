@@ -89,11 +89,21 @@ const Order = () => {
               };
             })
           );
+
           let wetTotal = 0;
           let remainingTotal = 0;
           let totalCost = 0;
           let alltotal = 0;
+          let subCatList = [];
           data.data.forEach((item) => {
+            subCatList.push(item.subCategoryId);
+            console.log("subCatList", subCatList);
+            if (subCatList.includes("SC500") || subCatList.includes("SC5000")) {
+              setIsWineSubcat(true);
+            } else {
+              setIsWineSubcat(false);
+            }
+
             const productPrice = item?.globalPrice;
             const subCat = item?.subCategoryId;
             const productPriceINR = productPrice;
@@ -259,11 +269,7 @@ const Order = () => {
           <h5 className="text-sm font-medium text-[#2B4447]">
             Shipping estimate
           </h5>
-          <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
-        </div>
-        <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-          <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
-          <h5 className="text-sm font-medium text-[#2B4447]">10%</h5>
+          <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
         </div>
         {isWineSubcat && (
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
@@ -271,6 +277,10 @@ const Order = () => {
             <h5 className="text-sm font-medium text-[#2B4447]">29%</h5>
           </div>
         )}
+        <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+          <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
+          <h5 className="text-sm font-medium text-[#2B4447]">10%</h5>
+        </div>
         <div className="flex justify-between py-3 ">
           <h5 className="text-base font-semibold text-[#2B4447]">
             Order total

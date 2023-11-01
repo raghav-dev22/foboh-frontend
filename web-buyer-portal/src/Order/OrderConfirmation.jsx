@@ -4,6 +4,7 @@ import { getCalculations } from "../helper/getCalculations";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
+import { getSealedCart } from "../helpers/getSealedCart";
 
 const OrderConfirmation = () => {
   const [totalCost, setTotleCost] = useState(0);
@@ -13,6 +14,13 @@ const OrderConfirmation = () => {
   const [deliveryAddress, setDeliveryAddress] = useState({});
   const CARTdata = useSelector((items) => items.cart);
   const location = useLocation();
+  const [isWine, setIsWine] = useState(false);
+  const [calculations, setCalculations] = useState({
+    total: 0,
+    subTotal: 0,
+    gst: 0,
+    wet: 0,
+  });
 
   useEffect(() => {
     getDeliveryAddress();
@@ -33,11 +41,37 @@ const OrderConfirmation = () => {
   }, [location]);
 
   const calculateTotalCost = async () => {
-    const { gst, wt, subTotal, total } = await getCalculations();
-    setWetTax(wt);
-    setGstTax(gst);
-    setSubtotal(subTotal);
-    setTotleCost(total);
+    const orderId = localStorage.getItem("orderId");
+    //Handling Cart details of order
+    getSealedCart(orderId).then((data) => {
+      if (data.success) {
+        const { gst, payAmountLong, totalPrice, wt } = data?.data[0];
+        setCalculations({
+          total: payAmountLong,
+          subTotal: totalPrice,
+          gst: gst,
+          wet: wt,
+        });
+        data.data.forEach((subCat) => {
+          if (
+            subCat.subCategoryId === "SC5000" ||
+            subCat.subCategoryId === "SC500"
+          ) {
+            setIsWine(true);
+          }
+        });
+        // const updatedList = data.data.map((product) => {
+        //   return {
+        //     product: product,
+        //     quantity: product?.quantity,
+        //   };
+        // });
+
+        // cart = updatedList;
+        // setProductList(updatedList);
+        calculateTotalCost();
+      }
+    });
   };
 
   useEffect(() => {
@@ -149,30 +183,38 @@ const OrderConfirmation = () => {
         <div className="py-4">
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
-            <h5 className="text-sm font-medium text-[#2B4447]">${subtotal}</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">
+              ${calculations.subTotal}
+            </h5>
           </div>
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">
               Shipping estimate
             </h5>
-            <h5 className="text-sm font-medium text-[#2B4447]">$60.00</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
           </div>
-          {wetTax !== 0 && (
+          {isWine && (
             <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
               <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
-              <h5 className="text-sm font-medium text-[#2B4447]">${wetTax}</h5>
+              <h5 className="text-sm font-medium text-[#2B4447]">
+                {" "}
+                ${calculations.wet}
+              </h5>
             </div>
           )}
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
-            <h5 className="text-sm font-medium text-[#2B4447]">${gstTax}</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">
+              {" "}
+              ${calculations.gst}
+            </h5>
           </div>
           <div className="flex justify-between py-3 ">
             <h5 className="text-base font-semibold text-[#2B4447]">
               Order total
             </h5>
             <h5 className="text-base font-semibold text-[#2B4447]">
-              ${totalCost}
+              ${calculations.total}
             </h5>
           </div>
         </div>
