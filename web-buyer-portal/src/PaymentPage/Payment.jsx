@@ -1000,7 +1000,7 @@ const Payment = () => {
                   // }}
                   className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
                 >
-                  Pay Now
+                  Order Now
                 </button>
               </div>
             </div>

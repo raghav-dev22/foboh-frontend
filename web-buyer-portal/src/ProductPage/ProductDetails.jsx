@@ -192,7 +192,7 @@ const ProductDetails = () => {
                   <img
                     src={selectedImage}
                     alt="Selected Image"
-                    className="mix-blend-multiply h-[225px] object-contain"
+                    className="mix-blend-multiply h-[225px] object-contain w-full"
                   />
                 </div>
               )}
@@ -211,7 +211,7 @@ const ProductDetails = () => {
                       key={index}
                       src={image}
                       onClick={() => handleImageClick(image)}
-                      className="mix-blend-multiply h-[99px] object-contain"
+                      className="mix-blend-multiply h-[99px] object-contain w-full rounded-md"
                     />
                   </div>
                 ))}

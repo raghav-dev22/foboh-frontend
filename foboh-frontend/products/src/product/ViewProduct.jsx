@@ -1254,7 +1254,7 @@ function ViewProduct() {
                   <div className="edit-img ">
                     <img
                       src={
-                        productImageUris
+                        productImageUris?.length > 0
                           ? productImageUris[0]
                           : "/assets/inventory-img.png"
                       }
@@ -1273,7 +1273,7 @@ function ViewProduct() {
                     <div className="">
                       <img
                         src={
-                          productImageUris
+                          productImageUris?.length > 0
                             ? productImageUris[1]
                             : "/assets/inventory-img.png"
                         }
@@ -1291,7 +1291,7 @@ function ViewProduct() {
                     <div className="">
                       <img
                         src={
-                          productImageUris
+                          productImageUris?.length > 0
                             ? productImageUris[2]
                             : "/assets/inventory-img.png"
                         }

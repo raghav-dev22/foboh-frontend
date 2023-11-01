@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from "react";
-import EastIcon from "@mui/icons-material/East";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { Link } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Header from "../main/Header";
-import Footer from "../main/Footer";
+
 import Select from "react-select";
+import { theme } from "antd";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CheckIcon from "@mui/icons-material/Check";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch, useSelector } from "react-redux";
-import ProductDetails from "../ProductPage/ProductDetails";
-import { remove, setCart, updateQuantity } from "../slices/CartSlice";
-import { timeline } from "@material-tailwind/react";
-import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
+import { setCart, updateQuantity } from "../slices/CartSlice";
 import AppliedCoupon from "../modal/AppliedCoupon";
 
 const Order = () => {
+  const { useToken } = theme;
+  const { token } = useToken();
   const [show, setShow] = useState(false);
   const [addCart, setAddCart] = useState([]);
   const [promoCode, setPromoCode] = useState("");
   const [isWineSubcat, setIsWineSubcat] = useState(false);
   const [applied, setApplied] = useState(false);
-  const [bg, setBg] = useState("#000");
+  const [bg, setBg] = useState(false);
   const [color, setColor] = useState();
   const [invalid, setInvalid] = useState("");
   const url = process.env.REACT_APP_PRODUCTS_URL;
@@ -39,7 +33,7 @@ const Order = () => {
   const applyPromoCode = () => {
     if (promoCode === promoCodes.CODE001) {
       setColor("#563FE3");
-      setBg("#563FE3");
+      setBg(true);
       setApplied(true);
       setInvalid("");
       setShow(true);
@@ -234,16 +228,20 @@ const Order = () => {
         </h4>
         <div className="relative">
           <input
-            className={`placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-[${color}] `}
+            className={`placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 `}
             id="grid-first-name"
             type="text"
             placeholder="Promotional Code"
             value={promoCode}
             onChange={handlePromoCodeChange}
+            style={{ color: bg === true ? token.commonThemeColor : "#000" }}
           />
           <button
-            className={`bg-[${bg}] absolute top-0 right-0 h-full w-[65px] flex justify-center items-center rounded-r-[8px]`}
+            className={`bg-[#000] absolute top-0 right-0 h-full w-[65px] flex justify-center items-center rounded-r-[8px]`}
             onClick={applyPromoCode}
+            style={{
+              background: bg === true ? token.commonThemeColor : "#000",
+            }}
           >
             <ChevronRightIcon style={{ fill: "#fff" }} />
           </button>
