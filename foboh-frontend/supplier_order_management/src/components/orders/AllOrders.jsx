@@ -11,6 +11,7 @@ import { searchOrders } from "../../helpers/searchOrders";
 import Select from "react-select";
 import { getCityStates } from "../../helpers/getCityStates";
 import { formatDateAfterRelativeDate } from "../../helpers/dateFormatter";
+import { formatDate } from "../../helpers/dateFormate";
 
 let filterAndSort = {
   filter: {
@@ -168,17 +169,6 @@ const AllOrders = () => {
   ];
 
   const data = orderData?.map((item, index) => {
-    const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      const day = date.getDate();
-      const month = date.getMonth() + 1; // Months are zero-based
-      const year = date.getFullYear();
-
-      const formattedDay = String(day).padStart(2, "0");
-      const formattedMonth = String(month).padStart(2, "0");
-
-      return `${formattedDay}/${formattedMonth}/${year}`;
-    };
     return {
       key: index,
       OrderID: (
@@ -213,7 +203,7 @@ const AllOrders = () => {
       ),
       Payment: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item.paymentMethod}
+          {item.transactionStatus}
         </p>
       ),
       Status: (

@@ -9,7 +9,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 const PaymentDetail = () => {
   const stripePromise = loadStripe(
-    "pk_test_51NcFuWKrTbQIkCohQ431xjnc6S9GjcWEuCVW79nVJmpAyn92EPghuk5DZcMzI9Cq9ZFAhWGLnr0AQxVkbA8L39mK00mcbrhKr4"
+    "pk_test_51NottFSIQVsrQ3Rm6YLAVdL9LnMlJHAgxXA4jIn8sWONxRjN8DtM6YTJWYCbJliZdONEEaf3sSzqU97xv3My2aLe00bKRIq6Ad"
   );
 
   return (
