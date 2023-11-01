@@ -7,6 +7,9 @@ export const addProductSchema = Yup.object().shape({
     .required("Region is required")
     .min(1, "Region is required"),
   availableQty: Yup.string().required("Available quantity is required"),
+  // stockAlertLevel: Yup.string().required(
+  //   "StockAlertLevel quantity is required"
+  // ),
   minimumOrder: Yup.string().required("Minimum order is required"),
   trackInventory: Yup.boolean(),
   title: Yup.string()

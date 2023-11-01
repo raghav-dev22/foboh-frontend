@@ -74,7 +74,7 @@ const Registration = () => {
               body: JSON.stringify({
                 firstName: values.firstName,
                 lastName: values.lastName,
-                email: userInfo.mail,
+                email: userInfo.mail.toLowerCase(),
                 password: localStorage.getItem("password"),
                 status: true,
                 role: "",

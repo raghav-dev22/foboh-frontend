@@ -48,7 +48,7 @@ const SigninNew = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: values.email,
+            email: values.email.toLowerCase(),
             password: values.password,
           }),
         })

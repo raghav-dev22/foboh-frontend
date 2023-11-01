@@ -370,8 +370,12 @@ function ViewProduct() {
             const regionObj = region.find((rgn) => rgn.label === regionName);
 
             console.log("region obj ---->", regionObj);
-            if (subCategoryId === "SC500" || "SC5000") {
+            if (subCategoryId === "SC500") {
               setIsWet(true);
+            } else if (subCategoryId === "SC500") {
+              setIsWet(true);
+            } else {
+              setIsWet(false);
             }
             const imageUris = product.productImageUrls;
             setProductImageUris(imageUris);

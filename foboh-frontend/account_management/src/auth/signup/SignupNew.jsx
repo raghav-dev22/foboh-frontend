@@ -142,7 +142,7 @@ const SignupNew = () => {
             body: JSON.stringify({
               firstName: googleResponse.given_name,
               lastName: googleResponse.family_name,
-              email: googleResponse.email,
+              email: googleResponse.email.toLowerCase(),
               password: "",
               status: true,
               role: "",

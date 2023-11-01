@@ -7,12 +7,9 @@ function BusinessDetails({
   handleBlur,
   handleChange,
   touched,
-  setValues
+  setValues,
 }) {
   console.log("steponeschema", errors);
-
-
-  
 
   return (
     <>
@@ -133,18 +130,18 @@ function BusinessDetails({
               value={values.LiquerLicence}
               onChange={handleChange}
               onBlur={handleBlur}
-              style={{
-                border: errors.LiquerLicence && "1px solid red",
-              }}
+              // style={{
+              //   border: errors.LiquerLicence && "1px solid red",
+              // }}
             />
-            {errors.LiquerLicence && (
+            {/* {errors.LiquerLicence && (
               <p className="mt-2 mb-2 text-red-500 text-xs">
                 {errors.LiquerLicence}
               </p>
             )}
             {errors.LiquerLicence && (
               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-            )}
+            )} */}
 
             <div className=" absolute top-[50px] left-4">
               <svg
