@@ -7,6 +7,7 @@ import { getStates } from "../helpers/getStates";
 import Select from "react-select";
 import { updateBillingAddress } from "../helpers/updateBillingAddress";
 import { convertDefaultPaymentTermValue } from "../helpers/convertDefaultPaymentTermValue";
+import { getBuyerDetails } from "../helpers/getBuyerDetails";
 
 const BillingAddressForm = ({
   setEditBillingAddress,

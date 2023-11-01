@@ -6,7 +6,9 @@ export const updateOrderStatus = async (
 ) => {
   const orderId = localStorage.getItem("orderId");
   const cartId = localStorage.getItem("cartId");
-  const total = cartCalculations.total + parseFloat(shippingcharges.price);
+  const total = (
+    cartCalculations.total + parseFloat(shippingcharges.price)
+  ).toFixed(2);
 
   const status = await fetch(
     `https://suppliercreateorderfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/UpdateOrderByOrderId?OrderId=${orderId}`,

@@ -494,7 +494,7 @@ const ActionRequired = () => {
                         onChange={onShowSizeChange}
                         pagination={{
                           current: page,
-                          pageSize: 9,
+                          pageSize: 15,
                           total: newTotalData,
                           showSizeChanger: false,
                           showQuickJumper: false,
