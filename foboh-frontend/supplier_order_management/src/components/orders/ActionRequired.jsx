@@ -94,7 +94,7 @@ const ActionRequired = () => {
       ),
       Amount: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.payAmountLong}
+          ${item.payAmountLong}
         </p>
       ),
       Status: (
@@ -166,7 +166,7 @@ const ActionRequired = () => {
       ),
       Amount: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.payAmountLong}
+          ${item.payAmountLong}
         </p>
       ),
       Status: (
@@ -246,7 +246,7 @@ const ActionRequired = () => {
       ),
       Amount: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.payAmountLong}
+          ${item.payAmountLong}
         </p>
       ),
       Status: (

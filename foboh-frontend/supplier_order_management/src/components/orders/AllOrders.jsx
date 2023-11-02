@@ -193,7 +193,7 @@ const AllOrders = () => {
       ),
       Amount: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item.totalPrice}
+          ${item.payAmountLong}
         </p>
       ),
       LastUpdated: (

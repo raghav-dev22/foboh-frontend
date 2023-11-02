@@ -51,7 +51,6 @@ const BillingAddressForm = ({
       if (update) {
         const buyerDetails = await getBuyerDetails(customerDetails?.buyerId);
 
-
         if (buyerDetails.success) {
           const buyerData = buyerDetails.data[0];
           setCustomerDetails(buyerData);
@@ -92,18 +91,18 @@ const BillingAddressForm = ({
     );
 
     setInitialValues({
-      address: customerDetails?.billingAddress,
-      apartment: customerDetails?.billingApartment,
-      suburb: customerDetails?.billingSuburb,
-      postCode: customerDetails?.billingPostalCode,
+      address: customerDetails?.billingStreetaddress,
+      apartment: customerDetails?.billingApartmentSuite,
+      suburb: customerDetails?.billingCity,
+      postCode: customerDetails?.billingPostcode,
       state: stateOption,
     });
 
     setValues({
-      address: customerDetails?.billingAddress,
-      apartment: customerDetails?.billingApartment,
-      suburb: customerDetails?.billingSuburb,
-      postCode: customerDetails?.billingPostalCode,
+      address: customerDetails?.billingStreetaddress,
+      apartment: customerDetails?.billingApartmentSuite,
+      suburb: customerDetails?.billingCity,
+      postCode: customerDetails?.billingPostcode,
       state: stateOption,
     });
   };

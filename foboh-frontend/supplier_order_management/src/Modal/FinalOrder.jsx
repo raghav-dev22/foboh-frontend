@@ -113,7 +113,7 @@ const FinalOrder = ({
               </div>
 
               <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                {`${customerDetails?.billingApartment} ${customerDetails?.billingAddress}, ${customerDetails?.billingSuburb}, ${customerDetails?.billingState} ${customerDetails?.billingPostalCode} Australia`}
+                {`${customerDetails?.billingApartmentSuite} ${customerDetails?.billingStreetaddress}, ${customerDetails?.billingCity}, ${customerDetails?.billingState} ${customerDetails?.billingPostcode} Australia`}
               </p>
             </div>
           </div>
