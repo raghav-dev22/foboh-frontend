@@ -4,6 +4,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
 import { Space, Menu } from "antd";
+import { formatDate } from "../../helpers/dateFormate";
 const { SubMenu } = Menu;
 
 const ActionRequired = () => {
@@ -80,7 +81,7 @@ const ActionRequired = () => {
       ),
       Customer: (
         <p className="text-[15px] font-medium text-[#637381]">
-          Lofi Wines xxxxxx
+          {item.customerName}
         </p>
       ),
       Region: (
@@ -88,12 +89,12 @@ const ActionRequired = () => {
       ),
       OrderDate: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.orderEntryDate}
+          {formatDate(item.orderEntryDate)}
         </p>
       ),
       Amount: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.totalPrice}
+          ${item.payAmountLong}
         </p>
       ),
       Status: (
@@ -152,7 +153,7 @@ const ActionRequired = () => {
       ),
       Customer: (
         <p className="text-[15px] font-medium text-[#637381]">
-          Lofi Wines xxxxxx
+          {item.customerName}
         </p>
       ),
       Region: (
@@ -160,12 +161,12 @@ const ActionRequired = () => {
       ),
       OrderDate: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.orderEntryDate}
+          {formatDate(item.orderEntryDate)}
         </p>
       ),
       Amount: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.totalPrice}
+          ${item.payAmountLong}
         </p>
       ),
       Status: (
@@ -232,7 +233,7 @@ const ActionRequired = () => {
       ),
       Customer: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.firstname}
+          {item.customerName}
         </p>
       ),
       Region: (
@@ -240,12 +241,12 @@ const ActionRequired = () => {
       ),
       OrderDate: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.orderEntryDate}
+          {formatDate(item.orderEntryDate)}
         </p>
       ),
       Amount: (
         <p className="text-[15px] font-medium text-[#637381]">
-          {item.totalPrice}
+          ${item.payAmountLong}
         </p>
       ),
       Status: (
@@ -493,7 +494,7 @@ const ActionRequired = () => {
                         onChange={onShowSizeChange}
                         pagination={{
                           current: page,
-                          pageSize: 9,
+                          pageSize: 15,
                           total: newTotalData,
                           showSizeChanger: false,
                           showQuickJumper: false,

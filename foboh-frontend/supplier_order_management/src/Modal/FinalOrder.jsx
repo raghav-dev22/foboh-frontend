@@ -113,7 +113,7 @@ const FinalOrder = ({
               </div>
 
               <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                {`${customerDetails?.billingApartment} ${customerDetails?.billingAddress}, ${customerDetails?.billingSuburb}, ${customerDetails?.billingState} ${customerDetails?.billingPostalCode} Australia`}
+                {`${customerDetails?.billingApartmentSuite} ${customerDetails?.billingStreetaddress}, ${customerDetails?.billingCity}, ${customerDetails?.billingState} ${customerDetails?.billingPostcode} Australia`}
               </p>
             </div>
           </div>
@@ -209,15 +209,15 @@ const FinalOrder = ({
                 </h5>
               </div>
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                <h5 className="text-sm font-medium text-[#637381]">GST</h5>
-                <h5 className="text-sm font-medium text-[#637381]">
-                  ${cartCalculations?.gst}
-                </h5>
-              </div>
-              <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#637381]">WET</h5>
                 <h5 className="text-sm font-medium text-[#637381]">
                   ${cartCalculations?.wet}
+                </h5>
+              </div>
+              <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                <h5 className="text-sm font-medium text-[#637381]">GST</h5>
+                <h5 className="text-sm font-medium text-[#637381]">
+                  ${cartCalculations?.gst}
                 </h5>
               </div>
               <div className="flex justify-between py-3 ">
@@ -226,7 +226,9 @@ const FinalOrder = ({
                 </h5>
                 <h5 className="text-base font-semibold text-[#2B4447]">
                   $
-                  {cartCalculations?.total + parseFloat(shippingcharges?.price)}
+                  {(
+                    cartCalculations?.total + parseFloat(shippingcharges?.price)
+                  ).toFixed(2)}
                 </h5>
               </div>
             </div>

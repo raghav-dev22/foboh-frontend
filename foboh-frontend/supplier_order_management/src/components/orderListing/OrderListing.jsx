@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Space, Table, Tag, Checkbox, Divider, Steps } from "antd";
-
 import PersonIcon from "@mui/icons-material/Person";
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
@@ -9,10 +8,17 @@ import PaymentStatusModal from "../../Modal/PaymentStatusModal";
 import CancelOrderModal from "../../Modal/CancelOrderModal";
 import ChangeStatusModal from "../../Modal/ChangeStatusModal";
 import OrderDetailHeader from "../orderDetailHeader/OrderDetailHeader";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getOrderDetails } from "../../helpers/orderDetailsHelper";
+
 const OrderListing = () => {
   const [cancelOrderModal, setCancelOrderModal] = useState(false);
   const [paymentStatusModal, setPaymentStatusModal] = useState(false);
   const [changeStatusModal, setChangeStatusModal] = useState(false);
+  const [orderAdressDetails, setOrderAdressDetails] = useState({});
+  const [orderProductsDetails, setOrderProductsDetails] = useState([]);
+  const { id } = useParams();
 
   const columns = [
     {
@@ -33,6 +39,7 @@ const OrderListing = () => {
       width: 150,
     },
   ];
+
   const data = [];
   for (let i = 0; i < 30; i++) {
     data.push({
@@ -52,10 +59,27 @@ const OrderListing = () => {
       Price: <p className="text-lg font-semibold text-[#2B4447]">$369.00</p>,
     });
   }
+
+  useEffect(() => {
+    // Calling asynchronous function 
+    asyncFunction();
+  }, []);
+
+  // Asynchronously fetching data for apis
+  const asyncFunction = async () => {
+    const orderDetailsResponse = await getOrderDetails();
+
+    if(orderDetailsResponse){
+      setOrderAdressDetails(orderDetailsResponse[0])
+      setOrderProductsDetails(orderDetailsResponse)
+    }
+
+  };
+
   return (
     <>
       <div className="padding-top-custom px-7 ">
-        <OrderDetailHeader />
+        <OrderDetailHeader orderAdressDetails={orderAdressDetails} />
         <div className="flex lg:flex-nowrap flex-wrap   gap-5 ">
           <div className="lg:col-span-4 w-full">
             <div className="bg-white rounded-[8px] custom-shadow">

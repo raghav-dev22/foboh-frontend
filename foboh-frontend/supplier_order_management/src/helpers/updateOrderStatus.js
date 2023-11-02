@@ -6,7 +6,9 @@ export const updateOrderStatus = async (
 ) => {
   const orderId = localStorage.getItem("orderId");
   const cartId = localStorage.getItem("cartId");
-  const total = cartCalculations.total + parseFloat(shippingcharges.price);
+  const total = (
+    cartCalculations.total + parseFloat(shippingcharges.price)
+  ).toFixed(2);
 
   const status = await fetch(
     `https://suppliercreateorderfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/UpdateOrderByOrderId?OrderId=${orderId}`,
@@ -17,7 +19,7 @@ export const updateOrderStatus = async (
       },
       body: JSON.stringify({
         orderStatus: "New",
-        paymentStatus: "Unpaid",
+        transactionStatus: "Unpaid",
         orderByEmailID: customerDetails?.deliveryEmail,
         defaultPaymentTerm: [defaultPaymentTermValue?.label],
         totalPrice: cartCalculations?.subTotal,

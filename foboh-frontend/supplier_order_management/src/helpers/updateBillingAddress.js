@@ -7,11 +7,13 @@ export const updateBillingAddress = async (buyerId, values) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        billingAddress: values?.address,
-        billingApartment: values?.apartment,
-        billingSuburb: values?.suburb,
-        billingPostalCode: values?.postCode,
+        billingStreetaddress: values?.address,
+        billingApartmentSuite: values?.apartment,
+        billingCity: values?.suburb,
+        billingPostcode: values?.postCode,
         billingState: values?.state?.label,
+        billingSuburb: values?.suburb,
+        billingCountry: "Australia",
       }),
     }
   )

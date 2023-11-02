@@ -492,7 +492,7 @@ const CreateOrderModal = ({
                 isLastStep={(value) => setIsLastStep(value)}
                 isFirstStep={(value) => setIsFirstStep(value)}
               >
-                <Step onClick={() => setActiveStep(0)} size="sm">
+                <Step size="sm">
                   <div
                     className={`w-[40px] h-[40px]  rounded-full   flex justify-center items-center  `}
                   >
@@ -508,7 +508,7 @@ const CreateOrderModal = ({
                     </Typography>
                   </div>
                 </Step>
-                <Step onClick={() => setActiveStep(1)}>
+                <Step>
                   <div
                     className={`w-[40px] h-[40px] rounded-full   flex justify-center items-center `}
                   >
@@ -524,7 +524,7 @@ const CreateOrderModal = ({
                     </Typography>
                   </div>
                 </Step>
-                <Step onClick={() => setActiveStep(2)}>
+                <Step>
                   <div
                     className={`w-[40px] h-[40px] rounded-full   flex justify-center items-center `}
                   >
@@ -540,7 +540,7 @@ const CreateOrderModal = ({
                     </Typography>
                   </div>
                 </Step>
-                <Step onClick={() => setActiveStep(3)}>
+                <Step>
                   <div
                     className={`w-[40px] h-[40px] rounded-full   flex justify-center items-center 
                      `}
@@ -735,7 +735,7 @@ const CreateOrderModal = ({
                                 </div>
 
                                 <p className="text-base font-normal text-[#2B4447] leading-[28px]">
-                                  {`${customerDetails?.billingApartment} ${customerDetails?.billingAddress}, ${customerDetails?.billingSuburb}, ${customerDetails?.billingState} ${customerDetails?.billingPostalCode} Australia`}
+                                  {`${customerDetails?.billingApartmentSuite} ${customerDetails?.billingStreetaddress}, ${customerDetails?.billingCity}, ${customerDetails?.billingState} ${customerDetails?.billingPostcode} Australia`}
                                 </p>
                               </div>
                             )}

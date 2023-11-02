@@ -51,6 +51,7 @@ const ShippingDetailsForm = ({
                 <input
                   type="text"
                   className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
+                  value={shippingcharges?.name}
                   onChange={(e) =>
                     setSippingCharges((prev) => {
                       return { ...prev, name: e.target.value };
@@ -65,6 +66,7 @@ const ShippingDetailsForm = ({
                 <input
                   type="text"
                   className="border border-[#E0E0E0] rounded-[8px] bg-[#F8F8F8] py-2 px-3"
+                  value={shippingcharges?.price}
                   onChange={(e) =>
                     setSippingCharges((prev) => {
                       return { ...prev, price: e.target.value };
