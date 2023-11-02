@@ -653,7 +653,10 @@ const MyOrders = () => {
          
           color: ${token.commonThemeColor} !important;
         }
-        .ant-pagination .ant-pagination-item-active{
+        .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner{
+          background:${token.commonThemeColor} !important;
+        }
+        .ant-pagination .ant-pagination-item-active,.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before{
           border-color:${token.commonThemeColor} !important;
         }
         .green-checkbox input[type="checkbox"]:checked {
@@ -1007,7 +1010,7 @@ const MyOrders = () => {
             onChange={onShowSizeChange}
             pagination={{
               current: page,
-              pageSize: 3,
+              pageSize: 8,
               total: totalData,
               showSizeChanger: false,
               showQuickJumper: false,

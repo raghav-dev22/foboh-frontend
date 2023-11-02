@@ -174,6 +174,18 @@ const DeliveryEditForm = () => {
 
   return (
     <>
+      <style>
+        {`
+         .green-checkbox input[type="checkbox"]:checked::before {
+         
+          color: ${token.commonThemeColor} !important;
+        }
+        .green-checkbox input[type="checkbox"]:checked {
+          background-color: white;
+        
+          border: 1px solid ${token.commonThemeColor} !important;
+        }`}
+      </style>
       <form onSubmit={handleSubmit} className="">
         <div className={`relative mb-8 `} data-te-input-wrapper-init>
           <label
@@ -391,7 +403,7 @@ const DeliveryEditForm = () => {
           </div>
 
           <div className={`relative mb-8 `} data-te-input-wrapper-init>
-            <label className="md:w-2/3 flex items-center ">
+            <label className="md:w-2/3 flex items-center green-checkbox">
               <input
                 className="mr-2 leading-tight"
                 type="checkbox"
@@ -560,7 +572,7 @@ const DeliveryEditForm = () => {
             style={{ backgroundColor: token.buttonThemeColor }}
             onClick={handleSubmitBtn}
             type="submit"
-            className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+            className="   bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
           >
             Save
           </button>

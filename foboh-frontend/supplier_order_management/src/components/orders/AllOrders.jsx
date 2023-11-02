@@ -816,10 +816,7 @@ const AllOrders = () => {
             </div>
           )}
         </div>
-        <div
-          className="border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination
-    "
-        >
+        <div className="border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination">
           <Table
             columns={columns}
             dataSource={data}

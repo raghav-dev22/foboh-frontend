@@ -367,3 +367,6 @@ a.foboh-green-btn:hover {
 .custom-border-none .ant-select-selector {
   border: 0px !important;
 }
+/* .custom-border-none .anticon svg {
+  display: none;
+} */
