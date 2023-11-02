@@ -59,7 +59,7 @@ const SigninNew = () => {
             if (data.success) {
               console.log(data);
               localStorage.setItem("userId", data.data.ccrn);
-              localStorage.setItem("email", values.email);
+              localStorage.setItem("email", values.email.toLowerCase());
               const user = data.data;
               dispatch(
                 updateUserData({

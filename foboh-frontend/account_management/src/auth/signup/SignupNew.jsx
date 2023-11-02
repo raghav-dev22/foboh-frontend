@@ -75,7 +75,7 @@ const SignupNew = () => {
                 .then((data) => {
                   setIsLoading(false);
                   console.log(data);
-                  localStorage.setItem("email", values.email);
+                  localStorage.setItem("email", values.email.toLowerCase());
                   localStorage.setItem("password", values.password);
 
                   localStorage.setItem("uniqueKey", data.key);
