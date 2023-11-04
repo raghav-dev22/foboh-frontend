@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { Space, Table, Tag, Checkbox, Divider, Steps } from "antd";
-import PersonIcon from "@mui/icons-material/Person";
-import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
-import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import { Button, Modal } from "antd";
 import PaymentStatusModal from "../../Modal/PaymentStatusModal";
 import CancelOrderModal from "../../Modal/CancelOrderModal";
@@ -10,14 +7,34 @@ import ChangeStatusModal from "../../Modal/ChangeStatusModal";
 import OrderDetailHeader from "../orderDetailHeader/OrderDetailHeader";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { getOrderDetails } from "../../helpers/orderDetailsHelper";
+import {
+  getOrderDetails,
+  getOrderStatusList,
+  getTimeline,
+  nameShortner,
+  orderStatusChange,
+  timelineConvert,
+} from "../../helpers/orderDetailsHelper";
+import { message } from "antd";
+import OrderDetailsTimeline from "./OrderDetailsTimeline";
+import DeliveryContact from "./DeliveryContact";
+import DeliveryAddress from "./DeliveryAddress";
+import BillingAddress from "./BillingAddress";
+import PaymentDetails from "./PaymentDetails";
 
 const OrderListing = () => {
   const [cancelOrderModal, setCancelOrderModal] = useState(false);
-  const [paymentStatusModal, setPaymentStatusModal] = useState(false);
-  const [changeStatusModal, setChangeStatusModal] = useState(false);
   const [orderAdressDetails, setOrderAdressDetails] = useState({});
+  const [messageApi, contextHolder] = message.useMessage();
   const [orderProductsDetails, setOrderProductsDetails] = useState([]);
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [orderStatus, setOrderStatus] = useState("");
+  const [orderStatusList, setOrderStatusList] = useState([]);
+  const [changeStatusModal, setChangeStatusModal] = useState(false);
+  const [updatedOrderStatus, setUpdatedOrderStatus] = useState("");
+  const [timeline, setTimeline] = useState([]);
+  const [shortenName, setShortenName] = useState("");
+
   const { id } = useParams();
 
   const columns = [
@@ -40,52 +57,201 @@ const OrderListing = () => {
     },
   ];
 
-  const data = [];
-  for (let i = 0; i < 30; i++) {
-    data.push({
-      key: i,
-      ProductDetail: (
-        <div className="flex justify-start gap-4">
-          <img src="/assets/order.png" alt="" />
-          <div>
-            <h5 className="text-lg font-semibold text-[#2B4447]">
-              Write Product Full Name
-            </h5>
-            <p className="font-medium text-lg text-[#637381]">12 x 750ml</p>
-          </div>
-        </div>
-      ),
-      Quantity: <p className="text-lg font-semibold text-[#2B4447]">1</p>,
-      Price: <p className="text-lg font-semibold text-[#2B4447]">$369.00</p>,
+  // Handling event notifications
+  const success = (message) => {
+    messageApi.open({
+      type: "success",
+      content: message,
     });
-  }
+  };
+  const error = (message) => {
+    messageApi.open({
+      type: "error",
+      content: message,
+    });
+  };
+  const warning = (message) => {
+    messageApi.open({
+      type: "warning",
+      content: message,
+    });
+  };
 
   useEffect(() => {
-    // Calling asynchronous function 
+    // Calling asynchronous function
     asyncFunction();
   }, []);
 
+  //Order status change modal opening
+  const confirmOrderStatusChange = async (status) => {
+    const orderStatusChangeResponse = await orderStatusChange(
+      status,
+      orderAdressDetails
+    );
+
+    if (orderStatusChangeResponse) {
+      setChangeStatusModal(false);
+      setCancelOrderModal(false);
+      success(`Order status successfully changed to ${status} !`);
+      asyncFunction();
+    } else {
+      setChangeStatusModal(false);
+      setCancelOrderModal(false);
+      error("Some error has occurred, please try again later!");
+    }
+  };
+
+  //Order status change modal opening
+  const handleOrderStatusChange = (status) => {
+    setChangeStatusModal(true);
+    setUpdatedOrderStatus(status);
+  };
+
+  const handleCancelOrder = (status) => {
+    setCancelOrderModal(true);
+    setUpdatedOrderStatus(status);
+  };
+
   // Asynchronously fetching data for apis
   const asyncFunction = async () => {
-    const orderDetailsResponse = await getOrderDetails();
+    const orderDetailsResponse = await getOrderDetails(8880187574);
 
-    if(orderDetailsResponse){
-      setOrderAdressDetails(orderDetailsResponse[0])
-      setOrderProductsDetails(orderDetailsResponse)
+    const timelineResponse = await getTimeline(orderDetailsResponse[0]);
+    if (timelineResponse) {
+      const updatedTimeline = timelineConvert(timelineResponse);
+      setTimeline(updatedTimeline);
     }
 
+    if (orderDetailsResponse) {
+      const updatedName = nameShortner(orderDetailsResponse[0]?.customerName);
+      setShortenName(updatedName);
+
+      //If order status is New then it will be updated to Pending Order
+      if (orderDetailsResponse[0]?.orderStatus === "New") {
+        const orderStatusChangeResponse = await orderStatusChange(
+          "Pending",
+          orderDetailsResponse[0]
+        );
+        if (orderStatusChangeResponse) {
+          success(`Order status successfully changed to Pending !`);
+          asyncFunction();
+        } else {
+          error("Some error has occurred, please try again later!");
+        }
+      }
+
+      //If order status is Delivered and payment is Paid then order status will be Complete
+      if (
+        orderDetailsResponse[0]?.orderStatus === "Delivered" &&
+        orderDetailsResponse[0]?.transactionStatus === "Paid"
+      ) {
+        const orderStatusChangeResponse = await orderStatusChange(
+          "Complete",
+          orderDetailsResponse[0]
+        );
+        if (orderStatusChangeResponse) {
+          success(`Order status successfully changed to Complete !`);
+          asyncFunction();
+        } else {
+          error("Some error has occurred, please try again later!");
+        }
+      }
+
+      //Setting payment status to useState on loading
+      setPaymentStatus(orderDetailsResponse[0]?.transactionStatus);
+
+      //Setting order status to useState on loading
+      setOrderStatus(orderDetailsResponse[0]?.orderStatus);
+
+      //Setting order details to useState on loading
+      setOrderAdressDetails(orderDetailsResponse[0]);
+
+      //Setting order product details to useState on loading
+      setOrderProductsDetails(
+        orderDetailsResponse.map((product, idx) => {
+          return {
+            key: idx,
+            ProductDetail: (
+              <div className="flex justify-start gap-4">
+                <div
+                  className="flex items-center justify-center"
+                  style={{ width: "65px" }}
+                >
+                  <img
+                    src={
+                      product?.productImageUrls.length > 0
+                        ? product?.productImageUrls[0]
+                        : "/assets/order.png"
+                    }
+                    alt=""
+                    style={{ height: "65px" }}
+                  />
+                </div>
+                <div>
+                  <h5 className="text-lg font-semibold text-[#2B4447]">
+                    {product?.title}
+                  </h5>
+                  <p className="font-medium text-lg text-[#637381]">
+                    {product?.configuration}
+                  </p>
+                </div>
+              </div>
+            ),
+            Quantity: (
+              <p className="text-lg font-semibold text-[#2B4447]">
+                {product?.quantity}
+              </p>
+            ),
+            Price: (
+              <p className="text-lg font-semibold text-[#2B4447]">
+                ${product?.globalPrice}
+              </p>
+            ),
+          };
+        })
+      );
+
+      if (
+        orderDetailsResponse[0]?.orderStatus === "Processing" ||
+        orderDetailsResponse[0]?.orderStatus === "Shipped" ||
+        orderDetailsResponse[0]?.orderStatus === "Partially fulfilled"
+      ) {
+        const status = orderDetailsResponse[0]?.orderStatus;
+        const orderStatusListResponse = await getOrderStatusList(status);
+        setOrderStatusList(
+          orderStatusListResponse.map((item, idx) => {
+            return {
+              label: item,
+              value: idx,
+            };
+          })
+        );
+      }
+    }
   };
 
   return (
     <>
+      {contextHolder}
       <div className="padding-top-custom px-7 ">
-        <OrderDetailHeader orderAdressDetails={orderAdressDetails} />
+        <OrderDetailHeader
+          success={success}
+          error={error}
+          warning={warning}
+          orderAdressDetails={orderAdressDetails}
+          asyncFunction={asyncFunction}
+          paymentStatus={paymentStatus}
+          setPaymentStatus={setPaymentStatus}
+          setOrderStatus={setOrderStatus}
+          orderStatus={orderStatus}
+          orderStatusList={orderStatusList}
+        />
         <div className="flex lg:flex-nowrap flex-wrap   gap-5 ">
           <div className="lg:col-span-4 w-full">
             <div className="bg-white rounded-[8px] custom-shadow">
               <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={orderProductsDetails}
                 showSizeChanger={false}
                 pagination={false}
                 scroll={{
@@ -98,8 +264,7 @@ const OrderListing = () => {
                     Subtotal
                   </h5>
                   <h5 className="text-base font-medium text-[#637381]">
-                    {/* ${totalCost} */}
-                    $1280.00
+                    {/* ${totalCost} */}${orderAdressDetails?.totalPrice}
                   </h5>
                 </div>
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
@@ -107,15 +272,23 @@ const OrderListing = () => {
                     Shipping estimate
                   </h5>
                   <h5 className="text-base font-medium text-[#637381]">
-                    $60.00
+                    ${orderAdressDetails?.shippingcharges}
                   </h5>
                 </div>
+                {orderAdressDetails?.wt !== 0 && (
+                  <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                    <h5 className="text-base font-medium text-[#637381]">
+                      WET
+                    </h5>
+                    <h5 className="text-base font-medium text-[#637381]">
+                      ${orderAdressDetails?.wt}
+                    </h5>
+                  </div>
+                )}
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                  <h5 className="text-base font-medium text-[#637381]">GST</h5>
                   <h5 className="text-base font-medium text-[#637381]">
-                    Tax estimate
-                  </h5>
-                  <h5 className="text-base font-medium text-[#637381]">
-                    $60.00
+                    ${orderAdressDetails?.gst}
                   </h5>
                 </div>
                 <div className="flex justify-between py-3 ">
@@ -123,267 +296,81 @@ const OrderListing = () => {
                     Order total
                   </h5>
                   <h5 className="text-lg font-semibold text-[#2B4447]">
-                    $60.00
+                    ${orderAdressDetails?.payAmountLong}
                   </h5>
                 </div>
                 <div className="py-5 flex justify-between ">
                   <button
                     onClick={() => {
-                      setCancelOrderModal(true);
+                      handleCancelOrder("Cancelled");
                     }}
-                    className="rounded-[6px] py-2 bg-[#DC3545] text-white  text-base font-semibold w-fit px-6"
+                    className={
+                      orderAdressDetails.orderStatus !== "Pending"
+                        ? "rounded-[6px] py-2 bg-[#ffffff] border text-gray-500  text-base font-semibold w-fit px-6"
+                        : "rounded-[6px] py-2 bg-[#DC3545] text-white  text-base font-semibold w-fit px-6"
+                    }
+                    disabled={orderAdressDetails.orderStatus !== "Pending"}
                   >
                     Cancel
                   </button>
                   <div className="flex gap-3 ">
-                    <button
-                      onClick={() => {
-                        setChangeStatusModal(true);
-                      }}
+                    {/* <button
                       className="bg-[#F8B02B] py-2 px-6 rounded-[6px] text-white font-semibold text-base"
                     >
                       Request Changes
-                    </button>
+                    </button> */}
                     <button
                       onClick={() => {
-                        setPaymentStatusModal(true);
+                        handleOrderStatusChange("Processing");
                       }}
-                      className="bg-[#147D73] py-2 px-6 rounded-[6px] text-white font-semibold text-base"
+                      disabled={orderAdressDetails.orderStatus !== "Pending"}
+                      className={
+                        orderAdressDetails.orderStatus !== "Pending"
+                          ? "bg-[#ffffff] py-2 px-6 rounded-[6px] border text-gray-500 font-semibold text-base"
+                          : "bg-[#147D73] py-2 px-6 rounded-[6px] text-white font-semibold text-base"
+                      }
                     >
                       Confirm
                     </button>
                   </div>
                 </div>
-                <form action=""></form>
               </div>
             </div>
-            <div className="timeLine-section mt-8">
-              <div className="flex justify-between py-2 border-b border-[#C4C4C4]">
-                <h4 className="text-lg font-semibold text-[#2B4447]">
-                  Timeline
-                </h4>
-                <Checkbox>
-                  <p className="text-base font-medium text-[#2B4447]">
-                    Show Comments
-                  </p>
-                </Checkbox>
-              </div>
-              <div className="">
-                <div className="box py-12 relative">
-                  <div className="absolute top-[50px] left-[18px] bg-[#C4C4C4] h-[80%] w-[1px]"></div>
-                  <ul className="relative flex justify-end ">
-                    <div className="flex justify-center items-center absolute top-0 left-0 h-[37px] w-[37px] rounded-[50%] border border-[#CCCCCC] bg-[#F1F1F1] text-base font-semibold text-[#2B4447]">
-                      HM
-                    </div>
-
-                    <li className=" w-[92%]">
-                      <textarea
-                        type="text"
-                        placeholder="Add a comment"
-                        className="rounded-[8px] p-3 w-full"
-                        style={{ border: "1px solid #CDCED6" }}
-                      />
-                      <div className="flex justify-between">
-                        <label
-                          htmlFor=""
-                          className="text-[12px] font-noraml text-[#212B36]"
-                        >
-                          Only you and other staff can see comments
-                        </label>
-                        <button className="py-3 px-6 bg-[#147D73] rounded-[6px] text-base font-semibold text-white">
-                          Post
-                        </button>
-                      </div>
-                    </li>
-                  </ul>
-                  <div className="pt-4 ">
-                    <ul className=" flex justify-end ">
-                      <div className="w-[92%]">
-                        <h4 className="text-lg font-bold text-[#212B36] mb-5">
-                          Date of Order action
-                        </h4>
-                        <li className="relative flex justify-between items-center mb-4 ">
-                          <div className="absolute top-[4px] left-[-63px]  h-[18px] w-[18px] rounded-[50%] border border-[#CCCCCC] bg-[#FFFFFF]"></div>
-
-                          <p className="text-base font-normal text-[#212B36]">
-                            First detail of action
-                          </p>
-                          <p className="text-base font-normal text-[#212B36]">
-                            Time
-                          </p>
-                        </li>
-                        <li className="flex justify-between items-center mb-4  relative">
-                          <div className="absolute top-[4px] left-[-63px] h-[18px] w-[18px] rounded-[50%] border border-[#CCCCCC] bg-[#FFFFFF]"></div>
-
-                          <p className="text-base font-normal text-[#212B36]">
-                            First detail of action
-                          </p>
-                          <p className="text-base font-normal text-[#212B36]">
-                            Time
-                          </p>
-                        </li>
-                      </div>
-                    </ul>
-                    <ul className=" flex justify-end ">
-                      <div className="w-[92%]">
-                        <h4 className="text-lg font-bold text-[#212B36] mb-5">
-                          Date of Order action
-                        </h4>
-                        <li className="relative flex justify-between items-center mb-4 ">
-                          <div className="absolute top-[4px] left-[-63px]  h-[18px] w-[18px] rounded-[50%] border border-[#CCCCCC] bg-[#FFFFFF]"></div>
-
-                          <p className="text-base font-normal text-[#212B36]">
-                            First detail of action
-                          </p>
-                          <p className="text-base font-normal text-[#212B36]">
-                            Time
-                          </p>
-                        </li>
-                        <li className="flex justify-between items-center mb-4  relative">
-                          <div className="absolute top-[4px] left-[-63px] h-[18px] w-[18px] rounded-[50%] border border-[#CCCCCC] bg-[#FFFFFF]"></div>
-
-                          <p className="text-base font-normal text-[#212B36]">
-                            First detail of action
-                          </p>
-                          <p className="text-base font-normal text-[#212B36]">
-                            Time
-                          </p>
-                        </li>
-                      </div>
-                    </ul>
-                    <ul className=" flex justify-end ">
-                      <div className="w-[92%]">
-                        <h4 className="text-lg font-bold text-[#212B36] mb-5">
-                          Date of Order action
-                        </h4>
-                        <li className="relative flex justify-between items-center mb-4 ">
-                          <div className="absolute top-[4px] left-[-63px]  h-[18px] w-[18px] rounded-[50%] border border-[#CCCCCC] bg-[#FFFFFF]"></div>
-
-                          <p className="text-base font-normal text-[#212B36]">
-                            First detail of action
-                          </p>
-                          <p className="text-base font-normal text-[#212B36]">
-                            Time
-                          </p>
-                        </li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <OrderDetailsTimeline
+              orderAdressDetails={orderAdressDetails}
+              success={success}
+              error={error}
+              timeline={timeline}
+              asyncFunction={asyncFunction}
+              shortenName={shortenName}
+            />
           </div>
           <div className="lg:col-span-2 w-full">
-            <div className="bg-white rounded-[8px] custom-shadow p-4">
-              <h4 className="font-semibold text-[20px]">Delivery Contact</h4>
-
-              <div className="flex items-center gap-5 py-5">
-                <PersonIcon
-                  style={{ fill: "#147D73", width: "42px", height: "42px" }}
-                />
-                <div className="">
-                  <h5 className="text-base font-semibold text-[#1D1E20]">
-                    Musharof
-                  </h5>
-                  <p className="text-sm font-normal text-[#637381]">
-                    No previous orders
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <MailOutlineRoundedIcon style={{ fill: "#147D73" }} />
-                <div className="">
-                  <h6 className="text-base font-semibold text-[#1D1E20]">
-                    Email Address
-                  </h6>
-                  <p className="text-sm font-normal text-[#637381]">
-                    email@example.com
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3 mt-3">
-                <LocalPhoneRoundedIcon style={{ fill: "#147D73" }} />
-                <div className="">
-                  <h6 className="text-base font-semibold text-[#1D1E20]">
-                    Mobile
-                  </h6>
-                  <p className="text-sm font-normal text-[#637381]">
-                    0467 333 444
-                  </p>
-                </div>
-              </div>
-              <button className=" w-full mt-6 bg-[#147D73] rounded-[6px] py-3 text-base font-semibold text-white">
-                Edit Details
-              </button>
-            </div>
-            <div className="bg-white rounded-[8px] custom-shadow p-4 mt-5">
-              <h4 className="font-semibold text-[20px]">Delivery Address</h4>
-
-              <p className="text-lg font-normal text-[#2B4447] mt-2">
-                456 King Street, Newton, NSW 2304 Australia
-              </p>
-              <h4 className="font-semibold text-[20px] mt-6">
-                Delivery Instructions
-              </h4>
-
-              <p className="text-lg font-normal text-[#2B4447] mt-2">
-                Ring delivery contact on arrival
-              </p>
-              <button className=" w-full mt-6 bg-[#147D73] rounded-[6px] py-3 text-base font-semibold text-white">
-                Edit Details
-              </button>
-            </div>
-            <div className="bg-white rounded-[8px] custom-shadow p-4 mt-5">
-              <h4 className="font-semibold text-[20px]">Delivery Address</h4>
-
-              <p className="text-lg font-normal text-[#2B4447] mt-2">
-                456 King Street, Newton, NSW 2304 Australia
-              </p>
-
-              <button className=" w-full mt-6 bg-[#147D73] rounded-[6px] py-3 text-base font-semibold text-white">
-                Edit Details
-              </button>
-            </div>
-            <div className="bg-white rounded-[8px] custom-shadow p-4 mt-5">
-              <h4 className="font-semibold text-[20px]">Payment</h4>
-              <div className="flex items-start gap-2 mt-3">
-                <img src="./assets/visa.png" alt="" className="" />
-                <p className="text-lg font-normal text-[#2B4447] ">
-                  Credit card ending with 3259
-                </p>
-              </div>
-            </div>
+            <DeliveryContact orderAdressDetails={orderAdressDetails} />
+            <DeliveryAddress orderAdressDetails={orderAdressDetails} />
+            <BillingAddress orderAdressDetails={orderAdressDetails} />
+            <PaymentDetails orderAdressDetails={orderAdressDetails} />
           </div>
         </div>
       </div>
-      <PaymentStatusModal
-        handleCancel={() => {
-          setPaymentStatusModal(false);
-        }}
-        isModalOpen={paymentStatusModal}
-        handleOk={() => {
-          setPaymentStatusModal(false);
-        }}
-        closeIcon={false}
-      />
-      <ChangeStatusModal
-        handleCancel={() => {
-          setChangeStatusModal(false);
-        }}
-        isModalOpen={changeStatusModal}
-        handleOk={() => {
-          setChangeStatusModal(false);
-        }}
-        closeIcon={false}
-      />
       <CancelOrderModal
         handleCancel={() => {
           setCancelOrderModal(false);
         }}
         isModalOpen={cancelOrderModal}
         handleOk={() => {
-          setCancelOrderModal(false);
+          confirmOrderStatusChange(updatedOrderStatus);
         }}
+        closeIcon={false}
+      />
+      <ChangeStatusModal
+        orderStatus={orderStatus}
+        updatedOrderStatus={updatedOrderStatus}
+        handleCancel={() => {
+          setChangeStatusModal(false);
+        }}
+        isModalOpen={changeStatusModal}
+        handleOk={() => confirmOrderStatusChange(updatedOrderStatus)}
         closeIcon={false}
       />
     </>

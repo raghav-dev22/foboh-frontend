@@ -1,18 +1,26 @@
 export const fomatDateAndTime = (inputDateTime) => {
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
   const date = new Date(inputDateTime);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-  const formattedDate = date.toLocaleDateString("en-US", options);
-  const formattedTime = date.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const formattedDate = `${date.getDate()} ${
+    months[date.getMonth()]
+  } ${date.getFullYear()}`;
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const formattedTime = `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
 
   return `${formattedDate} at ${formattedTime}`;
 };

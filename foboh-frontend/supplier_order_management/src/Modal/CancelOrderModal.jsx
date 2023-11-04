@@ -26,18 +26,18 @@ const CancelOrderModal = ({
             <Button
               key="cancel"
               onClick={handleCancel}
-              className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
+              className="bg-[#ffffff] border text-black text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
             >
-              Yes
+              No
             </Button>
 
             <Button
               key="ok"
               type="primary"
-              onClick={handleCancel}
+              onClick={handleOk}
               className="bg-[#DC3545] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
             >
-              No
+              Cancel Order
             </Button>
           </div>,
         ]}

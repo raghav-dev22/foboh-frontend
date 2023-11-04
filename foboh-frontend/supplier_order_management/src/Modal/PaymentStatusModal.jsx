@@ -25,7 +25,7 @@ const PaymentStatusModal = ({
           <div className="flex justify-end items-center">
             <Button
               key="cancel"
-              onClick={handleCancel}
+              onClick={handleOk}
               className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
             >
               Yes

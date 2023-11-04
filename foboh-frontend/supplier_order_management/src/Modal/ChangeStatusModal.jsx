@@ -7,6 +7,8 @@ const ChangeStatusModal = ({
   handleOk,
   isModalOpen,
   handleCancel,
+  updatedOrderStatus,
+  orderStatus,
 }) => {
   return (
     <>
@@ -18,8 +20,8 @@ const ChangeStatusModal = ({
             </div>
             <h5 className="text-[#2B4447] text-lg font-medium">
               Do you want to change status of this order from{" "}
-              <span className="font-bold">processing </span> to{" "}
-              <span className="font-bold">shipped?</span>{" "}
+              <span className="font-bold">{orderStatus} </span> to{" "}
+              <span className="font-bold">{updatedOrderStatus}?</span>{" "}
             </h5>
           </div>
         }
@@ -27,7 +29,7 @@ const ChangeStatusModal = ({
           <div className="flex justify-end items-center">
             <Button
               key="cancel"
-              onClick={handleCancel}
+              onClick={handleOk}
               className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
             >
               Yes
