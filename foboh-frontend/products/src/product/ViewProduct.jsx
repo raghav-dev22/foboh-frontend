@@ -1258,7 +1258,7 @@ function ViewProduct() {
         >
           {show && (
             <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-              <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+              <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
                 <div className="block">
                   <nav className="flex h-[65px] items-center justify-end gap-5 ">
                     <button
@@ -1314,7 +1314,7 @@ function ViewProduct() {
                       <img
                         src={
                           productImageUris?.length > 0
-                            ? productImageUris[1]
+                            ? productImageUris[1] || "/assets/inventory-img.png"
                             : "/assets/inventory-img.png"
                         }
                         alt=""
@@ -1332,7 +1332,7 @@ function ViewProduct() {
                       <img
                         src={
                           productImageUris?.length > 0
-                            ? productImageUris[2]
+                            ? productImageUris[2] || "/assets/inventory-img.png"
                             : "/assets/inventory-img.png"
                         }
                         alt=""

@@ -482,6 +482,7 @@ const CreateOrderModal = ({
                 onClick={() => {
                   setAlertModal(true);
                 }}
+                className="cursor-pointer"
               />
             </div>
 
@@ -767,9 +768,10 @@ const CreateOrderModal = ({
                         Select Products
                       </h5>
                       <div className="flex justify-between items-center mb-10">
-                        <div>
+                        <div className="w-[35%]">
                           <Select
                             onChange={handleSelectProduct}
+                            className="product-list"
                             options={productSelectList}
                           />{" "}
                         </div>

@@ -157,9 +157,9 @@ const ResetPasswordForm = () => {
                   Your password is strong.
                 </p>
               )}
-              {!errors.password && values.password && (
+              {/* {!errors.password && values.password && (
                 <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-              )}
+              )} */}
 
               {<p className="mt-2 mb-2 text-red-500">{errors.password}</p>}
             </div>

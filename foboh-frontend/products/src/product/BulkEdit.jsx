@@ -250,7 +250,7 @@ function BulkEdit() {
     <>
       {isUpdate && (
         <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-          <div className="bg-custom-extraDarkGreen shadow-lg py-3 px-7">
+          <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
             <div className="block">
               <nav className="flex h-[65px] items-center justify-end gap-5 ">
                 <button
@@ -274,7 +274,7 @@ function BulkEdit() {
         </div>
       )}
 
-      <div className="padding-top-custom flex flex-col items-start justify-between px-6 gap-5">
+      <div className="padding-top-custom flex flex-col items-start  px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
           <div onClick={backBtn} className="cursor-pointer">
             <img src="/assets/previousBtn.png" alt="" />
@@ -291,7 +291,7 @@ function BulkEdit() {
 
         <div
           className={`relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full`}
-          style={{ height: "400px" }}
+          style={{ height: "600px" }}
         >
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className=" border-b">

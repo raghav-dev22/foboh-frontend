@@ -198,29 +198,30 @@ const BaseUnit = ({
                               }
                             }}
                           />
-                          <Select
-                            showSearch
-                            className="custom-border-none"
-                            style={{
-                              width: "30%",
-                            }}
-                            placeholder="Enter amount"
-                            optionFilterProp="children"
-                            filterOption={(input, option) =>
-                              (option?.label ?? "").includes(input)
-                            }
-                            filterSort={(optionA, optionB) =>
-                              (optionA?.label ?? "")
-                                .toLowerCase()
-                                .localeCompare(
-                                  (optionB?.label ?? "").toLowerCase()
-                                )
-                            }
-                            options={baseUnitMeasureUnitList}
-                            onChange={(value) =>
-                              handleEdit(idx, "baseUnitMeasureUnit", value)
-                            }
-                          />
+                          <div className="relative">
+                            <Select
+                              className="custom-border-none"
+                              style={{
+                                width: "30%",
+                              }}
+                              placeholder="Enter amount"
+                              optionFilterProp="children"
+                              filterOption={(input, option) =>
+                                (option?.label ?? "").includes(input)
+                              }
+                              filterSort={(optionA, optionB) =>
+                                (optionA?.label ?? "")
+                                  .toLowerCase()
+                                  .localeCompare(
+                                    (optionB?.label ?? "").toLowerCase()
+                                  )
+                              }
+                              options={baseUnitMeasureUnitList}
+                              onChange={(value) =>
+                                handleEdit(idx, "baseUnitMeasureUnit", value)
+                              }
+                            />
+                          </div>
                         </div>
                       </div>
                       <div className="w-full  px-3 relative">
@@ -312,7 +313,6 @@ const BaseUnit = ({
                   }}
                 />
                 <Select
-                  showSearch
                   className="custom-border-none"
                   style={{
                     width: "30%",

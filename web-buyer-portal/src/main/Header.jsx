@@ -168,7 +168,6 @@ function Header() {
               style={{ color: token.commonThemeColor }}
               className="text-[#637381] font-bold md:text-3xl text-xl	"
             >
-              {" "}
               LOGO
             </h2>
           )}

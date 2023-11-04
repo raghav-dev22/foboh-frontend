@@ -235,7 +235,7 @@ const BankingInformation = () => {
       <div className="bank-information-page padding-top-custom">
         <div className="pb-6 px-6 flex justify-start items-center gap-2">
           <div
-            className=""
+            className="cursor-pointer"
             onClick={() => {
               navigate("/dashboard/settings");
             }}

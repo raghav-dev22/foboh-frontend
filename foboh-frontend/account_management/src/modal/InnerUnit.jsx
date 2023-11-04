@@ -201,7 +201,6 @@ const InnerUnit = ({
                           }}
                         />
                         <Select
-                          showSearch
                           className="custom-border-none"
                           style={{
                             width: "40%",
@@ -313,7 +312,6 @@ const InnerUnit = ({
                   }}
                 />
                 <Select
-                  showSearch
                   className="custom-border-none"
                   style={{
                     width: "40%",

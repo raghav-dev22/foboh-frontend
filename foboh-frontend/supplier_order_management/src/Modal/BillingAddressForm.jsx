@@ -254,7 +254,7 @@ const BillingAddressForm = ({
       <div className="text-right flex justify-end items-center gap-2">
         <button
           type="submit"
-          className="bg-[#563FE3] rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-white"
+          className="bg-[#147D73] rounded-[6px] w-fit py-[12px] px-[33px] text-base font-medium text-white"
         >
           Save
         </button>

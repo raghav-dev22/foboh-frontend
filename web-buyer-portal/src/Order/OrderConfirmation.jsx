@@ -25,16 +25,12 @@ const OrderConfirmation = () => {
   useEffect(() => {
     getDeliveryAddress();
     const handleBeforeUnload = (e) => {
-      // Check if the user is navigating away from the page
-      // Your action to remove items from localStorage
       localStorage.removeItem("orderId");
       localStorage.removeItem("cartId");
     };
 
-    // Attach the event listener for beforeunload
     window.addEventListener("unload", handleBeforeUnload);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("unload", handleBeforeUnload);
     };
@@ -60,15 +56,7 @@ const OrderConfirmation = () => {
             setIsWine(true);
           }
         });
-        // const updatedList = data.data.map((product) => {
-        //   return {
-        //     product: product,
-        //     quantity: product?.quantity,
-        //   };
-        // });
 
-        // cart = updatedList;
-        // setProductList(updatedList);
         calculateTotalCost();
       }
     });

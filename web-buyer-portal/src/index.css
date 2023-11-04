@@ -374,6 +374,18 @@ select {
   background: #7a7a7a !important;
   border-radius: 30px !important;
 }
+.ant-table-body::-webkit-scrollbar {
+  width: 8px !important;
+  height: 10px !important;
+  display: block !important ;
+}
+.ant-table-body::-webkit-scrollbar-thumb {
+  width: 8px !important;
+  height: 8px !important;
+  background: #7a7a7a !important;
+  border-radius: 30px !important;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 0px;
@@ -746,26 +758,3 @@ select {
   transition: 0.6s ease-in-out;
   transform: translate3d(0px, -2px, -2px);
 }
-/* .custom-scroll-table {
-  position: relative;
-  overflow: auto;
-  max-height: 340px;
-}
-
-.custom-scroll-table::-webkit-scrollbar {
-  width: 8px;
-  display: block;
-}
-
-.custom-scroll-table::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 6px;
-}
-
-.custom-scroll-table::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-
-.custom-scroll-table::-webkit-scrollbar-thumb:vertical {
-  height: 30px; 
-} */
