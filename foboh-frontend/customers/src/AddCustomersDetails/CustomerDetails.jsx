@@ -187,7 +187,7 @@ function CustomerDetails() {
                   >
                     Cancel
                   </button>
-                  <button
+                  {/* <button
                     onClick={
                       formik.isValid &&
                       activeStep === 2 &&
@@ -209,7 +209,7 @@ function CustomerDetails() {
                     }`}
                   >
                     Save
-                  </button>
+                  </button> */}
                 </nav>
               </div>
             </div>

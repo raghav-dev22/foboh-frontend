@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import OrderTable from "./OrderTable";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import { AddCustomerSchema } from "../schemas";
@@ -11,19 +10,16 @@ import { styled } from "@mui/material";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import AddCardIcon from "@mui/icons-material/AddCard";
-import Toast from "../Toast";
-import { Button, message } from "antd";
+import { message } from "antd";
+import SaveCancel from "../customers/SaveCancel";
 const OrderDetails = ({ datas }) => {
   console.log(datas, ">>id");
-  const navigate = useNavigate();
+
   const [messageApi, contextHolder] = message.useMessage();
-  const [data, setCustomerDetails] = React.useState();
+  const [setCustomerDetails] = React.useState();
   const [activeStatus, setActiveStatus] = React.useState(1);
   const [show, setShow] = React.useState(false);
-  const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastSeverity, setToastSeverity] = useState("success");
-  const [isUpdate, setIsUpDate] = useState(false);
+
   const saveCustomer = () => {
     messageApi.open({
       content: (
@@ -158,18 +154,7 @@ const OrderDetails = ({ datas }) => {
   const onFinalSubmit = (event) => {
     console.log(datas, "data");
     event.preventDefault();
-    // https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/6191384906
     const organisationId = localStorage.getItem("organisationId");
-
-    // const defaultPaymentTermsList = values?.defaultPaymentTerms.map(
-    //   (item) => {
-    //     return item.label;
-    //   }
-    // );
-
-    // const defaultPaymentMethodIdList = values?.defaultPaymentMethodId.map((item) => {
-    //     return item.label;
-    //   });
 
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/${datas}`,
@@ -216,17 +201,11 @@ const OrderDetails = ({ datas }) => {
     )
       .then((response) => {
         console.log("updatedd", response);
-        // setShow(false);
-        // if (response.ok) {
-        //   saveCustomer();
-        // }
       })
       .then((data) => {
         console.log("response after update>>", data);
         setShow(false);
         saveCustomer();
-        // if (response.ok) {
-        // }
       });
   };
   const {
@@ -265,9 +244,7 @@ const OrderDetails = ({ datas }) => {
       fontWeight: 600,
     },
   }));
-  const handleCloseToast = () => {
-    setOpenToast(false);
-  };
+
   const addressSame = (e) => {
     console.log("e --->", e.target.checked);
     if (e.target.checked) {
@@ -298,12 +275,6 @@ const OrderDetails = ({ datas }) => {
   };
   return (
     <>
-      {/* <Toast
-        open={openToast}
-        onClose={handleCloseToast}
-        message={toastMessage}
-        severity={toastSeverity}
-      /> */}
       {contextHolder}
       <div className="px-12 pt-6">
         <form onChange={handleInputChange}>
@@ -418,26 +389,10 @@ const OrderDetails = ({ datas }) => {
               </li>
             </ul>
             {show ? (
-              <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-                <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
-                  <div className="block">
-                    <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                      <button
-                        className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-                        onClick={handleCancel}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={onFinalSubmit}
-                        className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
-                      >
-                        Save
-                      </button>
-                    </nav>
-                  </div>
-                </div>
-              </div>
+              <SaveCancel
+                onFinalSubmit={onFinalSubmit}
+                handleCancel={handleCancel}
+              />
             ) : null}
 
             <div className="p-5">

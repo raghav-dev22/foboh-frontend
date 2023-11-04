@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Divider, Space, Button, Modal, Flex } from "antd";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CloseIcon from "@mui/icons-material/Close";
 import { Stepper, Step, Typography, button } from "@material-tailwind/react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
@@ -161,7 +162,13 @@ const CreateOrderModal = ({
       setSelectedItems("");
   };
 
-  const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
+  const handlePrev = () => {
+    if (isCustomerSelected) {
+      setIsCustomerSelected(false);
+    } else {
+      !isFirstStep && setActiveStep((cur) => cur - 1);
+    }
+  };
   const items = ["Apples", "Nails", "Bananas", "Helicopters"];
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -196,14 +203,26 @@ const CreateOrderModal = ({
     // Getting all the customer list
     getCustomers().then((data) => {
       if (data.success) {
-        setCustomerList(
-          data.data.map((customer) => {
-            return {
-              label: customer?.businessName,
-              value: customer?.buyerId,
-            };
-          })
-        );
+        const customerData = data.data.map((customer) => ({
+          label: customer?.businessName,
+          value: customer?.buyerId,
+        }));
+        const customerListWithHeader = [
+          {
+            label: (
+              <div className="bg-[#EAEAEA] rounded-[6px] py-[8px] px-[14px] flex justify-start items-center gap-2">
+                <ControlPointIcon style={{ fill: "#637381" }} />
+                <h5 className="text-sm font-medium text-[#637381]">
+                  Create New Customer
+                </h5>
+              </div>
+            ),
+
+            value: "createNewCustomer", // You can set a unique value here
+          },
+          ...customerData,
+        ];
+        setCustomerList(customerListWithHeader);
       }
     });
 
@@ -464,13 +483,15 @@ const CreateOrderModal = ({
           <>
             <div
               className={`flex  items-center bg-[#F8F8F8] p-2.5 rounded-t-[8px] ${
-                isFirstStep ? "justify-end" : " justify-between"
+                isFirstStep && !isCustomerSelected
+                  ? "justify-end"
+                  : " justify-between"
               }`}
             >
               <div
                 onClick={handlePrev}
                 className={` flex justify-center items-center border border-[#EDEFF1] rounded-[8px] h-[35px] w-[35px] bg-white ${
-                  isFirstStep && "hidden"
+                  isFirstStep && !isCustomerSelected && "hidden"
                 } `}
               >
                 <ArrowBackIosRoundedIcon
@@ -749,6 +770,7 @@ const CreateOrderModal = ({
                           Find Customer
                         </h5>
                         <Select
+                          menuIsOpen={true}
                           onChange={handleCustomerSelect}
                           options={customerList}
                         />

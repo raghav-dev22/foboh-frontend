@@ -383,3 +383,52 @@ a.foboh-green-btn:hover {
 .product-list .css-tr4s17-option {
   background-color: #147d73;
 }
+.border-\[\#e2e8f0\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
+}
+.custom-status .css-13cymwt-control,
+.custom-status .css-t3ipsp-control:hover,
+.custom-status .css-t3ipsp-control {
+  border: none !important;
+  padding: 5px 4px 5px 9px !important;
+}
+
+.custom-status .css-13cymwt-control {
+  padding: 5px 4px 5px 9px !important;
+  border-radius: 6px !important;
+}
+.top-\[55px\] {
+  top: 55px;
+}
+.w-\[50\%\] {
+  width: 50% !important;
+}
+.mt-0 {
+  margin-top: 0px !important;
+}
+.custom-form {
+  border: none !important;
+  border-radius: none !important;
+}
+.text-\[\#637381\] {
+  --tw-text-opacity: 1;
+  color: rgb(99 115 129 / var(--tw-text-opacity));
+}
+.left-\[50\%\] {
+  left: 50%;
+}
+.top-\[50\%\] {
+  top: 50%;
+}
+.custom-absolute {
+  transform: translate(-50%, -50%);
+}
+.px-\[14px\] {
+  padding-left: 14px;
+  padding-right: 14px;
+}
+.py-\[8px\] {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
