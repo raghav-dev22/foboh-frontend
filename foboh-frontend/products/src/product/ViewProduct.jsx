@@ -919,6 +919,8 @@ function ViewProduct() {
     if (item.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
       setShow(true);
+      setIsWine(true);
+      setIsAlcoholicBeverage(true);
     } else {
       setIsAlcoholicBeverage(false);
       setIsWine(false);
@@ -928,6 +930,12 @@ function ViewProduct() {
     setValues({
       ...values,
       category: e,
+      subcategory: "",
+      segment: "",
+      grapeVariety: [],
+      regionSelect: {},
+      vintage: "",
+      awards: "",
     });
     setShow(true);
     fetch(

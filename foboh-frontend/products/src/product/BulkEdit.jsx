@@ -14,6 +14,7 @@ import {
   BrowserRouter,
   Link,
   Route,
+  useLocation,
 } from "react-router-dom";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
@@ -30,6 +31,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import UnSavedModal from "../modal/UnSavedModal";
 function BulkEdit() {
+  const location = useLocation();
   const [unSaved, setUnSaved] = useState(false);
   const [productTable, setProductTable] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);

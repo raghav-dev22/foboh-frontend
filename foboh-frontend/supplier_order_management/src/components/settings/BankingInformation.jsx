@@ -362,14 +362,14 @@ const BankingInformation = () => {
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
                       >
-                        Business address
+                        Business Address
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
                         name="BusinessAddress"
-                        placeholder="Apartment , Street Name , etc."
+                        placeholder="Enter Business Address "
                         value={values.BusinessAddress}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -392,7 +392,7 @@ const BankingInformation = () => {
                         id="username"
                         type="text"
                         name="BusinessPhoneNumber"
-                        placeholder="Apartment , Street Name , etc."
+                        placeholder="Enter Phone Number"
                         value={values.BusinessPhoneNumber}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -419,7 +419,7 @@ const BankingInformation = () => {
                         id="City"
                         type="text"
                         name="City"
-                        placeholder="Enter city"
+                        placeholder="Enter City"
                         value={values.City}
                         onChange={handleChange}
                         onBlur={handleBlur}

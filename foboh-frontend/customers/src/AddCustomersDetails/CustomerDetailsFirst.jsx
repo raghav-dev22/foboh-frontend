@@ -155,6 +155,12 @@ function CustomerDetailsFirst({
               value={values.abn}
               onChange={handleChange}
               onBlur={handleBlur}
+              onKeyPress={(e) => {
+                const isValidKey = /[0-9]/.test(e.key);
+                if (!isValidKey) {
+                  e.preventDefault();
+                }
+              }}
               style={{
                 border: errors?.abn && touched?.abn && "1px solid red",
               }}
