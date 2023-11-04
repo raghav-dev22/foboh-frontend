@@ -79,7 +79,7 @@ function ImportModal({ show, setShow }) {
   // if (file) {
   //   setUploadedFile(file);
   // }
-
+  // https://cdn.com/photos/wine.jpg?width=5000
   // const [click, setClick] = useState(0);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {

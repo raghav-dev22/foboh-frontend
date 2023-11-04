@@ -144,8 +144,7 @@ export const stepOneSchema = Yup.object().shape({
     .min(2, "Business name should have atleast 2 letters")
     .required("Business name is required"),
   abn: Yup.string()
-    .min(2, "ABN should have atleast 2 letters")
-    .max(50)
+    .matches(/^[0-9]{9,11}$/, "ABN should be a number between 9 to 11 digits")
     .required("ABN is required"),
   // liquorLicence: Yup.string()
   // liquorLicence: Yup.string()

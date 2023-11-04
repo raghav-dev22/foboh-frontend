@@ -391,7 +391,9 @@ const Sidebar = () => {
             </li>
             <li
               className={`py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
-                location.pathname === "/dashboard/organisation-settings"
+                location.pathname === "/dashboard/organisation-settings" ||
+                location.pathname === "/dashboard/bank-information" ||
+                location.pathname === "/dashboard/settings"
                   ? "active"
                   : ""
               }`}
