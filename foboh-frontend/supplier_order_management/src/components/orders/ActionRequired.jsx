@@ -41,7 +41,7 @@ const ActionRequired = () => {
         <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>
       ),
       dataIndex: "OrderID",
-      width: 100,
+      width: 130,
     },
     {
       title: (
@@ -113,7 +113,7 @@ const ActionRequired = () => {
         <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>
       ),
       dataIndex: "OrderID",
-      width: 100,
+      width: 130,
     },
     {
       title: (
@@ -185,7 +185,7 @@ const ActionRequired = () => {
         <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>
       ),
       dataIndex: "OrderID",
-      width: 100,
+      width: 130,
     },
     {
       title: (

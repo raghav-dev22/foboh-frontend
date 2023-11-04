@@ -553,7 +553,7 @@ function Organisation() {
             <div className="sm:py-12 py-8 flex justify-start items-start gap-2">
               {/* <Link to="/dashboard/settings"> */}
               <div
-                className=""
+                className="cursor-pointer"
                 onClick={() => {
                   navigate("/dashboard/settings");
                 }}

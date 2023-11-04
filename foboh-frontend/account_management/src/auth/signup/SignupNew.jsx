@@ -7,9 +7,8 @@ import { SignUpSchema } from "../../schemas";
 import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { generateUniqueKey } from "../../helpers/uniqueKey";
-import CryptoJS from "crypto-js";
-import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
-
+import { Visibility } from "@mui/icons-material";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 const initialValues = {
   email: "",
   password: "",
@@ -20,6 +19,11 @@ const SignupNew = () => {
   const [emailPresent, setEmailPresent] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
@@ -249,7 +253,7 @@ const SignupNew = () => {
                     </label>
                     <div className="inset-y-0 right-0 flex items-center">
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="password"
                         maxLength={17}
                         className="js-password relative"
@@ -265,22 +269,29 @@ const SignupNew = () => {
                         onBlur={handleBlur}
                         value={values.password}
                       />
+                      <label
+                        style={{ zIndex: "50" }}
+                        className="opacity-[0.5] mb-[5px] z-50 rounded px-2 text-sm text-gray-600 font-inter absolute right-3 top-[49px] cursor-pointer js-password-label"
+                        htmlFor="password"
+                        onClick={handleTogglePassword}
+                      >
+                        {showPassword ? (
+                          <Visibility fontSize="small" />
+                        ) : (
+                          <VisibilityOffOutlinedIcon fontSize="small" />
+                        )}
+                      </label>
                     </div>
                     {!errors.password && values.password && (
                       <p className="mt-2 mb-2 text-green-500">
                         Your password is strong.
                       </p>
                     )}
-                    {!errors.password && values.password && (
-                      <TaskAltOutlinedIcon className="absolute text-green-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                    )}
+
                     {errors.password && touched.password && (
                       <p className="mt-2 mb-2 text-red-500">
                         {errors.password}
                       </p>
-                    )}
-                    {errors.password && touched.password && (
-                      <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
                     )}
                   </div>
 

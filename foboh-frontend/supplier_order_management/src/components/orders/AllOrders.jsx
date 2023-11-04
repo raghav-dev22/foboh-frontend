@@ -125,7 +125,7 @@ const AllOrders = () => {
     {
       title: <h5 className="text-base font-medium text-[#2B4447]">Order ID</h5>,
       dataIndex: "OrderID",
-      width: 100,
+      width: 130,
     },
     {
       title: <h5 className="text-base font-medium text-[#2B4447]">Customer</h5>,
@@ -154,7 +154,7 @@ const AllOrders = () => {
         <h5 className="text-base font-medium text-[#2B4447]">Last Updated</h5>
       ),
       dataIndex: "LastUpdated",
-      width: 180,
+      width: 130,
     },
     {
       title: <h5 className="text-base font-medium text-[#2B4447]">Payment</h5>,

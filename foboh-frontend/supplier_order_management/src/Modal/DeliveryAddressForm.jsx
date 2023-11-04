@@ -288,13 +288,13 @@ const DeliveryAddressForm = ({
             {" "}
             <button
               type="submit"
-              className="border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
+              className="border-[#147D73] border bg-[#147D73] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
             >
               Save
             </button>
             <button
               type="button"
-              className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
+              className=" border-[#147D73] border rounded-md py-[12px] px-[33px] text-base text-[#147D73] font-normal"
               onClick={() => setEditDeliveryAddress(false)}
             >
               Cancel

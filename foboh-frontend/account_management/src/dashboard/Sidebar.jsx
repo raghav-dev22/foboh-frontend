@@ -27,16 +27,16 @@ const Sidebar = () => {
     <>
       <div>
         <div className="py-2 px-6 placeholder-box">
-          <div className="border-2	border-dark	bg-custom-gray w-full	h-16 flex justify-center items-center	">
-            <div className="">
-              {logoURI ? (
-                <img
-                  src={logoURI}
-                  alt="logoUri"
-                  className="w-[207px] h-[63px] object-cover"
-                />
-              ) : (
-                <>
+          <div className=" w-full	h-16 flex justify-center items-center	">
+            {logoURI ? (
+              <img
+                src={logoURI}
+                alt="logoUri"
+                className="w-[100%] h-[100%] object-contain"
+              />
+            ) : (
+              <>
+                <div className="border-2	border-dark	bg-custom-gray">
                   <p className="text-xs	font-semibold	italic	text-gray text-center pb-2	">
                     {" "}
                     PLACEHOLDER
@@ -44,9 +44,9 @@ const Sidebar = () => {
                   <p className="text-xs	font-semibold italic	text-gray 	text-center	">
                     supplier logo
                   </p>
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 

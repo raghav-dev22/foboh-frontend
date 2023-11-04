@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-function AddCustomerBtn({title}) {
+function AddCustomerBtn({ title }) {
   const navigate = useNavigate();
   return (
     <>
