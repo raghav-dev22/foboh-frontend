@@ -33,6 +33,8 @@ const initialState = {
   billingContactPostalCode: "",
   billingContactState: "",
   billingContactSuburb: "",
+  defaultPaymentTerm: '',
+  defaultPaymentMethod: '',
 };
 
 const buyerSlice = createSlice({

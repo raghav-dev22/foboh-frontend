@@ -23,7 +23,7 @@ const Auth = () => {
     <Routes>
       <Route path="/sign-in" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
-      <Route path="/create-account/:id" element={<CreateAccount />} />
+      <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/verify-email" element={<Verifyemail />} />
       <Route path="/verify-password" element={<VerifyPassword />} />
       <Route path="/reset-password/:id" element={<ForgetPasswordForm />} />

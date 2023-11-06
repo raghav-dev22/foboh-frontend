@@ -33,15 +33,13 @@ function Dashboard() {
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
+  const authUrl = process.env.REACT_APP_AUTH_URL;
 
   useEffect(() => {
     const email = localStorage.getItem("email");
-    fetch(
-      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${email}`,
-      {
-        method: "GET",
-      }
-    )
+    fetch(`${authUrl}/api/User/get?email=${email}`, {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         const userInfo = data?.data[0];
@@ -72,7 +70,7 @@ function Dashboard() {
       })
       .then(() => {
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+          `l/api/Organization/get?organizationId=${localStorage.getItem(
             "organisationId"
           )}`,
           {
@@ -166,7 +164,7 @@ function Dashboard() {
                 path="/bank-information"
                 element={<BankingInformation />}
               />
-              <Route path="/order-details" element={<OrderListing />} />
+              <Route path="/order-details/:id" element={<OrderListing />} />
               <Route
                 path="/customer-bulk-edit"
                 element={<CustomerBulkEdit />}

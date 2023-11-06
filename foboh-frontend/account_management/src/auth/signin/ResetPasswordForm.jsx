@@ -23,10 +23,9 @@ const ResetPasswordForm = () => {
     setShowRepeatPassword((prevShowPassword) => !prevShowPassword);
   };
   const navigate = useNavigate();
-
   const { id } = useParams();
-
   const email = localStorage.getItem("email");
+  const authUrl = process.env.REACT_APP_AUTH_URL
 
   useEffect(() => {
     console.log("idddddd >>>>", localStorage.getItem("uniqueKey"));
@@ -63,7 +62,7 @@ const ResetPasswordForm = () => {
       validationSchema: ResetPasswordFormSchema,
       onSubmit: (values) => {
         fetch(
-          `https://user-api-foboh.azurewebsites.net/api/User/reset-password`,
+          `${authUrl}/api/User/reset-password`,
           {
             method: "POST",
             headers: {

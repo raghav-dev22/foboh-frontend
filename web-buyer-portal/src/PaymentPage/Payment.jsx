@@ -20,6 +20,7 @@ import {
   CardNumberElement,
   CardCvcElement,
   CardExpiryElement,
+  AuBankAccountElement,
 } from "@stripe/react-stripe-js";
 import useResponsiveFontSize from "./useResponsiveFontSize";
 import useResponsiveHeight from "./useResponsiveHeight";
@@ -27,7 +28,7 @@ import { useSelector } from "react-redux";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import { add } from "../slices/CartSlice";
 import { addressSubmission } from "../helpers/addressSubmission";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { paymentProcess } from "../helpers/PaymentProcess";
@@ -36,6 +37,8 @@ import { cartStatusUpdate } from "../helpers/cartStatusUpdate";
 import { Modal } from "antd";
 import { Spin } from "antd";
 import { orderStatusUpdate } from "../helpers/orderStatusUpdate";
+import Becs from "./Becs";
+import { getClientSecret } from "../helpers/getClientSecret";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -69,10 +72,14 @@ const useOptions = () => {
     [fontSize]
   );
 
+
   return options;
 };
 
 const Payment = () => {
+  const [isBecs, setIsBecs] = useState(false);
+  const [selectedPaymentTerm, setSelectedPaymentTerm] = useState("");
+
   const text = <span>Edit</span>;
 
   const buttonWidth = 78;
@@ -84,15 +91,15 @@ const Payment = () => {
   };
   const paymentMethod = [
     {
-      value: "method-2",
+      value: "Manual Payment",
       label: (
         <h5 className=" text-base font-medium text-[#637381] py-1">
-          Manual Payment
+          Manual Payment (cash / cheque)
         </h5>
       ),
     },
     {
-      value: "method-3",
+      value: "BECS",
       label: (
         <h5 className=" text-base font-medium text-[#637381] py-1">
           BECS (Direct Deposit)
@@ -101,67 +108,12 @@ const Payment = () => {
     },
   ];
 
-  const duePayment = [
-    {
-      value: "option-2",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          7 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-3",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          15 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-4",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          30 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          45 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          60 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          90 days from Invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          30 days from end of month
-        </h5>
-      ),
-    },
-  ];
-
   const handleChange = (value) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+    if (value.value === "BECS") {
+      setIsBecs(true);
+    } else {
+      setIsBecs(false);
+    }
   };
   const navigate = useNavigate();
   const payBtn = () => {
@@ -180,8 +132,8 @@ const Payment = () => {
   const [isCheckedTransfer, setIsCheckedTransfer] = useState(false);
   const [transfer, setTransfer] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
+  const [email, setEmail] = useState("");
   const [cardErrors, setCardErrors] = useState({});
-  const [stripeCardError, setStripeCardError] = useState("");
   const buyer = useSelector((state) => state.buyer);
   const { useToken } = theme;
   const { token } = useToken();
@@ -213,7 +165,6 @@ const Payment = () => {
 
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
-
     getBuyerValues(buyerId)
       .then((data) => {
         console.log("getBuyerValues", data);
@@ -297,56 +248,83 @@ const Payment = () => {
       return;
     }
 
-    // Stripe for credit/debit
-    const payload = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardNumberElement),
-      billing_details: {
-        name: cardHolderName, // Use the cardholder's name from the input field
-        address: {
-          // Include the customer's address here
-          line1: deliveryAddress?.Address,
-          city: deliveryAddress?.Suburb,
-          state: deliveryAddress?.State?.label,
-          postal_code: deliveryAddress?.Postcode,
-          country: "AU",
+    if (selectedPaymentTerm === "Pay Now") {
+
+      // Stripe for credit/debit
+      const payload = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardNumberElement),
+        billing_details: {
+          name: cardHolderName, // Use the cardholder's name from the input field
+          address: {
+            // Include the customer's address here
+            line1: deliveryAddress?.Address,
+            city: deliveryAddress?.Suburb,
+            state: deliveryAddress?.State?.label,
+            postal_code: deliveryAddress?.Postcode,
+            country: "AU",
+          },
         },
-      },
-    });
+      });
 
-    if (payload) {
-      console.log("stripe payload", payload);
-      const pm_id = payload?.paymentMethod?.id;
-      const orderId = localStorage.getItem("orderId");
-      const { deliveryEmail } = JSON.parse(localStorage.getItem("buyerInfo"));
+      if (payload) {
+        const pm_id = payload?.paymentMethod?.id;
+        const orderId = localStorage.getItem("orderId");
+        const { deliveryEmail } = JSON.parse(localStorage.getItem("buyerInfo"));
 
-      const clientSecret = await paymentProcess(
-        pm_id,
-        "PayNow",
-        "Card",
-        deliveryEmail,
-        orderId,
-        cardHolderName
-      );
+        const clientSecret = await paymentProcess(
+          pm_id,
+          "PayNow",
+          "Card",
+          deliveryEmail,
+          orderId,
+          cardHolderName
+        );
 
-      const { error, status, id } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: pm_id,
+        const { error, status, id } = await stripe.confirmCardPayment(
+          clientSecret,
+          {
+            payment_method: pm_id,
+          }
+        );
+
+        if (error) {
+          setLoading(false);
+          errorMessage(error?.message);
+        } else {
+          setLoading(false);
+          paymentProcessUpdate(orderId, cardHolderName, status, id);
+          cartStatusUpdate();
+          orderStatusUpdate();
+          countDown();
         }
-      );
+      }
+    } else {
+      const clientSecret = await getClientSecret();
+      const auBankAccount = elements.getElement(AuBankAccountElement);
+      console.log('auBankAccount', auBankAccount);
+      if (clientSecret) {
+        const result = await stripe.confirmAuBecsDebitPayment(clientSecret, {
+          payment_method: {
+            au_becs_debit: auBankAccount,
+            billing_details: {
+              name: cardHolderName,
+              email: email,
+            },
+          },
+        });
 
-      console.log("error", error);
-
-      if (error) {
-        setLoading(false);
-        errorMessage(error?.message);
-      } else {
-        setLoading(false);
-        paymentProcessUpdate(orderId, cardHolderName, status, id);
-        cartStatusUpdate();
-        orderStatusUpdate();
-        countDown();
+        if (result.error) {
+          // Show error to your customer.
+          setLoading(false);
+          errorMessage(result.error.message);
+        } else {
+          setLoading(false);
+          // Show a confirmation message to your customer.
+          // The PaymentIntent is in the 'processing' state.
+          // BECS Direct Debit is a delayed notification payment
+          // method, so funds are not immediately available.
+        }
       }
     }
   };
@@ -527,6 +505,7 @@ const Payment = () => {
                   tab={
                     <>
                       <div
+                        onClick={() => setSelectedPaymentTerm("Pay Later")}
                         className={`  rounded-md w-[175px] py-[18px]`}
                         style={{
                           background:
@@ -560,7 +539,7 @@ const Payment = () => {
                           }}
                         >
                           {" "}
-                          14 days, EFT
+                          Manual, BECS
                         </p>
                       </div>
                     </>
@@ -570,31 +549,13 @@ const Payment = () => {
                   <div className=" rounded-md ">
                     <label htmlFor="">
                       <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
-                        Your chosen payment terms
+                        Your chosen payment term
                       </h5>
                     </label>
-                    <div className="relative">
-                      <Select
-                        labelInValue
-                        className="custom-selector"
-                        defaultValue={{
-                          value: "option-1",
-                          label: (
-                            <h5 className="text-[#2B4447] font-medium text-base">
-                              Payment due in 14 days (dd/mm/yyyy)
-                            </h5>
-                          ),
-                        }}
-                        style={{
-                          width: "100%",
-                        }}
-                        onChange={handleChange}
-                        options={duePayment}
-                      />
-                      <KeyboardArrowDownRoundedIcon
-                        className="absolute top-[13px] right-[12px]"
-                        style={{ fill: "#637381" }}
-                      />
+                    <div className="border h-[55px] rounded-lg flex items-center text-start">
+                      <h5 className="text-[#2B4447] font-medium text-base mx-[20px]">
+                        {buyer.defaultPaymentTerm}
+                      </h5>
                     </div>
                   </div>
                   <div className=" rounded-md mt-4">
@@ -626,11 +587,20 @@ const Payment = () => {
                         style={{ fill: "#637381" }}
                       />
                     </div>
+                    {isBecs && (
+                      <Becs
+                        setCardHolderName={setCardHolderName}
+                        cardHolderName={cardHolderName}
+                        setEmail={setEmail}
+                        email={email}
+                      />
+                    )}
                   </div>
                 </TabPane>
                 <TabPane
                   tab={
                     <div
+                      onClick={() => setSelectedPaymentTerm("Pay Now")}
                       className={`  rounded-md w-[175px] py-[18px]`}
                       style={{
                         background:
@@ -874,7 +844,7 @@ const Payment = () => {
                       </>
                     )}
 
-                    <div className=" flex items-center border-b border-[#E7E7E7] p-3">
+                    {/* <div className=" flex items-center border-b border-[#E7E7E7] p-3">
                       <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center cursor-pointer">
                         <input
                           defaultChecked=""
@@ -979,7 +949,7 @@ const Payment = () => {
                           </div>
                         </div>
                       </>
-                    )}
+                    )} */}
                   </div>
                 </TabPane>
               </Tabs>

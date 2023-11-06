@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 const RegistrationEmail = () => {
   const { id } = useParams();
-
+  const SMTP_URL = process.env.REACT_APP_SMTP_URL;
   const navigate = useNavigate();
   const email = localStorage.getItem("email");
   const key = localStorage.getItem("uniqueKey");
@@ -24,7 +24,7 @@ const RegistrationEmail = () => {
     // const url = process.env.REACT_APP_URL
     //Resend Link
     fetch(
-      `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
+      `${SMTP_URL}`,
       {
         method: "POST",
         headers: {

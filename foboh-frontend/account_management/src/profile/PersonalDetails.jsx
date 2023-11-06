@@ -12,6 +12,7 @@ import { styled } from "@mui/material";
 function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const authUrl = process.env.REACT_APP_AUTH_URL
   const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
@@ -31,7 +32,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
   useEffect(() => {
     const email = localStorage.getItem("email");
     fetch(
-      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${email}`,
+      `${authUrl}/api/User/get?email=${email}`,
       {
         method: "GET",
       }
@@ -96,7 +97,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
     onSubmit: (values) => {
       const id = localStorage.getItem("ccrn");
       fetch(
-        `https://user-api-foboh.azurewebsites.net/api/User/update?ccrn=${id}`,
+        `${authUrl}/api/User/update?ccrn=${id}`,
         {
           method: "PUT",
           headers: {
@@ -143,7 +144,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
             );
             setShow(false);
             fetch(
-              `https://user-api-foboh.azurewebsites.net/api/User/get?ccrn=${id}`,
+              `${authUrl}/api/User/get?ccrn=${id}`,
               {
                 method: "GET",
               }

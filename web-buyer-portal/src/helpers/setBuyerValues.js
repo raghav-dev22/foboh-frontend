@@ -34,6 +34,8 @@ export const setBuyerValues = (buyer, dispatch, updateField) => {
       billingContactPostalCode: buyer?.billingPostalCode,
       billingContactState: buyer?.billingState,
       billingContactSuburb: buyer?.billingSuburb,
+      defaultPaymentTerm: buyer?.defaultPaymentTerm[0],
+      defaultPaymentMethod: buyer?.defaultPaymentMethodId[0],
     })
   );
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Checkbox } from "antd";
-import { createTimeline, nameShortner } from "../../helpers/orderDetailsHelper";
+import { createTimeline } from "../../helpers/orderDetailsHelper";
 
 const OrderDetailsTimeline = ({
   timeline,
@@ -8,7 +8,7 @@ const OrderDetailsTimeline = ({
   success,
   error,
   asyncFunction,
-  shortenName
+  shortenName,
 }) => {
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState("");
@@ -35,20 +35,22 @@ const OrderDetailsTimeline = ({
 
   return (
     <div className="timeLine-section mt-8">
-      <div className="flex justify-between py-2 border-b border-[#C4C4C4]">
+      <div className="flex justify-between py-2 border-b border-[#C4C4C4] ">
         <h4 className="text-lg font-semibold text-[#2B4447]">Timeline</h4>
-        <Checkbox onChange={handleShowComments}>
+        <div className="green-checkbox flex justify-start items-center gap-2">
+          <input type="checkbox" onChange={handleShowComments} />
+
           <p className="text-base font-medium text-[#2B4447]">Show Comments</p>
-        </Checkbox>
+        </div>
       </div>
       <div className="">
         <div className="box py-12 relative">
-          <div className="absolute top-[50px] left-[18px] bg-[#C4C4C4] h-[80%] w-[1px]"></div>
+          <div className="absolute top-[50px] left-[18px] bg-[#C4C4C4] h-[90%] w-[1px]"></div>
           <ul className="relative flex justify-end ">
             <div className="flex justify-center items-center absolute top-0 left-0 h-[37px] w-[37px] rounded-[50%] border border-[#CCCCCC] bg-[#F1F1F1] text-base font-semibold text-[#2B4447]">
               {shortenName}
             </div>
-            <li className=" w-[92%]">
+            <li className=" w-[93%]">
               <textarea
                 type="text"
                 value={comment}
@@ -70,7 +72,7 @@ const OrderDetailsTimeline = ({
           <div className="pt-4 ">
             {timeline.map((item) => (
               <ul className=" flex justify-end ">
-                <div className="w-[92%]">
+                <div className="w-[93%]">
                   <h4 className="text-lg font-bold text-[#212B36] mb-5">
                     {item?.actionDate}
                   </h4>

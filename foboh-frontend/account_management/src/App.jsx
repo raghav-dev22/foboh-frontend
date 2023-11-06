@@ -23,15 +23,15 @@ import ResetPasswordEmail from "./auth/signin/ResetPasswordEmail";
 import Dashboard from "./dashboard/Dashboard";
 import { Provider } from "react-redux";
 import { store } from "./Redux/store";
-
 import NewOrder from "orders/NewOrder";
 import PaidOrder from "orders/PaidOrder";
 import OrderUpdate from "orders/OrderUpdate";
 
-// const url = process.env.REACT_APP_EXPRESS_SERVER_URL
-
 const Root = () => {
   const navigate = useNavigate();
+  const authService = process.env.REACT_APP_AUTH_SERVICE
+
+
   useEffect(() => {
     const email = localStorage.getItem("email");
     if (!email) {
@@ -40,7 +40,7 @@ const Root = () => {
     // const url = process.env.REACT_APP_URL
 
     // Getting token from server
-    fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetToken`, {
+    fetch(`${authService}/api/Verify/GetToken`, {
       method: "GET",
     })
       .then((response) => response.json())
