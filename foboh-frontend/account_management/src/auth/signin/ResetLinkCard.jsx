@@ -5,6 +5,7 @@ const ResetLinkCard = () => {
   const navigate = useNavigate();
   const email = localStorage.getItem("email");
   const { id } = useParams();
+  const SMTP_URL = process.env.REACT_APP_SMTP_URL;
 
   useEffect(() => {
     if (id !== localStorage.getItem("uniqueKey")) {
@@ -20,20 +21,17 @@ const ResetLinkCard = () => {
   const handleResetLink = () => {
     //Reset Link
 
-    fetch(
-      `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: email,
-          name: localStorage.getItem("userName"),
-          mailtype: "oms-passwordreset",
-        }),
-      }
-    )
+    fetch(`${SMTP_URL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: email,
+        name: localStorage.getItem("userName"),
+        mailtype: "oms-passwordreset",
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

@@ -17,7 +17,6 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { generateUniqueKey } from "../../helpers/uniqueKey";
 import { updateUserData } from "../../Redux/Action/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { user_api_url } from "../../../config";
 
 const initialValues = {
   email: "",
@@ -35,14 +34,14 @@ const SigninNew = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const authUrl = process.env.REACT_APP_AUTH_URL
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: SignInSchema,
       onSubmit: (values) => {
         setIsLoading(true);
-        fetch(`${user_api_url}/api/User/Verify-login`, {
+        fetch(`${authUrl}/api/User/Verify-login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -94,7 +93,7 @@ const SigninNew = () => {
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);
 
-    fetch(`${user_api_url}/api/User/get?email=${googleResponse.email}`, {
+    fetch(`${authUrl}/api/User/get?email=${googleResponse.email}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -120,7 +119,7 @@ const SigninNew = () => {
             .then((response) => response.json())
             .then((data) => {
               console.log("issuerAssignedId eq", data);
-              fetch(`${user_api_url}/api/User/create`, {
+              fetch(`${authUrl}/api/User/create`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

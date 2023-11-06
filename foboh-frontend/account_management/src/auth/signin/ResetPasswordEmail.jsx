@@ -12,6 +12,7 @@ const ResetPasswordEmail = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false)
+  const SMTP_URL = process.env.REACT_APP_SMTP_URL;
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialValues,
@@ -40,7 +41,7 @@ const ResetPasswordEmail = () => {
               localStorage.setItem("userName", userName);
 
               fetch(
-                `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
+                `${SMTP_URL}`,
                 {
                   method: "POST",
                   headers: {
@@ -55,7 +56,6 @@ const ResetPasswordEmail = () => {
               )
                 .then((response) => response.json())
                 .then((data) => {
-                  console.log(data);
                   setIsLoading(false);
                   localStorage.setItem("uniqueKey", data.key);
                   navigate(`/auth/reset-link/${data.key}`);
@@ -69,12 +69,9 @@ const ResetPasswordEmail = () => {
         })
         .catch((error) => {
           setIsLoading(false);
-          console.log(error);
         });
     },
   });
-
-  console.log(errors);
 
   return (
     <section>

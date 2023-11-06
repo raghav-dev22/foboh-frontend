@@ -11,6 +11,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
   const [showError, setShowError] = useState();
   const defaultImage = "/assets/update-user.png";
   const fileInputRef = useRef();
+  const authUrl = process.env.REACT_APP_AUTH_URL
 
   const handleDelete = () => {
     if (fileInputRef.current) {
@@ -65,7 +66,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
 
         const ccrn = localStorage.getItem("ccrn");
         fetch(
-          `https://user-api-foboh.azurewebsites.net/api/User/UploadProfileImage?ccrn=${ccrn}`,
+          `${authUrl}/api/User/UploadProfileImage?ccrn=${ccrn}`,
           {
             method: "POST",
             body: formData,

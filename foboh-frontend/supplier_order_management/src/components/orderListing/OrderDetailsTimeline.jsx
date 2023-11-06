@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Checkbox } from "antd";
-import { createTimeline, nameShortner } from "../../helpers/orderDetailsHelper";
+import { createTimeline } from "../../helpers/orderDetailsHelper";
 
 const OrderDetailsTimeline = ({
   timeline,
@@ -8,7 +8,7 @@ const OrderDetailsTimeline = ({
   success,
   error,
   asyncFunction,
-  shortenName
+  shortenName,
 }) => {
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState("");

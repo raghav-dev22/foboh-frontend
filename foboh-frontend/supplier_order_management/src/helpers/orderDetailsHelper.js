@@ -273,6 +273,7 @@ const timelineTimeFormat = (inputTime) => {
   return time[1];
 };
 
+//Function made to convert full name into its shorten form
 export const nameShortner = (name) => {
   const words = name.split(" "); // Split the name into words
   const initials = words.map((word) => word.charAt(0).toUpperCase()); // Get the first character of each word and capitalize it

@@ -18,7 +18,8 @@ const initialValues = {
 const Registration = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const authUrl = process.env.REACT_APP_AUTH_URL
+  const authService=process.env.REACT_APP_AUTH_SERVICE
   useEffect(() => {
     if (localStorage.getItem("uniqueKey") !== id) {
       navigate("/auth/sign-up");
@@ -31,7 +32,7 @@ const Registration = () => {
       validationSchema: RegistrationSchema,
       onSubmit: (values) => {
         fetch(
-          "https://fobauthservice.azurewebsites.net/api/Verify/CreateUser",
+          `${authService}/api/Verify/CreateUser`,
           {
             method: "POST",
             headers: {
@@ -66,7 +67,7 @@ const Registration = () => {
 
             const userInfo = data.userdetails;
 
-            fetch("https://user-api-foboh.azurewebsites.net/api/User/create", {
+            fetch(`${authUrl}/api/User/create`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

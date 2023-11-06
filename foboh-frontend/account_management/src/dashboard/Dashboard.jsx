@@ -33,11 +33,12 @@ function Dashboard() {
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
+  const authUrl = process.env.REACT_APP_AUTH_URL
 
   useEffect(() => {
     const email = localStorage.getItem("email");
     fetch(
-      `https://user-api-foboh.azurewebsites.net/api/User/get?email=${email}`,
+      `${authUrl}/api/User/get?email=${email}`,
       {
         method: "GET",
       }
@@ -72,7 +73,7 @@ function Dashboard() {
       })
       .then(() => {
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+          `l/api/Organization/get?organizationId=${localStorage.getItem(
             "organisationId"
           )}`,
           {

@@ -19,7 +19,9 @@ const SignupNew = () => {
   const [emailPresent, setEmailPresent] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const SMTP_URL = process.env.REACT_APP_SMTP_URL;
+  const authUrl = process.env.REACT_APP_AUTH_URL;
+  const authService = process.env.REACT_APP_AUTH_SERVICE;
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -33,7 +35,7 @@ const SignupNew = () => {
         // const url = process.env.REACT_APP_URL;
         setIsLoading(true);
 
-        fetch(`https://fobauthservice.azurewebsites.net/api/Verify/GetUser`, {
+        fetch(`${authService}/api/Verify/GetUser`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -61,20 +63,17 @@ const SignupNew = () => {
               }
             } else {
               setEmailPresent(false);
-              fetch(
-                `https://notification-api-foboh.azurewebsites.net/api/notify/GenerateMailContentAndSendEmailSimply`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    to: values.email,
-                    mailtype: "oms-emailverification",
-                    name: "email",
-                  }),
-                }
-              )
+              fetch(`${SMTP_URL}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  to: values.email,
+                  mailtype: "oms-emailverification",
+                  name: "email",
+                }),
+              })
                 .then((response) => response.json())
                 .then((data) => {
                   setIsLoading(false);
@@ -102,7 +101,7 @@ const SignupNew = () => {
     console.log(googleResponse);
     let randomPassword = generateUniqueKey();
     let password = randomPassword.slice(0, 8);
-    fetch(`https://fobauthservice.azurewebsites.net/api/Verify/CreateUser`, {
+    fetch(`${authService}/api/Verify/CreateUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -138,7 +137,7 @@ const SignupNew = () => {
             setEmailPresent(true);
           }
         } else {
-          fetch("https://user-api-foboh.azurewebsites.net/api/User/create", {
+          fetch(`${authUrl}/api/User/create`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

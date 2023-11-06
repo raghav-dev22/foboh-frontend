@@ -46,6 +46,7 @@ function Organisation() {
   const [baseUnitMeasureTypeList, setBaseMeasureTypeList] = useState([]);
   const [baseUnitMeasureUnitList, setBaseMeasureUnitList] = useState([]);
   const [innerUnitTypeList, setInnerUnitTypeList] = useState([]);
+  const authUrl = process.env.REACT_APP_AUTH_URL;
 
   const [initialValues, setInitialValues] = useState({
     tradingName: "",
@@ -143,30 +144,27 @@ function Organisation() {
               console.log("organisationID =>", organisationID);
               localStorage.setItem("organisationId", organisationID);
               const id = localStorage.getItem("ccrn");
-              fetch(
-                `https://user-api-foboh.azurewebsites.net/api/User/update?ccrn=${id}`,
-                {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    password: user.password,
-                    status: true,
-                    role: user.role,
-                    meta: user.meta,
-                    adId: user.adId,
-                    imageUrl: user.imageUrl,
-                    bio: user.bio,
-                    mobile: user.mobile,
-                    organisationId: organisationID,
-                    isActive: true,
-                  }),
-                }
-              )
+              fetch(`${authUrl}/api/User/update?ccrn=${id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                  email: user.email,
+                  password: user.password,
+                  status: true,
+                  role: user.role,
+                  meta: user.meta,
+                  adId: user.adId,
+                  imageUrl: user.imageUrl,
+                  bio: user.bio,
+                  mobile: user.mobile,
+                  organisationId: organisationID,
+                  isActive: true,
+                }),
+              })
                 .then((response) => response.json())
                 .then((data) => {
                   console.log("org id updated in user profile--->", data);
