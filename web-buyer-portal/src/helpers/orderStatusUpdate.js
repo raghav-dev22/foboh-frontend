@@ -14,7 +14,7 @@ export const orderStatusUpdate = () => {
         createdBy: businessName,
         orderId: orderId,
         orderByEmailID: deliveryEmail,
-        orderStatus: "Processing",
+        orderStatus: "New",
       }),
     }
   )
