@@ -71,7 +71,7 @@ function PreviewProductModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
           importedProducts.map((product) => {
-            const abv = removePercentageFromString(product?.abv.toString());
+            const abv = removePercentageFromString(product?.abv?.toString());
             const regionAvailability = splitRegions(
               product?.regionAvailability
             );

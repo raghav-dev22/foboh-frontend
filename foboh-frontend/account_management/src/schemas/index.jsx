@@ -91,11 +91,7 @@ export const PersonalDetailsSchema = Yup.object().shape({
 
 export const OrganisationSettingsSchema = Yup.object().shape({
   //Organization Details
-  tradingName: Yup.string()
-    .min(2, "Your trading name should have at least 2 letters")
-    .max(50)
-    .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Trading name is required"),
+
   businessName: Yup.string()
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
@@ -104,9 +100,7 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   abn: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
     .required("ABN is required"),
-  liquorLicence: Yup.string()
-    .max(13, "Liquor licence cannot be more than 13 characters")
-    .required("Liquor licence is required"),
+
   description: Yup.string().max(255, "Bio cannot be more than 255 characters"),
 
   //Organization Address
