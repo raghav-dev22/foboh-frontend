@@ -181,7 +181,6 @@ const Payment = () => {
   const [transfer, setTransfer] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
   const [cardErrors, setCardErrors] = useState({});
-  const [stripeCardError, setStripeCardError] = useState("");
   const buyer = useSelector((state) => state.buyer);
   const { useToken } = theme;
   const { token } = useToken();
@@ -213,7 +212,6 @@ const Payment = () => {
 
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
-
     getBuyerValues(buyerId)
       .then((data) => {
         console.log("getBuyerValues", data);
@@ -560,7 +558,7 @@ const Payment = () => {
                           }}
                         >
                           {" "}
-                          14 days, EFT
+                          Manual, BECS
                         </p>
                       </div>
                     </>
@@ -570,9 +568,12 @@ const Payment = () => {
                   <div className=" rounded-md ">
                     <label htmlFor="">
                       <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
-                        Your chosen payment terms
+                        Your chosen payment term
                       </h5>
                     </label>
+                    <div>
+                      <h5>{buyer.defaultPaymentTerm}</h5>
+                    </div>
                     <div className="relative">
                       <Select
                         labelInValue
