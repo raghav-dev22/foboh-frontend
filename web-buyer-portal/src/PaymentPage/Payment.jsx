@@ -101,65 +101,6 @@ const Payment = () => {
     },
   ];
 
-  const duePayment = [
-    {
-      value: "option-2",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          7 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-3",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          15 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-4",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          30 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          45 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          60 days from invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          90 days from Invoice date
-        </h5>
-      ),
-    },
-    {
-      value: "option-5",
-      label: (
-        <h5 className=" text-base font-medium text-[#637381] py-1">
-          30 days from end of month
-        </h5>
-      ),
-    },
-  ];
-
   const handleChange = (value) => {
     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
   };
@@ -333,8 +274,6 @@ const Payment = () => {
           payment_method: pm_id,
         }
       );
-
-      console.log("error", error);
 
       if (error) {
         setLoading(false);
