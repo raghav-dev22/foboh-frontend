@@ -45,12 +45,12 @@ const OrderDetailsTimeline = ({
       </div>
       <div className="">
         <div className="box py-12 relative">
-          <div className="absolute top-[50px] left-[16px] bg-[#C4C4C4] h-[90%] w-[1px]"></div>
+          <div className="absolute top-[50px] left-[18px] bg-[#C4C4C4] h-[90%] w-[1px]"></div>
           <ul className="relative flex justify-end ">
             <div className="flex justify-center items-center absolute top-0 left-0 h-[37px] w-[37px] rounded-[50%] border border-[#CCCCCC] bg-[#F1F1F1] text-base font-semibold text-[#2B4447]">
               {shortenName}
             </div>
-            <li className=" w-[92%]">
+            <li className=" w-[93%]">
               <textarea
                 type="text"
                 value={comment}
@@ -72,7 +72,7 @@ const OrderDetailsTimeline = ({
           <div className="pt-4 ">
             {timeline.map((item) => (
               <ul className=" flex justify-end ">
-                <div className="w-[92%]">
+                <div className="w-[93%]">
                   <h4 className="text-lg font-bold text-[#212B36] mb-5">
                     {item?.actionDate}
                   </h4>

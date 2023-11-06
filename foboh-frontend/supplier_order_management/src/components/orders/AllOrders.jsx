@@ -12,6 +12,7 @@ import Select from "react-select";
 import { getCityStates } from "../../helpers/getCityStates";
 import { formatDateAfterRelativeDate } from "../../helpers/dateFormatter";
 import { formatDate } from "../../helpers/dateFormate";
+import { useNavigate } from "react-router-dom";
 
 let filterAndSort = {
   filter: {
@@ -62,7 +63,7 @@ const AllOrders = () => {
     sortBy: "",
     sortOrder: "",
   });
-
+  const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState([]);
 
   const statusCheckAll = statusList.length === selectedStatus.length;
@@ -172,12 +173,18 @@ const AllOrders = () => {
     return {
       key: index,
       OrderID: (
-        <p className="text-sm md:text-base font-normal text-[#637381]">
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-sm md:text-base font-normal text-[#637381] cursor-pointer"
+        >
           {item.orderId}
         </p>
       ),
       Customer: (
-        <p className="text-sm md:text-base font-normal text-[#637381]">
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-sm md:text-base font-normal text-[#637381] cursor-pointer"
+        >
           {item.customerName}
         </p>
       ),

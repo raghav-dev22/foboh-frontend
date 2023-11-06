@@ -5,6 +5,7 @@ import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useEffect } from "react";
 import { Space, Menu } from "antd";
 import { formatDate } from "../../helpers/dateFormate";
+import { useNavigate } from "react-router-dom";
 const { SubMenu } = Menu;
 
 const ActionRequired = () => {
@@ -18,6 +19,7 @@ const ActionRequired = () => {
   const [newSortItem, setNewSortItem] = useState(false);
   const [pandingSortItem, setPandingSortItem] = useState(false);
   const [buyerSortItem, setBuyerSortItem] = useState(false);
+  const navigate = useNavigate();
   const newSortBtn = () => {
     setNewSortItem(!newSortItem);
     setPandingSortItem(false);
@@ -77,10 +79,18 @@ const ActionRequired = () => {
     return {
       key: index,
       OrderID: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-[15px] font-medium text-[#637381] cursor-pointer"
+        >
+          {item.orderId}
+        </p>
       ),
       Customer: (
-        <p className="text-[15px] font-medium text-[#637381]">
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-[15px] font-medium text-[#637381] cursor-pointer"
+        >
           {item.customerName}
         </p>
       ),
@@ -149,10 +159,18 @@ const ActionRequired = () => {
     return {
       key: index,
       OrderID: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-[15px] font-medium text-[#637381] cursor-pointer"
+        >
+          {item.orderId}
+        </p>
       ),
       Customer: (
-        <p className="text-[15px] font-medium text-[#637381]">
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-[15px] font-medium text-[#637381] cursor-pointer"
+        >
           {item.customerName}
         </p>
       ),
@@ -229,10 +247,18 @@ const ActionRequired = () => {
     return {
       key: index,
       OrderID: (
-        <p className="text-[15px] font-medium text-[#637381]">{item.orderId}</p>
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-[15px] font-medium text-[#637381] cursor-pointer"
+        >
+          {item.orderId}
+        </p>
       ),
       Customer: (
-        <p className="text-[15px] font-medium text-[#637381]">
+        <p
+          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          className="text-[15px] font-medium text-[#637381] cursor-pointer"
+        >
           {item.customerName}
         </p>
       ),
