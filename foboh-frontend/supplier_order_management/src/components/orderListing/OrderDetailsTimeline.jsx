@@ -35,15 +35,17 @@ const OrderDetailsTimeline = ({
 
   return (
     <div className="timeLine-section mt-8">
-      <div className="flex justify-between py-2 border-b border-[#C4C4C4]">
+      <div className="flex justify-between py-2 border-b border-[#C4C4C4] ">
         <h4 className="text-lg font-semibold text-[#2B4447]">Timeline</h4>
-        <Checkbox onChange={handleShowComments}>
+        <div className="green-checkbox flex justify-start items-center gap-2">
+          <input type="checkbox" onChange={handleShowComments} />
+
           <p className="text-base font-medium text-[#2B4447]">Show Comments</p>
-        </Checkbox>
+        </div>
       </div>
       <div className="">
         <div className="box py-12 relative">
-          <div className="absolute top-[50px] left-[18px] bg-[#C4C4C4] h-[80%] w-[1px]"></div>
+          <div className="absolute top-[50px] left-[16px] bg-[#C4C4C4] h-[90%] w-[1px]"></div>
           <ul className="relative flex justify-end ">
             <div className="flex justify-center items-center absolute top-0 left-0 h-[37px] w-[37px] rounded-[50%] border border-[#CCCCCC] bg-[#F1F1F1] text-base font-semibold text-[#2B4447]">
               {shortenName}

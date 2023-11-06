@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Space, Table, Tag, Checkbox, Divider, Steps } from "antd";
-import { Button, Modal } from "antd";
-import PaymentStatusModal from "../../Modal/PaymentStatusModal";
+import { Table } from "antd";
+import CloseIcon from "@mui/icons-material/Close";
 import CancelOrderModal from "../../Modal/CancelOrderModal";
 import ChangeStatusModal from "../../Modal/ChangeStatusModal";
 import OrderDetailHeader from "../orderDetailHeader/OrderDetailHeader";
@@ -60,20 +59,35 @@ const OrderListing = () => {
   // Handling event notifications
   const success = (message) => {
     messageApi.open({
-      type: "success",
-      content: message,
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
     });
   };
   const error = (message) => {
     messageApi.open({
-      type: "error",
-      content: message,
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
     });
   };
   const warning = (message) => {
     messageApi.open({
-      type: "warning",
-      content: message,
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
     });
   };
 
@@ -247,7 +261,7 @@ const OrderListing = () => {
           orderStatusList={orderStatusList}
         />
         <div className="flex lg:flex-nowrap flex-wrap   gap-5 ">
-          <div className="lg:col-span-4 w-full">
+          <div className="lg:w-[70%] w-full">
             <div className="bg-white rounded-[8px] custom-shadow">
               <Table
                 columns={columns}
@@ -304,11 +318,13 @@ const OrderListing = () => {
                     onClick={() => {
                       handleCancelOrder("Cancelled");
                     }}
-                    className={
-                      orderAdressDetails.orderStatus !== "Pending"
-                        ? "rounded-[6px] py-2 bg-[#ffffff] border text-gray-500  text-base font-semibold w-fit px-6"
-                        : "rounded-[6px] py-2 bg-[#DC3545] text-white  text-base font-semibold w-fit px-6"
-                    }
+                    className={`cursor-pointer
+                      ${
+                        orderAdressDetails.orderStatus !== "Pending"
+                          ? "rounded-[6px] py-2 bg-[#ffffff] border text-gray-500  text-base font-semibold w-fit px-6"
+                          : "rounded-[6px] py-2 bg-[#DC3545] text-white  text-base font-semibold w-fit px-6"
+                      }
+                      `}
                     disabled={orderAdressDetails.orderStatus !== "Pending"}
                   >
                     Cancel
@@ -324,11 +340,13 @@ const OrderListing = () => {
                         handleOrderStatusChange("Processing");
                       }}
                       disabled={orderAdressDetails.orderStatus !== "Pending"}
-                      className={
+                      className={`cursor-pointer
+                      ${
                         orderAdressDetails.orderStatus !== "Pending"
                           ? "bg-[#ffffff] py-2 px-6 rounded-[6px] border text-gray-500 font-semibold text-base"
                           : "bg-[#147D73] py-2 px-6 rounded-[6px] text-white font-semibold text-base"
                       }
+                      `}
                     >
                       Confirm
                     </button>
@@ -345,7 +363,7 @@ const OrderListing = () => {
               shortenName={shortenName}
             />
           </div>
-          <div className="lg:col-span-2 w-full">
+          <div className="lg:w-[30%] w-full">
             <DeliveryContact orderAdressDetails={orderAdressDetails} />
             <DeliveryAddress orderAdressDetails={orderAdressDetails} />
             <BillingAddress orderAdressDetails={orderAdressDetails} />

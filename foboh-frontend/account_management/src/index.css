@@ -31,7 +31,20 @@
 body {
   background-color: #f8fafc;
 }
-
+@media (min-width: 1024px) {
+  .lg\:w-\[70\%\] {
+    width: 70% !important;
+  }
+  .lg\:w-\[30\%\] {
+    width: 30% !important;
+  }
+}
+.left-\[16px\] {
+  left: 16px;
+}
+.h-\[90\%\] {
+  height: 90%;
+}
 h1 {
   font-family: "Inter";
 
@@ -431,4 +444,10 @@ a.foboh-green-btn:hover {
 .py-\[8px\] {
   padding-top: 8px;
   padding-bottom: 8px;
+}
+.w-\[140px\] {
+  width: 140px;
+}
+.top-\[43px\] {
+  top: 43px;
 }
