@@ -8,6 +8,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { postInnerUnitMeasure } from "../helpers/postInnerUnitMeasure";
 import { message } from "antd";
+import { getInnerUnitMeasureList } from "../helpers/getUnitOfMeasures";
 
 const InnerUnit = ({
   innerUnitMeasure,
@@ -24,18 +25,24 @@ const InnerUnit = ({
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
+    asyncFunction();
+  }, []);
+
+  const asyncFunction = async () => {
+    const innerUnitMeasure = await getInnerUnitMeasureList();
     setUnit(
       innerUnitMeasure.map((item) => {
         const amount = item.unit.split(" ")[0];
+        const iumUnit = item.unit.split(" ")[1];
         return {
           amount: amount,
           iumType: item.type,
-          iumUnit: item.unit,
+          iumUnit: iumUnit,
           editable: false,
         };
       })
     );
-  }, []);
+  };
 
   const success = () => {
     messageApi.open({

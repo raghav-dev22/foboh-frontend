@@ -27,6 +27,7 @@ import {
   getInnerUnitMeasureList,
   getbaseUnitMeasureList,
 } from "../helpers/getUnitOfMeasures";
+import { getBaseUnitMeasureType } from "../helpers/getBaseUnitOfMeasureType";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -386,7 +387,7 @@ function Organisation() {
     const baseUnitMeasureResponse = await getbaseUnitMeasureList();
     setBaseUnitMeasure(baseUnitMeasureResponse);
 
-    const baseUnitMeasureTypeResponse = await getbaseUnitMeasure();
+    const baseUnitMeasureTypeResponse = await getBaseUnitMeasureType();
     setBaseMeasureTypeList(
       baseUnitMeasureTypeResponse.map((item) => {
         return {
@@ -784,7 +785,8 @@ function Organisation() {
                                 <th>
                                   <button
                                     className="rounded-lg bg-[#147D73] text-white p-[5px] font-medium text-sm"
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                      e.preventDefault();
                                       setBaseUnitModalOpen(true);
                                     }}
                                   >
@@ -792,11 +794,15 @@ function Organisation() {
                                   </button>
                                 </th>
                               </tr>
-                              <tr className="p-2 border-b">
-                                <td className="font-normal px-2 py-4">
-                                  750ml bottle
-                                </td>
-                              </tr>
+                              {baseUnitMeasure.map((item) => {
+                                return (
+                                  <tr className="p-2 border-b">
+                                    <td className="font-normal px-2 py-4">
+                                      {`${item.unit} ${item.type}`}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                             </table>
                           </div>
                           <div className="w-full md:w-1/2 px-3 relative">
@@ -807,7 +813,8 @@ function Organisation() {
                                 </th>
                                 <th>
                                   <button
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                      e.preventDefault(e);
                                       setInnerUnitModalOpen(true);
                                     }}
                                     className="rounded-lg bg-[#147D73] text-white p-[5px] font-medium text-sm"
@@ -816,11 +823,15 @@ function Organisation() {
                                   </button>
                                 </th>
                               </tr>
-                              <tr className="border-b">
-                                <td className="font-normal px-2 py-4">
-                                  750ml bottle
-                                </td>
-                              </tr>
+                              {innerUnitMeasure.map((item) => {
+                                return (
+                                  <tr className="border-b">
+                                    <td className="font-normal px-2 py-4">
+                                      {`${item.unit} ${item.type}`}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                             </table>
                           </div>
                         </div>
