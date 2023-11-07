@@ -96,7 +96,8 @@ const Registration = () => {
                 if (!data.error) {
                   localStorage.removeItem("uniqueKey");
                   localStorage.removeItem("password");
-                  navigate("/auth/sign-in");
+                  localStorage.setItem("loginPopup", "true");
+                  navigate("/dashboard/main");
                 } else {
                   console.log(data);
                   localStorage.setItem("id", data.id);
@@ -279,7 +280,7 @@ const Registration = () => {
                   value={values.businessName}
                   onChange={handleChange}
                   onKeyPress={(event) => {
-                    const allowedCharacters = /^[A-Za-z0-9]*$/;
+                    const allowedCharacters = /^[A-Za-z0-9\s]*$/;
                     if (!allowedCharacters.test(event.key)) {
                       event.preventDefault();
                     }

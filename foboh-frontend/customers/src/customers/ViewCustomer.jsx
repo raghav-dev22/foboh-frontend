@@ -46,7 +46,15 @@ function ViewCustomer() {
     },
   ];
   const [show, setShow] = useState(false);
-  const initialValues = { BusinessName: "", abn: "", liquorLicence: "" };
+  const initialValues = {
+    buyerId: "",
+    BusinessName: "",
+    abn: "",
+    liquorLicence: "",
+    salesRepId: "",
+    pricingProfileId: "",
+    isActive: "",
+  };
   const handleInputChange = () => {
     setShow(true);
   };
@@ -63,9 +71,35 @@ function ViewCustomer() {
     validationSchema: ViewCustomerDetails,
     onSubmit: (values) => {},
   });
+
+  const handleCustomerTiles = () => {
+    const buyID = location?.state?.data.buyerId;
+    fetch(
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/UpdateCustomerProfile/${buyID}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          buyerId: buyID,
+          BusinessName: values?.BusinessName,
+          abn: values?.abn,
+          liquorLicence: values?.liquorLicence,
+          salesRepId: "",
+          pricingProfileId: "",
+          isActive: "1",
+        }),
+      }
+        .than((response) => response.json())
+        .than((data) => {
+          console.log(data, "postdata");
+        })
+    );
+  };
+
   return (
     <div className="px-6 padding-top-custom">
-      {show === true ? <SaveCancel /> : null}
+      {show === true ? (
+        <SaveCancel handleCustomerTiles={handleCustomerTiles} />
+      ) : null}
       <div className="py-8 sm:flex grid items-center justify-between px-6 gap-5">
         <div className="flex justify-start gap-3 items-center">
           <Link to="/dashboard/customers">

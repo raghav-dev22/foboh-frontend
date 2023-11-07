@@ -15,11 +15,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 function StockDetails() {
-  const [order, setOrder] = useState();
-  const [customer, setCustomer] = useState();
+  const [order, setOrder] = useState(0);
+  const [customer, setCustomer] = useState(0);
+  const [revenue, setRevenue] = useState(0);
+  const [profit, setProfit] = useState(0);
   const stockBox = [
     {
-      title: "$12,489",
+      title: revenue,
 
       description: "Total revenue",
 
@@ -31,7 +33,7 @@ function StockDetails() {
     },
 
     {
-      title: "$2,572",
+      title: profit,
 
       description: "Gross profit",
 
@@ -43,7 +45,7 @@ function StockDetails() {
     },
 
     {
-      title: order?.noOfOrders,
+      title: order,
 
       description: "Total orders",
 
@@ -55,7 +57,7 @@ function StockDetails() {
     },
 
     {
-      title: customer?.noOfCustomer,
+      title: customer,
 
       description: "Active customers",
 
@@ -66,9 +68,9 @@ function StockDetails() {
       Arrow: <ArrowDownwardIcon style={{ fill: "#DC3545" }} />,
     },
   ];
+  const organisationId = localStorage.getItem("organisationId");
   useEffect(() => {
-    const organisationId = localStorage.getItem("organisationId");
-
+    // // total  customer
     fetch(
       `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getCustomer?OrganisationId=${organisationId}`,
       {
@@ -78,11 +80,14 @@ function StockDetails() {
       .then((response) => response.json())
       .then((data) => {
         console.log("order -->", data.data[0]);
-        setCustomer(data.data[0]);
+        const customerData = data.data[0];
+        if (data.success) {
+          setCustomer(customerData.noOfCustomer);
+        }
       })
       .catch((error) => console.log(error));
 
-    // // defaultPaymentMethod
+    // // total  order
     fetch(
       `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getNoOfoders?OrganisationId=${organisationId}`,
       {
@@ -92,10 +97,48 @@ function StockDetails() {
       .then((response) => response.json())
       .then((data) => {
         console.log("customer -->", data.data[0]);
-        setOrder(data.data[0]);
+        const orderData = data.data[0];
+        if (data.success) {
+          setOrder(orderData.noOfOrders);
+        }
       })
       .catch((error) => console.log(error));
-  }, []);
+
+    // // total  order
+    fetch(
+      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getTotalRevenue?OrganisationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const revenueData = data.data[0];
+        if (data.success) {
+          setRevenue(revenueData.totalRevenue);
+        }
+        console.log(data.data[0], "totalrevenue");
+      })
+      .catch((error) => console.log(error));
+
+    // total profit
+
+    fetch(
+      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getTotalProfit?OrganisationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const profitData = data.data[0];
+        if (data.success) {
+          setProfit(profitData.totalProfit);
+        }
+        console.log(data.data[0], "totalProfit");
+      })
+      .catch((error) => console.log(error));
+  }, [organisationId]);
 
   return (
     <>

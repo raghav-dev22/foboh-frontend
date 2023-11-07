@@ -626,25 +626,11 @@ function Organisation() {
                               id="grid-last-name"
                               name="tradingName"
                               type="text"
-                              placeholder="Trading name"
+                              placeholder="Enter Trading name"
                               value={values.tradingName}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              style={{
-                                border:
-                                  errors.tradingName &&
-                                  touched.tradingName &&
-                                  "1px solid red",
-                              }}
                             />
-                            {errors.tradingName && touched.tradingName && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                                {errors.tradingName}
-                              </p>
-                            )}
-                            {errors.tradingName && touched.tradingName && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
                           </div>
                           <div className="w-full md:w-1/2 px-3 relative">
                             <label
@@ -657,7 +643,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-last-name"
                               type="text"
-                              placeholder="Business name"
+                              placeholder="Enter Business name"
                               name="businessName"
                               value={values.businessName}
                               onChange={handleChange}
@@ -692,7 +678,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md   py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-password"
                               type="text"
-                              placeholder="ABN"
+                              placeholder="Enter ABN"
                               name="abn"
                               value={values.abn}
                               onChange={handleChange}
@@ -725,29 +711,13 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md   py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="grid-password"
                               type="text"
-                              placeholder="Liquor licence"
+                              placeholder="Enter Liquor licence"
                               name="liquorLicence"
                               value={values.liquorLicence}
                               onChange={handleChange}
                               maxLength={14}
                               onBlur={handleBlur}
-                              style={{
-                                border:
-                                  errors.liquorLicence &&
-                                  touched.liquorLicence &&
-                                  "1px solid red",
-                              }}
                             />
-
-                            {errors.liquorLicence && touched.liquorLicence && (
-                              <p className="mt-2 mb-2 text-red-500 text-xs  font-normal">
-                                {errors.liquorLicence}
-                              </p>
-                            )}
-
-                            {errors.liquorLicence && touched.liquorLicence && (
-                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
-                            )}
                           </div>
                         </div>
 
@@ -887,7 +857,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="organisationAddress"
                               type="text"
-                              placeholder="Address"
+                              placeholder="Enter Address"
                               name="organisationAddress"
                               value={values.organisationAddress}
                               onChange={handleChange}
@@ -957,7 +927,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="organisationAddressSuburb"
                               type="text"
-                              placeholder="Suburb"
+                              placeholder="Enter Suburb"
                               name="organisationAddressSuburb"
                               value={values.organisationAddressSuburb}
                               onChange={handleChange}
@@ -991,7 +961,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="organisationAddressPostcode"
                               type="text"
-                              placeholder="Postcode"
+                              placeholder="Enter Postcode"
                               name="organisationAddressPostcode"
                               value={values.organisationAddressPostcode}
                               onChange={handleChange}
@@ -1110,7 +1080,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="billingAddress"
                               type="text"
-                              placeholder="Address"
+                              placeholder="Enter Address"
                               name="billingAddress"
                               value={values.billingAddress}
                               onChange={handleChange}
@@ -1180,7 +1150,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="billingAddressSuburb"
                               type="text"
-                              placeholder="Suburb"
+                              placeholder="Enter Suburb"
                               name="billingAddressSuburb"
                               value={values.billingAddressSuburb}
                               onChange={handleChange}
@@ -1214,7 +1184,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="billingAddressPostcode"
                               type="text"
-                              placeholder="Postcode"
+                              placeholder="Enter Postcode"
                               name="billingAddressPostcode"
                               value={values.billingAddressPostcode}
                               onChange={handleChange}
@@ -1430,7 +1400,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="orderingContactFirstName"
                               type="text"
-                              placeholder="First name"
+                              placeholder="Enter First name"
                               name="orderingContactFirstName"
                               value={values.orderingContactFirstName}
                               onChange={handleChange}
@@ -1470,7 +1440,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="orderingContactLastName"
                               type="text"
-                              placeholder="Last name"
+                              placeholder="Enter Last name"
                               name="orderingContactLastName"
                               value={values.orderingContactLastName}
                               onChange={handleChange}
@@ -1512,7 +1482,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="orderingContactEmail"
                               type="email"
-                              placeholder="Email"
+                              placeholder="Enter Email"
                               name="orderingContactEmail"
                               value={values.orderingContactEmail}
                               onChange={handleChange}
@@ -1562,7 +1532,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="orderingContactMobile"
                               type="text"
-                              placeholder="Mobile No"
+                              placeholder="Enter Mobile No"
                               name="orderingContactMobile"
                               value={values.orderingContactMobile}
                               onChange={handleChange}
@@ -1627,7 +1597,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="LogisticsContactFirstName"
                               type="text"
-                              placeholder="First name"
+                              placeholder="Enter First name"
                               name="LogisticsContactFirstName"
                               value={values.LogisticsContactFirstName}
                               onChange={handleChange}
@@ -1661,7 +1631,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="LogisticsContactLastName"
                               type="text"
-                              placeholder="Last name"
+                              placeholder="Enter Last name"
                               name="LogisticsContactLastName"
                               value={values.LogisticsContactLastName}
                               onChange={handleChange}
@@ -1697,7 +1667,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="LogisticsContactEmail"
                               type="email"
-                              placeholder="Email"
+                              placeholder="Enter Email"
                               name="LogisticsContactEmail"
                               value={values.LogisticsContactEmail}
                               onChange={handleChange}
@@ -1747,7 +1717,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="LogisticsContactMobile"
                               type="text"
-                              placeholder="Mobile No"
+                              placeholder="Enter Mobile No"
                               name="LogisticsContactMobile"
                               value={values.LogisticsContactMobile}
                               onChange={handleChange}

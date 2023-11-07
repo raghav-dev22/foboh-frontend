@@ -101,6 +101,10 @@ function PreviewModal({
             if (customer?.postalCode !== undefined) {
               postalCodeMain = customer?.customer?.postalCode.toString();
             }
+            let deliveryMobileMain = "";
+            if (customer?.deliveryMobile !== undefined) {
+              deliveryMobileMain = customer?.deliveryMobile.toString();
+            }
 
             const customerBody = {
               businessName: customer?.businessName || "",
@@ -118,7 +122,7 @@ function PreviewModal({
               orderingEmail: customer?.orderingEmail,
               deliveryFirstName: customer?.deliveryFirstName,
               deliveryLastName: customer?.deliveryLastName,
-              deliveryMobile: customer?.deliveryMobile || "",
+              deliveryMobile: deliveryMobileMain,
               deliveryEmail: customer?.deliveryEmail || "",
               address: customer?.address,
               apartment: customer?.apartment,
@@ -141,7 +145,7 @@ function PreviewModal({
     )
       .then((response) => response.json())
       .then((data) => {
-        const errList = data.data.map((item) => {
+        const errList = data?.data?.map((item) => {
           return {
             businessName: item.businessName,
             error: item.message,
