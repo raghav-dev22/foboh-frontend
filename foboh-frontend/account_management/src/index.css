@@ -454,3 +454,6 @@ a.foboh-green-btn:hover {
 .w-\[93\%\] {
   width: 93%;
 }
+.custom-table-pagination .ant-pagination-item-active:hover a {
+  color: #fff;
+}

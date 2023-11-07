@@ -173,7 +173,7 @@ const FinalOrder = ({
               )}
             </div>
 
-            <div className="pt-5">
+            <div className="pt-5 hidden">
               <h4 className="text-lg font-semibold text-[#2B4447]">
                 Promo Code
               </h4>

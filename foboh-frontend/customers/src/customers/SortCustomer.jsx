@@ -13,8 +13,8 @@ const sort = [
     label: "Contact",
     key: "contact",
     value: {
-      asc: "Oldest first",
-      desc: "Newest first",
+      asc: "A - Z",
+      desc: "Z - A",
     },
   },
   {
@@ -62,7 +62,7 @@ function FilterCustomer({ handleSortChange, itemLabel, filterAndSort }) {
       [e.target.name]: e.target.checked,
     });
   };
-  
+
   useEffect(() => {
     const handleClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -168,7 +168,8 @@ function FilterCustomer({ handleSortChange, itemLabel, filterAndSort }) {
                         <h5 className="text-base font-medium text-gray whitespace-nowrap">
                           {
                             sort.find(
-                              (item) => item?.key === filterAndSort?.sort?.sortBy
+                              (item) =>
+                                item?.key === filterAndSort?.sort?.sortBy
                             ).value.asc
                           }
                         </h5>
@@ -201,7 +202,8 @@ function FilterCustomer({ handleSortChange, itemLabel, filterAndSort }) {
                         <h5 className="text-base font-medium text-gray whitespace-nowrap">
                           {
                             sort.find(
-                              (item) => item?.key === filterAndSort?.sort?.sortBy
+                              (item) =>
+                                item?.key === filterAndSort?.sort?.sortBy
                             ).value.desc
                           }
                         </h5>

@@ -173,7 +173,7 @@ function MainDashBoard() {
                   Amount
                 </th>
                 <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm			 font-semibold ">
-                  Delivery date
+                  Last Updated
                 </th>
                 <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
                   Status

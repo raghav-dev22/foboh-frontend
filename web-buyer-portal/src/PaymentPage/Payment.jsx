@@ -695,7 +695,7 @@ const Payment = () => {
                           <div className="flex items-center gap-2">
                             <img src="/assets/visa.png" alt="" />
                             <h5 className="font-medium text-[#2B4447] text-base">
-                              Credit card ending with 3259
+                              Credit card ending with XXXX
                             </h5>
                           </div>
                           <div className="change-btn cursor-pointer">

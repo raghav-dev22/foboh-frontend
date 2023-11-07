@@ -212,7 +212,7 @@ const Sidebar = () => {
                   <h6 className="text-base	font-medium  text-gray">Customers</h6>{" "}
                 </Link>
               </li>
-              <li className="ps-12 list-inside cursor-pointer">
+              <li className="ps-12 list-inside cursor-pointer hidden">
                 <Link to="#" class="flex items-center w-full p-2 no-underline">
                   <h6 className="text-base	font-medium  text-gray">Segments</h6>{" "}
                 </Link>
@@ -338,7 +338,7 @@ const Sidebar = () => {
             </>
           )}
 
-          <li className="ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
+          <li className="hidden ps-7 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
             <div className="flex justify-start items-center gap-2">
               <div
                 className={`home ${activeOption === "Pricing" ? "active" : ""}`}
@@ -365,7 +365,7 @@ const Sidebar = () => {
       <div className="p-6">
         <div className="border-t border-inherit	">
           <ul className="list-disc ">
-            <li className="py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
+            <li className="hidden py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
               <div className="flex justify-start items-center gap-2">
                 <div
                   className={`home ${activeOption === "Chat" ? "active" : ""}`}
@@ -444,7 +444,7 @@ const Sidebar = () => {
                 </Link>
               </div>
             </li>
-            <li className="py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
+            <li className="hidden py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
               <div className="flex justify-start items-center gap-2">
                 <div
                   className={`home ${activeOption === "Help" ? "active" : ""}`}

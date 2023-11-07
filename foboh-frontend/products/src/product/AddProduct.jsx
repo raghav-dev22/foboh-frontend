@@ -1043,7 +1043,7 @@ function AddProduct() {
                             id="stock-alert-level"
                             name="stockAlertLevel"
                             type="number"
-                            placeholder="2 cases"
+                            placeholder="Select"
                           />
                           {errors.stockAlertLevel &&
                             touched.stockAlertLevel && (

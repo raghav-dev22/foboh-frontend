@@ -55,7 +55,7 @@ const SupplierSetting = () => {
           </Link>
           <Link to="#">
             <button
-              className="w-full"
+              className="w-full hidden"
               // onClick={() => {
               //   navigate("dashboard/bank-information");
               // }}
