@@ -12,7 +12,7 @@ import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import { message } from "antd";
 import SaveCancel from "../customers/SaveCancel";
-const OrderDetails = ({ datas }) => {
+const OrderDetails = ({ datas, handleCustomerDetails }) => {
   console.log(datas, ">>id");
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -81,6 +81,7 @@ const OrderDetails = ({ datas }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer data --->", data.orderingFirstName);
+        handleCustomerDetails(data);
         setInitialValues({
           ...initialValues,
           buyerId: data?.buyerId,

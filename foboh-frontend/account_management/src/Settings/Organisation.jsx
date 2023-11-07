@@ -23,7 +23,12 @@ import BaseUnit from "../modal/BaseUnit";
 import InnerUnit from "../modal/InnerUnit";
 import { baseUnitMeasureUnit } from "../helpers/getBaseUnitOfMeasureUnit";
 import { getInnerUnitMeasureType } from "../helpers/getInnerUnitMeasureType";
-import { getInnerUnitMeasure, getInnerUnitMeasureList, getbaseUnitMeasure, getbaseUnitMeasureList } from "../helpers/getUnitOfMeasures";
+import {
+  getInnerUnitMeasure,
+  getInnerUnitMeasureList,
+  // getbaseUnitMeasure,
+  getbaseUnitMeasureList,
+} from "../helpers/getUnitOfMeasures";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -377,13 +382,11 @@ function Organisation() {
   }, []);
 
   const asyncFunction = async () => {
+    const innerUnitMeasureResponse = await getInnerUnitMeasureList();
+    setInnerUnitMeasure(innerUnitMeasureResponse);
 
-    const innerUnitMeasureResponse = await getInnerUnitMeasureList()
-    setInnerUnitMeasure(innerUnitMeasureResponse)
-
-    const baseUnitMeasureResponse = await getbaseUnitMeasureList()
-    setBaseUnitMeasure(baseUnitMeasureResponse)
-
+    const baseUnitMeasureResponse = await getbaseUnitMeasureList();
+    setBaseUnitMeasure(baseUnitMeasureResponse);
 
     const baseUnitMeasureTypeResponse = await getbaseUnitMeasure();
     setBaseMeasureTypeList(
@@ -1773,7 +1776,7 @@ function Organisation() {
         }}
       />
       <InnerUnit
-      innerUnitMeasure={innerUnitMeasure}
+        innerUnitMeasure={innerUnitMeasure}
         baseUnitMeasureTypeList={baseUnitMeasureTypeList}
         innerUnitTypeList={innerUnitTypeList}
         open={innerUnitModalOpen}
