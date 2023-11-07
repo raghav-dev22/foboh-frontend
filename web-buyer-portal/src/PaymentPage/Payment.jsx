@@ -72,7 +72,6 @@ const useOptions = () => {
     [fontSize]
   );
 
-
   return options;
 };
 
@@ -249,7 +248,6 @@ const Payment = () => {
     }
 
     if (selectedPaymentTerm === "Pay Now") {
-
       // Stripe for credit/debit
       const payload = await stripe.createPaymentMethod({
         type: "card",
@@ -302,7 +300,6 @@ const Payment = () => {
     } else {
       const clientSecret = await getClientSecret();
       const auBankAccount = elements.getElement(AuBankAccountElement);
-      console.log('auBankAccount', auBankAccount);
       if (clientSecret) {
         const result = await stripe.confirmAuBecsDebitPayment(clientSecret, {
           payment_method: {

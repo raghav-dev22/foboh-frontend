@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal } from "antd";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import { Select } from "antd";
@@ -10,6 +10,7 @@ import { postInnerUnitMeasure } from "../helpers/postInnerUnitMeasure";
 import { message } from "antd";
 
 const InnerUnit = ({
+  innerUnitMeasure,
   baseUnitMeasureTypeList,
   innerUnitTypeList,
   open,
@@ -21,6 +22,20 @@ const InnerUnit = ({
   const [iumUnit, setiumUnit] = useState("");
   const [iumType, setIumType] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
+
+  useEffect(() => {
+    setUnit(
+      innerUnitMeasure.map((item) => {
+        const amount = item.unit.split(" ")[0];
+        return {
+          amount: amount,
+          iumType: item.type,
+          iumUnit: item.unit,
+          editable: false,
+        };
+      })
+    );
+  }, []);
 
   const success = () => {
     messageApi.open({

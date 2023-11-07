@@ -28,7 +28,6 @@ const ResetPasswordForm = () => {
   const authUrl = process.env.REACT_APP_AUTH_URL
 
   useEffect(() => {
-    console.log("idddddd >>>>", localStorage.getItem("uniqueKey"));
     if (localStorage.getItem("uniqueKey") !== id) {
       navigate("/auth/password-reset-email");
     }

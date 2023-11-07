@@ -10,6 +10,7 @@ import { postBaseUnitMeasure } from "../helpers/postBaseUnitMeasure";
 import { message } from "antd";
 
 const BaseUnit = ({
+  baseUnitMeasure,
   baseUnitMeasureTypeList,
   baseUnitMeasureUnitList,
   open,

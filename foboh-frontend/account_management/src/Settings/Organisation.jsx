@@ -21,9 +21,9 @@ import { styled } from "@mui/material";
 import { Avatar, List, Skeleton, Switch } from "antd";
 import BaseUnit from "../modal/BaseUnit";
 import InnerUnit from "../modal/InnerUnit";
-import { getBaseUnitMeasureType } from "../helpers/getBaseUnitOfMeasureType";
 import { baseUnitMeasureUnit } from "../helpers/getBaseUnitOfMeasureUnit";
 import { getInnerUnitMeasureType } from "../helpers/getInnerUnitMeasureType";
+import { getInnerUnitMeasure, getInnerUnitMeasureList, getbaseUnitMeasure, getbaseUnitMeasureList } from "../helpers/getUnitOfMeasures";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -47,6 +47,8 @@ function Organisation() {
   const user = useSelector((state) => state.user);
   const [baseUnitMeasureTypeList, setBaseMeasureTypeList] = useState([]);
   const [baseUnitMeasureUnitList, setBaseMeasureUnitList] = useState([]);
+  const [innerUnitMeasure, setInnerUnitMeasure] = useState([]);
+  const [baseUnitMeasure, setBaseUnitMeasure] = useState([]);
   const [innerUnitTypeList, setInnerUnitTypeList] = useState([]);
   const authUrl = process.env.REACT_APP_AUTH_URL;
 
@@ -375,7 +377,15 @@ function Organisation() {
   }, []);
 
   const asyncFunction = async () => {
-    const baseUnitMeasureTypeResponse = await getBaseUnitMeasureType();
+
+    const innerUnitMeasureResponse = await getInnerUnitMeasureList()
+    setInnerUnitMeasure(innerUnitMeasureResponse)
+
+    const baseUnitMeasureResponse = await getbaseUnitMeasureList()
+    setBaseUnitMeasure(baseUnitMeasureResponse)
+
+
+    const baseUnitMeasureTypeResponse = await getbaseUnitMeasure();
     setBaseMeasureTypeList(
       baseUnitMeasureTypeResponse.map((item) => {
         return {
@@ -795,50 +805,55 @@ function Organisation() {
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-5 relative">
                           <div className="w-full md:w-1/2 px-3 relative">
-                            <label
-                              className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
-                              htmlFor="CategoryList"
-                            >
-                              Base unit of measure
-                            </label>
-                            <div
-                              className="relative"
-                              onClick={() => {
-                                setBaseUnitModalOpen(true);
-                              }}
-                            >
-                              <div className=" cursor-pointer w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
-                                Add units
-                              </div>
-                              <AddCircleOutlineIcon
-                                className="absolute top-[8px] right-[12px]"
-                                style={{ fill: "#147D73" }}
-                              />
-                            </div>
+                            <table className="w-full">
+                              <tr className="flex items-center justify-between mb-4">
+                                <th className="font-medium text-gray-700">
+                                  Base unit of measure
+                                </th>
+                                <th>
+                                  <button
+                                    className="rounded-lg bg-[#147D73] text-white p-[5px] font-medium text-sm"
+                                    onClick={() => {
+                                      setBaseUnitModalOpen(true);
+                                    }}
+                                  >
+                                    Add/Edit
+                                  </button>
+                                </th>
+                              </tr>
+                              <tr className="p-2 border-b">
+                                <td className="font-normal px-2 py-4">
+                                  750ml bottle
+                                </td>
+                              </tr>
+                            </table>
                           </div>
                           <div className="w-full md:w-1/2 px-3 relative">
-                            <label
-                              className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
-                              htmlFor="CategoryList"
-                            >
-                              Inner unit of measure
-                            </label>
-                            <div
-                              className="relative"
-                              onClick={() => {
-                                setInnerUnitModalOpen(true);
-                              }}
-                            >
-                              <div className="cursor-pointer w-full rounded-[6px] border border-[#147D73] py-2.5 text-sm font-bold text-[#147D73] text-center">
-                                Add units
-                              </div>
-                              <AddCircleOutlineIcon
-                                className="absolute top-[8px] right-[12px]"
-                                style={{ fill: "#147D73" }}
-                              />
-                            </div>
+                            <table className="w-full">
+                              <tr className="flex items-center justify-between mb-4">
+                                <th className="font-medium text-gray-700">
+                                  Inner unit of measure
+                                </th>
+                                <th>
+                                  <button
+                                    onClick={() => {
+                                      setInnerUnitModalOpen(true);
+                                    }}
+                                    className="rounded-lg bg-[#147D73] text-white p-[5px] font-medium text-sm"
+                                  >
+                                    Add/Edit
+                                  </button>
+                                </th>
+                              </tr>
+                              <tr className="border-b">
+                                <td className="font-normal px-2 py-4">
+                                  750ml bottle
+                                </td>
+                              </tr>
+                            </table>
                           </div>
                         </div>
+                        <div className="flex justify-"></div>
                       </div>
                     </div>
                   </Skeleton>
@@ -1776,6 +1791,7 @@ function Organisation() {
       </div>
 
       <BaseUnit
+        baseUnitMeasure={baseUnitMeasure}
         baseUnitMeasureTypeList={baseUnitMeasureTypeList}
         baseUnitMeasureUnitList={baseUnitMeasureUnitList}
         open={baseUnitModalOpen}
@@ -1787,6 +1803,7 @@ function Organisation() {
         }}
       />
       <InnerUnit
+      innerUnitMeasure={innerUnitMeasure}
         baseUnitMeasureTypeList={baseUnitMeasureTypeList}
         innerUnitTypeList={innerUnitTypeList}
         open={innerUnitModalOpen}
