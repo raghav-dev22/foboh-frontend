@@ -54,10 +54,10 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("Address is required"),
 
-  apartment: Yup.string()
-    .min(2, "Apartment should have atleast 2 letters")
-    .max(50)
-    .required("Apartment is required"),
+  // apartment: Yup.string()
+  //   .min(2, "Apartment should have atleast 2 letters")
+  //   .max(50)
+  //   .required("Apartment is required"),
 
   suburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")
@@ -79,10 +79,10 @@ export const AddCustomerSchema = Yup.object().shape({
     .max(50)
     .required("Address is required"),
 
-  billingApartment: Yup.string()
-    .min(2, "Address should have atleast 2 letters")
-    .max(50)
-    .required("Address is required"),
+  // billingApartment: Yup.string()
+  //   .min(2, "Address should have atleast 2 letters")
+  //   .max(50)
+  //   .required("Address is required"),
 
   billingSuburb: Yup.string()
     .min(2, "suburb should have atleast 2 letters")

@@ -28,7 +28,7 @@ function OrderTable() {
             </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
-                Today
+                25 Dec 2023
               </h5>
             </td>
 

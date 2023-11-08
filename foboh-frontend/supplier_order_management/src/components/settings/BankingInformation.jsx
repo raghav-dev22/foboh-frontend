@@ -10,8 +10,27 @@ import { postSetupBankingDetails } from "../../helpers/postSetupBankinDetails";
 import { Button, message } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
 import { getSetupBankingDetails } from "../../helpers/getSetupBankingDetails";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
+import { styled } from "@mui/material";
 
 const BankingInformation = () => {
+  const CustomTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#2B4447",
+      color: "white",
+      borderRadius: "5px",
+      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      textAlign: "center",
+      fontSize: 11,
+      lineHeight: "24px",
+      fontFamily: "Inter",
+      fontSize: "11px",
+      fontWeight: 600,
+    },
+  }));
   const navigate = useNavigate();
   const [bankingDetails, setBankingDetails] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -20,6 +39,7 @@ const BankingInformation = () => {
   const [businessType, setBusinessType] = useState([]);
   const [initialValues, setInitialValues] = useState({
     BusinessName: "",
+    BusinessSuburb: "",
     LegalBusiness: "",
     ACN: "",
     ABN: "",
@@ -40,6 +60,7 @@ const BankingInformation = () => {
     Suburb: "",
     email: "",
     BankName: "",
+    RepresentativePhoneNumber: "",
   });
 
   const {
@@ -138,6 +159,8 @@ const BankingInformation = () => {
       RepresentativeAddress: setupBankingDetails.RepresentativeAddress,
       email: setupBankingDetails.email,
       BankName: setupBankingDetails.BankName,
+      BusinessSuburb: setupBankingDetails.BusinessSuburb,
+      RepresentativePhoneNumber: setupBankingDetails.RepresentativePhoneNumber,
     });
     setValues({
       LegalBusiness: setupBankingDetails.legalbusinessname,
@@ -160,6 +183,8 @@ const BankingInformation = () => {
       Suburb: setupBankingDetails.Suburb,
       email: setupBankingDetails.email,
       BankName: setupBankingDetails.BankName,
+      BusinessSuburb: setupBankingDetails.BusinessSuburb,
+      RepresentativePhoneNumber: setupBankingDetails.RepresentativePhoneNumber,
     });
   };
 
@@ -197,6 +222,8 @@ const BankingInformation = () => {
             Suburb: values?.Suburb,
             email: values?.email,
             BankName: values?.BankName,
+            BusinessSuburb: values?.BusinessSuburb,
+            RepresentativePhoneNumber: values?.RepresentativePhoneNumber,
           }),
         }
       )
@@ -420,13 +447,13 @@ const BankingInformation = () => {
                     <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
-                        htmlFor="username"
+                        htmlFor="BusinessMobileNumber"
                       >
                         Business Phone Number
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username"
+                        id="BusinessMobileNumber"
                         type="text"
                         name="BusinessMobileNumber"
                         placeholder="Enter Phone Number"
@@ -448,22 +475,22 @@ const BankingInformation = () => {
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
                       >
-                        City
+                        Suburb
                       </label>
 
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="City"
+                        id="BusinessSuburb"
                         type="text"
-                        name="City"
-                        placeholder="Enter City"
-                        value={values.City}
+                        name="BusinessSuburb"
+                        placeholder="Enter Suburb"
+                        value={values.BusinessSuburb}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
-                      {errors.City && touched.City && (
+                      {errors.BusinessSuburb && touched.BusinessSuburb && (
                         <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                          {errors.City}
+                          {errors.BusinessSuburb}
                         </p>
                       )}
                     </div>
@@ -540,6 +567,19 @@ const BankingInformation = () => {
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
                       >
+                        <CustomTooltip
+                          placement="right"
+                          arrow
+                          title="Please provide the URL of your business website or social media profile."
+                        >
+                          <HelpIcon
+                            sx={{
+                              color: "#E0E0E0",
+                              width: "20px",
+                              marginLeft: "10px",
+                            }}
+                          />{" "}
+                        </CustomTooltip>{" "}
                         Business website URL
                       </label>
                       <input
@@ -632,7 +672,7 @@ const BankingInformation = () => {
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="Dateofbirth"
-                        type="text"
+                        type="date"
                         name="DateOfBirth"
                         placeholder="dd/mm/yyyy"
                       />
@@ -739,25 +779,26 @@ const BankingInformation = () => {
                     <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
-                        htmlFor="PhoneNumber"
+                        htmlFor="RepresentativePhoneNumber"
                       >
                         Phone No.
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="PhoneNumber"
+                        id="RepresentativePhoneNumber"
                         type="text"
                         placeholder="04XX XXX XXX / +61 4XX XXX XXX"
-                        name="PhoneNumber"
-                        value={values.PhoneNumber}
+                        name="RepresentativePhoneNumber"
+                        value={values.RepresentativePhoneNumber}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
-                      {errors.PhoneNumber && touched.PhoneNumber && (
-                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                          {errors.PhoneNumber}
-                        </p>
-                      )}
+                      {errors.RepresentativePhoneNumber &&
+                        touched.RepresentativePhoneNumber && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                            {errors.RepresentativePhoneNumber}
+                          </p>
+                        )}
                     </div>
                   </div>
                   <div className="mb-4 w-full">
@@ -878,13 +919,13 @@ const BankingInformation = () => {
                   <div className="mb-4">
                     <label
                       className="block text-[#2B4447] text-base font-medium mb-2"
-                      htmlFor="username"
+                      htmlFor="Account number"
                     >
                       Account number
                     </label>
                     <input
                       className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="username"
+                      id="Account number"
                       type="text"
                       placeholder="XXXXXX YYYYYYY ZZZ"
                       onChange={handleChange}

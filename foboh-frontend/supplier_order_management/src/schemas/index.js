@@ -78,13 +78,19 @@ export const BankingSchema = Yup.object().shape({
     .required("Account Number is required")
     .matches(
       /^[A-Za-z0-9]{16}$/,
-      "Account number00 must be 16 characters containing numbers and letters"
+      "Account number must be 16 characters containing numbers and letters"
     ),
 
   StatementDescriptor: Yup.string().required("StatementDescriptor is required"),
   BusinessName: Yup.mixed().required("BusinessName is required"),
 
   PhoneNumber: Yup.string()
+    .required("Mobile number is required")
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    ),
+  RepresentativePhoneNumber: Yup.string()
     .required("Mobile number is required")
     .matches(
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
@@ -96,7 +102,10 @@ export const BankingSchema = Yup.object().shape({
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
-  City: Yup.mixed().required("City is required"),
+  BusinessSuburb: Yup.string()
+    .required("Suburb name is required")
+    .min(2, "Suburb should have atleast 2 letters")
+    .max(50),
   firstName: Yup.string()
     .min(2, "Your first name should have atleast 2 letters")
     .max(50)

@@ -161,7 +161,7 @@ function MainDashBoard() {
                 </a>
               </div>
               {/* <ProductDetails /> */}
-              <div className="scroll-right">
+              <div className="scroll-right mt-5">
                 <ProductDetails />
               </div>
             </div>
