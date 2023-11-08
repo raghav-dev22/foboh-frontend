@@ -1531,7 +1531,7 @@ function ViewProduct() {
                     <div className="p-5">
                       <div className=" pb-5">
                         <h5 className="text-base font-medium text-green mb-3">
-                          Minimum order quantity
+                          Minimum order quantity (optional)
                         </h5>
                         <div className="w-72">
                           <input
@@ -2097,7 +2097,7 @@ function ViewProduct() {
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="tags"
                           >
-                            Tags
+                            Tags (optional)
                           </label>
                           <div className="w-full">
                             <Select
@@ -2167,7 +2167,7 @@ function ViewProduct() {
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="Buy-price"
                           >
-                            Buy price
+                            Buy price (optional)
                             <CustomTooltip
                               placement="right"
                               arrow
@@ -2197,11 +2197,11 @@ function ViewProduct() {
                             onBlur={handleBlur}
                             placeholder="$250.00"
                           />
-                          {errors.buyPrice && touched.buyPrice && (
+                          {/* {errors.buyPrice && touched.buyPrice && (
                             <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
                               {errors.buyPrice}
                             </p>
-                          )}
+                          )} */}
                         </div>
                       </div>
                       <div className="mb-5">
