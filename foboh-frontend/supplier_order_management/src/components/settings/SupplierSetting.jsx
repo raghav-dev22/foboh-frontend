@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 const SupplierSetting = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const ProfileBtn = () => {
   //   navigate("dashboard/organisation-settings");
   // };

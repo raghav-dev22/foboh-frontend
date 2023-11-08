@@ -17,7 +17,6 @@ export const deliveryContactSchema = Yup.object().shape({
     ),
 });
 
-
 export const deliveryAddressSchema = Yup.object().shape({
   address: Yup.string()
     .min(10, "Your address should have atleast 10 letters")
@@ -38,7 +37,6 @@ export const billingAddressSchema = Yup.object().shape({
   state: Yup.mixed().required("State is required"),
 });
 
-
 export const BankingSchema = Yup.object().shape({
   LegalBusiness: Yup.string()
     .min(2, "Your trading name should have at least 2 letters")
@@ -46,16 +44,23 @@ export const BankingSchema = Yup.object().shape({
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
     .required("Trading name is required"),
 
-  ACNABN: Yup.string()
+  ACN: Yup.string()
+    .matches(/^\d{9}$/, "Invalid ACN format")
+    .required("ACN is required"),
+  ABN: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
     .required("ABN is required"),
 
   BusinessAddress: Yup.string()
-    .min(2, "Your trading name should have at least 2 letters")
+    .min(2, "Address should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Trading name is required"),
-
+    .required("Address is required"),
+  BusinessWebsiteURL: Yup.string()
+    .min(2, "Business website URL should have at least 2 letters")
+    .max(50)
+    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
+    .required("Business website URL is required"),
   Suburb: Yup.string()
     .required("Suburb name is required")
     .min(2, "Suburb should have atleast 2 letters")
@@ -85,10 +90,31 @@ export const BankingSchema = Yup.object().shape({
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
-  // businessName: Yup.string()
-  //   .min(2, "Business name should have atleast 2 letters")
-  //   .max(50)
-  //   .required("Business name is required"),
+  BusinessMobileNumber: Yup.string()
+    .required("Mobile number is required")
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    ),
+  City: Yup.mixed().required("City is required"),
+  firstName: Yup.string()
+    .min(2, "Your first name should have atleast 2 letters")
+    .max(50)
+    .required("First name is required"),
+  lastName: Yup.string()
+    .min(2, "Your last name should have atleast 2 letters")
+    .max(50)
+    .required("Last name is required"),
+  RepresentativeAddress: Yup.string()
+    .min(2, "Address should have at least 2 letters")
+    .max(50)
+    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
+    .required("TAddress is required"),
+  email: Yup.string()
+    .email("Please enter a valid email")
+    .required("Please enter your email."),
+  BankName: Yup.string()
+    .min(2, "bank name should have atleast 2 letters")
+    .max(50)
+    .required("bank name is required"),
 });
-
-
