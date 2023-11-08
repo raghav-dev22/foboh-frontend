@@ -10,6 +10,7 @@ import { postBaseUnitMeasure } from "../helpers/postBaseUnitMeasure";
 import { message } from "antd";
 import { getbaseUnitMeasureList } from "../helpers/getUnitOfMeasures";
 import { putBaseUnitMeasure } from "../helpers/putBaseUnitMeasure";
+import { deleteBaseUnitMeasure } from "../helpers/deleteBaseUnitMeasure";
 
 const BaseUnit = ({
   baseUnitMeasure,
@@ -26,7 +27,7 @@ const BaseUnit = ({
   const [selectedBaseType, setSelectedBaseType] = useState(null);
   const [amount, setAmount] = useState(0);
   const [messageApi, contextHolder] = message.useMessage();
-  let isPut = false;
+  const [isPut, setIsPut] = useState(false);
 
   const handleSelectUnit = (value) => {
     setSelectedBaseUnit(value);
@@ -35,17 +36,17 @@ const BaseUnit = ({
     setSelectedBaseType(value);
   };
 
-  const success = () => {
+  const success = (message) => {
     messageApi.open({
       type: "success",
-      content: "Base unit measure added successfully!",
+      content: message,
     });
   };
 
-  const error = () => {
+  const error = (message) => {
     messageApi.open({
       type: "error",
-      content: "Some error has occurred, please try again!",
+      content: message,
     });
   };
 
@@ -55,24 +56,26 @@ const BaseUnit = ({
 
   const asyncFunction = async () => {
     const baseUnitMeasure = await getbaseUnitMeasureList();
-    isPut = baseUnitMeasure.length > 0;
+    setIsPut(unit.length > 0);
+
     setUnit(
       baseUnitMeasure.map((item) => {
-        const bumUnitItem = splitValueAndUnit(item.unit);
+        const bumUnitItem = splitValueAndUnit(item?.unit);
         return {
-          amount: bumUnitItem.value,
+          id: item._id,
+          amount: bumUnitItem?.value,
           type: item.type,
-          bumUnit: bumUnitItem.unit,
+          bumUnit: bumUnitItem?.unit,
           editable: false,
         };
       })
     );
 
     function splitValueAndUnit(inputString) {
-      const match = inputString.match(/^(\d+)([a-zA-Z]+)$/);
+      const match = inputString.split(" ");
       if (match) {
-        const value = parseInt(match[1], 10);
-        const unit = match[2];
+        const value = match[0];
+        const unit = match[1];
         return { value, unit };
       } else {
         return null;
@@ -80,7 +83,7 @@ const BaseUnit = ({
     }
   };
 
-  const addBtn = () => {
+  const addBtn = async () => {
     setUnit((prev) => [
       ...prev,
       {
@@ -90,10 +93,30 @@ const BaseUnit = ({
         editable: false,
       },
     ]);
+
+    const addBaseUnitMeasure = [
+      {
+        type: selectedBaseType,
+        amount: amount,
+        bumUnit: selectedBaseUnit,
+        editable: false,
+      },
+    ];
+
+    const response = await postBaseUnitMeasure(addBaseUnitMeasure);
+    response
+      ? success("Base unit measure added!")
+      : error("Some error occurred, please try again.");
+
+    response && masterAsyncFunction();
   };
 
-  const handleDelete = (idx) => {
+  const handleDelete = async (idx, baseUnitMeasureId) => {
     setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
+    const response = await deleteBaseUnitMeasure(baseUnitMeasureId);
+    response
+      ? error("Base unit measure removed")
+      : error("Some error occurred while removing");
   };
 
   const handleIsEdit = (idx) => {
@@ -134,7 +157,7 @@ const BaseUnit = ({
     );
   };
 
-  const handleSaveEdit = (idx) => {
+  const handleSaveEdit = async (idx, baseUnitMeasureId) => {
     setUnit((prev) =>
       prev.map((item, itemIndex) => {
         if (itemIndex === idx) {
@@ -146,17 +169,13 @@ const BaseUnit = ({
         return item;
       })
     );
-  };
 
-  const handleUpload = async () => {
-    if (isPut) {
-      const response = await putBaseUnitMeasure(unit)
-      response ? success() : error();
-    } else {
-      const response = await postBaseUnitMeasure(unit);
-      response ? success() : error();
-    }
-    onCancel();
+    const editedItem = [unit.find((item) => item.id === baseUnitMeasureId)];
+    const response = await putBaseUnitMeasure(editedItem);
+    response
+      ? success("Base unit measure updated!")
+      : error("Some error occurred, please try again.");
+    response && masterAsyncFunction();
   };
 
   return (
@@ -173,26 +192,6 @@ const BaseUnit = ({
             </h5>
           </div>
         }
-        footer={[
-          <div className="flex justify-end items-center">
-            <Button
-              key="cancel"
-              onClick={onCancel}
-              className="border border-[#D0D5DD] text-[#344054] text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
-            >
-              Cancel
-            </Button>
-
-            <Button
-              key="ok"
-              type="primary"
-              onClick={handleUpload}
-              className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
-            >
-              Upload
-            </Button>
-          </div>,
-        ]}
         open={open}
         onOk={onOk}
         onCancel={onCancel}
@@ -293,7 +292,7 @@ const BaseUnit = ({
                             options={baseUnitMeasureTypeList}
                           />
                           <div
-                            onClick={() => handleSaveEdit(idx)}
+                            onClick={() => handleSaveEdit(idx, item?.id)}
                             className="ml-[16px]"
                           >
                             <CheckCircleOutlineIcon
