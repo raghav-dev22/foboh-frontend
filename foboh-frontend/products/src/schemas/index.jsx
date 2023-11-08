@@ -10,7 +10,7 @@ export const addProductSchema = Yup.object().shape({
   // stockAlertLevel: Yup.string().required(
   //   "StockAlertLevel quantity is required"
   // ),
-  minimumOrder: Yup.string().required("Minimum order is required"),
+  // minimumOrder: Yup.string().required("Minimum order is required"),
   trackInventory: Yup.boolean(),
   title: Yup.string()
     .required("Please Enter Title")
@@ -35,9 +35,9 @@ export const addProductSchema = Yup.object().shape({
   description: Yup.string()
     .required("Please Enter Description")
     .max(255, "Exceeded the characters limit"),
-  tags: Yup.array().required("tags is required"),
+  // tags: Yup.array().required("tags is required"),
   salePrice: Yup.string().required("Sale price is required"),
-  buyPrice: Yup.string().required("Buy price is required"),
+  // buyPrice: Yup.string().required("Buy price is required"),
   profit: Yup.string(),
   margin: Yup.string(),
   tax: Yup.string(),

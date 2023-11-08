@@ -187,7 +187,7 @@ export const stepThreeSchema = Yup.object().shape({
     .required("suburb is required"),
 });
 export const ViewCustomerDetails = Yup.object().shape({
-  BusinessName: Yup.string()
+  businessName: Yup.string()
     .min(2, "Business name should have atleast 2 letters")
     .max(50)
     .required("Business name is required"),

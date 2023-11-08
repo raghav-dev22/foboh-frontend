@@ -87,6 +87,7 @@ function AddProduct() {
   const [marginCopy, setMarginCopy] = useState(null);
   const [variety, setVariety] = useState([]);
   const [tag, setTag] = useState([]);
+  const [region, setRegion] = useState([]);
   const [country, setCountry] = useState([]);
   const [baseUnitMeasure, setBaseUnitMeasure] = useState([]);
   const [innerUnitMeasure, setInnerUnitMeasure] = useState([]);
@@ -722,6 +723,24 @@ function AddProduct() {
         );
       })
       .catch((error) => console.log(error));
+
+    // Region
+    fetch("https://masters-api-foboh.azurewebsites.net/api/Region", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Region -->", data);
+        setRegion(
+          data.map((item) => {
+            return {
+              value: item.regionId,
+              label: item.regionName,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   // Product Details ----END
@@ -959,7 +978,7 @@ function AddProduct() {
                 <div className="p-5">
                   <div className=" pb-5">
                     <h5 className="text-base font-medium text-green mb-3">
-                      Minimum order quantity
+                      Minimum order quantity (optional)
                     </h5>
                     <div className="w-72">
                       <input
@@ -971,11 +990,11 @@ function AddProduct() {
                         type="number"
                         placeholder="Select"
                       />
-                      {errors.minimumOrder && touched.minimumOrder && (
+                      {/* {errors.minimumOrder && touched.minimumOrder && (
                         <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
                           {errors.minimumOrder}
                         </p>
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <div className=" pb-5">
@@ -1342,8 +1361,8 @@ function AddProduct() {
                         </h5>
                         <div className=" w-full">
                           <Select
-                            name="colors"
-                            isDisabled={!region.length}
+                            name="region"
+                            // isDisabled={!region.length}
                             options={region}
                             value={values.regionSelect}
                             onChange={handleregionSelectChange}
@@ -1586,7 +1605,7 @@ function AddProduct() {
                         className="block  tracking-wide text-gray-700 text-base font-medium "
                         htmlFor="tags"
                       >
-                        Tags
+                        Tags (optional)
                       </label>
                       <div className="w-full">
                         <Select
@@ -1601,11 +1620,11 @@ function AddProduct() {
                           isClearable={true}
                           closeMenuOnSelect={false}
                         />
-                        {errors.tags && touched.tags && (
+                        {/* {errors.tags && touched.tags && (
                           <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
                             {errors.tags}
                           </p>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>
@@ -1658,7 +1677,7 @@ function AddProduct() {
                         className="block  tracking-wide text-gray-700 text-base font-medium "
                         htmlFor="Buy-price"
                       >
-                        Buy price
+                        Buy price (optional)
                         <CustomTooltip
                           placement="right"
                           arrow
@@ -1694,11 +1713,11 @@ function AddProduct() {
                         onBlur={handleBlur}
                         placeholder="Buy Price"
                       />
-                      {errors.buyPrice && touched.buyPrice && (
+                      {/* {errors.buyPrice && touched.buyPrice && (
                         <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
                           {errors.buyPrice}
                         </p>
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <div className="mb-5">

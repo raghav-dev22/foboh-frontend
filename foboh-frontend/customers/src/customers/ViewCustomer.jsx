@@ -24,34 +24,12 @@ function ViewCustomer() {
   const [customerEdit, setCustomerEdit] = useState(true);
   const [selectedValue, setSelectedValue] = useState(null);
   // const [customerDetails, setCustomerDetails] = useState({});
-  const ordeItem = [
-    {
-      title: "Business name",
-      SubTitle: "The Union Hotel",
-      image: <SellIcon />,
-    },
-    {
-      title: "Delivery address",
-      SubTitle: "576 King St, Newtown NSW 2042",
-      image: <LocationOnIcon />,
-    },
-    {
-      title: "ABN / Liquor licence",
-      SubTitle: "12 345 678 910 / LIQO660011539 ",
-      image: <WorkIcon />,
-    },
 
-    {
-      title: "Customer Status",
-      SubTitle: "Active",
-      image: <PersonIcon />,
-    },
-  ];
   const [show, setShow] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const initialValues = {
     buyerId: "",
-    BusinessName: "",
+    businessName: "",
     abn: "",
     liquorLicence: "",
     salesRepId: "",
@@ -87,12 +65,12 @@ function ViewCustomer() {
         },
         body: JSON.stringify({
           buyerId: buyID,
-          BusinessName: values?.BusinessName,
+          businessName: values?.BusinessName,
           abn: values?.abn,
           liquorLicence: values?.liquorLicence,
           salesRepId: "",
           pricingProfileId: "",
-          isActive: selectedValue,
+          isActive: selectedValue.value,
         }),
       }
     )
@@ -109,14 +87,46 @@ function ViewCustomer() {
   //   // });
   // };
   const handleSelectChange = (selectedOption) => {
-    setSelectedValue(selectedOption.value);
+    setSelectedValue(selectedOption);
     console.log(selectedOption.value, "dropdown");
   };
 
   const handleCustomerDetails = (data) => {
     setValues(data);
+    data.isActive === "1"
+      ? setSelectedValue({
+          label: "Active",
+          value: "1",
+        })
+      : setSelectedValue({
+          label: "inactive",
+          value: "0",
+        });
   };
+  console.log(values, "maindata");
+  const ordeItem = [
+    {
+      title: "Business name",
+      SubTitle: values?.businessName,
+      image: <SellIcon />,
+    },
+    {
+      title: "Delivery address",
+      SubTitle: `${values?.apartment} ${values?.address} ${values?.suburb} ${values?.state} ${values?.postalCode}`,
+      image: <LocationOnIcon />,
+    },
+    {
+      title: "ABN / Liquor licence",
+      SubTitle: `${values?.abn}/ ${values?.liquorLicence}`,
+      image: <WorkIcon />,
+    },
 
+    {
+      title: "Customer Status",
+      SubTitle: values?.isActive === "1" ? "Active" : "Inactive",
+      image: <PersonIcon />,
+    },
+  ];
   return (
     <div className="px-6 padding-top-custom">
       {/* {show === true ? (
@@ -251,22 +261,22 @@ function ViewCustomer() {
                 className="bg-white rounded-lg border border-darkGreen shadow-md	"
                 placeholder="The Union Hotel"
                 onBlur={handleBlur}
-                name="BusinessName"
+                name="businessName"
                 onChange={handleChange}
-                value={values?.BusinessName}
+                value={values?.businessName}
                 style={{
                   border:
-                    errors.BusinessName &&
-                    touched.BusinessName &&
+                    errors.businessName &&
+                    touched.businessName &&
                     "1px solid red",
                 }}
               />
-              {errors.BusinessName && touched.BusinessName && (
+              {errors.businessName && touched.businessName && (
                 <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.BusinessName}
+                  {errors.businessName}
                 </p>
               )}
-              {errors.BusinessName && touched.BusinessName && (
+              {errors.businessName && touched.businessName && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[55px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
@@ -348,6 +358,7 @@ function ViewCustomer() {
                 onChange={handleSelectChange}
                 placeholder="The Union Hotel"
                 className="bg-white rounded-lg border border-[#e2e8f0] shadow-md custom-status	"
+                value={selectedValue}
               />
             </div>
           </div>
