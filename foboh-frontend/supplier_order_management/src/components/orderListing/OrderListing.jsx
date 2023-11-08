@@ -154,6 +154,23 @@ const OrderListing = () => {
         }
       }
 
+      //If order status is New and payment is Paid
+      if (
+        orderDetailsResponse[0]?.orderStatus === "Pending" &&
+        orderDetailsResponse[0]?.transactionStatus === "Paid"
+      ) {
+        const orderStatusChangeResponse = await orderStatusChange(
+          "Processing",
+          orderDetailsResponse[0]
+        );
+        if (orderStatusChangeResponse) {
+          success(`Order status successfully changed to Complete !`);
+          asyncFunction();
+        } else {
+          error("Some error has occurred, please try again later!");
+        }
+      }
+
       //If order status is Delivered and payment is Paid then order status will be Complete
       if (
         orderDetailsResponse[0]?.orderStatus === "Delivered" &&

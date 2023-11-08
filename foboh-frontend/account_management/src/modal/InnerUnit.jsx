@@ -9,9 +9,10 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { postInnerUnitMeasure } from "../helpers/postInnerUnitMeasure";
 import { message } from "antd";
 import { getInnerUnitMeasureList } from "../helpers/getUnitOfMeasures";
+import { putInnerUnitMeasure } from "../helpers/putInnerUnitMeasure";
 
 const InnerUnit = ({
-  innerUnitMeasure,
+  masterAsyncFunction,
   baseUnitMeasureTypeList,
   innerUnitTypeList,
   open,
@@ -23,6 +24,7 @@ const InnerUnit = ({
   const [iumUnit, setiumUnit] = useState("");
   const [iumType, setIumType] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
+  let isPut = false;
 
   useEffect(() => {
     asyncFunction();
@@ -30,6 +32,7 @@ const InnerUnit = ({
 
   const asyncFunction = async () => {
     const innerUnitMeasure = await getInnerUnitMeasureList();
+    isPut = innerUnitMeasure.length > 0;
     setUnit(
       innerUnitMeasure.map((item) => {
         const amount = item.unit.split(" ")[0];
@@ -136,8 +139,15 @@ const InnerUnit = ({
   };
 
   const handleUpload = async () => {
-    const response = await postInnerUnitMeasure(unit);
-    response ? success() : error();
+    if (isPut) {
+      const response = await putInnerUnitMeasure(unit);
+      response ? success() : error();
+      response && masterAsyncFunction();
+    } else {
+      const response = await postInnerUnitMeasure(unit);
+      response ? success() : error();
+      response && masterAsyncFunction();
+    }
     onCancel();
   };
 
