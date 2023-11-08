@@ -192,40 +192,40 @@ function MainDashBoard() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="box-3 pt-6 px-6 ">
-        <ActiveOrder />
-      </div>
-      <div className="box-4 pt-6 px-6">
-        <div className=" rounded-md	 border border-inherit bg-white overflow-x-scroll	">
-          <table className="min-w-full">
-            <thead>
-              <tr>
-                <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
-                  Order ID
-                </th>
-                <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
-                  Customer
-                </th>
-                <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
-                  Amount
-                </th>
-                <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm			 font-semibold ">
-                  Last Updated
-                </th>
-                <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
-                  Status
-                </th>
-                <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
-                  Action required
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {/* <OrderDetails /> */}
-              <OrderDetails />
-            </tbody>
-          </table>
+        <div className="box-3 pt-6 px-6 ">
+          <ActiveOrder />
+        </div>
+        <div className="box-4 pt-6 px-6">
+          <div className=" rounded-md	 border border-inherit bg-white overflow-x-scroll	">
+            <table className="min-w-full">
+              <thead>
+                <tr>
+                  <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
+                    Order ID
+                  </th>
+                  <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
+                    Customer
+                  </th>
+                  <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
+                    Amount
+                  </th>
+                  <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm			 font-semibold ">
+                    Last Updated
+                  </th>
+                  <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
+                    Action required
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {/* <OrderDetails /> */}
+                <OrderDetails />
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

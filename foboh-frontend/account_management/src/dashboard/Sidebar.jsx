@@ -36,7 +36,7 @@ const Sidebar = () => {
               />
             ) : (
               <>
-                <div className="border-2	border-dark	bg-custom-gray">
+                <div className="border-2	border-dark	bg-custom-gray px-6 py-3">
                   <p className="text-xs	font-semibold	italic	text-gray text-center pb-2	">
                     {" "}
                     PLACEHOLDER

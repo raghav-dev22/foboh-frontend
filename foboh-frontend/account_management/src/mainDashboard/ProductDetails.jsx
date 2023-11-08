@@ -98,7 +98,7 @@ function ProductDetails({ stock }) {
       {stock.map((item, index) => {
         return (
           <div
-            className={`flex justify-between sm:items-center items-end pt-5 productItem-${index}`}
+            className={`flex justify-between sm:items-center items-end pb-5 productItem-${index}`}
           >
             <div className=" sm:flex items-center  grid  gap-2 justify-center">
               <div className="">

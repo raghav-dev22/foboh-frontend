@@ -1,7 +1,7 @@
 import React from "react";
 import { Select } from "antd";
 import { useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 import { BankingSchema } from "../../schemas";
@@ -10,8 +10,27 @@ import { postSetupBankingDetails } from "../../helpers/postSetupBankinDetails";
 import { Button, message } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
 import { getSetupBankingDetails } from "../../helpers/getSetupBankingDetails";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
+import { styled } from "@mui/material";
 
 const BankingInformation = () => {
+  const CustomTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#2B4447",
+      color: "white",
+      borderRadius: "5px",
+      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      textAlign: "center",
+      fontSize: 11,
+      lineHeight: "24px",
+      fontFamily: "Inter",
+      fontSize: "11px",
+      fontWeight: 600,
+    },
+  }));
   const navigate = useNavigate();
   const [bankingDetails, setBankingDetails] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -20,8 +39,10 @@ const BankingInformation = () => {
   const [businessType, setBusinessType] = useState([]);
   const [initialValues, setInitialValues] = useState({
     BusinessName: "",
+    BusinessSuburb: "",
     LegalBusiness: "",
-    ACNABN: "",
+    ACN: "",
+    ABN: "",
     BusinessAddress: "",
     Suburb: "",
     Postcode: "",
@@ -31,6 +52,15 @@ const BankingInformation = () => {
     AccountNumber: "",
     StatementDescriptor: "",
     PhoneNumber: "",
+    BusinessWebsiteURL: "",
+    BusinessMobileNumber: "",
+    firstName: "",
+    lastName: "",
+    RepresentativeAddress: "",
+    Suburb: "",
+    email: "",
+    BankName: "",
+    RepresentativePhoneNumber: "",
   });
 
   const {
@@ -95,6 +125,7 @@ const BankingInformation = () => {
           value: item,
           label: item,
         }));
+        console.log(businessTypeOptions, "businessTypeOptions====>");
         setBusinessType(businessTypeOptions);
       });
 
@@ -109,7 +140,8 @@ const BankingInformation = () => {
     const setupBankingDetails = await getSetupBankingDetails();
     setInitialValues({
       LegalBusiness: setupBankingDetails.legalbusinessname,
-      ACNABN: setupBankingDetails.acnabn,
+      ACN: setupBankingDetails.acn,
+      ABN: setupBankingDetails.abn,
       BusinessAddress: setupBankingDetails.businessAddress,
       Suburb: setupBankingDetails.city,
       Postcode: setupBankingDetails.postcode,
@@ -119,10 +151,21 @@ const BankingInformation = () => {
       StatementDescriptor: setupBankingDetails.statementDescriptor,
       PhoneNumber: setupBankingDetails.phoneNumber,
       BusinessName: setupBankingDetails.businessType,
+      BusinessWebsiteURL: setupBankingDetails.BusinessWebsiteURL,
+      BusinessMobileNumber: setupBankingDetails.BusinessMobileNumber,
+      firstName: setupBankingDetails.firstName,
+      lastName: setupBankingDetails.lastName,
+      Suburb: setupBankingDetails.Suburb,
+      RepresentativeAddress: setupBankingDetails.RepresentativeAddress,
+      email: setupBankingDetails.email,
+      BankName: setupBankingDetails.BankName,
+      BusinessSuburb: setupBankingDetails.BusinessSuburb,
+      RepresentativePhoneNumber: setupBankingDetails.RepresentativePhoneNumber,
     });
     setValues({
       LegalBusiness: setupBankingDetails.legalbusinessname,
-      ACNABN: setupBankingDetails.acnabn,
+      ACN: setupBankingDetails.acn,
+      ABN: setupBankingDetails.abn,
       BusinessAddress: setupBankingDetails.businessAddress,
       Suburb: setupBankingDetails.city,
       Postcode: setupBankingDetails.postcode,
@@ -132,6 +175,16 @@ const BankingInformation = () => {
       StatementDescriptor: setupBankingDetails.statementDescriptor,
       PhoneNumber: setupBankingDetails.phoneNumber,
       BusinessName: setupBankingDetails.businessType,
+      BusinessWebsiteURL: setupBankingDetails.BusinessWebsiteURL,
+      BusinessMobileNumber: setupBankingDetails.BusinessMobileNumber,
+      firstName: setupBankingDetails.firstName,
+      lastName: setupBankingDetails.lastName,
+      RepresentativeAddress: setupBankingDetails.RepresentativeAddress,
+      Suburb: setupBankingDetails.Suburb,
+      email: setupBankingDetails.email,
+      BankName: setupBankingDetails.BankName,
+      BusinessSuburb: setupBankingDetails.BusinessSuburb,
+      RepresentativePhoneNumber: setupBankingDetails.RepresentativePhoneNumber,
     });
   };
 
@@ -149,7 +202,8 @@ const BankingInformation = () => {
             organisationID: localStorage.getItem("organisationId"),
             businessType: values?.BusinessName,
             legalbusinessname: values?.LegalBusiness,
-            acnabn: values?.ACNABN,
+            acn: values?.ACN,
+            abn: values?.ABN,
             businessAddress: values?.BusinessAddress,
             city: values?.Suburb,
             postcode: values?.Postcode,
@@ -160,6 +214,16 @@ const BankingInformation = () => {
             statementDescriptor: values?.StatementDescriptor,
             phoneNumber: values?.PhoneNumber,
             createdBy: "string",
+            BusinessWebsiteURL: values?.BusinessWebsiteURL,
+            BusinessMobileNumber: values?.BusinessMobileNumber,
+            firstName: values?.firstName,
+            lastName: values?.lastName,
+            RepresentativeAddress: values?.RepresentativeAddress,
+            Suburb: values?.Suburb,
+            email: values?.email,
+            BankName: values?.BankName,
+            BusinessSuburb: values?.BusinessSuburb,
+            RepresentativePhoneNumber: values?.RepresentativePhoneNumber,
           }),
         }
       )
@@ -321,7 +385,7 @@ const BankingInformation = () => {
                         id="ACN"
                         type="text"
                         name="ACN"
-                        placeholder="XX XXX XXX XXX"
+                        placeholder="XXX XXX XXX"
                         value={values.ACN}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -383,24 +447,24 @@ const BankingInformation = () => {
                     <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
-                        htmlFor="username"
+                        htmlFor="BusinessMobileNumber"
                       >
                         Business Phone Number
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username"
+                        id="BusinessMobileNumber"
                         type="text"
-                        name="BusinessPhoneNumber"
+                        name="BusinessMobileNumber"
                         placeholder="Enter Phone Number"
-                        value={values.BusinessPhoneNumber}
+                        value={values.BusinessMobileNumber}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
-                      {errors.BusinessPhoneNumber &&
-                        touched.BusinessPhoneNumber && (
+                      {errors.BusinessMobileNumber &&
+                        touched.BusinessMobileNumber && (
                           <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                            {errors.BusinessPhoneNumber}
+                            {errors.BusinessMobileNumber}
                           </p>
                         )}
                     </div>
@@ -411,22 +475,22 @@ const BankingInformation = () => {
                         className="block text-[#2B4447] text-base font-medium mb-2"
                         htmlFor="username"
                       >
-                        City
+                        Suburb
                       </label>
 
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="City"
+                        id="BusinessSuburb"
                         type="text"
-                        name="City"
-                        placeholder="Enter City"
-                        value={values.City}
+                        name="BusinessSuburb"
+                        placeholder="Enter Suburb"
+                        value={values.BusinessSuburb}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
-                      {errors.City && touched.City && (
+                      {errors.BusinessSuburb && touched.BusinessSuburb && (
                         <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                          {errors.City}
+                          {errors.BusinessSuburb}
                         </p>
                       )}
                     </div>
@@ -488,12 +552,52 @@ const BankingInformation = () => {
                       </label>
                       <input
                         disabled
-                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="appearance-none  border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
                         placeholder="Australia "
                         value={values.Country}
+                        style={{ background: "#E0E0E0" }}
                       />
+                    </div>
+                  </div>
+                  <div className="flex flex-nowrap gap-2">
+                    <div className="mb-4 w-full">
+                      <label
+                        className="block text-[#2B4447] text-base font-medium mb-2"
+                        htmlFor="username"
+                      >
+                        <CustomTooltip
+                          placement="right"
+                          arrow
+                          title="Please provide the URL of your business website or social media profile."
+                        >
+                          <HelpIcon
+                            sx={{
+                              color: "#E0E0E0",
+                              width: "20px",
+                              marginLeft: "10px",
+                            }}
+                          />{" "}
+                        </CustomTooltip>{" "}
+                        Business website URL
+                      </label>
+                      <input
+                        className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="username"
+                        type="text"
+                        placeholder="Business website URL"
+                        name="BusinessWebsiteURL"
+                        value={values.BusinessWebsiteURL}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.BusinessWebsiteURL &&
+                        touched.BusinessWebsiteURL && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                            {errors.BusinessWebsiteURL}
+                          </p>
+                        )}
                     </div>
                   </div>
                 </form>
@@ -519,11 +623,19 @@ const BankingInformation = () => {
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id=" FirstName"
+                        id="firstName"
                         type="text"
-                        name=" FirstName"
+                        name="firstName"
                         placeholder="Enter first name"
+                        value={values.firstName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.firstName && touched.firstName && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.firstName}
+                        </p>
+                      )}
                     </div>
                     <div className="mb-4 w-full">
                       <label
@@ -534,11 +646,19 @@ const BankingInformation = () => {
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="LastName"
+                        id="lastName"
                         type="text"
-                        name="LastName"
+                        name="lastName"
                         placeholder="Enter last name"
+                        value={values.lastName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.lastName && touched.lastName && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.lastName}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-nowrap gap-2">
@@ -552,7 +672,7 @@ const BankingInformation = () => {
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="Dateofbirth"
-                        type="text"
+                        type="date"
                         name="DateOfBirth"
                         placeholder="dd/mm/yyyy"
                       />
@@ -567,28 +687,45 @@ const BankingInformation = () => {
 
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Suburb"
+                        id="RepresentativeAddress"
                         type="text"
-                        name="Suburb"
                         placeholder="Enter address"
+                        name="RepresentativeAddress"
+                        value={values.RepresentativeAddress}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.RepresentativeAddress &&
+                        touched.RepresentativeAddress && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                            {errors.RepresentativeAddress}
+                          </p>
+                        )}
                     </div>
                   </div>
                   <div className="flex flex-nowrap gap-2">
                     <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
-                        htmlFor="City"
+                        htmlFor="Suburb"
                       >
-                        City
+                        Suburb
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="City"
+                        placeholder="Enter Suburb"
+                        name="Suburb"
+                        id="Suburb"
                         type="text"
-                        placeholder="Enter city"
-                        name="City"
+                        value={values.Suburb}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.Suburb && touched.Suburb && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.Suburb}
+                        </p>
+                      )}
                     </div>
                     <div className="mb-4 w-full">
                       <label
@@ -598,12 +735,20 @@ const BankingInformation = () => {
                         Postcode
                       </label>
                       <input
-                        disabled
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="Postcode"
                         type="text"
                         placeholder="XXXX "
+                        name="Postcode"
+                        value={values.Postcode}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.Postcode && touched.Postcode && (
+                        <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                          {errors.Postcode}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-nowrap gap-2">
@@ -634,39 +779,58 @@ const BankingInformation = () => {
                     <div className="mb-4 w-full">
                       <label
                         className="block text-[#2B4447] text-base font-medium mb-2"
-                        htmlFor="PhoneNo"
+                        htmlFor="RepresentativePhoneNumber"
                       >
                         Phone No.
                       </label>
                       <input
                         className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="PhoneNo"
+                        id="RepresentativePhoneNumber"
                         type="text"
                         placeholder="04XX XXX XXX / +61 4XX XXX XXX"
+                        name="RepresentativePhoneNumber"
+                        value={values.RepresentativePhoneNumber}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.RepresentativePhoneNumber &&
+                        touched.RepresentativePhoneNumber && (
+                          <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                            {errors.RepresentativePhoneNumber}
+                          </p>
+                        )}
                     </div>
                   </div>
                   <div className="mb-4 w-full">
                     <label
                       className="block text-[#2B4447] text-base font-medium mb-2"
-                      htmlFor="EmailID"
+                      htmlFor="email"
                     >
                       Email ID
                     </label>
                     <input
                       className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="EmailID"
+                      id="email"
                       type="text"
                       placeholder="Enter valid email ID"
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
+                    {errors.email && touched.email && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
-                  <div className="flex flex-nowrap gap-2">
-                    <div className="mb-4 w-full green-checkbox flex justify-start items-center">
+                  <div className="flex flex-wrap gap-2">
+                    <div className=" gap-2 w-full green-checkbox flex justify-start items-center">
                       <div className="w-4 h-4">
                         <input
                           className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
                           id="default-radio-1"
-                          type="radio"
+                          type="checkbox"
                           defaultValue=""
                           name="default-radio"
                         />
@@ -678,11 +842,11 @@ const BankingInformation = () => {
                         I own more than 25% of the company
                       </label>
                     </div>
-                    <div className="mb-4 w-full green-checkbox flex justify-start items-center ">
+                    <div className=" gap-2 w-full green-checkbox flex justify-start items-center ">
                       <div className="w-4 h-4">
                         <input
                           id="default-radio-1"
-                          type="radio"
+                          type="checkbox"
                           name="default-radio"
                           defaultValue=""
                           className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
@@ -693,6 +857,23 @@ const BankingInformation = () => {
                         className="ml-2 text-lg font-normal text-[#2B4447] "
                       >
                         I am a member of the governing board of the company
+                      </label>
+                    </div>
+                    <div className=" gap-2 w-full green-checkbox flex justify-start items-center">
+                      <div className="w-4 h-4">
+                        <input
+                          className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
+                          id="default-radio-3"
+                          type="checkbox"
+                          defaultValue=""
+                          name="default-radio"
+                        />
+                      </div>
+                      <label
+                        for="default-radio-3"
+                        className="ml-2 text-lg font-normal text-[#2B4447] "
+                      >
+                        I am a company executive.
                       </label>
                     </div>
                   </div>
@@ -738,13 +919,13 @@ const BankingInformation = () => {
                   <div className="mb-4">
                     <label
                       className="block text-[#2B4447] text-base font-medium mb-2"
-                      htmlFor="username"
+                      htmlFor="Account number"
                     >
                       Account number
                     </label>
                     <input
                       className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="username"
+                      id="Account number"
                       type="text"
                       placeholder="XXXXXX YYYYYYY ZZZ"
                       onChange={handleChange}
@@ -755,6 +936,29 @@ const BankingInformation = () => {
                     {errors.AccountNumber && touched.AccountNumber && (
                       <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
                         {errors.AccountNumber}
+                      </p>
+                    )}
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      className="block text-[#2B4447] text-base font-medium mb-2"
+                      htmlFor="BankName"
+                    >
+                      Bank Name
+                    </label>
+                    <input
+                      className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="BankName"
+                      type="text"
+                      placeholder="Bank Name"
+                      name="BankName"
+                      value={values.BankName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.BankName && touched.BankName && (
+                      <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                        {errors.BankName}
                       </p>
                     )}
                   </div>
@@ -829,9 +1033,23 @@ const BankingInformation = () => {
           <h4 className="text-xl font-semibold  text-[#2B4447]">
             Terms and Conditions
           </h4>
-          <p className="mt-3 text-sm font-medium text-[#637381]">
-            By using FOBOH Payments you agree to the Payments terms of service.
-          </p>
+          <div className="flex mt-3 justify-start items-center gap-2 green-checkbox">
+            <input
+              className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
+              id="default-radio-1"
+              type="checkbox"
+              defaultValue=""
+              name="default-radio"
+            />
+            <p className=" text-sm font-medium text-[#637381]">
+              By using FOBOH Payments you agree to the
+              <Link to="#" className="text-[#147D73]">
+                {" "}
+                Payments terms of service
+              </Link>{" "}
+              .
+            </p>
+          </div>
         </div>
       </div>
     </>

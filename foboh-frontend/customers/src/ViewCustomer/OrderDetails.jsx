@@ -3,6 +3,8 @@ import OrderTable from "./OrderTable";
 import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import { AddCustomerSchema } from "../schemas";
+import Select from "react-select";
+
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
@@ -275,6 +277,26 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
       ...initialValues,
     });
   };
+  const defaultPaymentTermOptions = [
+    { value: "30 days", label: "30 days" },
+    { value: "15 days", label: "15 days" },
+    { value: "10 days", label: "10 days" },
+  ];
+  const defaultPaymentMethodOptions = [
+    { value: "30 days", label: "30 days" },
+    { value: "15 days", label: "15 days" },
+    { value: "10 days", label: "10 days" },
+  ];
+  const billingStateOptions = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+  const stateOptions = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
   return (
     <>
       {contextHolder}
@@ -399,7 +421,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
 
             <div className="p-5">
               <div
-                className={`relative overflow-x-auto overflow-y-auto h-80 custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${
+                className={`relative overflow-x-auto overflow-y-auto  custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white ${
                   activeStatus == 1
                     ? "Active active-table"
                     : "hide-table hidden"
@@ -424,7 +446,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         scope="col"
                         className="px-6 py-3 text-green	font-medium text-base	"
                       >
-                        Delivery date
+                        Order date
                       </th>
                       <th
                         scope="col"
@@ -464,10 +486,10 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                       Ordering contact
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <form className="w-full  overflow-y-auto overflow-x-visible	 h-80 no-scrollbar">
-                      <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                        <div className="w-full relative md:w-1/2 px-3">
+                  <div className="px-6 py-7   custom-scroll-bar overflow-y-auto">
+                    <form className="w-full  overflow-y-auto overflow-x-visible	">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -482,7 +504,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onBlur={handleBlur}
                             onChange={handleChange}
                             value={values?.orderingFirstName}
-                            placeholder="Tom"
+                            placeholder="Enter First Name"
                             style={{
                               border:
                                 errors.orderingFirstName &&
@@ -501,7 +523,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
                             )}
                         </div>
-                        <div className="w-full relative md:w-1/2 px-3">
+                        <div className="w-full relative">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -516,7 +538,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             value={values?.orderingLastName}
                             name="orderingLastName"
-                            placeholder="Jones"
+                            placeholder="Enter Last Name"
                             style={{
                               border:
                                 errors.orderingLastName &&
@@ -536,8 +558,8 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium"
                             htmlFor="grid-password"
@@ -553,12 +575,13 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             value={values?.orderingEmail}
                             name="orderingEmail"
                             autoComplete="on"
-                            placeholder="devidjond45@gmail.com"
+                            placeholder="Enter Email Address"
                             style={{
                               border:
                                 errors.orderingEmail &&
                                 touched.orderingEmail &&
                                 "1px solid red",
+                              background: "#E0E0E0",
                             }}
                           />
                           {errors.orderingEmail && touched.orderingEmail && (
@@ -571,8 +594,8 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
@@ -600,7 +623,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             value={values.orderingMobile}
                             name="orderingMobile"
-                            placeholder="0412 345 678"
+                            placeholder="04XX XXX XXX / +61 4XX XXX XXX"
                             onKeyPress={(event) => {
                               const allowedCharacters = /^[0-9+]*$/; // Regular expression to match only numbers and '+'
                               if (!allowedCharacters.test(event.key)) {
@@ -651,10 +674,10 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                       </label>
                     </div>
                   </div>
-                  <div className="px-6 py-7">
-                    <form className="w-full  overflow-y-auto overflow-x-visible	 h-80 no-scrollbar">
-                      <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                        <div className="w-full relative md:w-1/2 px-3">
+                  <div className="px-6 py-7  custom-scroll-bar overflow-y-auto">
+                    <form className="w-full  overflow-y-auto overflow-x-visible	 ">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -669,7 +692,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             value={values?.deliveryFirstName}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            placeholder="Tom"
+                            placeholder="Enter First Name"
                             style={{
                               border:
                                 errors.deliveryFirstName &&
@@ -688,7 +711,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
                             )}
                         </div>
-                        <div className="w-full relative md:w-1/2 px-3">
+                        <div className="w-full relative ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -703,7 +726,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onBlur={handleBlur}
                             onChange={handleChange}
                             name="deliveryLastName"
-                            placeholder="Jones"
+                            placeholder="Enter Last Name"
                             style={{
                               border:
                                 errors.deliveryLastName &&
@@ -723,8 +746,8 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
@@ -740,12 +763,13 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             value={values?.deliveryEmail}
                             name="deliveryEmail"
                             autoComplete="on"
-                            placeholder="devidjond45@gmail.com"
+                            placeholder="Enter Email Address"
                             style={{
                               border:
                                 errors.deliveryEmail &&
                                 touched.deliveryEmail &&
                                 "1px solid red",
+                              background: "#E0E0E0",
                             }}
                           />
                           {errors.deliveryEmail && touched.deliveryEmail && (
@@ -758,8 +782,8 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
@@ -787,7 +811,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             value={values?.deliveryMobile}
                             name="deliveryMobile"
-                            placeholder="0412 345 678"
+                            placeholder="04XX XXX XXX / +61 4XX XXX XXX"
                             style={{
                               border:
                                 errors.deliveryMobile &&
@@ -822,10 +846,10 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                       Delivery address
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <form className="w-full  overflow-y-auto overflow-x-visible	 h-80 no-scrollbar">
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                  <div className="px-6 py-7   custom-scroll-bar overflow-y-auto">
+                    <form className="w-full  overflow-y-auto overflow-x-visible	">
+                      <div className="flex flex-wrap  mb-5">
+                        <div className="w-full relative ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
@@ -842,7 +866,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             name="address"
                             value={values?.address}
                             autoComplete="on"
-                            placeholder="126 Juliett Street"
+                            placeholder="Enter Address"
                             style={{
                               border:
                                 errors.address &&
@@ -860,8 +884,8 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                        <div className="w-full relative md:w-1/2 px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative  ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -876,7 +900,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onBlur={handleBlur}
                             onChange={handleChange}
                             value={values?.apartment}
-                            placeholder="Tom"
+                            placeholder="Enter Apartment"
                             style={{
                               border:
                                 errors.apartment &&
@@ -893,7 +917,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
                           )}
                         </div>
-                        <div className="w-full relative md:w-1/2 px-3">
+                        <div className="w-full relative  ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -908,7 +932,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             value={values?.suburb}
                             name="suburb"
-                            placeholder="Jones"
+                            placeholder="Enter Suburb"
                             style={{
                               border:
                                 errors.suburb &&
@@ -926,10 +950,10 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                        <div className="w-full relative md:w-1/2 px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative ">
                           <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                            className="block mb-2  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
                           >
                             Postcode
@@ -942,7 +966,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             name="postalCode"
                             value={values?.postalCode}
-                            placeholder="2204"
+                            placeholder="XXXX"
                             style={{
                               border:
                                 errors.postalCode &&
@@ -959,43 +983,28 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
                           )}
                         </div>
-                        <div className="w-full relative md:w-1/2 px-3">
+                        <div className="w-full relative">
                           <label
-                            htmlFor="message"
-                            className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
+                            className="block text-[#2B4447] text-base font-medium mb-2"
+                            htmlFor="username"
                           >
                             State
                           </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-password"
-                            type="Postcode"
+                          <Select
+                            className="mt-[3px]"
+                            showSearch
                             name="state"
-                            // disabled={true}
-                            onChange={handleChange}
+                            style={{ width: "100%", height: "48px" }}
+                            placeholder="Select"
+                            options={stateOptions}
                             onBlur={handleBlur}
-                            value={values?.state}
-                            placeholder="2204"
-                            style={{
-                              border:
-                                errors.state &&
-                                touched.state &&
-                                "1px solid red",
-                            }}
+                            // value={values.billingState}
                           />
-                          {errors.state && touched.state && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                              {errors.state}
-                            </p>
-                          )}
-                          {errors.state && touched.state && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
-                          )}
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                      <div className="flex flex-nowrap mb-5">
+                        <div className="w-full relative">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
@@ -1005,7 +1014,6 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           <input
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-password"
-                            disabled
                             type="text"
                             onChange={handleChange}
                             name="deliveryNotes"
@@ -1037,15 +1045,15 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         className="  dark:text-gray-300"
                       >
                         <p className="text-xs		font-normal	 text-gray">
-                          Same ordering and delivery contact{" "}
+                          Same delivery and billing address
                         </p>
                       </label>
                     </div>
                   </div>
-                  <div className="px-6 py-7">
-                    <form className="w-full  overflow-y-auto overflow-x-visible	 h-80 no-scrollbar">
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                  <div className="px-6 py-7  custom-scroll-bar overflow-y-auto">
+                    <form className="w-full  overflow-y-auto overflow-x-visible	 ">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
@@ -1062,7 +1070,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             name="billingAddress"
                             value={values?.billingAddress}
                             autoComplete="on"
-                            placeholder="126 Juliett Street"
+                            placeholder="Enter Address"
                             style={{
                               border:
                                 errors.billingAddress &&
@@ -1080,8 +1088,8 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
-                        <div className="w-full relative md:w-1/2 px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -1095,7 +1103,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             value={values?.billingApartment}
                             type="text"
-                            placeholder="Tom"
+                            placeholder="Enter Apartment"
                             onBlur={handleBlur}
                             style={{
                               border:
@@ -1115,7 +1123,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                               <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
                             )}
                         </div>
-                        <div className="w-full relative md:w-1/2 px-3">
+                        <div className="w-full relative ">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-last-name"
@@ -1130,7 +1138,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             name="billingSuburb"
                             value={values?.billingSuburb}
-                            placeholder="Jones"
+                            placeholder="Enter Suburb"
                             style={{
                               border:
                                 errors.billingSuburb &&
@@ -1148,10 +1156,10 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
-                        <div className="w-full relative  px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative  ">
                           <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
+                            className="block  tracking-wide text-gray-700 text-base	 font-medium	mb-2 "
                             htmlFor="grid-password"
                           >
                             Postcode
@@ -1164,7 +1172,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={handleChange}
                             name="billingPostalCode"
                             value={values?.billingPostalCode}
-                            placeholder="2204"
+                            placeholder="XXXX"
                             style={{
                               border:
                                 errors.billingPostalCode &&
@@ -1183,37 +1191,27 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                               <ErrorOutlineIcon className="absolute text-red-500 top-[49px] right-5 transition-all duration-[0.3s] " />
                             )}
                         </div>
-                        <div className="w-full relative  px-3">
+                        <div className="w-full relative  ">
                           <label
-                            htmlFor="message"
-                            className="block mb-2 text-base	 font-medium text-gray-700 dark:text-white"
+                            className="block text-[#2B4447] text-base font-medium mb-2"
+                            htmlFor="username"
                           >
                             State
                           </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-password"
-                            type="Postcode"
+                          <Select
+                            className="mt-[3px]"
+                            showSearch
                             name="billingState"
-                            // disabled={true}
-                            onChange={handleChange}
+                            style={{ width: "100%", height: "48px" }}
+                            placeholder="Select"
+                            options={billingStateOptions}
                             onBlur={handleBlur}
-                            value={values?.billingState}
-                            placeholder="2204"
-                            style={{
-                              border:
-                                errors.billingState &&
-                                touched.billingState &&
-                                "1px solid red",
-                            }}
+                            // value={values.billingState}
                           />
                           {errors.billingState && touched.billingState && (
-                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                            <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
                               {errors.billingState}
                             </p>
-                          )}
-                          {errors.billingState && touched.billingState && (
-                            <ErrorOutlineIcon className="absolute text-red-500 top-[45px] right-5 transition-all duration-[0.3s] " />
                           )}
                         </div>
                       </div>
@@ -1235,41 +1233,45 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                       Payment details
                     </h6>
                   </div>
-                  <div className="px-6 py-7">
-                    <form className="w-full  overflow-y-auto overflow-x-visible	 h-80 no-scrollbar">
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                  <div className="px-6 py-7   custom-scroll-bar overflow-y-auto ">
+                    <form className="w-full  overflow-y-auto overflow-x-visible	">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative">
                           <label
-                            className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
-                            htmlFor="grid-password"
+                            className="block text-[#2B4447] text-base font-medium mb-2"
+                            htmlFor="username"
                           >
                             Default payment term
                           </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-password"
-                            disabled
-                            type="email"
-                            name="email"
-                            autoComplete="on"
-                            placeholder="30 day"
+                          <Select
+                            className="mt-[3px]"
+                            showSearch
+                            name="billingState"
+                            style={{ width: "100%", height: "48px" }}
+                            placeholder="Select"
+                            options={defaultPaymentTermOptions}
+                            onBlur={handleBlur}
+                            // value={values.billingState}
                           />
                         </div>
                       </div>
-                      <div className="flex flex-wrap -mx-3 mb-5">
-                        <div className="w-full relative px-3">
+                      <div className="flex flex-nowrap gap-2  mb-5">
+                        <div className="w-full relative">
                           <label
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
                           >
                             Default payment method
                           </label>
-                          <input
-                            className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4     leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-password"
-                            type="text"
-                            name="mobile"
-                            placeholder="Bank transfer"
+                          <Select
+                            className="mt-[3px]"
+                            showSearch
+                            name="billingState"
+                            style={{ width: "100%", height: "48px" }}
+                            placeholder="Select"
+                            options={defaultPaymentMethodOptions}
+                            onBlur={handleBlur}
+                            // value={values.billingState}
                           />
                         </div>
                       </div>
@@ -1278,7 +1280,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         <h5 className="text-base font-medium text-green mb-3">
                           Tax
                         </h5>
-                        <div className="flex items-center mb-4 gap-3 hidden">
+                        <div className="flex items-center mb-4 gap-3 hidden ">
                           <input
                             id="NSW"
                             type="checkbox"
@@ -1295,7 +1297,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             </p>
                           </label>
                         </div>
-                        <div className="flex items-center mb-4 gap-3">
+                        <div className="flex items-center mb-4 gap-2 green-checkbox">
                           <input
                             id="VIC"
                             type="checkbox"
