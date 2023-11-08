@@ -77,6 +77,10 @@ function ViewCustomer() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data, "postdata");
+        if (data.success) {
+          setShow(true);
+          setIsOpen(false);
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -143,7 +147,7 @@ function ViewCustomer() {
             </div>
           </Link>
           <h4 className=" text-2xl font-semibold text-darkGreen">
-            The Union Hotel
+            {values?.businessName}
           </h4>
         </div>
         {show && (
