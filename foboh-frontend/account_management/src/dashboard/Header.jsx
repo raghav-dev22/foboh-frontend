@@ -79,7 +79,7 @@ const Header = () => {
             <div className=" flex lg:gap-x-14 gap-x-6 items-center	 ">
               <div className="flex gap-4 ">
                 <div className="cursor-pointer">
-                  <div className="notification-icon 	">
+                  <div className="notification-icon 	hidden">
                     <svg
                       width="46"
                       height="46"
@@ -118,7 +118,7 @@ const Header = () => {
                     </svg>
                   </div>
                 </div>
-                <div className="dropdown">
+                <div className="dropdown hidden">
                   <div className="relative">
                     <div className=" cursor-pointer absolute msg-no bg-custom-purple rounded-full 	flex justify-center items-center">
                       <p className="text-xs text-white		font-medium	">4</p>

@@ -14,7 +14,7 @@ import { message } from "antd";
 import SaveCancel from "../customers/SaveCancel";
 const OrderDetails = ({ datas, handleCustomerDetails }) => {
   console.log(datas, ">>id");
-
+  const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const [setCustomerDetails] = React.useState();
   const [activeStatus, setActiveStatus] = React.useState(1);
@@ -1242,7 +1242,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                             htmlFor="grid-password"
                           >
-                            Default payment terms
+                            Default payment term
                           </label>
                           <input
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -1277,7 +1277,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         <h5 className="text-base font-medium text-green mb-3">
                           Tax
                         </h5>
-                        <div className="flex items-center mb-4 gap-3">
+                        <div className="flex items-center mb-4 gap-3 hidden">
                           <input
                             id="NSW"
                             type="checkbox"
@@ -1318,7 +1318,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                 <div className=" w-full  rounded-lg		 border border-inherit bg-white h-fit	 flex flex-col  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4 flex justify-between items-center">
                     <h6 className="text-lg	 font-bold text-darkGreen md:w-1/2 w-full">
-                      Personal details
+                      Payment History
                     </h6>
 
                     <a
@@ -1337,10 +1337,15 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         >
                           <td className=" px-4 py-4 ">
                             <h5 className="font-medium whitespace-no-wrap text-green">
-                              The Union Hotel{" "}
+                              Order Number
                             </h5>
-                            <p className="text-sm font-normal	text-green">
-                              jack@union.com
+                            <p
+                              className="text-sm font-normal	text-green cursor-pointer"
+                              onClick={() =>
+                                navigate(`/dashboard/order-details`)
+                              }
+                            >
+                              Order Date
                             </p>
                           </td>
                           <td className="px-4 py-4">
@@ -1363,10 +1368,15 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         >
                           <td className=" px-4 py-4 ">
                             <h5 className="font-medium whitespace-no-wrap text-green">
-                              The Union Hotel{" "}
+                              Order Number
                             </h5>
-                            <p className="text-sm font-normal	text-green">
-                              jack@union.com
+                            <p
+                              className="text-sm font-normal	text-green cursor-pointer"
+                              onClick={() =>
+                                navigate(`/dashboard/order-details`)
+                              }
+                            >
+                              Order Date
                             </p>
                           </td>
                           <td className="px-4 py-4">
@@ -1389,10 +1399,15 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         >
                           <td className=" px-4 py-4 ">
                             <h5 className="font-medium whitespace-no-wrap text-green">
-                              The Union Hotel{" "}
+                              Order Number
                             </h5>
-                            <p className="text-sm font-normal	text-green">
-                              jack@union.com
+                            <p
+                              className="text-sm font-normal	text-green cursor-pointer"
+                              onClick={() =>
+                                navigate(`/dashboard/order-details`)
+                              }
+                            >
+                              Order Date
                             </p>
                           </td>
                           <td className="px-4 py-4">
@@ -1415,10 +1430,15 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                         >
                           <td className=" px-4 py-4 ">
                             <h5 className="font-medium whitespace-no-wrap text-green">
-                              The Union Hotel{" "}
+                              Order Number
                             </h5>
-                            <p className="text-sm font-normal	text-green">
-                              jack@union.com
+                            <p
+                              className="text-sm font-normal	text-green cursor-pointer"
+                              onClick={() =>
+                                navigate(`/dashboard/order-details`)
+                              }
+                            >
+                              Order Date
                             </p>
                           </td>
                           <td className="px-4 py-4">

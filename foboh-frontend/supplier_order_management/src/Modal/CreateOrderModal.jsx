@@ -37,13 +37,20 @@ import { createOrder } from "../helpers/createOrder";
 import { updateCartStatus } from "../helpers/updateCartStatus";
 import { updateOrderStatus } from "../helpers/updateOrderStatus";
 import { deleteOrder } from "../helpers/deleteOrder";
-
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 const CreateOrderModal = ({
   setCreateOrderModal,
   handleOk,
   isModalOpen,
   handleCancel,
 }) => {
+  const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
   const [customerList, setCustomerList] = useState([]);
   const [editDeliveryContact, setEditDeliveryContact] = useState(false);
@@ -210,12 +217,19 @@ const CreateOrderModal = ({
         const customerListWithHeader = [
           {
             label: (
-              <div className="bg-[#EAEAEA] rounded-[6px] py-[8px] px-[14px] flex justify-start items-center gap-2">
+              // <Link to="/dashboard/add-customer/customer-details">
+              <div
+                onClick={() =>
+                  navigate("/dashboard/add-customer/customer-details")
+                }
+                className="bg-[#EAEAEA] rounded-[6px] py-[8px] px-[14px] flex justify-start items-center gap-2"
+              >
                 <ControlPointIcon style={{ fill: "#637381" }} />
                 <h5 className="text-sm font-medium text-[#637381]">
                   Create New Customer
                 </h5>
               </div>
+              // </Link>
             ),
 
             value: "createNewCustomer", // You can set a unique value here
@@ -770,7 +784,6 @@ const CreateOrderModal = ({
                           Find Customer
                         </h5>
                         <Select
-                          menuIsOpen={true}
                           onChange={handleCustomerSelect}
                           options={customerList}
                         />

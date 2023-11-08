@@ -18,7 +18,7 @@ const SupplierOrderManagement = () => {
               Action required
             </h5>
             <p className="text-sm font-medium text-[#637381] leading-[20px]">
-              Review and confirming new and pending orders
+              Review and confirm new and pending orders
             </p>
           </div>
           <ActionRequired />

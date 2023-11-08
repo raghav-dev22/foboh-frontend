@@ -3,12 +3,14 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { fomatDateAndTime } from "../../helpers/formatDateAndTime";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Modal } from "antd";
+import { useNavigate } from "react-router-dom";
 import {
   orderStatusChange,
   paymentStatusChange,
 } from "../../helpers/orderDetailsHelper";
 import ChangeStatusModal from "../../Modal/ChangeStatusModal";
 import PaymentStatusModal from "../../Modal/PaymentStatusModal";
+import { Navigate } from "react-router-dom";
 
 const OrderDetailHeader = ({
   orderAdressDetails,
@@ -22,6 +24,8 @@ const OrderDetailHeader = ({
   orderStatus,
   orderStatusList,
 }) => {
+  const navigate = useNavigate();
+
   const [paymentStatusDropdown, setPaymentStatusDropdown] = useState(false);
   const [changeStatusModal, setChangeStatusModal] = useState(false);
   const [updatedOrderStatus, setUpdatedOrderStatus] = useState("");
@@ -78,7 +82,12 @@ const OrderDetailHeader = ({
     <>
       <div className="flex justify-between mb-5 py-4">
         <div className=" flex justify-start items-start gap-5">
-          <div className="border border-[#EDEFF1] bg-white rounded-[6px] p-2 cursor-pointer">
+          <div
+            className="border border-[#EDEFF1] bg-white rounded-[6px] p-2 cursor-pointer"
+            onClick={() => {
+              navigate("/dashboard/supplier-order-management");
+            }}
+          >
             <ChevronLeftIcon />
           </div>
           <div className="flex flex-col gap-2">

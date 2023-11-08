@@ -1541,7 +1541,7 @@ function ViewProduct() {
                             id="grid-last-name"
                             name="firstName"
                             type="number"
-                            placeholder="2 cases"
+                            placeholder="Select"
                           />
                         </div>
                       </div>
@@ -1557,7 +1557,7 @@ function ViewProduct() {
                             name="availableQty"
                             type="number"
                             value={values.availableQty}
-                            placeholder="2 cases"
+                            placeholder="Select"
                           />
                         </div>
                       </div>
@@ -1600,7 +1600,7 @@ function ViewProduct() {
                                 id="stock-alert-level"
                                 name="stock-alert-level"
                                 type="number"
-                                placeholder="2 cases"
+                                placeholder="Select"
                               />
                             </div>
                           </div>

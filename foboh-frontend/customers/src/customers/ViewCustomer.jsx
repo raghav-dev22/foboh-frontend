@@ -27,23 +27,23 @@ function ViewCustomer() {
   const ordeItem = [
     {
       title: "Business name",
-      SubTitle: "576 King St, Newtown NSW 2042",
+      SubTitle: "The Union Hotel",
       image: <SellIcon />,
     },
     {
       title: "Delivery address",
-      SubTitle: "Plus pricing",
+      SubTitle: "576 King St, Newtown NSW 2042",
       image: <LocationOnIcon />,
     },
     {
       title: "ABN / Liquor licence",
-      SubTitle: "12 345 678 910 ",
+      SubTitle: "12 345 678 910 / LIQO660011539 ",
       image: <WorkIcon />,
     },
 
     {
       title: "Customer Status",
-      SubTitle: "LIQO660011539",
+      SubTitle: "Active",
       image: <PersonIcon />,
     },
   ];

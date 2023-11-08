@@ -26,36 +26,36 @@ function AddInventory({ setValues, values }) {
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
-    const handleMinimumOrderQuantity = (e) => {
-      setValues({
-        ...values,
-        minimumOrder: e.target.value
-      })
-    }
+  const handleMinimumOrderQuantity = (e) => {
+    setValues({
+      ...values,
+      minimumOrder: e.target.value,
+    });
+  };
 
-    const handleTrackInventory = () => {
-      setValues({
-        ...values,
-        trackInventory : !values.trackInventory
-      })
-      console.log(values.trackInventory);
-    }
+  const handleTrackInventory = () => {
+    setValues({
+      ...values,
+      trackInventory: !values.trackInventory,
+    });
+    console.log(values.trackInventory);
+  };
 
-    const handleStockAlertLevel = (e) => {
-      setValues({
-        ...values,
-        stockAlertLevel : e.target.value
-      })
-      console.log(values.stockAlertLevel);
-    }
+  const handleStockAlertLevel = (e) => {
+    setValues({
+      ...values,
+      stockAlertLevel: e.target.value,
+    });
+    console.log(values.stockAlertLevel);
+  };
 
-    const handleSellOutOfStock = () => {
-      setValues({
-        ...values,
-        sellOutOfStock : !values.sellOutOfStock
-      })
-      console.log(values.sellOutOfStock);
-    }
+  const handleSellOutOfStock = () => {
+    setValues({
+      ...values,
+      sellOutOfStock: !values.sellOutOfStock,
+    });
+    console.log(values.sellOutOfStock);
+  };
 
   return (
     <>
@@ -75,7 +75,7 @@ function AddInventory({ setValues, values }) {
                 id="grid-last-name"
                 name="firstName"
                 type="number"
-                placeholder="2 cases"
+                placeholder="0 cases"
               />
             </div>
           </div>
@@ -110,12 +110,12 @@ function AddInventory({ setValues, values }) {
               </h5>
               <div className="fixed top-16 w-72">
                 <input
-                onChange={handleStockAlertLevel}
+                  onChange={handleStockAlertLevel}
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="stock-alert-level"
                   name="stock-alert-level"
                   type="number"
-                  placeholder="2 cases"
+                  placeholder="Select"
                 />
               </div>
             </div>

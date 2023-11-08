@@ -220,7 +220,7 @@ const OrderConfirmation = () => {
                 />
 
                 <h5 className="text-base font-medium text-[#2B4447] ">
-                  Credit card ending with 3259
+                  Credit card ending with XXXX
                 </h5>
               </div>
             </div>

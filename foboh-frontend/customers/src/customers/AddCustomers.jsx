@@ -13,7 +13,7 @@ import createArrayWithNumber from "../../../products/src/helpers/createArrayWith
 import { Skeleton } from "@mui/material";
 const TABLE_HEAD = [
   "Business Name",
-  "Contact",
+  "Ordering Contact",
   "Region",
   "Status",
   "Orders",
@@ -35,7 +35,7 @@ function AddCustomers() {
   const [selected, setSlected] = useState(0);
   const [isSearchResult, setisSearchResult] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
-
+  console.log(tableRecords, "tableRecords==============>");
   let timeoutId;
   const saveProduct = () => {
     messageApi.open({
@@ -241,12 +241,7 @@ function AddCustomers() {
                             <td className={classes}></td>
                             <td className={`${classes} w-44`}>
                               <div
-                                onClick={
-                                  () => handleCustomerId(product)
-                                  // navigate(
-                                  //   `/dashboard/view-product/${product.productId}`
-                                  // )
-                                }
+                                onClick={() => handleCustomerId(product)}
                                 className="flex items-center gap-3 cursor-pointer"
                               >
                                 <Typography className="font-medium	md:text-base text-sm text-[#637381]">
@@ -256,14 +251,22 @@ function AddCustomers() {
                               </div>
                             </td>
                             <td className={classes}>
+                              <div className="flex items-center gap-2">
+                                {" "}
+                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                  {product.deliveryFirstName}
+                                </Typography>
+                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                  {product.deliveryLastName}
+                                </Typography>
+                              </div>
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
                                 {product.orderingEmail}
                               </Typography>
                             </td>
                             <td className={`${classes} w-44`}>
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                {product.address}
-                                {product.state}
+                                {product.suburb},{product.state}
                               </Typography>
                             </td>
                             <td className={classes}>

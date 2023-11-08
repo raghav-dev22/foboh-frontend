@@ -45,7 +45,7 @@ function OrderDetails() {
 
       ActionRequired: (
         <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium ">
-          Confirm Order
+          View Order
         </span>
       ),
     },
@@ -69,7 +69,7 @@ function OrderDetails() {
 
       ActionRequired: (
         <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium">
-          Confirm Order
+          View Order
         </span>
       ),
     },

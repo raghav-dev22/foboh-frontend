@@ -735,7 +735,7 @@ const ActionRequired = () => {
             // expandIcon={({ isActive }) => null}
             collapsible="header "
             headerBg="#fff"
-            className="w-full "
+            className="w-full hidden"
             items={[
               {
                 key: "1",
