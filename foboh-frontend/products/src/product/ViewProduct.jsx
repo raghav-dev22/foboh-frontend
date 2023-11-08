@@ -743,9 +743,11 @@ function ViewProduct() {
             productStatus: values?.status,
             visibility: values?.visibility,
             minimumOrder: values?.minimumOrder,
-            tags: values?.tags.map((item) => {
-              return item?.label;
-            }),
+            tags: values?.tags
+              ? values?.tags.map((item) => {
+                  return item?.label;
+                })
+              : [],
             countryOfOrigin: values?.country?.label,
             barcodes: "string",
             esgStatus: "string",

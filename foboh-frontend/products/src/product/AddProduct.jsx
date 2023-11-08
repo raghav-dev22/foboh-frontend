@@ -151,9 +151,11 @@ function AddProduct() {
             visibility: values.visibility,
             sellOutOfStock: values.sellOutOfStock,
             minimumOrder: values.minimumOrder,
-            tags: values.tags.map((item) => {
-              return item.label;
-            }),
+            tags: values.tags
+              ? values.tags.map((item) => {
+                  return item.label;
+                })
+              : [],
             countryOfOrigin: values.country.label,
             barcodes: "string",
             esgStatus: "string",
