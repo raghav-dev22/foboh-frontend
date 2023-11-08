@@ -38,6 +38,7 @@ const InnerUnit = ({
         const amount = item.unit.split(" ")[0];
         const iumUnit = item.unit.split(" ")[1];
         return {
+          id: item._id,
           amount: amount,
           iumType: item.type,
           iumUnit: iumUnit,
@@ -47,17 +48,17 @@ const InnerUnit = ({
     );
   };
 
-  const success = () => {
+  const success = (message) => {
     messageApi.open({
       type: "success",
-      content: "Inner unit measure added successfully!",
+      content: message,
     });
   };
 
-  const error = () => {
+  const error = (message) => {
     messageApi.open({
       type: "error",
-      content: "Some error has occurred, please try again!",
+      content: message,
     });
   };
 
@@ -68,7 +69,7 @@ const InnerUnit = ({
     setIumType(value);
   };
 
-  const HandleAddUnit = () => {
+  const HandleAddUnit = async () => {
     setUnit((prev) => {
       return [
         ...prev,
@@ -80,6 +81,21 @@ const InnerUnit = ({
         },
       ];
     });
+
+    const addInnerMeasureUnit = [
+      {
+        amount: amount,
+        iumType: iumType,
+        iumUnit: iumUnit,
+        editable: false,
+      },
+    ];
+
+    const response = await postInnerUnitMeasure(addInnerMeasureUnit);
+    response
+      ? success("Inner unit measure added successfuly!")
+      : error("Some error occurred, please try again.");
+    response && masterAsyncFunction();
   };
 
   const handleDelete = (idx) => {
@@ -124,7 +140,7 @@ const InnerUnit = ({
     );
   };
 
-  const handleSaveEdit = (idx) => {
+  const handleSaveEdit = async (idx, innerUnitMeasureId) => {
     setUnit((prev) =>
       prev.map((item, itemIndex) => {
         if (itemIndex === idx) {
@@ -136,19 +152,14 @@ const InnerUnit = ({
         return item;
       })
     );
-  };
 
-  const handleUpload = async () => {
-    if (isPut) {
-      const response = await putInnerUnitMeasure(unit);
-      response ? success() : error();
-      response && masterAsyncFunction();
-    } else {
-      const response = await postInnerUnitMeasure(unit);
-      response ? success() : error();
-      response && masterAsyncFunction();
-    }
-    onCancel();
+    const editedItem = [unit.find((item) => item.id === innerUnitMeasureId)];
+
+    const response = await putInnerUnitMeasure(editedItem);
+    response
+      ? success("Inner unit measure updated!")
+      : error("Some error occurred, try again.");
+    response && masterAsyncFunction();
   };
 
   return (
@@ -165,26 +176,6 @@ const InnerUnit = ({
             </h5>
           </div>
         }
-        footer={[
-          <div className="flex justify-end items-center">
-            <Button
-              key="cancel"
-              onClick={onCancel}
-              className="border border-[#D0D5DD] text-[#344054] text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
-            >
-              Cancel
-            </Button>
-
-            <Button
-              key="ok"
-              type="primary"
-              onClick={handleUpload}
-              className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
-            >
-              Upload
-            </Button>
-          </div>,
-        ]}
         open={open}
         onOk={onOk}
         onCancel={onCancel}
@@ -284,7 +275,7 @@ const InnerUnit = ({
                           options={innerUnitTypeList}
                         />
                         <div
-                          onClick={() => handleSaveEdit(idx)}
+                          onClick={() => handleSaveEdit(idx, item?.id)}
                           className="ml-[16px]"
                         >
                           <CheckCircleOutlineIcon
