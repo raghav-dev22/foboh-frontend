@@ -198,7 +198,6 @@ const BaseUnit = ({
         onOk={onOk}
         footer={null}
         onCancel={onCancel}
-        footer={null}
       >
         <div>
           <p className="text-sm font-normal text-[#2B4447] leading-[24px] my-6">
