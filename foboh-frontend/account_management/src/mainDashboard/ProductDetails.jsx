@@ -55,6 +55,39 @@ function ProductDetails() {
         </span>
       ),
     },
+    {
+      title: "Product name",
+
+      subtitle: " 10 units remaining",
+
+      stockbtn: (
+        <span className="bg-[#FFA70B14] text-[#FFA70B] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#FFA70B14] dark:text-[#FFA70B]">
+          Low stock
+        </span>
+      ),
+    },
+    {
+      title: "Product name",
+
+      subtitle: " 10 units remaining",
+
+      stockbtn: (
+        <span className="bg-[#FFA70B14] text-[#FFA70B] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#FFA70B14] dark:text-[#FFA70B]">
+          Low stock
+        </span>
+      ),
+    },
+    {
+      title: "Product name",
+
+      subtitle: " 10 units remaining",
+
+      stockbtn: (
+        <span className="bg-[#FFA70B14] text-[#FFA70B] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#FFA70B14] dark:text-[#FFA70B]">
+          Low stock
+        </span>
+      ),
+    },
   ];
 
   return (
@@ -62,7 +95,7 @@ function ProductDetails() {
       {productItem.map((item, index) => {
         return (
           <div
-            className={` flex justify-between sm:items-center items-end pt-5 productItem-${index}`}
+            className={`flex justify-between sm:items-center items-end pt-5 productItem-${index}`}
           >
             <div className=" sm:flex items-center  grid  gap-2 justify-center">
               <div className="">

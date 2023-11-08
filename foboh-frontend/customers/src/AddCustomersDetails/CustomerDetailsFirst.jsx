@@ -31,6 +31,28 @@ function CustomerDetailsFirst({
       });
       setIsUpDate(true);
     }
+
+    if (name === "defaultPaymentTerms") {
+      console.log("defaultPaymentTerms", e);
+      fetch(
+        `https://masters-api-foboh.azurewebsites.net/api/order?DefaultPaymentTerm=${e.label.trim()}`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setDefaultPaymentMethod(
+            data?.data.map((item) => {
+              return {
+                value: item,
+                label: item,
+              };
+            })
+          );
+        })
+        .catch((error) => console.log(error));
+    }
     console.log("all values>>", values);
   };
 
@@ -61,22 +83,6 @@ function CustomerDetailsFirst({
       .catch((error) => console.log(error));
 
     // defaultPaymentMethod
-    fetch("https://masters-api-foboh.azurewebsites.net/api/PaymentMethods", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("defaultPaymentMethodId -->", data);
-        setDefaultPaymentMethod(
-          data.map((item) => {
-            return {
-              value: item.paymentMethodId,
-              label: item.name,
-            };
-          })
-        );
-      })
-      .catch((error) => console.log(error));
 
     // tag
     fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
@@ -203,7 +209,6 @@ function CustomerDetailsFirst({
             <div className=" top-16 w-full">
               <Select
                 name="defaultPaymentTerms"
-                isMulti={true}
                 options={defaultPaymentTrems}
                 // value={options.find(
                 //   (option) => option.value === values.defaultPaymentTerms
@@ -234,12 +239,12 @@ function CustomerDetailsFirst({
             <div className=" top-16 w-full">
               <Select
                 name="defaultPaymentMethodId"
-                isMulti
                 // value={options.find(
                 //   (option) => option.value === values.defaultPaymentMethodId
                 // )}
                 value={values?.defaultPaymentMethodId}
                 options={defaultPaymentMethod}
+                isDisabled={defaultPaymentMethod.length < 1}
                 onChange={(e) => handleSelect(e, "defaultPaymentMethodId")}
                 className="basic-multi-select "
                 classNamePrefix="select"
@@ -294,7 +299,7 @@ function CustomerDetailsFirst({
         <div className="flex flex-wrap gap-5 lg:gap-0 -mx-3 mb-5">
           <div className=" w-full relative md:w-1/2 px-3">
             <div className=" flex justify-between items-center mb-2 mt-4">
-              <h5 className="text-green text-base font-medium">WET liable</h5>
+              <h5 className="text-green t[ext-base font-medium">WET liable</h5>
               <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
                   type="checkbox"

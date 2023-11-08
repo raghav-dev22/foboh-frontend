@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal } from "antd";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import { Select } from "antd";
@@ -8,6 +8,8 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { postBaseUnitMeasure } from "../helpers/postBaseUnitMeasure";
 import { message } from "antd";
+import { getbaseUnitMeasureList } from "../helpers/getUnitOfMeasures";
+import { putBaseUnitMeasure } from "../helpers/putBaseUnitMeasure";
 
 const BaseUnit = ({
   baseUnitMeasure,
@@ -16,6 +18,7 @@ const BaseUnit = ({
   open,
   onOk,
   onCancel,
+  masterAsyncFunction,
 }) => {
   const [unit, setUnit] = useState([]);
   const cancelButtonRef = useRef(null);
@@ -23,6 +26,7 @@ const BaseUnit = ({
   const [selectedBaseType, setSelectedBaseType] = useState(null);
   const [amount, setAmount] = useState(0);
   const [messageApi, contextHolder] = message.useMessage();
+  let isPut = false;
 
   const handleSelectUnit = (value) => {
     setSelectedBaseUnit(value);
@@ -43,6 +47,37 @@ const BaseUnit = ({
       type: "error",
       content: "Some error has occurred, please try again!",
     });
+  };
+
+  useEffect(() => {
+    asyncFunction();
+  }, []);
+
+  const asyncFunction = async () => {
+    const baseUnitMeasure = await getbaseUnitMeasureList();
+    isPut = baseUnitMeasure.length > 0;
+    setUnit(
+      baseUnitMeasure.map((item) => {
+        const bumUnitItem = splitValueAndUnit(item.unit);
+        return {
+          amount: bumUnitItem.value,
+          type: item.type,
+          bumUnit: bumUnitItem.unit,
+          editable: false,
+        };
+      })
+    );
+
+    function splitValueAndUnit(inputString) {
+      const match = inputString.match(/^(\d+)([a-zA-Z]+)$/);
+      if (match) {
+        const value = parseInt(match[1], 10);
+        const unit = match[2];
+        return { value, unit };
+      } else {
+        return null;
+      }
+    }
   };
 
   const addBtn = () => {
@@ -114,8 +149,13 @@ const BaseUnit = ({
   };
 
   const handleUpload = async () => {
-    const response = await postBaseUnitMeasure(unit);
-    response ? success() : error();
+    if (isPut) {
+      const response = await putBaseUnitMeasure(unit)
+      response ? success() : error();
+    } else {
+      const response = await postBaseUnitMeasure(unit);
+      response ? success() : error();
+    }
     onCancel();
   };
 

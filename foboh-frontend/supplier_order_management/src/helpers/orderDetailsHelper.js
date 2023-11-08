@@ -139,6 +139,9 @@ export const createTimeline = async (
       case "Paid":
         action = "Payment completed.";
         break;
+      case "Overdue":
+        action = "Payment overdue.";
+        break;
       default:
         action = "";
     }

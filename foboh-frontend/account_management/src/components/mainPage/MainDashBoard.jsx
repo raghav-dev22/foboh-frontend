@@ -1,14 +1,111 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import ProductDetails from "../../mainDashboard/ProductDetails";
 import OrderDetails from "../../mainDashboard/OrderDetails";
 import ActiveOrder from "../../activeOrder/ActiveOrder";
 import StockDetails from "../../mainDashboard/StockDetails";
-import { useState } from "react";
-import { useEffect } from "react";
-import SignupModel from "../../modal/SignupModel";
+import { Line } from "react-chartjs-2";
+import Select from "react-select";
+import "chart.js/auto";
 // import StockDetails from '../mainDashboard/StockDetails';
+import SignupModel from "../../modal/SignupModel";
 function MainDashBoard() {
   const [show, setShow] = useState(false);
+  const graphOption = [
+    { value: "monthly", label: "monthly" },
+    { value: "weekly", label: "weekly" },
+  ];
+  const monthlyOrderData = [5, 19, 6, 8, 16, 8, 5, 1];
+  const weeklyOrderData = [50, 75, 60, 80, 90, 70, 55, 65];
+  const monthlyDeliveryData = [12, 19, 3, 5, 2, 7, 9, 5];
+  const weeklyDeliveryData = [40, 70, 50, 60, 75, 65, 55, 65];
+  const [selectedOption, setSelectedOption] = useState(graphOption[0]);
+  const data = {
+    labels:
+      selectedOption.value === "monthly"
+        ? [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "june",
+            "july",
+            "august",
+          ]
+        : [
+            "Week 1",
+            "Week 2",
+            "Week 3",
+            "Week 4",
+            "Week 5",
+            "Week 6",
+            "Week 7",
+            "Week 8",
+          ],
+
+    datasets: [
+      {
+        label: "Ordered",
+        borderCapStyle: "round",
+        data:
+          selectedOption.value === "monthly"
+            ? monthlyOrderData
+            : weeklyOrderData,
+        // [12, 19, 3, 5, 2, 7, 9, 5],
+        borderColor: "#147D73",
+        borderWidth: 4,
+        tension: 0.4,
+
+        fill: false, // Set fill to false to make it a line chart without an area underneath
+        pointRadius: 0,
+        pointHitRadius: 0,
+      },
+      {
+        label: "Delivered",
+        data:
+          selectedOption.value === "monthly"
+            ? monthlyDeliveryData
+            : weeklyDeliveryData,
+        // [5, 19, 6, 8, 16, 8, 5, 1],
+        borderColor: "#563FE3",
+        borderWidth: 4,
+        tension: 0.4,
+
+        // fill: false,
+        // pointRadius: 0,
+        // pointHitRadius: 0,
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        // display: false,
+        grid: {
+          display: false, // Hide vertical grid lines
+        },
+      },
+    },
+    x: {
+      position: "bottom",
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom",
+        labels: {
+          usePointStyle: true, // Optionally use point style for legend items
+          boxWidth: 15, // Set a 15px width for the legend items
+          boxHeight: 15, // Set a 15px height for the legend items
+        },
+      },
+    },
+  };
+  const handleOptionChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+  };
 
   useEffect(() => {
     const popValue = localStorage.getItem("loginPopup");
@@ -30,37 +127,22 @@ function MainDashBoard() {
         <div className="box-2 pt-6 px-6">
           <div className="grid lg:flex gap-6">
             <div className=" lg:w-3/5 w-full		 rounded-md	 border border-inherit bg-white h-356 grid	  ">
-              <div className="flex justify-between pt-7 px-7 pb-2">
-                <h5 className="text-xl font-semibold">Order snapshot</h5>
-
-                <div className="relative dropdown">
-                  <div
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    className=" dropdown-toggle bg-slate-100 flex justify-center items-center  dropdown-button 	gap-2 rounded border w-24	border-inherit	h-7	 "
-                  >
-                    <h6 className=" text-sm font-normal	">Monthly</h6>
-                    <div className="">
-                      <img src="/assets/arrow.png" alt="" />
-                    </div>
-                  </div>
-                </div>
+              <div className="flex justify-between pt-7 px-7 pb-2 items-center">
+                <h4 className="text-lg font-semibold text-[#212B36]">
+                  Order snapshot
+                </h4>
+                <Select
+                  className="bg-[#F4F7FF]"
+                  value={selectedOption}
+                  options={graphOption}
+                  onChange={handleOptionChange}
+                />
               </div>
-              <div className="">
-                <img src="/assets/snapshot.png" alt="" />
-              </div>
-              <div className="flex justify-center items-center gap-3">
-                <div className="flex items-center justify-center gap-3">
-                  <div className=""></div>
-                  <div className="">
-                    <p className="text-xs	font-normal	text-slate-500">Ordered</p>
-                  </div>
-                </div>
+              <div className="px-7 py-6">
+                <Line data={data} options={options} className="chart-legend " />
               </div>
             </div>
-            <div className="w-full lg:w-2/5	 rounded-md	 border border-inherit bg-white p-6">
+            <div className="w-full lg:w-2/5  rounded-md  border border-inherit bg-white p-6">
               <div className="flex justify-between items-center">
                 <div className="flex justify-start items-center ">
                   <h5 className="text-xl font-semibold me-2">Stock alerts</h5>
@@ -73,7 +155,7 @@ function MainDashBoard() {
                 </div>
                 <a
                   href="#"
-                  className="text-xs/[10px] font-normal	text-darkBlue underline"
+                  className="text-xs/[10px] font-normal text-darkBlue underline"
                 >
                   See all
                 </a>
