@@ -70,15 +70,9 @@ function CustomerDetails() {
   const handleSubmit = () => {
     console.log(">>>>>>>>>>>", formik.values);
 
-    const defaultPaymentTermsList = formik.values?.defaultPaymentTerms.map(
-      (item) => {
-        return item.label;
-      }
-    );
+    const defaultPaymentTermsList = formik.values?.defaultPaymentTerms?.label;
     const defaultPaymentMethodIdList =
-      formik.values?.defaultPaymentMethodId.map((item) => {
-        return item.label;
-      });
+      formik.values?.defaultPaymentMethodId?.label;
 
     const organisationId = localStorage.getItem("organisationId");
     // e.preventDefault();
@@ -97,8 +91,8 @@ function CustomerDetails() {
           liquorLicence: formik.values?.liquorLicence,
           salesRepId: "",
           pricingProfileId: "",
-          defaultPaymentTerm: defaultPaymentTermsList,
-          defaultPaymentMethodId: defaultPaymentMethodIdList,
+          defaultPaymentTerm: [defaultPaymentTermsList],
+          defaultPaymentMethodId: [defaultPaymentMethodIdList],
           tags: [],
           wetLiable: true,
           organisationId: organisationId,
@@ -332,7 +326,7 @@ function CustomerDetails() {
           {isLastStep ? (
             <Button
               className="py-3.5 px-7 rounded-md	bg-custom-skyBlue	"
-              onClick={handleNext}
+              onClick={handleSubmit}
               // onClick={{ finalHandleSubmit(); handleNext(); }}
             >
               Submit

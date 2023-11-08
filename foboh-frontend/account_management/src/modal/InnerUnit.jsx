@@ -10,6 +10,7 @@ import { postInnerUnitMeasure } from "../helpers/postInnerUnitMeasure";
 import { message } from "antd";
 import { getInnerUnitMeasureList } from "../helpers/getUnitOfMeasures";
 import { putInnerUnitMeasure } from "../helpers/putInnerUnitMeasure";
+import { deleteInnerUnitMeasure } from "../helpers/deleteInnerUnitMeasure";
 
 const InnerUnit = ({
   masterAsyncFunction,
@@ -98,8 +99,14 @@ const InnerUnit = ({
     response && masterAsyncFunction();
   };
 
-  const handleDelete = (idx) => {
+  const handleDelete = async (idx, innerUnitMeasureId) => {
     setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
+
+    const response = await deleteInnerUnitMeasure(innerUnitMeasureId);
+    response
+      ? error("Inner unit measure removed!")
+      : error("Some error occurred while removing.");
+    response && masterAsyncFunction();
   };
 
   const handleIsEdit = (idx) => {
@@ -177,6 +184,7 @@ const InnerUnit = ({
           </div>
         }
         open={open}
+        footer={null}
         onOk={onOk}
         onCancel={onCancel}
       >
@@ -298,7 +306,7 @@ const InnerUnit = ({
                         <EditRoundedIcon style={{ fill: "#147D73" }} />
                       </div>
                       <div
-                        onClick={() => handleDelete(idx)}
+                        onClick={() => handleDelete(idx, item?.id)}
                         className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
                       >
                         <DeleteIcon style={{ fill: "#147D73" }} />

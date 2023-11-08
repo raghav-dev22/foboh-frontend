@@ -115,8 +115,10 @@ const BaseUnit = ({
     setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
     const response = await deleteBaseUnitMeasure(baseUnitMeasureId);
     response
-      ? error("Base unit measure removed")
-      : error("Some error occurred while removing");
+      ? error("Base unit measure removed!")
+      : error("Some error occurred while removing.");
+
+    response && masterAsyncFunction();
   };
 
   const handleIsEdit = (idx) => {
@@ -194,6 +196,7 @@ const BaseUnit = ({
         }
         open={open}
         onOk={onOk}
+        footer={null}
         onCancel={onCancel}
       >
         <div>
@@ -315,7 +318,7 @@ const BaseUnit = ({
                           <EditRoundedIcon style={{ fill: "#147D73" }} />
                         </div>
                         <div
-                          onClick={() => handleDelete(idx)}
+                          onClick={() => handleDelete(idx, item?.id)}
                           className="border cursor-pointer border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
                         >
                           <DeleteIcon style={{ fill: "#147D73" }} />
