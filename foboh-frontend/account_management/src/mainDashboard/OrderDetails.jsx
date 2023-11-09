@@ -45,7 +45,7 @@ function OrderDetails() {
 
       ActionRequired: (
         <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium ">
-          View Order
+          Review Order
         </span>
       ),
     },
@@ -69,7 +69,7 @@ function OrderDetails() {
 
       ActionRequired: (
         <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium">
-          View Order
+          Review Order
         </span>
       ),
     },
@@ -86,8 +86,13 @@ function OrderDetails() {
       DeliveryDate: "25 Dec 2023",
 
       Status: (
-        <span className="dotcircle cancel-bg bg-[#D3405314] text-[#DC3545] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#D3405314] dark:text-[#DC3545]">
-          Cancelled
+        <span className="dotcircle pending-bg bg-[#FFA70B14] text-[#FFA70B] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#FFA70B14] dark:text-[#FFA70B]">
+          Pending
+        </span>
+      ),
+      ActionRequired: (
+        <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium">
+          Review Order
         </span>
       ),
     },

@@ -214,7 +214,29 @@ const AllOrders = () => {
         </p>
       ),
       Status: (
-        <div className="bg-[#C9C9C9] rounded-md py-[4px] px-[8px] w-[166px]	 flex justify-center items-center  ">
+        <div
+          className={`
+         
+            rounded-md py-[4px] px-[8px] w-[166px]	 flex justify-center items-center  `}
+          style={{
+            backgroundColor: (() => {
+              if (
+                item.orderStatus === "Complete" ||
+                item.orderStatus === "Delivered"
+              ) {
+                return "#CFEBE6";
+              } else if (item.orderStatus === "Pending") {
+                return "#C9C9C9";
+              } else if (item.orderStatus === "Updated") {
+                return "#D5EEFF";
+              } else if (item.orderStatus === "Cancelled") {
+                return "#FFDFDB";
+              }
+              // Default background color if none of the conditions match
+              return "transparent";
+            })(),
+          }}
+        >
           <p className="text-[#637381] text-[base] font-medium">
             {item.orderStatus}
           </p>
@@ -325,8 +347,7 @@ const AllOrders = () => {
   };
 
   const handleFilter = (value, name) => {
-    console.log(value, name);
-
+    console.log(value, name, "value============>");
     if (name === "status") {
       setSelectedStatus(value);
       const newFilter = {
@@ -402,7 +423,7 @@ const AllOrders = () => {
 
     processChange("filterAndSort");
   };
-
+  const { RangePicker } = DatePicker;
   return (
     <>
       <div className="pt-5">
@@ -759,17 +780,17 @@ const AllOrders = () => {
                         <li className="py-1">
                           <div className="relative custom-datePicker h-[40px]">
                             {showDatePicker ? (
-                              <DatePicker
-                                renderExtraFooter={() => (
-                                  <div className="flex justify-center items-center gap-2 ">
-                                    <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                                      Remove
-                                    </div>
-                                    <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                                      Done
-                                    </div>
-                                  </div>
-                                )}
+                              <RangePicker
+                                // renderExtraFooter={() => (
+                                //   <div className="flex justify-center items-center gap-2 ">
+                                //     <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                                //       Remove
+                                //     </div>
+                                //     <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                                //       Done
+                                //     </div>
+                                //   </div>
+                                // )}
                                 onChange={(value) =>
                                   handleFilter(value, "customDate")
                                 }

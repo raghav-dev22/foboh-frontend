@@ -23,7 +23,7 @@ function StockDetails() {
     {
       title: revenue,
 
-      description: "Total revenue",
+      description: "Total Revenue this month",
 
       value: <span style={{ color: "#45CB85" }}>0.43%</span>,
 
@@ -35,7 +35,7 @@ function StockDetails() {
     {
       title: profit,
 
-      description: "Gross profit",
+      description: "Gross Profit this month",
 
       value: <span style={{ color: "#45CB85" }}>4.35%</span>,
 
@@ -47,7 +47,7 @@ function StockDetails() {
     {
       title: order,
 
-      description: "Total orders",
+      description: "Total Orders this month",
 
       value: <span style={{ color: "#45CB85" }}>2.59%</span>,
 
@@ -149,8 +149,15 @@ function StockDetails() {
               className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index}`}
             >
               <div className="grid grid-cols-1 gap-6 p-4">
-                <div className=" stock-icon h-12 w-12 rounded-full  flex justify-center items-center bg-slate-100 ">
-                  {item.Image}
+                <div className="flex justify-between ">
+                  <div className=" stock-icon h-12 w-12 rounded-full  flex justify-center items-center bg-slate-100 ">
+                    {item.Image}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <p className="text-sm font-semibold ">{item.value}</p>
+
+                    <div className="">{item.Arrow}</div>
+                  </div>
                 </div>
 
                 <div className="">
@@ -162,12 +169,6 @@ function StockDetails() {
                     <p className="text-sm font-semibold text-zinc-500">
                       {item.description}
                     </p>
-
-                    <div className="flex items-center gap-1">
-                      <p className="text-sm font-semibold ">{item.value}</p>
-
-                      <div className="">{item.Arrow}</div>
-                    </div>
                   </div>
                 </div>
               </div>

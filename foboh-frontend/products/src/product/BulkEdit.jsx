@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import BulkEditTable from "../BulkEdit/BulkEditTable";
+import CloseIcon from "@mui/icons-material/Close";
 import AlertModal from "../modal/AlertModal";
 import Select from "react-select";
 import { Button, message } from "antd";
@@ -104,10 +105,16 @@ function BulkEdit() {
 
   const handleSubmit = () => {
     message.open({
-      type: "error",
-      content: "Products saved!",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Products saved!
+          </p>
+        </div>
+      ),
       className: "custom-class",
-      duration: 10,
+      rtl: true,
     });
 
     fetch(

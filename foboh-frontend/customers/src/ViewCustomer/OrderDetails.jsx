@@ -1051,7 +1051,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                     </div>
                   </div>
                   <div className="px-6 py-7  custom-scroll-bar overflow-y-auto">
-                    <form className="w-full  overflow-y-auto overflow-x-visible	 ">
+                    <form className="w-full  	 ">
                       <div className="flex flex-nowrap gap-2  mb-5">
                         <div className="w-full relative ">
                           <label

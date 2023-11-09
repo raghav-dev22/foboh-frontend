@@ -67,7 +67,7 @@ function MainDashBoard() {
         pointHitRadius: 0,
       },
       {
-        label: "Delivered",
+        label: "Completed",
         data:
           selectedOption.value === "monthly"
             ? monthlyDeliveryData
@@ -186,7 +186,7 @@ function MainDashBoard() {
                 </a>
               </div>
               {/* <ProductDetails /> */}
-              <div className="scroll-right">
+              <div className="scroll-right mt-5">
                 <ProductDetails stock={stock} />
               </div>
             </div>
@@ -210,7 +210,7 @@ function MainDashBoard() {
                     Amount
                   </th>
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm			 font-semibold ">
-                    Last Updated
+                    Order date
                   </th>
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
                     Status
