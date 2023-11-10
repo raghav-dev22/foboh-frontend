@@ -139,7 +139,7 @@ function AddProduct() {
             abv: values.abv,
             globalPrice: values?.salePrice,
             luCcost: values?.landedUnitCost,
-            buyPrice: values?.buyPrice,
+            buyPrice: values?.buyPrice === "" ? 0 : values?.buyPrice,
             gstFlag: checkGST,
             wetFlag: checkWET,
             availableQty: values.availableQty,
@@ -150,10 +150,12 @@ function AddProduct() {
             productStatus: values.status,
             visibility: values.visibility,
             sellOutOfStock: values.sellOutOfStock,
-            minimumOrder: values.minimumOrder,
-            tags: values.tags.map((item) => {
-              return item.label;
-            }),
+            minimumOrder: values.minimumOrder === "" ? 0 : values.minimumOrder,
+            tags: values.tags
+              ? values.tags.map((item) => {
+                  return item.label;
+                })
+              : [],
             countryOfOrigin: values.country.label,
             barcodes: "string",
             esgStatus: "string",

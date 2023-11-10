@@ -63,9 +63,8 @@ function SignupModel({ show, setShow }) {
                     Your account has now been created.
                   </p>
                   <p className="text-sm font-normal text-[#637381] text-center ">
-                    Follow the prompt below to continue to FOBHO.
+                    Follow the prompt below to continue to FOBOH.
                   </p>
-
                   <div className="mt-4">
                     <button
                       type="button"

@@ -65,7 +65,7 @@ function ViewCustomer() {
         },
         body: JSON.stringify({
           buyerId: buyID,
-          businessName: values?.BusinessName,
+          businessName: values?.businessName,
           abn: values?.abn,
           liquorLicence: values?.liquorLicence,
           salesRepId: "",
