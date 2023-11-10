@@ -79,9 +79,8 @@ function StockDetails() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("order -->", data.data[0]);
-        const customerData = data.data[0];
         if (data.success) {
+          const customerData = data.data[0];
           setCustomer(customerData.noOfCustomer);
         }
       })
@@ -96,9 +95,8 @@ function StockDetails() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("customer -->", data.data[0]);
-        const orderData = data.data[0];
         if (data.success) {
+          const orderData = data.data[0];
           setOrder(orderData.noOfOrders);
         }
       })
@@ -113,8 +111,8 @@ function StockDetails() {
     )
       .then((response) => response.json())
       .then((data) => {
-        const revenueData = data.data[0];
         if (data.success) {
+          const revenueData = data.data[0];
           setRevenue(revenueData.totalRevenue);
         }
         console.log(data.data[0], "totalrevenue");
@@ -131,8 +129,8 @@ function StockDetails() {
     )
       .then((response) => response.json())
       .then((data) => {
-        const profitData = data.data[0];
         if (data.success) {
+          const profitData = data.data[0];
           setProfit(profitData.totalProfit);
         }
         console.log(data.data[0], "totalProfit");
@@ -142,7 +140,7 @@ function StockDetails() {
 
   return (
     <>
-      {stockBox.map((item, index) => {
+      {stockBox?.map((item, index) => {
         return (
           <>
             <div

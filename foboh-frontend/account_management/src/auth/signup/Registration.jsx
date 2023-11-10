@@ -18,8 +18,8 @@ const initialValues = {
 const Registration = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const authUrl = process.env.REACT_APP_AUTH_URL
-  const authService=process.env.REACT_APP_AUTH_SERVICE
+  const authUrl = process.env.REACT_APP_AUTH_URL;
+  const authService = process.env.REACT_APP_AUTH_SERVICE;
   useEffect(() => {
     if (localStorage.getItem("uniqueKey") !== id) {
       navigate("/auth/sign-up");
@@ -31,36 +31,33 @@ const Registration = () => {
       initialValues: initialValues,
       validationSchema: RegistrationSchema,
       onSubmit: (values) => {
-        fetch(
-          `${authService}/api/Verify/CreateUser`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              token: localStorage.getItem("token"),
-              userProfile: {
-                accountEnabled: true,
-                displayName: `${values.firstName} ${values.lastName}`,
-                jobTitle: values.businessName,
-                mail: localStorage.getItem("email"),
-                identities: [
-                  {
-                    signInType: "emailAddress",
-                    issuer: "fobohdev.onmicrosoft.com",
-                    issuerAssignedId: localStorage.getItem("email"),
-                  },
-                ],
-                passwordProfile: {
-                  forceChangePasswordNextSignIn: true,
-                  password: localStorage.getItem("password"),
+        fetch(`${authService}/api/Verify/CreateUser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            userProfile: {
+              accountEnabled: true,
+              displayName: `${values.firstName} ${values.lastName}`,
+              jobTitle: values.businessName,
+              mail: localStorage.getItem("email"),
+              identities: [
+                {
+                  signInType: "emailAddress",
+                  issuer: "fobohdev.onmicrosoft.com",
+                  issuerAssignedId: localStorage.getItem("email"),
                 },
-                mobilePhone: values.mobile,
+              ],
+              passwordProfile: {
+                forceChangePasswordNextSignIn: true,
+                password: localStorage.getItem("password"),
               },
-            }),
-          }
-        )
+              mobilePhone: values.mobile,
+            },
+          }),
+        })
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
@@ -158,7 +155,7 @@ const Registration = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   onKeyPress={(event) => {
-                    const allowedCharacters = /^[A-Za-z0-9]*$/;
+                    const allowedCharacters = /^[A-Za-z0-9\s]*$/;
                     if (!allowedCharacters.test(event.key)) {
                       event.preventDefault();
                     }
@@ -194,7 +191,7 @@ const Registration = () => {
                   value={values.lastName}
                   onChange={handleChange}
                   onKeyPress={(event) => {
-                    const allowedCharacters = /^[A-Za-z0-9]*$/;
+                    const allowedCharacters = /^[A-Za-z0-9\s]*$/;
                     if (!allowedCharacters.test(event.key)) {
                       event.preventDefault();
                     }
