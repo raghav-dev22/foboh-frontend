@@ -1391,7 +1391,7 @@ function AddProduct() {
                           type="text"
                           value={values?.vintage !== 0 ? values?.vintage : null}
                           onChange={handleChange}
-                          placeholder="2004"
+                          placeholder="enter year"
                         />
                       </div>
                     )}
@@ -1416,7 +1416,7 @@ function AddProduct() {
                           }}
                           value={values.awards}
                           type="text"
-                          placeholder="WS 93"
+                          placeholder="enter awards"
                           style={{
                             border:
                               errors.awards &&

@@ -39,10 +39,10 @@ export const billingAddressSchema = Yup.object().shape({
 
 export const BankingSchema = Yup.object().shape({
   LegalBusiness: Yup.string()
-    .min(2, "Your trading name should have at least 2 letters")
+    .min(2, "Business name should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Trading name is required"),
+    .required("Business name is required"),
 
   ACN: Yup.string()
     .matches(/^\d{9}$/, "Invalid ACN format")
@@ -118,7 +118,7 @@ export const BankingSchema = Yup.object().shape({
     .min(2, "Address should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("TAddress is required"),
+    .required("Address is required"),
   email: Yup.string()
     .email("Please enter a valid email")
     .required("Please enter your email."),

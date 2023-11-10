@@ -457,3 +457,24 @@ a.foboh-green-btn:hover {
 .custom-table-pagination .ant-pagination-item-active:hover a {
   color: #fff;
 }
+.ant-picker-focused.ant-picker,
+.ant-picker:hover {
+  border-color: #d9d9d9;
+  box-shadow: none;
+}
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-start
+  .ant-picker-cell-inner,
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-range-end
+  .ant-picker-cell-inner {
+  background: #147d73;
+}
+
+.ant-picker-range .ant-picker-active-bar {
+  background: #147d73 !important;
+}
+
+.ant-picker-range:hover .ant-picker-clear {
+  opacity: 0 !important;
+}

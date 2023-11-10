@@ -79,20 +79,7 @@ function Range() {
 
   const [isSearchResult, setisSearchResult] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
-  // const importProduct = () => {
-  //   messageApi.open({
-  //     content: (
-  //       <div className="flex justify-center gap-2 items-center">
-  //         <CloseIcon style={{ fill: "#fff", width: "15px" }} />
-  //         <p className="text-base font-semibold text-[#F8FAFC]">
-  //           Import complete!
-  //         </p>
-  //       </div>
-  //     ),
-  //     className: "custom-class",
-  //     rtl: true,
-  //   });
-  // };
+
   const saveProduct = () => {
     messageApi.open({
       content: (
