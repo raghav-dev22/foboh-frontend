@@ -31,6 +31,8 @@ const Becs = ({ cardHolderName, setCardHolderName, email, setEmail }) => {
     iconStyle: "default", // or "solid"
   };
 
+  console.log("cardErrors", cardErrors);
+
   return (
     <>
       <div className="mt-5 py-5 px-4 border rounded-lg">

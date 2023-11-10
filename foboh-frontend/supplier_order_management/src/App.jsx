@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SupplierOrderManagement from "./components/orders/SupplierOrderManagement";
 import OrderListing from "./components/orderListing/OrderListing";
 import SupplierSetting from "./components/settings/SupplierSetting";
-import BankingInformation from "./components/settings/BankingInformation";
+// import BankingInformation from "./components/settings/BankingInformation";
 import NewOrder from "./notification/NewOrder";
 import PaidOrder from "./notification/PaidOrder";
 import OrderUpdate from "./notification/OrderUpdate";
@@ -22,7 +22,7 @@ const App = () => {
         <Route path="/new-order" element={<NewOrder />} />
         <Route path="/paid-order" element={<PaidOrder />} />
         <Route path="/update-order" element={<OrderUpdate />} />
-        <Route path="/bank-information" element={<BankingInformation />} />
+        {/* <Route path="/bank-information" element={<BankingInformation />} /> */}
       </Routes>
     </Router>
   );

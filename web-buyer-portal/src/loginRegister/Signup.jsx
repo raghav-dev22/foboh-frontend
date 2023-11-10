@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import { SignUpSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useFormik } from "formik";
@@ -58,6 +59,27 @@ function Signup() {
           });
       },
     });
+
+  // Sign in with google
+  useEffect(() => {
+    /* global google */
+    window.google.accounts.id.initialize({
+      client_id:
+        "751295795620-kn4cla1rp9jr3vl50e3o65m9t97dtaoc.apps.googleusercontent.com",
+      callback: handleCallback,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "outline",
+      size: "large",
+    });
+  }, []);
+
+  //Google handle callback
+  const handleCallback = (response) => {
+    const googleResponse = jwtDecode(response.credential);
+    console.log("googleResponse", googleResponse);
+  };
 
   const sendVerificationMail = () => {
     fetch(
@@ -296,12 +318,10 @@ function Signup() {
                   </div>
 
                   {/* Social login buttons  */}
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-center items-center">
                     <div className="googleBtn">
-                      <img src="/assets/googleBtn.png" alt="" />
-                    </div>
-                    <div className="microsoftBtn">
-                      <img src="/assets/microsoftBtn.png" alt="" />
+                      {/* <img src="/assets/googleBtn.png" alt="" /> */}
+                      <div id="signInDiv"></div>
                     </div>
                   </div>
                 </form>

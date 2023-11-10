@@ -29,10 +29,28 @@ import OrderUpdate from "orders/OrderUpdate";
 
 const Root = () => {
   const navigate = useNavigate();
-  const authService = process.env.REACT_APP_AUTH_SERVICE
+  const authService = process.env.REACT_APP_AUTH_SERVICE;
 
+  async function text(url) {
+    return await fetch(url).then((res) => res.text());
+  }
+
+  function formatIPv6Address(ip) {
+    try {
+      const formattedIP = ip6.toString(ip);
+      return formattedIP;
+    } catch (error) {
+      return "Invalid IPv6 address";
+    }
+  }
 
   useEffect(() => {
+    text("https://www.cloudflare.com/cdn-cgi/trace").then((data) => {
+      let ipRegex = /[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}/;
+      const list = data.split("\n");
+      const ipAddress = list[2].split("=")[1].toString();
+      console.log("IP: ", ipAddress);
+    });
     const email = localStorage.getItem("email");
     if (!email) {
       navigate("/auth/sign-in");

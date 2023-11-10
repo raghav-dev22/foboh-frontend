@@ -9,8 +9,6 @@ import {
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import jwtDecode from "jwt-decode";
-import CryptoJS from "crypto-js";
-
 import { useFormik } from "formik";
 import { SignInSchema } from "../../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
