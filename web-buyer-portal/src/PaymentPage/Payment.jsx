@@ -299,7 +299,9 @@ const Payment = () => {
       }
     } else {
       const clientSecret = await getClientSecret();
+
       const auBankAccount = elements.getElement(AuBankAccountElement);
+      
       if (clientSecret) {
         const result = await stripe.confirmAuBecsDebitPayment(clientSecret, {
           payment_method: {

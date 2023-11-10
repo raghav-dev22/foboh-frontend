@@ -40,6 +40,8 @@ const BankingInfoForm = ({
     iconStyle: "default", // or "solid"
   };
 
+  
+
   return (
     <div className="border w-full border-[#E7E7E7] rounded-md  bg-white ">
       <div className="px-6 py-3 border-b border-[#E7E7E7]">

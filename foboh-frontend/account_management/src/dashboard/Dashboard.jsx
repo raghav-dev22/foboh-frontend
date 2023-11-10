@@ -24,6 +24,7 @@ import BankingInformation from "../Settings/BankingInformation";
 import InventoryTable from "products/InventoryTable";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import SafeComponent from "./SafeComponent";
 
 // import ViewCustomer from 'customers/ViewCustomer'
 // import CustomerContact from 'customers/AddCustomersDetails';
@@ -151,42 +152,45 @@ function Dashboard() {
           <div className="container-fluid mx-auto px-0 sidebar">
             <Header />
             <Elements stripe={stripePromise}>
-              <Routes>
-                <Route path="/main" element={<MainDashBoard />} />
-                <Route path="/your-profile" element={<Profile />} />
-                <Route
-                  path="/organisation-settings"
-                  element={<Organisation />}
-                />
-                <Route path="/products" element={<Range />} />
-                <Route path="/view-product/:id" element={<ViewProduct />} />
-                <Route path="/add-product" element={<AddProduct />} />
-                <Route path="/customers" element={<AddCustomers />} />
-                <Route
-                  path="/view-customer-details"
-                  element={<ViewCustomer />}
-                />
-                <Route
-                  path="/add-customer/*"
-                  element={<AddCustomersDetails />}
-                />
-                <Route path="/bulk-edit" element={<BulkEdit />} />
-                <Route
-                  path="/supplier-order-management"
-                  element={<SupplierOrderManagement />}
-                />
-                <Route path="/settings" element={<SupplierSetting />} />
-                <Route
-                  path="/bank-information"
-                  element={<BankingInformation />}
-                />
-                <Route path="/order-details/:id" element={<OrderListing />} />
-                <Route
-                  path="/customer-bulk-edit"
-                  element={<CustomerBulkEdit />}
-                />
-                <Route path="/inventory-table" element={<InventoryTable />} />
-              </Routes>
+              <SafeComponent>
+                <Routes>
+                  <Route path="/main" element={<MainDashBoard />} />
+                  <Route path="/your-profile" element={<Profile />} />
+                  <Route
+                    path="/organisation-settings"
+                    element={<Organisation />}
+                  />
+                  <Route path="/products" element={<Range />} />
+                  <Route path="/view-product/:id" element={<ViewProduct />} />
+                  <Route path="/add-product" element={<AddProduct />} />
+
+                  <Route path="/customers" element={<AddCustomers />} />
+                  <Route
+                    path="/view-customer-details"
+                    element={<ViewCustomer />}
+                  />
+                  <Route
+                    path="/add-customer/*"
+                    element={<AddCustomersDetails />}
+                  />
+                  <Route path="/bulk-edit" element={<BulkEdit />} />
+                  <Route
+                    path="/supplier-order-management"
+                    element={<SupplierOrderManagement />}
+                  />
+                  <Route path="/settings" element={<SupplierSetting />} />
+                  <Route
+                    path="/bank-information"
+                    element={<BankingInformation />}
+                  />
+                  <Route path="/order-details/:id" element={<OrderListing />} />
+                  <Route
+                    path="/customer-bulk-edit"
+                    element={<CustomerBulkEdit />}
+                  />
+                  <Route path="/inventory-table" element={<InventoryTable />} />
+                </Routes>
+              </SafeComponent>
             </Elements>
             {/* <Profile /> */}
           </div>

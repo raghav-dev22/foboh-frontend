@@ -14,14 +14,7 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
 
-import {
-  useStripe,
-  useElements,
-  CardNumberElement,
-  CardCvcElement,
-  CardExpiryElement,
-  AuBankAccountElement,
-} from "@stripe/react-stripe-js";
+import { useElements, AuBankAccountElement } from "@stripe/react-stripe-js";
 import BusinessDetails from "./BusinessDetails";
 import RepresentativeInformation from "./RepresentativeInformation";
 import BankingInfoForm from "./BankingInfoForm";
@@ -51,6 +44,8 @@ const BankingInformation = () => {
   const [show, setShow] = useState(false);
   const [stateOptions, setStateOptions] = useState([]);
   const [businessType, setBusinessType] = useState([]);
+  const elements = useElements();
+
   const [initialValues, setInitialValues] = useState({
     BusinessName: "",
     BusinessSuburb: "",
@@ -203,6 +198,11 @@ const BankingInformation = () => {
   };
 
   const handleSave = () => {
+    const auBankAccount = elements.getElement(AuBankAccountElement);
+    console.log("AuBankAccount", auBankAccount);
+
+    return true;
+
     if (isValid) {
       const orgID = localStorage.getItem("organisationId");
       fetch(
