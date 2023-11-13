@@ -1,33 +1,99 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import "react-datepicker/dist/react-datepicker.css";
-import Profile from "../profile/Profile";
-import MainDashBoard from "../components/mainPage/MainDashBoard";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Organisation from "../Settings/Organisation";
-import Range from "products/Range";
-import ViewProduct from "products/ViewProduct";
-import AddProduct from "products/AddProduct";
-import AddCustomers from "customers/AddCustomers";
-import AddCustomersDetails from "customers/AddCustomersDetails";
-import ViewCustomer from "customers/ViewCustomer";
-import BulkEdit from "products/BulkEdit";
-import CustomerBulkEdit from "customers/CustomerBulkEdit";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
 import { updateLogoURI } from "../Redux/Action/organisationLogoSlice";
-import SupplierOrderManagement from "orders/SupplierOrderManagement";
-import OrderListing from "orders/OrderListing";
-import SupplierSetting from "orders/SupplierSetting";
-import BankingInformation from "../Settings/BankingInformation";
-import InventoryTable from "products/InventoryTable";
+
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import SafeComponent from "./SafeComponent";
+import Loader from "./Loader";
+import FallbackComponent from "./FallbackComponent";
 
-// import ViewCustomer from 'customers/ViewCustomer'
-// import CustomerContact from 'customers/AddCustomersDetails';
+const ViewProduct = React.lazy(() =>
+  import("products/ViewProduct").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const Profile = React.lazy(() =>
+  import("../profile/Profile").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const MainDashBoard = React.lazy(() =>
+  import("../components/mainPage/MainDashBoard").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const Organisation = React.lazy(() =>
+  import("../Settings/Organisation").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const Range = React.lazy(() =>
+  import("products/Range").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const AddProduct = React.lazy(() =>
+  import("products/AddProduct").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const AddCustomers = React.lazy(() =>
+  import("customers/AddCustomers").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const AddCustomersDetails = React.lazy(() =>
+  import("customers/AddCustomersDetails").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const ViewCustomer = React.lazy(() =>
+  import("customers/ViewCustomer").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const BulkEdit = React.lazy(() =>
+  import("products/BulkEdit").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const CustomerBulkEdit = React.lazy(() =>
+  import("customers/CustomerBulkEdit").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const SupplierOrderManagement = React.lazy(() =>
+  import("orders/SupplierOrderManagement").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const OrderListing = React.lazy(() =>
+  import("orders/OrderListing").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const SupplierSetting = React.lazy(() =>
+  import("orders/SupplierSetting").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const BankingInformation = React.lazy(() =>
+  import("../Settings/BankingInformation").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
+const InventoryTable = React.lazy(() =>
+  import("products/InventoryTable").catch(() => {
+    return { default: () => <FallbackComponent /> };
+  })
+);
 
 function Dashboard() {
   const [isDivVisible, setIsDivVisible] = useState(false);
@@ -151,47 +217,55 @@ function Dashboard() {
         <div className="container-fluid mx-auto  h-64 sm:w-4/5 w-full ">
           <div className="container-fluid mx-auto px-0 sidebar">
             <Header />
-            <Elements stripe={stripePromise}>
-              <SafeComponent>
-                <Routes>
-                  <Route path="/main" element={<MainDashBoard />} />
-                  <Route path="/your-profile" element={<Profile />} />
-                  <Route
-                    path="/organisation-settings"
-                    element={<Organisation />}
-                  />
-                  <Route path="/products" element={<Range />} />
-                  <Route path="/view-product/:id" element={<ViewProduct />} />
-                  <Route path="/add-product" element={<AddProduct />} />
+            <SafeComponent>
+              <Suspense fallback={<Loader />}>
+                <Elements stripe={stripePromise}>
+                  <Routes>
+                    <Route path="/main" element={<MainDashBoard />} />
+                    <Route path="/your-profile" element={<Profile />} />
+                    <Route
+                      path="/organisation-settings"
+                      element={<Organisation />}
+                    />
+                    <Route path="/products" element={<Range />} />
+                    <Route path="/view-product/:id" element={<ViewProduct />} />
+                    <Route path="/add-product" element={<AddProduct />} />
 
-                  <Route path="/customers" element={<AddCustomers />} />
-                  <Route
-                    path="/view-customer-details"
-                    element={<ViewCustomer />}
-                  />
-                  <Route
-                    path="/add-customer/*"
-                    element={<AddCustomersDetails />}
-                  />
-                  <Route path="/bulk-edit" element={<BulkEdit />} />
-                  <Route
-                    path="/supplier-order-management"
-                    element={<SupplierOrderManagement />}
-                  />
-                  <Route path="/settings" element={<SupplierSetting />} />
-                  <Route
-                    path="/bank-information"
-                    element={<BankingInformation />}
-                  />
-                  <Route path="/order-details/:id" element={<OrderListing />} />
-                  <Route
-                    path="/customer-bulk-edit"
-                    element={<CustomerBulkEdit />}
-                  />
-                  <Route path="/inventory-table" element={<InventoryTable />} />
-                </Routes>
-              </SafeComponent>
-            </Elements>
+                    <Route path="/customers" element={<AddCustomers />} />
+                    <Route
+                      path="/view-customer-details"
+                      element={<ViewCustomer />}
+                    />
+                    <Route
+                      path="/add-customer/*"
+                      element={<AddCustomersDetails />}
+                    />
+                    <Route path="/bulk-edit" element={<BulkEdit />} />
+                    <Route
+                      path="/supplier-order-management"
+                      element={<SupplierOrderManagement />}
+                    />
+                    <Route path="/settings" element={<SupplierSetting />} />
+                    <Route
+                      path="/bank-information"
+                      element={<BankingInformation />}
+                    />
+                    <Route
+                      path="/order-details/:id"
+                      element={<OrderListing />}
+                    />
+                    <Route
+                      path="/customer-bulk-edit"
+                      element={<CustomerBulkEdit />}
+                    />
+                    <Route
+                      path="/inventory-table"
+                      element={<InventoryTable />}
+                    />
+                  </Routes>
+                </Elements>
+              </Suspense>
+            </SafeComponent>
             {/* <Profile /> */}
           </div>
         </div>

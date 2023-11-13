@@ -18,7 +18,6 @@ function PreviewProductModal({
   setAddedFile,
 }) {
   const [activeTab, setActiveTab] = useState("PRODUCT 1");
-  console.log(activeTab, "activeTabactiveTab");
   console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -32,36 +31,6 @@ function PreviewProductModal({
   };
   const showModal = () => {
     setShow(false);
-
-    const prod = importedProducts.map((product) => {
-      return {
-        title: product.title,
-        skUcode: product.skUcode,
-        brand: product.brand,
-        description: product.description,
-        productImage: product.productImageUrls,
-        globalPrice: product.globalPrice,
-        createdBy: "",
-        articleID: 0,
-        skUcode: product.SkUcode,
-        unitofMeasure: product.unitofMeasure,
-        configuration: "",
-        brand: product.brand,
-        departmentId: product.departmentId,
-        categoryId: product.categoryID,
-        subCategoryId: product.subCategoryId,
-        segmentId: product.segmentId,
-        variety: product.variety ? product.variety.split(",") : [],
-        vintage: product.vintage,
-        abv: product.abv,
-        luCcost: product.luCcost ? product.luCcost : 0,
-        buyPrice: product.buyPrice ? product.buyPrice : 0,
-        gstFlag: product.gstFlag,
-        wetFlag: product.wetFlag,
-      };
-    });
-    console.log(importedProducts, "importedProducts");
-    console.log("prod", prod);
     localStorage.setItem("productImport", true);
     setLoading(true);
     fetch(

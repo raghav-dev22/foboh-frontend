@@ -310,7 +310,7 @@ const Sidebar = () => {
                 </li>
                 <li className="ps-12 list-inside cursor-pointer">
                   <Link
-                    to="#"
+                    href="#"
                     class="flex items-center w-full p-2 no-underline"
                   >
                     <h6 className="text-base	font-medium  text-gray">
@@ -439,7 +439,7 @@ const Sidebar = () => {
                     </defs>
                   </svg>
                 </div>
-                <Link to={"/dashboard/settings"} className="no-underline">
+                <Link to="/dashboard/settings" className="no-underline">
                   <h6 className="text-base	font-medium  text-gray	">Settings</h6>
                 </Link>
               </div>
