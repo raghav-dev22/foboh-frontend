@@ -54,6 +54,7 @@ function Organisation() {
   const [innerUnitMeasure, setInnerUnitMeasure] = useState([]);
   const [baseUnitMeasure, setBaseUnitMeasure] = useState([]);
   const [innerUnitTypeList, setInnerUnitTypeList] = useState([]);
+  const [state, setState] = useState([]);
   const authUrl = process.env.REACT_APP_AUTH_URL;
 
   const [initialValues, setInitialValues] = useState({
@@ -564,6 +565,24 @@ function Organisation() {
       rtl: true,
     });
   };
+
+  useEffect(() => {
+    fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "state");
+        setState(
+          data.map((i) => {
+            return {
+              value: i?.stateId,
+              label: i?.stateName,
+            };
+          })
+        );
+      });
+  }, []);
   return (
     <>
       {contextHolder}
@@ -632,6 +651,9 @@ function Organisation() {
                               value={values.tradingName}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                             />
                           </div>
                           <div className="w-full md:w-1/2 px-3 relative">
@@ -650,6 +672,9 @@ function Organisation() {
                               value={values.businessName}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.businessName &&
@@ -685,6 +710,9 @@ function Organisation() {
                               value={values.abn}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.abn && touched.abn && "1px solid red",
@@ -719,6 +747,9 @@ function Organisation() {
                               onChange={handleChange}
                               maxLength={14}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                             />
                           </div>
                         </div>
@@ -874,6 +905,9 @@ function Organisation() {
                               value={values.organisationAddress}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.organisationAddress &&
@@ -908,6 +942,9 @@ function Organisation() {
                               value={values.organisationAddressApartment}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.organisationAddressApartment &&
@@ -944,6 +981,9 @@ function Organisation() {
                               value={values.organisationAddressSuburb}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.organisationAddressSuburb &&
@@ -978,6 +1018,9 @@ function Organisation() {
                               value={values.organisationAddressPostcode}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.organisationAddressPostcode &&
@@ -1004,31 +1047,16 @@ function Organisation() {
                               State
                             </label>
                             <div className="relative">
-                              <select
-                                value={values.state} // Bind the selected state value to the state variable
+                              <Select
+                                isMulti
+                                name="state"
+                                value={values.state}
                                 onChange={handleChange}
-                                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="state"
-                              >
-                                <option value={""}>Select a state</option>
-                                <option value={"NSW"}>NSW</option>
-                                <option value={"VIC"}>VIC</option>
-                                <option value={"QLD"}>QLD</option>
-                                <option value={"WA"}>WA</option>
-                                <option value={"SA"}>SA</option>
-                                <option value={"TAS"}>TAS</option>
-                                <option value={"ACT"}>ACT</option>
-                                <option value={"NT"}>NT</option>
-                              </select>
-                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg
-                                  className="fill-current h-4 w-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
-                              </div>
+                                options={state}
+                                className="appearance-none block w-full  text-gray-700 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                classNamePrefix="basic-multi-select "
+                                closeMenuOnSelect={false}
+                              />
                             </div>
                           </div>
                         </div>
@@ -1052,9 +1080,6 @@ function Organisation() {
                     active
                     avatar
                   >
-                    {/* organisationAddress: organisationSettings.organisationAddress,
-                  organisationAddressApartment: organisationSettings.apartment,
-                  organisationAddressSuburb: organisationSettings.suburb, */}
                     <div className="px-6 py-7">
                       <div className="w-full">
                         {values.state &&
@@ -1097,6 +1122,9 @@ function Organisation() {
                               value={values.billingAddress}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.billingAddress &&
@@ -1131,6 +1159,9 @@ function Organisation() {
                               value={values.billingAddressApartment}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.billingAddressApartment &&
@@ -1167,6 +1198,9 @@ function Organisation() {
                               value={values.billingAddressSuburb}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.billingAddressSuburb &&
@@ -1201,6 +1235,9 @@ function Organisation() {
                               value={values.billingAddressPostcode}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.billingAddressPostcode &&
@@ -1227,32 +1264,16 @@ function Organisation() {
                               State
                             </label>
                             <div className="relative">
-                              <select
-                                value={values.billingAddressState} // Bind the selected state value to the state variable
+                              <Select
+                                isMulti
+                                name="state"
+                                value={values.state}
                                 onChange={handleChange}
-                                name="billingAddressState"
-                                className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="billingAddressState"
-                              >
-                                <option value={""}>Select a state</option>
-                                <option value={"NSW"}>NSW</option>
-                                <option value={"VIC"}>VIC</option>
-                                <option value={"QLD"}>QLD</option>
-                                <option value={"WA"}>WA</option>
-                                <option value={"SA"}>SA</option>
-                                <option value={"TAS"}>TAS</option>
-                                <option value={"ACT"}>ACT</option>
-                                <option value={"NT"}>NT</option>
-                              </select>
-                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg
-                                  className="fill-current h-4 w-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
-                              </div>
+                                options={state}
+                                className="appearance-none block w-full  text-gray-700 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                classNamePrefix="basic-multi-select "
+                                closeMenuOnSelect={false}
+                              />
                             </div>
                           </div>
                         </div>
@@ -1417,9 +1438,21 @@ function Organisation() {
                               value={values.orderingContactFirstName}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              // onKeyPress={(event) => {
+                              //   const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                              //   if (!allowedCharacters.test(event.key)) {
+                              //     event.preventDefault();
+                              //   }
+                              // }}
                               onKeyPress={(event) => {
-                                const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
-                                if (!allowedCharacters.test(event.key)) {
+                                if (event.key === "Enter") {
+                                  event.preventDefault();
+                                }
+                                const allowedCharacters = /^[A-Za-z]*$/;
+                                if (
+                                  !allowedCharacters.test(event.key) &&
+                                  event.key !== "Enter"
+                                ) {
                                   event.preventDefault();
                                 }
                               }}
@@ -1457,9 +1490,21 @@ function Organisation() {
                               value={values.orderingContactLastName}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              // onKeyPress={(event) => {
+                              //   const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                              //   if (!allowedCharacters.test(event.key)) {
+                              //     event.preventDefault();
+                              //   }
+                              // }}
                               onKeyPress={(event) => {
-                                const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
-                                if (!allowedCharacters.test(event.key)) {
+                                if (event.key === "Enter") {
+                                  event.preventDefault();
+                                }
+                                const allowedCharacters = /^[A-Za-z]*$/;
+                                if (
+                                  !allowedCharacters.test(event.key) &&
+                                  event.key !== "Enter"
+                                ) {
                                   event.preventDefault();
                                 }
                               }}
@@ -1499,6 +1544,9 @@ function Organisation() {
                               value={values.orderingContactEmail}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.orderingContactEmail &&
@@ -1614,6 +1662,9 @@ function Organisation() {
                               value={values.LogisticsContactFirstName}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.LogisticsContactFirstName &&
@@ -1648,6 +1699,9 @@ function Organisation() {
                               value={values.LogisticsContactLastName}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.LogisticsContactLastName &&
@@ -1684,6 +1738,9 @@ function Organisation() {
                               value={values.LogisticsContactEmail}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.LogisticsContactEmail &&
