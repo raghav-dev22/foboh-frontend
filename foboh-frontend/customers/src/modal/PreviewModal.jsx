@@ -4,6 +4,8 @@ import ImportCustomerModal from "./ImportCustomerModal";
 import Carousel from "better-react-carousel";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Alert, Space, Spin } from "antd";
+import { useMemo } from "react";
+import { convertImportedCustomerList } from "../helper/customerImportModule";
 
 function PreviewModal({
   show,
@@ -25,122 +27,23 @@ function PreviewModal({
     // // Do something with the selected option id
     // console.log(`Selected option id: ${selectedOptionId}`);
   };
+
+  const updatedCustomerImport = useMemo(() => {
+    const customerUpdate = convertImportedCustomerList(importedCustomers);
+    return customerUpdate;
+  }, [importedCustomers]);
+
   const showModal = () => {
     setShowPreviewModal(true);
     setLoading(true);
     setShow(false);
-    const prod = importedCustomers.map((customer) => {
-      return {
-        customerId: "",
-        businessName: customer.businessName || "",
-        abn: customer.abn || "",
-        liquorLicence: customer.liquorLicence,
-        salesRepId: customer.salesRepId,
-        pricingProfileId: customer.pricingProfileId,
-        defaultPaymentMethodId: customer.defaultPaymentMethodId,
-        defaultPaymentTerms: customer.defaultPaymentTerms,
-        tags: customer.tags,
-        wetLiable: customer.wetLiable,
-        orderingFirstName: customer.orderingFirstName,
-        orderingLastName: customer.orderingLastName,
-        orderingMobile: customer.orderingMobile,
-        orderingEmail: customer.orderingEmail,
-        deliveryFirstName: customer.deliveryFirstName,
-        deliveryLastName: customer.deliveryLastName,
-        deliveryMobile: customer.deliveryMobile || "",
-        deliveryEmail: customer.deliveryEmail || "",
-        address: customer.address,
-        apartment: customer.apartment,
-        suburb: customer.suburb || "",
-        postalCode: customer.postalCode,
-        state: customer.state,
-        deliveryNotes: customer.deliveryNotes || "",
-        billingAddress: customer.billingAddress,
-        billingApartment: customer.billingApartment,
-        billingSuburb: customer.billingSuburb || "",
-        billingPostalCode: customer.billingPostalCode || "",
-        billingState: customer.billingState || "",
-        isActive: customer.isActive || "1",
-      };
-    });
-    console.log("prod", prod);
+
     fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateBulkData`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          importedCustomers.map((customer) => {
-            let defaultPaymentMethodIdS = [];
-            if (customer.defaultPaymentMethodId !== undefined) {
-              defaultPaymentMethodIdS =
-                customer.defaultPaymentMethodId.split(",");
-            }
-            let defaultPaymentTermsmain = [];
-            if (customer.defaultPaymentTerms !== undefined) {
-              defaultPaymentTermsmain =
-                customer?.defaultPaymentTerms.split(",");
-            }
-            let TagMain = [];
-            if (customer?.tags !== undefined) {
-              TagMain = customer?.tags.split(",");
-            }
-            let billingPost = "";
-            if (customer.billingPostalCode !== undefined) {
-              billingPost = customer.billingPostalCode.toString();
-            }
-            let abnMain = "";
-            if (customer?.abn !== undefined) {
-              abnMain = customer?.abn.toString();
-            }
-            let orderingMobileMain = "";
-            if (customer?.orderingMobile !== undefined) {
-              orderingMobileMain = customer?.orderingMobile.toString();
-            }
-            let postalCodeMain = "";
-            if (customer?.postalCode !== undefined) {
-              postalCodeMain = customer?.customer?.postalCode.toString();
-            }
-            let deliveryMobileMain = "";
-            if (customer?.deliveryMobile !== undefined) {
-              deliveryMobileMain = customer?.deliveryMobile.toString();
-            }
-
-            const customerBody = {
-              businessName: customer?.businessName || "",
-              abn: abnMain,
-              liquorLicence: customer?.liquorLicence,
-              salesRepId: customer?.salesRepId,
-              pricingProfileId: customer?.pricingProfileId,
-              defaultPaymentMethodId: defaultPaymentMethodIdS,
-              defaultPaymentTerm: defaultPaymentTermsmain,
-              tags: TagMain,
-              wetLiable: customer?.wetLiable,
-              orderingFirstName: customer?.orderingFirstName,
-              orderingLastName: customer?.orderingLastName,
-              orderingMobile: orderingMobileMain,
-              orderingEmail: customer?.orderingEmail,
-              deliveryFirstName: customer?.deliveryFirstName,
-              deliveryLastName: customer?.deliveryLastName,
-              deliveryMobile: deliveryMobileMain,
-              deliveryEmail: customer?.deliveryEmail || "",
-              address: customer?.address,
-              apartment: customer?.apartment,
-              suburb: customer?.suburb || "",
-              postalCode: postalCodeMain,
-              state: customer?.state,
-              deliveryNotes: customer?.deliveryNotes || "",
-              billingAddress: customer?.billingAddress,
-              billingApartment: customer?.billingApartment,
-              billingSuburb: customer?.billingSuburb || "",
-              billingPostalCode: billingPost,
-              billingState: customer?.billingState || "",
-              isActive: customer?.isActive || "1",
-            };
-            console.log(customerBody, "customerimportdata");
-            return customerBody;
-          })
-        ),
+        body: JSON.stringify(updatedCustomerImport),
       }
     )
       .then((response) => response.json())

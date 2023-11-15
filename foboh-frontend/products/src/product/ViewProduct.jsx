@@ -2051,7 +2051,7 @@ function ViewProduct() {
                             disabled
                             value={
                               values.configuration &&
-                              `(${values?.baseUnitMeasure?.value} x ${values?.innerUnitMeasure.value}) ${values?.innerUnitMeasure?.key}`
+                              `(${values?.baseUnitMeasure?.value} x ${values?.innerUnitMeasure?.value}) ${values?.innerUnitMeasure?.key}`
                             }
                             placeholder={
                               values.configuration &&
