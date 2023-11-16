@@ -1294,15 +1294,15 @@ function ViewProduct() {
                   avatar
                 >
                   <div className="edit-img ">
-                    <img
-                      src={
-                        productImageUris?.length > 0
-                          ? productImageUris[0]
-                          : "/assets/inventory-img.png"
-                      }
-                      alt=""
-                      className=" w-full h-[357px] object-contain"
-                    />
+                    {productImageUris?.length > 0 ? (
+                      <img
+                        src={productImageUris[0]}
+                        alt=""
+                        className=" w-full h-[357px] object-contain"
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </Skeleton>
                 <div className="flex gap-3">
@@ -1313,15 +1313,15 @@ function ViewProduct() {
                     avatar
                   >
                     <div className="">
-                      <img
-                        src={
-                          productImageUris?.length > 0
-                            ? productImageUris[1] || "/assets/inventory-img.png"
-                            : "/assets/inventory-img.png"
-                        }
-                        alt=""
-                        className=" h-[173px] object-contain"
-                      />
+                      {productImageUris?.length > 0
+                        ? (
+                            <img
+                              src={productImageUris[1]}
+                              alt=""
+                              className=" h-full object-contain"
+                            />
+                          ) || ""
+                        : ""}
                     </div>
                   </Skeleton>
                   <Skeleton
@@ -1331,15 +1331,15 @@ function ViewProduct() {
                     avatar
                   >
                     <div className="">
-                      <img
-                        src={
-                          productImageUris?.length > 0
-                            ? productImageUris[2] || "/assets/inventory-img.png"
-                            : "/assets/inventory-img.png"
-                        }
-                        alt=""
-                        className="h-[173px] object-contain"
-                      />
+                      {productImageUris?.length > 0
+                        ? (
+                            <img
+                              src={productImageUris[2]}
+                              alt=""
+                              className=" h-full object-contain"
+                            />
+                          ) || ""
+                        : ""}
                     </div>
                   </Skeleton>
                 </div>
