@@ -121,7 +121,7 @@ function MainDashBoard() {
 
     fetch(
       `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/StockStatus?OrganisationId=${localStorage.getItem(
-        "organisationID"
+        "organisationId"
       )}`
     )
       .then((response) => response.json())
@@ -134,6 +134,7 @@ function MainDashBoard() {
           });
         }
         console.log(data.data, "stockdata");
+        console.log(stockCount, "jhghjsghdghg");
         setStock(data.data);
       })
       .catch((error) => console.log(error));

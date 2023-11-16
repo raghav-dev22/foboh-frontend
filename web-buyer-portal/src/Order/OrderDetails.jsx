@@ -10,7 +10,10 @@ import InvoiceModal from "../modal/InvoiceModal";
 import { useParams } from "react-router-dom";
 import { message, theme } from "antd";
 import { getTrackerStatus } from "../helpers/getTrackerStatus";
-import { getSealedCart } from "../helpers/getSealedCart";
+import { useMutation, useQuery } from "react-query";
+import { getCart, getSealedCart } from "../react-query/cartApiModule";
+import { useMemo } from "react";
+import { getCalculations } from "../helper/getCalculations";
 
 const OrderDetails = () => {
   const customDot = (dot, { status, index }) => <Popover>{dot}</Popover>;
@@ -38,20 +41,6 @@ const OrderDetails = () => {
   const { id } = useParams();
   let cart = "";
 
-  const calculateTotalCost = () => {
-    let total = 0;
-
-    const { totalPrice, payAmountLong, gst, wet, subCategoryId } = cart[0];
-    CARTdata.forEach((item) => {
-      const productPrice = item?.product?.globalPrice;
-      const productPriceINR = productPrice;
-      const quantity = parseInt(item.quantity);
-      total += productPriceINR * quantity;
-      console.log("hdgfj", total);
-    });
-    return total;
-  };
-
   const success = () => {
     messageApi.open({
       type: "success",
@@ -66,7 +55,34 @@ const OrderDetails = () => {
     });
   };
 
+  const error = (error) => {
+    messageApi.open({
+      type: "error",
+      content: error,
+    });
+  };
+
+  // Fetching cart data
+  const { mutate } = useMutation(getSealedCart, {
+    onSuccess: (data) => {
+      setProductList(data);
+      const item = data[0];
+      setCalculations({
+        wet: item?.wt,
+        gst: item?.gst,
+        subTotal: item?.totalPrice,
+        total: item?.payAmountLong,
+      });
+    },
+    onError: (err) => {
+      error(err);
+    },
+  });
+
+  // Calculating cart
+
   useEffect(() => {
+    mutate(id);
     //Handling Stepper
     getTrackerStatus(id).then((status) => {
       console.log("getTrackerStatus", status);
@@ -82,39 +98,7 @@ const OrderDetails = () => {
         setCurrentStep(4);
       }
     });
-
-    //Handling Cart details of order
-    getSealedCart(id).then((data) => {
-      if (data.success) {
-        const { gst, payAmountLong, totalPrice, wt } = data?.data[0];
-        setCalculations({
-          total: payAmountLong,
-          subTotal: totalPrice,
-          gst: gst,
-          wet: wt,
-        });
-        data.data.forEach((subCat) => {
-          if (
-            subCat.subCategoryId === "SC5000" ||
-            subCat.subCategoryId === "SC500"
-          ) {
-            setIsWine(true);
-          }
-        });
-        const updatedList = data.data.map((product) => {
-          return {
-            product: product,
-            quantity: product?.quantity,
-          };
-        });
-
-        cart = updatedList;
-        setProductList(updatedList);
-        calculateTotalCost();
-      }
-    });
   }, []);
-  console.log(productList[0], "kkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
@@ -141,7 +125,6 @@ const OrderDetails = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.data[0], "setOrderDetails------>");
         setOrderDetails(data.data[0]);
       })
       .catch((error) => {
@@ -399,11 +382,11 @@ const OrderDetails = () => {
           ) : (
             <>
               {" "}
-              {productList.map((item, index) => (
+              {productList.map((item) => (
                 <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
                   <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                     <img
-                      src={item.product?.productImageUrls}
+                      src={item.productImageUrls}
                       alt=""
                       className="w-[150px]  object-cover	rounded-md"
                     />
@@ -414,17 +397,17 @@ const OrderDetails = () => {
                       <div className="flex justify-between w-full gap-3">
                         <div className="">
                           <h4 className=" text-base font-semibold text-[#2B4447]">
-                            {item.product?.title}
+                            {item?.title}
                           </h4>
                           <p className="text-sm text-[#637381] font-medium ">
-                            {item.product?.configuration}
+                            {item?.configuration}
                           </p>
                         </div>
                         <p className="text-sm font-medium text-[#2B4447]">
                           Quantity - {item?.quantity}
                         </p>
                         <h4 className=" text-base text-[#2B4447] font-semibold">
-                          ${item.product?.globalPrice}
+                          ${item?.buyPrice}
                         </h4>
                       </div>
                     </div>
@@ -462,7 +445,7 @@ const OrderDetails = () => {
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">
-                  ${calculations.subTotal}
+                  ${calculations?.subTotal}
                 </h5>
               </div>
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
@@ -471,18 +454,18 @@ const OrderDetails = () => {
                 </h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
               </div>
-              {isWine && (
+              {calculations?.wet > 0 && (
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                   <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
                   <h5 className="text-sm font-medium text-[#2B4447]">
-                    ${calculations.wet}
+                    ${calculations?.wet}
                   </h5>
                 </div>
               )}
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">
-                  ${calculations.gst}
+                  ${calculations?.gst}
                 </h5>
               </div>
               <div className="flex justify-between py-3 ">
@@ -490,7 +473,7 @@ const OrderDetails = () => {
                   Order total
                 </h5>
                 <h5 className="text-base font-semibold text-[#2B4447]">
-                  ${calculations.total}
+                  ${calculations?.total}
                 </h5>
               </div>
             </div>

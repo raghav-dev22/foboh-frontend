@@ -2051,7 +2051,7 @@ function ViewProduct() {
                             disabled
                             value={
                               values.configuration &&
-                              `(${values?.baseUnitMeasure?.value} x ${values?.innerUnitMeasure.value}) ${values?.innerUnitMeasure?.key}`
+                              `(${values?.baseUnitMeasure?.value} x ${values?.innerUnitMeasure?.value}) ${values?.innerUnitMeasure?.key}`
                             }
                             placeholder={
                               values.configuration &&
@@ -2157,6 +2157,12 @@ function ViewProduct() {
                             onBlur={handleBlur}
                             type="text"
                             placeholder="$330.00"
+                            onKeyPress={(e) => {
+                              const isValidKey = /[0-9.]/.test(e.key); // Test if the pressed key is a number
+                              if (!isValidKey) {
+                                e.preventDefault(); // Prevent input of non-numeric characters
+                              }
+                            }}
                           />
                           {errors.salePrice && touched.salePrice && (
                             <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">

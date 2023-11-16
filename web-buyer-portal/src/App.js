@@ -22,19 +22,22 @@ import OrderDetails from "./Order/OrderDetails";
 import MyOrders from "./Order/MyOrders";
 import InvoiceIncludingWET from "./invoice/InvoiceIncludingWET";
 import InvoiceExcludingWET from "./invoice/InvoiceExcludingWET";
-import ForgetPassword from "./loginRegister/ForgetPassword";
-
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
   const { getDesignToken, useToken } = theme;
   const [config, setConfig] = useState({});
 
+  const queryClient = new QueryClient();
+
   return (
     <ConfigProvider theme={config}>
       <Provider store={store}>
-        <Router>
-          <RouterComponent setConfig={setConfig} />
-        </Router>
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <RouterComponent setConfig={setConfig} />
+          </Router>
+        </QueryClientProvider>
       </Provider>
     </ConfigProvider>
   );

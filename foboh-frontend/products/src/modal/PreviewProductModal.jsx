@@ -7,6 +7,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { removePercentageFromString } from "../helpers/removePercentageToString";
 import { splitRegions } from "../helpers/splitRegions";
 import { Alert, Space, Spin } from "antd";
+import { convertImportedProductList } from "../helpers/importProductModule";
+import { useMemo } from "react";
 
 // import "antd/dist/antd.css"; // Import Ant Design styles
 function PreviewProductModal({
@@ -18,7 +20,6 @@ function PreviewProductModal({
   setAddedFile,
 }) {
   const [activeTab, setActiveTab] = useState("PRODUCT 1");
-  console.log(activeTab, "activeTabactiveTab");
   console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -30,38 +31,14 @@ function PreviewProductModal({
     // // Do something with the selected option id
     // console.log(`Selected option id: ${selectedOptionId}`);
   };
+
+  const updatedImports = useMemo(() => {
+    const updatedProducts = convertImportedProductList(importedProducts);
+    return updatedProducts;
+  }, [importedProducts]);
+
   const showModal = () => {
     setShow(false);
-
-    const prod = importedProducts.map((product) => {
-      return {
-        title: product.title,
-        skUcode: product.skUcode,
-        brand: product.brand,
-        description: product.description,
-        productImage: product.productImageUrls,
-        globalPrice: product.globalPrice,
-        createdBy: "",
-        articleID: 0,
-        skUcode: product.SkUcode,
-        unitofMeasure: product.unitofMeasure,
-        configuration: "",
-        brand: product.brand,
-        departmentId: product.departmentId,
-        categoryId: product.categoryID,
-        subCategoryId: product.subCategoryId,
-        segmentId: product.segmentId,
-        variety: product.variety ? product.variety.split(",") : [],
-        vintage: product.vintage,
-        abv: product.abv,
-        luCcost: product.luCcost ? product.luCcost : 0,
-        buyPrice: product.buyPrice ? product.buyPrice : 0,
-        gstFlag: product.gstFlag,
-        wetFlag: product.wetFlag,
-      };
-    });
-    console.log(importedProducts, "importedProducts");
-    console.log("prod", prod);
     localStorage.setItem("productImport", true);
     setLoading(true);
     fetch(
@@ -69,65 +46,7 @@ function PreviewProductModal({
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          importedProducts.map((product) => {
-            const abv = removePercentageFromString(product?.abv?.toString());
-            const regionAvailability = splitRegions(
-              product?.regionAvailability
-            );
-            const productImageUrls = splitRegions(product?.productImageUrls);
-            const variety = splitRegions(product?.variety);
-            const tags = splitRegions(product?.tags);
-            const organisationId = localStorage.getItem("organisationId");
-
-            return {
-              title: product?.title,
-              description: product?.description,
-              productImage: product?.productImageUrls ? productImageUrls : [],
-              globalPrice: parseInt(product?.globalPrice),
-              createdBy: "string",
-              articleID: 0,
-              skUcode: product?.skUcode,
-              unitofMeasure: product?.unitofMeasure,
-              configuration: "",
-              brand: product?.brand,
-              departmentId: product?.departmentId,
-              innerUnitofMeasure: product?.innerUnitofMeasure,
-              award: product?.awards,
-              categoryId: product?.categoryID,
-              subCategoryId: product?.subCategoryId,
-              segmentId: product?.segmentId,
-              variety: product?.variety ? variety : [],
-              vintage: product?.vintage,
-              abv: abv,
-              luCcost: product?.luCcost,
-              buyPrice: product?.buyPrice,
-              gstFlag: product.gstFlag === 1 ? true : false,
-              wetFlag: product.wetFlag === 1 ? true : false,
-              trackInventory: product.trackInventory === 1 ? true : false,
-              region: product?.region,
-              availableQty: product?.availableQty,
-              stockThreshold: product?.stockThreshold,
-              stockStatus: product?.stockStatus,
-              regionAvailability: product?.regionAvailability
-                ? regionAvailability
-                : [],
-              productStatus: product?.productStatus,
-              visibility: product?.visibility === "Visible" ? "1" : "0",
-              sellOutOfStock: product?.Sell_when_OOS === 1 ? true : false,
-              minimumOrder: product?.minimumOrder,
-              tags: product?.tags ? tags : [],
-              countryOfOrigin: product?.countryOfOrigin,
-              barcodes: "string",
-              esgStatus: "string",
-              healthRating: "string",
-              catalogueId: 0,
-              cCatalogueId: "string",
-              organisationId: organisationId,
-              isActive: true,
-            };
-          })
-        ),
+        body: JSON.stringify(updatedImports),
       }
     )
       .then((response) => {

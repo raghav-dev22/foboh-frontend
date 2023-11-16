@@ -1126,6 +1126,9 @@ function AddProduct() {
                       </label>
                       <input
                         onChange={handleChange}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" && e.preventDefault()
+                        }
                         value={values.title}
                         maxLength={101}
                         onBlur={handleBlur}
@@ -1174,6 +1177,9 @@ function AddProduct() {
                       </label>
                       <input
                         onChange={handleChange}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" && e.preventDefault()
+                        }
                         value={values.skuCode}
                         onBlur={handleBlur}
                         style={{
@@ -1209,6 +1215,9 @@ function AddProduct() {
                       </label>
                       <input
                         onChange={handleChange}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" && e.preventDefault()
+                        }
                         value={values.brand}
                         onBlur={handleBlur}
                         style={{
@@ -1391,7 +1400,7 @@ function AddProduct() {
                           type="text"
                           value={values?.vintage !== 0 ? values?.vintage : null}
                           onChange={handleChange}
-                          placeholder="enter year"
+                          placeholder="2004"
                         />
                       </div>
                     )}
@@ -1416,7 +1425,7 @@ function AddProduct() {
                           }}
                           value={values.awards}
                           type="text"
-                          placeholder="enter awards"
+                          placeholder="WS 93"
                           style={{
                             border:
                               errors.awards &&
@@ -1656,7 +1665,7 @@ function AddProduct() {
                         id="Sale-price"
                         name="salePrice"
                         onKeyPress={(e) => {
-                          const isValidKey = /[0-9]/.test(e.key); // Test if the pressed key is a number
+                          const isValidKey = /[0-9.]/.test(e.key); // Test if the pressed key is a number
                           if (!isValidKey) {
                             e.preventDefault(); // Prevent input of non-numeric characters
                           }

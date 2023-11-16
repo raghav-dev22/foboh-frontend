@@ -574,7 +574,7 @@ function Range() {
 
                               <td className={classes}>
                                 <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product.stockStatus}
+                                  {product.productStatus}
 
                                   <br />
 

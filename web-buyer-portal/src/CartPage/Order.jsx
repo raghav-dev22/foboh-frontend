@@ -7,6 +7,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart, updateQuantity } from "../slices/CartSlice";
 import AppliedCoupon from "../modal/AppliedCoupon";
+import { useMemo } from "react";
+import { getCalculations } from "../helper/getCalculations";
+import { useQuery } from "react-query";
+import { getCart } from "../react-query/cartApiModule";
+import { message } from "antd";
 
 const Order = () => {
   const { useToken } = theme;
@@ -19,6 +24,8 @@ const Order = () => {
   const [bg, setBg] = useState(false);
   const [color, setColor] = useState();
   const [invalid, setInvalid] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
+
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const promoCodes = {
     CODE001: "CODE001",
@@ -48,8 +55,6 @@ const Order = () => {
       setBg("#000");
     }
   };
-  const [totalCost, setTotleCost] = useState(0);
-  const [Subtotal, setSubTotal] = useState(0);
   const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
 
@@ -57,87 +62,31 @@ const Order = () => {
     dispatch(updateQuantity({ id, actionType }));
   };
 
-  const calculateTotalCost = () => {
-    let total = 0;
-    CARTdata.forEach((item) => {
-      const productPrice = item?.product?.globalPrice;
-      const productPriceINR = productPrice;
-      const quantity = parseInt(item.quantity);
-      total += productPriceINR * quantity;
-
-      console.log("hdgfj", total);
+  const error = (error) => {
+    messageApi.open({
+      type: "error",
+      content: error,
     });
-    return total;
   };
+  
+  if (cartError) {
+    error(cartError);
+  }
 
-  useEffect(() => {
-    const cartId = localStorage.getItem("cartId");
+  // Fetching cart data
+  const {
+    data: cartData,
+    isLoading: isCartLoading,
+    error: cartError,
+    refetch: cartRefetch,
+  } = useQuery("getCartApi", getCart);
 
-    fetch(`${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data, "addcart");
 
-        if (data.success) {
-          setAddCart(
-            data.data.map((product) => {
-              return {
-                product: product,
-                quantity: product?.quantity,
-              };
-            })
-          );
-
-          let wetTotal = 0;
-          let remainingTotal = 0;
-          let totalCost = 0;
-          let alltotal = 0;
-          let subCatList = [];
-          data.data.forEach((item) => {
-            subCatList.push(item.subCategoryId);
-            console.log("subCatList", subCatList);
-            if (subCatList.includes("SC500") || subCatList.includes("SC5000")) {
-              setIsWineSubcat(true);
-            } else {
-              setIsWineSubcat(false);
-            }
-
-            const productPrice = item?.globalPrice;
-            const subCat = item?.subCategoryId;
-            const productPriceINR = productPrice;
-            const quantity = parseInt(item?.quantity);
-            alltotal += productPriceINR * quantity;
-            setSubTotal(alltotal.toFixed(2));
-
-            const wetTaxAmount =
-              subCat === "SC500" || subCat === "SC5000"
-                ? productPrice * 0.29
-                : 0;
-
-            const totalCostForItem = (productPrice + wetTaxAmount) * quantity;
-
-            if (subCat === "SC500" || subCat === "SC5000") {
-              wetTotal += totalCostForItem;
-            } else {
-              remainingTotal += totalCostForItem;
-            }
-
-            totalCost = wetTotal + remainingTotal;
-            totalCost += totalCost * 0.1;
-
-            const newTotal = totalCost.toFixed(2);
-            setTotleCost(newTotal);
-          });
-        }
-      })
-      .catch((error) => console.log(error));
-
-    const newTotal = calculateTotalCost();
-    setTotleCost(newTotal.toFixed(2));
-    console.log("Total Cost:", totalCost);
-  }, [CARTdata]);
+  // Calculating cart
+  const [gst, wet, subtotal, total] = useMemo(() => {
+    const calculationResult = getCalculations(cartData);
+    return calculationResult;
+  }, [cartData]);
 
   const removeItem = (productId, productStatus) => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -164,6 +113,7 @@ const Order = () => {
               quantity: item?.quantity,
             };
           });
+          cartRefetch();
           dispatch(setCart(updatedCartList));
         }
         console.log(data, "add data");
@@ -263,7 +213,7 @@ const Order = () => {
       <div className="py-4">
         <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
           <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
-          <h5 className="text-sm font-medium text-[#2B4447]">${Subtotal}</h5>
+          <h5 className="text-sm font-medium text-[#2B4447]">${subtotal}</h5>
         </div>
         <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
           <h5 className="text-sm font-medium text-[#2B4447]">
@@ -271,24 +221,21 @@ const Order = () => {
           </h5>
           <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
         </div>
-        {isWineSubcat && (
+        {wet > 0 && (
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
-            <h5 className="text-sm font-medium text-[#2B4447]">29%</h5>
+            <h5 className="text-sm font-medium text-[#2B4447]">${wet}</h5>
           </div>
         )}
         <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
           <h5 className="text-sm font-medium text-[#2B4447]">GST</h5>
-          <h5 className="text-sm font-medium text-[#2B4447]">10%</h5>
+          <h5 className="text-sm font-medium text-[#2B4447]">${gst}</h5>
         </div>
         <div className="flex justify-between py-3 ">
           <h5 className="text-base font-semibold text-[#2B4447]">
             Order total
           </h5>
-          <h5 className="text-base font-semibold text-[#2B4447]">
-            {" "}
-            ${totalCost}
-          </h5>
+          <h5 className="text-base font-semibold text-[#2B4447]"> ${total}</h5>
         </div>
       </div>
 

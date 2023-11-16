@@ -37,7 +37,8 @@ function AddCustomers() {
   const [totalProducts, setTotalProducts] = useState(0);
   console.log(tableRecords, "tableRecords==============>");
   let timeoutId;
-  const saveProduct = () => {
+
+  const saveProduct = ({ app }) => {
     messageApi.open({
       content: (
         <div className="flex justify-center gap-2 items-center">
@@ -246,7 +247,6 @@ function AddCustomers() {
                               >
                                 <Typography className="font-medium	md:text-base text-sm text-[#637381]">
                                   {product.businessName}
-                                  {/* {item?.businessName} */}
                                 </Typography>
                               </div>
                             </td>
