@@ -115,7 +115,7 @@ function StockDetails() {
           const revenueData = data.data[0];
           setRevenue(revenueData.totalRevenue);
         }
-        console.log(data.data[0], "totalrevenue");
+        // console.log(data.data[0], "totalrevenue");
       })
       .catch((error) => console.log(error));
 
@@ -133,7 +133,7 @@ function StockDetails() {
           const profitData = data.data[0];
           setProfit(profitData.totalProfit);
         }
-        console.log(data.data[0], "totalProfit");
+        // console.log(data.data[0], "totalProfit");
       })
       .catch((error) => console.log(error));
   }, [organisationId]);
