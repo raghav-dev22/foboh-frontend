@@ -39,6 +39,9 @@ import { Spin } from "antd";
 import { orderStatusUpdate } from "../helpers/orderStatusUpdate";
 import Becs from "./Becs";
 import { getClientSecret } from "../helpers/getClientSecret";
+import { getCart } from "../react-query/cartApiModule";
+import { useQuery } from "react-query";
+import { getCalculations } from "../helper/getCalculations";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -141,6 +144,14 @@ const Payment = () => {
   const [modal, contextHolder] = Modal.useModal();
   const [loading, setLoading] = useState(false);
 
+  const errorMessage = (error) => {
+    messageApi.open({
+      type: "error",
+      content: error,
+      duration: 4,
+    });
+  };
+
   let billingAddress = {};
 
   const countDown = () => {
@@ -161,6 +172,21 @@ const Payment = () => {
       navigate("/home/order-confirm");
     }, secondsToGo * 1000);
   };
+
+  // Fetching cart data
+  const { data: cartData, error: sealedCartError } = useQuery({
+    queryKey: "getSealedCartApi",
+    queryFn: getCart(),
+  });
+
+  if (sealedCartError) {
+    errorMessage(sealedCartError);
+  }
+  // Calculating cart
+  const [gst, wet, subtotal, total] = useMemo(() => {
+    const calculationResult = getCalculations(cartData);
+    return calculationResult;
+  }, [cartData]);
 
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -230,14 +256,6 @@ const Payment = () => {
 
   const [deliveryAddress, setDeliveryAddress] = useState({});
 
-  const errorMessage = (error) => {
-    messageApi.open({
-      type: "error",
-      content: error,
-      duration: 4,
-    });
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -276,7 +294,11 @@ const Payment = () => {
           "Card",
           deliveryEmail,
           orderId,
-          cardHolderName
+          cardHolderName,
+          gst,
+          wet,
+          subtotal,
+          total
         );
 
         const { error, status, id } = await stripe.confirmCardPayment(
@@ -301,7 +323,7 @@ const Payment = () => {
       const clientSecret = await getClientSecret();
 
       const auBankAccount = elements.getElement(AuBankAccountElement);
-      
+
       if (clientSecret) {
         const result = await stripe.confirmAuBecsDebitPayment(clientSecret, {
           payment_method: {

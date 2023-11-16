@@ -199,7 +199,9 @@ const BankingInformation = () => {
 
   const handleSave = () => {
     const auBankAccount = elements.getElement(AuBankAccountElement);
-    console.log("AuBankAccount", auBankAccount);
+    console.log("auBankAccount", auBankAccount);
+
+    
 
     return true;
 
