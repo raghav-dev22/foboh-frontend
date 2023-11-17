@@ -23,7 +23,7 @@ import ResetPasswordEmail from "./auth/signin/ResetPasswordEmail";
 import Dashboard from "./dashboard/Dashboard";
 import { Provider } from "react-redux";
 import { store } from "./Redux/store";
-
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const Root = () => {
   const navigate = useNavigate();
@@ -100,12 +100,16 @@ const Root = () => {
 };
 
 const App = () => {
+  const queryClient = new QueryClient();
+
   return (
-    <Provider store={store}>
-      <Router>
-        <Root />
-      </Router>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <Router>
+          <Root />
+        </Router>
+      </Provider>
+    </QueryClientProvider>
   );
 };
 

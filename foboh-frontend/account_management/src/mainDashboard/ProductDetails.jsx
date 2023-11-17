@@ -12,7 +12,7 @@ import { stockStatus } from "../helpers/stockStatusButton";
 function ProductDetails({ stock }) {
   return (
     <>
-      {stock.map((item, index) => {
+      {stock?.map((item, index) => {
         return (
           <div
             className={`flex justify-between sm:items-center items-end pb-5 productItem-${index}`}

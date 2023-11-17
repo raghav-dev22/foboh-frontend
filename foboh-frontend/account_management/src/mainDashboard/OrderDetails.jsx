@@ -1,148 +1,58 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../helpers/Dateformate";
 
-function OrderDetails() {
-  const orderItem = [
-    {
-      CustomerId: "#LF1001024",
+function OrderDetails({ orderDetails }) {
+  const navigate = useNavigate();
 
-      Customer: "The Union Hotel",
-
-      subtitle: " jack@union.com",
-
-      Amount: "$450.10",
-
-      DeliveryDate: "25 Dec 2023",
-
-      Status: (
-        <span className="dotcircle  bg-[#4A6CF714] text-[#4A6CF7] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#4A6CF714] dark:text-[#4A6CF7]">
-          New
-        </span>
-      ),
-
-      ActionRequired: (
-        <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium ">
-          Review Order
-        </span>
-      ),
-    },
-
-    {
-      CustomerId: "#LF1001023",
-
-      Customer: "The Union Hotel",
-
-      subtitle: " jack@union.com",
-
-      Amount: "$350.60",
-
-      DeliveryDate: "25 Dec 2023",
-
-      Status: (
-        <span className=" dotcircle pending-bg bg-[#FFA70B14] text-[#FFA70B] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#FFA70B14] dark:text-[#FFA70B]">
-          Pending
-        </span>
-      ),
-
-      ActionRequired: (
-        <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium ">
-          Review Order
-        </span>
-      ),
-    },
-
-    {
-      CustomerId: "#LF1001022",
-
-      Customer: "Red Bottle",
-
-      subtitle: " orders@redbottle.com",
-
-      Amount: "$1000.60",
-
-      DeliveryDate: "25 Dec 2023",
-
-      Status: (
-        <span className="dotcircle pending-bg bg-[#FFA70B14] text-[#FFA70B] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#FFA70B14] dark:text-[#FFA70B]">
-          Pending
-        </span>
-      ),
-
-      ActionRequired: (
-        <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium">
-          Review Order
-        </span>
-      ),
-    },
-
-    {
-      CustomerId: "#LF1001022",
-
-      Customer: "Red Bottle",
-
-      subtitle: "  orders@redbottle.com",
-
-      Amount: "$1000.60",
-
-      DeliveryDate: "25 Dec 2023",
-
-      Status: (
-        <span className="dotcircle pending-bg bg-[#FFA70B14] text-[#FFA70B] text-sm font-medium mr-2 px-3 py-1 rounded-xl dark:bg-[#FFA70B14] dark:text-[#FFA70B]">
-          Pending
-        </span>
-      ),
-      ActionRequired: (
-        <span className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium">
-          Review Order
-        </span>
-      ),
-    },
-  ];
+  const handleClick = (id) => {
+    navigate(`/dashboard/order-details/${id}`);
+  };
 
   return (
     <>
-      {orderItem.map((value, index) => {
+      {orderDetails.map((value, index) => {
         return (
           <tr className={`orderNo-${index}`}>
             <td className="px-4 py-4 border-b border-gray-200 text-base ">
-              <h5 className="sm:font-normal font-light    text-xs sm:text-sm       whitespace-no-wrap text-gray">
-                {value.CustomerId}
+              <h5 className="sm:font-normal font-light text-xs sm:text-sm whitespace-no-wrap text-gray">
+                {value.orderId}
               </h5>
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
               <h5 className="sm:font-semibold  font-semibold   text-xs    sm:text-sm   whitespace-no-wrap text-gray">
-                {value.Customer}
+                {value.customerName}
               </h5>
 
-              <p className="text-xs   sm:text-sm sm:font-normal font-light        text-gray">
-                {value.subtitle}
-              </p>
+              <p className="text-xs   sm:text-sm sm:font-normal font-light        text-gray"></p>
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
               <h5 className="sm:font-normal font-light    text-xs sm:text-sm   whitespace-no-wrap text-gray">
-                {value.Amount}
+                {value.payAmountLong}
               </h5>
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
               <h5 className="sm:font-normal   text-xs sm:text-sm whitespace-no-wrap text-gray">
-                {value.DeliveryDate}
+                {formatDate(value.orderEntryDate)}
               </h5>
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
-              {value.Status}
+              {value.orderStatus}
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
-              <a className="no-underline" href="#">
-                <div>
-                  {/* <h6 className="text-darkGreen">Review order</h6> */}
-
-                  {value.ActionRequired}
-                </div>
-              </a>
+              <div>
+                <span
+                  onClick={() => handleClick(value.orderId)}
+                  className="border-darkGreen text-darkGreen border rounded w-32    h-10    flex justify-center items-center text-base  font-medium"
+                >
+                  Review Order
+                </span>
+              </div>
             </td>
           </tr>
         );

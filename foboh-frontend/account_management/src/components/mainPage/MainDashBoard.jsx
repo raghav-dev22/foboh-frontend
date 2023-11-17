@@ -9,9 +9,13 @@ import "chart.js/auto";
 // import StockDetails from '../mainDashboard/StockDetails';
 import SignupModel from "../../modal/SignupModel";
 import { stockQuantity } from "../../helpers/stockQuantity";
+import { useMutation } from "react-query";
+import { getAllOrders } from "../../helpers/dashboardApiModule";
+
 function MainDashBoard() {
   const [show, setShow] = useState(false);
   const [stock, setStock] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]);
   const [stockCount, setStockCount] = useState({
     lowStock: 0,
     outOfStock: 0,
@@ -25,6 +29,14 @@ function MainDashBoard() {
   const monthlyDeliveryData = [12, 19, 3, 5, 2, 7, 9, 5];
   const weeklyDeliveryData = [40, 70, 50, 60, 75, 65, 55, 65];
   const [selectedOption, setSelectedOption] = useState(graphOption[0]);
+
+  const { mutate } = useMutation(getAllOrders, {
+    onSuccess: (data) => {
+      console.log("filtered order data", data);
+      setOrderDetails(data);
+    },
+  });
+
   const data = {
     labels:
       selectedOption.value === "monthly"
@@ -112,8 +124,47 @@ function MainDashBoard() {
   const handleOptionChange = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
+  function getTodayAndPast30Days() {
+    const today = new Date();
+
+    // Get the date 30 days ago
+    const past30Days = new Date();
+    past30Days.setDate(today.getDate() - 30);
+
+    // Format the dates as strings
+    const formattedToday = formatDate(today);
+    const formattedPast30Days = formatDate(past30Days);
+
+    // Return an object with both dates
+    return {
+      today: formattedToday,
+      past30Days: formattedPast30Days,
+    };
+  }
+  function formatDate(date) {
+    const isoString = date.toISOString();
+    return isoString.slice(0, 23) + "Z";
+  }
+  const dates = getTodayAndPast30Days();
 
   useEffect(() => {
+    mutate({
+      filter: {
+        searchByValue: "",
+        region: [],
+        orderStatus: ["New", "Pending"],
+        orderEntryDate: dates.past30Days,
+        OrderFilterEndDate: dates.today,
+        customeDate: "",
+        page: 0,
+        pagination: false,
+      },
+      sort: {
+        sortBy: "",
+        sortOrder: "",
+      },
+    });
+
     const popValue = localStorage.getItem("loginPopup");
     if (popValue === "true") {
       setShow(true);
@@ -194,7 +245,7 @@ function MainDashBoard() {
           </div>
         </div>
         <div className="box-3 pt-6 px-6 ">
-          <ActiveOrder />
+          <ActiveOrder mutate={mutate} />
         </div>
         <div className="box-4 pt-6 px-6">
           <div className=" rounded-md	 border border-inherit bg-white overflow-x-scroll	">
@@ -223,7 +274,7 @@ function MainDashBoard() {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {/* <OrderDetails /> */}
-                <OrderDetails />
+                <OrderDetails orderDetails={orderDetails} />
               </tbody>
             </table>
           </div>
