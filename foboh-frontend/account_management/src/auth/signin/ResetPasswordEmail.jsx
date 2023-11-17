@@ -11,7 +11,7 @@ const initialValues = {
 const ResetPasswordEmail = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const SMTP_URL = process.env.REACT_APP_SMTP_URL;
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -34,26 +34,23 @@ const ResetPasswordEmail = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          
+
           if (data.value) {
             if (data.value.length > 0) {
               const userName = data.value[0].displayName;
               localStorage.setItem("userName", userName);
 
-              fetch(
-                `${SMTP_URL}`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    to: values.email,
-                    mailtype: "oms-passwordreset",
-                    name: userName,
-                  }),
-                }
-              )
+              fetch(`${SMTP_URL}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  to: values.email,
+                  mailtype: "oms-passwordreset",
+                  name: userName,
+                }),
+              })
                 .then((response) => response.json())
                 .then((data) => {
                   setIsLoading(false);
@@ -62,8 +59,8 @@ const ResetPasswordEmail = () => {
                 })
                 .catch((error) => console.log(error));
             } else {
-              setError(true)
-              setIsLoading(false)
+              setError(true);
+              setIsLoading(false);
             }
           }
         })
@@ -128,11 +125,11 @@ const ResetPasswordEmail = () => {
               {errors.email && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
               )}
-              {
-                error && (
-                  <p className="mt-2 mb-2 text-red-500">User not present with this email. Please sign up.</p>
-                )
-              }
+              {error && (
+                <p className="mt-2 mb-2 text-red-500">
+                  User not present with this email. Please sign up.
+                </p>
+              )}
             </div>
 
             {isLoading ? (

@@ -68,10 +68,6 @@ const Order = () => {
       content: error,
     });
   };
-  
-  if (cartError) {
-    error(cartError);
-  }
 
   // Fetching cart data
   const {
@@ -81,6 +77,9 @@ const Order = () => {
     refetch: cartRefetch,
   } = useQuery("getCartApi", getCart);
 
+  if (cartError) {
+    error(cartError);
+  }
 
   // Calculating cart
   const [gst, wet, subtotal, total] = useMemo(() => {
@@ -150,13 +149,16 @@ const Order = () => {
                     </h4>
 
                     <h4 className=" text-base text-[#2B4447] font-semibold">
-                      {item.product?.globalPrice}
+                      ${item.product?.globalPrice}.00
                     </h4>
                   </div>
 
                   <div className="">
-                    <p className="text-sm font-medium text-[#637381]">
+                    {/* <p className="text-sm font-medium text-[#637381]">
                       Quantity - {item?.quantity}
+                    </p> */}
+                    <p className="text-sm font-medium text-[#637381]">
+                      {item?.product?.configuration}
                     </p>
                   </div>
                 </div>
@@ -182,7 +184,7 @@ const Order = () => {
         </>
       )}
 
-      <div className="pt-5">
+      <div className="pt-5 hidden">
         <h4 className="text-lg font-semibold text-[#2B4447]">
           Promotional Code
         </h4>
@@ -215,12 +217,12 @@ const Order = () => {
           <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
           <h5 className="text-sm font-medium text-[#2B4447]">${subtotal}</h5>
         </div>
-        <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+        {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
           <h5 className="text-sm font-medium text-[#2B4447]">
             Shipping estimate
           </h5>
           <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
-        </div>
+        </div> */}
         {wet > 0 && (
           <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>

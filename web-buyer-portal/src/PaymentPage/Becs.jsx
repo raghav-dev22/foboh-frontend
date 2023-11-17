@@ -55,7 +55,7 @@ const Becs = ({ cardHolderName, setCardHolderName, email, setEmail }) => {
               placeholder="Name"
               value={cardHolderName}
               autoComplete="on"
-              style={{ background: "#F8F8F8" }}
+              // style={{ background: "#F8F8F8" }}
             />
           </div>
           <div
@@ -76,7 +76,7 @@ const Becs = ({ cardHolderName, setCardHolderName, email, setEmail }) => {
               placeholder="Email"
               autoComplete="on"
               value={email}
-              style={{ background: "#F8F8F8" }}
+              // style={{ background: "#F8F8F8" }}
             />
           </div>
         </div>

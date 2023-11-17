@@ -19,6 +19,7 @@ const Cart = ({ open, onClose, addCart }) => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const { token } = useToken();
   const CARTdata = useSelector((items) => items.cart);
+
   const navigate = useNavigate();
 
   const warning = () => {
@@ -125,7 +126,7 @@ const Cart = ({ open, onClose, addCart }) => {
         onClose={onClose}
         // onBlur={onClose}
       >
-        <div className="fixed inset-0 z-10 " />
+        <div className="fixed inset-0 z-50 bg-[#00000024] backdrop-blur-[1px]" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-[#0000002e]  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="fixed inset-y-0 right-0 z-10 w-10/12	 overflow-y-auto bg-white  py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between px-4">
@@ -146,9 +147,24 @@ const Cart = ({ open, onClose, addCart }) => {
             </div>
             <div className="mx-5 mt-6">
               {CARTdata.length === 0 ? (
-                <h5 className="text-sm font-bold text-center  pt-8  flow-root border-t border-[#CDCED6] ">
-                  Your cart is empty.
-                </h5>
+                <>
+                  <h5 className="text-sm font-bold text-center  pt-8  flow-root border-t border-[#CDCED6] ">
+                    Your cart is empty.
+                  </h5>
+                  <div className="flex justify-center pt-8 px-6">
+                    <button
+                      onClick={() => {
+                        navigate("/home/product-list");
+                      }}
+                      style={{ backgroundColor: token.buttonThemeColor }}
+                      className="bg-[#563FE3] cursor-pointer rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
+                    >
+                      <h4 className="text-base font-medium text-[#fff]">
+                        Explore all products
+                      </h4>
+                    </button>
+                  </div>
+                </>
               ) : (
                 <>
                   {CARTdata.map((item, index) => {
@@ -177,16 +193,16 @@ const Cart = ({ open, onClose, addCart }) => {
                                     maxWidth: "25ch",
                                   }}
                                 >
-                                  {item.product?.description}
+                                  {item.product?.configuration}
                                 </p>
                               </div>
                               <div className="flex justify-between items-center">
                                 <h5 className="text-sm font-bold">
                                   {" "}
-                                  ${item?.product?.globalPrice}
+                                  ${item?.product?.globalPrice}.00
                                 </h5>
                                 <p className=" text-[#666666] text-xs mx-3">
-                                  Qty-{item.quantity}
+                                  Qty:{item.quantity}
                                 </p>
                               </div>
                             </div>
@@ -204,27 +220,29 @@ const Cart = ({ open, onClose, addCart }) => {
                             <DeleteIcon style={{ fill: "#fff" }} />
                           </button>
                         </div>
+                        <div className="flex justify-between pt-8 ">
+                          <Link to="/home/cart">
+                            <button className="border cursor-pointer border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] active:bg-slate-200 focus:outline-none focus:ring focus:ring-slate-200">
+                              <h4 className="text-base font-medium text-[#637381]">
+                                View Cart
+                              </h4>
+                            </button>
+                          </Link>
+                          <button
+                            onClick={handleCheckout}
+                            style={{ backgroundColor: token.buttonThemeColor }}
+                            className="bg-[#563FE3] cursor-pointer rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
+                          >
+                            <h4 className="text-base font-medium text-[#fff]">
+                              Checkout
+                            </h4>
+                          </button>
+                        </div>
                       </>
                     );
                   })}
                 </>
               )}
-            </div>
-            <div className="flex justify-between pt-8 px-6">
-              <Link to="/home/cart">
-                <button className="border cursor-pointer border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] active:bg-slate-200 focus:outline-none focus:ring focus:ring-slate-200">
-                  <h4 className="text-base font-medium text-[#637381]">
-                    View Cart
-                  </h4>
-                </button>
-              </Link>
-              <button
-                onClick={handleCheckout}
-                style={{ backgroundColor: token.buttonThemeColor }}
-                className="bg-[#563FE3] cursor-pointer rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
-              >
-                <h4 className="text-base font-medium text-[#fff]">Checkout</h4>
-              </button>
             </div>
           </div>
         </Dialog.Panel>

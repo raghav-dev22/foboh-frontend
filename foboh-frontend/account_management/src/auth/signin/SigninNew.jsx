@@ -32,7 +32,7 @@ const SigninNew = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const authUrl = process.env.REACT_APP_AUTH_URL
+  const authUrl = process.env.REACT_APP_AUTH_URL;
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
@@ -277,7 +277,7 @@ const SigninNew = () => {
                       htmlFor="password"
                       className="text-base font-normal text-[#2B4447]"
                     >
-                      Your Password
+                      Your password
                     </label>
                     <div className="inset-y-0 right-0 flex items-center">
                       <input
@@ -401,14 +401,13 @@ const SigninNew = () => {
                     </button>
                   )}
 
-                  {/* Divider  */}
                   <div className="my-2 flex items-center before:mt-1 before:flex-1 before:border-t before:border-[#E9EDF4] after:mt-1 after:flex-1 after:border-t after:border-[##E9EDF4]">
                     <p className="mx-4  my-5 text-center  text-[#637381] font-inter text-lg">
                       Or continue with
                     </p>
                   </div>
 
-                  {/* Social login buttons  */}
+            
                   <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-center justify-center">
                     <div id="signInDiv"></div>
                   </div>

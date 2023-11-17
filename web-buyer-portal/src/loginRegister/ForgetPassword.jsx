@@ -34,7 +34,6 @@ const ForgetPassword = () => {
               localStorage.setItem("firstName", firstName);
               localStorage.setItem("buyerEmail", values?.email);
 
-
               sendVerificationMail(businessName);
             } else {
               setIsValidBuyer(false);

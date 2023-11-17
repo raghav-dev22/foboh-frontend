@@ -114,7 +114,7 @@ function Signup() {
       <div className=" md:bg-[#F8FAFC]  w-full flex items-center justify-center  h-full">
         <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
           <div className="w-full lg:scale-90">
-            <div className="flex flex-col md:flex-row md:justify-center bg-white md:gap-12  ">
+            <div className="flex flex-col md:flex-row md:justify-center bg-white md:gap-12 items-center ">
               <div className="    block md:hidden">
                 <img
                   src="/assets/supplier-logo.png"
@@ -249,7 +249,7 @@ function Signup() {
                         {!errors.password && values.password && (
                           <TaskAltOutlinedIcon className=" text-green-500  transition-all duration-[0.3s]" />
                         )}
-                        <p className="mt-2 mb-2 text-green-500">
+                        <p className="mt-2 mb-2 text-green-500 ">
                           Your password is strong.
                         </p>
                       </div>
@@ -262,7 +262,7 @@ function Signup() {
                     )}
 
                     {errors.password && touched.password && (
-                      <p className="mt-2 mb-2 text-red-500">
+                      <p className="mt-2 mb-2 text-red-500 text-xs">
                         {errors.password}
                       </p>
                     )}
@@ -273,7 +273,7 @@ function Signup() {
                   </div>
                   {/* Remember me checkbox  */}
                   <div className="mb-6 flex items-center justify-between">
-                    <div className=" flex items-center">
+                    <div className=" flex items-center green-checkbox">
                       <input
                         id="default-checkbox"
                         type="checkbox"
@@ -311,19 +311,18 @@ function Signup() {
                   {/* </Link> */}
 
                   {/* Divider  */}
-                  <div className="my-2 flex items-center before:mt-1 before:flex-1 before:border-t before:border-[#E9EDF4] after:mt-1 after:flex-1 after:border-t after:border-[##E9EDF4]">
+                  {/* <div className="my-2 flex items-center before:mt-1 before:flex-1 before:border-t before:border-[#E9EDF4] after:mt-1 after:flex-1 after:border-t after:border-[##E9EDF4]">
                     <p className="mx-4  my-5 text-center  text-[#637381] font-inter font-normal md:text-sm text-xs">
                       Or continue with
                     </p>
-                  </div>
+                  </div> */}
 
                   {/* Social login buttons  */}
-                  <div className="flex justify-center items-center">
+                  {/* <div className="flex justify-center items-center">
                     <div className="googleBtn">
-                      {/* <img src="/assets/googleBtn.png" alt="" /> */}
                       <div id="signInDiv"></div>
                     </div>
-                  </div>
+                  </div> */}
                 </form>
               </div>
               <div className="  md:basis-1/2  hidden md:block ">

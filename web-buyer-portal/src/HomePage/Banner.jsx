@@ -1,10 +1,12 @@
 import { theme } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Banner() {
   const buyer = useSelector((state) => state.buyer);
   const organisation = useSelector((state) => state.organisation);
+  const navigate = useNavigate();
 
   const { useToken } = theme;
   const { token } = useToken();
@@ -34,6 +36,9 @@ function Banner() {
             </p>
             <div className="mt-2 text-center xl:text-start md:text-start">
               <button
+                onClick={() => {
+                  navigate("/home/product-list");
+                }}
                 style={{ backgroundColor: token.buttonThemeColor }}
                 className=" bg-[#fff] xl:bg-[#563FE3] md:bg-[#563FE3] py-2.5	px-7	rounded-3xl"
               >
