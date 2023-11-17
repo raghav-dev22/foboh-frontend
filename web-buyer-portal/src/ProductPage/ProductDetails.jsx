@@ -22,6 +22,7 @@ const ProductDetails = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const productData = products.find((item) => item?.product?.productId === +id);
   const dispatch = useDispatch();
+  let selectedpic = "";
 
   // const addCart = (product) => {
   //   dispatch(add(product));
@@ -34,6 +35,9 @@ const ProductDetails = () => {
     `${selectData?.product?.productImageUrls}`,
     // Add more image URLs here
   ];
+
+  console.log(images[0], "selceted image");
+
   console.log(selectData, "selectData------------------------->");
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -70,7 +74,7 @@ const ProductDetails = () => {
       })
       .then((data) => {
         console.log("product detail", data);
-
+        setSelectedImage(data?.data[0]?.productImageUrls[0]);
         setSelectData({
           product: data.data[0],
           quantity: 1,
@@ -198,7 +202,7 @@ const ProductDetails = () => {
               )}
 
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
-                {images.map((image, index) => (
+                {selectData?.product?.productImageUrls?.map((image, index) => (
                   <div className=" rounded-md h-[99px] flex justify-center  relative">
                     {/* <div className="absolute top-[5px] right-[5px] bg-white rounded-full h-[20px] w-[20px] flex justify-center items-center">
                       <FavoriteBorderRoundedIcon

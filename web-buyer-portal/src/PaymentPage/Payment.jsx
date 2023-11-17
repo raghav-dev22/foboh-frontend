@@ -121,8 +121,8 @@ const Payment = () => {
   const payBtn = () => {
     navigate("home/order-confirm");
   };
-  const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
-  console.log(EditDeliveryVal, "EditDeliveryVal");
+  // const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
+  // console.log(EditDeliveryVal, "EditDeliveryVal");
   const [activeKey, setActiveKey] = useState("1");
   const [editDelivery, setEditDelivery] = useState(false);
   const handleTabChange = (key) => {
@@ -151,7 +151,7 @@ const Payment = () => {
       duration: 4,
     });
   };
-
+  console.log(buyer, "buyesrinformation");
   let billingAddress = {};
 
   const countDown = () => {
@@ -237,6 +237,9 @@ const Payment = () => {
     setTransfer(false);
     setIsCheckedTransfer(false);
     setIsChecked(true);
+  };
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
   };
 
   const openTransfer = () => {
@@ -449,9 +452,8 @@ const Payment = () => {
                     </button>
                   </div>
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {EditDeliveryVal?.Apartment},{EditDeliveryVal?.Address},
-                    {/* {EditDeliveryVal?.State}  */}
-                    {EditDeliveryVal?.Postcode},{/* {EditDeliveryVal?.City} */}
+                    {`${buyer?.apartment}, ${buyer?.deliveryAddress}, ${buyer?.suburb}, ${buyer?.deliveryAddressState} ${buyer?.postcode}`}
+                    Australia
                   </p>
 
                   <div className="flex items-center gap-1">
@@ -491,7 +493,7 @@ const Payment = () => {
                       </g>
                     </svg>
                     <p className="text-base font-normal text-[#2B4447] my-1">
-                      {EditDeliveryVal?.DeliveryInstruction}
+                      {buyer?.notes}
                     </p>
                   </div>
                 </>
@@ -624,7 +626,11 @@ const Payment = () => {
                 <TabPane
                   tab={
                     <div
-                      onClick={() => setSelectedPaymentTerm("Pay Now")}
+                      onClick={() => {
+                        setSelectedPaymentTerm("Pay Now");
+                        setIsChecked(true);
+                        setCardDetails(true);
+                      }}
                       className={`  rounded-md w-[175px] py-[18px]`}
                       style={{
                         background:
@@ -688,6 +694,7 @@ const Payment = () => {
                               boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
                             }}
                             checked={isChecked}
+                            onChange={handleCheckboxChange}
                           />
                         </div>
                         <label
