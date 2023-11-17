@@ -185,7 +185,7 @@ const ProductDetails = () => {
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
               {selectedImage && (
-                <div className=" flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md">
+                <div className=" py-2 flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md">
                   {/* <div className="absolute top-[10px] right-[10px] bg-white rounded-full h-[30px] w-[30px] flex justify-center items-center">
                     <FavoriteBorderRoundedIcon className="" />
                   </div> */}
@@ -199,7 +199,7 @@ const ProductDetails = () => {
 
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
                 {images.map((image, index) => (
-                  <div className=" rounded-md h-[99px] flex justify-center  relative w-full border border-[#0000002e] shadow-custom">
+                  <div className=" rounded-md h-[99px] py-2 flex justify-center  relative w-full border border-[#0000002e] shadow-custom">
                     {/* <div className="absolute top-[5px] right-[5px] bg-white rounded-full h-[20px] w-[20px] flex justify-center items-center">
                       <FavoriteBorderRoundedIcon
                         className=""
