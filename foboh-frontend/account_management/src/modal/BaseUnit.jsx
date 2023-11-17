@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal } from "antd";
+import CloseIcon from "@mui/icons-material/Close";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import { Select } from "antd";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
@@ -38,15 +39,25 @@ const BaseUnit = ({
 
   const success = (message) => {
     messageApi.open({
-      type: "success",
-      content: message,
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+      className: "custom-class",
     });
   };
 
   const error = (message) => {
     messageApi.open({
-      type: "error",
-      content: message,
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+      className: "custom-class",
     });
   };
 

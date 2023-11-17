@@ -6,6 +6,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CloseIcon from "@mui/icons-material/Close";
 import { postInnerUnitMeasure } from "../helpers/postInnerUnitMeasure";
 import { message } from "antd";
 import { getInnerUnitMeasureList } from "../helpers/getUnitOfMeasures";
@@ -51,15 +52,25 @@ const InnerUnit = ({
 
   const success = (message) => {
     messageApi.open({
-      type: "success",
-      content: message,
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+      className: "custom-class",
     });
   };
 
   const error = (message) => {
     messageApi.open({
-      type: "error",
-      content: message,
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+      className: "custom-class",
     });
   };
 

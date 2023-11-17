@@ -63,7 +63,7 @@ const CartPage = () => {
     error: cartError,
     refetch: cartRefetch,
   } = useQuery("getCartApi", getCart);
-
+  console.log(cart, "cart...............................>");
   // Calculating cart
   const [lucUnit, gst, wet, subtotal, total] = useMemo(() => {
     const calculationResult = getCalculations(cartData);
@@ -255,7 +255,7 @@ const CartPage = () => {
             />
           </div>
         </div>
-        <div className="flex  justify-between flex-wrap md:px-0 px-6 overflow-scroll">
+        <div className="flex  justify-between flex-wrap md:px-0 px-6 overflow-scroll pb-10">
           <div className="lg:w-[60%] w-full overflow-scroll  mb-[2rem]">
             {cart.length === 0 ? (
               <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
@@ -265,11 +265,11 @@ const CartPage = () => {
               <>
                 {cart.map((item, index) => (
                   <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
-                    <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
+                    <div className="w-[150px] rounded-md h-[160px] bg-[#c3c3c3]">
                       <img
                         src={item.product?.productImageUrls}
                         alt=""
-                        className="w-[150px] h-[100px]  object-cover	rounded-md"
+                        className="w-[150px] h-[160px]  object-cover	rounded-md"
                       />
                     </div>
                     <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">
@@ -292,6 +292,7 @@ const CartPage = () => {
                               >
                                 -
                               </p>
+                              {item?.quantity}
                               <p
                                 className="text-[#637381] cursor-pointer "
                                 onClick={() =>
@@ -307,13 +308,18 @@ const CartPage = () => {
                             </div>
                           </div>
                           <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
-                            ${item.product?.globalPrice}
+                            ${item.product?.globalPrice}.00
                           </h4>
                         </div>
 
+                        <div className="mb-2">
+                          <p className="text-base font-medium text-[#637381]">
+                            {item?.product?.configuration}
+                          </p>
+                        </div>
                         <div className="">
                           <p className="text-base font-medium text-[#637381]">
-                            Quantity - {item?.quantity}
+                            ${item?.product?.globalPrice}.00
                           </p>
                         </div>
                       </div>

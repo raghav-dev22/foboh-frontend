@@ -70,7 +70,7 @@ function verifyPassword() {
                 <div className="flex flex-col gap-4">
                   <p className="text-center 	">
                     <span className="font-bold">Too late? </span>
-                    You can request another password reset here.{" "}<br />
+                    You can request another password reset here. <br />
                     <span
                       onClick={handleResendLink}
                       className="font-semibold text-base cursor-pointer	text-[#563FE3]"

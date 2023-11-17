@@ -67,7 +67,7 @@ function Login() {
     <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center h-full">
       <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
         <div className="w-full lg:scale-90">
-          <div className="flex flex-col md:flex-row md:justify-center bg-white md:gap-12  ">
+          <div className="flex flex-col md:flex-row md:justify-center bg-white md:gap-12 items-center ">
             <div className="    block md:hidden">
               <img
                 src="/assets/supplier-logo.png"
@@ -170,7 +170,7 @@ function Login() {
 
                 {/* Remember me checkbox  */}
                 <div className="mb-6 flex items-center justify-between">
-                  <div className=" flex items-center">
+                  <div className=" flex items-center green-checkbox">
                     <input
                       id="default-checkbox"
                       type="checkbox"

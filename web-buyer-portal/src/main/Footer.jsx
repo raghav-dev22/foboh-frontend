@@ -10,6 +10,11 @@ function Footer() {
   const organisation = useSelector((state) => state.organisation);
   const { useToken } = theme;
   const { token } = useToken();
+  const buyer = useSelector((state) => state.buyer);
+  console.log(
+    buyer,
+    "buyer=====================================================>"
+  );
 
   return (
     <>
@@ -43,14 +48,16 @@ function Footer() {
 
         <div className="">
           <p className="font-[500] text-sm text-white mb-5">Contact us</p>
-          <p className="font-normal text-sm mb-5 text-[#fff]">0400 000 000</p>
+          <p className="font-normal text-sm mb-5 text-[#fff]">
+            {buyer?.orderingContactMobile || ["0400 000 000"]}
+          </p>
           <p className="font-normal text-sm text-[#fff] mb-5">
-            help@logoipsum.com
+            {buyer?.orderingContactEmail || ["help@logoipsum.com"]}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 lg:justify-between sm:justify-start md:gap-0 gap-5 lg:items-center items-start lg:mt-5 mt-0">
-          <div className="flex  gap-3   items-end">
+        <div className="grid lg:grid-cols-1 lg:justify-between sm:justify-start md:gap-0 gap-5 lg:items-center items-start lg:mt-5 mt-0">
+          {/* <div className="flex  gap-3   items-end">
             <div
               style={{ background: token.bannerThemeColor }}
               className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon"
@@ -69,7 +76,7 @@ function Footer() {
             >
               <YouTubeIcon />
             </div>
-          </div>
+          </div> */}
 
           <div className="text-start md:text-start xl:text-center">
             <p className="text-sm font-bold text-[#fff]">
@@ -80,13 +87,13 @@ function Footer() {
               Liquor Licence: LIQP770016926
             </p>
           </div>
-          <div className="md:flex  md:justify-center justify-start items-center lg:gap-16 gap-5 relative">
+          {/* <div className="md:flex  md:justify-center justify-start items-center lg:gap-16 gap-5 relative">
             <div className="h-5	w-px	 bg-white absolute top-0 left-[42%] md:block hidden"></div>
             <p className="text-white text-sm font-bold">Privacy Policy</p>
             <p className="text-white text-sm font-bold md:mt-0 mt-3">
               Terms and Conditions
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

@@ -142,7 +142,7 @@ select {
   font-weight: 700;
 }
 .top-rated-section .Carousel__Container-sc-hyhecw-0 {
-  padding-bottom: 135px;
+  padding-bottom: 160px;
 }
 .top-rated-section .dZkckO:hover,
 .top-rated-section .bBfHpH:hover {
@@ -341,7 +341,8 @@ select {
 }
 .ant-pagination {
   justify-content: center !important;
-  margin-top: 40px !important;
+  margin-top: 60px !important;
+  margin-bottom: 23px !important;
 }
 
 .ant-steps-item-tail {
@@ -676,7 +677,7 @@ select {
 
   line-height: 20px;
 
-  color: #147d73;
+  color: #563fe3;
 }
 .text-white {
   --tw-text-opacity: 1;

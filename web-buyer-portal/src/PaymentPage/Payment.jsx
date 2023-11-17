@@ -104,7 +104,7 @@ const Payment = () => {
       value: "BECS",
       label: (
         <h5 className=" text-base font-medium text-[#637381] py-1">
-          BECS (Direct Deposit)
+          BECS (Direct Debit)
         </h5>
       ),
     },
@@ -143,7 +143,7 @@ const Payment = () => {
   const [messageApi] = message.useMessage();
   const [modal, contextHolder] = Modal.useModal();
   const [loading, setLoading] = useState(false);
-
+  console.log(buyer, "buyer-----------------------");
   const errorMessage = (error) => {
     messageApi.open({
       type: "error",
@@ -402,14 +402,17 @@ const Payment = () => {
                     </button>
                     {/* </Link> */}
                   </div>
+
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {buyer?.apartment}
+                    {buyer?.deliveryContactFirstName}{" "}
+                    {buyer?.deliveryContactLastName}
+                  </p>
+
+                  <p className="text-base font-normal text-[#2B4447] my-1">
+                    {buyer?.deliveryContactEmail}
                   </p>
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {buyer?.address}
-                  </p>
-                  <p className="text-base font-normal text-[#2B4447] my-1">
-                    {buyer?.mobile}
+                    {buyer?.deliveryContactMobile}
                   </p>
                 </>
               )}
@@ -570,7 +573,7 @@ const Payment = () => {
                   <div className=" rounded-md ">
                     <label htmlFor="">
                       <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
-                        Your chosen payment term
+                        Your agreed payment term
                       </h5>
                     </label>
                     <div className="border h-[55px] rounded-lg flex items-center text-start">
@@ -582,7 +585,7 @@ const Payment = () => {
                   <div className=" rounded-md mt-4">
                     <label htmlFor="">
                       <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
-                        Your chosen payment Method
+                        Your preferred payment Method
                       </h5>
                     </label>
                     <div className="relative">

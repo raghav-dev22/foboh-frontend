@@ -25,7 +25,7 @@ const ResetPasswordForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const email = localStorage.getItem("email");
-  const authUrl = process.env.REACT_APP_AUTH_URL
+  const authUrl = process.env.REACT_APP_AUTH_URL;
 
   useEffect(() => {
     if (localStorage.getItem("uniqueKey") !== id) {
@@ -60,19 +60,16 @@ const ResetPasswordForm = () => {
       initialValues: initialValues,
       validationSchema: ResetPasswordFormSchema,
       onSubmit: (values) => {
-        fetch(
-          `${authUrl}/api/User/reset-password`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: localStorage.getItem("email"),
-              password: values.repeatPassword,
-            }),
-          }
-        )
+        fetch(`${authUrl}/api/User/reset-password`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: localStorage.getItem("email"),
+            password: values.repeatPassword,
+          }),
+        })
           .then((response) => response.json())
           .then((data) => {
             console.log(data);

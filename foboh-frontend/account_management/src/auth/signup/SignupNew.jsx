@@ -248,7 +248,7 @@ const SignupNew = () => {
                       htmlFor="password"
                       className="text-base font-normal text-[#2B4447]"
                     >
-                      Your Password
+                      Your password
                     </label>
                     <div className="inset-y-0 right-0 flex items-center">
                       <input
