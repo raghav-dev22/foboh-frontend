@@ -200,14 +200,14 @@ const FinalOrder = ({
                   ${cartCalculations?.subTotal}
                 </h5>
               </div>
-              <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+              {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#637381]">
                   Shipping estimate
                 </h5>
                 <h5 className="text-sm font-medium text-[#637381]">
                   ${shippingcharges?.price}
                 </h5>
-              </div>
+              </div> */}
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#637381]">WET</h5>
                 <h5 className="text-sm font-medium text-[#637381]">

@@ -478,3 +478,55 @@ a.foboh-green-btn:hover {
 .ant-picker-range:hover .ant-picker-clear {
   opacity: 0 !important;
 }
+.-left-\[30px\] {
+  left: -30px;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: #0000000f;
+}
+.custom-scroll-bar::-webkit-scrollbar {
+  width: 6px !important;
+  height: 10px !important;
+}
+.toggle-checkbox:checked {
+  @apply: right-0 border-green-400;
+  right: 0;
+  border-color: #147d73;
+}
+.toggle-checkbox:checked + .toggle-label {
+  @apply: bg-green-400;
+  background-color: #147d73;
+}
+.px-5 {
+  padding-left: 1.25rem /* 20px */;
+  padding-right: 1.25rem /* 20px */;
+}
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+  width: 8px !important;
+  height: 8px !important;
+  background: #7a7a7a !important;
+  border-radius: 30px !important;
+}
+.w-max {
+  width: max-content;
+}
+@media (min-width: 640px) {
+  .sm\:max-w-xl {
+    max-width: 36rem /* 576px */;
+  }
+  .sm\:w-full {
+    width: 100%;
+  }
+}
+.border-solid {
+  border: 1px solid #dadada;
+}
+
+.bg-slate-200 {
+  background-color: rgb(226 232 240);
+}
+.z-\[40\] {
+  z-index: 40;
+}

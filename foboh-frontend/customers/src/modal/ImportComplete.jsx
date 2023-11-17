@@ -10,7 +10,7 @@ function ImportComplete({ show, setShow }) {
       <Transition.Root show={show} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-[40]"
           initialFocus={cancelButtonRef}
           onClose={setShow}
         >
@@ -26,7 +26,7 @@ function ImportComplete({ show, setShow }) {
             <div className="fixed inset-0 bg-[#0000] bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
-          <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="fixed inset-0 z-[40] overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center  sm:p-0">
               <Transition.Child
                 as={Fragment}

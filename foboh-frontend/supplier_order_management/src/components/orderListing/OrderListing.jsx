@@ -298,14 +298,14 @@ const OrderListing = () => {
                     {/* ${totalCost} */}${orderAdressDetails?.totalPrice}
                   </h5>
                 </div>
-                <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                   <h5 className="text-base font-medium text-[#637381]">
                     Shipping estimate
                   </h5>
                   <h5 className="text-base font-medium text-[#637381]">
                     ${orderAdressDetails?.shippingcharges}
                   </h5>
-                </div>
+                </div> */}
                 {orderAdressDetails?.wt !== 0 && (
                   <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                     <h5 className="text-base font-medium text-[#637381]">

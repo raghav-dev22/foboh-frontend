@@ -12,7 +12,7 @@ function Footer() {
   const { token } = useToken();
   const buyer = useSelector((state) => state.buyer);
   console.log(
-    buyer,
+    organisation,
     "buyer=====================================================>"
   );
 
@@ -84,7 +84,9 @@ function Footer() {
               {organisation.businessName || "Supplier name"}
             </p>
             <p className="text-[14px] font-[400] text-[#fff] my-2">
-              Liquor Licence: LIQP770016926
+              {organisation.liquorLicense
+                ? `Liquor Licence : ${organisation.liquorLicense} `
+                : ""}
             </p>
           </div>
           {/* <div className="md:flex  md:justify-center justify-start items-center lg:gap-16 gap-5 relative">

@@ -146,16 +146,19 @@ const Order = () => {
                     </h4>
 
                     <h4 className=" text-base text-[#2B4447] font-semibold">
-                      ${item.product?.globalPrice}.00
+                      {item?.product?.globalPrice} * {item.quantity}
                     </h4>
                   </div>
 
-                  <div className="">
+                  <div className="flex justify-between w-full gap-3 ">
                     {/* <p className="text-sm font-medium text-[#637381]">
                       Quantity - {item?.quantity}
                     </p> */}
                     <p className="text-sm font-medium text-[#637381]">
                       {item?.product?.configuration}
+                    </p>
+                    <p className="text-sm font-medium text-[#637381]">
+                      ${item?.product?.globalPrice * item.quantity}.00
                     </p>
                   </div>
                 </div>

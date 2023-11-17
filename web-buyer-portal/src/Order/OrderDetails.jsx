@@ -95,7 +95,7 @@ const OrderDetails = () => {
   });
 
   // Calculating cart
-  const calculations= useMemo(() => {
+  const calculations = useMemo(() => {
     const calculationResult = getCalculations(sealedCartData);
     return calculationResult;
   }, [sealedCartData]);
@@ -208,7 +208,7 @@ const OrderDetails = () => {
       {contextHolder}
       <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
         <InvoiceModal
-        calculations={calculations}
+          calculations={calculations}
           ref={childRef}
           show={showPreview}
           setShow={setshowPreview}
@@ -393,12 +393,12 @@ const OrderDetails = () => {
                   ${calculations?.subtotal}
                 </h5>
               </div>
-              <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+              {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">
                   Shipping estimate
                 </h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
-              </div>
+              </div> */}
               {calculations?.wet > 0 && (
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                   <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>

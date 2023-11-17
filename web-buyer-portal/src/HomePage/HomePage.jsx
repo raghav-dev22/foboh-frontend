@@ -111,11 +111,12 @@ function HomePage({ setConfig }) {
       `}
       </style>
       <Header />
-      {location.pathname !== "/home/main" && (
-        <div className="md:w-4/5	w-full mx-auto md:px-0 px-6 md:flex gap-3 py-8 hidden ">
-          <Breadcrumb items={title} />
-        </div>
-      )}
+      {location.pathname !== "/home/main" &&
+        location.pathname !== "/home/order-confirm" && (
+          <div className="md:w-4/5 w-full mx-auto md:px-0 px-6 md:flex gap-3 py-8 hidden">
+            <Breadcrumb items={title} />
+          </div>
+        )}
       <Routes>
         <Route path="/main" element={<MainHomePage />} />
         <Route path="/product-list" element={<ProductList />} />

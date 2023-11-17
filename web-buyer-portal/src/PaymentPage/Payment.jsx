@@ -499,8 +499,13 @@ const Payment = () => {
                 </>
               )}
             </div>
-
-            <div className="mt-8 mb-3">
+            <div className="pb-4 pt-8">
+              <BillingAddress
+                billingAddress={billingAddress}
+                deliveryAddress={deliveryAddress}
+              />
+            </div>
+            <div className=" mb-3">
               <div className="flex items-center gap-1.5 mb-2">
                 <svg
                   width="20"
@@ -668,7 +673,7 @@ const Payment = () => {
                   key="2"
                 >
                   <h5 className="text-lg font-semibold text-[#2B4447]">
-                    Choose a Payment Period
+                    No payment period for pay now
                   </h5>
 
                   <div className="border border-[#E7E7E7] rounded-md   mt-2">
@@ -686,7 +691,7 @@ const Payment = () => {
                           <input
                             defaultChecked=""
                             id="default-radio-1"
-                            type="checkbox"
+                            type="radio"
                             defaultValue=""
                             name="default-radio"
                             className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
@@ -986,25 +991,19 @@ const Payment = () => {
               </Tabs>
               {/* <Tabs defaultActiveKey="1" items={items} onChange={onChange} /> */}
             </div>
-            {/* <button onClick={handleSubmit}>Submit</button> */}
-            <div className="py-4">
-              <BillingAddress
-                billingAddress={billingAddress}
-                deliveryAddress={deliveryAddress}
-              />
-              <div className="text-right">
-                <button
-                  onClick={handleSubmit}
-                  style={{ backgroundColor: token.buttonThemeColor }}
-                  // onClick={() => {
-                  //   payBtn();
-                  // }}
-                  className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
-                >
-                  Order Now
-                </button>
-              </div>
+            <div className="text-right">
+              <button
+                onClick={handleSubmit}
+                style={{ backgroundColor: token.buttonThemeColor }}
+                // onClick={() => {
+                //   payBtn();
+                // }}
+                className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+              >
+                Order Now
+              </button>
             </div>
+            {/* <button onClick={handleSubmit}>Submit</button> */}
           </div>
         </div>
       </Spin>

@@ -222,7 +222,8 @@ const MyOrders = () => {
     OrderID: (
       <h1
         // to={`/home/order-details/${order.orderId}`}
-        className="text-base font-medium text-[#2B4447]"
+        onClick={() => navigate(`/home/order-details/${order.orderId}`)}
+        className="text-base font-medium text-[#2B4447] cursor-pointer"
       >
         {order.orderId}
       </h1>
@@ -686,7 +687,10 @@ const MyOrders = () => {
       {contextHolder}
       <div className=" md:w-4/5 w-full mx-auto md:p-0 ">
         <div className="mb-6">
-          <h1 className="text-[28px] font-semibold text-[#2B4447] ">
+          <h1
+            className="font-bold md:text-4xl text-2xl	 text-[#563FE3] "
+            style={{ color: token.commonThemeColor }}
+          >
             My Orders
           </h1>
         </div>

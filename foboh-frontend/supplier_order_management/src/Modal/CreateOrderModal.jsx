@@ -529,7 +529,7 @@ const CreateOrderModal = ({
                   >
                     <p className=" text-sm font-normal text-white ">1</p>
                   </div>
-                  <div className="absolute -bottom-[3rem]  w-max text-center">
+                  <div className="absolute -bottom-[3rem]  w-[150px] -left-[30px] text-center">
                     <Typography
                       variant="h6"
                       color={activeStep === 0 ? "blue-gray" : "gray"}
@@ -545,7 +545,7 @@ const CreateOrderModal = ({
                   >
                     <p className=" text-sm font-normal text-white">2</p>
                   </div>
-                  <div className="absolute -bottom-[3rem]  w-max text-center">
+                  <div className="absolute -bottom-[3rem]  w-[150px] -left-[30px] text-center">
                     <Typography
                       variant="h6"
                       color={activeStep === 1 ? "blue-gray" : "gray"}
@@ -561,7 +561,7 @@ const CreateOrderModal = ({
                   >
                     <p className=" text-sm font-normal text-white">3</p>
                   </div>
-                  <div className="absolute -bottom-[3rem]  w-max text-center">
+                  <div className="absolute -bottom-[3rem]  w-[200px] -left-[30px] text-center">
                     <Typography
                       variant="h6"
                       color={activeStep === 2 ? "blue-gray" : "gray"}
@@ -578,7 +578,7 @@ const CreateOrderModal = ({
                   >
                     <p className=" text-sm font-normal text-white">4</p>
                   </div>
-                  <div className="absolute -bottom-[3rem]  w-max text-center">
+                  <div className="absolute -bottom-[3rem] w-[150px] -left-[30px] text-center">
                     <Typography
                       variant="h6"
                       color={activeStep === 3 ? "blue-gray" : "gray"}
@@ -597,7 +597,7 @@ const CreateOrderModal = ({
                         <h5 className="text-[24px] font-bold text-[#212B36] mb-5">
                           {customerDetails?.businessName}
                         </h5>
-                        <div className="h-[300px] overflow-y-scroll">
+                        <div className="h-[300px] overflow-y-auto custom-scroll-bar">
                           <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
                             {editDeliveryContact ? (
                               <DeliveryContactForm
@@ -815,9 +815,8 @@ const CreateOrderModal = ({
                       <div
                         style={{
                           maxHeight: "465px",
-                          overflowY: "scroll",
                         }}
-                        className="max-h-[465px] overflow-y-scroll"
+                        className="max-h-[465px] overflow-y-auto custom-scroll-bar "
                       >
                         {cart?.length === 0 ? (
                           <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
@@ -930,7 +929,7 @@ const CreateOrderModal = ({
                 onClick={handleNext}
                 onCancel={handleCancel}
                 // disabled={isLastStep}
-                className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
+                className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-fit   flex justify-center items-center px-5"
               >
                 Next
               </Button>
@@ -939,7 +938,7 @@ const CreateOrderModal = ({
                 onClick={handleSubmit}
                 onCancel={handleCancel}
                 // disabled={isLastStep}
-                className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px]  flex justify-center items-center px-5"
+                className="bg-[#147D73] text-white text-base font-medium rounded-[8px]  h-[44px] w-fit  flex justify-center items-center px-5"
               >
                 Place order
               </Button>

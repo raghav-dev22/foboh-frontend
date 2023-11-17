@@ -308,7 +308,7 @@ const CartPage = () => {
                             </div>
                           </div>
                           <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
-                            ${item.product?.globalPrice}.00
+                            ${item?.product?.globalPrice * item.quantity}.00
                           </h4>
                         </div>
 
@@ -334,12 +334,14 @@ const CartPage = () => {
                             Available In Stock
                           </p>
                         </div>
-                        <p
+                        <div
+                          className="bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
                           onClick={() => removeItem(item.product?.productId)}
-                          className="text-[#DC3545] text-sm font-medium cursor-pointer"
                         >
-                          Remove
-                        </p>
+                          <p className="text-[#DC3545]  text-sm font-medium cursor-pointer">
+                            Remove
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -361,12 +363,12 @@ const CartPage = () => {
                     ${subtotal}
                   </h5>
                 </div>
-                <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+                {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                   <h5 className="text-sm font-medium text-[#2B4447]">
                     Shipping estimate
                   </h5>
                   <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
-                </div>
+                </div> */}
                 {wet > 0 && (
                   <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                     <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
