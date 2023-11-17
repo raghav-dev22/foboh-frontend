@@ -12,7 +12,7 @@ import { stockStatus } from "../helpers/stockStatusButton";
 function ProductDetails({ stock }) {
   return (
     <>
-      {stock.map((item, index) => {
+      {stock?.map((item, index) => {
         return (
           <div
             className={`flex justify-between sm:items-center items-end pb-5 productItem-${index}`}
@@ -25,11 +25,11 @@ function ProductDetails({ stock }) {
               <div className="">
                 <h5 className="sm:text-base text-sm font-medium  sm:font-semibold">
                   {" "}
-                  {item.title}
+                  {item?.title}
                 </h5>
 
                 <p className="sm:text-sm font-light text-xs     sm:font-normal  ">
-                  {item.availableQty} units remaining
+                  {item?.availableQty} units remaining
                 </p>
               </div>
             </div>

@@ -12,15 +12,20 @@ import zIndex from "@mui/material/styles/zIndex";
 import { useEffect } from "react";
 
 const InvoiceModal = forwardRef(
-  ({ show, setShow, invoiceData, invoiceDataProducts, isWine }, ref) => {
+  (
+    { show, setShow, invoiceData, invoiceDataProducts, isWine, calculations },
+    ref
+  ) => {
     const { useToken } = theme;
     const { token } = useToken();
     const cancelButtonRef = useRef(null);
     console.log(invoiceData, "ccccccccccccccc");
+    console.log("invoiceDataProducts", invoiceDataProducts);
 
     useImperativeHandle(ref, () => ({
       handlePrint(orderId) {
         console.log("print");
+        console.log("orderId", orderId);
         setTimeout(() => {
           print(`Invoice-${orderId}`, "jsx-template");
         }, 1000);
@@ -61,7 +66,7 @@ const InvoiceModal = forwardRef(
                   leaveTo="opacity-0 scale-95"
                 >
                   <Dialog.Panel className="w-fit custom-invoice-popup px-6 transform overflow-hidden md:rounded-2xl rounded-se-1xl rounded-tl-1xl	 bg-white  py-8 text-center  align-middle shadow-xl transition-all flex flex-col justify-center gap-4 relative">
-                    <Preview id={"jsx-template"}>
+                    <Preview id="jsx-template">
                       <div className="bg-white m-5">
                         <div className="flex justify-between items-center">
                           <h1
@@ -410,12 +415,12 @@ const InvoiceModal = forwardRef(
                                     <th
                                       scope="row"
                                       colspan="4"
-                                      className="neutral-slate-text text-left"
+                                      className="text-gray-900 text-left"
                                       style={{
-                                        font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                        font: "600 10px/14px 'Inter', sans-serif",
                                       }}
                                     >
-                                      Total Wholesale Price
+                                      Subtotal
                                     </th>
                                     <td
                                       className="text-neutral-slate-a-12 text-right"
@@ -423,7 +428,7 @@ const InvoiceModal = forwardRef(
                                         font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
                                       }}
                                     >
-                                      ${invoiceData?.subTotalPrice}
+                                      ${calculations?.subtotal}
                                     </td>
                                   </tr>
                                   <tr>
@@ -446,26 +451,6 @@ const InvoiceModal = forwardRef(
                                       $XX.XXX
                                     </td>
                                   </tr>
-                                  <tr>
-                                    <th
-                                      scope="row"
-                                      colspan="4"
-                                      className="text-gray-900 text-left"
-                                      style={{
-                                        font: "600 10px/14px 'Inter', sans-serif",
-                                      }}
-                                    >
-                                      Subtotal
-                                    </th>
-                                    <td
-                                      className="text-neutral-slate-a-12 text-right"
-                                      style={{
-                                        font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      ${invoiceData?.subTotalPrice}
-                                    </td>
-                                  </tr>
                                   {isWine && (
                                     <tr>
                                       <th
@@ -484,7 +469,7 @@ const InvoiceModal = forwardRef(
                                           font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
                                         }}
                                       >
-                                        ${invoiceData?.wet}
+                                        ${calculations?.wet}
                                       </td>
                                     </tr>
                                   )}
@@ -505,7 +490,7 @@ const InvoiceModal = forwardRef(
                                         font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
                                       }}
                                     >
-                                      ${invoiceData?.gst}
+                                      ${calculations?.gst}
                                     </td>
                                   </tr>
                                   <tr>
@@ -526,7 +511,7 @@ const InvoiceModal = forwardRef(
                                         font: "var(--paragraph-2-bold, 700 14px/33% 'Inter', sans-serif)",
                                       }}
                                     >
-                                      ${invoiceData?.payAmountLong}
+                                      ${calculations?.total}
                                     </td>
                                   </tr>
                                 </tbody>

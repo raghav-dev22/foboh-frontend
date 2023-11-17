@@ -13,7 +13,11 @@ import { getTrackerStatus } from "../helpers/getTrackerStatus";
 import { useMutation, useQuery } from "react-query";
 import { getCart, getSealedCart } from "../react-query/cartApiModule";
 import { useMemo } from "react";
-import { getCalculations } from "../helper/getCalculations";
+import {
+  getCalculations,
+  getInvoiceDataCalculations,
+} from "../helper/getCalculations";
+import { fetchInvoice } from "../react-query/orderApiModule";
 
 const OrderDetails = () => {
   const customDot = (dot, { status, index }) => <Popover>{dot}</Popover>;
@@ -24,12 +28,6 @@ const OrderDetails = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [currentStep, setCurrentStep] = useState(0);
   const [productList, setProductList] = useState([]);
-  const [calculations, setCalculations] = useState({
-    total: 0,
-    subTotal: 0,
-    gst: 0,
-    wet: 0,
-  });
   const { useToken } = theme;
   const { token } = useToken();
   const [isWine, setIsWine] = useState(false);
@@ -63,16 +61,33 @@ const OrderDetails = () => {
   };
 
   // Fetching cart data
-  const { mutate } = useMutation(getSealedCart, {
+  const { mutate: sealedCartMutate, data: sealedCartData } = useMutation(
+    getSealedCart,
+    {
+      onSuccess: (data) => {
+        setProductList(data);
+        const item = data[0];
+      },
+      onError: (err) => {
+        error(err);
+      },
+    }
+  );
+
+  const { mutate: invoiceMutate } = useMutation(fetchInvoice, {
     onSuccess: (data) => {
-      setProductList(data);
-      const item = data[0];
-      setCalculations({
-        wet: item?.wt,
-        gst: item?.gst,
-        subTotal: item?.totalPrice,
-        total: item?.payAmountLong,
-      });
+      const invoiceProductDataConverted = getInvoiceDataCalculations(
+        data,
+        setIsWine
+      );
+
+      if (childRef.current) {
+        childRef.current.handlePrint(data[0]?.orderId);
+      }
+      setshowPreview(true);
+      setInvoiceData(data[0]);
+      orderId = data[0]?.orderId;
+      setInvoiceDataProducts(invoiceProductDataConverted);
     },
     onError: (err) => {
       error(err);
@@ -80,9 +95,13 @@ const OrderDetails = () => {
   });
 
   // Calculating cart
+  const calculations= useMemo(() => {
+    const calculationResult = getCalculations(sealedCartData);
+    return calculationResult;
+  }, [sealedCartData]);
 
   useEffect(() => {
-    mutate(id);
+    sealedCartMutate(id);
     //Handling Stepper
     getTrackerStatus(id).then((status) => {
       console.log("getTrackerStatus", status);
@@ -117,7 +136,6 @@ const OrderDetails = () => {
   };
 
   useEffect(() => {
-    console.log(id, "testing id ");
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderDetailsByOrderId?OrderId=${id}`;
 
     fetch(apiUrl)
@@ -160,81 +178,7 @@ const OrderDetails = () => {
   };
 
   const handleInvoiceDownload = async (orderId) => {
-    const invoiceData = await fetchInvoice(orderId);
-    if (childRef.current && invoiceData) {
-      childRef.current.handlePrint(orderId);
-    }
-  };
-
-  const fetchInvoice = async (id) => {
-    const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${id}`;
-
-    const invoiceData = await fetch(apiUrl)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data.total, "data------>");
-        setshowPreview(true);
-        setInvoiceData(data.data[0]);
-        orderId = data.data[0]?.orderId;
-        setInvoiceDataProducts(
-          data.data.map((item) => {
-            let gstPerItem = 0;
-            let wetPerItem = null;
-            let amountPerItem = 0;
-
-            const salePrice = item?.globalPrice;
-            const quantity = item?.quantity;
-            const subCatId = item?.subCategoryId;
-            const gst = 0.1;
-            const wet = 0.29;
-
-            const subTotal = salePrice * quantity;
-            const subTotalGst = subTotal * gst;
-            const subTotalIncGst = subTotal + subTotalGst;
-            let subTotalWet = 0;
-            let subTotalIncWet = 0;
-
-            if (subCatId === "SC500" || subCatId === "SC5000") {
-              setIsWine(true);
-              subTotalWet = subTotal * wet;
-              subTotalIncWet = subTotal + subTotalWet;
-              wetPerItem = subTotalIncWet;
-            }
-
-            amountPerItem = subTotalIncGst;
-            gstPerItem = subTotalGst;
-
-            return {
-              totalPrice: item?.totalPrice,
-              quantity: item?.quantity,
-              cartId: item?.cartId,
-              subTotalPrice: item?.subTotalPrice,
-              shippingcharges: item?.shippingcharges,
-              gst: item?.gst,
-              wet: item?.wet,
-              productId: item?.productId,
-              skUcode: item?.skUcode,
-              configuration: item?.configuration,
-              luCcost: item?.luCcost,
-              globalPrice: item?.globalPrice,
-              title: item?.title,
-              unitofMeasure: item?.unitofMeasure,
-              amountPerItem: amountPerItem,
-              gstPerItem: gstPerItem,
-              wetPerItem: wetPerItem,
-            };
-          })
-        );
-      })
-      .then(() => {
-        return true;
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
-    return invoiceData;
+    invoiceMutate(orderId);
   };
 
   const formattedDate = (dateString) => {
@@ -264,6 +208,7 @@ const OrderDetails = () => {
       {contextHolder}
       <div className="md:w-4/5	w-full  p-6  mx-auto md:p-0 ">
         <InvoiceModal
+        calculations={calculations}
           ref={childRef}
           show={showPreview}
           setShow={setshowPreview}
@@ -407,7 +352,7 @@ const OrderDetails = () => {
                           Quantity - {item?.quantity}
                         </p>
                         <h4 className=" text-base text-[#2B4447] font-semibold">
-                          ${item?.buyPrice}
+                          ${item?.globalPrice}
                         </h4>
                       </div>
                     </div>
@@ -445,7 +390,7 @@ const OrderDetails = () => {
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
                 <h5 className="text-sm font-medium text-[#2B4447]">
-                  ${calculations?.subTotal}
+                  ${calculations?.subtotal}
                 </h5>
               </div>
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">

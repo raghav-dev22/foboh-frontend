@@ -65,7 +65,7 @@ const CartPage = () => {
   } = useQuery("getCartApi", getCart);
 
   // Calculating cart
-  const [gst, wet, subtotal, total] = useMemo(() => {
+  const [lucUnit, gst, wet, subtotal, total] = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
   }, [cartData]);

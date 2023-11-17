@@ -201,8 +201,6 @@ const BankingInformation = () => {
     const auBankAccount = elements.getElement(AuBankAccountElement);
     console.log("auBankAccount", auBankAccount);
 
-    
-
     return true;
 
     if (isValid) {

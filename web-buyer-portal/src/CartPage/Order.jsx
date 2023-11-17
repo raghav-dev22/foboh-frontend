@@ -17,9 +17,7 @@ const Order = () => {
   const { useToken } = theme;
   const { token } = useToken();
   const [show, setShow] = useState(false);
-  const [addCart, setAddCart] = useState([]);
   const [promoCode, setPromoCode] = useState("");
-  const [isWineSubcat, setIsWineSubcat] = useState(false);
   const [applied, setApplied] = useState(false);
   const [bg, setBg] = useState(false);
   const [color, setColor] = useState();
@@ -68,7 +66,7 @@ const Order = () => {
       content: error,
     });
   };
-  
+
   if (cartError) {
     error(cartError);
   }
@@ -81,9 +79,8 @@ const Order = () => {
     refetch: cartRefetch,
   } = useQuery("getCartApi", getCart);
 
-
   // Calculating cart
-  const [gst, wet, subtotal, total] = useMemo(() => {
+  const [lucUnit, gst, wet, subtotal, total] = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
   }, [cartData]);
