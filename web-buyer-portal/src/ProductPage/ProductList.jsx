@@ -1783,7 +1783,7 @@ const ProductList = () => {
                 />
               </div>
             ) : (
-              <div className="grid md:grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  md:gap-8 gap-6   ">
+              <div className="grid md:grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  md:gap-4 gap-2   ">
                 {productData.map((item, index) => (
                   <Skeleton
                     style={{ padding: "10px" }}
@@ -1791,12 +1791,12 @@ const ProductList = () => {
                     active
                     avatar
                   >
-                    <div className="">
+                    <div className="border border-[#00000021] shadow-custom p-3 rounded-md">
                       <div className=" relative">
-                        <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
+                        {/* <div className="w-[30px] h-[30px] rounded-full bg-[#fff] absolute top-[15px] right-[15px] flex justify-center items-center">
                           <FavoriteBorderIcon style={{ fill: "#2B4447" }} />
-                        </div>
-                        <div className="h-[150px] bg-[#c3c3c3]">
+                        </div> */}
+                        <div className="h-[150px]  ">
                           <img
                             src={
                               item?.product?.productImageUrls
@@ -1804,7 +1804,7 @@ const ProductList = () => {
                                 : ""
                             }
                             alt=""
-                            className="cursor-pointer w-full h-full object-cover"
+                            className="cursor-pointer w-full h-full object-contain"
                             onClick={() =>
                               navigate(
                                 `/home/product-details/${item?.product?.productId}`

@@ -170,7 +170,7 @@ function Dashboard() {
   return (
     <>
       <div className="flex flex-no-wrap">
-        <div className="w-custom-20 absolute  sm:relative border border-inherit md:h-screen overflow-y-scroll		 flex-col justify-between hidden sm:flex">
+        <div className="w-custom-20 absolute  sm:relative border border-inherit md:h-screen overflow-y-auto		 flex-col justify-between custom-scroll-bar hidden sm:flex">
           <Sidebar />
         </div>
         <div

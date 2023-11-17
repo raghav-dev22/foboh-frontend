@@ -39,7 +39,7 @@ export const stepOneSchema = Yup.object().shape({
   BusinessName: Yup.string()
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
-    .matches(/^[^\d]*$/, "Business name should not contain numbers")
+    // .matches(/^[^\d]*$/, "Business name should not contain numbers")
     .required("business name is required"),
   ABN: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
@@ -134,7 +134,7 @@ export const ProfileEditSchema = Yup.object().shape({
   BusinessName: Yup.string()
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
-    .matches(/^[^\d]*$/, "Business name should not contain numbers")
+    // .matches(/^[^\d]*$/, "Business name should not contain numbers")
     .required("business name is required"),
   ABN: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")

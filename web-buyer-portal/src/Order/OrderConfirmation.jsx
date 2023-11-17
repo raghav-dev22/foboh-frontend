@@ -108,9 +108,9 @@ const OrderConfirmation = () => {
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
         <div className="mt-10">
           <h1 className="text-[30px] font-semibold text-[#2B4447] ">
-            Thank you for your order
+            We have received your order.
           </h1>
-          <p className="text-sm font-normal mt-2 text-[#2B4447]">
+          <p className="text-sm font-normal  text-[#2B4447] mt-8 mb-12">
             Thank you for your order. We are currently in the process of
             handling it. Please be patient, and you can expect to receive a
             confirmation from us shortly!
@@ -127,7 +127,7 @@ const OrderConfirmation = () => {
           <>
             {" "}
             {CARTdata.map((item, index) => (
-              <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
+              <div className="flex justify-center items-start gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
                 <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                   <img
                     src={item?.product?.productImageUrls[0]}
@@ -136,7 +136,7 @@ const OrderConfirmation = () => {
                   />
                 </div>
 
-                <div className="flex flex-col justify-center gap-10 h-full py-3 w-full">
+                <div className="flex flex-col justify-center gap-10 h-full  w-full">
                   <div>
                     <div className="flex justify-between w-full gap-3">
                       <div className="">
@@ -147,21 +147,21 @@ const OrderConfirmation = () => {
                           {item?.product?.configuration}
                         </p>
                       </div>
-                      <p className="text-sm font-medium text-[#2B4447]">
+                      <p className="text-sm font-medium text-[#2B4447] w-[150px]">
                         Quantity - {item?.quantity}
                       </p>
-                      <h4 className=" text-base text-[#2B4447] font-semibold">
-                        ${item?.product?.globalPrice}
+                      <h4 className=" text-base text-[#2B4447] font-semibold w-[150px] text-right">
+                        ${item?.product?.globalPrice * item.quantity}.00
                       </h4>
                     </div>
                   </div>
-                  <div className="flex justify-between">
+                  {/* <div className="flex justify-between">
                     <div className="flex gap-2 items-center">
                       <p className="text-sm font-normal text-[#637381]">
                         Delivery By 14 August
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}
@@ -175,12 +175,12 @@ const OrderConfirmation = () => {
               ${calculations.subTotal}
             </h5>
           </div>
-          <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+          {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
             <h5 className="text-sm font-medium text-[#2B4447]">
               Shipping estimate
             </h5>
             <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
-          </div>
+          </div> */}
           {isWine && (
             <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
               <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
@@ -206,7 +206,7 @@ const OrderConfirmation = () => {
             </h5>
           </div>
         </div>
-        <div className="flex justify-between gap-6">
+        <div className="flex justify-between gap-6 pb-6">
           <div className="border h-[200px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
             <div className="mb-4">
               <h5 className="text-lg font-semibold text-[#2B4447] mb-1">

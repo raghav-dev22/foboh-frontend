@@ -59,7 +59,7 @@ function verifyPassword() {
                 </h2>
                 <p className="text-center">
                   Almost there! An email containing your verification link was
-                  sent to below.{" "}
+                  sent to{" "}
                   <span
                     onClick={handleEmailLink}
                     className="text-[#563FE3] cursor-pointer underline"
@@ -69,8 +69,9 @@ function verifyPassword() {
                 </p>
                 <div className="flex flex-col gap-4">
                   <p className="text-center 	">
-                    <span className="font-bold">Too late? </span>
-                    You can request another password reset here. <br />
+                    <span className="font-bold">Didn’t receive an email ?</span>
+                    please double check that you entered the correct email
+                    address and check your spam folder Still no luck <br />
                     <span
                       onClick={handleResendLink}
                       className="font-semibold text-base cursor-pointer	text-[#563FE3]"
@@ -80,16 +81,11 @@ function verifyPassword() {
                   </p>
                   <p className="text-center 	">
                     <span className="font-bold">
-                      Didn’t request this email?{" "}
+                      Having trouble?{" "}
+                      <Link to="#" className="font-bold text-[#563FE3]">
+                        Let us help
+                      </Link>
                     </span>
-                    You don’t need to do anything, your password will remain the
-                    same.
-                  </p>
-                  <p className="text-center 	">
-                    <span className="font-bold">Having trouble?</span>
-                    <Link to="#" className="font-bold text-[#563FE3]">
-                      Let us help
-                    </Link>
                   </p>{" "}
                 </div>
                 {/* <Link to="#" className="">

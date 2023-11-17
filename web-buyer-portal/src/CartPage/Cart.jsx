@@ -199,7 +199,8 @@ const Cart = ({ open, onClose, addCart }) => {
                               <div className="flex justify-between items-center">
                                 <h5 className="text-sm font-bold">
                                   {" "}
-                                  ${item?.product?.globalPrice}.00
+                                  ${item?.product?.globalPrice * item.quantity}
+                                  .00
                                 </h5>
                                 <p className=" text-[#666666] text-xs mx-3">
                                   Qty:{item.quantity}
