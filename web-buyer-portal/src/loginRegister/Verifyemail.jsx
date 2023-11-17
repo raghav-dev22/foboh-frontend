@@ -1,8 +1,11 @@
-import React from "react";
+import { useAccordion } from "@material-tailwind/react";
+import { useState } from "react";
+import { useEffect } from "react";
 
-function verifyemail() {
+function Verifyemail() {
   const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
   const email = buyerCred?.email;
+  const [organisationlogo, setOrganisationLogo] = useState();
 
   const handleEmailLink = () => {
     //Email link
@@ -34,6 +37,22 @@ function verifyemail() {
       })
       .catch((error) => console.log(error));
   };
+
+  useEffect(() => {
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerData"));
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.data[0], "for logo");
+        setOrganisationLogo(data.data[0]);
+      })
+      .catch((error) => console.log(error));
+  });
 
   return (
     <>
@@ -82,7 +101,7 @@ function verifyemail() {
               </div>
               <div className="  md:w-1/2  hidden md:block ">
                 <img
-                  src="/assets/supplier-logo.png"
+                  src={organisationlogo?.organisationlogo}
                   className="h-full w-full  "
                   alt="signin"
                 />
@@ -95,4 +114,4 @@ function verifyemail() {
   );
 }
 
-export default verifyemail;
+export default Verifyemail;

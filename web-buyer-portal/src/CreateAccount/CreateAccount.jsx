@@ -23,6 +23,7 @@ function CreateAccount() {
   const [currentStep, setCurrentStep] = useState(0);
   const [buyer, setBuyer] = useState({});
   const [isBuyerExist, setIsbuyerExist] = useState(false);
+  const [organisationlogo, setOrganisationLogo] = useState();
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({
     BusinessName: "",
@@ -237,6 +238,22 @@ function CreateAccount() {
       .catch((error) => console.log(error));
   };
 
+  useEffect(() => {
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerData"));
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.data[0], "for logo");
+        setOrganisationLogo(data.data[0]);
+      })
+      .catch((error) => console.log(error));
+  });
+
   return (
     <>
       <div className=" bg-[#F8FAFC]  w-full flex items-center justify-center top-0 left-0 bottom-0 right-0 h-full">
@@ -245,7 +262,7 @@ function CreateAccount() {
             <div className="flex flex-col md:flex-row md:justify-center bg-white  ">
               <div className="    block md:hidden">
                 <img
-                  src="/assets/supplier-logo.png"
+                  src={organisationlogo?.organisationlogo}
                   className="h-36	object-cover	 w-full  "
                   alt="signin"
                 />

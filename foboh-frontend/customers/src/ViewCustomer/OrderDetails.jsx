@@ -15,14 +15,17 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import { message } from "antd";
 import SaveCancel from "../customers/SaveCancel";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getStates } from "../reactQuery/viewCustomerApiModule";
+
 const OrderDetails = ({ datas, handleCustomerDetails }) => {
   console.log(datas, ">>id");
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
-  const [setCustomerDetails] = React.useState();
+  const [customerDetails, setCustomerDetails] = React.useState();
   const [activeStatus, setActiveStatus] = React.useState(1);
   const [show, setShow] = React.useState(false);
-
+  const [stateData, setStateData] = useState([]);
   const saveCustomer = () => {
     messageApi.open({
       content: (
@@ -37,6 +40,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
       rtl: true,
     });
   };
+
   const [initialValues, setInitialValues] = useState({
     buyerId: "",
     businessName: "",
@@ -277,6 +281,32 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
       ...initialValues,
     });
   };
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["getStates"],
+    queryFn: getStates,
+  });
+  let allStateData = [];
+  if (data && !isLoading) {
+    const list = data.map((item) => {
+      return {
+        value: item.stateId,
+        label: item.stateName,
+      };
+    });
+    allStateData = list;
+  }
+  useEffect(() => {
+    setValues((prev) => {
+      return {
+        ...prev,
+        billingState: allStateData.find(
+          (item) => values.billingState === item.label
+        ),
+      };
+    });
+  }, []);
+
   const defaultPaymentTermOptions = [
     { value: "30 days", label: "30 days" },
     { value: "15 days", label: "15 days" },
@@ -286,16 +316,6 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
     { value: "30 days", label: "30 days" },
     { value: "15 days", label: "15 days" },
     { value: "10 days", label: "10 days" },
-  ];
-  const billingStateOptions = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-  const stateOptions = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
   ];
   return (
     <>
@@ -996,7 +1016,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             name="state"
                             style={{ width: "100%", height: "48px" }}
                             placeholder="Select"
-                            options={stateOptions}
+                            options={allStateData}
                             onBlur={handleBlur}
                             // value={values.billingState}
                           />
@@ -1204,9 +1224,9 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             name="billingState"
                             style={{ width: "100%", height: "48px" }}
                             placeholder="Select"
-                            options={billingStateOptions}
+                            options={allStateData}
                             onBlur={handleBlur}
-                            // value={values.billingState}
+                            value={values.billingState}
                           />
                           {errors.billingState && touched.billingState && (
                             <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
