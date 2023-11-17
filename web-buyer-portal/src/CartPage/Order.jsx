@@ -67,10 +67,6 @@ const Order = () => {
     });
   };
 
-  if (cartError) {
-    error(cartError);
-  }
-
   // Fetching cart data
   const {
     data: cartData,
@@ -79,8 +75,11 @@ const Order = () => {
     refetch: cartRefetch,
   } = useQuery("getCartApi", getCart);
 
+  if (cartError) {
+    error(cartError);
+  }
   // Calculating cart
-  const [lucUnit, gst, wet, subtotal, total] = useMemo(() => {
+  const { lucUnit, gst, wet, subtotal, total } = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
   }, [cartData]);

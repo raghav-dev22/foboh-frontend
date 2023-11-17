@@ -26,6 +26,7 @@ import { formatDateAfterRelativeDate } from "../helper/formatDateAfterRelativeDa
 import { date } from "yup";
 import { setCart } from "../slices/CartSlice";
 import { useDispatch } from "react-redux";
+import { formatDate } from "../helper/formateDates";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -229,7 +230,7 @@ const MyOrders = () => {
 
     OrderDate: (
       <p className="text-base font-medium text-[#2B4447]">
-        {order.orderEntryDate}
+        {formatDate(order.orderEntryDate)}
       </p>
     ),
 

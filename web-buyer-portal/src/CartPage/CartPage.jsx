@@ -63,9 +63,9 @@ const CartPage = () => {
     error: cartError,
     refetch: cartRefetch,
   } = useQuery("getCartApi", getCart);
-  console.log(cart, "cart...............................>");
+
   // Calculating cart
-  const [lucUnit, gst, wet, subtotal, total] = useMemo(() => {
+  const { lucUnit, gst, wet, subtotal, total } = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
   }, [cartData]);
