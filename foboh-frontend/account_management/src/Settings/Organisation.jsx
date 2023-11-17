@@ -136,7 +136,7 @@ function Organisation() {
               billingAddressSuburb: values.billingAddressSuburb,
               billingAddressPostCode: values.billingAddressPostcode,
               billingAddressState: values.billingAddressState,
-              categoryList: values.categoryList.map((obj) => {
+              categoryList: values.categoryList?.map((obj) => {
                 return `${obj.value}`;
               }),
               isActive: true,
@@ -223,7 +223,7 @@ function Organisation() {
               billingAddressSuburb: values.billingAddressSuburb,
               billingAddressPostCode: values.billingAddressPostcode,
               billingAddressState: values.billingAddressState,
-              categoryList: values.categoryList.map((obj) => {
+              categoryList: values.categoryList?.map((obj) => {
                 return `${obj.value}`;
               }),
               isActive: true,
@@ -284,7 +284,7 @@ function Organisation() {
                     organisationId: organisationSettings.organisationID,
                   })
                 );
-                const categoryList = organisationSettings.categoryList.map(
+                const categoryList = organisationSettings?.categoryList?.map(
                   (id) => {
                     return categoryListVar.find((obj) => obj.value === id);
                   }
@@ -796,7 +796,7 @@ function Organisation() {
                                 id="CategoryList"
                                 name="categoryList"
                                 isMulti
-                                value={values.categoryList}
+                                value={values?.categoryList}
                                 onChange={handleCategoriesChange}
                                 isDisabled={!categories.length}
                                 options={categories}

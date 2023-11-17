@@ -225,10 +225,7 @@ const FinalOrder = ({
                   Order total
                 </h5>
                 <h5 className="text-base font-semibold text-[#2B4447]">
-                  $
-                  {(
-                    cartCalculations?.total + parseFloat(shippingcharges?.price)
-                  ).toFixed(2)}
+                  ${cartCalculations?.total}
                 </h5>
               </div>
             </div>

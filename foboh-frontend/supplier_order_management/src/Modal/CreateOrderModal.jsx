@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Divider, Space, Button, Modal, Flex } from "antd";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CloseIcon from "@mui/icons-material/Close";
@@ -80,6 +80,7 @@ const CreateOrderModal = ({
       key: {},
     },
   ]);
+  const [cartList, setCartList] = useState([]);
   const [cart, setCart] = useState([]);
   const [updatedQuantity, setUpdatedQuantity] = useState({
     product: {},
@@ -88,12 +89,6 @@ const CreateOrderModal = ({
   const [shippingcharges, setSippingCharges] = useState({
     name: "",
     price: 0,
-  });
-  const [cartCalculations, setCartCalculations] = useState({
-    gst: 0,
-    wet: 0,
-    subTotal: 0,
-    total: 0,
   });
 
   let defaultPaymentTermsList = [];
@@ -266,14 +261,14 @@ const CreateOrderModal = ({
   }, [cart]);
 
   const asyncCartCalculation = async () => {
-    const { gst, wt, subTotal, total } = await getCalculations();
-    setCartCalculations({
-      gst: gst,
-      wet: wt,
-      subTotal: subTotal,
-      total: total,
-    });
+    const cartListResponse = await getCartList();
+    setCartList(cartListResponse);
   };
+
+  const cartCalculations = useMemo(() => {
+    const calculationResults = getCalculations(cartList);
+    return calculationResults;
+  }, [cartList]);
 
   // Debounce function
   function debounce(func, timeout = 0) {

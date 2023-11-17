@@ -9,8 +9,12 @@ import "chart.js/auto";
 // import StockDetails from '../mainDashboard/StockDetails';
 import SignupModel from "../../modal/SignupModel";
 import { stockQuantity } from "../../helpers/stockQuantity";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { getAllOrders } from "../../helpers/dashboardApiModule";
+import {
+  getWeeklyGraphData,
+  getmonthlyGraphData,
+} from "../../reactQuery/dashboardApiModule";
 
 function MainDashBoard() {
   const [show, setShow] = useState(false);
@@ -24,11 +28,54 @@ function MainDashBoard() {
     { value: "monthly", label: "monthly" },
     { value: "weekly", label: "weekly" },
   ];
+
+  let monthlyData = {
+    ordered: [],
+    completed: [],
+  };
+
+  let weeklyData = {
+    ordered: [],
+    completed: [],
+  };
+
   const monthlyOrderData = [5, 19, 6, 8, 16, 8, 5, 1];
   const weeklyOrderData = [50, 75, 60, 80, 90, 70, 55, 65];
   const monthlyDeliveryData = [12, 19, 3, 5, 2, 7, 9, 5];
   const weeklyDeliveryData = [40, 70, 50, 60, 75, 65, 55, 65];
   const [selectedOption, setSelectedOption] = useState(graphOption[0]);
+
+  const {
+    data: monthlyDataResult,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["getmonthlyData"],
+    queryFn: getmonthlyGraphData,
+  });
+
+  const {
+    data: weeklyDataResult,
+    isLoading: weeklyDataisLoading,
+    error: weeklyDataError,
+  } = useQuery({
+    queryKey: ["getWeeklyData"],
+    queryFn: getWeeklyGraphData,
+  });
+
+  if (weeklyDataResult) {
+    weeklyData = {
+      ordered: weeklyDataResult?.ordered.map((item) => item.numberOfOrder),
+      completed: weeklyDataResult?.completed.map((item) => item.numberOfOrder),
+    };
+  }
+
+  if (monthlyDataResult) {
+    monthlyData = {
+      ordered: monthlyDataResult?.ordered.map((item) => item.numberOfOrder),
+      completed: monthlyDataResult?.completed.map((item) => item.numberOfOrder),
+    };
+  }
 
   const { mutate } = useMutation(getAllOrders, {
     onSuccess: (data) => {
@@ -49,17 +96,12 @@ function MainDashBoard() {
             "june",
             "july",
             "august",
+            "september",
+            "october",
+            "november",
+            "december",
           ]
-        : [
-            "Week 1",
-            "Week 2",
-            "Week 3",
-            "Week 4",
-            "Week 5",
-            "Week 6",
-            "Week 7",
-            "Week 8",
-          ],
+        : ["Week 1", "Week 2", "Week 3", "Week 4"],
 
     datasets: [
       {
@@ -67,23 +109,24 @@ function MainDashBoard() {
         borderCapStyle: "round",
         data:
           selectedOption.value === "monthly"
-            ? monthlyOrderData
-            : weeklyOrderData,
+            ? monthlyData.ordered
+            : weeklyData.ordered,
         // [12, 19, 3, 5, 2, 7, 9, 5],
         borderColor: "#147D73",
         borderWidth: 4,
         tension: 0.4,
 
-        fill: false, // Set fill to false to make it a line chart without an area underneath
-        pointRadius: 0,
-        pointHitRadius: 0,
+        fill: false,
+        // Set fill to false to make it a line chart without an area underneath
+        // pointRadius: 0,
+        // pointHitRadius: 0,
       },
       {
         label: "Completed",
         data:
           selectedOption.value === "monthly"
-            ? monthlyDeliveryData
-            : weeklyDeliveryData,
+            ? monthlyData.completed
+            : weeklyData.completed,
         // [5, 19, 6, 8, 16, 8, 5, 1],
         borderColor: "#563FE3",
         borderWidth: 4,
