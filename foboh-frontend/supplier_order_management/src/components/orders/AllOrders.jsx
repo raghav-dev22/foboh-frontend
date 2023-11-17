@@ -20,6 +20,7 @@ let filterAndSort = {
     region: [],
     orderStatus: [],
     orderEntryDate: "",
+    orderFilterEndDate: "",
     customeDate: "",
     page: 0,
   },
@@ -31,14 +32,14 @@ let filterAndSort = {
 
 const statusList = [
   "New",
-  "Pending approval",
+  "Pending",
   "Changes requested",
   "Updated",
   "Processing",
   "Shipped",
   "Partially fulfilled",
   "Delivered",
-  "Completed",
+  "Complete",
   "Cancelled",
 ];
 
@@ -169,12 +170,13 @@ const AllOrders = () => {
     },
   ];
 
+  console.log("orderData", orderData);
   const data = orderData?.map((item, index) => {
     return {
       key: index,
       OrderID: (
         <p
-          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          onClick={() => navigate(`/dashboard/order-details/${item?.orderId}`)}
           className="text-sm md:text-base font-normal text-[#637381] cursor-pointer"
         >
           {item.orderId}
@@ -182,35 +184,35 @@ const AllOrders = () => {
       ),
       Customer: (
         <p
-          onClick={() => navigate(`/dashboard/order-details/${item.orderId}`)}
+          onClick={() => navigate(`/dashboard/order-details/${item?.orderId}`)}
           className="text-sm md:text-base font-normal text-[#637381] cursor-pointer"
         >
-          {item.customerName}
+          {item?.customerName}
         </p>
       ),
       Region: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item.region}
+          {item?.region}
         </p>
       ),
       OrderDate: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {formatDate(item.orderEntryDate)}
+          {formatDate(item?.orderEntryDate)}
         </p>
       ),
       Amount: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          ${item.payAmountLong}
+          ${item?.payAmountLong}
         </p>
       ),
       LastUpdated: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {formatDate(item.modifiedDate)}
+          {formatDate(item?.modifiedDate)}
         </p>
       ),
       Payment: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item.transactionStatus}
+          {item?.transactionStatus}
         </p>
       ),
       Status: (
@@ -221,15 +223,15 @@ const AllOrders = () => {
           style={{
             backgroundColor: (() => {
               if (
-                item.orderStatus === "Complete" ||
-                item.orderStatus === "Delivered"
+                item?.orderStatus === "Complete" ||
+                item?.orderStatus === "Delivered"
               ) {
                 return "#CFEBE6";
-              } else if (item.orderStatus === "Pending") {
+              } else if (item?.orderStatus === "Pending") {
                 return "#C9C9C9";
-              } else if (item.orderStatus === "Updated") {
+              } else if (item?.orderStatus === "Updated") {
                 return "#D5EEFF";
-              } else if (item.orderStatus === "Cancelled") {
+              } else if (item?.orderStatus === "Cancelled") {
                 return "#FFDFDB";
               }
               // Default background color if none of the conditions match
@@ -238,7 +240,7 @@ const AllOrders = () => {
           }}
         >
           <p className="text-[#637381] text-[base] font-medium">
-            {item.orderStatus}
+            {item?.orderStatus}
           </p>
         </div>
       ),
@@ -252,21 +254,6 @@ const AllOrders = () => {
 
   useEffect(() => {
     getStateList();
-
-    const orgId = localStorage.getItem("organisationId");
-    fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/getAll?page=${page}&OrganisationId=${orgId}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("getAllssssssssssss -->", data.data);
-        setOrderData(data.data);
-        setTotalData(data.total);
-      })
-      .catch((error) => console.log(error));
   }, []);
 
   const getStateList = () => {
