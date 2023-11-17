@@ -32,7 +32,7 @@ const SigninNew = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const authUrl = process.env.REACT_APP_AUTH_URL
+  const authUrl = process.env.REACT_APP_AUTH_URL;
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,

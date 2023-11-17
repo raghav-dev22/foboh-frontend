@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomCalender from "./CustomCalender";
 import Filter from "./CustomFilter";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -6,12 +6,59 @@ import { Dropdown, Space, DatePicker, Table, Checkbox } from "antd";
 import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-function ActiveOrder() {
+function ActiveOrder({ mutate }) {
   const { RangePicker } = DatePicker;
   const [selectedDates, setSelectedDates] = useState([]);
 
+  function debounce(func, timeout = 500) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+
+      timer = setTimeout(() => {
+        handleMutate(...args);
+      }, timeout);
+    };
+  }
+
+  const debouncedHandleInput = debounce(handleMutate);
+
+  function convertDateFormat(inputDate) {
+    const date = new Date(inputDate);
+
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const day = date.getUTCDate().toString().padStart(2, "0");
+
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    const milliseconds = date.getUTCMilliseconds().toString().padStart(3, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+  }
+
+  const handleMutate = (dates) => {
+    mutate({
+      filter: {
+        searchByValue: "",
+        region: [],
+        orderStatus: ["New", "Pending"],
+        orderEntryDate: convertDateFormat(dates[0].$d),
+        OrderFilterEndDate: convertDateFormat(dates[1].$d),
+        customeDate: "",
+        page: 0,
+        pagination: false,
+      },
+      sort: {
+        sortBy: "",
+        sortOrder: "",
+      },
+    });
+  };
+
   const onChange = (dates) => {
-    setSelectedDates(dates);
+    console.log("selected dates", dates);
+    dates[1] !== null && debouncedHandleInput(dates, 500);
   };
   const handleCustomClear = () => {
     setSelectedDates([]);
@@ -30,7 +77,7 @@ function ActiveOrder() {
           <div className="relative w-[40%]">
             <RangePicker
               className="w-full h-[42px] px-[40px]"
-              onChange={onChange}
+              onCalendarChange={onChange}
               suffixIcon={null}
             />
             <div className="custom-icons">
