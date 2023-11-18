@@ -101,7 +101,8 @@ function Verifyemail() {
               </div>
               <div className="  md:w-1/2  hidden md:block ">
                 <img
-                  src={organisationlogo?.organisationlogo}
+                  // src={organisationlogo?.organisationlogo}
+                  src="/assets/supplier-logo.png"
                   className="h-full w-full  "
                   alt="signin"
                 />
