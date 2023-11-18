@@ -9,6 +9,8 @@ import { message } from "antd";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import { stockStatus } from "../helpers/getStockStatus";
+import { Image } from "antd";
+
 const ProductDetails = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product);
@@ -193,11 +195,12 @@ const ProductDetails = () => {
                   {/* <div className="absolute top-[10px] right-[10px] bg-white rounded-full h-[30px] w-[30px] flex justify-center items-center">
                     <FavoriteBorderRoundedIcon className="" />
                   </div> */}
-                  <img
+                  <Image width={200} src={selectedImage} />
+                  {/* <img
                     src={selectedImage}
-                    alt="Selected Image"
+                    alt="Selected-pic"
                     className="  object-contain w-full"
-                  />
+                  /> */}
                 </div>
               )}
 
@@ -216,6 +219,7 @@ const ProductDetails = () => {
                       src={image}
                       onClick={() => handleImageClick(image)}
                       className="  object-contain w-full"
+                      alt="product-images"
                     />
                   </div>
                 ))}

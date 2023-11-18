@@ -7,10 +7,26 @@ import Delivery from "./Delivery";
 import Payment from "./Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { useQuery } from "react-query";
+import { getCart } from "../react-query/cartApiModule";
 const PaymentDetail = () => {
   const stripePromise = loadStripe(
-    "pk_test_51NottFSIQVsrQ3Rm6YLAVdL9LnMlJHAgxXA4jIn8sWONxRjN8DtM6YTJWYCbJliZdONEEaf3sSzqU97xv3My2aLe00bKRIq6Ad"
+    "pk_test_51NcFuWKrTbQIkCohQ431xjnc6S9GjcWEuCVW79nVJmpAyn92EPghuk5DZcMzI9Cq9ZFAhWGLnr0AQxVkbA8L39mK00mcbrhKr4"
   );
+
+  // Fetching cart data
+  const {
+    data: cartData,
+    error: sealedCartError,
+    refetch,
+  } = useQuery({
+    queryKey: "getSealedCartApi",
+    queryFn: getCart,
+  });
+
+  if (cartData) {
+    console.log("cartData", cartData);
+  }
 
   return (
     <>
@@ -21,7 +37,16 @@ const PaymentDetail = () => {
               <Routes>
                 <Route path="/check-out" element={<CheckOut />} />
                 <Route path="/delivery" element={<Delivery />} />
-                <Route path="/payment" element={<Payment />} />
+                <Route
+                  path="/payment"
+                  element={
+                    <Payment
+                      cartData={cartData}
+                      sealedCartError={sealedCartError}
+                      refetch={refetch}
+                    />
+                  }
+                />
               </Routes>
             </Elements>
           </div>

@@ -80,8 +80,8 @@ function StockDetails() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          const customerData = data.data[0];
-          setCustomer(customerData.noOfCustomer);
+          const customerData = data?.data[0];
+          setCustomer(customerData?.noOfCustomer);
         }
       })
       .catch((error) => console.log(error));
@@ -96,8 +96,8 @@ function StockDetails() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          const orderData = data.data[0];
-          setOrder(orderData.noOfOrders);
+          const orderData = data?.data[0];
+          setOrder(orderData?.noOfOrders);
         }
       })
       .catch((error) => console.log(error));
@@ -112,8 +112,8 @@ function StockDetails() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          const revenueData = data.data[0];
-          setRevenue(revenueData.totalRevenue);
+          const revenueData = data?.data[0];
+          setRevenue(revenueData?.totalRevenue);
         }
         // console.log(data.data[0], "totalrevenue");
       })
@@ -130,8 +130,8 @@ function StockDetails() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          const profitData = data.data[0];
-          setProfit(profitData.totalProfit);
+          const profitData = data?.data[0];
+          setProfit(profitData?.totalProfit);
         }
         // console.log(data.data[0], "totalProfit");
       })

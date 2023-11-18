@@ -78,7 +78,7 @@ const useOptions = () => {
   return options;
 };
 
-const Payment = () => {
+const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [isBecs, setIsBecs] = useState(false);
   const [selectedPaymentTerm, setSelectedPaymentTerm] = useState("");
 
@@ -173,12 +173,6 @@ const Payment = () => {
     }, secondsToGo * 1000);
   };
 
-  // Fetching cart data
-  const { data: cartData, error: sealedCartError } = useQuery({
-    queryKey: "getSealedCartApi",
-    queryFn: getCart(),
-  });
-
   if (sealedCartError) {
     errorMessage(sealedCartError);
   }
@@ -260,6 +254,7 @@ const Payment = () => {
   const [deliveryAddress, setDeliveryAddress] = useState({});
 
   const handleSubmit = async (event) => {
+    await refetch();
     event.preventDefault();
     setLoading(true);
 
@@ -291,7 +286,7 @@ const Payment = () => {
         const orderId = localStorage.getItem("orderId");
         const { deliveryEmail } = JSON.parse(localStorage.getItem("buyerInfo"));
 
-        const clientSecret = await paymentProcess(
+        const { clientSecret, OrderPaymentIntentId } = await paymentProcess(
           pm_id,
           "PayNow",
           "Card",
@@ -304,7 +299,7 @@ const Payment = () => {
           total
         );
 
-        const { error, status, id } = await stripe.confirmCardPayment(
+        const { error, paymentIntent } = await stripe.confirmCardPayment(
           clientSecret,
           {
             payment_method: pm_id,
@@ -316,7 +311,13 @@ const Payment = () => {
           errorMessage(error?.message);
         } else {
           setLoading(false);
-          paymentProcessUpdate(orderId, cardHolderName, status, id);
+          paymentProcessUpdate(
+            orderId,
+            cardHolderName,
+            paymentIntent.status,
+            paymentIntent?.id,
+            OrderPaymentIntentId
+          );
           cartStatusUpdate();
           orderStatusUpdate();
           countDown();

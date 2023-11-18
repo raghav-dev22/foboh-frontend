@@ -65,21 +65,28 @@ function MainDashBoard() {
 
   if (weeklyDataResult) {
     weeklyData = {
-      ordered: weeklyDataResult?.ordered.map((item) => item.numberOfOrder),
-      completed: weeklyDataResult?.completed.map((item) => item.numberOfOrder),
+      ordered: weeklyDataResult?.ordered?.map(
+        (item) => `$ ${item.totalPayAmountLog}`
+      ),
+      completed: weeklyDataResult?.completed?.map(
+        (item) => `$ ${item.totalPayAmountLog}`
+      ),
     };
   }
 
   if (monthlyDataResult) {
     monthlyData = {
-      ordered: monthlyDataResult?.ordered.map((item) => item.numberOfOrder),
-      completed: monthlyDataResult?.completed.map((item) => item.numberOfOrder),
+      ordered: monthlyDataResult?.ordered?.map(
+        (item) => item.totalPayAmountLog
+      ),
+      completed: monthlyDataResult?.completed?.map(
+        (item) => item.totalPayAmountLog
+      ),
     };
   }
 
   const { mutate } = useMutation(getAllOrders, {
     onSuccess: (data) => {
-      console.log("filtered order data", data);
       setOrderDetails(data);
     },
   });
@@ -93,13 +100,13 @@ function MainDashBoard() {
             "March",
             "April",
             "May",
-            "june",
-            "july",
-            "august",
-            "september",
-            "october",
-            "november",
-            "december",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
           ]
         : ["Week 1", "Week 2", "Week 3", "Week 4"],
 

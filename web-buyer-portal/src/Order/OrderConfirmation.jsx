@@ -36,7 +36,7 @@ const OrderConfirmation = () => {
     };
   }, [location]);
 
-  const calculateTotalCost = async () => {
+  const calculateTotalCost = () => {
     const orderId = localStorage.getItem("orderId");
     //Handling Cart details of order
     getSealedCart(orderId).then((data) => {
@@ -56,8 +56,6 @@ const OrderConfirmation = () => {
             setIsWine(true);
           }
         });
-
-        calculateTotalCost();
       }
     });
   };

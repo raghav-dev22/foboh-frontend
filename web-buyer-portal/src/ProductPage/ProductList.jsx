@@ -430,7 +430,9 @@ const ProductList = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.total, "data------>");
+        const prodauctData = data.data[0];
+        localStorage.setItem("organisationId", prodauctData.organisationId);
+        localStorage.setItem("catalogueId", prodauctData.catalogueId);
         if (data.success) {
           setTimeout(() => {
             setLoading(false);

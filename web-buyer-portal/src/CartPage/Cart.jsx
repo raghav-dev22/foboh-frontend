@@ -94,6 +94,8 @@ const Cart = ({ open, onClose, addCart }) => {
           cartID: cartId,
           orderByEmailID: deliveryEmail,
           orderBy: deliveryFirstName,
+          organisationID: localStorage.getItem("organisationId"),
+          catalogueID: localStorage.getItem("catalogueId"),
         }),
       }
     )

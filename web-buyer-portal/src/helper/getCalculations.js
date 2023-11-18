@@ -33,11 +33,11 @@ export const getCalculations = (cartList) => {
       total += subtotal1 + subtotal2;
     });
     return {
-      lucUnit: lucUnit.toFixed(2),
-      gst: gst.toFixed(2),
-      wet: wet.toFixed(2),
-      subtotal: subtotal.toFixed(2),
-      total: total.toFixed(2),
+      lucUnit: parseFloat(lucUnit.toFixed(2)),
+      gst: parseFloat(gst.toFixed(2)),
+      wet: parseFloat(wet.toFixed(2)),
+      subtotal: parseFloat(subtotal.toFixed(2)),
+      total: parseFloat(total.toFixed(2)),
     };
   } catch (error) {
     throw new Error("Error while processing, error: " + error);
