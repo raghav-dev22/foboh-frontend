@@ -15,6 +15,7 @@ import {
   getWeeklyGraphData,
   getmonthlyGraphData,
 } from "../../reactQuery/dashboardApiModule";
+import { getWeeks } from "../../helpers/weeklyDivisions";
 
 function MainDashBoard() {
   const [show, setShow] = useState(false);
@@ -65,11 +66,9 @@ function MainDashBoard() {
 
   if (weeklyDataResult) {
     weeklyData = {
-      ordered: weeklyDataResult?.ordered?.map(
-        (item) => `$ ${item.totalPayAmountLog}`
-      ),
+      ordered: weeklyDataResult?.ordered?.map((item) => item.totalPayAmountLog),
       completed: weeklyDataResult?.completed?.map(
-        (item) => `$ ${item.totalPayAmountLog}`
+        (item) => item.totalPayAmountLog
       ),
     };
   }
@@ -91,6 +90,8 @@ function MainDashBoard() {
     },
   });
 
+  const weeks = getWeeks();
+
   const data = {
     labels:
       selectedOption.value === "monthly"
@@ -108,7 +109,7 @@ function MainDashBoard() {
             "November",
             "December",
           ]
-        : ["Week 1", "Week 2", "Week 3", "Week 4"],
+        : weeks,
 
     datasets: [
       {
@@ -116,8 +117,8 @@ function MainDashBoard() {
         borderCapStyle: "round",
         data:
           selectedOption.value === "monthly"
-            ? monthlyData.ordered
-            : weeklyData.ordered,
+            ? monthlyData?.ordered
+            : weeklyData?.ordered,
         // [12, 19, 3, 5, 2, 7, 9, 5],
         borderColor: "#147D73",
         borderWidth: 4,
@@ -132,8 +133,8 @@ function MainDashBoard() {
         label: "Completed",
         data:
           selectedOption.value === "monthly"
-            ? monthlyData.completed
-            : weeklyData.completed,
+            ? monthlyData?.completed
+            : weeklyData?.completed,
         // [5, 19, 6, 8, 16, 8, 5, 1],
         borderColor: "#563FE3",
         borderWidth: 4,
@@ -262,6 +263,7 @@ function MainDashBoard() {
                   className="bg-[#F4F7FF]"
                   value={selectedOption}
                   options={graphOption}
+                  isSearchable={false}
                   onChange={handleOptionChange}
                 />
               </div>
