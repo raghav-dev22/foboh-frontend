@@ -1015,7 +1015,7 @@ const MyOrders = () => {
             onChange={onShowSizeChange}
             pagination={{
               current: page,
-              pageSize: 8,
+              pageSize: 10,
               total: totalData,
               showSizeChanger: false,
               showQuickJumper: false,
