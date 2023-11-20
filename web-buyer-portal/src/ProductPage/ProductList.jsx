@@ -430,7 +430,9 @@ const ProductList = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.total, "data------>");
+        const prodauctData = data.data[0];
+        localStorage.setItem("organisationId", prodauctData.organisationId);
+        localStorage.setItem("catalogueId", prodauctData.catalogueId);
         if (data.success) {
           setTimeout(() => {
             setLoading(false);
@@ -1822,7 +1824,7 @@ const ProductList = () => {
                         className="text-lg font-semibold mt-3 cursor-pointer"
                       >
                         {item?.product?.title.length > 12
-                          ? `${item?.product?.title.slice(0, 12)}...`
+                          ? `${item?.product?.title.slice(0, 25)}...`
                           : item?.product?.title}
                       </h4>
                       <h4 className="md:text-base text-sm font-semibold text-[#2B4447] mt-1">

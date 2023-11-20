@@ -38,7 +38,7 @@ function AddCustomers() {
   console.log(tableRecords, "tableRecords==============>");
   let timeoutId;
 
-  const saveProduct = ({ app }) => {
+  const saveProduct = () => {
     messageApi.open({
       content: (
         <div className="flex justify-center gap-2 items-center">

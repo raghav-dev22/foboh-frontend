@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SendIcon from "@mui/icons-material/Send";
-function verifyPassword() {
+function VerifyPassword() {
   const firstName = localStorage.getItem("firstName");
   const email = localStorage.getItem("buyerEmail");
-
+  const [organisationlogo, setOrganisationLogo] = useState();
   const handleEmailLink = () => {
     //Email link
     window.open(`https://${email}`, "_blank");
@@ -35,6 +35,21 @@ function verifyPassword() {
       })
       .catch((error) => console.log(error));
   };
+  // useEffect(() => {
+  //   const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+  //   fetch(
+  //     `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${organisationId}`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data.data[0], "for logo");
+  //       setOrganisationLogo(data.data[0]);
+  //     })
+  //     .catch((error) => console.log(error));
+  // });
 
   return (
     <>
@@ -58,7 +73,7 @@ function verifyPassword() {
                   Reset your password
                 </h2>
                 <p className="text-center">
-                  Almost there! An email containing your verification link was
+                  Almost there! An email containing your password reset link was
                   sent to{" "}
                   <span
                     onClick={handleEmailLink}
@@ -69,22 +84,26 @@ function verifyPassword() {
                 </p>
                 <div className="flex flex-col gap-4">
                   <p className="text-center 	">
-                    <span className="font-bold">Didn’t receive an email ?</span>
-                    please double check that you entered the correct email
-                    address and check your spam folder Still no luck <br />
+                    <span className="font-bold">
+                      Didn’t receive an email ?{" "}
+                    </span>
+                    Please double check that you entered the correct email
+                    address or check your spam folder. <br />
+                    {/* <span
+                      onClick={handleResendLink}
+                      className="font-semibold text-base cursor-pointer	text-[#563FE3]"
+                    >
+                      Still no luck? Resend email.
+                    </span> */}
+                  </p>
+                  <p className="text-center 	">
+                    <span className="font-bold"> Still no luck? </span>
                     <span
                       onClick={handleResendLink}
                       className="font-semibold text-base cursor-pointer	text-[#563FE3]"
                     >
-                      Resend email
-                    </span>
-                  </p>
-                  <p className="text-center 	">
-                    <span className="font-bold">
-                      Having trouble?{" "}
-                      <Link to="#" className="font-bold text-[#563FE3]">
-                        Let us help
-                      </Link>
+                      {" "}
+                      Resend email.
                     </span>
                   </p>{" "}
                 </div>
@@ -111,4 +130,4 @@ function verifyPassword() {
   );
 }
 
-export default verifyPassword;
+export default VerifyPassword;

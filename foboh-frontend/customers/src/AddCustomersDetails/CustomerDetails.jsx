@@ -123,8 +123,7 @@ function CustomerDetails() {
       .then((data) => {
         console.log("Customer added>>", data);
         localStorage.setItem("customerAdded", true);
-
-        navigate("/dashboard/customers/");
+        navigate("/dashboard/customers");
       })
       .catch((error) => console.log(error));
   };

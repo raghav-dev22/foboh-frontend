@@ -219,6 +219,8 @@ const CartPage = () => {
           cartID: cartId,
           orderByEmailID: deliveryEmail,
           orderBy: deliveryFirstName,
+          organisationID: localStorage.getItem("organisationId"),
+          catalogueID: localStorage.getItem("catalogueId"),
         }),
       }
     )

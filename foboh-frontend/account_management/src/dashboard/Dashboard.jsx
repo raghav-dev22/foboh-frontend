@@ -143,7 +143,7 @@ function Dashboard() {
       })
       .then(() => {
         fetch(
-          `l/api/Organization/get?organizationId=${localStorage.getItem(
+          `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
             "organisationId"
           )}`,
           {
@@ -156,7 +156,7 @@ function Dashboard() {
             if (data.success) {
               const org = data?.data[0];
 
-              dispatch(updateLogoURI(org.organisationlogo));
+              dispatch(updateLogoURI(org?.organisationlogo));
             }
           });
       })

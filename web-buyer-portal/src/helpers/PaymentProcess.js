@@ -13,7 +13,7 @@ export const paymentProcess = async (
   const payAmt = total.toString();
 
   const clientSecret = await fetch(
-    "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/AProcessPayment_PayType_PayMethod_PayNow",
+    "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/ProcessPayment_PayType_PayMethod_PayNow",
     {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -21,12 +21,15 @@ export const paymentProcess = async (
         orderId: orderId,
         orderByEmailID: email,
         orderBy: orderBy,
+        organisationID: localStorage.getItem("organisationId"),
+        catalogueID: localStorage.getItem("catalogueId"),
         orderStatus: "InProcess",
         paymentType: paymentType,
         paymentMethod: paymentMethod,
         paymentMethodID: paymentMethodID,
         transactionId: "",
         transactionStatus: "",
+        paymentStatus: "PayNow",
         totalPrice: subtotal,
         gst: gst,
         wt: wet,
@@ -41,11 +44,13 @@ export const paymentProcess = async (
     .then((data) => {
       console.log("payment-response", data);
       let clientSecret = "";
+      let OrderPaymentIntentId = ""
       if (data?.result?.success) {
         clientSecret = data?.result?.transactionConfirmationCode;
-        return clientSecret;
+        OrderPaymentIntentId = data?.result?.data?.value[0]?.transactionId
+        return {clientSecret, OrderPaymentIntentId};
       }
-      return clientSecret;
+      return {clientSecret, OrderPaymentIntentId};
     })
     .catch((error) => console.log(error));
 

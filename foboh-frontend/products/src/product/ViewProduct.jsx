@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteModal from "../modal/DeleteModal";
 
-import { Button, message } from "antd";
+import { message } from "antd";
 import ViewProductHeader from "./ViewProductHeader";
 import EditProductDetails from "../editProduct/EditProductDetails";
 import UpdateImg from "../editProduct/UpdateImg";
@@ -20,6 +20,9 @@ import PricingDetails from "../editProduct/PricingDetails";
 import { useParams } from "react-router-dom";
 import { addProductSchema } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import axios from "axios";
+import throttle from "lodash.throttle";
+
 import {
   segment,
   subCategory,
@@ -32,6 +35,8 @@ import {
 import { Skeleton } from "antd";
 import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
 import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
+import { validateImage } from "../helpers/validateImage";
+import { Modal, Progress } from "antd";
 
 function ViewProduct() {
   const { id } = useParams();
@@ -57,6 +62,14 @@ function ViewProduct() {
   const [innerUnitMeasureSelect, setInnerUnitMeasureSelect] = useState([]);
   let baseUnitMeasureList = [];
   let innerUnitMeasureList = [];
+  const [modal2Open, setModal2Open] = useState(false);
+
+  const error = (error) => {
+    messageApi.open({
+      type: "error",
+      content: error,
+    });
+  };
 
   const [initialValues, setInitialValues] = useState({
     visibility: false,
@@ -1159,43 +1172,67 @@ function ViewProduct() {
     });
   };
 
-  const handleImageUpload = (e) => {
+  const [progress, setProgress] = useState(0);
+
+  const uploadProgress = throttle(
+    (value) => {
+      setProgress(value);
+    },
+    500,
+    { leading: true, trailing: true }
+  );
+
+  const handleImageUpload = async (e) => {
     const files = e.target.files;
-
-    console.log("files -->", files);
-    if (files.length) {
-      // files.length = files.length > 3 ? 3 : files.length
-      const formData = new FormData();
-      for (let i in files) {
-        if (files[i] instanceof File) {
-          console.log("--->", files[i]);
-          formData.append("files", files[i]);
-        }
+    let err = null;
+    for (let i = 0; i < files.length; i++) {
+      try {
+        await validateImage(files[i]);
+      } catch (error) {
+        err = error;
       }
-      console.log("form data", formData);
+    }
 
-      // files.forEach(file => {
-
-      //   formData.append("files[]", file)
-      // })
-
-      fetch(
-        `https://product-fobohwepapi-fbh.azurewebsites.net/api/uploadproductimages?productId=${id}`,
-        {
-          method: "POST",
-          body: formData,
+    if (files.length) {
+      if (err) {
+        return error(err);
+      } else {
+        setModal2Open(true);
+        // If validation passes, proceed with image upload
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          if (files[i] instanceof File) {
+            formData.append("files", files[i]);
+          }
         }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setProductImageUris(
-            data.map((item) => {
-              return item.blob.uri;
-            })
-          );
-        })
-        .catch((error) => console.log(error));
+
+        const options = formData;
+        const config = {
+          onUploadProgress: (progressEvent) => {
+            // Handle the upload (request) progress
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            uploadProgress(percentCompleted);
+          },
+        };
+
+        await axios
+          .post(
+            `https://product-fobohwepapi-fbh.azurewebsites.net/api/uploadproductimages?productId=${id}`,
+            options,
+            config
+          )
+          .then((data) => {
+            setModal2Open(false);
+            setProductImageUris(
+              data.data.map((item) => {
+                return item.blob.uri;
+              })
+            );
+          })
+          .catch((error) => console.log(error));
+      }
     }
   };
 
@@ -1251,6 +1288,28 @@ function ViewProduct() {
 
   return (
     <>
+      <Modal
+        centered
+        open={modal2Open}
+        onOk={() => setModal2Open(false)}
+        onCancel={() => setModal2Open(false)}
+        closable={false}
+        footer={false}
+      >
+        <div className="w-full text-center">
+          <div
+            style={{
+              marginBottom: "10px",
+            }}
+            className="mb-1"
+          >
+            <Progress type="circle" percent={progress} />
+          </div>
+          <p className="font-medium font-inter text-lg">
+            Uploading image, please wait!
+          </p>
+        </div>
+      </Modal>
       <div className="padding-top-custom">
         <ViewProductHeader productName={productName} />
         <form
