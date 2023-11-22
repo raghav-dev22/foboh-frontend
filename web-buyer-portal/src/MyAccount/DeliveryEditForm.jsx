@@ -235,14 +235,6 @@ const DeliveryEditForm = () => {
                 border: errors.Apartment && "1px solid red",
               }}
             />
-            {errors.Apartment && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors.Apartment}
-              </p>
-            )}
-            {errors.Apartment && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-            )}
           </div>
         </div>
         <div className="flex flex-nowrap gap-8">
@@ -458,18 +450,7 @@ const DeliveryEditForm = () => {
                 onChange={handleChange}
                 value={values?.BillingApartment}
                 className="pl-custom-left"
-                style={{
-                  border: errors.BillingApartment && "1px solid red",
-                }}
               />
-              {errors.BillingApartment && (
-                <p className="mt-2 mb-2 text-red-500 text-xs">
-                  {errors.BillingApartment}
-                </p>
-              )}
-              {errors.BillingApartment && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-              )}
             </div>
 
             <div className="w-full mb-8 relative">
