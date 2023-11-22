@@ -15,11 +15,13 @@ import {
   getWeeklyGraphData,
   getmonthlyGraphData,
 } from "../../reactQuery/dashboardApiModule";
+import { useNavigate } from "react-router-dom";
 
 function MainDashBoard() {
   const [show, setShow] = useState(false);
   const [stock, setStock] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
+  const navigate = useNavigate();
   const [stockCount, setStockCount] = useState({
     lowStock: 0,
     outOfStock: 0,
@@ -210,8 +212,8 @@ function MainDashBoard() {
         pagination: false,
       },
       sort: {
-        sortBy: "",
-        sortOrder: "",
+        sortBy: "date",
+        sortOrder: "desc",
       },
     });
 
@@ -240,6 +242,11 @@ function MainDashBoard() {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const handleClick = (name) => {
+    navigate("/dashboard/products");
+    localStorage.setItem("yourBooleanKey", "true");
+  };
 
   return (
     <>
@@ -280,12 +287,12 @@ function MainDashBoard() {
                     {stockCount.outOfStock}
                   </span>
                 </div>
-                <a
-                  href="#"
-                  className="text-xs/[10px] font-normal text-darkBlue underline"
+                <span
+                  onClick={handleClick}
+                  className="text-xs/[10px] font-normal text-darkBlue underline cursor-pointer"
                 >
                   See all
-                </a>
+                </span>
               </div>
               {/* <ProductDetails /> */}
               <div className="scroll-right mt-5">

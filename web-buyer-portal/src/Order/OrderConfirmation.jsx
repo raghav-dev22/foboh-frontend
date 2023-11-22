@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCalculations } from "../helper/getCalculations";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  getCalculations,
+  getInvoiceDataCalculations,
+} from "../helper/getCalculations";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { getSealedCart } from "../helpers/getSealedCart";
+import { fetchInvoice } from "../react-query/orderApiModule";
+import { useMutation } from "react-query";
+import { DownloadOutlined } from "@mui/icons-material";
+import { Button } from "antd";
+import InvoiceModal from "../modal/InvoiceModal";
 
 const OrderConfirmation = () => {
+  const childRef = useRef();
   const [totalCost, setTotleCost] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [wetTax, setWetTax] = useState(0);
@@ -15,12 +24,17 @@ const OrderConfirmation = () => {
   const CARTdata = useSelector((items) => items.cart);
   const location = useLocation();
   const [isWine, setIsWine] = useState(false);
+  const [showPreview, setshowPreview] = useState(false);
+  const [invoiceData, setInvoiceData] = useState({});
+  const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
   const [calculations, setCalculations] = useState({
     total: 0,
     subTotal: 0,
     gst: 0,
     wet: 0,
   });
+  let orderId = "";
+  // const { id } = useParams();
 
   useEffect(() => {
     getDeliveryAddress();
@@ -101,18 +115,61 @@ const OrderConfirmation = () => {
       });
   };
 
+  const { mutate: invoiceMutate } = useMutation(fetchInvoice, {
+    onSuccess: (data) => {
+      const invoiceProductDataConverted = getInvoiceDataCalculations(
+        data,
+        setIsWine
+      );
+
+      if (childRef.current) {
+        childRef.current.handlePrint(data[0]?.orderId);
+      }
+      setshowPreview(true);
+      setInvoiceData(data[0]);
+      orderId = data[0]?.orderId;
+      setInvoiceDataProducts(invoiceProductDataConverted);
+    },
+    onError: (err) => {
+      // error(err);
+    },
+  });
+  const handleInvoiceDownload = async (orderId) => {
+    invoiceMutate(orderId);
+  };
+
   return (
     <>
+      <InvoiceModal
+        calculations={calculations}
+        ref={childRef}
+        show={showPreview}
+        setShow={setshowPreview}
+        invoiceData={invoiceData}
+        invoiceDataProducts={invoiceDataProducts}
+        isWine={isWine}
+      />
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
-        <div className="mt-10">
-          <h1 className="text-[30px] font-semibold text-[#2B4447] ">
-            We have received your order.
-          </h1>
-          <p className="text-sm font-normal  text-[#2B4447] mt-8 mb-12">
-            Thank you for your order. We are currently in the process of
-            handling it. Please be patient, and you can expect to receive a
-            confirmation from us shortly!
-          </p>
+        <div className="mt-10 flex">
+          <div>
+            <h1 className="text-[30px] font-semibold text-[#2B4447] ">
+              We have received your order.
+            </h1>
+            <p className="text-sm font-normal  text-[#2B4447] mt-8 mb-12">
+              Thank you for your order. We are currently in the process of
+              handling it. Please be patient, and you can expect to receive a
+              confirmation from us shortly!
+            </p>
+          </div>
+          <Button
+            icon={<DownloadOutlined />}
+            onClick={() => {
+              handleInvoiceDownload(localStorage.getItem("orderId"));
+            }}
+            className=" h-full text-base text-white font-semibold bg-[#2B4447] rounded-md ms-[8px] py-[11px]"
+          >
+            Download Invoice
+          </Button>
         </div>
         {/* <p className="my-6 font-semibold text-base text-[#563FE3]">
           Order Tracking ID - 012345678910

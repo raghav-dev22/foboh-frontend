@@ -38,21 +38,21 @@ function Verifyemail() {
       .catch((error) => console.log(error));
   };
 
-  // useEffect(() => {
-  //   const { organisationId } = JSON.parse(localStorage.getItem("buyerData"));
-  //   fetch(
-  //     `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${organisationId}`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.data[0], "for logo");
-  //       setOrganisationLogo(data.data[0]);
-  //     })
-  //     .catch((error) => console.log(error));
-  // });
+  useEffect(() => {
+    const organisationId = JSON.parse(localStorage.getItem("orgID"));
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.data[0], "for logo");
+        setOrganisationLogo(data.data[0]);
+      })
+      .catch((error) => console.log(error));
+  });
 
   return (
     <>
@@ -101,8 +101,7 @@ function Verifyemail() {
               </div>
               <div className="  md:w-1/2  hidden md:block ">
                 <img
-                  // src={organisationlogo?.organisationlogo}
-                  src="/assets/supplier-logo.png"
+                  src={organisationlogo?.organisationlogo}
                   className="h-full w-full  "
                   alt="signin"
                 />
