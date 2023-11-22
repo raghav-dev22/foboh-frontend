@@ -289,10 +289,9 @@ const MyOrders = () => {
           <FileDownloadOutlinedIcon
             style={{ fill: "#637381" }}
             className=" cursor-pointer"
-            // onClick={() => {
-            //   handleInvoiceDownload(order.orderId);
-            // }}
-            onClick={() => setshowPreview(true)}
+            onClick={() => {
+              handleInvoiceDownload(order.orderId);
+            }}
           />
         </Tooltip>
       </div>

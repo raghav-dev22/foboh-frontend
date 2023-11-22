@@ -19,7 +19,11 @@ function ProductDetails({ stock }) {
           >
             <div className=" sm:flex items-center  grid  gap-2 justify-center">
               <div className="">
-                <img src={item?.stockThreshold} alt="" className="w-12 h-12" />
+                <img
+                  src={item?.productImageUrls}
+                  alt=""
+                  className="w-12 h-12"
+                />
               </div>
 
               <div className="">

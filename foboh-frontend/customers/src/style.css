@@ -54,13 +54,7 @@
     opacity: 1;
   }
 }
-.btn-animation {
-  background-color: #147d73;
-  transition: all 0.3s ease 0s;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
+
 .btn-animation:hover {
   color: #fff;
 }

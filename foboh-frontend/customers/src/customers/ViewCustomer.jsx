@@ -27,7 +27,7 @@ function ViewCustomer() {
 
   const [show, setShow] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     buyerId: "",
     businessName: "",
     abn: "",
@@ -35,7 +35,7 @@ function ViewCustomer() {
     salesRepId: "",
     pricingProfileId: "",
     isActive: "",
-  };
+  });
   const handleInputChange = () => {
     setShow(false);
     setIsOpen(true);
@@ -77,25 +77,27 @@ function ViewCustomer() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data, "postdata");
-        if (data.success) {
-          setShow(true);
-          setIsOpen(false);
-        }
+        // if (data.success) {
+        setCustomerEdit(true);
+        setShow(true);
+        setIsOpen(false);
+        // }
       })
       .catch((error) => console.log(error));
   };
-  // const handleCancel = () => {
-  //   setShow(false);
-  //   // setValues({
-  //   //   ...initialValues,
-  //   // });
-  // };
+  const handleCancel = () => {
+    setCustomerEdit(true);
+    setShow(true);
+    setIsOpen(false);
+    setValues(initialValues);
+  };
   const handleSelectChange = (selectedOption) => {
     setSelectedValue(selectedOption);
     console.log(selectedOption.value, "dropdown");
   };
 
   const handleCustomerDetails = (data) => {
+    setInitialValues(data);
     setValues(data);
     data.isActive === "1"
       ? setSelectedValue({
@@ -202,12 +204,7 @@ function ViewCustomer() {
         {isOpen && (
           <div className=" flex-wrap	 flex judstify-center items-center gap-3">
             <button
-              onClick={() => {
-                setCustomerEdit(true);
-                setShow(true);
-                setIsOpen(false);
-                setValues(initialValues);
-              }}
+              onClick={handleCancel}
               type="button"
               className="border-darkGreen shadow-md border rounded	w-fit px-4		h-10	flex justify-center items-center text-base	font-medium gap-2 "
             >

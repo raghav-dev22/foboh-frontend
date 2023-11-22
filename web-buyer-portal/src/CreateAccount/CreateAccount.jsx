@@ -238,21 +238,21 @@ function CreateAccount() {
       .catch((error) => console.log(error));
   };
 
-  // useEffect(() => {
-  //   const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-  //   fetch(
-  //     `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${organisationId}`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.data[0], "for logo");
-  //       setOrganisationLogo(data.data[0]);
-  //     })
-  //     .catch((error) => console.log(error));
-  // });
+  useEffect(() => {
+    const organisationId = JSON.parse(localStorage.getItem("orgID"));
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.data[0], "for logo");
+        setOrganisationLogo(data.data[0]);
+      })
+      .catch((error) => console.log(error));
+  });
 
   return (
     <>
@@ -353,7 +353,7 @@ function CreateAccount() {
                   <div className="items-start	flex justify-between">
                     {currentStep > 0 && (
                       <button
-                        className="login-btn bg-transparent border-2 border-[#563fe3] rounded-md w-36 p-3 custom-shadow mx-1"
+                        className="login-btn bg-transparent border-2 border-[#563fe3] rounded-md w-36 p-3 custom-shadow mx-1 hover:bg-[#6a59ce]"
                         type="button"
                         onClick={handleBack}
                       >
@@ -363,7 +363,7 @@ function CreateAccount() {
                       </button>
                     )}
                     <button
-                      className={`login-btn bg-custom-blue rounded-md p-3 custom-shadow mx-1 ${
+                      className={`login-btn bg-custom-blue rounded-md p-3 hover:bg-[#6a59ce] custom-shadow mx-1 ${
                         currentStep === 0 ? "w-full" : "w-36"
                       }`}
                       type="button"
@@ -379,7 +379,7 @@ function CreateAccount() {
               </form>
               <div className="  md:basis-1/2  hidden md:block ">
                 <img
-                  src="/assets/supplier-logo.png"
+                  src={organisationlogo?.organisationlogo}
                   className="h-full w-full  "
                   alt="signin"
                 />
