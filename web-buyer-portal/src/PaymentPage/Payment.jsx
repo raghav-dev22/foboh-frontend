@@ -324,33 +324,67 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         }
       }
     } else {
-      const clientSecret = await getClientSecret();
+      const payload = await stripe.createPaymentMethod({
+        type: "au_becs_debit",
+        au_becs_debit: elements.getElement(AuBankAccountElement),
+        billing_details: {
+          email: email,
+          name: cardHolderName, // Use the cardholder's name from the input field
+          address: {
+            // Include the customer's address here
+            line1: deliveryAddress?.Address,
+            city: deliveryAddress?.Suburb,
+            state: deliveryAddress?.State?.label,
+            postal_code: deliveryAddress?.Postcode,
+            country: "AU",
+          },
+        },
+      });
 
+      if (payload) {
+        const pm_id = payload?.paymentMethod?.id;
+
+        const details = {
+          orderId: localStorage.getItem("orderId"),
+          orderByEmailID: email,
+          orderBy: cardHolderName,
+          organisationID: localStorage.getItem("organisationId"),
+          catalogueID: localStorage.getItem("catalogueId"),
+          orderStatus: "InProcessBecs",
+          paymentType: "PayLater",
+          paymentMethod: "becs",
+          paymentMethodID: pm_id,
+        };
+        const clientSecret = await getClientSecret(details);
+        console.log("clientSecretBecs", clientSecret);
+      }
+
+      return true;
       const auBankAccount = elements.getElement(AuBankAccountElement);
 
-      if (clientSecret) {
-        const result = await stripe.confirmAuBecsDebitPayment(clientSecret, {
-          payment_method: {
-            au_becs_debit: auBankAccount,
-            billing_details: {
-              name: cardHolderName,
-              email: email,
-            },
-          },
-        });
+      // if (clientSecret) {
+      //   const result = await stripe.confirmAuBecsDebitPayment(clientSecret, {
+      //     payment_method: {
+      //       au_becs_debit: auBankAccount,
+      //       billing_details: {
+      //         name: cardHolderName,
+      //         email: email,
+      //       },
+      //     },
+      //   });
 
-        if (result.error) {
-          // Show error to your customer.
-          setLoading(false);
-          errorMessage(result.error.message);
-        } else {
-          setLoading(false);
-          // Show a confirmation message to your customer.
-          // The PaymentIntent is in the 'processing' state.
-          // BECS Direct Debit is a delayed notification payment
-          // method, so funds are not immediately available.
-        }
-      }
+      //   if (result.error) {
+      //     // Show error to your customer.
+      //     setLoading(false);
+      //     errorMessage(result.error.message);
+      //   } else {
+      //     setLoading(false);
+      //     // Show a confirmation message to your customer.
+      //     // The PaymentIntent is in the 'processing' state.
+      //     // BECS Direct Debit is a delayed notification payment
+      //     // method, so funds are not immediately available.
+      //   }
+      // }
     }
   };
 

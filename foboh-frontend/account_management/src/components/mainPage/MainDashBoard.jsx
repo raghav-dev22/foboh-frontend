@@ -40,10 +40,7 @@ function MainDashBoard() {
     completed: [],
   };
 
-  const monthlyOrderData = [5, 19, 6, 8, 16, 8, 5, 1];
-  const weeklyOrderData = [50, 75, 60, 80, 90, 70, 55, 65];
-  const monthlyDeliveryData = [12, 19, 3, 5, 2, 7, 9, 5];
-  const weeklyDeliveryData = [40, 70, 50, 60, 75, 65, 55, 65];
+
   const [selectedOption, setSelectedOption] = useState(graphOption[0]);
 
   const {

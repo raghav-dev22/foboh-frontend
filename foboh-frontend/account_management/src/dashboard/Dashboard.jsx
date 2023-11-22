@@ -13,6 +13,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import SafeComponent from "./SafeComponent";
 import Loader from "./Loader";
 import FallbackComponent from "./FallbackComponent";
+import { setbusinessName } from "../Redux/Action/organisationDetailsSlice";
 
 const ViewProduct = React.lazy(() =>
   import("products/ViewProduct").catch(() => {
@@ -157,6 +158,7 @@ function Dashboard() {
               const org = data?.data[0];
 
               dispatch(updateLogoURI(org?.organisationlogo));
+              dispatch(setbusinessName(org?.businessName));
             }
           });
       })

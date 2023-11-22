@@ -13,47 +13,99 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useQuery } from "react-query";
+import { getTilesData } from "../reactQuery/dashboardApiModule";
 
 function StockDetails() {
   const [order, setOrder] = useState(0);
   const [customer, setCustomer] = useState(0);
+  const [customerPercentage, setCustomerPercentage] = useState(0);
   const [revenue, setRevenue] = useState(0);
   const [profit, setProfit] = useState(0);
+
+  const {
+    data: tilesData,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["fetchTiles"],
+    queryFn: getTilesData,
+  });
+
   const stockBox = [
     {
-      title: revenue,
+      title: `$${tilesData?.totalRevenue}`,
 
       description: "Total Revenue this month",
 
-      value: <span style={{ color: "#45CB85" }}>0.43%</span>,
+      value: (
+        <span
+          style={
+            tilesData?.totalRevenuePercentage > 0
+              ? { color: "#45CB85" }
+              : { color: "#DC3545" }
+          }
+        >{`${tilesData?.totalRevenuePercentage.toFixed(2)}%`}</span>
+      ),
 
       Image: <AttachMoneyIcon style={{ fill: "#147D73" }} />,
 
-      Arrow: <ArrowUpwardIcon style={{ fill: "#45CB85" }} />,
+      Arrow:
+        tilesData?.totalRevenuePercentage > 0 ? (
+          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
+        ) : (
+          <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
+        ),
     },
 
     {
-      title: profit,
+      title: `$${tilesData?.totalProfit}`,
 
       description: "Gross Profit this month",
 
-      value: <span style={{ color: "#45CB85" }}>4.35%</span>,
+      value: (
+        <span
+          style={
+            tilesData?.totalProfitPercentage
+              ? { color: "#45CB85" }
+              : { color: "#DC3545" }
+          }
+        >{`${tilesData?.totalProfitPercentage.toFixed(2)}%`}</span>
+      ),
 
       Image: <SignalCellularAltIcon style={{ fill: "#147D73" }} />,
 
-      Arrow: <ArrowUpwardIcon style={{ fill: "#45CB85" }} />,
+      Arrow:
+        tilesData?.totalProfitPercentage > 0 ? (
+          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
+        ) : (
+          <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
+        ),
     },
 
     {
-      title: order,
+      title: tilesData?.noOfOrders,
 
       description: "Total Orders this month",
 
-      value: <span style={{ color: "#45CB85" }}>2.59%</span>,
+      value: (
+        <span
+          style={
+            tilesData?.noOfOrdersPercentage > 0
+              ? { color: "#45CB85" }
+              : { color: "#DC3545" }
+          }
+        >{`${tilesData?.noOfOrdersPercentage.toFixed(2)}%`}</span>
+      ),
 
       Image: <ShoppingCartOutlinedIcon style={{ fill: "#147D73" }} />,
 
-      Arrow: <ArrowUpwardIcon style={{ fill: "#45CB85" }} />,
+      Arrow:
+        tilesData?.noOfOrdersPercentage > 0 ? (
+          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
+        ) : (
+          <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
+        ),
     },
 
     {
@@ -61,13 +113,19 @@ function StockDetails() {
 
       description: "Active customers",
 
-      value: <span style={{ color: "#DC3545" }}>0.95%</span>,
+      value: <span style={{ color: "#DC3545" }}>{customerPercentage}</span>,
 
       Image: <PeopleAltOutlinedIcon style={{ fill: "#147D73" }} />,
 
-      Arrow: <ArrowDownwardIcon style={{ fill: "#DC3545" }} />,
+      Arrow:
+        customerPercentage > 0 ? (
+          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
+        ) : (
+          <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
+        ),
     },
   ];
+
   const organisationId = localStorage.getItem("organisationId");
   useEffect(() => {
     // // total  customer
@@ -82,9 +140,19 @@ function StockDetails() {
         if (data.success) {
           const customerData = data?.data[0];
           setCustomer(customerData?.noOfCustomer);
+          setCustomerPercentage(
+            `${customerData?.percentageIncrease.toFixed(2)}%`
+          );
         }
       })
       .catch((error) => console.log(error));
+
+    fetch(
+      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getAllCards?OrganisationId=${organisationId}`,
+      {
+        method: "GET",
+      }
+    ).th;
 
     // // total  order
     fetch(

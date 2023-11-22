@@ -214,7 +214,7 @@ function Organisation() {
               organisationAddress: values.organisationAddress,
               apartment: values.organisationAddressApartment,
               city: "",
-              state: values.state,
+              state: values.state?.label,
               postcode: values.organisationAddressPostcode,
               country: "",
               suburb: values.organisationAddressSuburb,
@@ -222,7 +222,7 @@ function Organisation() {
               billingAddressApartment: values.billingAddressApartment,
               billingAddressSuburb: values.billingAddressSuburb,
               billingAddressPostCode: values.billingAddressPostcode,
-              billingAddressState: values.billingAddressState,
+              billingAddressState: values.billingAddressState?.label,
               categoryList: values.categoryList?.map((obj) => {
                 return `${obj.value}`;
               }),
@@ -246,8 +246,36 @@ function Organisation() {
   });
   // console.log("bbbbb", errors)
 
+  const handleStateChange = (e, name) => {
+    setShow(true);
+    setValues((prev) => {
+      return {
+        ...prev,
+        [name]: e,
+      };
+    });
+  };
+
   useEffect(() => {
     const orgId = localStorage.getItem("organisationId");
+    let states = [];
+
+    fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "state");
+        states = data.map((i) => {
+          return {
+            value: i?.stateId,
+            label: i?.stateName,
+          };
+        });
+
+        setState(states);
+      });
+
     if (orgId) {
       fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
         method: "GET",
@@ -290,6 +318,14 @@ function Organisation() {
                   }
                 );
 
+                const state = states.find(
+                  (item) => item.label === organisationSettings?.state
+                );
+                const billingState = states.find(
+                  (item) =>
+                    item.label === organisationSettings?.billingAddressState
+                );
+
                 setLogoUri(organisationSettings.organisationlogo);
                 setInitialValues({
                   tradingName: organisationSettings.tradingName,
@@ -307,7 +343,7 @@ function Organisation() {
                     organisationSettings.billingAddressSuburb,
                   billingAddressPostcode:
                     organisationSettings.billingAddressPostCode,
-                  billingAddressState: organisationSettings.billingAddressState,
+                  billingAddressState: billingState,
                   orderingContactFirstName:
                     organisationSettings.orderingContactFirstName,
                   orderingContactLastName:
@@ -326,7 +362,7 @@ function Organisation() {
                     organisationSettings.logisticsContactMobile,
                   categories: organisationSettings.categories,
                   description: organisationSettings.description,
-                  state: organisationSettings.state,
+                  state: state,
                   postcode: organisationSettings.postcode,
                   categoryList: categoryList,
                 });
@@ -346,7 +382,7 @@ function Organisation() {
                     organisationSettings.billingAddressSuburb,
                   billingAddressPostcode:
                     organisationSettings.billingAddressPostCode,
-                  billingAddressState: organisationSettings.billingAddressState,
+                  billingAddressState: billingState,
                   orderingContactFirstName:
                     organisationSettings.orderingContactFirstName,
                   orderingContactLastName:
@@ -365,7 +401,7 @@ function Organisation() {
                     organisationSettings.logisticsContactMobile,
                   categories: organisationSettings.categories,
                   description: organisationSettings.description,
-                  state: organisationSettings.state,
+                  state: state,
                   postcode: organisationSettings.postcode,
                   categoryList: categoryList,
                 });
@@ -566,23 +602,7 @@ function Organisation() {
     });
   };
 
-  useEffect(() => {
-    fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data, "state");
-        setState(
-          data.map((i) => {
-            return {
-              value: i?.stateId,
-              label: i?.stateName,
-            };
-          })
-        );
-      });
-  }, []);
+  useEffect(() => {}, []);
   return (
     <>
       {contextHolder}
@@ -1048,10 +1068,9 @@ function Organisation() {
                             </label>
                             <div className="relative">
                               <Select
-                                isMulti
                                 name="state"
                                 value={values.state}
-                                onChange={handleChange}
+                                onChange={(e) => handleStateChange(e, "state")}
                                 options={state}
                                 className="appearance-none block w-full  text-gray-700 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 classNamePrefix="basic-multi-select "
@@ -1265,10 +1284,11 @@ function Organisation() {
                             </label>
                             <div className="relative">
                               <Select
-                                isMulti
-                                name="state"
-                                value={values.state}
-                                onChange={handleChange}
+                                name="billingAddressState"
+                                value={values.billingAddressState}
+                                onChange={(e) =>
+                                  handleStateChange(e, "billingAddressState")
+                                }
                                 options={state}
                                 className="appearance-none block w-full  text-gray-700 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 classNamePrefix="basic-multi-select "

@@ -40,22 +40,13 @@ const Registration = () => {
     });
   };
 
-  const { mutateAsync: mutateBusinessName, data: organisationIdData } =
-    useMutation(postBusinessName, {
-      onSuccess: (data) => {
-        localStorage.setItem("organisationId", data);
-      },
-      onError: (err) => {
-        error(err);
-      },
-    });
-
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: RegistrationSchema,
       onSubmit: async (values) => {
-        await mutateBusinessName(values?.businessName);
+        const organisationId = await postBusinessName(values?.businessName);
+        localStorage.setItem("organisationId", organisationId);
         await fetch(`${authService}/api/Verify/CreateUser`, {
           method: "POST",
           headers: {
@@ -85,9 +76,9 @@ const Registration = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+            console.log("userdetails", data);
 
-            const userInfo = data.userdetails;
+            const userInfo = data?.userdetails;
             fetch(`${authUrl}/api/User/create`, {
               method: "POST",
               headers: {
@@ -105,7 +96,7 @@ const Registration = () => {
                 imageUrl: "",
                 bio: "",
                 mobile: userInfo.mobilePhone,
-                organisationId: "",
+                organisationId: organisationId,
                 isActive: true,
               }),
             })
@@ -122,9 +113,8 @@ const Registration = () => {
                     data.data.mobile,
                     data.data.password,
                     userInfo,
-                    localStorage.getItem("organisationId")
+                    organisationId
                   );
-
                   localStorage.removeItem("uniqueKey");
                   localStorage.removeItem("password");
                   localStorage.setItem("loginPopup", "true");

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 const Header = () => {
   const user = useSelector((state) => state.user);
+  const organisation = useSelector((state) => state.organisationDetails);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -158,10 +159,10 @@ const Header = () => {
                 >
                   <div className="">
                     <h6 className="text-sm	 font-bold text-white">
-                      {user.firstName}
+                      {user.firstName} {user.lastName}
                     </h6>
                     <p className="text-xs font-normal text-lightGray">
-                      {user.lastName}
+                      {organisation.businessName}
                     </p>
                   </div>
                   <div className="">
