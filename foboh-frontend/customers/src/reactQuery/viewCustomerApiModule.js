@@ -36,14 +36,15 @@ export const getdefaultPaymentTerm = async () => {
   }
 };
 
-export const getdefaultPaymentMethod = async (e) => {
+export const getdefaultPaymentMethod = async (defaultPaymentTerm) => {
+  console.log("e", defaultPaymentTerm);
   try {
-    if (!e || !e.label) {
+    if (!defaultPaymentTerm || !defaultPaymentTerm.label) {
       console.error("Invalid input. 'e' or 'e.label' is undefined.");
       return null;
     }
     const defaultPaymentMethod = await fetch(
-      `https://masters-api-foboh.azurewebsites.net/api/order?DefaultPaymentTerm=${e.label.trim()}`,
+      `https://masters-api-foboh.azurewebsites.net/api/order?DefaultPaymentTerm=${defaultPaymentTerm.label.trim()}`,
       {
         method: "GET",
       }

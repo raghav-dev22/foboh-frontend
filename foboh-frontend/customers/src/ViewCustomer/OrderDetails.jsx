@@ -78,18 +78,17 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
     billingState: {},
     isActive: "",
   });
-  useEffect(() => {
-    callCustomerDetails();
-  }, []);
 
   const {
     data: statesData,
     error: statesError,
     isLoading: statesIsLoading,
+    refetch: stateDataRefetch,
   } = useQuery({
     queryKey: ["getStates"],
     queryFn: getStates,
   });
+
   let allStateData = [];
   if (statesData && !statesIsLoading) {
     const list = statesData.map((item) => {
@@ -101,6 +100,16 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
     allStateData = list;
   }
 
+  useEffect(() => {
+    if (statesData) {
+      // Assuming statesData is an array of state objects
+      callCustomerDetails();
+    }
+    if (paymentTermData) {
+      callCustomerDetails();
+    }
+  }, [statesData, paymentTermData]);
+
   const {
     data: paymentTermData,
     error: paymentTermError,
@@ -109,6 +118,26 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
     queryKey: ["defaultPaymentTerm"],
     queryFn: getdefaultPaymentTerm,
   });
+
+  let defaultPaymentMethodList = [];
+
+  const getcustomerDefaultPaymentMethod = async (defaultPaymentTerm) => {
+    const dpm = await getdefaultPaymentMethod(defaultPaymentTerm);
+
+    console.log("dpm", dpm);
+    defaultPaymentMethodList = dpm?.data.map((item) => {
+      return {
+        label: item,
+        value: item,
+      };
+    });
+
+    const defaultPaymentMethodId = defaultPaymentMethodList.find(
+      (item) => customerData.defaultPaymentMethodId[0] === item.label
+    );
+
+    return [defaultPaymentMethodId, defaultPaymentMethodList];
+  };
 
   let paymentTerm = [];
   if (paymentTermData && !paymentTermIsLoading) {
@@ -138,7 +167,6 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
           };
         })
       );
-      console.log(defaultPaymentMethod, "all method data");
     } else {
       setValues({
         ...values,
@@ -147,8 +175,9 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
     }
   };
 
-  const callCustomerDetails = () => {
-    fetch(
+  let customerData = {};
+  const callCustomerDetails = async () => {
+    const data = await fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/${datas}`,
       {
         method: "GET",
@@ -157,6 +186,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Customer data --->", data.orderingFirstName);
+        customerData = data;
         handleCustomerDetails(data);
         setInitialValues({
           ...initialValues,
@@ -202,7 +232,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
           address: data.address,
           apartment: data.apartment,
           suburb: data.suburb,
-          billingState: allStateData?.map(
+          billingState: allStateData?.find(
             (item) => data?.billingState === item?.label
           ),
           billingPostalCode: data.billingPostalCode,
@@ -210,7 +240,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
           billingApartment: data.billingApartment,
           deliveryNotes: data.deliveryNotes,
           billingAddress: data.billingAddress,
-          state: data.state,
+          state: allStateData.find((item) => data.state === item.label),
           postalCode: data.postalCode,
           deliveryEmail: data.deliveryEmail,
           deliveryMobile: data.deliveryMobile,
@@ -220,15 +250,36 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
           abn: data.abn,
           liquorLicence: data.liquorLicence,
           organisationId: data?.organisationId,
-          defaultPaymentMethodId: data?.defaultPaymentMethodId,
-          defaultPaymentTerms: data?.defaultPaymentTerm,
+          defaultPaymentMethodId: defaultPaymentMethodSelected,
+          defaultPaymentTerms: paymentTerm.find(
+            (item) => data?.defaultPaymentTerm[0] === item.label
+          ),
           tags: [],
           pricingProfileId: "",
           salesRepId: "",
           isActive: data?.isActive,
         });
         setCustomerDetails(data);
+
+        return data;
       });
+
+    const defaultPaymentTerm = paymentTerm.find(
+      (item) => data?.defaultPaymentTerm[0] === item?.label
+    );
+    const [defaultPaymentMethodSelected, defaultPaymentMethodList] =
+      await getcustomerDefaultPaymentMethod(defaultPaymentTerm);
+
+    setDefaultPaymentMethod(defaultPaymentMethodList);
+
+    console.log("defaultPaymentMethodSelected", defaultPaymentMethodSelected);
+
+    setValues((prev) => {
+      return {
+        ...prev,
+        defaultPaymentMethodId: defaultPaymentMethodSelected,
+      };
+    });
   };
 
   const onFinalSubmit = (event) => {
@@ -1056,13 +1107,12 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             options={allStateData}
                             onBlur={handleBlur}
                             onChange={(selectedValue) => {
-                              // Assuming setValues is a function that updates the state
                               setValues((prevValues) => ({
                                 ...prevValues,
                                 billingState: selectedValue,
                               }));
                             }}
-                            value={values.billingState}
+                            value={values.state}
                           />
                         </div>
                       </div>
@@ -1265,7 +1315,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                           <Select
                             className="mt-[3px]"
                             showSearch
-                            name="state"
+                            name="billingState"
                             style={{ width: "100%", height: "48px" }}
                             placeholder="Select"
                             options={allStateData}
@@ -1276,7 +1326,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                                 state: selectedValue,
                               }));
                             }}
-                            value={values.state}
+                            value={values.billingState}
                           />
                           {errors.billingState && touched.billingState && (
                             <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
@@ -1321,7 +1371,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             placeholder="Select"
                             options={paymentTerm}
                             onBlur={handleBlur}
-                            value={values.defaultPaymentTerms}
+                            value={values?.defaultPaymentTerms}
                             onChange={(e) =>
                               handleSelect(e, "defaultPaymentTerms")
                             }

@@ -150,9 +150,13 @@ const SearchProduct = forwardRef(
         }, timeout);
       };
     }
-    function saveInput(name) {
+    function saveInput(name, newFilterAndSort) {
       if (name === "filterAndSort") {
         const orgID = localStorage.getItem("organisationId");
+        const filterBody =
+          localStorage.getItem("yourBooleanKey") === "true"
+            ? newFilterAndSort
+            : filterAndSort;
         fetch(
           `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/Filter?OrganisationId=${orgID}`,
           {
@@ -160,7 +164,7 @@ const SearchProduct = forwardRef(
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(filterAndSort),
+            body: JSON.stringify(filterBody),
           }
         )
           .then((response) => response.json())
@@ -376,6 +380,33 @@ const SearchProduct = forwardRef(
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, [dropdownRef]);
+
+    useEffect(() => {
+      const timeoutId = setTimeout(() => {
+        const mainFilter = localStorage.getItem("yourBooleanKey");
+        console.log(mainFilter, "seeall");
+        if (mainFilter === "true") {
+          let newFilterAndSort = {
+            filter: {
+              category: [],
+              subcategory: [],
+              stock: ["lowStock", "outOfStock"],
+              productStatus: [],
+              visibility: "",
+              page: 1,
+            },
+            sort: {
+              sortBy: "",
+              sortOrder: "asc",
+            },
+          };
+          saveInput("filterAndSort", newFilterAndSort);
+          localStorage.removeItem("yourBooleanKey");
+        }
+      }, 3000);
+
+      return () => clearTimeout(timeoutId);
+    }, []);
 
     return (
       <>

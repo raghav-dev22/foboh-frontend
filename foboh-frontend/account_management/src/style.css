@@ -1410,6 +1410,13 @@ a:hover {
 .h-\[173px\] {
   height: 173px;
 }
+.btn-animation {
+  background-color: #147d73 !important;
+  transition: all 0.3s ease 0s !important;
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+}
 .ml-3 {
   margin-left: 0.75rem /* 12px */;
 }

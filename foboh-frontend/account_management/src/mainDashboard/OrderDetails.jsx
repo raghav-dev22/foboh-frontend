@@ -30,7 +30,7 @@ function OrderDetails({ orderDetails }) {
 
             <td className="px-4 py-4 border-b border-gray-200   ">
               <h5 className="sm:font-normal font-light    text-xs sm:text-sm   whitespace-no-wrap text-gray">
-                {value.payAmountLong}
+                ${value.payAmountLong}
               </h5>
             </td>
 
