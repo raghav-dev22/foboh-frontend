@@ -24,7 +24,7 @@ const BusinessDetails = ({
       </div>
       <div className="py-6 px-6">
         <form onChange={formChange} action="">
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-2.5">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -76,7 +76,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-2.5">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -124,7 +124,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-2.5">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -172,7 +172,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-2.5">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -221,7 +221,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-2.5">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -264,7 +264,7 @@ const BusinessDetails = ({
               />
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-2.5">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"

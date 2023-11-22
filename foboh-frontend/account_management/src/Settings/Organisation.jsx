@@ -75,10 +75,10 @@ function Organisation() {
     orderingContactLastName: "",
     orderingContactEmail: "",
     orderingContactMobile: "",
-    LogisticsContactFirstName: "",
-    LogisticsContactLastName: "",
-    LogisticsContactEmail: "",
-    LogisticsContactMobile: "",
+    logisticsContactFirstName: "",
+    logisticsContactLastName: "",
+    logisticsContactEmail: "",
+    logisticsContactMobile: "",
     categories: [],
     description: "",
     state: "",
@@ -120,10 +120,10 @@ function Organisation() {
               orderingContactLastName: values.orderingContactLastName,
               orderingContactMobile: values.orderingContactMobile,
               orderingContactEmail: values.orderingContactEmail,
-              logisticsContactFirstName: values.LogisticsContactFirstName,
-              logisticsContactLastName: values.LogisticsContactLastName,
-              logisticsContactMobile: values.LogisticsContactMobile,
-              logisticsContactEmail: values.LogisticsContactEmail,
+              logisticsContactFirstName: values.logisticsContactFirstName,
+              logisticsContactLastName: values.logisticsContactLastName,
+              logisticsContactMobile: values.logisticsContactMobile,
+              logisticsContactEmail: values.logisticsContactEmail,
               organisationAddress: values.organisationAddress,
               apartment: values.organisationAddress,
               city: "",
@@ -207,10 +207,10 @@ function Organisation() {
               orderingContactLastName: values.orderingContactLastName,
               orderingContactMobile: values.orderingContactMobile,
               orderingContactEmail: values.orderingContactEmail,
-              logisticsContactFirstName: values.LogisticsContactFirstName,
-              logisticsContactLastName: values.LogisticsContactLastName,
-              logisticsContactMobile: values.LogisticsContactMobile,
-              logisticsContactEmail: values.LogisticsContactEmail,
+              logisticsContactFirstName: values.logisticsContactFirstName,
+              logisticsContactLastName: values.logisticsContactLastName,
+              logisticsContactMobile: values.logisticsContactMobile,
+              logisticsContactEmail: values.logisticsContactEmail,
               organisationAddress: values.organisationAddress,
               apartment: values.organisationAddressApartment,
               city: "",
@@ -244,7 +244,7 @@ function Organisation() {
       }
     },
   });
-  // console.log("bbbbb", errors)
+  console.log("bbbbb", errors);
 
   const handleStateChange = (e, name) => {
     setShow(true);
@@ -352,13 +352,13 @@ function Organisation() {
                     organisationSettings.orderingContactEmail,
                   orderingContactMobile:
                     organisationSettings.orderingContactMobile,
-                  LogisticsContactFirstName:
+                  logisticsContactFirstName:
                     organisationSettings.logisticsContactFirstName,
-                  LogisticsContactLastName:
+                  logisticsContactLastName:
                     organisationSettings.logisticsContactLastName,
-                  LogisticsContactEmail:
+                  logisticsContactEmail:
                     organisationSettings.logisticsContactEmail,
-                  LogisticsContactMobile:
+                  logisticsContactMobile:
                     organisationSettings.logisticsContactMobile,
                   categories: organisationSettings.categories,
                   description: organisationSettings.description,
@@ -797,7 +797,7 @@ function Organisation() {
                               }}
                             />
                             {errors.description && (
-                              <p className="mt-2 mb-2 text-red-500">
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
                                 {errors.description}
                               </p>
                             )}
@@ -1353,7 +1353,7 @@ function Organisation() {
                         </div>
                       </div>
                       {showError && (
-                        <p className="mt-2 mb-2 text-red-500 text-sm">
+                        <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
                           Invalid file format. Please upload an image (jpg,
                           jpeg, png, or gif).
                         </p>
@@ -1669,17 +1669,17 @@ function Organisation() {
                           <div className="w-full md:w-1/2 px-3 relative">
                             <label
                               className="block  tracking-wide text-gray-700 text-base	 font-medium"
-                              htmlFor="LogisticsContactFirstName"
+                              htmlFor="logisticsContactFirstName"
                             >
                               First name
                             </label>
                             <input
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="LogisticsContactFirstName"
+                              id="logisticsContactFirstName"
                               type="text"
                               placeholder="Enter First name"
-                              name="LogisticsContactFirstName"
-                              value={values.LogisticsContactFirstName}
+                              name="logisticsContactFirstName"
+                              value={values.logisticsContactFirstName}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               onKeyPress={(e) =>
@@ -1687,19 +1687,19 @@ function Organisation() {
                               }
                               style={{
                                 border:
-                                  errors.LogisticsContactFirstName &&
-                                  touched.LogisticsContactFirstName &&
+                                  errors.logisticsContactFirstName &&
+                                  touched.logisticsContactFirstName &&
                                   "1px solid red",
                               }}
                             />
-                            {errors.LogisticsContactFirstName &&
-                              touched.LogisticsContactFirstName && (
+                            {errors.logisticsContactFirstName &&
+                              touched.logisticsContactFirstName && (
                                 <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
-                                  {errors.LogisticsContactFirstName}
+                                  {errors.logisticsContactFirstName}
                                 </p>
                               )}
-                            {errors.LogisticsContactFirstName &&
-                              touched.LogisticsContactFirstName && (
+                            {errors.logisticsContactFirstName &&
+                              touched.logisticsContactFirstName && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
                           </div>
@@ -1712,11 +1712,11 @@ function Organisation() {
                             </label>
                             <input
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="LogisticsContactLastName"
+                              id="logisticsContactLastName"
                               type="text"
                               placeholder="Enter Last name"
-                              name="LogisticsContactLastName"
-                              value={values.LogisticsContactLastName}
+                              name="logisticsContactLastName"
+                              value={values.logisticsContactLastName}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               onKeyPress={(e) =>
@@ -1724,19 +1724,19 @@ function Organisation() {
                               }
                               style={{
                                 border:
-                                  errors.LogisticsContactLastName &&
-                                  touched.LogisticsContactLastName &&
+                                  errors.logisticsContactLastName &&
+                                  touched.logisticsContactLastName &&
                                   "1px solid red",
                               }}
                             />
-                            {errors.LogisticsContactLastName &&
-                              touched.LogisticsContactLastName && (
+                            {errors.logisticsContactLastName &&
+                              touched.logisticsContactLastName && (
                                 <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
-                                  {errors.LogisticsContactLastName}
+                                  {errors.logisticsContactLastName}
                                 </p>
                               )}
-                            {errors.LogisticsContactLastName &&
-                              touched.LogisticsContactLastName && (
+                            {errors.logisticsContactLastName &&
+                              touched.logisticsContactLastName && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
                           </div>
@@ -1751,11 +1751,11 @@ function Organisation() {
                             </label>
                             <input
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="LogisticsContactEmail"
+                              id="logisticsContactEmail"
                               type="email"
                               placeholder="Enter Email"
-                              name="LogisticsContactEmail"
-                              value={values.LogisticsContactEmail}
+                              name="logisticsContactEmail"
+                              value={values.logisticsContactEmail}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               onKeyPress={(e) =>
@@ -1763,19 +1763,19 @@ function Organisation() {
                               }
                               style={{
                                 border:
-                                  errors.LogisticsContactEmail &&
-                                  touched.LogisticsContactEmail &&
+                                  errors.logisticsContactEmail &&
+                                  touched.logisticsContactEmail &&
                                   "1px solid red",
                               }}
                             />
-                            {errors.LogisticsContactEmail &&
-                              touched.LogisticsContactEmail && (
+                            {errors.logisticsContactEmail &&
+                              touched.logisticsContactEmail && (
                                 <p className="mt-2 mb-2 text-red-500 font-normal	text-xs">
-                                  {errors.LogisticsContactEmail}
+                                  {errors.logisticsContactEmail}
                                 </p>
                               )}
-                            {errors.LogisticsContactEmail &&
-                              touched.LogisticsContactEmail && (
+                            {errors.logisticsContactEmail &&
+                              touched.logisticsContactEmail && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
                             {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
@@ -1804,11 +1804,11 @@ function Organisation() {
                             </label>
                             <input
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              id="LogisticsContactMobile"
+                              id="logisticsContactMobile"
                               type="text"
                               placeholder="Enter Mobile No"
-                              name="LogisticsContactMobile"
-                              value={values.LogisticsContactMobile}
+                              name="logisticsContactMobile"
+                              value={values.logisticsContactMobile}
                               onChange={handleChange}
                               maxLength={20}
                               onKeyPress={(event) => {
@@ -1820,19 +1820,19 @@ function Organisation() {
                               onBlur={handleBlur}
                               style={{
                                 border:
-                                  errors.LogisticsContactMobile &&
-                                  touched.LogisticsContactMobile &&
+                                  errors.logisticsContactMobile &&
+                                  touched.logisticsContactMobile &&
                                   "1px solid red",
                               }}
                             />
-                            {errors.LogisticsContactMobile &&
-                              touched.LogisticsContactMobile && (
+                            {errors.logisticsContactMobile &&
+                              touched.logisticsContactMobile && (
                                 <p className="mt-2 mb-2 text-red-500 font-normal	text-xs	">
-                                  {errors.LogisticsContactMobile}
+                                  {errors.logisticsContactMobile}
                                 </p>
                               )}
-                            {errors.LogisticsContactMobile &&
-                              touched.LogisticsContactMobile && (
+                            {errors.logisticsContactMobile &&
+                              touched.logisticsContactMobile && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
                             {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}

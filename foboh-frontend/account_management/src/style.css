@@ -1417,3 +1417,9 @@ a:hover {
   overflow: hidden !important;
   z-index: 1 !important;
 }
+.ml-3 {
+  margin-left: 0.75rem /* 12px */;
+}
+.custom .bhHnmT {
+  margin: 0px !important;
+}

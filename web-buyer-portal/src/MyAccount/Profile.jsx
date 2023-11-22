@@ -181,14 +181,11 @@ const Profile = () => {
                 </div>
               </div>
               <div className="md:grid-cols-2 grid sm:grid-cols-3	  gap-4 md:px-0 px-6">
-                {" "}
                 <div className="rounded-[5px] border border-[#E0E0E0]">
-                  {" "}
                   <div
                     style={{ backgroundColor: token.commonThemeColor }}
                     className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
                   >
-                    {" "}
                     <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                       Business Details
                     </h5>{" "}
@@ -198,18 +195,20 @@ const Profile = () => {
                       {buyer?.businessName}
                     </h5>
                     <p className="text-sm font-normal">ABN: {buyer?.abn}</p>
-                    <p className="text-sm font-normal">
-                      LIQ: {buyer?.liquorLicence}
-                    </p>{" "}
+                    {buyer?.liquorLicence ? (
+                      <p className="text-sm font-normal">
+                        LIQ: {buyer?.liquorLicence}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>{" "}
                 </div>{" "}
                 <div className="rounded-[5px] border border-[#E0E0E0]">
-                  {" "}
                   <div
                     style={{ backgroundColor: token.commonThemeColor }}
                     className="ordering-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	"
                   >
-                    {" "}
                     <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
                       Ordering Contact
                     </h5>{" "}
@@ -227,18 +226,15 @@ const Profile = () => {
                   </div>{" "}
                 </div>{" "}
                 <div className="rounded-[5px] border border-[#E0E0E0]">
-                  {" "}
                   <div
                     style={{ backgroundColor: token.commonThemeColor }}
                     className="delivery-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	"
                   >
-                    {" "}
                     <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
                       Delivery Contact
                     </h5>{" "}
                   </div>{" "}
                   <div className="px-4 sm:py-5 pb-5">
-                    {" "}
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.deliveryFirstName} {buyer?.deliveryLastName}
                     </h5>

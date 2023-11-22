@@ -52,6 +52,7 @@ function ShopSection() {
               autoplay={3000}
             >
               {products.map((product) => {
+                console.log(products, "products------------->");
                 return (
                   <Carousel.Item>
                     <div className=" ">

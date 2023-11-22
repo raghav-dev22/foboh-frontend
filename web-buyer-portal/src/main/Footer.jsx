@@ -5,16 +5,14 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { useSelector } from "react-redux";
 import { theme } from "antd";
+import { json } from "react-router-dom";
 
 function Footer() {
   const organisation = useSelector((state) => state.organisation);
   const { useToken } = theme;
   const { token } = useToken();
-  const buyer = useSelector((state) => state.buyer);
-  console.log(
-    organisation,
-    "buyer=====================================================>"
-  );
+
+  console.log("organisation", organisation);
 
   return (
     <>
@@ -49,10 +47,10 @@ function Footer() {
         <div className="">
           <p className="font-[500] text-sm text-white mb-5">Contact us</p>
           <p className="font-normal text-sm mb-5 text-[#fff]">
-            {buyer?.orderingContactMobile || ["0400 000 000"]}
+            {organisation?.orderingContactMobile || ["0400 000 000"]}
           </p>
           <p className="font-normal text-sm text-[#fff] mb-5">
-            {buyer?.orderingContactEmail || ["help@logoipsum.com"]}
+            {organisation?.orderingContactEmail || ["help@logoipsum.com"]}
           </p>
         </div>
 

@@ -996,7 +996,7 @@ const MyOrders = () => {
           )}
         </div>
 
-        <div className="border border-[#E0E0E0] rounded-[8px] mb-8">
+        <div className="border border-[#E0E0E0] rounded-[8px] mb-14">
           {/* {showPreview && <Invoice />} */}
           <InvoiceModal
             ref={childRef}
@@ -1014,13 +1014,12 @@ const MyOrders = () => {
             onChange={onShowSizeChange}
             pagination={{
               current: page,
-              pageSize: 8,
+              pageSize: 10,
               total: totalData,
               showSizeChanger: false,
               showQuickJumper: false,
             }}
             scroll={{
-              y: 240,
               x: 1121,
             }}
           />

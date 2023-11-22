@@ -11,7 +11,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
   const [showError, setShowError] = useState();
   const defaultImage = "/assets/update-user.png";
   const fileInputRef = useRef();
-  const authUrl = process.env.REACT_APP_AUTH_URL
+  const authUrl = process.env.REACT_APP_AUTH_URL;
 
   const handleDelete = () => {
     if (fileInputRef.current) {
@@ -26,7 +26,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
         imageUrl: null,
       })
     );
-   setShow(true)
+    setShow(true);
     console.log("Image deleted");
   };
 
@@ -52,39 +52,35 @@ function EditProfile({ setProfileUri, setShow, show }) {
         const reader = new FileReader();
         const formData = new FormData();
         formData.append("file", file);
-        
-        
+
         reader.onload = () => {
           const imgData = reader.result;
-          setImageSrc(imgData)
-          setShow(true)
-          console.log('imgData', imgData);
+          setImageSrc(imgData);
+          setShow(true);
+          console.log("imgData", imgData);
         };
         reader.readAsDataURL(file);
 
-
-
         const ccrn = localStorage.getItem("ccrn");
-        fetch(
-          `${authUrl}/api/User/UploadProfileImage?ccrn=${ccrn}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        )
+        fetch(`${authUrl}/api/User/UploadProfileImage?ccrn=${ccrn}`, {
+          method: "POST",
+          body: formData,
+        })
           .then((response) => response.json())
           .then((data) => {
             // Handle the response from the server
             console.log("Server response:", data);
             if (!data.error) {
               console.log("uri --->", data.blob.uri);
-              setShow(true)
+              setShow(true);
               setImageSrc(data.blob.uri);
               setProfileUri(data.blob.uri);
-              dispatch(updateUserData({
-                ...user,
-                imageUrl : data?.blob?.uri
-              }))
+              dispatch(
+                updateUserData({
+                  ...user,
+                  imageUrl: data?.blob?.uri,
+                })
+              );
             }
           })
           .catch((error) => {
@@ -97,7 +93,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
     }
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive,  open } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
   });
 
@@ -108,7 +104,7 @@ function EditProfile({ setProfileUri, setShow, show }) {
         style={{ height: "380px" }}
       >
         <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">
-          <h6 className="text-base	font-medium	 text-green">Personal details</h6>
+          <h6 className="text-base	font-medium	 text-green">Your Photo</h6>
         </div>
         <div className="px-6 py-7">
           <div className="flex justify-start gap-3 items-center">

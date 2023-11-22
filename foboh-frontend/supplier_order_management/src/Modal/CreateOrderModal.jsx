@@ -44,6 +44,7 @@ import {
   useNavigate,
   Navigate,
 } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
 const CreateOrderModal = ({
   setCreateOrderModal,
   handleOk,
@@ -93,6 +94,8 @@ const CreateOrderModal = ({
 
   let defaultPaymentTermsList = [];
   let list = [];
+
+  // const isMobile = useMediaQuery()
 
   const productQty = [
     { value: 1, label: "1" },
@@ -266,9 +269,10 @@ const CreateOrderModal = ({
   };
 
   const cartCalculations = useMemo(() => {
-    const calculationResults = getCalculations(cartList);
+    const shipCharges = parseFloat(shippingcharges.price);
+    const calculationResults = getCalculations(cartList, shipCharges);
     return calculationResults;
-  }, [cartList]);
+  }, [cartList, activeStep]);
 
   // Debounce function
   function debounce(func, timeout = 0) {

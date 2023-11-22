@@ -76,9 +76,18 @@ const Cart = ({ open, onClose, addCart }) => {
       Navigate("/auth/sign-in");
     }
   }, []);
-
+  const handleViewCart = () => {
+    navigate("/home/cart");
+    onClose(!onClose);
+  };
+  const handleExplore = () => {
+    navigate("/home/product-list");
+    onClose(!onClose);
+  };
   const handleCheckout = () => {
+    onClose(!onClose);
     const cartId = localStorage.getItem("cartId");
+
     const { deliveryEmail, deliveryFirstName } = JSON.parse(
       localStorage.getItem("buyerInfo")
     );
@@ -155,9 +164,7 @@ const Cart = ({ open, onClose, addCart }) => {
                   </h5>
                   <div className="flex justify-center pt-8 px-6">
                     <button
-                      onClick={() => {
-                        navigate("/home/product-list");
-                      }}
+                      onClick={handleExplore}
                       style={{ backgroundColor: token.buttonThemeColor }}
                       className="bg-[#563FE3] cursor-pointer rounded-md p-[10px] sm:py-[12px] sm:px-[40px]"
                     >
@@ -227,13 +234,15 @@ const Cart = ({ open, onClose, addCart }) => {
                     );
                   })}
                   <div className="flex justify-between pt-8 ">
-                    <Link to="/home/cart">
-                      <button className="border cursor-pointer border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] active:bg-slate-200 focus:outline-none focus:ring focus:ring-slate-200">
-                        <h4 className="text-base font-medium text-[#637381]">
-                          View Cart
-                        </h4>
-                      </button>
-                    </Link>
+                    <button
+                      onClick={handleViewCart}
+                      className="border cursor-pointer border-[#637381] rounded-md p-[10px] sm:py-[12px] sm:px-[40px] active:bg-slate-200 focus:outline-none focus:ring focus:ring-slate-200"
+                    >
+                      <h4 className="text-base font-medium text-[#637381]">
+                        View Cart
+                      </h4>
+                    </button>
+
                     <button
                       onClick={handleCheckout}
                       style={{ backgroundColor: token.buttonThemeColor }}

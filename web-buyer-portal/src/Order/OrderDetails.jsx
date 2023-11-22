@@ -363,7 +363,7 @@ const OrderDetails = () => {
           )}
         </div>
 
-        <div className="grid sm:grid-cols-2 grid-cols-1 justify-between gap-6">
+        <div className="mb-14 grid sm:grid-cols-2 grid-cols-1 justify-between gap-6">
           <div className="border h-[235px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
             <div className="mb-4">
               <h5 className="text-lg font-semibold text-[#2B4447] mb-1">
@@ -385,7 +385,7 @@ const OrderDetails = () => {
               Payment Status - <span className="font-medium">Paid </span>
             </h5>
           </div>
-          <div className="border  h-[235px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 mb-4 w-full">
+          <div className="border  h-[235px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
             <div className="">
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>

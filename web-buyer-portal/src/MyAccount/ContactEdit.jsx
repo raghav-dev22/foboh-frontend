@@ -25,6 +25,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
       onSubmit: (values) => {
         console.log(values, "values");
         addressUpdate(values, "delivery-contact");
+        setEditContact(!editContact);
       },
     });
   const cancleBtn = () => {

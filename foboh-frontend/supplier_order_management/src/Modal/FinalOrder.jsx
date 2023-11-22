@@ -118,7 +118,7 @@ const FinalOrder = ({
             </div>
           </div>
           <div className="">
-            <div className="h-[300px] overflow-y-scroll">
+            <div className="h-[201px] overflow-y-scroll">
               {cart?.length === 0 ? (
                 <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
                   Your cart is empty.
@@ -172,6 +172,7 @@ const FinalOrder = ({
                 ))
               )}
             </div>
+            <div className=""></div>
 
             <div className="pt-5 hidden">
               <h4 className="text-lg font-semibold text-[#2B4447]">
@@ -200,14 +201,14 @@ const FinalOrder = ({
                   ${cartCalculations?.subTotal}
                 </h5>
               </div>
-              {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
+              <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#637381]">
                   Shipping estimate
                 </h5>
                 <h5 className="text-sm font-medium text-[#637381]">
-                  ${shippingcharges?.price}
+                  ${cartCalculations?.shippingcharges}
                 </h5>
-              </div> */}
+              </div>
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#637381]">WET</h5>
                 <h5 className="text-sm font-medium text-[#637381]">

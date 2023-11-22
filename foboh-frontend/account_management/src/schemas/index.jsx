@@ -90,8 +90,7 @@ export const PersonalDetailsSchema = Yup.object().shape({
 });
 
 export const OrganisationSettingsSchema = Yup.object().shape({
-  //Organization Details
-
+  // Organization Details
   businessName: Yup.string()
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
@@ -100,15 +99,15 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   abn: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
     .required("ABN is required"),
-
   description: Yup.string().max(255, "Bio cannot be more than 255 characters"),
 
-  //Organization Address
+  // Organization Address
   organisationAddress: Yup.string()
-    .min(10, "Your address should have atleast 10 letters")
+    .min(10, "Your address should have at least 10 letters")
+    .required("Address is required")
     .max(100),
   organisationAddressSuburb: Yup.string()
-    .min(2, "Suburb should have atleast 2 letters")
+    .min(2, "Suburb should have at least 2 letters")
     .max(50),
   organisationAddressPostcode: Yup.string().matches(
     /^\d{4}$/,
@@ -117,19 +116,20 @@ export const OrganisationSettingsSchema = Yup.object().shape({
 
   // Billing address
   billingAddress: Yup.string()
-    .min(10, "Your address should have atleast 10 letters")
-    .max(100),
+    .min(10, "Your address should have at least 10 letters")
+    .max(100)
+    .required("Address is required"),
   billingAddressSuburb: Yup.string()
-    .min(2, "Suburb should have atleast 2 letters")
+    .min(2, "Suburb should have at least 2 letters")
     .max(50),
   billingAddressPostcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
 
   // Ordering contact
   orderingContactFirstName: Yup.string()
-    .min(2, "Your first name should have atleast 2 letters")
+    .min(2, "Your first name should have at least 2 letters")
     .max(50),
   orderingContactLastName: Yup.string()
-    .min(2, "Your last name should have atleast 2 letters")
+    .min(2, "Your last name should have at least 2 letters")
     .max(50),
   orderingContactEmail: Yup.string().email("Please enter a valid email"),
   orderingContactMobile: Yup.string().matches(
@@ -138,14 +138,14 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   ),
 
   // Logistics Contacts
-  LogisticsContactFirstName: Yup.string()
-    .min(2, "Your first name should have atleast 2 letters")
+  logisticsContactFirstName: Yup.string()
+    .min(2, "Your first name should have at least 2 letters")
     .max(50),
-  LogisticsContactLastName: Yup.string()
-    .min(2, "Your last name should have atleast 2 letters")
+  logisticsContactLastName: Yup.string()
+    .min(2, "Your last name should have at least 2 letters")
     .max(50),
-  LogisticsContactEmail: Yup.string().email("Please enter a valid email"),
-  LogisticsContactMobile: Yup.string().matches(
+  logisticsContactEmail: Yup.string().email("Please enter a valid email"),
+  logisticsContactMobile: Yup.string().matches(
     /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
     "Mobile number must be a valid Australian mobile number"
   ),
