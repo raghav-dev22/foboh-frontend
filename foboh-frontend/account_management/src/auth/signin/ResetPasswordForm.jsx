@@ -112,9 +112,9 @@ const ResetPasswordForm = () => {
           >
             Reset your password
           </h2>
-          <p className="text-[#637381] text-[15px] font-inter leading-[20px] flex flex-col my-2 flex-shrink-0 tracking-tight text-center">
+          {/* <p className="text-[#637381] text-[15px] font-inter leading-[20px] flex flex-col my-2 flex-shrink-0 tracking-tight text-center">
             Enter your email and we'll send you a link to reset your password.
-          </p>
+          </p> */}
           <form onSubmit={handleSubmit}>
             {/* Mobile input */}
 

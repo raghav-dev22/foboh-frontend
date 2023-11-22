@@ -1,5 +1,4 @@
-
-export const getCalculations = (cartList) => {
+export const getCalculations = (cartList, shipCharges) => {
   try {
     let gst = 0;
     let wet = 0;
@@ -31,13 +30,14 @@ export const getCalculations = (cartList) => {
         subtotal2 += productSubtotal + gstAppliedOnNonWine;
       }
       subtotal += price * quantity;
-      total += subtotal1 + subtotal2;
+      total += subtotal1 + subtotal2 + shipCharges;
     });
     return {
       gst: gst.toFixed(2),
       wet: wet.toFixed(2),
       subTotal: subtotal.toFixed(2),
       total: total.toFixed(2),
+      shippingcharges: shipCharges,
     };
   } catch (error) {
     throw new Error("Error while processing, error: " + error);

@@ -1410,3 +1410,9 @@ a:hover {
 .h-\[173px\] {
   height: 173px;
 }
+.ml-3 {
+  margin-left: 0.75rem /* 12px */;
+}
+.custom .bhHnmT {
+  margin: 0px !important;
+}

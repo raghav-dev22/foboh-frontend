@@ -217,9 +217,7 @@ const AllOrders = () => {
       ),
       Status: (
         <div
-          className={`
-         
-            rounded-md py-[4px] px-[8px] w-[166px]	 flex justify-center items-center  `}
+          className={`rounded-md py-[4px] px-[8px] w-[166px]	 flex justify-center items-center  `}
           style={{
             backgroundColor: (() => {
               if (
@@ -227,19 +225,61 @@ const AllOrders = () => {
                 item?.orderStatus === "Delivered"
               ) {
                 return "#CFEBE6";
-              } else if (item?.orderStatus === "Pending") {
+              } else if (
+                item?.orderStatus === "Pending" ||
+                item?.orderStatus === "Shipped" ||
+                item?.orderStatus === "InProcess" ||
+                item?.orderStatus === "Partially fulfilled" ||
+                item?.orderStatus === "Processing"
+              ) {
                 return "#C9C9C9";
-              } else if (item?.orderStatus === "Updated") {
-                return "#D5EEFF";
+              } else if (item?.orderStatus === "Changes requested") {
+                return "#FEF3C8";
               } else if (item?.orderStatus === "Cancelled") {
                 return "#FFDFDB";
+              } else if (
+                item?.orderStatus === "New" ||
+                item?.orderStatus === "Updated"
+              ) {
+                return "#D5EEFF";
               }
               // Default background color if none of the conditions match
               return "transparent";
             })(),
           }}
         >
-          <p className="text-[#637381] text-[base] font-medium">
+          <p
+            className=" text-[base] font-medium"
+            style={{
+              color: (() => {
+                if (
+                  item?.orderStatus === "Complete" ||
+                  item?.orderStatus === "Delivered"
+                ) {
+                  return "#16A085";
+                } else if (
+                  item?.orderStatus === "Pending" ||
+                  item?.orderStatus === "Shipped" ||
+                  item?.orderStatus === "InProcess" ||
+                  item?.orderStatus === "Partially fulfilled" ||
+                  item?.orderStatus === "Processing"
+                ) {
+                  return "#637381";
+                } else if (item?.orderStatus === "Changes requested") {
+                  return "#E9B600";
+                } else if (item?.orderStatus === "Cancelled") {
+                  return "#C0392B";
+                } else if (
+                  item?.orderStatus === "New" ||
+                  item?.orderStatus === "Updated"
+                ) {
+                  return "#3498DB";
+                }
+                // Default background color if none of the conditions match
+                return "transparent";
+              })(),
+            }}
+          >
             {item?.orderStatus}
           </p>
         </div>

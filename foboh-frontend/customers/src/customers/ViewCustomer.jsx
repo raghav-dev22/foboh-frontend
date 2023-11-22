@@ -215,7 +215,7 @@ function ViewCustomer() {
             </button>
             <button
               onClick={handleCustomerTiles}
-              className="rounded-md px-6	py-2.5 text-white text-base	font-medium	bg-[#147d73]	"
+              className="rounded-md px-6	py-2.5 text-white text-base	font-medium	bg-[#147d73]	" 
             >
               Save
             </button>

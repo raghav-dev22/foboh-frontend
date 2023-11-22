@@ -4,12 +4,12 @@ import { useFormik } from "formik";
 import Select from "react-select";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import HelpIcon from "@mui/icons-material/Help";
+import Carousel from "better-react-carousel";
 import CloseIcon from "@mui/icons-material/Close";
 // import ActiveProduct from './ActiveProduct'
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteModal from "../modal/DeleteModal";
-
+import HelpIcon from "@mui/icons-material/Help";
 import { message } from "antd";
 import ViewProductHeader from "./ViewProductHeader";
 import EditProductDetails from "../editProduct/EditProductDetails";
@@ -1360,48 +1360,85 @@ function ViewProduct() {
                         className=" w-full h-[357px] object-contain"
                       />
                     ) : (
-                      ""
+                      <img
+                        src="/assets/defaultImg.png"
+                        alt=""
+                        className=" w-full h-[357px] object-contain"
+                      />
                     )}
                   </div>
                 </Skeleton>
-                <div className="flex gap-3">
-                  <Skeleton
-                    style={{ padding: "10px" }}
-                    loading={loading}
-                    active
-                    avatar
-                  >
-                    <div className="">
-                      {productImageUris?.length > 0
-                        ? (
-                            <img
-                              src={productImageUris[1]}
-                              alt=""
-                              className=" h-full object-contain"
-                            />
-                          ) || ""
-                        : ""}
-                    </div>
-                  </Skeleton>
-                  <Skeleton
-                    style={{ padding: "10px" }}
-                    loading={loading}
-                    active
-                    avatar
-                  >
-                    <div className="">
-                      {productImageUris?.length > 0
-                        ? (
-                            <img
-                              src={productImageUris[2]}
-                              alt=""
-                              className=" h-full object-contain"
-                            />
-                          ) || ""
-                        : ""}
-                    </div>
-                  </Skeleton>
-                </div>
+
+                <Skeleton
+                  style={{ padding: "10px" }}
+                  loading={loading}
+                  active
+                  avatar
+                >
+                  <div className="custom">
+                    {productImageUris?.length > 0 ? (
+                      <Carousel cols={2} rows={1} gap={10} loop={false}>
+                        <Carousel.Item>
+                          {productImageUris?.length > 0
+                            ? (
+                                <img
+                                  width="200px"
+                                  height="200px"
+                                  src={productImageUris[1]}
+                                  alt=""
+                                  className=" h-full object-contain"
+                                />
+                              ) || ""
+                            : ""}
+                        </Carousel.Item>
+                        <Carousel.Item>
+                          {productImageUris?.length > 0
+                            ? (
+                                <img
+                                  width="200px"
+                                  height="200px"
+                                  src={productImageUris[2]}
+                                  alt=""
+                                  className=" h-full object-contain"
+                                />
+                              ) || ""
+                            : ""}
+                        </Carousel.Item>
+                        <Carousel.Item>
+                          {productImageUris?.length > 0
+                            ? (
+                                <img
+                                  width="200px"
+                                  height="200px"
+                                  src={productImageUris[3]}
+                                  alt=""
+                                  className=" h-full object-contain"
+                                />
+                              ) || ""
+                            : ""}
+                        </Carousel.Item>
+                        <Carousel.Item>
+                          {/* anything you want to show in the grid */}
+                        </Carousel.Item>
+                        {/* ... */}
+                      </Carousel>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  {/* <div className="">
+                    {productImageUris?.length > 0
+                      ? (
+                          <img
+                            src={productImageUris[1]}
+                            alt=""
+                            className=" h-full object-contain"
+                          />
+                        ) || ""
+                      : ""}
+                  </div> */}
+                </Skeleton>
+
                 {!loading && (
                   <label
                     htmlFor="upload-image"
@@ -1457,7 +1494,74 @@ function ViewProduct() {
                   </label>
                 )}
                 {/* Update Image ---END  */}
+                <div>
+                  <div className="flex justify-start items-center gap-2">
+                    <h5 className="text-base font-medium text-[#2B4447]">
+                      Image requirements
+                    </h5>
+                    <CustomTooltip
+                      placement="right"
+                      arrow
+                      title={
+                        <div>
+                          <ul className=" text-left px-3 py-4">
+                            <h5
+                              className="text-[12px] font-semibold text-left  "
+                              style={{
+                                fontSize: "14px",
+                                marginBottom: "0.5rem",
+                              }}
+                            >
+                              Image specifications:
+                            </h5>
 
+                            <li
+                              className="text-[12px] font-normal ml-3"
+                              style={{ listStyle: "disc", lineHeight: "24px" }}
+                            >
+                              File size no greater than 5MB
+                            </li>
+                            <li
+                              className="text-[12px] font-normal ml-3"
+                              style={{ listStyle: "disc", lineHeight: "24px" }}
+                            >
+                              JPEG (.jpg or .jpeg) or PNG(.png) file formats
+                            </li>
+                            <li
+                              className="text-[12px] font-normal ml-3"
+                              style={{ listStyle: "disc", lineHeight: "24px" }}
+                            >
+                              File size no greater than 5MB Minimum 500 px and
+                              maximum 10,000 px on either side.
+                            </li>
+                            <li
+                              className="text-[12px] font-normal ml-3"
+                              style={{ listStyle: "disc", lineHeight: "24px" }}
+                            >
+                              For optimal zoom, the images should be 1,600 px or
+                              larger on the longest side
+                            </li>
+                            <li
+                              className="text-[12px] font-normal ml-3"
+                              style={{ listStyle: "disc", lineHeight: "24px" }}
+                            >
+                              Pure white background (RGB: 255, 255, 255)
+                            </li>
+                          </ul>
+                        </div>
+                      }
+                    >
+                      <HelpIcon style={{ fill: "#147D73" }} />
+                    </CustomTooltip>
+                  </div>
+                  <p
+                    className="font-normal text-[#637381] text-[12px]"
+                    style={{ fontSize: "12px" }}
+                  >
+                    For optimal appearance, images must be between 500 px and
+                    10,000 px, no greater than 5 MB and in JPEG or PNG format
+                  </p>
+                </div>
                 {/* Product Listing ---START */}
                 <div className="rounded-lg	border border-inherit	bg-white">
                   <div className="border-b border-inherit  py-3 px-5">

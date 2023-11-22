@@ -191,11 +191,15 @@ const ProductDetails = () => {
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
               {selectedImage && (
-                <div className=" py-2 flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md">
+                <div className=" py-2 flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md ">
                   {/* <div className="absolute top-[10px] right-[10px] bg-white rounded-full h-[30px] w-[30px] flex justify-center items-center">
                     <FavoriteBorderRoundedIcon className="" />
                   </div> */}
-                  <Image width={200} src={selectedImage} />
+                  <Image
+                    width={200}
+                    src={selectedImage}
+                    style={{ height: "100%" }}
+                  />
                   {/* <img
                     src={selectedImage}
                     alt="Selected-pic"
@@ -218,7 +222,7 @@ const ProductDetails = () => {
                       key={index}
                       src={image}
                       onClick={() => handleImageClick(image)}
-                      className="  object-contain w-full"
+                      className="  object-contain w-full cursor-pointer"
                       alt="product-images"
                     />
                   </div>
@@ -241,7 +245,7 @@ const ProductDetails = () => {
             </div>
             <div className="flex items-center gap-3">
               <h5 className="text-lg font-semibold">
-                ${selectData?.product?.globalPrice}.00
+                ${selectData?.product?.globalPrice}
               </h5>
             </div>
             <div className="py-3">
@@ -345,8 +349,7 @@ const ProductDetails = () => {
             </div>
             <div className="mt-2">
               <h5 className="text-base font-medium text-[#2B4447]">
-                Minimum Order Quantity:
-                {selectData?.product?.minimumOrder} Case
+                Minimum Order Quantity : {selectData?.product?.minimumOrder}
               </h5>
             </div>
             <div className="my-6">
@@ -360,27 +363,37 @@ const ProductDetails = () => {
                 <div>
                   <div className="">
                     <p className="text-base font-normal text-[#2B4447] py-2">
-                      Country:
+                      {selectData?.product?.countryOfOrigin ? "Country:" : ""}
                     </p>
                     <p className="text-base font-normal text-[#2B4447] py-2">
-                      Segment:
+                      {selectData?.product?.segmentId ? "Segment:" : ""}
                     </p>
                   </div>
                   <div className="">
+                    {selectData?.product?.vintage ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Vintage:
+                      </p>
+                    ) : (
+                      ""
+                    )}
+
+                    {selectData?.product?.award ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Awards:"
+                      </p>
+                    ) : (
+                      ""
+                    )}
+
                     <p className="text-base font-normal text-[#2B4447] py-2">
-                      Vintage:
+                      {selectData?.product?.region ? "Region:" : ""}
                     </p>
                     <p className="text-base font-normal text-[#2B4447] py-2">
-                      Awards:
+                      {selectData?.product?.abv ? "ABV:" : ""}
                     </p>
                     <p className="text-base font-normal text-[#2B4447] py-2">
-                      Region:
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      ABV:
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      Grape variety:
+                      {selectData?.product?.variety ? " Grape variety:" : ""}
                     </p>
                   </div>
                 </div>
@@ -400,18 +413,18 @@ const ProductDetails = () => {
                     </p>
 
                     <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product.award}
+                      {selectData?.product?.award}
                     </p>
 
                     <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product.region}
+                      {selectData?.product?.region}
                     </p>
                     <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product.abv}
+                      {selectData?.product?.abv}
                     </p>
 
                     <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product.variety}
+                      {selectData?.product?.variety}
                     </p>
                   </div>
                 </div>

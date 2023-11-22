@@ -11,8 +11,14 @@ import { getBuyerValues } from "../helpers/setBuyerValues";
 import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { addressUpdate } from "../helpers/addressUpdate";
+import BusinessIcon from "@mui/icons-material/Business";
 
-function BillingAddress({ deliveryAddress, billingAddress }) {
+function BillingAddress({
+  deliveryAddress,
+  billingAddress,
+  editBillingAddress,
+  setEditBillingAddress,
+}) {
   const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const { useToken } = theme;
@@ -56,7 +62,9 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
       });
     }
   };
-
+  const cancleBtn = () => {
+    setEditBillingAddress(!editBillingAddress);
+  };
   useEffect(() => {
     let statesData = [];
     let timeout;
@@ -126,11 +134,11 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
           Billing address same as delivery address
         </label>
       </div>
-      <form className="mt-8 mb-5 border border-[#E7E7E7] rounded-md p-3">
+      <form className="mt-3 mb-5 p-3">
         <div className="">
           <div className="mb-3 relative">
             <div className="flex justify-start items-center gap-1.5 mb-6">
-              <HomeRoundedIcon
+              <BusinessIcon
                 style={{ fill: "#2B4447" }}
                 className="w-[18px] h-[18px]"
               />
@@ -285,6 +293,9 @@ function BillingAddress({ deliveryAddress, billingAddress }) {
           </button>
           <button
             type="submit"
+            onClick={() => {
+              cancleBtn();
+            }}
             className="border-[#637381] border rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-[#637381]"
           >
             Cancel

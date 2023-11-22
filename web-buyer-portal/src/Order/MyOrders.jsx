@@ -997,7 +997,7 @@ const MyOrders = () => {
           )}
         </div>
 
-        <div className="border border-[#E0E0E0] rounded-[8px] mb-8">
+        <div className="border border-[#E0E0E0] rounded-[8px] mb-14">
           {/* {showPreview && <Invoice />} */}
           <InvoiceModal
             ref={childRef}
@@ -1021,7 +1021,6 @@ const MyOrders = () => {
               showQuickJumper: false,
             }}
             scroll={{
-              y: 240,
               x: 1121,
             }}
           />

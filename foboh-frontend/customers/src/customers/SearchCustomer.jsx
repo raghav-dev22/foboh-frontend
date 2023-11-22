@@ -326,9 +326,9 @@ function SearchCustomer({
             >
               <div className="">
                 {search === 0 && (
-                  <FilterAltOutlinedIcon style={{ fill: "#2a2626d1" }} />
+                  <FilterAltOutlinedIcon style={{ fill: "#637381" }} />
                 )}
-                {search > 0 && <FilterAltIcon style={{ fill: "#2a2626d1" }} />}
+                {search > 0 && <FilterAltIcon style={{ fill: "#637381" }} />}
               </div>
               <h6 className="text-base	font-normal	text-gray">Filter</h6>
             </div>

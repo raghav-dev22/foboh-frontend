@@ -174,12 +174,14 @@ const Order = () => {
                       Available In Stock
                     </p>
                   </div>
-                  <p
+                  <div
+                    className="bg-[#ed1c1c36] py-1.5 px-3 rounded-md cursor-pointer"
                     onClick={() => removeItem(item.product?.productId)}
-                    className="text-[#DC3545] text-sm font-medium cursor-pointer"
                   >
-                    Remove
-                  </p>
+                    <p className="text-[#DC3545] text-sm font-medium ">
+                      Remove
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

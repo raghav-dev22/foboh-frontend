@@ -362,10 +362,10 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
-      <div className="p-6">
+      <div className="pt-6 pb-6">
         <div className="border-t border-inherit	">
           <ul className="list-disc ">
-            <li className="hidden py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
+            <li className=" px-6 hidden py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
               <div className="flex justify-start items-center gap-2">
                 <div
                   className={`home ${activeOption === "Chat" ? "active" : ""}`}
@@ -390,7 +390,7 @@ const Sidebar = () => {
               </div>
             </li>
             <li
-              className={`py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
+              className={` px-6 py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73] ${
                 location.pathname === "/dashboard/organisation-settings" ||
                 location.pathname === "/dashboard/bank-information" ||
                 location.pathname === "/dashboard/settings"
@@ -444,7 +444,7 @@ const Sidebar = () => {
                 </Link>
               </div>
             </li>
-            <li className="hidden py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
+            <li className=" px-6 hidden py-3 list-inside cursor-pointer  hover:bg-[#f2f2f2] dark:hover:bg-[#f2f2f2] hover:border-r-4 hover:border-[#147D73]">
               <div className="flex justify-start items-center gap-2">
                 <div
                   className={`home ${activeOption === "Help" ? "active" : ""}`}
@@ -498,7 +498,7 @@ const Sidebar = () => {
               </div>
             </li>
           </ul>
-          <div className=" mt-3">
+          <div className=" mt-3 px-6">
             <img src="/assets/logo.png" alt="" className="mx-auto" />
           </div>
         </div>

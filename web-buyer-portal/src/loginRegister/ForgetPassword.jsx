@@ -96,10 +96,10 @@ const ForgetPassword = () => {
                   {" "}
                   Reset your password
                 </h2>
-                <p className="text-center">
+                {/* <p className="text-center">
                   Enter your email and we'll send you a link to reset your
                   password.
-                </p>
+                </p> */}
                 <div className="w-full relative">
                   <label
                     htmlFor="email"

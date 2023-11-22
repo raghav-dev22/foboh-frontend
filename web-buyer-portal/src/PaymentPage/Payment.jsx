@@ -12,6 +12,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import EditIcon from "@mui/icons-material/Edit";
 import { Select } from "antd";
+import BusinessIcon from "@mui/icons-material/Business";
 
 import { Button, message, Space } from "antd";
 import {
@@ -125,6 +126,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   // console.log(EditDeliveryVal, "EditDeliveryVal");
   const [activeKey, setActiveKey] = useState("1");
   const [editDelivery, setEditDelivery] = useState(false);
+  const [editBillingAddress, setEditBillingAddress] = useState(false);
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
@@ -155,22 +157,21 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   let billingAddress = {};
 
   const countDown = () => {
-    let secondsToGo = 5;
     const instance = modal.success({
-      title: "Payment process succeeded!",
-      content: `This notification will be destroyed after ${secondsToGo} second.`,
+      title: "Payment successful!",
+      content: `Thank you for your payment.`,
     });
-    const timer = setInterval(() => {
-      secondsToGo -= 1;
-      instance.update({
-        content: `This modal will be destroyed after ${secondsToGo} second.`,
-      });
-    }, 1000);
-    setTimeout(() => {
-      clearInterval(timer);
-      instance.destroy();
-      navigate("/home/order-confirm");
-    }, secondsToGo * 1000);
+    // const timer = setInterval(() => {
+    //   secondsToGo -= 1;
+    //   instance.update({
+    //     content: `This modal will be destroyed after ${secondsToGo} second.`,
+    //   });
+    // }, 1000);
+    // setTimeout(() => {
+    //   clearInterval(timer);
+    //   instance.destroy();
+    //   navigate("/home/order-confirm");
+    // }, secondsToGo * 1000);
   };
 
   if (sealedCartError) {
@@ -422,7 +423,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
               )}
             </div>
 
-            <div className="border rounded-md border-[#E7E7E7] p-3">
+            <div className="border rounded-md border-[#E7E7E7] p-3 mb-4">
               {editDelivery ? (
                 // <DeliveryAddress />
                 <DeliveryEditAddress
@@ -454,7 +455,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                   </div>
                   <p className="text-base font-normal text-[#2B4447] my-1">
                     {`${buyer?.apartment}, ${buyer?.deliveryAddress}, ${buyer?.suburb}, ${buyer?.deliveryAddressState} ${buyer?.postcode}`}
-                    Australia
+                    , Australia
                   </p>
 
                   <div className="flex items-center gap-1">
@@ -500,11 +501,41 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                 </>
               )}
             </div>
-            <div className="pb-4 pt-8">
-              <BillingAddress
-                billingAddress={billingAddress}
-                deliveryAddress={deliveryAddress}
-              />
+            <div className="border rounded-md border-[#E7E7E7] p-3 mb-4">
+              {editBillingAddress ? (
+                <BillingAddress
+                  billingAddress={billingAddress}
+                  deliveryAddress={deliveryAddress}
+                  setEditBillingAddress={setEditBillingAddress}
+                  editBillingAddress={editBillingAddress}
+                />
+              ) : (
+                <>
+                  <div className="flex justify-between">
+                    <div className="flex justify-center items-center gap-1.5">
+                      <HomeRoundedIcon
+                        style={{ fill: "#2B4447" }}
+                        className="w-[18px] h-[18px]"
+                      />
+                      <h5 className="text-lg font-semibold text-[#2B4447]">
+                        Billing Address
+                      </h5>
+                    </div>
+                    <button
+                      onClick={() => setEditBillingAddress(!editBillingAddress)}
+                      className="flex justify-start items-center gap-2 change-btn"
+                    >
+                      <Tooltip placement="top" title={text}>
+                        <EditIcon {...btnProps} style={{ width: "25px" }} />
+                      </Tooltip>
+                    </button>
+                  </div>
+                  <p className="text-base font-normal text-[#2B4447] my-1">
+                    {`${buyer?.billingContactApartment}, ${buyer?.billingContactAddress}, ${buyer?.billingContactSuburb}, ${buyer?.billingContactState} ${buyer?.billingContactPostalCode}`}
+                    , Australia
+                  </p>
+                </>
+              )}
             </div>
             <div className=" mb-3">
               <div className="flex items-center gap-1.5 mb-2">
@@ -673,9 +704,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                   }
                   key="2"
                 >
-                  <h5 className="text-lg font-semibold text-[#2B4447]">
+                  {/* <h5 className="text-lg font-semibold text-[#2B4447]">
                     No payment period for pay now
-                  </h5>
+                  </h5> */}
 
                   <div className="border border-[#E7E7E7] rounded-md   mt-2">
                     <div
