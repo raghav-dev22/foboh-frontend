@@ -9,7 +9,7 @@ export const getTrackerStatus = async (orderId) => {
     .then((data) => {
       let status = "";
       if (data.success) {
-        status = data?.data[0]?.orderStatus;
+        status = data?.data[data?.data?.length - 1]?.orderStatus;
       }
       return status;
     })

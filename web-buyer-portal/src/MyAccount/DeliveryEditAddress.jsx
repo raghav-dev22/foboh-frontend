@@ -16,13 +16,15 @@ const DeliveryEditAddress = ({
   editDelivery,
   setDeliveryAddress,
   deliveryAddress,
+  setActiveChecked,
+  activeChecked,
 }) => {
   const [initialValues, setInitialValues] = useState({
     Address: "",
     Suburb: "",
     Apartment: "",
     Postcode: "",
-    State: "",
+    State: {},
     Notes: "",
   });
 
@@ -31,19 +33,37 @@ const DeliveryEditAddress = ({
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { values, errors, handleChange, setValues, touched, handleBlur } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: DeliveryAddressEditSchema,
-      onSubmit: (values) => {
-        console.log(values, "value");
-      },
-    });
+  const {
+    values,
+    errors,
+    handleChange,
+    setValues,
+    touched,
+    handleBlur,
+    isValid,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: DeliveryAddressEditSchema,
+    onSubmit: (values) => {
+      console.log(values, "value");
+    },
+  });
 
   const handleSubmit = () => {
     console.log(values, "value");
-    setDeliveryAddress(values);
-    addressUpdate(values, "delivery-address");
+    console.log("Form is valid. Submitting...", isValid);
+    if (isValid) {
+      setDeliveryAddress(() => {
+        return {
+          ...values,
+          State: values.State.label,
+        };
+      });
+      addressUpdate(values, "delivery-address");
+      setEditDelivery(!editDelivery);
+    } else {
+      console.error("Form has validation errors. Please check your input.");
+    }
   };
 
   useEffect(() => {
@@ -88,17 +108,6 @@ const DeliveryEditAddress = ({
     });
   }, []);
 
-  const stateOptions = [
-    { label: "Victoria", value: "option1" },
-    { label: "Queensland", value: "option2" },
-    { label: "Western Australia", value: "option3" },
-  ];
-  const cityOptions = [
-    { label: "Ballina", value: "option1" },
-    { label: "Balranald	", value: "option2" },
-    { label: "Batemans Bay", value: "option3" },
-  ];
-
   const handleDeliveryState = (e, name) => {
     if (name === "State") {
       setValues({
@@ -122,8 +131,23 @@ const DeliveryEditAddress = ({
   };
 
   const cancleBtn = () => {
-    setValues(initialValues);
+    setValues(() => {
+      return {
+        ...initialValues,
+        State: initialValues.State.label,
+      };
+    });
+    setDeliveryAddress(() => {
+      return {
+        ...initialValues,
+        State: initialValues.State.label,
+      };
+    });
     setEditDelivery(!editDelivery);
+  };
+  const handleFormChange = (event) => {
+    const value = event.target.value;
+    setActiveChecked(false);
   };
 
   return (
@@ -138,7 +162,7 @@ const DeliveryEditAddress = ({
         </h5>
       </div>
 
-      <form className="">
+      <form className="" onChange={handleFormChange}>
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
             <label htmlFor="" className="text-base font-normal text-[#2B4447]">
@@ -203,7 +227,7 @@ const DeliveryEditAddress = ({
               type="text"
               id="Suburb"
               onChange={handleChange}
-              name="City"
+              name="Suburb"
               value={values?.Suburb}
               className="custom-bg"
               style={{
@@ -276,6 +300,7 @@ const DeliveryEditAddress = ({
             className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
             id="Postcode"
             type="text"
+            name="Notes"
             placeholder="Notes"
             value={values?.Notes}
             onChange={handleChange}
@@ -288,7 +313,7 @@ const DeliveryEditAddress = ({
           {errors?.Notes && touched?.Notes && (
             <p className="mt-2 mb-2 text-red-500 text-xs">{errors?.Notes}</p>
           )}
-          {errors?.Postcode && touched?.Postcode && (
+          {errors?.Notes && touched?.Notes && (
             <ErrorOutlineIcon className="absolute text-red-500 top-[21px] right-3 transition-all duration-[0.3s]" />
           )}
         </div>
@@ -297,6 +322,7 @@ const DeliveryEditAddress = ({
           {" "}
           <button
             onClick={handleSubmit}
+            // disabled={!isValid}
             type="button"
             className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
             style={{

@@ -56,7 +56,10 @@ function SuccessModal({ show, setShow }) {
                   <div className="mt-4">
                     <button
                       type="button"
-                      onClick={() => navigate("/home-page")}
+                      onClick={() => {
+                        localStorage.removeItem("loginPopup");
+                        navigate("/home-page");
+                      }}
                       className="login-btn bg-custom-blue rounded-md	w-full p-3 shadow-md"
                     >
                       <p className="text-white text-center font-semibold	text-sm	">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { BillingAddressSchema } from "../schemas";
+import { BillingAddressCheckoutSchema } from "../schemas";
 import { useFormik } from "formik";
 import Select from "react-select";
 import { theme } from "antd";
@@ -18,6 +18,10 @@ function BillingAddress({
   billingAddress,
   editBillingAddress,
   setEditBillingAddress,
+  setBillingAddressData,
+  billingAddressData,
+  activeChecked,
+  setActiveChecked,
 }) {
   const navigate = useNavigate();
   const [change, setChange] = useState(false);
@@ -32,21 +36,40 @@ function BillingAddress({
     Suburb: "",
     Apartment: "",
     Postcode: "",
-    State: "",
+    State: {},
     Notes: "",
   });
 
-  const { values, errors, handleBlur, handleChange, touched, setValues } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: BillingAddressSchema,
-      onSubmit: (values) => {
-        console.log(values, "values--->");
-      },
-    });
+  const {
+    values,
+    errors,
+    handleBlur,
+    handleChange,
+    touched,
+    setValues,
+    isValid,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: BillingAddressCheckoutSchema,
+    onSubmit: (values) => {
+      console.log(values, "values22--->");
+    },
+  });
 
   const handleSubmit = () => {
-    addressUpdate(values, "billing-address");
+    console.log("Handling submit...");
+    console.log("Form values:", values);
+
+    if (isValid) {
+      addressUpdate(values, "billing-address");
+      setEditBillingAddress(!editBillingAddress);
+      setBillingAddressData({
+        ...values,
+        State: values.State.label,
+      });
+    } else {
+      console.error("Form has validation errors. Please check your input.");
+    }
   };
 
   const handleBillingSelect = (e, name) => {
@@ -64,6 +87,12 @@ function BillingAddress({
   };
   const cancleBtn = () => {
     setEditBillingAddress(!editBillingAddress);
+    setBillingAddressData(() => {
+      return {
+        ...initialValues,
+        State: initialValues.State.label,
+      };
+    });
   };
   useEffect(() => {
     let statesData = [];
@@ -97,9 +126,10 @@ function BillingAddress({
           };
           setValues(billingAddress);
           setInitialValues(billingAddress);
+          setBillingAddressData(billingAddress);
         }
       });
-    }, 3000);
+    }, 500);
 
     return () => {
       clearTimeout(timeout);
@@ -108,9 +138,9 @@ function BillingAddress({
 
   const handleSameAs = (e) => {
     console.log("deliveryAddress >>", deliveryAddress);
-
     const checked = e.target.checked;
     checked ? setValues(deliveryAddress) : setValues(initialValues);
+    setActiveChecked(!activeChecked);
   };
 
   return (
@@ -121,9 +151,7 @@ function BillingAddress({
           type="checkbox"
           name="default-radio"
           onClick={handleSameAs}
-          // onClick={() => {
-          //   addressBtn();
-          // }}
+          checked={activeChecked}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
         />
 
@@ -214,6 +242,7 @@ function BillingAddress({
                 placeholder="suburb"
                 id="Suburb"
                 onChange={handleChange}
+                onBlur={handleBlur}
                 name="Suburb"
                 value={values?.Suburb}
                 style={{
@@ -287,6 +316,7 @@ function BillingAddress({
             type="button"
             onClick={handleSubmit}
             style={{ backgroundColor: token.buttonThemeColor }}
+            // disabled={!isValid}
             className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
           >
             Save

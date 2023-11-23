@@ -9,7 +9,12 @@ import { theme } from "antd";
 import { getAddress } from "../helpers/getAddress";
 import { addressUpdate } from "../helpers/addressUpdate";
 
-const ContactEdit = ({ setEditContact, editContact }) => {
+const ContactEdit = ({
+  setEditContact,
+  editContact,
+  deliveryContact,
+  setDeliveryContact,
+}) => {
   const { useToken } = theme;
   const { token } = useToken();
   const [initialValues, setInitialValues] = useState({
@@ -26,6 +31,7 @@ const ContactEdit = ({ setEditContact, editContact }) => {
         console.log(values, "values");
         addressUpdate(values, "delivery-contact");
         setEditContact(!editContact);
+        setDeliveryContact(values);
       },
     });
   const cancleBtn = () => {
@@ -37,18 +43,15 @@ const ContactEdit = ({ setEditContact, editContact }) => {
     getAddress("delivery-contact").then((data) => {
       const buyerData = data?.data[0];
       if (data.success) {
-        setValues({
+        const contactData = {
           FirstName: buyerData?.firstname,
           LastName: buyerData?.lastname,
           email: buyerData?.emailId,
           Mobile: buyerData?.phoneNumber,
-        });
-        setInitialValues({
-          FirstName: buyerData?.firstname,
-          LastName: buyerData?.lastname,
-          email: buyerData?.emailId,
-          Mobile: buyerData?.phoneNumber,
-        });
+        };
+        setValues(contactData);
+        setInitialValues(contactData);
+        setDeliveryContact(contactData);
       }
     });
   }, []);

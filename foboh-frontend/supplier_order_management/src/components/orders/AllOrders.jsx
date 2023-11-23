@@ -25,8 +25,8 @@ let filterAndSort = {
     page: 0,
   },
   sort: {
-    sortBy: "",
-    sortOrder: "",
+    sortBy: "date",
+    sortOrder: "desc",
   },
 };
 
