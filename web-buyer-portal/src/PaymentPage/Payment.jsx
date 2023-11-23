@@ -132,6 +132,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   };
   const { TabPane } = Tabs;
   const [isChecked, setIsChecked] = useState(false);
+  const [activeChecked, setActiveChecked] = useState(false);
   const [cardDetails, setCardDetails] = useState(false);
   const [isCheckedTransfer, setIsCheckedTransfer] = useState(false);
   const [transfer, setTransfer] = useState(false);
@@ -211,7 +212,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             const buyerData = data?.data[0];
             const buyerState = statesData.find(
               (state) => state?.label === buyerData.state
-            );
+            ).label;
             const addressBody = {
               Apartment: buyerData?.apartmentSuite,
               Address: buyerData?.streetaddress,
@@ -221,6 +222,37 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
               Notes: buyerData?.instructionsNotes,
             };
             setDeliveryAddress(addressBody);
+          }
+        });
+
+        getAddress("billing-address").then((data) => {
+          console.log("billing-address", data);
+          if (data.success) {
+            const buyerData = data?.data[0];
+            const buyerState = statesData.find(
+              (state) => state?.label === buyerData.state
+            ).label;
+            const billingAddress = {
+              Apartment: buyerData?.apartmentSuite,
+              Address: buyerData?.streetaddress,
+              Suburb: buyerData?.city,
+              State: buyerState,
+              Postcode: buyerData?.postcode,
+              Notes: buyerData?.instructionsNotes,
+            };
+            setBillingAddressData(billingAddress);
+          }
+        });
+        getAddress("delivery-contact").then((data) => {
+          const buyerData = data?.data[0];
+          if (data.success) {
+            const contactData = {
+              FirstName: buyerData?.firstname,
+              LastName: buyerData?.lastname,
+              email: buyerData?.emailId,
+              Mobile: buyerData?.phoneNumber,
+            };
+            setDeliveryContact(contactData);
           }
         });
       })
@@ -253,6 +285,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const options = useOptions();
 
   const [deliveryAddress, setDeliveryAddress] = useState({});
+  const [billingAddressData, setBillingAddressData] = useState({});
+  const [deliveryContact, setDeliveryContact] = useState({});
 
   const handleSubmit = async (event) => {
     await refetch();
@@ -270,7 +304,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         type: "card",
         card: elements.getElement(CardNumberElement),
         billing_details: {
-          name: cardHolderName, // Use the cardholder's name from the input field
+          name: cardHolderName,
           address: {
             // Include the customer's address here
             line1: deliveryAddress?.Address,
@@ -417,6 +451,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                 <ContactEdit
                   setEditContact={setEditContact}
                   editContact={editContact}
+                  deliveryContact={deliveryContact}
+                  setDeliveryContact={setDeliveryContact}
                 />
               ) : (
                 <>
@@ -443,15 +479,14 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                   </div>
 
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {buyer?.deliveryContactFirstName}{" "}
-                    {buyer?.deliveryContactLastName}
+                    {deliveryContact?.FirstName} {deliveryContact?.LastName}
                   </p>
 
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {buyer?.deliveryContactEmail}
+                    {deliveryContact?.email}
                   </p>
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {buyer?.deliveryContactMobile}
+                    {deliveryContact?.Mobile}
                   </p>
                 </>
               )}
@@ -459,12 +494,13 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
 
             <div className="border rounded-md border-[#E7E7E7] p-3 mb-4">
               {editDelivery ? (
-                // <DeliveryAddress />
                 <DeliveryEditAddress
                   setEditDelivery={setEditDelivery}
                   editDelivery={editDelivery}
                   setDeliveryAddress={setDeliveryAddress}
                   deliveryAddress={deliveryAddress}
+                  setActiveChecked={setActiveChecked}
+                  activeChecked={activeChecked}
                 />
               ) : (
                 <>
@@ -488,9 +524,17 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     </button>
                   </div>
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {`${buyer?.apartment}, ${buyer?.deliveryAddress}, ${buyer?.suburb}, ${buyer?.deliveryAddressState} ${buyer?.postcode}`}
+                    {`${deliveryAddress?.Apartment}, ${deliveryAddress?.Address}, ${deliveryAddress?.Suburb}, ${deliveryAddress?.State} ${deliveryAddress?.Postcode}`}
                     , Australia
                   </p>
+                  {/* const addressBody = {
+              Apartment: buyerData?.apartmentSuite,
+              Address: buyerData?.streetaddress,
+              Suburb: buyerData?.city,
+              State: buyerState,
+              Postcode: buyerData?.postcode,
+              Notes: buyerData?.instructionsNotes,
+            }; */}
 
                   <div className="flex items-center gap-1">
                     <svg
@@ -529,7 +573,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                       </g>
                     </svg>
                     <p className="text-base font-normal text-[#2B4447] my-1">
-                      {buyer?.notes}
+                      {deliveryAddress?.Notes}
                     </p>
                   </div>
                 </>
@@ -542,6 +586,10 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                   deliveryAddress={deliveryAddress}
                   setEditBillingAddress={setEditBillingAddress}
                   editBillingAddress={editBillingAddress}
+                  setBillingAddressData={setBillingAddressData}
+                  billingAddressData={billingAddressData}
+                  activeChecked={activeChecked}
+                  setActiveChecked={setActiveChecked}
                 />
               ) : (
                 <>
@@ -565,7 +613,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     </button>
                   </div>
                   <p className="text-base font-normal text-[#2B4447] my-1">
-                    {`${buyer?.billingContactApartment}, ${buyer?.billingContactAddress}, ${buyer?.billingContactSuburb}, ${buyer?.billingContactState} ${buyer?.billingContactPostalCode}`}
+                    {`${billingAddressData?.Address}, ${billingAddressData?.Apartment}, ${billingAddressData?.Suburb}, ${billingAddressData?.State} ${billingAddressData?.Postcode}`}
                     , Australia
                   </p>
                 </>
@@ -655,7 +703,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                       </h5>
                     </div>
                   </div>
-                  <div className=" rounded-md mt-4">
+                  {/* <div className=" rounded-md mt-4">
                     <label htmlFor="">
                       <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
                         Your preferred payment Method
@@ -692,6 +740,19 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         email={email}
                       />
                     )}
+                  </div> */}
+                  <div className=" rounded-md mt-[5px]">
+                    <label htmlFor="">
+                      <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
+                        Your preferred payment Method
+                      </h5>
+                    </label>
+
+                    <div className="border h-[55px] rounded-lg flex items-center text-start mt">
+                      <h5 className="text-[#2B4447] font-medium text-base mx-[20px]">
+                        {buyer.defaultPaymentMethod}
+                      </h5>
+                    </div>
                   </div>
                 </TabPane>
                 <TabPane
@@ -1060,16 +1121,14 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             <div className="text-right">
               <button
                 onClick={handleSubmit}
-                style={{ backgroundColor: token.buttonThemeColor }}
-                // onClick={() => {
-                //   payBtn();
-                // }}
-                className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
+                style={{
+                  backgroundColor: token.buttonThemeColor,
+                }}
+                className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white hover:bg-[#6a59ce]"
               >
                 Order Now
               </button>
             </div>
-            {/* <button onClick={handleSubmit}>Submit</button> */}
           </div>
         </div>
       </Spin>

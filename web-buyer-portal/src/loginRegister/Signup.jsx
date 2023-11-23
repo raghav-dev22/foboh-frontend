@@ -51,6 +51,10 @@ function Signup() {
               };
               localStorage.setItem("buyerCred", JSON.stringify(buyerCred));
               localStorage.setItem("buyerData", JSON.stringify(data?.data[0]));
+              localStorage.setItem(
+                "orgID",
+                JSON.stringify(data?.data[0].organisationId)
+              );
               sendVerificationMail();
             } else {
               setIsValidBuyer(false);

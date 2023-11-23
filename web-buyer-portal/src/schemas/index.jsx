@@ -42,7 +42,7 @@ export const stepOneSchema = Yup.object().shape({
     // .matches(/^[^\d]*$/, "Business name should not contain numbers")
     .required("business name is required"),
   ABN: Yup.string()
-    .matches(/^\d{11}$/, "Invalid ABN format")
+    .matches(/^[0-9]{9,11}$/, "Invalid ABN format")
     .required("ABN is required"),
   // LiquerLicence: Yup.string()
   //   .min(2, "Your Liquor licence should have at least 2 letters")
@@ -347,9 +347,26 @@ export const DeliveryAddressEditSchema = Yup.object().shape({
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
-  DeliveryInstruction: Yup.string()
+  Notes: Yup.string()
     .required("Delivery Instruction/Notes is required")
     .max(50),
+});
+
+export const BillingAddressCheckoutSchema = Yup.object().shape({
+  Address: Yup.string()
+    .min(2, "Your Address should have atleast 2 letters")
+    .required("Address is required")
+    .max(50),
+
+  Apartment: Yup.string()
+    .required("Apartment is required")
+    .min(2, "Apartment should have atleast 2 letters")
+    .max(50),
+  Suburb: Yup.string().required("City is required"),
+  Postcode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
+  State: Yup.mixed().required("State is required"),
 });
 
 export const ResetPasswordFormSchema = Yup.object().shape({
