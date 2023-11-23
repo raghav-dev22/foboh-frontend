@@ -11,7 +11,7 @@ function OrderDetails({ orderDetails }) {
 
   return (
     <>
-      {orderDetails.map((value, index) => {
+      {orderDetails?.map((value, index) => {
         return (
           <tr className={`orderNo-${index}`}>
             <td className="px-4 py-4 border-b border-gray-200 text-base ">

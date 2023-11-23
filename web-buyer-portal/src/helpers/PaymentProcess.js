@@ -8,7 +8,9 @@ export const paymentProcess = async (
   gst,
   wet,
   subtotal,
-  total
+  total,
+  convertedPaymentDueDate,
+  last4
 ) => {
   const payAmt = total.toString();
 
@@ -26,6 +28,9 @@ export const paymentProcess = async (
         orderStatus: "InProcess",
         paymentType: paymentType,
         paymentMethod: paymentMethod,
+        paymentMethodType: "PayNow",
+        last4: last4,
+        paymentDueDate: convertedPaymentDueDate,
         paymentMethodID: paymentMethodID,
         transactionId: "",
         transactionStatus: "",
@@ -44,13 +49,13 @@ export const paymentProcess = async (
     .then((data) => {
       console.log("payment-response", data);
       let clientSecret = "";
-      let OrderPaymentIntentId = ""
+      let OrderPaymentIntentId = "";
       if (data?.result?.success) {
         clientSecret = data?.result?.transactionConfirmationCode;
-        OrderPaymentIntentId = data?.result?.data?.value[0]?.transactionId
-        return {clientSecret, OrderPaymentIntentId};
+        OrderPaymentIntentId = data?.result?.data?.value[0]?.transactionId;
+        return { clientSecret, OrderPaymentIntentId };
       }
-      return {clientSecret, OrderPaymentIntentId};
+      return { clientSecret, OrderPaymentIntentId };
     })
     .catch((error) => console.log(error));
 

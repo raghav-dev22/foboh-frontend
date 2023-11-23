@@ -227,15 +227,14 @@ function MainDashBoard() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          const { lowStock, outOfStock } = stockQuantity(data.data);
+          const { lowStock, outOfStock } = stockQuantity(data?.data);
           setStockCount({
             lowStock: lowStock,
             outOfStock: outOfStock,
           });
         }
-        console.log(data.data, "stockdata");
-        console.log(stockCount, "jhghjsghdghg");
-        setStock(data.data);
+   
+        setStock(data?.data);
       })
       .catch((error) => console.log(error));
   }, []);

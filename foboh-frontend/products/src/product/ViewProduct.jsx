@@ -1065,7 +1065,7 @@ function ViewProduct() {
       setValues({
         ...values,
         innerUnitMeasure: e,
-        configuration: `(${values.baseUnitMeasure.key} x ${e.value}) ${e.key}`,
+        configuration: `(${values.baseUnitMeasure.value} x ${e.value}) ${e.key}`,
       });
     } else {
       setValues({

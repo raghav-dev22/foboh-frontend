@@ -33,12 +33,11 @@ export const validateImage = (file) => {
         );
       } else {
         // Check file size
-        const minSize = 2 * 1024 * 1024; // 2 MB
         const maxSize = 5 * 1024 * 1024; // 5 MB
 
-        if (size < minSize || size > maxSize) {
+        if (size > maxSize) {
           reject(
-            "Invalid file size. Please upload an image between 2MB and 5MB."
+            "Invalid file size. Please upload an image lower than 5MB."
           );
         } else {
           resolve("Image is valid.");

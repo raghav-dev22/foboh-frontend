@@ -15,7 +15,7 @@ export const paymentProcessUpdate = (
       body: JSON.stringify({
         orderId: orderId,
         orderBy: orderBy,
-        orderStatus: "New",
+        orderStatus: "OrderPlaced",
         paymentStatus: status,
         orderPaymentIntentId: id,
         organisationID: localStorage.getItem("organisationId"),

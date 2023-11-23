@@ -1,7 +1,7 @@
 import { AuBankAccountElement } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
 
-const Becs = ({ cardHolderName, setCardHolderName, email, setEmail }) => {
+const Becs = ({ cardHolderName, setCardHolderName, email, setEmail, setBankName }) => {
   const [cardErrors, setCardErrors] = useState({});
 
   const AU_BANK_ACCOUNT_STYLE = {
@@ -98,6 +98,7 @@ const Becs = ({ cardHolderName, setCardHolderName, email, setEmail }) => {
                 ...cardErrors,
                 [event.elementType]: event.error,
               });
+              setBankName(event.bankName)
               console.log("CardNumberElement [change]", event);
             }}
           />

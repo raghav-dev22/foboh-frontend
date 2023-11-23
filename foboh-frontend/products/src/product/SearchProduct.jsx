@@ -63,6 +63,15 @@ const SearchProduct = forwardRef(
     const [showFilter, setShowFilter] = useState(false);
     const dropdownRef = useRef(null);
     const { Option } = Select;
+    const [alcoholicSelectedList, setAlcoholicSelectedList] = useState([]);
+    const [nonAlcoholicSelectedList, setNonAlcoholicSelectedList] = useState(
+      []
+    );
+
+    const [subCategorySelectedList, setSubCategorySelectedList] = useState([
+      [],
+      [],
+    ]);
 
     const handleChange = (e, value, name) => {
       console.log(e, value, name);
@@ -225,8 +234,24 @@ const SearchProduct = forwardRef(
       },
     }));
 
-    const toggleCategoryAndSubcategory = (e, id, name) => {
-      console.log(id, name);
+    const toggleCategoryAndSubcategory = (e, id, name, categoryName) => {
+      // if (categoryName === "Alcoholic Beverage") {
+      //   setSubCategorySelectedList((prev) => {
+      //     return (prev[0] = id);
+      //   });
+      // } else if (categoryName === "Non-Alcoholic Beverage") {
+      //   setSubCategorySelectedList((prev) => {
+      //     return (prev[1] = id);
+      //   });
+      // }
+
+      const filterValue = {
+        e: e,
+        id: id,
+        name: name,
+        categoryName: categoryName,
+      };
+      console.log("filterValue", filterValue);
 
       // Handling pagination
 
@@ -349,13 +374,16 @@ const SearchProduct = forwardRef(
         // if (sortRef.current && !sortRef.current.contains(event.target)) {
         //   setSort(false);
         // }
+
         if (
           dropdownRef.current &&
           !dropdownRef.current.contains(event.target)
         ) {
+          console.log("Hello!!!");
           const selectDropdowns = document.querySelectorAll(
             ".ant-select-dropdown"
           );
+
           let isInsideSelectDropdown = false;
 
           for (const dropdown of selectDropdowns) {
@@ -475,8 +503,8 @@ const SearchProduct = forwardRef(
           </div>
           {showFilter && (
             <div
-              className="flex justify-between items-center pt-4"
               ref={dropdownRef}
+              className="flex justify-between items-center pt-4"
             >
               {/* <Category/> */}
 
@@ -492,81 +520,82 @@ const SearchProduct = forwardRef(
                     <div className="">
                       <img src="/assets/dropdownArrow.png" alt="" />
                     </div>
+                  </div>
+                  {filterTextFirst && (
+                    <div className=" z-10 left-0   w-max  absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-3  ">
+                      <ul className="dropdown-content ">
+                        {categoryAndSubcategory &&
+                          categoryAndSubcategory.map((category, idx) => (
+                            <li className="py-2.5 px-4  ">
+                              <div className="flex items-center">
+                                <input
+                                  id={`${idx}-${category.categoryId}`}
+                                  type="checkbox"
+                                  value={category.categoryId}
+                                  onClick={(e) =>
+                                    toggleCategoryAndSubcategory(
+                                      e,
+                                      category.categoryId,
+                                      "category"
+                                    )
+                                  }
+                                  checked={filterAndSort.filter.category.includes(
+                                    category.categoryId
+                                  )}
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <label
+                                  htmlFor={`${idx}-${category.categoryId}`}
+                                  className="ml-2 text-sm font-medium text-gray"
+                                >
+                                  {category.categoryName}
+                                </label>
+                              </div>
 
-                    {filterTextFirst && (
-                      <div className=" z-10 left-0   w-max   absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-3  ">
-                        <ul className="dropdown-content ">
-                          {categoryAndSubcategory &&
-                            categoryAndSubcategory.map((category, idx) => (
-                              <li className="py-2.5 px-4  ">
-                                <div className="flex items-center">
-                                  <input
-                                    id={idx}
-                                    type="checkbox"
-                                    value={category.categoryId}
-                                    onClick={(e) =>
+                              {filterAndSort.filter.category.includes(
+                                category.categoryId
+                              ) && (
+                                <ul className="dropdown-content">
+                                  <Select
+                                    mode="multiple"
+                                    style={{
+                                      width: "100%",
+                                    }}
+                                    placeholder={`select ${category.categoryName}`}
+                                    onChange={(e, value) =>
                                       toggleCategoryAndSubcategory(
                                         e,
-                                        category.categoryId,
-                                        "category"
+                                        value,
+                                        "subcategory",
+                                        category.categoryName
                                       )
                                     }
-                                    checked={filterAndSort.filter.category.includes(
-                                      category.categoryId
-                                    )}
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                                  />
-                                  <label
-                                    htmlFor={idx}
-                                    className="ml-2 text-sm font-medium text-gray"
+                                    //value={subCategorySelectedList[idx]}
+                                    optionLabelProp="label"
                                   >
-                                    {category.categoryName}
-                                  </label>
-                                </div>
-
-                                {filterAndSort.filter.category.includes(
-                                  category.categoryId
-                                ) && (
-                                  <ul className="dropdown-content">
-                                    <Select
-                                      mode="multiple"
-                                      style={{
-                                        width: "100%",
-                                      }}
-                                      placeholder="select one country"
-                                      onChange={(e, value) =>
-                                        toggleCategoryAndSubcategory(
-                                          e,
-                                          value,
-                                          "subcategory"
-                                        )
-                                      }
-                                      optionLabelProp="label"
-                                    >
-                                      {category.subcategory.map((subcat, i) => (
-                                        <>
-                                          {filterAndSort.filter.category.includes(
-                                            category.categoryId
-                                          ) && (
-                                            <Option
-                                              value={subcat.id}
-                                              label={subcat.name}
-                                              key={i}
-                                            >
-                                              <Space>{subcat.name}</Space>
-                                            </Option>
-                                          )}
-                                        </>
-                                      ))}
-                                    </Select>
-                                  </ul>
-                                )}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+                                    {category.subcategory.map((subcat, i) => (
+                                      <>
+                                        {filterAndSort.filter.category.includes(
+                                          category.categoryId
+                                        ) && (
+                                          <Option
+                                            value={subcat.id}
+                                            label={subcat.name}
+                                            key={i}
+                                          >
+                                            <Space>{subcat.name}</Space>
+                                          </Option>
+                                        )}
+                                      </>
+                                    ))}
+                                  </Select>
+                                </ul>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 <div className="relative">
                   <div

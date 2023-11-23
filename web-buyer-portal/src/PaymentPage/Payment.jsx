@@ -43,10 +43,11 @@ import { getClientSecret } from "../helpers/getClientSecret";
 import { getCart } from "../react-query/cartApiModule";
 import { useQuery } from "react-query";
 import { getCalculations } from "../helper/getCalculations";
+import { convertDefaultPaymentTermValue } from "../helpers/invoiceDateFormat";
+import { formatDate } from "../helpers/formatDateToPaymentDueDate";
 
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
-  const height = useResponsiveHeight();
 
   const options = useMemo(
     () => ({
@@ -141,11 +142,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const buyer = useSelector((state) => state.buyer);
   const { useToken } = theme;
   const { token } = useToken();
-
-  const [messageApi] = message.useMessage();
-  const [modal, contextHolder] = Modal.useModal();
+  const [bankName, setBankName] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
-  console.log(buyer, "buyer-----------------------");
   const errorMessage = (error) => {
     messageApi.open({
       type: "error",
@@ -156,22 +155,21 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   console.log(buyer, "buyesrinformation");
   let billingAddress = {};
 
-  const countDown = () => {
-    const instance = modal.success({
-      title: "Payment successful!",
-      content: `Thank you for your payment.`,
-    });
-    // const timer = setInterval(() => {
-    //   secondsToGo -= 1;
-    //   instance.update({
-    //     content: `This modal will be destroyed after ${secondsToGo} second.`,
-    //   });
-    // }, 1000);
-    // setTimeout(() => {
-    //   clearInterval(timer);
-    //   instance.destroy();
-    //   navigate("/home/order-confirm");
-    // }, secondsToGo * 1000);
+  const countDown = (name, convertedPaymentDueDate) => {
+    if (name === "payNow") {
+      Modal.success({
+        title: "Order confirmed!",
+        content: `Thank you for your payment.`,
+        onOk: () => navigate("/home/order-confirm"),
+      });
+    } else {
+      const fomattedDate = formatDate(convertedPaymentDueDate);
+      Modal.success({
+        title: "Order confirmed!",
+        content: fomattedDate,
+        onOk: () => navigate("/home/order-confirm"),
+      });
+    }
   };
 
   if (sealedCartError) {
@@ -283,7 +281,12 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
       });
 
       if (payload) {
+        const convertedPaymentDueDate = convertDefaultPaymentTermValue(
+          "",
+          "paymentTodayDate"
+        );
         const pm_id = payload?.paymentMethod?.id;
+        const last4 = payload.paymentMethod.card.last4;
         const orderId = localStorage.getItem("orderId");
         const { deliveryEmail } = JSON.parse(localStorage.getItem("buyerInfo"));
 
@@ -297,7 +300,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           gst,
           wet,
           subtotal,
-          total
+          total,
+          convertedPaymentDueDate,
+          last4
         );
 
         const { error, paymentIntent } = await stripe.confirmCardPayment(
@@ -321,7 +326,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           );
           cartStatusUpdate();
           orderStatusUpdate();
-          countDown();
+          countDown("payNow", "");
         }
       }
     } else {
@@ -342,8 +347,16 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         },
       });
 
+      const { defaultPaymentTerm } = JSON.parse(
+        localStorage.getItem("buyerInfo")
+      );
       if (payload) {
         const pm_id = payload?.paymentMethod?.id;
+        const last4 = payload.paymentMethod.au_becs_debit.last4;
+        const convertedPaymentDueDate = convertDefaultPaymentTermValue(
+          defaultPaymentTerm[0],
+          "paymentDueDate"
+        );
 
         const details = {
           orderId: localStorage.getItem("orderId"),
@@ -355,37 +368,62 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           paymentType: "PayLater",
           paymentMethod: "becs",
           paymentMethodID: pm_id,
+          paymentMethodType: bankName,
+          last4: last4,
+          paymentDueDate: convertedPaymentDueDate,
+          transactionId: "",
+          transactionStatus: "",
+          paymentStatus: "PayLater",
+          totalPrice: subtotal,
+          gst: gst,
+          wt: wet,
+          paymentAmount: `${total}`,
+          payAmountLong: total,
+          couponDiscount: "",
+          couponKey: "",
         };
+
         const clientSecret = await getClientSecret(details);
         console.log("clientSecretBecs", clientSecret);
+
+        const auBankAccount = elements.getElement(AuBankAccountElement);
+
+        if (clientSecret) {
+          const { error, paymentIntent } =
+            await stripe.confirmAuBecsDebitPayment(clientSecret, {
+              payment_method: {
+                au_becs_debit: auBankAccount,
+                billing_details: {
+                  name: cardHolderName,
+                  email: email,
+                },
+              },
+            });
+
+          if (error) {
+            // Show error to your customer.
+            setLoading(false);
+            errorMessage(error.message);
+          } else {
+            setLoading(false);
+            paymentProcessUpdate(
+              localStorage.getItem("orderId"),
+              cardHolderName,
+              paymentIntent.status,
+              paymentIntent.id,
+              paymentIntent.id
+            );
+            cartStatusUpdate();
+            orderStatusUpdate();
+            countDown("payLater", convertedPaymentDueDate);
+
+            // Show a confirmation message to your customer.
+            // The PaymentIntent is in the 'processing' state.
+            // BECS Direct Debit is a delayed notification payment
+            // method, so funds are not immediately available.
+          }
+        }
       }
-
-      return true;
-      const auBankAccount = elements.getElement(AuBankAccountElement);
-
-      // if (clientSecret) {
-      //   const result = await stripe.confirmAuBecsDebitPayment(clientSecret, {
-      //     payment_method: {
-      //       au_becs_debit: auBankAccount,
-      //       billing_details: {
-      //         name: cardHolderName,
-      //         email: email,
-      //       },
-      //     },
-      //   });
-
-      //   if (result.error) {
-      //     // Show error to your customer.
-      //     setLoading(false);
-      //     errorMessage(result.error.message);
-      //   } else {
-      //     setLoading(false);
-      //     // Show a confirmation message to your customer.
-      //     // The PaymentIntent is in the 'processing' state.
-      //     // BECS Direct Debit is a delayed notification payment
-      //     // method, so funds are not immediately available.
-      //   }
-      // }
     }
   };
 
@@ -686,6 +724,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     </div>
                     {isBecs && (
                       <Becs
+                        setBankName={setBankName}
                         setCardHolderName={setCardHolderName}
                         cardHolderName={cardHolderName}
                         setEmail={setEmail}

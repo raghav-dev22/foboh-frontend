@@ -533,7 +533,7 @@ function AddProduct() {
       setValues({
         ...values,
         innerUnitMeasure: e,
-        configuration: `(${values.baseUnitMeasure.key} x ${e.value}) ${e.key}`,
+        configuration: `(${values.baseUnitMeasure.value} x ${e.value}) ${e.key}`,
       });
       setShow(true);
     } else {

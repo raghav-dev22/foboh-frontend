@@ -1,7 +1,7 @@
 export const getClientSecret = async (details) => {
   try {
     const response = await fetch(
-      `https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/ProcessPayment_PayType_PayMethod_PayLater_BCSE_SetUp`,
+      `https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/ProcessPayment_PayType_PayMethod_PayLater`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -10,7 +10,8 @@ export const getClientSecret = async (details) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        return data;
+        if (data.result.success) return data.result.transactionConfirmationCode;
+        else throw new Error("Error occurred while getting client secret!");
       })
       .catch((err) => console.log(err));
     return response;
