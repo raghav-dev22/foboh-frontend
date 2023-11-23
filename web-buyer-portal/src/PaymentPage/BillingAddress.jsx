@@ -12,7 +12,7 @@ import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { addressUpdate } from "../helpers/addressUpdate";
 import BusinessIcon from "@mui/icons-material/Business";
-
+import ReceiptLongSharpIcon from "@mui/icons-material/ReceiptLongSharp";
 function BillingAddress({
   deliveryAddress,
   billingAddress,
@@ -166,7 +166,7 @@ function BillingAddress({
         <div className="">
           <div className="mb-3 relative">
             <div className="flex justify-start items-center gap-1.5 mb-6">
-              <BusinessIcon
+              <ReceiptLongSharpIcon
                 style={{ fill: "#2B4447" }}
                 className="w-[18px] h-[18px]"
               />

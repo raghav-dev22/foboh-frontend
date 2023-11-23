@@ -176,11 +176,11 @@ function Header() {
           <input
             type="text"
             onChange={handleSearch}
-            className="roun8ded-md	font-normal text-sm placeholder:text-sm"
+            className="roun8ded-md	font-normal text-sm placeholder:text-sm focus:border-[#5f59d7]"
             placeholder="Search by product or brand"
             style={{
               padding: "12px 16px 12px 38px",
-              border: "0px",
+
               background: "#F4F7FF",
               margin: "0px",
             }}

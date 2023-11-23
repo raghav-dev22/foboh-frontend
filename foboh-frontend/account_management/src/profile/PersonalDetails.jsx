@@ -12,7 +12,7 @@ import { styled } from "@mui/material";
 function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const authUrl = process.env.REACT_APP_AUTH_URL
+  const authUrl = process.env.REACT_APP_AUTH_URL;
   const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
@@ -31,12 +31,9 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
 
   useEffect(() => {
     const email = localStorage.getItem("email");
-    fetch(
-      `${authUrl}/api/User/get?email=${email}`,
-      {
-        method: "GET",
-      }
-    )
+    fetch(`${authUrl}/api/User/get?email=${email}`, {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -80,7 +77,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
   const handleReset = () => {
     setShow(false);
     setValues(initialValues);
-    resetProfileImage(initialValues?.imageUrl)
+    resetProfileImage(initialValues?.imageUrl);
   };
 
   const {
@@ -96,30 +93,27 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
     validationSchema: PersonalDetailsSchema,
     onSubmit: (values) => {
       const id = localStorage.getItem("ccrn");
-      fetch(
-        `${authUrl}/api/User/update?ccrn=${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstName: values.firstName,
-            lastName: values.lastName,
-            email: values.email,
-            password: values.password,
-            status: true,
-            role: values.role,
-            meta: values.meta,
-            adId: values.adId,
-            imageUrl: profileUri,
-            bio: values.bio,
-            mobile: values.mobile,
-            organisationId: localStorage.getItem('organisationId'),
-            isActive: true,
-          }),
-        }
-      )
+      fetch(`${authUrl}/api/User/update?ccrn=${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+          status: true,
+          role: values.role,
+          meta: values.meta,
+          adId: values.adId,
+          imageUrl: profileUri,
+          bio: values.bio,
+          mobile: values.mobile,
+          organisationId: localStorage.getItem("organisationId"),
+          isActive: true,
+        }),
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -143,12 +137,9 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
               })
             );
             setShow(false);
-            fetch(
-              `${authUrl}/api/User/get?ccrn=${id}`,
-              {
-                method: "GET",
-              }
-            )
+            fetch(`${authUrl}/api/User/get?ccrn=${id}`, {
+              method: "GET",
+            })
               .then((response) => response.json())
               .then((data) => {
                 console.log(data);
@@ -196,7 +187,6 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
     setShow(true);
   };
 
-
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
@@ -237,7 +227,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
                   className="block  tracking-wide text-gray-700 text-base	 font-medium	 "
                   htmlFor="grid-last-name"
                 >
-                  First name 
+                  First name
                 </label>
                 <input
                   className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -283,7 +273,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   onKeyPress={(event) => {
-                    const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
+                    const allowedCharacters = /^[A-Za-z\s]*$/; // Regular expression to match only letters (both uppercase and lowercase)
                     if (!allowedCharacters.test(event.key)) {
                       event.preventDefault();
                     }

@@ -1854,7 +1854,7 @@ const ProductList = () => {
                         </h4>
 
                         <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col	 sm:gap-0 gap-2 mt-2 ">
-                          <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-3 gap-2">
+                          <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-1 gap-1">
                             <p
                               className="text-[#637381] cursor-pointer"
                               onClick={() =>

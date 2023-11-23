@@ -156,7 +156,7 @@ const AllOrders = () => {
         <h5 className="text-base font-medium text-[#2B4447]">Last Updated</h5>
       ),
       dataIndex: "LastUpdated",
-      width: 130,
+      width: 150,
     },
     {
       title: <h5 className="text-base font-medium text-[#2B4447]">Payment</h5>,
@@ -875,7 +875,8 @@ const AllOrders = () => {
               showQuickJumper: false,
             }}
             scroll={{
-              y: 240,
+              x: 1120,
+              // y: 240,
             }}
           />
         </div>

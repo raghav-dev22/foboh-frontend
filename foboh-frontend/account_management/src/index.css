@@ -530,3 +530,42 @@ a.foboh-green-btn:hover {
 .z-\[40\] {
   z-index: 40;
 }
+.w-\[160px\] {
+  width: 160px;
+}
+.h-\[160px\] {
+  height: 160px;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.pb-20 {
+  padding-bottom: 5rem /* 80px */;
+}
+.custom-stepper .bg-gray-900 {
+  background-color: #12736a;
+}
+.custom-stepper .bg-gray-300 {
+  background-color: #637381;
+}
+.custom-stepper .bg-gray-300 {
+  background-color: #637381;
+}
+.custom-stepper .w-10 {
+  width: 24px;
+  height: 24px;
+}
+.top-7 {
+  top: 1.75rem;
+}
+.py-3\.5 {
+  padding-top: 0.875rem /* 14px */;
+  padding-bottom: 0.875rem /* 14px */;
+}
+.px-7 {
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+}
+.w-56 {
+  width: 14rem /* 224px */;
+}

@@ -12,8 +12,8 @@ import SearchOffIcon from "@mui/icons-material/SearchOff";
 import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
 import { Skeleton } from "@mui/material";
 const TABLE_HEAD = [
-  "Business Name",
-  "Ordering Contact",
+  "Business name",
+  "Ordering contact",
   "Region",
   "Status",
   "Orders",
@@ -251,12 +251,9 @@ function AddCustomers() {
                               </div>
                             </td>
                             <td className={classes}>
-                              <div className="flex items-center gap-2">
-                                {" "}
+                              <div className="">
                                 <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product.deliveryFirstName}
-                                </Typography>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                  {product.deliveryFirstName}{" "}
                                   {product.deliveryLastName}
                                 </Typography>
                               </div>
@@ -266,7 +263,7 @@ function AddCustomers() {
                             </td>
                             <td className={`${classes} w-44`}>
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                {product.suburb},{product.state}
+                                {product.suburb} , {product.state}
                               </Typography>
                             </td>
                             <td className={classes}>
@@ -274,12 +271,12 @@ function AddCustomers() {
                                 {product?.isActive === "1" ? (
                                   <div
                                     style={{
-                                      background: "rgba(33, 150, 83, 0.08)",
+                                      background: "#EDF7F1",
                                       borderRadius: "30px",
                                     }}
-                                    className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-7	w-32		px-3"
+                                    className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-full py-1.5	w-full 		px-3.5"
                                   >
-                                    <p className="text-green-dark font-normal	text-sm	">
+                                    <p className="text-[#219653] font-medium	text-sm	">
                                       Active
                                     </p>
                                   </div>
@@ -289,11 +286,11 @@ function AddCustomers() {
                                       background: "rgba(255, 167, 11, 0.08)",
                                       borderRadius: "30px",
                                     }}
-                                    className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-7	w-32		px-3"
+                                    className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-full py-1.5	w-full 		px-3.5"
                                   >
                                     <p
-                                      style={{ color: "#FFA70B" }}
-                                      className="text-red-dark font-normal text-sm	"
+                                      style={{ color: "#FFF8EB" }}
+                                      className="text-[#FFA70B] font-normal text-sm	"
                                     >
                                       Inactive
                                     </p>

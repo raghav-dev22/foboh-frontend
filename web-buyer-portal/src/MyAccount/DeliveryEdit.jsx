@@ -75,7 +75,10 @@ const DeliveryEdit = () => {
 
           <div className="  md:px-0 pb-8 px-6">
             <div className="  pb-8">
-              <h2 style={{color: token.commonThemeColor}} className="font-bold text-xl	 text-[#563FE3]">
+              <h2
+                style={{ color: token.commonThemeColor }}
+                className="font-bold text-xl	 text-[#563FE3]"
+              >
                 Delivery Address
               </h2>
             </div>

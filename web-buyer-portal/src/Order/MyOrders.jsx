@@ -46,7 +46,7 @@ const columns = [
   {
     title: <h5 className="text-base font-semibold text-[#2B4447]">Order ID</h5>,
     dataIndex: "OrderID",
-    width: 100,
+    width: 150,
   },
 
   {
@@ -58,31 +58,31 @@ const columns = [
   },
 
   {
-    title: <h5 className="text-lg font-semibold text-[#2B4447]">Items</h5>,
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Items</h5>,
     dataIndex: "Items",
     width: 80,
   },
 
   {
-    title: <h5 className="text-lg font-semibold text-[#2B4447]">Total</h5>,
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Total</h5>,
     dataIndex: "Total",
     width: 80,
   },
 
   {
-    title: <h5 className="text-lg font-semibold text-[#2B4447]">Payment</h5>,
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Payment</h5>,
     dataIndex: "Payment",
     width: 90,
   },
 
   {
-    title: <h5 className="text-lg font-semibold text-[#2B4447]">Status</h5>,
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Status</h5>,
     dataIndex: "Status",
     width: 100,
   },
 
   {
-    title: <h5 className="text-lg font-semibold text-[#2B4447]">Action</h5>,
+    title: <h5 className="text-base font-semibold text-[#2B4447]">Action</h5>,
     dataIndex: "Action",
     width: 120,
   },

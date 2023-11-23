@@ -23,9 +23,9 @@ const RepresentativeInformation = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="firstName"
               >
-                First Name
+                First name
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -46,9 +46,9 @@ const RepresentativeInformation = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="lastName"
               >
-                Last Name
+                Last name
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -86,7 +86,7 @@ const RepresentativeInformation = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="RepresentativeAddress"
               >
                 Address
               </label>
@@ -119,7 +119,7 @@ const RepresentativeInformation = ({
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter Suburb"
+                placeholder="Enter suburb"
                 name="Suburb"
                 id="Suburb"
                 type="text"
@@ -144,7 +144,7 @@ const RepresentativeInformation = ({
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="Postcode"
                 type="text"
-                placeholder="XXXX "
+                placeholder="Enter postcode"
                 name="Postcode"
                 value={values.Postcode}
                 onChange={handleChange}
@@ -161,7 +161,7 @@ const RepresentativeInformation = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="State"
               >
                 State
               </label>
@@ -187,7 +187,7 @@ const RepresentativeInformation = ({
                 className="block text-[#2B4447] text-base font-medium mb-2"
                 htmlFor="RepresentativePhoneNumber"
               >
-                Phone No.
+                Mobile number
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

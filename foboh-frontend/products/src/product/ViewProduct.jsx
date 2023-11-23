@@ -1181,10 +1181,14 @@ function ViewProduct() {
     500,
     { leading: true, trailing: true }
   );
-
+  const maxImageCount = 5;
   const handleImageUpload = async (e) => {
     const files = e.target.files;
     let err = null;
+
+    if (files.length > maxImageCount)
+      return error("Maximum 5 images have already been uploaded!");
+
     for (let i = 0; i < files.length; i++) {
       try {
         await validateImage(files[i]);
@@ -1200,7 +1204,7 @@ function ViewProduct() {
         setModal2Open(true);
         // If validation passes, proceed with image upload
         const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
+        for (let i = 0; i < maxImageCount; i++) {
           if (files[i] instanceof File) {
             formData.append("files", files[i]);
           }
@@ -1315,7 +1319,6 @@ function ViewProduct() {
         <form
           onChange={handleFormChange}
           className="grid gap-5 lg:flex nikit px-6  overflow-y-auto no-scrollbar"
-          style={{ height: "545px" }}
         >
           {show && (
             <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
@@ -1341,10 +1344,10 @@ function ViewProduct() {
           )}
           <div
             className="grid gap-5 lg:flex  px-6  overflow-y-auto no-scrollbar"
-            style={{ height: "545px", width: "100%" }}
+            style={{ width: "100%" }}
           >
             <div className="w-full lg:w-2/5	 h-full	">
-              <div className="grid gap-3">
+              <div className="grid gap-5">
                 {/* Update Image ---START */}
                 <Skeleton
                   style={{ padding: "10px" }}
@@ -1354,11 +1357,13 @@ function ViewProduct() {
                 >
                   <div className="edit-img ">
                     {productImageUris?.length > 0 ? (
-                      <img
-                        src={productImageUris[0]}
-                        alt=""
-                        className=" w-full h-[357px] object-contain"
-                      />
+                      <div className="border h-[357px] border-[#eaeaeae9] rounded-md shadow-custom bg-[#0000]   flex justify-center items-center">
+                        <img
+                          src={productImageUris[0]}
+                          alt=""
+                          className=" w-full h-full object-contain"
+                        />
+                      </div>
                     ) : (
                       <img
                         src="/assets/defaultImg.png"
@@ -1368,135 +1373,42 @@ function ViewProduct() {
                     )}
                   </div>
                 </Skeleton>
-
-                <Skeleton
-                  style={{ padding: "10px" }}
-                  loading={loading}
-                  active
-                  avatar
-                >
-                  <div className="custom">
-                    {productImageUris?.length > 0 ? (
-                      <Carousel cols={2} rows={1} gap={10} loop={false}>
-                        <Carousel.Item>
-                          {productImageUris?.length > 0
-                            ? (
-                                <img
-                                  width="200px"
-                                  height="200px"
-                                  src={productImageUris[1]}
-                                  alt=""
-                                  className=" h-full object-contain"
-                                />
-                              ) || ""
-                            : ""}
-                        </Carousel.Item>
-                        <Carousel.Item>
-                          {productImageUris?.length > 0
-                            ? (
-                                <img
-                                  width="200px"
-                                  height="200px"
-                                  src={productImageUris[2]}
-                                  alt=""
-                                  className=" h-full object-contain"
-                                />
-                              ) || ""
-                            : ""}
-                        </Carousel.Item>
-                        <Carousel.Item>
-                          {productImageUris?.length > 0
-                            ? (
-                                <img
-                                  width="200px"
-                                  height="200px"
-                                  src={productImageUris[3]}
-                                  alt=""
-                                  className=" h-full object-contain"
-                                />
-                              ) || ""
-                            : ""}
-                        </Carousel.Item>
-                        <Carousel.Item>
-                          {/* anything you want to show in the grid */}
-                        </Carousel.Item>
-                        {/* ... */}
-                      </Carousel>
-                    ) : (
-                      ""
-                    )}
+                {productImageUris?.length > 1 && (
+                  <div className="grid grid-cols-2 justify-center items-center gap-4">
+                    {productImageUris.map((uri, index) => (
+                      <Skeleton
+                        key={index + 1}
+                        style={{ padding: "10px" }}
+                        loading={loading}
+                        active
+                        avatar
+                      >
+                        <div className="">
+                          {productImageUris[index + 1] ? (
+                            <div className="h-[160px] border border-[#eaeaeae9] rounded-md shadow-custom bg-[#0000]   flex justify-center items-center ">
+                              <img
+                                src={productImageUris[index + 1]}
+                                alt=""
+                                className="  w-full h-full rounded-md object-contain"
+                              />
+                            </div>
+                          ) : (
+                            <img
+                              src="/assets/defaultImg.png"
+                              alt=""
+                              className="h-[160px] w-full object-contain"
+                            />
+                          )}
+                        </div>
+                      </Skeleton>
+                    ))}
                   </div>
-                  {/* <div className="">
-                    {productImageUris?.length > 0
-                      ? (
-                          <img
-                            src={productImageUris[1]}
-                            alt=""
-                            className=" h-full object-contain"
-                          />
-                        ) || ""
-                      : ""}
-                  </div> */}
-                </Skeleton>
-
-                {!loading && (
-                  <label
-                    htmlFor="upload-image"
-                    className="update-img-btn rounded-md	w-full py-3	bg-custom-skyBlue flex cursor-pointer justify-center"
-                  >
-                    <input
-                      onChange={handleImageUpload}
-                      id="upload-image"
-                      type="file"
-                      name="files[]"
-                      multiple
-                      hidden
-                    />
-                    <div className="flex gap-2 items-center justify-center">
-                      <div className="">
-                        <svg
-                          width={20}
-                          height={21}
-                          viewBox="0 0 20 21"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <mask
-                            id="mask0_555_25257"
-                            style={{ maskType: "alpha" }}
-                            maskUnits="userSpaceOnUse"
-                            x={0}
-                            y={0}
-                            width={20}
-                            height={21}
-                          >
-                            <rect
-                              y="0.5"
-                              width={20}
-                              height={20}
-                              fill="#D9D9D9"
-                            />
-                          </mask>
-                          <g mask="url(#mask0_555_25257)">
-                            <path
-                              d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
-                              fill="white"
-                            />
-                          </g>
-                        </svg>
-                      </div>
-                      <div className="">
-                        <h6 className="text-white font-medium	text-base	">
-                          Update images
-                        </h6>
-                      </div>
-                    </div>
-                  </label>
                 )}
+
                 {/* Update Image ---END  */}
-                <div>
-                  <div className="flex justify-start items-center gap-2">
-                    <h5 className="text-base font-medium text-[#2B4447]">
+                <div className="my-2">
+                  <div className="flex justify-start items-center gap-2 mb-1">
+                    <h5 className="text-base font-medium text-[#2B4447] ">
                       Image requirements
                     </h5>
                     <CustomTooltip
@@ -1555,19 +1467,71 @@ function ViewProduct() {
                     </CustomTooltip>
                   </div>
                   <p
-                    className="font-normal text-[#637381] text-[12px]"
-                    style={{ fontSize: "12px" }}
+                    className="font-normal text-[#637381] text-[12px] "
+                    style={{ fontSize: "12px", lineHeight: "22px" }}
                   >
                     For optimal appearance, images must be between 500 px and
                     10,000 px, no greater than 5 MB and in JPEG or PNG format
                   </p>
                 </div>
+
+                <label
+                  htmlFor="upload-image"
+                  className="update-img-btn rounded-md	w-full py-3	bg-custom-skyBlue flex cursor-pointer justify-center"
+                >
+                  <input
+                    onChange={handleImageUpload}
+                    id="upload-image"
+                    type="file"
+                    name="files[]"
+                    multiple
+                    hidden
+                  />
+                  <div className="flex gap-2 items-center justify-center">
+                    <div className="">
+                      <svg
+                        width={20}
+                        height={21}
+                        viewBox="0 0 20 21"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <mask
+                          id="mask0_555_25257"
+                          style={{ maskType: "alpha" }}
+                          maskUnits="userSpaceOnUse"
+                          x={0}
+                          y={0}
+                          width={20}
+                          height={21}
+                        >
+                          <rect y="0.5" width={20} height={20} fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_555_25257)">
+                          <path
+                            d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
+                            fill="white"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                    <div className="">
+                      <h6 className="text-white font-medium	text-base	">
+                        {productImageUris?.length === maxImageCount
+                          ? "5 image maximum reached"
+                          : productImageUris?.length > 0
+                          ? `Add up to ${maxImageCount}  images`
+                          : "Upload up to 5 images"}
+                      </h6>
+                    </div>
+                  </div>
+                </label>
+
                 {/* Product Listing ---START */}
                 <div className="rounded-lg	border border-inherit	bg-white">
                   <div className="border-b border-inherit  py-3 px-5">
                     <h5 className="font-medium	text-lg	text-green">
-                      {" "}
-                      Product listing{" "}
+                      Product listing
                     </h5>
                   </div>
                   <Skeleton
@@ -1807,7 +1771,7 @@ function ViewProduct() {
               {/* Edit product details ---START  */}
               <div className=" w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
                 <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
-                  <h6 className="text-base	font-medium	 text-green">
+                  <h6 className="font-medium	text-lg	text-green">
                     Product details
                   </h6>
                 </div>
@@ -2290,7 +2254,7 @@ function ViewProduct() {
               {/* Pricing Details ---START  */}
               <div className="  w-full  rounded-lg		 border border-inherit bg-white h-full	 grid	  ">
                 <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
-                  <h6 className="text-base	font-medium	 text-green">
+                  <h6 className="font-medium	text-lg	text-green">
                     Pricing details
                   </h6>
                 </div>

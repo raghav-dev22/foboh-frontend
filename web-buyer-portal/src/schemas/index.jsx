@@ -139,10 +139,10 @@ export const ProfileEditSchema = Yup.object().shape({
   ABN: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
     .required("ABN is required"),
-  LiquerLicence: Yup.string()
-    .min(2, "Your Liquor licence should have at least 2 letters")
-    .max(13, "Liquor licence cannot be more than 13 characters")
-    .required("Liquor licence is required"),
+  // LiquerLicence: Yup.string()
+  //   .min(2, "Your Liquor licence should have at least 2 letters")
+  //   .max(13, "Liquor licence cannot be more than 13 characters")
+  //   .required("Liquor licence is required"),
   //Ordering Schema
   OrderingContactFirstName: Yup.string()
     .min(2, "Your first name should have atleast 2 letters")
@@ -189,10 +189,10 @@ export const DeliveryBillingSchema = Yup.object().shape({
     .min(2, "Delivery address should have atleast 2 letters")
     .max(50)
     .required("Delivery address is required"),
-  Apartment: Yup.string()
-    .required("Apartment is required")
-    .min(2, "Apartment should have atleast 2 letters")
-    .max(50),
+  // Apartment: Yup.string()
+  //   .required("Apartment is required")
+  //   .min(2, "Apartment should have atleast 2 letters")
+  //   .max(50),
   City: Yup.mixed().required("Suburb is required"),
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
@@ -200,17 +200,17 @@ export const DeliveryBillingSchema = Yup.object().shape({
   Notes: Yup.string()
     .required("Notes is required")
     .min(2, "Notes should have atleast 2 letters")
-    .max(50),
+    .max(250),
   DeliveryAddressState: Yup.mixed().required("State is required"),
   // billing
   BillingAddress: Yup.string()
     .min(2, "Billing address should have atleast 2 letters")
     .max(50)
     .required("Billing address is required"),
-  BillingApartment: Yup.string()
-    .required("Apartment is required")
-    .min(2, "Apartment should have atleast 2 letters")
-    .max(50),
+  // BillingApartment: Yup.string()
+  //   .required("Apartment is required")
+  //   .min(2, "Apartment should have atleast 2 letters")
+  //   .max(50),
   // State: Yup.string()
   //   .required("Apartment is required")
   //   .min(2, "State should have atleast 2 letters")
@@ -222,7 +222,7 @@ export const DeliveryBillingSchema = Yup.object().shape({
   BillingNotes: Yup.string()
     .required("Notes is required")
     .min(2, "Notes should have atleast 2 letters")
-    .max(50),
+    .max(250),
   BillingAddressState: Yup.mixed().required("State is required"),
 });
 
