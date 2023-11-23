@@ -94,7 +94,6 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   businessName: Yup.string()
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
-    .matches(/^[^\d]*$/, "Business name should not contain numbers")
     .required("Business name is required"),
   abn: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
