@@ -31,7 +31,7 @@ const CustomerBillingStatement = ({
               className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
               type="text"
-              placeholder="Trade Name Inc."
+              placeholder="Enter statement descriptor"
               name="StatementDescriptor"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -48,7 +48,7 @@ const CustomerBillingStatement = ({
               className="block text-[#2B4447] text-base font-medium mb-2"
               htmlFor="username"
             >
-              Phone number
+              Mobile number
             </label>
             <input
               className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

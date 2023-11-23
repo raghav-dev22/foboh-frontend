@@ -257,7 +257,7 @@ function CreateAccount() {
   return (
     <>
       <div className=" bg-[#F8FAFC]  w-full flex items-center justify-center top-0 left-0 bottom-0 right-0 h-full">
-        <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
+        <div className="lg:container container-fluid mx-auto lg:px-6  px-0 ">
           <div className="w-full lg:scale-90">
             <div className="flex flex-col md:flex-row md:justify-center bg-white  ">
               <div className="    block md:hidden">

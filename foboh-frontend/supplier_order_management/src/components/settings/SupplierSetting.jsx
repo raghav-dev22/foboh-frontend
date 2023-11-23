@@ -15,7 +15,7 @@ const SupplierSetting = () => {
           <Link to="/dashboard/organisation-settings">
             <button className="w-full">
               <div
-                className="custom-shadow px-6 py-5 flex justify-start items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer"
+                className="custom-shadow px-6 py-5 flex justify-start items-center border border-[#E0E0E0] rounded-md hover-animation bg-white cursor-pointer"
                 // onClick={() => {
                 //   ProfileBtn();
                 // }}
@@ -37,7 +37,7 @@ const SupplierSetting = () => {
           </Link>
           <Link to="/dashboard/bank-information">
             <button className="w-full">
-              <div className="custom-shadow px-6 py-5 flex justify-start items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
+              <div className="bg-white custom-shadow px-6 py-5 flex justify-start items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
                 <div className=" 	">
                   <h5 className="text-lg font-semibold text-[#1D1E20] text-left">
                     {" "}
@@ -60,7 +60,7 @@ const SupplierSetting = () => {
               //   navigate("dashboard/bank-information");
               // }}
             >
-              <div className="custom-shadow px-6 py-5 flex justify-start items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
+              <div className="bg-white custom-shadow px-6 py-5 flex justify-start items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
                 <div className=" 	">
                   <h5 className="text-left text-lg font-semibold text-[#1D1E20]">
                     Store Settings

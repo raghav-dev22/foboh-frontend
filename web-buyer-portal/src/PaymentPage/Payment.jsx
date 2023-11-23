@@ -13,7 +13,7 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import EditIcon from "@mui/icons-material/Edit";
 import { Select } from "antd";
 import BusinessIcon from "@mui/icons-material/Business";
-
+import ReceiptLongSharpIcon from "@mui/icons-material/ReceiptLongSharp";
 import { Button, message, Space } from "antd";
 import {
   useStripe,
@@ -157,7 +157,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   let billingAddress = {};
 
   const countDown = () => {
-    const instance = modal.success({
+    modal.success({
       title: "Payment successful!",
       content: `Thank you for your payment.`,
     });
@@ -547,7 +547,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                 <>
                   <div className="flex justify-between">
                     <div className="flex justify-center items-center gap-1.5">
-                      <HomeRoundedIcon
+                      <ReceiptLongSharpIcon
                         style={{ fill: "#2B4447" }}
                         className="w-[18px] h-[18px]"
                       />

@@ -16,11 +16,12 @@ const BankingInfoFooter = () => {
           name="default-radio"
         />
         <p className=" text-sm font-medium text-[#637381]">
-          By using FOBOH Payments you agree to the
-          <Link to="#" className="text-[#147D73]">
-            {" "}
-            Payments terms of service
-          </Link>{" "}
+          By using FOBOH Payments you agree to the{" "}
+          <span>
+            <Link to="#" target="_blank" className="text-[#147D73]">
+              Payments terms of service
+            </Link>
+          </span>
           .
         </p>
       </div>

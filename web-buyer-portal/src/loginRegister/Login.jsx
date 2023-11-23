@@ -64,18 +64,15 @@ function Login() {
     console.log(showPassword);
   };
   return (
-    <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center h-full">
-      <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
-        <div className="w-full lg:scale-90">
-          <div className="flex flex-col md:flex-row md:justify-center bg-white md:gap-12 items-center ">
-            <div className="    block md:hidden">
-              <img
-                src="/assets/supplier-logo.png"
-                className="h-36	object-cover	 w-full  "
-                alt="signin"
-              />
-            </div>
-            <div className="w-full md:w-1/2 lg:ps-12 ">
+    <div className="">
+      <div className="h-screen w-full relative">
+        <img src="/assets/login-bg.png" alt="" className="w-full h-full" />
+        <div
+          className="w-full lg:scale-90 absolute top-[50%] left-[50%] "
+          style={{ transform: "translate(-50%,-50%)" }}
+        >
+          <div className="flex flex-col md:flex-row md:justify-center  md:gap-12 items-center ">
+            <div className="md:w-[60%] w-[90%] xl:w-[35%] lg:w-[50%] bg-white">
               <div className="px-4 sm:px-6 md:px-8  lg:px-10">
                 <h1 className="mb-6 mt-8 text-3xl	 text-[#212B36]  font-bold	">
                   Log in
@@ -89,7 +86,7 @@ function Login() {
               </div>
               <form
                 onSubmit={handleSubmit}
-                className="px-4 sm:px-6 md:px-8 lg:px-10  py-4 "
+                className="px-4 sm:px-6 md:px-8 lg:px-10  pt-4 pb-8"
               >
                 {/* Email input  */}
                 <div className={`relative mb-6 `} data-te-input-wrapper-init>
@@ -262,13 +259,13 @@ function Login() {
                 </div> */}
               </form>
             </div>
-            <div className="  md:basis-1/2  hidden md:block ">
+            {/* <div className="  md:basis-1/2  hidden md:block ">
               <img
                 src="/assets/supplier-logo.png"
                 className="h-full w-full  "
                 alt="signin"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

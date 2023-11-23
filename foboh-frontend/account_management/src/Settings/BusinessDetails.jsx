@@ -19,12 +19,12 @@ const BusinessDetails = ({
     <div className="border border-[#E7E7E7] rounded-md bg-white  overflow-y-scroll">
       <div className="px-6 py-3 border-b border-[#E7E7E7]">
         <h5 className="text-base font-medium text-[#2B4447]">
-          Business Details
+          Business details
         </h5>
       </div>
       <div className="py-6 px-6">
         <form onChange={formChange} action="">
-          <div className="flex flex-nowrap gap-2.5">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -66,7 +66,7 @@ const BusinessDetails = ({
                 name="LegalBusiness"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="Business Name PVT LTD"
+                placeholder="Enter business name"
                 value={values.LegalBusiness}
               />
               {errors.LegalBusiness && touched.LegalBusiness && (
@@ -76,7 +76,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2.5">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -89,7 +89,7 @@ const BusinessDetails = ({
                 id="ACN"
                 type="text"
                 name="ACN"
-                placeholder="XXX XXX XXX"
+                placeholder="Enter ACN"
                 value={values.ACN}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -112,7 +112,7 @@ const BusinessDetails = ({
                 id="ABN"
                 type="text"
                 name="ABN"
-                placeholder="XX XXX XXX XXX"
+                placeholder="Enter ABN"
                 value={values.ABN}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -124,7 +124,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2.5">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -137,7 +137,7 @@ const BusinessDetails = ({
                 id="username"
                 type="text"
                 name="BusinessAddress"
-                placeholder="Enter Business Address "
+                placeholder="Enter business address "
                 value={values.BusinessAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -160,7 +160,7 @@ const BusinessDetails = ({
                 id="BusinessMobileNumber"
                 type="text"
                 name="BusinessMobileNumber"
-                placeholder="Enter Phone Number"
+                placeholder="Enter phone number"
                 value={values.BusinessMobileNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -172,7 +172,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2.5">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -186,7 +186,7 @@ const BusinessDetails = ({
                 id="BusinessSuburb"
                 type="text"
                 name="BusinessSuburb"
-                placeholder="Enter Suburb"
+                placeholder="Enter suburb"
                 value={values.BusinessSuburb}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -208,7 +208,7 @@ const BusinessDetails = ({
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="username"
                 type="text"
-                placeholder="XXXX"
+                placeholder="Enter postcode"
                 name="Postcode"
                 value={values.Postcode}
                 onChange={handleChange}
@@ -221,7 +221,7 @@ const BusinessDetails = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2.5">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -264,7 +264,7 @@ const BusinessDetails = ({
               />
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2.5">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"

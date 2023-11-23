@@ -122,7 +122,10 @@ const ProfileEdit = () => {
           </div>
           <div className="md:p-0 px-6">
             <div className=" md:pt-12 pb-8">
-              <h2 style={{ color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
+              <h2
+                style={{ color: token.commonThemeColor }}
+                className="font-bold text-xl	 text-[#563FE3]"
+              >
                 Business Details
               </h2>
             </div>
@@ -239,18 +242,7 @@ const ProfileEdit = () => {
                   value={values.LiquerLicence}
                   className="pl-custom-left"
                   autoComplete="off"
-                  style={{
-                    border: errors.LiquerLicence && "1px solid red",
-                  }}
                 />
-                {errors.LiquerLicence && (
-                  <p className="mt-2 mb-2 text-red-500 text-xs">
-                    {errors.LiquerLicence}
-                  </p>
-                )}
-                {errors.LiquerLicence && (
-                  <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-                )}
 
                 <div className=" absolute top-[50px] left-4">
                   <svg
@@ -275,7 +267,10 @@ const ProfileEdit = () => {
           </div>
           <div className=" md:p-0 px-6">
             <div className="   pb-8">
-              <h2 style={{color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
+              <h2
+                style={{ color: token.commonThemeColor }}
+                className="font-bold text-xl	 text-[#563FE3]"
+              >
                 Ordering Contact
               </h2>
             </div>
@@ -428,7 +423,10 @@ const ProfileEdit = () => {
 
           <div className=" md:p-0 px-6">
             <div className=" pb-8">
-              <h2 style={{color: token.commonThemeColor }} className="font-bold text-xl	 text-[#563FE3]">
+              <h2
+                style={{ color: token.commonThemeColor }}
+                className="font-bold text-xl	 text-[#563FE3]"
+              >
                 Delivery Contact
               </h2>
             </div>
@@ -575,16 +573,17 @@ const ProfileEdit = () => {
             </div>
             <div className="flex gap-8 pt-5 pb-16">
               <button
-               style={{borderColor: token.buttonThemeColor,
-                color: token.buttonThemeColor
-               }}
+                style={{
+                  borderColor: token.buttonThemeColor,
+                  color: token.buttonThemeColor,
+                }}
                 onClick={handleCancel}
                 className=" border-[#563FE3] border rounded-md py-[12px] px-[33px] text-base text-[#563FE3] font-normal"
               >
                 Cancel
               </button>
               <button
-              style={{background: token.buttonThemeColor}}
+                style={{ background: token.buttonThemeColor }}
                 className=" border-[#563FE3] border bg-[#563FE3] py-[12px] px-[33px] rounded-md text-base text-white font-normal"
                 onClick={handleSubmit}
               >

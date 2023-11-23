@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import SearchProduct from "./SearchProduct";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -321,7 +320,7 @@ function Range() {
           }}
         >
           <Typography className="font-normal md:text-sm text-sm text-[#DC3545] text-center">
-            {`Out of stock(${availableQty})`}
+            {`Out of stock (${availableQty})`}
           </Typography>
         </div>
       );
@@ -342,7 +341,7 @@ function Range() {
           }}
         >
           <Typography className="font-normal md:text-sm text-sm text-[#FFA70B] text-center">
-            {`Low stock(${availableQty})`}
+            {`Low stock (${availableQty})`}
           </Typography>
         </div>
       );
@@ -368,7 +367,7 @@ function Range() {
             style={{ color: "#219653" }}
             className="font-normal md:text-sm text-sm text-center"
           >
-            {`In stock(${availableQty})`}
+            {`In stock (${availableQty})`}
           </Typography>
         </div>
       );

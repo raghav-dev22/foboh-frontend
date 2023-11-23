@@ -216,7 +216,7 @@ const SigninNew = () => {
         <div className="container mx-auto px-6 ">
           <div className="w-full scale-90">
             <div className="flex flex-col md:flex-row md:justify-center bg-white gap-12  ">
-              <div className="w-full md:w-1/2 lg:ps-12">
+              <div className="w-full md:w-1/2 lg:ps-12 flex flex-col justify-center">
                 <div className="px-4 sm:px-6 md:px-8  lg:px-10">
                   <h1 className="mb-6 mt-8 text-3xl text-[#212B36]">Log in</h1>
                   <p
@@ -229,7 +229,7 @@ const SigninNew = () => {
                 </div>
                 <form
                   onSubmit={handleSubmit}
-                  className="px-4 sm:px-6 md:px-8 lg:px-10  py-4 "
+                  className="px-4 sm:px-6 md:px-8 lg:px-10  pb-4 "
                 >
                   {/* Email input  */}
                   <div
@@ -407,7 +407,6 @@ const SigninNew = () => {
                     </p>
                   </div>
 
-            
                   <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 items-center justify-center">
                     <div id="signInDiv"></div>
                   </div>

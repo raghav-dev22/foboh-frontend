@@ -337,6 +337,7 @@ const DeliveryEditForm = () => {
             placeholder="Delivery instructions"
             style={{
               border: errors.Notes && "1px solid red",
+              paddingRight: "50px",
             }}
           />
           {errors.Notes && (

@@ -99,8 +99,9 @@ export const OrganisationSettingsSchema = Yup.object().shape({
   abn: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
     .required("ABN is required"),
-  description: Yup.string().max(255, "Bio cannot be more than 255 characters"),
-
+  description: Yup.string()
+    .max(255, "Bio cannot be more than 255 characters")
+    .required("description is required"),
   // Organization Address
   organisationAddress: Yup.string()
     .min(10, "Your address should have at least 10 letters")
@@ -108,11 +109,11 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .max(100),
   organisationAddressSuburb: Yup.string()
     .min(2, "Suburb should have at least 2 letters")
+    .required("Suburb is required")
     .max(50),
-  organisationAddressPostcode: Yup.string().matches(
-    /^\d{4}$/,
-    "Invalid postcode"
-  ),
+  organisationAddressPostcode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
 
   // Billing address
   billingAddress: Yup.string()
@@ -121,34 +122,49 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .required("Address is required"),
   billingAddressSuburb: Yup.string()
     .min(2, "Suburb should have at least 2 letters")
-    .max(50),
-  billingAddressPostcode: Yup.string().matches(/^\d{4}$/, "Invalid postcode"),
+    .max(50)
+    .required("Suburb is required"),
+  billingAddressPostcode: Yup.string()
+    .matches(/^\d{4}$/, "Invalid postcode")
+    .required("postcode is required"),
 
   // Ordering contact
   orderingContactFirstName: Yup.string()
     .min(2, "Your first name should have at least 2 letters")
+    .required("FirstName is required")
     .max(50),
   orderingContactLastName: Yup.string()
     .min(2, "Your last name should have at least 2 letters")
+    .required("LastName is required")
     .max(50),
-  orderingContactEmail: Yup.string().email("Please enter a valid email"),
-  orderingContactMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-    "Mobile number must be a valid Australian mobile number"
-  ),
+  orderingContactEmail: Yup.string()
+    .email("Please enter a valid email")
+    .required("email is required"),
+  orderingContactMobile: Yup.string()
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    )
+    .required("Mobile number is required"),
 
   // Logistics Contacts
   logisticsContactFirstName: Yup.string()
     .min(2, "Your first name should have at least 2 letters")
+    .required("FirstName is required")
     .max(50),
   logisticsContactLastName: Yup.string()
     .min(2, "Your last name should have at least 2 letters")
+    .required("LastName is required")
     .max(50),
-  logisticsContactEmail: Yup.string().email("Please enter a valid email"),
-  logisticsContactMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-    "Mobile number must be a valid Australian mobile number"
-  ),
+  logisticsContactEmail: Yup.string()
+    .email("Please enter a valid email")
+    .required("email is required"),
+  logisticsContactMobile: Yup.string()
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    )
+    .required("Mobile number is required"),
 });
 export const BankingSchema = Yup.object().shape({
   LegalBusiness: Yup.string()
@@ -231,7 +247,7 @@ export const BankingSchema = Yup.object().shape({
     .min(2, "Address should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("TAddress is required"),
+    .required("Address is required"),
   email: Yup.string()
     .email("Please enter a valid email")
     .required("Please enter your email."),

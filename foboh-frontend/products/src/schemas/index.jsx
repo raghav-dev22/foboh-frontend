@@ -13,7 +13,7 @@ export const addProductSchema = Yup.object().shape({
   // minimumOrder: Yup.string().required("Minimum order is required"),
   trackInventory: Yup.boolean(),
   title: Yup.string()
-    .required("Please Enter Title")
+    .required("Title is required")
     .min(2, "Title must have at least 2 characters")
     .max(100, "Exceeded the characters limit"),
   skuCode: Yup.string()
