@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import Select from "react-select";
+import React, { useState } from "react";
 import { theme } from "antd";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CheckIcon from "@mui/icons-material/Check";

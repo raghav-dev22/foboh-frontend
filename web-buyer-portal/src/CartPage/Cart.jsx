@@ -77,7 +77,7 @@ const Cart = ({ open, onClose, addCart }) => {
     }
   }, []);
   const handleViewCart = () => {
-    navigate("/home/cart");
+    navigate("/home/my-cart");
     onClose(!onClose);
   };
   const handleExplore = () => {
@@ -114,7 +114,7 @@ const Cart = ({ open, onClose, addCart }) => {
         if (data.success) {
           const orderId = data?.data?.orderId;
           localStorage.setItem("orderId", orderId);
-          navigate("/home/payment-page/payment");
+          navigate("/home/payment-page/checkout");
         } else {
           warning();
         }

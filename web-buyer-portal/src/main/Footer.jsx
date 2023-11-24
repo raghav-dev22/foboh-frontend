@@ -55,27 +55,6 @@ function Footer() {
         </div>
 
         <div className="grid lg:grid-cols-1 lg:justify-between sm:justify-start md:gap-0 gap-5 lg:items-center items-start lg:mt-5 mt-0">
-          {/* <div className="flex  gap-3   items-end">
-            <div
-              style={{ background: token.bannerThemeColor }}
-              className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon"
-            >
-              <InstagramIcon />
-            </div>
-            <div
-              style={{ background: token.bannerThemeColor }}
-              className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon"
-            >
-              <FacebookIcon />
-            </div>
-            <div
-              style={{ background: token.bannerThemeColor }}
-              className="w-[40px] h-[40px] rounded-full bg-[#6752E6] justify-center items-center flex social-icon"
-            >
-              <YouTubeIcon />
-            </div>
-          </div> */}
-
           <div className="text-start md:text-start xl:text-center">
             <p className="text-sm font-bold text-[#fff]">
               © 2023 — Copyright —{" "}
@@ -87,13 +66,6 @@ function Footer() {
                 : ""}
             </p>
           </div>
-          {/* <div className="md:flex  md:justify-center justify-start items-center lg:gap-16 gap-5 relative">
-            <div className="h-5	w-px	 bg-white absolute top-0 left-[42%] md:block hidden"></div>
-            <p className="text-white text-sm font-bold">Privacy Policy</p>
-            <p className="text-white text-sm font-bold md:mt-0 mt-3">
-              Terms and Conditions
-            </p>
-          </div> */}
         </div>
       </div>
     </>

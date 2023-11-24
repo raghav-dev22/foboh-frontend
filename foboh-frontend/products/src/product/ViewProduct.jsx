@@ -1357,53 +1357,45 @@ function ViewProduct() {
                 >
                   <div className="edit-img ">
                     {productImageUris?.length > 0 ? (
-                      <div className="border h-[357px] border-[#eaeaeae9] rounded-md shadow-custom bg-[#0000]   flex justify-center items-center">
-                        <img
-                          src={productImageUris[0]}
-                          alt=""
-                          className=" w-full h-full object-contain"
-                        />
-                      </div>
+                      <>
+                        <div className="border h-[357px] border-[#eaeaeae9] rounded-md shadow-custom bg-[#0000] flex justify-center items-center">
+                          <img
+                            src={productImageUris[0]}
+                            alt=""
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        {productImageUris.length > 1 && (
+                          <div className="grid grid-cols-2 justify-center items-center gap-4 mt-4">
+                            {productImageUris.slice(1).map((uri, index) => (
+                              <Skeleton
+                                key={index + 1}
+                                style={{ padding: "10px" }}
+                                loading={loading}
+                                active
+                                avatar
+                              >
+                                <div className="h-[160px] border border-[#eaeaeae9] rounded-md shadow-custom bg-[#0000] flex justify-center items-center">
+                                  <img
+                                    src={uri}
+                                    alt=""
+                                    className="w-full h-full rounded-md object-contain"
+                                  />
+                                </div>
+                              </Skeleton>
+                            ))}
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <img
                         src="/assets/defaultImg.png"
                         alt=""
-                        className=" w-full h-[357px] object-contain"
+                        className="w-full h-[357px] object-contain"
                       />
                     )}
                   </div>
                 </Skeleton>
-                {productImageUris?.length > 1 && (
-                  <div className="grid grid-cols-2 justify-center items-center gap-4">
-                    {productImageUris.map((uri, index) => (
-                      <Skeleton
-                        key={index + 1}
-                        style={{ padding: "10px" }}
-                        loading={loading}
-                        active
-                        avatar
-                      >
-                        <div className="">
-                          {productImageUris[index + 1] ? (
-                            <div className="h-[160px] border border-[#eaeaeae9] rounded-md shadow-custom bg-[#0000]   flex justify-center items-center ">
-                              <img
-                                src={productImageUris[index + 1]}
-                                alt=""
-                                className="  w-full h-full rounded-md object-contain"
-                              />
-                            </div>
-                          ) : (
-                            <img
-                              src="/assets/defaultImg.png"
-                              alt=""
-                              className="h-[160px] w-full object-contain"
-                            />
-                          )}
-                        </div>
-                      </Skeleton>
-                    ))}
-                  </div>
-                )}
 
                 {/* Update Image ---END  */}
                 <div className="my-2">
@@ -2332,11 +2324,7 @@ function ViewProduct() {
                             onBlur={handleBlur}
                             placeholder="$250.00"
                           />
-                          {/* {errors.buyPrice && touched.buyPrice && (
-                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                              {errors.buyPrice}
-                            </p>
-                          )} */}
+                         
                         </div>
                       </div>
                       <div className="mb-5">
@@ -2480,7 +2468,7 @@ function ViewProduct() {
                   </Skeleton>
                 </div>
               </div>
-              <div className="flex justify-end items-center gap-3">
+              <div className="flex justify-end items-start gap-3">
                 {/* <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
                   Archive
                 </div> */}

@@ -102,7 +102,7 @@ const Delivery = () => {
           </div>
           <button
             onClick={() => {
-              navigate("/home/payment-page/payment");
+              navigate("/home/payment-page/checkout");
             }}
             type="submit"
             className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"

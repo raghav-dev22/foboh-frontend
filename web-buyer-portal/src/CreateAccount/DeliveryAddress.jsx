@@ -15,22 +15,6 @@ function DeliveryAddress({
   console.log("errorsdddd", errors);
 
   const [selectedOption, setSelectedOption] = useState(null);
-  // const initialValues = {
-  //   DeliveryAddress: "",
-  //   Apartment: "",
-  //   Suburb: "",
-  //   Postcode: "",
-  //   Notes: "",
-  // };
-
-  // const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
-  //   useFormik({
-  //     initialValues: initialValues,
-  //     validationSchema: DeliveryAddressSchema,
-  //     onSubmit: (values) => {
-  //       console.log(values);
-  //     },
-  //   });
 
   const handleState = (e) => {
     console.log("state", e);
@@ -95,18 +79,7 @@ function DeliveryAddress({
               value={values.Apartment}
               onChange={handleChange}
               onBlur={handleBlur}
-              // style={{
-              //   border: errors.Apartment && "1px solid red",
-              // }}
             />
-            {/* {errors.Apartment && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors.Apartment}
-              </p>
-            )}
-            {errors.Apartment && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
-            )} */}
           </div>
           <div className="w-full md:w-1/2	 px-3 relative mb-5">
             <label
@@ -209,16 +182,8 @@ function DeliveryAddress({
             onChange={handleChange}
             onBlur={handleBlur}
             maxLength={250}
-            // style={{
-            //   border: errors.Notes && "1px solid red",
-            // }}
           />
-          {/* {errors.Notes && (
-            <p className="mt-2 mb-2 text-red-500 text-xs">{errors.Notes}</p>
-          )}
-          {errors.Notes && (
-            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-3 transition-all duration-[0.3s]" />
-          )} */}
+
           <div className=" absolute top-[48px] left-4">
             <svg
               width="20"

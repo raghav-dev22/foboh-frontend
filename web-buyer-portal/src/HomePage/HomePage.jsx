@@ -15,12 +15,8 @@ import ProductDetails from "../ProductPage/ProductDetails";
 import ProfileEdit from "../MyAccount/ProfileEdit";
 import DeliveryEdit from "../MyAccount/DeliveryEdit";
 import CartPage from "../CartPage/CartPage";
-import useBreadcrumbs from "use-react-router-breadcrumbs";
-import Link from "antd/es/typography/Link";
 import { Breadcrumb, theme } from "antd";
-import CheckOut from "../PaymentPage/CheckOut";
 import Delivery from "../PaymentPage/Delivery";
-import Payment from "../PaymentPage/Payment";
 import PaymentDetail from "../PaymentPage/PaymentDetail";
 import { useDispatch } from "react-redux";
 import { updateField } from "../slices/buyerSlice";
@@ -101,6 +97,7 @@ function HomePage({ setConfig }) {
   ];
   const { useToken } = theme;
   const { token } = useToken();
+
   return (
     <>
       <style>
@@ -121,19 +118,19 @@ function HomePage({ setConfig }) {
         <Route path="/main" element={<MainHomePage />} />
         <Route path="/product-list" element={<ProductList />} />
         <Route path="/order-confirm" element={<OrderConfirmation />} />
-        <Route path="/MyOrders" element={<MyOrders />} />
+        <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/account*" element={<MyAccount />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/product-details/:id" element={<ProductDetails />} />
-        <Route path="/delivery-edit" element={<DeliveryEdit />} />
-        <Route path="/profile-edit" element={<ProfileEdit />} />
+        <Route path="/my-cart" element={<CartPage />} />
+        <Route path="/product-name/:id" element={<ProductDetails />} />
+        <Route path="/delivery-contact" element={<DeliveryEdit />} />
+        <Route path="/business-details" element={<ProfileEdit />} />
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/payment-page*" element={<PaymentDetail />} />
-        <Route path="/order-details/:id" element={<OrderDetails />} />
+        <Route path="/order-history/:id" element={<OrderDetails />} />
       </Routes>
       <Footer />
       <BottomToTop />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, message } from "antd";
+import { message } from "antd";
 
 import "../style.css";
 import ActiveCustomers from "./ActiveCustomers";
@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { PaginationCustomer } from "./PaginationCustomer";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
-import { Skeleton } from "@mui/material";
 const TABLE_HEAD = [
   "Business name",
   "Ordering contact",
@@ -283,15 +282,12 @@ function AddCustomers() {
                                 ) : (
                                   <div
                                     style={{
-                                      background: "rgba(255, 167, 11, 0.08)",
+                                      background: "#FFF8EB",
                                       borderRadius: "30px",
                                     }}
                                     className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-full py-1.5	w-full 		px-3.5"
                                   >
-                                    <p
-                                      style={{ color: "#FFF8EB" }}
-                                      className="text-[#FFA70B] font-normal text-sm	"
-                                    >
+                                    <p className="text-[#FFA70B] font-normal text-sm	">
                                       Inactive
                                     </p>
                                   </div>
@@ -355,18 +351,6 @@ function AddCustomers() {
                   Bulk edit
                 </h6>
               </button>
-
-              {/* <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
-              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                Set as Visible
-              </h6>
-            </button>
-
-            <button className="rounded-md bg-custom-skyBlue py-2.5  px-7  ">
-              <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                Set as Hidden{" "}
-              </h6>
-            </button> */}
 
               <div
                 className="cursor-pointer"

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Stepper, Step, Button } from "@material-tailwind/react";
 import BusinessDetails from "./BusinessDetails";
 import DeliveryAddress from "./DeliveryAddress";
@@ -8,10 +7,6 @@ import SuccessModal from "../modal/SuccessModal";
 import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
 import separateFullName from "../helper/separateFullName";
 import { useParams } from "react-router-dom/dist";
-
-//Need to be deleted after api integration
-import { options } from "../data";
-
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 

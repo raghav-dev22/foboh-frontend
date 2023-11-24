@@ -222,7 +222,7 @@ const MyOrders = () => {
     OrderID: (
       <h1
         // to={`/home/order-details/${order.orderId}`}
-        onClick={() => navigate(`/home/order-details/${order.orderId}`)}
+        onClick={() => navigate(`/home/order-history/${order.orderId}`)}
         className="text-base font-medium text-[#2B4447] cursor-pointer"
       >
         {order.orderId}
@@ -280,7 +280,7 @@ const MyOrders = () => {
 
           <RemoveRedEyeIcon
             style={{ fill: "#637381" }}
-            onClick={() => navigate(`/home/order-details/${order.orderId}`)}
+            onClick={() => navigate(`/home/order-history/${order.orderId}`)}
             className=" cursor-pointer"
           />
         </Tooltip>

@@ -18,7 +18,11 @@ const BankingInfoFooter = () => {
         <p className=" text-sm font-medium text-[#637381]">
           By using FOBOH Payments you agree to the{" "}
           <span>
-            <Link to="#" target="_blank" className="text-[#147D73]">
+            <Link
+              to="https://www.foboh.com/terms-of-service"
+              target="_blank"
+              className="text-[#147D73]"
+            >
               Payments terms of service
             </Link>
           </span>

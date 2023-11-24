@@ -1814,7 +1814,7 @@ const ProductList = () => {
                           }  object-contain`}
                           onClick={() =>
                             navigate(
-                              `/home/product-details/${item?.product?.productId}`
+                              `/home/product-name/${item?.product?.productId}`
                             )
                           }
                         />
@@ -1824,7 +1824,7 @@ const ProductList = () => {
                         <h4
                           onClick={() =>
                             navigate(
-                              `/home/product-details/${item?.product?.productId}`
+                              `/home/product-name/${item?.product?.productId}`
                             )
                           }
                           className="text-lg font-semibold mt-3 cursor-pointer"

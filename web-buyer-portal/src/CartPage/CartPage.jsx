@@ -230,7 +230,7 @@ const CartPage = () => {
         if (data.success) {
           const orderId = data?.data?.orderId;
           localStorage.setItem("orderId", orderId);
-          navigate("/home/payment-page/payment");
+          navigate("/home/payment-page/checkout");
         } else {
           warning();
         }
@@ -365,12 +365,7 @@ const CartPage = () => {
                     ${subtotal}
                   </h5>
                 </div>
-                {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                  <h5 className="text-sm font-medium text-[#2B4447]">
-                    Shipping estimate
-                  </h5>
-                  <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
-                </div> */}
+
                 {wet > 0 && (
                   <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                     <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>
@@ -392,16 +387,14 @@ const CartPage = () => {
                   </h5>
                 </div>
               </div>
-              {/* <Link to="/home/payment-page/payment"> */}
+
               <button
                 className="bg-[#563FE3] rounded-[8px] w-full py-[9px] text-base font-medium text-white"
                 style={{ backgroundColor: token.buttonThemeColor }}
                 onClick={handleCheckout}
               >
-                {" "}
                 Checkout
               </button>
-              {/* </Link> */}
             </div>
           </div>
         </div>

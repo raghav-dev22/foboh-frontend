@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Banner from "./Banner";
 import ShopSection from "./ShopSection";
 import TopRatedSection from "./TopRatedSection";
-import ShopBrandSection from "./ShopBrandSection";
 import { useSelector } from "react-redux";
 
 const MainHomePage = () => {
@@ -17,7 +16,6 @@ const MainHomePage = () => {
       <Banner />
       <ShopSection />
       <TopRatedSection />
-      {/* <ShopBrandSection /> */}
     </>
   );
 };
