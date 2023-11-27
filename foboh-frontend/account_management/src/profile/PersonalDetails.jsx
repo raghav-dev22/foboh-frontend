@@ -206,10 +206,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
 
   return (
     <>
-      <div
-        className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white	 grid	 overflow-y-scroll	scroll-smooth	scrollable "
-        style={{ height: "480px" }}
-      >
+      <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white	 grid	 overflow-y-scroll	scroll-smooth	scrollable ">
         {show && (
           <ProfileHeader
             handleSubmit={handleSubmit}

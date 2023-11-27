@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { theme } from "antd";
 function ShopBrandSection() {
   const { useToken } = theme;

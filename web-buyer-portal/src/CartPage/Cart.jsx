@@ -77,7 +77,7 @@ const Cart = ({ open, onClose, addCart }) => {
     }
   }, []);
   const handleViewCart = () => {
-    navigate("/home/cart");
+    navigate("/home/my-cart");
     onClose(!onClose);
   };
   const handleExplore = () => {
@@ -114,7 +114,7 @@ const Cart = ({ open, onClose, addCart }) => {
         if (data.success) {
           const orderId = data?.data?.orderId;
           localStorage.setItem("orderId", orderId);
-          navigate("/home/payment-page/payment");
+          navigate("/home/payment-page/checkout");
         } else {
           warning();
         }
@@ -209,7 +209,6 @@ const Cart = ({ open, onClose, addCart }) => {
                                 <h5 className="text-sm font-bold">
                                   {" "}
                                   ${item?.product?.globalPrice * item.quantity}
-                                  .00
                                 </h5>
                                 <p className=" text-[#666666] text-xs mx-3">
                                   Qty:{item.quantity}

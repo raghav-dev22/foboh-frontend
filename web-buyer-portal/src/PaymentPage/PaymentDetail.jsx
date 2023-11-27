@@ -38,7 +38,7 @@ const PaymentDetail = () => {
                 <Route path="/check-out" element={<CheckOut />} />
                 <Route path="/delivery" element={<Delivery />} />
                 <Route
-                  path="/payment"
+                  path="/checkout"
                   element={
                     <Payment
                       cartData={cartData}

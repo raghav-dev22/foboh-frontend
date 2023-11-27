@@ -60,18 +60,14 @@ function ShopSection() {
                         className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"
                         src={product.productImageUrls}
                         onClick={() =>
-                          navigate(
-                            `/home/product-details/${product?.productId}`
-                          )
+                          navigate(`/home/product-name/${product?.productId}`)
                         }
                       />
                       <div className="mt-3">
                         <h2
                           className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm cursor-pointer "
                           onClick={() =>
-                            navigate(
-                              `/home/product-details/${product?.productId}`
-                            )
+                            navigate(`/home/product-name/${product?.productId}`)
                           }
                         >
                           {product.subCategoryName}
@@ -79,9 +75,7 @@ function ShopSection() {
                         <p
                           className="text-[#637381] text-center text-sm md:block hidden cursor-pointer"
                           onClick={() =>
-                            navigate(
-                              `/home/product-details/${product?.productId}`
-                            )
+                            navigate(`/home/product-name/${product?.productId}`)
                           }
                         >
                           {product.configuration}

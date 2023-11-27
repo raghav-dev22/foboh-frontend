@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import Select from "react-select";
+import React, { useState } from "react";
 import { theme } from "antd";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CheckIcon from "@mui/icons-material/Check";
@@ -156,7 +154,7 @@ const Order = () => {
                     </p>
 
                     <p className="text-sm font-medium text-[#637381]">
-                      ${item?.product?.globalPrice * item.quantity}.00
+                      ${item?.product?.globalPrice * item.quantity}
                     </p>
                   </div>
                   <div className="mt-1">
