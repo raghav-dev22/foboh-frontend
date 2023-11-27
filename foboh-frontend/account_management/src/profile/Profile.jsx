@@ -5,6 +5,7 @@ function Profile() {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [profileUri, setProfileUri] = useState("");
   const [show, setShow] = useState(false);
+  const [imageSrc, setImageSrc] = useState(``);
 
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
@@ -33,11 +34,15 @@ function Profile() {
               profileUri={profileUri}
               setShow={setShow}
               show={show}
+              setImageSrc={setImageSrc}
+              imageSrc={imageSrc}
             />
             <EditProfile
               setProfileUri={setProfileUri}
               setShow={setShow}
               show={show}
+              setImageSrc={setImageSrc}
+              imageSrc={imageSrc}
             />
           </div>
         </div>

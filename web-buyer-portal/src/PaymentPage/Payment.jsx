@@ -565,15 +565,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     {`${deliveryAddress?.Apartment}, ${deliveryAddress?.Address}, ${deliveryAddress?.Suburb}, ${deliveryAddress?.State} ${deliveryAddress?.Postcode}`}
                     , Australia
                   </p>
-                  {/* const addressBody = {
-              Apartment: buyerData?.apartmentSuite,
-              Address: buyerData?.streetaddress,
-              Suburb: buyerData?.city,
-              State: buyerState,
-              Postcode: buyerData?.postcode,
-              Notes: buyerData?.instructionsNotes,
-            }; */}
-
                   <div className="flex items-center gap-1">
                     <svg
                       width={20}

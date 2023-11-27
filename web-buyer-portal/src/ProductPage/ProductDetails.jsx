@@ -441,45 +441,14 @@ const ProductDetails = () => {
                       Segment:
                     </p>
                   </div>
-                  <div className="">
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      Vintage:
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      Awards:
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      Region:
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      Grape variety:
-                    </p>
-                  </div>
                 </div>
                 <div className="">
                   <div className="">
                     <p className="text-base font-semibold text-[#2B4447] py-2">
-                      Country
+                      {selectData?.product?.countryOfOrigin}
                     </p>
                     <p className="text-base font-semibold text-[#2B4447] py-2">
-                      Segment
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      Vintage name
-                    </p>
-
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      Awards
-                    </p>
-
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      Region name
-                    </p>
-
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      Grape variety
+                      {selectData?.product?.segmentId}
                     </p>
                   </div>
                 </div>
