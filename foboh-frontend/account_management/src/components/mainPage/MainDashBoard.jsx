@@ -233,7 +233,7 @@ function MainDashBoard() {
             outOfStock: outOfStock,
           });
         }
-   
+
         setStock(data?.data);
       })
       .catch((error) => console.log(error));

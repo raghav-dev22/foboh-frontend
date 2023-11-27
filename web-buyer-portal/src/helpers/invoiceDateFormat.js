@@ -4,7 +4,9 @@ export const convertDefaultPaymentTermValue = (input, name) => {
   input = input.trim();
 
   if (name === "paymentDueDate") {
-    const match = input.match(/^(\d+) days from (invoice date|end of month)$/i);
+    const match = input.match(
+      /^(\d+) days from (invoice date|end of month)$/i
+    );
 
     if (!match) {
       throw new Error("Invalid input format");

@@ -388,7 +388,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         const pm_id = payload?.paymentMethod?.id;
         const last4 = payload.paymentMethod.au_becs_debit.last4;
         const convertedPaymentDueDate = convertDefaultPaymentTermValue(
-          defaultPaymentTerm[0],
+          defaultPaymentTerm?.length ? defaultPaymentTerm[0] : "",
           "paymentDueDate"
         );
 
@@ -584,7 +584,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     >
                       <mask
                         id="mask0_18_521"
-                        style={{ maskType: "luminance" }}
+                        style={{
+                          maskType: "luminance",
+                        }}
                         maskUnits="userSpaceOnUse"
                         x={0}
                         y={0}
@@ -741,7 +743,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                       </h5>
                     </div>
                   </div>
-                  {/* <div className=" rounded-md mt-4">
+                  <div className=" rounded-md mt-4">
                     <label htmlFor="">
                       <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
                         Your preferred payment Method
@@ -770,7 +772,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         style={{ fill: "#637381" }}
                       />
                     </div>
-                    {isBecs && (
+                    {
                       <Becs
                         setBankName={setBankName}
                         setCardHolderName={setCardHolderName}
@@ -778,8 +780,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         setEmail={setEmail}
                         email={email}
                       />
-                    )}
-                  </div> */}
+                    }
+                  </div>
                   <div className=" rounded-md mt-[5px]">
                     <label htmlFor="">
                       <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
@@ -946,7 +948,11 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                               {cardErrors?.cardNumber?.message}
                             </p>
                             <div className="absolute top-[39px] right-[10px]">
-                              <LockOpenIcon style={{ fill: "#979797" }} />
+                              <LockOpenIcon
+                                style={{
+                                  fill: "#979797",
+                                }}
+                              />
                             </div>
                           </div>
                           <div
@@ -967,7 +973,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                                 setCardHolderName(e.target.value);
                               }}
                               autoComplete="on"
-                              style={{ background: "#F8F8F8" }}
+                              style={{
+                                background: "#F8F8F8",
+                              }}
                             />
                           </div>
                           <div className="flex flex-nowrap gap-2">

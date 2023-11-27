@@ -80,25 +80,25 @@ function HomePage({ setConfig }) {
   }, []);
 
   const location = useLocation();
+
+  let pathname = "";
+
   const pathSegments = location.pathname
-    .split("/home/")
-    .filter((segment) => segment.trim() !== "");
-  const title = [
-    {
-      title: (
-        <a href="/home/main" className="text-[#637381]  font-normal  text-lg">
-          Home
-        </a>
-      ),
-    },
-    {
-      title: (
-        <a href="" className="text-[#637381]  font-normal  text-lg">
-          {pathSegments}
-        </a>
-      ),
-    },
-  ];
+    .split("/")
+    .filter((segment) => segment.trim() !== "")
+    .map((crum) => {
+      pathname += `/${crum}`;
+      const crumName =
+        crum.charAt(0).toUpperCase() + crum.slice(1).split("-").join(" ");
+      return {
+        title: (
+          <a href={pathname} className="text-[#637381]  font-normal  text-lg">
+            {crumName}
+          </a>
+        ),
+      };
+    });
+
   const { useToken } = theme;
   const { token } = useToken();
   return (
@@ -111,14 +111,14 @@ function HomePage({ setConfig }) {
       `}
       </style>
       <Header />
-      {location.pathname !== "/home/main" &&
+      {location.pathname !== "/home" &&
         location.pathname !== "/home/order-confirm" && (
           <div className="md:w-4/5 w-full mx-auto md:px-0 px-6 md:flex gap-3 py-8 hidden">
-            <Breadcrumb items={title} />
+            <Breadcrumb items={pathSegments} />
           </div>
         )}
       <Routes>
-        <Route path="/main" element={<MainHomePage />} />
+        <Route path="/" element={<MainHomePage />} />
         <Route path="/product-list" element={<ProductList />} />
         <Route path="/order-confirm" element={<OrderConfirmation />} />
         <Route path="/MyOrders" element={<MyOrders />} />
