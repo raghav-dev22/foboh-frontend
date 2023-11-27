@@ -310,7 +310,7 @@ const CartPage = () => {
                             </div>
                           </div>
                           <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
-                            ${item?.product?.globalPrice * item.quantity}.00
+                            ${item?.product?.globalPrice * item.quantity}
                           </h4>
                         </div>
 
@@ -321,7 +321,7 @@ const CartPage = () => {
                         </div>
                         <div className="">
                           <p className="text-base font-medium text-[#637381]">
-                            ${item?.product?.globalPrice}.00
+                            ${item?.product?.globalPrice}
                           </p>
                         </div>
                       </div>

@@ -209,7 +209,6 @@ const Cart = ({ open, onClose, addCart }) => {
                                 <h5 className="text-sm font-bold">
                                   {" "}
                                   ${item?.product?.globalPrice * item.quantity}
-                                  .00
                                 </h5>
                                 <p className=" text-[#666666] text-xs mx-3">
                                   Qty:{item.quantity}

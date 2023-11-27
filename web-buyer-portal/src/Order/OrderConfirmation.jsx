@@ -171,9 +171,6 @@ const OrderConfirmation = () => {
             Download Invoice
           </Button>
         </div>
-        {/* <p className="my-6 font-semibold text-base text-[#563FE3]">
-          Order Tracking ID - 012345678910
-        </p> */}
         {CARTdata.length === 0 ? (
           <h5 className="text-sm font-bold text-center  py-8  flow-root border-y border-[#CDCED6] ">
             Your cart is empty.
@@ -206,17 +203,10 @@ const OrderConfirmation = () => {
                         Quantity - {item?.quantity}
                       </p>
                       <h4 className=" text-base text-[#2B4447] font-semibold w-[150px] text-right">
-                        ${item?.product?.globalPrice * item.quantity}.00
+                        ${item?.product?.globalPrice * item.quantity}
                       </h4>
                     </div>
                   </div>
-                  {/* <div className="flex justify-between">
-                    <div className="flex gap-2 items-center">
-                      <p className="text-sm font-normal text-[#637381]">
-                        Delivery By 14 August
-                      </p>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             ))}
@@ -230,12 +220,6 @@ const OrderConfirmation = () => {
               ${calculations.subTotal}
             </h5>
           </div>
-          {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-            <h5 className="text-sm font-medium text-[#2B4447]">
-              Shipping estimate
-            </h5>
-            <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
-          </div> */}
           {isWine && (
             <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
               <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>

@@ -154,7 +154,7 @@ const Order = () => {
                     </p>
 
                     <p className="text-sm font-medium text-[#637381]">
-                      ${item?.product?.globalPrice * item.quantity}.00
+                      ${item?.product?.globalPrice * item.quantity}
                     </p>
                   </div>
                   <div className="mt-1">
