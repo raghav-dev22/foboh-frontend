@@ -3,8 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
 
-function EditProfile({ setProfileUri, setShow, show }) {
-  const [imageSrc, setImageSrc] = useState(``);
+function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [file, setFile] = useState([]);

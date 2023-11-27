@@ -9,7 +9,14 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
 
-function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
+function PersonalDetails({
+  profileUri,
+  setShow,
+  show,
+  resetProfileImage,
+  setImageSrc,
+  imageSrc,
+}) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const authUrl = process.env.REACT_APP_AUTH_URL;
@@ -68,6 +75,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
           adId: data.data[0].adId,
           imageUrl: data.data[0].imageUrl,
         });
+        setImageSrc(data.data[0].imageUrl);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -78,6 +86,7 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
     setShow(false);
     setValues(initialValues);
     resetProfileImage(initialValues?.imageUrl);
+    setImageSrc(initialValues?.imageUrl);
   };
 
   const {
@@ -211,10 +220,29 @@ function PersonalDetails({ profileUri, setShow, show, resetProfileImage }) {
         style={{ height: "480px" }}
       >
         {show && (
-          <ProfileHeader
-            handleSubmit={handleSubmit}
-            handleReset={handleReset}
-          />
+          <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+            <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
+              <div className="block">
+                <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                  <button
+                    onClick={handleReset}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
+                    Save
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
         )}
         <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
           <h6 className="text-base	font-medium	 text-green">Personal details</h6>

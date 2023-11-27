@@ -115,7 +115,7 @@ function Organisation() {
               abn: values.abn,
               categories: "",
               organisationlogo: logoUri,
-              description: values.description,
+              description: values?.description,
               orderingContactFirstName: values.orderingContactFirstName,
               orderingContactLastName: values.orderingContactLastName,
               orderingContactMobile: values.orderingContactMobile,
@@ -148,7 +148,7 @@ function Organisation() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+            console.log(data, "org Post Data");
             if (data.success) {
               const organisationID = data.data.organisationID;
               console.log("organisationID =>", organisationID);
@@ -391,14 +391,14 @@ function Organisation() {
                     organisationSettings.orderingContactEmail,
                   orderingContactMobile:
                     organisationSettings.orderingContactMobile,
-                  LogisticsContactFirstName:
-                    organisationSettings.logisticsContactFirstName,
-                  LogisticsContactLastName:
-                    organisationSettings.logisticsContactLastName,
-                  LogisticsContactEmail:
-                    organisationSettings.logisticsContactEmail,
-                  LogisticsContactMobile:
-                    organisationSettings.logisticsContactMobile,
+                  logisticsContactFirstName:
+                    organisationSettings?.logisticsContactFirstName,
+                  logisticsContactLastName:
+                    organisationSettings?.logisticsContactLastName,
+                  logisticsContactEmail:
+                    organisationSettings?.logisticsContactEmail,
+                  logisticsContactMobile:
+                    organisationSettings?.logisticsContactMobile,
                   categories: organisationSettings.categories,
                   description: organisationSettings.description,
                   state: state,
@@ -417,6 +417,7 @@ function Organisation() {
     asyncFunction();
   }, []);
 
+  console.log(values, "important value org");
   const asyncFunction = async () => {
     const innerUnitMeasureResponse = await getInnerUnitMeasureList();
     setInnerUnitMeasure(innerUnitMeasureResponse);
@@ -483,7 +484,7 @@ function Organisation() {
 
   // Upload Image
   const [file, setFile] = useState([]);
-  const defaultImage = "/assets/update-user.png";
+  const defaultImage = "assets/update-user.png";
 
   const handleDelete = () => {
     if (fileInputRef.current) {
@@ -602,20 +603,38 @@ function Organisation() {
     });
   };
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
   return (
     <>
       {contextHolder}
       <div>
+        {show && (
+          <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+            <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
+              <div className="block">
+                <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                  <button
+                    onClick={handleReset}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                    className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
+                  >
+                    Save
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+        )}
         <form onChange={handleFormChange}>
           <div className="profile-section  sm:px-11 px-5 padding-top-custom overflow-y-scroll	scroll-smooth	scrollable	">
-            {show && (
-              <ProfileHeader
-                handleSubmit={handleSubmit}
-                handleReset={handleReset}
-                setShow={setShow}
-              />
-            )}
             <div className="sm:py-12 py-8 flex justify-start items-start gap-2">
               {/* <Link to="/dashboard/settings"> */}
               <div
@@ -793,10 +812,13 @@ function Organisation() {
                               maxLength={256}
                               defaultValue={""}
                               style={{
-                                border: errors.description && "1px solid red",
+                                border:
+                                  errors.description &&
+                                  touched.description &&
+                                  "1px solid red",
                               }}
                             />
-                            {errors.description && (
+                            {errors.description && touched.description && (
                               <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
                                 {errors.description}
                               </p>
@@ -1324,12 +1346,17 @@ function Organisation() {
                           {logoUri ? (
                             <img
                               id="previewImage"
-                              src={logoUri || defaultImage}
+                              src={logoUri}
                               alt=""
                               className="w-[187px]	h-[58px]	object-cover"
                             />
                           ) : (
-                            <div className="bg-[#D9D9D9] h-[58px] w-[187px]"></div>
+                            <img
+                              id="previewImage"
+                              src={defaultImage}
+                              alt=""
+                              className="w-[187px]	h-[58px]	object-cover"
+                            />
                           )}
                         </div>
                         <div className="">
@@ -1679,7 +1706,7 @@ function Organisation() {
                               type="text"
                               placeholder="Enter First name"
                               name="logisticsContactFirstName"
-                              value={values.logisticsContactFirstName}
+                              value={values?.logisticsContactFirstName}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               onKeyPress={(e) =>
