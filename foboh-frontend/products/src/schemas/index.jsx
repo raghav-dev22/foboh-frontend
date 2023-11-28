@@ -7,10 +7,6 @@ export const addProductSchema = Yup.object().shape({
     .required("Region is required")
     .min(1, "Region is required"),
   availableQty: Yup.string().required("Available quantity is required"),
-  // stockAlertLevel: Yup.string().required(
-  //   "StockAlertLevel quantity is required"
-  // ),
-  // minimumOrder: Yup.string().required("Minimum order is required"),
   trackInventory: Yup.boolean(),
   title: Yup.string()
     .required("Title is required")
@@ -34,7 +30,8 @@ export const addProductSchema = Yup.object().shape({
   configuration: Yup.string(),
   description: Yup.string()
     .required("Please Enter Description")
-    .max(255, "Exceeded the characters limit"),
+    .max(1000, "Exceeded the characters limit")
+    .min(2, "Description must have at least 2 characters"),
   // tags: Yup.array().required("tags is required"),
   salePrice: Yup.string().required("Sale price is required"),
   // buyPrice: Yup.string().required("Buy price is required"),

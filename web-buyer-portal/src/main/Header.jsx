@@ -5,6 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import MenuIcon from "./MenuIcon";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import { theme } from "antd";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -120,12 +121,25 @@ function Header() {
   }
 
   const processChange = debounce(() => saveInput());
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const maxInputLength = 27;
   const handleSearch = (e) => {
-    const search = e.target.value;
-    setInput(search);
+    const inputValue = e.target.value;
+    // setInput(e.target.value);
+    if (inputValue.length <= maxInputLength) {
+      setInput(inputValue);
+    } else {
+      setErrorMessage(`Maximum ${maxInputLength} characters allowed.`);
+    }
+    // const search = e.target.value;
+    // setInput(search);
   };
 
+  // const [searchValue, setSearchValue] = useState("");
+  const handleClearSearch = () => {
+    setInput("");
+    setErrorMessage("");
+  };
   return (
     <>
       <style>
@@ -172,25 +186,39 @@ function Header() {
             </h2>
           )}
         </div>
-        <div className=" relative md:block hidden">
-          <input
-            type="text"
-            onChange={handleSearch}
-            className="roun8ded-md	font-normal text-sm placeholder:text-sm focus:border-[#5f59d7]"
-            placeholder="Search by product or brand"
-            style={{
-              padding: "12px 16px 12px 38px",
 
-              background: "#F4F7FF",
-              margin: "0px",
-            }}
-          />
-          <SearchIcon
-            className="absolute top-1/4 left-2.5 "
-            style={{ fill: token.commonThemeColor }}
-          />
+        <div className="relative md:block hidden">
+          <div style={{ position: "relative" }}>
+            <input
+              type="text"
+              value={input}
+              onChange={handleSearch}
+              className="rounded-md font-normal text-sm placeholder:text-sm focus:border-[#5f59d7]"
+              placeholder="Search by product or brand"
+              style={{
+                padding: "12px 30px 12px 38px",
+                background: "#F4F7FF",
+                margin: "0px",
+              }}
+            />
+            <SearchIcon
+              className="absolute top-1/4 left-2.5"
+              style={{ fill: token.commonThemeColor }}
+            />
+            {input && (
+              <div
+                className="absolute top-1/4 right-2 cursor-pointer"
+                onClick={handleClearSearch}
+              >
+                <CloseIcon style={{ fill: "#8a8888", width: "15px" }} />
+              </div>
+            )}
+          </div>
+
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-1">{errorMessage}</div>
+          )}
         </div>
-
         <div className="flex items-center gap-2 relative">
           <div
             className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center cursor-pointer"

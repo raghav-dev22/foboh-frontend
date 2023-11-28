@@ -3,7 +3,13 @@ import { Button, Modal } from "antd";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import { Select } from "antd";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
-const Visible = ({ open, onOk, onCancel, handleBulkVisibility }) => {
+const Visible = ({
+  open,
+  onOk,
+  onCancel,
+  handleBulkVisibility,
+  totalProducts,
+}) => {
   const cancelButtonRef = useRef(null);
 
   return (
@@ -15,7 +21,7 @@ const Visible = ({ open, onOk, onCancel, handleBulkVisibility }) => {
               <AutorenewOutlinedIcon style={{ fill: "#147D73" }} />
             </div>
             <h5 className="text-[20px] font-medium text-[#2B4447]">
-              Make X products visible?{" "}
+              Make {totalProducts} products visible?
             </h5>
           </div>
         }

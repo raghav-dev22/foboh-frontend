@@ -1037,11 +1037,11 @@ const ProductList = () => {
           {Sort && (
             <>
               <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50 absolute top-[50px] right-0">
-                <div className="flex justify-between items-center pb-2">
+                <div className="flex justify-start items-center pb-2">
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Alphabetical
                   </h5>
-                  <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} />
+                  {/* <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} /> */}
                 </div>
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3 green-checkbox">
@@ -1081,11 +1081,11 @@ const ProductList = () => {
                     </label>
                   </div>
                 </div>
-                <div className="flex justify-between items-center pt-4">
+                <div className="flex justify-start items-center pt-4">
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Price
                   </h5>
-                  <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} />
+                  {/* <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} /> */}
                 </div>
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3 green-checkbox">

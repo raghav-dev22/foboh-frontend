@@ -167,9 +167,13 @@ const Header = () => {
                   </div>
                   <div className="">
                     <img
-                      src={user.imageUrl ? user.imageUrl : "/assets/user.png"}
+                      src={
+                        user.imageUrl
+                          ? user.imageUrl
+                          : "/assets/default-user.png"
+                      }
                       alt=""
-                      className="h-11	w-11 rounded-full object-cover"
+                      className="h-11	w-11 rounded-full object-contain"
                     />
                   </div>
                   <div className="">
