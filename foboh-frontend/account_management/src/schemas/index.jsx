@@ -165,93 +165,115 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     )
     .required("Mobile number is required"),
 });
+
 export const BankingSchema = Yup.object().shape({
-  LegalBusiness: Yup.string()
+  businessType: Yup.mixed().required("Business type is required"),
+
+  legalBusinessName: Yup.string()
     .min(2, "Your trading name should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
     .required("Trading name is required"),
 
-  ACN: Yup.string()
+  acn: Yup.string()
     .matches(/^\d{9}$/, "Invalid ACN format")
     .required("ACN is required"),
-  ABN: Yup.string()
+
+  abn: Yup.string()
     .matches(/^\d{11}$/, "Invalid ABN format")
     .required("ABN is required"),
 
-  BusinessAddress: Yup.string()
+  businessAddress: Yup.string()
     .min(2, "Address should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
     .required("Address is required"),
-  BusinessWebsiteURL: Yup.string()
-    .min(2, "Business website URL should have at least 2 letters")
-    .max(50)
-    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Business website URL is required"),
-  Suburb: Yup.string()
+
+  businessPhoneNumber: Yup.string()
+    .required("Mobile number is required")
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    ),
+
+  businessDetailsSuburb: Yup.string()
     .required("Suburb name is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
 
-  Postcode: Yup.string()
+  businessDetailsPostcode: Yup.string()
     .required("Postcode name is required")
     .matches(/^\d{4}$/, "Invalid postcode"),
-  State: Yup.mixed().required("state is required"),
 
-  BSB: Yup.string()
+  businessDetailsState: Yup.mixed().required("state is required"),
+
+  businessWebsiteUrl: Yup.string()
+    .min(2, "Business website URL should have at least 2 letters")
+    .max(50)
+    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
+    .required("Business website URL is required"),
+
+  representativeInformationFirstName: Yup.string()
+    .min(2, "Your first name should have atleast 2 letters")
+    .max(50)
+    .required("First name is required"),
+
+  representativeInformationLastName: Yup.string()
+    .min(2, "Your last name should have atleast 2 letters")
+    .max(50)
+    .required("Last name is required"),
+
+  representativeInformationDob: Yup.mixed().required(
+    "Date of Birth is required."
+  ),
+
+  representativeInformationAddress: Yup.string()
+    .min(2, "Address should have at least 2 letters")
+    .max(50)
+    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
+    .required("Address is required"),
+
+  representativeInformationSuburb: Yup.string()
+    .required("Suburb name is required")
+    .min(2, "Suburb should have atleast 2 letters")
+    .max(50),
+
+  representativeInformationPostcode: Yup.string()
+    .required("Postcode name is required")
+    .matches(/^\d{4}$/, "Invalid postcode"),
+
+  representativeInformationState: Yup.mixed().required("state is required"),
+
+  representativeInformationMobile: Yup.string()
+    .required("Mobile number is required")
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    ),
+
+  representativeInformationEmail: Yup.string()
+    .email("Please enter a valid email")
+    .required("Please enter your email."),
+
+  bankingInformationBsb: Yup.string()
     .required("BSB Number is required")
     .matches(/^[0-9]{6}$/, "Mobile number must be a 6-digit number"),
-  AccountNumber: Yup.string()
+
+  bankingInformationAccountNumber: Yup.string()
     .required("Account Number is required")
     .matches(
       /^[A-Za-z0-9]{16}$/,
       "Account number must be 16 characters containing numbers and letters"
     ),
 
-  StatementDescriptor: Yup.string().required("StatementDescriptor is required"),
-  BusinessName: Yup.mixed().required("BusinessName is required"),
+  billingStatementdescriptor: Yup.string().required(
+    "StatementDescriptor is required"
+  ),
 
-  PhoneNumber: Yup.string()
-    .required("Mobile number is required")
-    .matches(
-      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-      "Mobile number must be a valid Australian mobile number"
-    ),
-  RepresentativePhoneNumber: Yup.string()
+  billingStatementMobile: Yup.string()
     .required("Mobile number is required")
     .matches(
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
-  BusinessMobileNumber: Yup.string()
-    .required("Mobile number is required")
-    .matches(
-      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-      "Mobile number must be a valid Australian mobile number"
-    ),
-  BusinessSuburb: Yup.string()
-    .required("Suburb name is required")
-    .min(2, "Suburb should have atleast 2 letters")
-    .max(50),
-  firstName: Yup.string()
-    .min(2, "Your first name should have atleast 2 letters")
-    .max(50)
-    .required("First name is required"),
-  lastName: Yup.string()
-    .min(2, "Your last name should have atleast 2 letters")
-    .max(50)
-    .required("Last name is required"),
-  RepresentativeAddress: Yup.string()
-    .min(2, "Address should have at least 2 letters")
-    .max(50)
-    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Address is required"),
-  email: Yup.string()
-    .email("Please enter a valid email")
-    .required("Please enter your email."),
-  BankName: Yup.string()
-    .min(2, "bank name should have atleast 2 letters")
-    .max(50)
-    .required("bank name is required"),
 });

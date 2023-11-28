@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { message } from "antd";
 
 import CustomerContact from "../AddCustomersDetails/CustomerContact";
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 function AddCustomersDetails() {
   const [messageApi, contextHolder] = message.useMessage();

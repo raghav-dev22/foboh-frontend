@@ -43,12 +43,12 @@ const BusinessDetails = ({
                 options={businessType}
                 onChange={handleBusinessDetails}
                 onBlur={handleBlur}
-                name="BusinessName"
-                value={values.BusinessName}
+                name="businessType"
+                value={values.businessType}
               />
-              {errors.BusinessName && touched.BusinessName && (
+              {errors.businessType && touched.businessType && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.BusinessName}
+                  {errors.businessType}
                 </p>
               )}
             </div>

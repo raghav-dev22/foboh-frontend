@@ -47,29 +47,33 @@ const BankingInformation = () => {
   const elements = useElements();
 
   const [initialValues, setInitialValues] = useState({
-    BusinessName: "",
-    BusinessSuburb: "",
-    LegalBusiness: "",
-    ACN: "",
-    ABN: "",
-    BusinessAddress: "",
-    Suburb: "",
-    Postcode: "",
-    State: "",
-    Country: "Australia",
-    BSB: "",
-    AccountNumber: "",
-    StatementDescriptor: "",
-    PhoneNumber: "",
-    BusinessWebsiteURL: "",
-    BusinessMobileNumber: "",
-    firstName: "",
-    lastName: "",
-    RepresentativeAddress: "",
-    Suburb: "",
-    email: "",
-    BankName: "",
-    RepresentativePhoneNumber: "",
+    businessType: "",
+    legalBusinessName: "",
+    acn: "",
+    abn: "",
+    businessAddress: "",
+    businessPhoneNumber: "",
+    businessDetailsSuburb: "",
+    businessDetailsPostcode: "",
+    businessDetailsState: "",
+    businessDetailsCountry: "",
+    businessWebsiteUrl: "",
+    representativeInformationFirstName: "",
+    representativeInformationLastName: "",
+    representativeInformationDob: "",
+    representativeInformationAddress: "",
+    representativeInformationSuburb: "",
+    representativeInformationPostcode: "",
+    representativeInformationState: "",
+    representativeInformationMobile: "",
+    representativeInformationEmail: "",
+    representativeInformationOwnership: "",
+    bankingInformationBsb: "",
+    bankingInformationAccountNumber: "",
+    bankingInformationBankName: "",
+    billingStatementdescriptor: "",
+    billingStatementMobile: "",
+    termsAndConditions: "",
   });
 
   const {
@@ -147,54 +151,39 @@ const BankingInformation = () => {
     await postSetupBankingDetails(organisationDetails);
 
     const setupBankingDetails = await getSetupBankingDetails();
-    setInitialValues({
-      LegalBusiness: setupBankingDetails.legalbusinessname,
-      ACN: setupBankingDetails.acn,
-      ABN: setupBankingDetails.abn,
-      BusinessAddress: setupBankingDetails.businessAddress,
-      Suburb: setupBankingDetails.city,
-      Postcode: setupBankingDetails.postcode,
-      State: setupBankingDetails.state,
-      BSB: setupBankingDetails.bsBnumber,
-      AccountNumber: setupBankingDetails.accountNumber,
-      StatementDescriptor: setupBankingDetails.statementDescriptor,
-      PhoneNumber: setupBankingDetails.phoneNumber,
-      BusinessName: setupBankingDetails.businessType,
-      BusinessWebsiteURL: setupBankingDetails.BusinessWebsiteURL,
-      BusinessMobileNumber: setupBankingDetails.BusinessMobileNumber,
-      firstName: setupBankingDetails.firstName,
-      lastName: setupBankingDetails.lastName,
-      Suburb: setupBankingDetails.Suburb,
-      RepresentativeAddress: setupBankingDetails.RepresentativeAddress,
-      email: setupBankingDetails.email,
-      BankName: setupBankingDetails.BankName,
-      BusinessSuburb: setupBankingDetails.BusinessSuburb,
-      RepresentativePhoneNumber: setupBankingDetails.RepresentativePhoneNumber,
-    });
-    setValues({
-      LegalBusiness: setupBankingDetails.legalbusinessname,
-      ACN: setupBankingDetails.acn,
-      ABN: setupBankingDetails.abn,
-      BusinessAddress: setupBankingDetails.businessAddress,
-      Suburb: setupBankingDetails.city,
-      Postcode: setupBankingDetails.postcode,
-      State: setupBankingDetails.state,
-      BSB: setupBankingDetails.bsBnumber,
-      AccountNumber: setupBankingDetails.accountNumber,
-      StatementDescriptor: setupBankingDetails.statementDescriptor,
-      PhoneNumber: setupBankingDetails.phoneNumber,
-      BusinessName: setupBankingDetails.businessType,
-      BusinessWebsiteURL: setupBankingDetails.BusinessWebsiteURL,
-      BusinessMobileNumber: setupBankingDetails.BusinessMobileNumber,
-      firstName: setupBankingDetails.firstName,
-      lastName: setupBankingDetails.lastName,
-      RepresentativeAddress: setupBankingDetails.RepresentativeAddress,
-      Suburb: setupBankingDetails.Suburb,
-      email: setupBankingDetails.email,
-      BankName: setupBankingDetails.BankName,
-      BusinessSuburb: setupBankingDetails.BusinessSuburb,
-      RepresentativePhoneNumber: setupBankingDetails.RepresentativePhoneNumber,
-    });
+
+    const setupBankingValues = {
+      businessType: "",
+      legalBusinessName: "",
+      acn: "",
+      abn: "",
+      businessAddress: "",
+      businessPhoneNumber: "",
+      businessDetailsSuburb: "",
+      businessDetailsPostcode: "",
+      businessDetailsState: "",
+      businessDetailsCountry: "",
+      businessWebsiteUrl: "",
+      representativeInformationFirstName: "",
+      representativeInformationLastName: "",
+      representativeInformationDob: "",
+      representativeInformationAddress: "",
+      representativeInformationSuburb: "",
+      representativeInformationPostcode: "",
+      representativeInformationState: "",
+      representativeInformationMobile: "",
+      representativeInformationEmail: "",
+      representativeInformationOwnership: "",
+      bankingInformationBsb: "",
+      bankingInformationAccountNumber: "",
+      bankingInformationBankName: "",
+      billingStatementdescriptor: "",
+      billingStatementMobile: "",
+      termsAndConditions: "",
+    };
+
+    setInitialValues(setupBankingValues);
+    setValues(setupBankingValues);
   };
 
   const handleSave = () => {
@@ -214,7 +203,7 @@ const BankingInformation = () => {
           },
           body: JSON.stringify({
             organisationID: localStorage.getItem("organisationId"),
-            businessType: values?.BusinessName,
+            businessType: values?.businessType,
             legalbusinessname: values?.LegalBusiness,
             acn: values?.ACN,
             abn: values?.ABN,
@@ -236,7 +225,7 @@ const BankingInformation = () => {
             Suburb: values?.Suburb,
             email: values?.email,
             BankName: values?.BankName,
-            BusinessSuburb: values?.BusinessSuburb,
+            businessDetailsSuburb: values?.BusinessSuburb,
             RepresentativePhoneNumber: values?.RepresentativePhoneNumber,
           }),
         }
@@ -271,7 +260,7 @@ const BankingInformation = () => {
     const itemId = e.value;
     setValues({
       ...values,
-      BusinessName: e,
+      businessType: e,
     });
     setShow(true);
   };
