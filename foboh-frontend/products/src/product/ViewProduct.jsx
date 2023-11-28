@@ -754,7 +754,7 @@ function ViewProduct() {
             stockStatus: values?.status,
             regionAvailability: values?.region,
             productStatus: values?.status,
-            visibility: values?.visibility,
+            visibility: values?.visibility.toString(),
             minimumOrder: values?.minimumOrder,
             tags: values?.tags
               ? values?.tags.map((item) => {
@@ -803,11 +803,14 @@ function ViewProduct() {
   const status = ["Active", "Inactive", "Archived"];
 
   // Product Availability
-  const handleVisibility = () => {
+  const handleVisibility = (e) => {
+    const checked = e.target.checked;
+    console.log("Before state update:", values.visibility);
     setValues({
       ...values,
-      visibility: !values.visibility,
+      visibility: checked ? "1" : "0",
     });
+    console.log("After state update:", !values.visibility);
   };
 
   // Region Availability
@@ -1580,18 +1583,21 @@ function ViewProduct() {
                         <h5 className="text-green text-base font-medium">
                           Visible to customers
                         </h5>
-
+                        {console.log(
+                          values.visibility,
+                          "visbilty condition hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+                        )}
                         <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
                           <input
                             onChange={handleVisibility}
-                            checked={values.visibility}
+                            checked={values.visibility === "1" ? true : false}
                             type="checkbox"
-                            name="availability"
-                            id="toggle"
-                            className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                            name="visibility"
+                            id="visibility"
+                            class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                           />
                           <label
-                            htmlFor="toggle"
+                            htmlFor="visibility"
                             className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                           ></label>
                         </div>
@@ -2324,7 +2330,6 @@ function ViewProduct() {
                             onBlur={handleBlur}
                             placeholder="$250.00"
                           />
-                         
                         </div>
                       </div>
                       <div className="mb-5">

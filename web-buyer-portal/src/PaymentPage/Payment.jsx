@@ -669,100 +669,88 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
               <p className="text-base font-normal text-[#637381] mb-4">
                 Select a payment option
               </p>
-              <p className="text-normal font-medium text-[#2B4447]">
-                All transactions are encrypted
-              </p>
+
+              <div className=" rounded-md ">
+                <label htmlFor="">
+                  <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
+                    Your agreed payment term
+                  </h5>
+                </label>
+                <div className="border h-[55px] rounded-lg flex items-center text-start">
+                  <h5 className="text-[#2B4447] font-medium text-base mx-[20px]">
+                    {buyer.defaultPaymentTerm}
+                  </h5>
+                </div>
+              </div>
+              <div className=" rounded-md mt-4">
+                <label htmlFor="">
+                  <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
+                    Your preferred payment Method
+                  </h5>
+                </label>
+                <div className="border h-[55px] rounded-lg flex items-center text-start mt">
+                  <h5 className="text-[#2B4447] font-medium text-base mx-[20px]">
+                    {buyer.defaultPaymentMethod}
+                  </h5>
+                </div>
+                <p className="text-normal font-medium text-[#2B4447] mt-2">
+                  All transactions are encrypted
+                </p>
+              </div>
+
               <Tabs
                 defaultActiveKey="1"
                 activeKey={activeKey}
                 onChange={handleTabChange}
               >
-                <TabPane
-                  tab={
-                    <>
-                      <div
-                        onClick={() => setSelectedPaymentTerm("Pay Later")}
-                        className={`  rounded-md w-[175px] py-[18px]`}
-                        style={{
-                          background:
-                            activeKey === "1" ? token.bannerThemeColor : "#fff",
-                          border: `1px solid ${
-                            activeKey === "1"
-                              ? token.commonThemeColor
-                              : "#E7E7E7"
-                          }
+                {buyer.defaultPaymentTerm === "prepaid" ? (
+                  <TabPane
+                    tab={
+                      <>
+                        <div
+                          onClick={() => setSelectedPaymentTerm("Pay Later")}
+                          className={`  rounded-md w-[175px] py-[18px]`}
+                          style={{
+                            background:
+                              activeKey === "1"
+                                ? token.bannerThemeColor
+                                : "#fff",
+                            border: `1px solid ${
+                              activeKey === "1"
+                                ? token.commonThemeColor
+                                : "#E7E7E7"
+                            }
                           `,
-                        }}
-                      >
-                        <h5
-                          className="text-[#2B4447] font-semibold text-base text-center mb-1"
-                          style={{
-                            color:
-                              activeKey === "1"
-                                ? token.commonThemeColor
-                                : "#2B4447",
                           }}
                         >
-                          Pay Later
-                        </h5>
-                        <p
-                          className="text-base text-[#637381] text-center"
-                          style={{
-                            color:
-                              activeKey === "1"
-                                ? token.commonThemeColor
-                                : "#637381",
-                          }}
-                        >
-                          {" "}
-                          Manual, BECS
-                        </p>
-                      </div>
-                    </>
-                  }
-                  key="1"
-                >
-                  <div className=" rounded-md ">
-                    <label htmlFor="">
-                      <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
-                        Your agreed payment term
-                      </h5>
-                    </label>
-                    <div className="border h-[55px] rounded-lg flex items-center text-start">
-                      <h5 className="text-[#2B4447] font-medium text-base mx-[20px]">
-                        {buyer.defaultPaymentTerm}
-                      </h5>
-                    </div>
-                  </div>
-                  <div className=" rounded-md mt-4">
-                    <label htmlFor="">
-                      <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
-                        Your preferred payment Method
-                      </h5>
-                    </label>
-                    <div className="relative">
-                      <Select
-                        labelInValue
-                        className="custom-selector"
-                        defaultValue={{
-                          value: "method-1",
-                          label: (
-                            <h5 className="text-[#2B4447] font-medium text-base">
-                              Method
-                            </h5>
-                          ),
-                        }}
-                        style={{
-                          width: "100%",
-                        }}
-                        onChange={handleChange}
-                        options={paymentMethod}
-                      />
-                      <KeyboardArrowDownRoundedIcon
-                        className="absolute top-[13px] right-[12px]"
-                        style={{ fill: "#637381" }}
-                      />
-                    </div>
+                          <h5
+                            className="text-[#2B4447] font-semibold text-base text-center mb-1"
+                            style={{
+                              color:
+                                activeKey === "1"
+                                  ? token.commonThemeColor
+                                  : "#2B4447",
+                            }}
+                          >
+                            Pay Later
+                          </h5>
+                          <p
+                            className="text-base text-[#637381] text-center"
+                            style={{
+                              color:
+                                activeKey === "1"
+                                  ? token.commonThemeColor
+                                  : "#637381",
+                            }}
+                          >
+                            {" "}
+                            Manual, BECS
+                          </p>
+                        </div>
+                      </>
+                    }
+                    key="1"
+                  >
                     {
                       <Becs
                         setBankName={setBankName}
@@ -772,122 +760,113 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         email={email}
                       />
                     }
-                  </div>
-                  <div className=" rounded-md mt-[5px]">
-                    <label htmlFor="">
-                      <h5 className="text-xl font-semibold  text-[#2B4447] mb-3">
-                        Your preferred payment Method
-                      </h5>
-                    </label>
-
-                    <div className="border h-[55px] rounded-lg flex items-center text-start mt">
-                      <h5 className="text-[#2B4447] font-medium text-base mx-[20px]">
-                        {buyer.defaultPaymentMethod}
-                      </h5>
-                    </div>
-                  </div>
-                </TabPane>
-                <TabPane
-                  tab={
-                    <div
-                      onClick={() => {
-                        setSelectedPaymentTerm("Pay Now");
-                        setIsChecked(true);
-                        setCardDetails(true);
-                      }}
-                      className={`  rounded-md w-[175px] py-[18px]`}
-                      style={{
-                        background:
-                          activeKey === "2" ? token.bannerThemeColor : "#fff",
-                        border: `1px solid ${
-                          activeKey === "2" ? token.commonThemeColor : "#E7E7E7"
-                        }
+                    {/* </div> */}
+                  </TabPane>
+                ) : (
+                  <TabPane
+                    tab={
+                      <div
+                        onClick={() => {
+                          setSelectedPaymentTerm("Pay Now");
+                          setIsChecked(true);
+                          setCardDetails(true);
+                        }}
+                        className={`  rounded-md w-[175px] py-[18px]`}
+                        style={{
+                          background:
+                            activeKey === "2" ? token.bannerThemeColor : "#fff",
+                          border: `1px solid ${
+                            activeKey === "2"
+                              ? token.commonThemeColor
+                              : "#E7E7E7"
+                          }
                         `,
-                      }}
-                    >
-                      <h5
-                        className="text-[#2B4447] font-semibold text-base text-center mb-1"
-                        style={{
-                          color:
-                            activeKey === "2"
-                              ? token.commonThemeColor
-                              : "#2B4447",
                         }}
                       >
-                        Pay Now
-                      </h5>
-                      <p
-                        className="text-sm text-[#637381] text-center"
-                        style={{
-                          color:
-                            activeKey === "2"
-                              ? token.commonThemeColor
-                              : "#637381",
-                        }}
-                      >
-                        Credit or Debit Card
-                      </p>
-                    </div>
-                  }
-                  key="2"
-                >
-                  {/* <h5 className="text-lg font-semibold text-[#2B4447]">
+                        <h5
+                          className="text-[#2B4447] font-semibold text-base text-center mb-1"
+                          style={{
+                            color:
+                              activeKey === "2"
+                                ? token.commonThemeColor
+                                : "#2B4447",
+                          }}
+                        >
+                          Pay Now
+                        </h5>
+                        <p
+                          className="text-sm text-[#637381] text-center"
+                          style={{
+                            color:
+                              activeKey === "2"
+                                ? token.commonThemeColor
+                                : "#637381",
+                          }}
+                        >
+                          Credit or Debit Card
+                        </p>
+                      </div>
+                    }
+                    key="1"
+                  >
+                    {/* <h5 className="text-lg font-semibold text-[#2B4447]">
                     No payment period for pay now
                   </h5> */}
 
-                  <div className="border border-[#E7E7E7] rounded-md   mt-2">
-                    <div
-                      className="justify-between flex items-center  border-b p-3 border-[#E7E7E7]"
-                      onClick={() => {
-                        openTab();
-                      }}
-                    >
-                      <div className=" flex items-center">
-                        <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center cursor-pointer">
-                          <style>
-                            {`.custom-radio:checked::after {background-color:${token.buttonThemeColor} }`}
-                          </style>
-                          <input
-                            defaultChecked=""
-                            id="default-radio-1"
-                            type="radio"
-                            defaultValue=""
-                            name="default-radio"
-                            className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
-                            style={{
-                              boxShadow: " 0px 0px 10px 0px rgba(0,0,0,0.75);",
-                            }}
-                            checked={isChecked}
-                            onChange={handleCheckboxChange}
+                    <div className="border border-[#E7E7E7] rounded-md   mt-2">
+                      <div
+                        className="justify-between flex items-center  border-b p-3 border-[#E7E7E7]"
+                        onClick={() => {
+                          openTab();
+                        }}
+                      >
+                        <div className=" flex items-center">
+                          <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center cursor-pointer">
+                            <style>
+                              {`.custom-radio:checked::after {background-color:${token.buttonThemeColor} }`}
+                            </style>
+                            <input
+                              defaultChecked=""
+                              id="default-radio-1"
+                              type="radio"
+                              defaultValue=""
+                              name="default-radio"
+                              className="w-4 h-4 text-[#000] bg-gray-100 border-gray-300  custom-radio"
+                              style={{
+                                boxShadow:
+                                  " 0px 0px 10px 0px rgba(0,0,0,0.75);",
+                              }}
+                              checked={true}
+                              onChange={handleCheckboxChange}
+                            />
+                          </div>
+                          <label
+                            htmlFor="default-radio-1"
+                            className="ml-4 text-base font-semibold text-[#2B4447] "
+                          >
+                            Credit/Debit Card
+                          </label>
+                        </div>
+
+                        <div className="flex gap-3">
+                          <img
+                            src="/assets/visa.png"
+                            alt=""
+                            className="fit-contain"
+                          />
+                          <img
+                            src="/assets/master-card.png"
+                            alt=""
+                            className="fit-contain"
+                          />
+                          <img
+                            src="/assets/american-express.png"
+                            alt=""
+                            className="fit-contain"
                           />
                         </div>
-                        <label
-                          htmlFor="default-radio-1"
-                          className="ml-4 text-base font-semibold text-[#2B4447] "
-                        >
-                          Credit/Debit Card
-                        </label>
                       </div>
-
-                      <div className="flex gap-3">
-                        <img
-                          src="/assets/visa.png"
-                          alt=""
-                          className="fit-contain"
-                        />
-                        <img
-                          src="/assets/master-card.png"
-                          alt=""
-                          className="fit-contain"
-                        />
-                        <img
-                          src="/assets/american-express.png"
-                          alt=""
-                          className="fit-contain"
-                        />
-                      </div>
-                    </div>
-                    {isChecked && (
+                      {/* {isChecked && ( */}
                       <div className="bg-[#E7E7E7] py-5 px-2">
                         <div className="rounded-md bg-white p-3 flex justify-between">
                           <div className="flex items-center gap-2">
@@ -910,142 +889,142 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                           </div>
                         </div>
                       </div>
-                    )}
-                    {cardDetails && (
-                      <>
-                        <div className=" py-5 px-4">
+                      {/* )} */}
+                      {/* {cardDetails && (
+                        <> */}
+                      <div className=" py-5 px-4">
+                        <div
+                          className={`relative mb-4 `}
+                          data-te-input-wrapper-init
+                        >
+                          <label className="mb-2">Card number</label>
+                          <div className="custom-card mt-2">
+                            <CardNumberElement
+                              options={options}
+                              onChange={(event) => {
+                                setCardErrors({
+                                  ...cardErrors,
+                                  [event.elementType]: event.error,
+                                });
+                                console.log(
+                                  "CardNumberElement [change]",
+                                  event
+                                );
+                              }}
+                            />
+                          </div>
+
+                          <p className="mt-2 mb-2 text-red-500 text-xs">
+                            {cardErrors?.cardNumber?.message}
+                          </p>
+                          <div className="absolute top-[39px] right-[10px]">
+                            <LockOpenIcon
+                              style={{
+                                fill: "#979797",
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className={`relative mb-4 w-full`}
+                          data-te-input-wrapper-init
+                        >
+                          <label
+                            htmlFor="LiquerLicence"
+                            className="text-[#2B4447] font-normal text-sm"
+                          >
+                            Name on Card
+                          </label>
+                          <input
+                            type="text"
+                            id="LiquerLicence"
+                            className=" "
+                            onChange={(e) => {
+                              setCardHolderName(e.target.value);
+                            }}
+                            autoComplete="on"
+                            style={{
+                              background: "#F8F8F8",
+                            }}
+                          />
+                        </div>
+                        <div className="flex flex-nowrap gap-2">
                           <div
-                            className={`relative mb-4 `}
+                            className={`relative mb-4  w-full`}
                             data-te-input-wrapper-init
                           >
-                            <label className="mb-2">Card number</label>
-                            <div className="custom-card mt-2">
-                              <CardNumberElement
-                                options={options}
-                                onChange={(event) => {
-                                  setCardErrors({
-                                    ...cardErrors,
-                                    [event.elementType]: event.error,
-                                  });
-                                  console.log(
-                                    "CardNumberElement [change]",
-                                    event
-                                  );
-                                }}
-                              />
-                            </div>
-
+                            <label className="mb-2">
+                              Expiration date
+                              <div className="custom-card mt-2">
+                                <CardExpiryElement
+                                  options={options}
+                                  onChange={(event) => {
+                                    setCardErrors({
+                                      ...cardErrors,
+                                      [event?.elementType]: event?.error,
+                                    });
+                                    console.log(
+                                      "CardNumberElement [change]",
+                                      event
+                                    );
+                                  }}
+                                />
+                              </div>
+                            </label>
                             <p className="mt-2 mb-2 text-red-500 text-xs">
-                              {cardErrors?.cardNumber?.message}
+                              {cardErrors?.cardExpiry?.message}
                             </p>
-                            <div className="absolute top-[39px] right-[10px]">
-                              <LockOpenIcon
-                                style={{
-                                  fill: "#979797",
-                                }}
-                              />
-                            </div>
                           </div>
                           <div
                             className={`relative mb-4 w-full`}
                             data-te-input-wrapper-init
                           >
-                            <label
-                              htmlFor="LiquerLicence"
-                              className="text-[#2B4447] font-normal text-sm"
-                            >
-                              Name on Card
+                            <label className="mb-2">
+                              CVC
+                              <div className="custom-card mt-2 ">
+                                <CardCvcElement
+                                  options={options}
+                                  onChange={(event) => {
+                                    setCardErrors({
+                                      ...cardErrors,
+                                      [event.elementType]: event.error,
+                                    });
+                                    console.log(
+                                      "CardNumberElement [change]",
+                                      event
+                                    );
+                                  }}
+                                />
+                              </div>
                             </label>
-                            <input
-                              type="text"
-                              id="LiquerLicence"
-                              className=" "
-                              onChange={(e) => {
-                                setCardHolderName(e.target.value);
-                              }}
-                              autoComplete="on"
-                              style={{
-                                background: "#F8F8F8",
-                              }}
-                            />
-                          </div>
-                          <div className="flex flex-nowrap gap-2">
-                            <div
-                              className={`relative mb-4  w-full`}
-                              data-te-input-wrapper-init
-                            >
-                              <label className="mb-2">
-                                Expiration date
-                                <div className="custom-card mt-2">
-                                  <CardExpiryElement
-                                    options={options}
-                                    onChange={(event) => {
-                                      setCardErrors({
-                                        ...cardErrors,
-                                        [event?.elementType]: event?.error,
-                                      });
-                                      console.log(
-                                        "CardNumberElement [change]",
-                                        event
-                                      );
-                                    }}
-                                  />
-                                </div>
-                              </label>
-                              <p className="mt-2 mb-2 text-red-500 text-xs">
-                                {cardErrors?.cardExpiry?.message}
-                              </p>
-                            </div>
-                            <div
-                              className={`relative mb-4 w-full`}
-                              data-te-input-wrapper-init
-                            >
-                              <label className="mb-2">
-                                CVC
-                                <div className="custom-card mt-2 ">
-                                  <CardCvcElement
-                                    options={options}
-                                    onChange={(event) => {
-                                      setCardErrors({
-                                        ...cardErrors,
-                                        [event.elementType]: event.error,
-                                      });
-                                      console.log(
-                                        "CardNumberElement [change]",
-                                        event
-                                      );
-                                    }}
-                                  />
-                                </div>
-                              </label>
-                              <p className="mt-2 mb-2 text-red-500 text-xs">
-                                {cardErrors?.cardCvc?.message}
-                              </p>
-                            </div>
-                          </div>
-                          {contextHolder}
-                          <div className="flex items-center mb-4">
-                            <input
-                              defaultChecked=""
-                              id="default-checkbox"
-                              type="checkbox"
-                              defaultValue=""
-                              name="default-radio"
-                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-                            />
-
-                            <label
-                              htmlFor="radio-3"
-                              className="ml-4 text-base font-normal text-[#2B4447] "
-                            >
-                              Save card details
-                            </label>
+                            <p className="mt-2 mb-2 text-red-500 text-xs">
+                              {cardErrors?.cardCvc?.message}
+                            </p>
                           </div>
                         </div>
-                      </>
-                    )}
+                        {contextHolder}
+                        <div className="flex items-center mb-4">
+                          <input
+                            defaultChecked=""
+                            id="default-checkbox"
+                            type="checkbox"
+                            defaultValue=""
+                            name="default-radio"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
+                          />
 
-                    {/* <div className=" flex items-center border-b border-[#E7E7E7] p-3">
+                          <label
+                            htmlFor="radio-3"
+                            className="ml-4 text-base font-normal text-[#2B4447] "
+                          >
+                            Save card details
+                          </label>
+                        </div>
+                      </div>
+                      {/* </> */}
+                      {/* )} */}
+
+                      {/* <div className=" flex items-center border-b border-[#E7E7E7] p-3">
                       <div className="relative rounded-full w-[28px] h-[28px] custom-shadow flex justify-center items-center cursor-pointer">
                         <input
                           defaultChecked=""
@@ -1151,10 +1130,10 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         </div>
                       </>
                     )} */}
-                  </div>
-                </TabPane>
+                    </div>
+                  </TabPane>
+                )}
               </Tabs>
-              {/* <Tabs defaultActiveKey="1" items={items} onChange={onChange} /> */}
             </div>
             <div className="text-right">
               <button

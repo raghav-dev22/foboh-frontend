@@ -11,6 +11,7 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const defaultImage = "/assets/update-user.png";
   const fileInputRef = useRef();
   const authUrl = process.env.REACT_APP_AUTH_URL;
+  const [saveClicked, setSaveClicked] = useState(false);
 
   const handleDelete = () => {
     if (fileInputRef.current) {
@@ -59,7 +60,7 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
           console.log("imgData", imgData);
         };
         reader.readAsDataURL(file);
-
+        // if (saveClicked) {
         const ccrn = localStorage.getItem("ccrn");
         fetch(`${authUrl}/api/User/UploadProfileImage?ccrn=${ccrn}`, {
           method: "POST",
@@ -67,7 +68,6 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
         })
           .then((response) => response.json())
           .then((data) => {
-            // Handle the response from the server
             console.log("Server response:", data);
             if (!data.error) {
               console.log("uri --->", data.blob.uri);
@@ -85,11 +85,12 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
           .catch((error) => {
             console.error("Error:", error);
           });
-      } else {
-        setShowError(true);
-        fileInputRef.current.value = "";
       }
+    } else {
+      setShowError(true);
+      fileInputRef.current.value = "";
     }
+    // }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({

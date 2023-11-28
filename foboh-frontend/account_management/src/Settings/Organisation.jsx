@@ -34,6 +34,7 @@ export const options = [
 ];
 
 let categoryListVar = [];
+const formData = new FormData();
 
 function Organisation() {
   const navigate = useNavigate();
@@ -56,7 +57,6 @@ function Organisation() {
   const [innerUnitTypeList, setInnerUnitTypeList] = useState([]);
   const [state, setState] = useState([]);
   const authUrl = process.env.REACT_APP_AUTH_URL;
-
   const [initialValues, setInitialValues] = useState({
     tradingName: "",
     businessName: "",
@@ -326,7 +326,6 @@ function Organisation() {
                     item.label === organisationSettings?.billingAddressState
                 );
 
-                setLogoUri(organisationSettings.organisationlogo);
                 setInitialValues({
                   tradingName: organisationSettings.tradingName,
                   businessName: organisationSettings.businessName,
@@ -406,6 +405,7 @@ function Organisation() {
                   categoryList: categoryList,
                 });
                 setLoading(false);
+                setLogoUri(organisationSettings.organisationlogo);
               }
             });
         })
@@ -417,7 +417,7 @@ function Organisation() {
     asyncFunction();
   }, []);
 
-  console.log(values, "important value org");
+  console.log(logoUri, "important value org");
   const asyncFunction = async () => {
     const innerUnitMeasureResponse = await getInnerUnitMeasureList();
     setInnerUnitMeasure(innerUnitMeasureResponse);
@@ -491,7 +491,7 @@ function Organisation() {
       fileInputRef.current.value = "";
     }
     console.log("delet");
-    setFile(null);
+    setFile("");
 
     setLogoUri("");
     setValues({
@@ -505,51 +505,91 @@ function Organisation() {
     open();
   };
 
+  // const onDrop = useCallback((acceptedFiles) => {
+  //   // Do something with the files
+  //   console.log("Data >>>", acceptedFiles[0]);
+  //   const file = acceptedFiles[0];
+  //   if (file) {
+  //     const fileNameParts = file.name.split(".");
+  //     const fileExtension =
+  //       fileNameParts[fileNameParts.length - 1].toLowerCase();
+
+  //     // List of allowed image extensions (add more if needed)
+  //     const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+
+  //     if (allowedExtensions.includes(fileExtension)) {
+  //       setShowError(false);
+  //       const reader = new FileReader();
+  //       const formData = new FormData();
+  //       formData.append("file", file);
+
+  //       reader.onload = () => {
+  //         const imgData = reader.result;
+  //         setLogoUri(imgData);
+  //         setShow(true);
+  //         console.log("imgData", imgData);
+  //       };
+  //       reader.readAsDataURL(file);
+
+  //       console.log("imgData", formData);
+  //       const orgId = localStorage.getItem("organisationId");
+  //       fetch(
+  //         `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
+  //         {
+  //           method: "POST",
+  //           body: formData,
+  //         }
+  //       )
+  //         .then((response) => response.json())
+  //         .then((data) => {
+  //           // Handle the response from the server
+  //           console.log("user value --->", values);
+  //           console.log("Server response:", data);
+
+  //           if (!data.error) {
+  //             console.log("uri --->", data.blob.uri);
+  //             setShow(true);
+  //             setLogoUri(data?.blob.uri);
+  //             dispatch(updateLogoURI(data?.blob.uri));
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           // Handle any errors that occurred during the request
+  //           console.error("Error:", error);
+  //         });
+  //     } else {
+  //       setShowError(true);
+  //       // Clear the file input field
+  //       fileInputRef.current.value = "";
+  //     }
+  //   }
+  // }, []);
   const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-    console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
+
     if (file) {
       const fileNameParts = file.name.split(".");
       const fileExtension =
         fileNameParts[fileNameParts.length - 1].toLowerCase();
 
-      // List of allowed image extensions (add more if needed)
       const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 
       if (allowedExtensions.includes(fileExtension)) {
+        formData.append("file", file);
         setShowError(false);
         const reader = new FileReader();
-        const formData = new FormData();
-        formData.append("file", file);
-        const orgId = localStorage.getItem("organisationId");
-        fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            // Handle the response from the server
-            console.log("user value --->", values);
-            console.log("Server response:", data);
 
-            if (!data.error) {
-              console.log("uri --->", data.blob.uri);
-              setShow(true);
-              setLogoUri(data?.blob.uri);
-              dispatch(updateLogoURI(data?.blob.uri));
-            }
-          })
-          .catch((error) => {
-            // Handle any errors that occurred during the request
-            console.error("Error:", error);
-          });
+        reader.onload = () => {
+          const imgData = reader.result;
+          setLogoUri(imgData);
+          setShow(true);
+          console.log("imgData", imgData);
+        };
+        reader.readAsDataURL(file);
+
+        // Append the file to formData
       } else {
         setShowError(true);
-        // Clear the file input field
         fileInputRef.current.value = "";
       }
     }
@@ -566,6 +606,7 @@ function Organisation() {
   const handleReset = () => {
     setShow(false);
     setValues(initialValues);
+    setLogoUri(initialValues.organisationlogo);
   };
 
   const handleFormChange = () => {
@@ -603,6 +644,32 @@ function Organisation() {
     });
   };
 
+  const handleSaveButtonClick = () => {
+    const orgId = localStorage.getItem("organisationId");
+    fetch(
+      `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Server response:", data);
+        if (!data.error) {
+          formData.delete("file");
+          console.log("uri --->", data.blob.uri);
+          setShow(true);
+          setLogoUri(data.blob.uri);
+          dispatch(updateLogoURI(data.blob.uri));
+          // Additional state updates or actions if needed
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   // useEffect(() => {}, []);
   return (
     <>
@@ -622,7 +689,8 @@ function Organisation() {
                   <button
                     type="submit"
                     onClick={() => {
-                      handleSubmit();
+                      // handleSubmit();
+                      handleSaveButtonClick();
                     }}
                     className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
                   >
@@ -1343,21 +1411,21 @@ function Organisation() {
                     <div className="px-6 py-7">
                       <div className="flex justify-start gap-3 items-center">
                         <div className="update-user rounded-full">
-                          {logoUri ? (
-                            <img
-                              id="previewImage"
-                              src={logoUri}
-                              alt=""
-                              className="w-[187px]	h-[58px]	object-cover"
-                            />
-                          ) : (
-                            <img
+                          {/* {logoUri ? ( */}
+                          <img
+                            id="previewImage"
+                            src={logoUri || defaultImage}
+                            alt=""
+                            className="w-[187px]	h-[58px]	object-cover"
+                          />
+                          {/* ) : ( */}
+                          {/* <img
                               id="previewImage"
                               src={defaultImage}
                               alt=""
                               className="w-[187px]	h-[58px]	object-cover"
                             />
-                          )}
+                          )} */}
                         </div>
                         <div className="">
                           <h6 className="font-normal text-base text-green">
