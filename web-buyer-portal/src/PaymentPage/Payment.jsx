@@ -82,8 +82,8 @@ const useOptions = () => {
 
 const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [isBecs, setIsBecs] = useState(false);
+  
   const [selectedPaymentTerm, setSelectedPaymentTerm] = useState("");
-
   const text = <span>Edit</span>;
 
   const buttonWidth = 78;

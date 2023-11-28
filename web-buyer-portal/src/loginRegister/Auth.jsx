@@ -15,7 +15,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (email) {
-      navigate("/home/main");
+      navigate("/home");
     }
   }, []);
 

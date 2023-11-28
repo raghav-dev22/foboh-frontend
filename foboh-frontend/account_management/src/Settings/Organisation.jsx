@@ -201,7 +201,7 @@ function Organisation() {
               liquorLicense: values.liquorLicence,
               abn: values.abn,
               categories: "",
-              organisationlogo: logoUri,
+              organisationlogo: logoUri ? logoUri : "",
               description: values.description,
               orderingContactFirstName: values.orderingContactFirstName,
               orderingContactLastName: values.orderingContactLastName,

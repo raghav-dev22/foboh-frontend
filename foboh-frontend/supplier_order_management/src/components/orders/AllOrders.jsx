@@ -13,6 +13,7 @@ import { getCityStates } from "../../helpers/getCityStates";
 import { formatDateAfterRelativeDate } from "../../helpers/dateFormatter";
 import { formatDate } from "../../helpers/dateFormate";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "../../helpers/formatPrice";
 
 let filterAndSort = {
   filter: {
@@ -202,7 +203,7 @@ const AllOrders = () => {
       ),
       Amount: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
-          ${item?.payAmountLong}
+          {formatPrice(item?.payAmountLong)}
         </p>
       ),
       LastUpdated: (
@@ -289,7 +290,17 @@ const AllOrders = () => {
 
   const onShowSizeChange = (current, pageSize) => {
     console.log("page", current, pageSize);
+
+    const newFilter = {
+      ...filterAndSort.filter,
+      page: current.current,
+    };
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+    };
     setPage(current.current);
+    processChange("filterAndSort");
   };
 
   useEffect(() => {

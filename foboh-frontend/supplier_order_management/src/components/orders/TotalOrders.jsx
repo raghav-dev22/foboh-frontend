@@ -4,6 +4,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useEffect } from "react";
 import { getAllOrderDetails } from "../../helpers/dashbordApiModule";
 import { useState } from "react";
+import { formatPrice } from "../../helpers/formatPrice";
 
 const TotalOrders = () => {
   const [totalOrders, setTotalOrders] = useState();
@@ -105,7 +106,9 @@ const TotalOrders = () => {
           <div className="w-full py-3 px-4 ">
             <h5 className="text-lg font-bold text-[#212B36]">
               {" "}
-              ${allOrders?.paidOrders}
+              {allOrders?.paidOrders
+                ? formatPrice(allOrders?.paidOrders)
+                : "$00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Paid Orders</p>
@@ -130,7 +133,9 @@ const TotalOrders = () => {
           </div>
           <div className="w-full py-3 px-4">
             <h5 className="text-lg font-bold text-[#212B36]">
-              ${allOrders?.unpaidOrders}
+              {allOrders?.unpaidOrders
+                ? formatPrice(allOrders?.unpaidOrders)
+                : "$00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">

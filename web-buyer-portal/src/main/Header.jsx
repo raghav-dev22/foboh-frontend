@@ -156,7 +156,7 @@ function Header() {
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div onClick={() => navigate("/home/main")}>
+        <div onClick={() => navigate("/home")}>
           {organisation?.organisationlogo ? (
             <img
               className="h-[50px] w-[100px] cursor-pointer object-cover"

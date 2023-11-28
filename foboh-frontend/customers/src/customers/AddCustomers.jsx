@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { PaginationCustomer } from "./PaginationCustomer";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
+import { formatPrice } from "../helper/formatPrice";
 const TABLE_HEAD = [
   "Business name",
   "Ordering contact",
@@ -301,7 +302,7 @@ function AddCustomers() {
                             </td>
                             <td className={classes}>
                               <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                ${product?.totalspendAmount}
+                                {formatPrice(product?.totalspendAmount)}
                               </Typography>
                             </td>
                             {/* </Skeleton> */}

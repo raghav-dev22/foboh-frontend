@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { getTilesData } from "../reactQuery/dashboardApiModule";
+import { formatPrice } from "../helpers/formatPrice";
 
 function StockDetails() {
   const [order, setOrder] = useState(0);
@@ -34,7 +35,9 @@ function StockDetails() {
 
   const stockBox = [
     {
-      title: `$${tilesData?.totalRevenue}`,
+      title: tilesData?.totalRevenue
+        ? `${formatPrice(tilesData?.totalRevenue)}`
+        : `$00.00`,
 
       description: "Total Revenue this month",
 
@@ -45,7 +48,11 @@ function StockDetails() {
               ? { color: "#45CB85" }
               : { color: "#DC3545" }
           }
-        >{`${tilesData?.totalRevenuePercentage.toFixed(2)}%`}</span>
+        >
+          {tilesData?.totalRevenuePercentage
+            ? `${tilesData?.totalRevenuePercentage.toFixed(2)}%`
+            : "0.00%"}
+        </span>
       ),
 
       Image: <AttachMoneyIcon style={{ fill: "#147D73" }} />,
@@ -59,7 +66,9 @@ function StockDetails() {
     },
 
     {
-      title: `$${tilesData?.totalProfit}`,
+      title: tilesData?.totalProfit
+        ? `${formatPrice(tilesData?.totalProfit)}`
+        : `$00.00`,
 
       description: "Gross Profit this month",
 
@@ -70,7 +79,11 @@ function StockDetails() {
               ? { color: "#45CB85" }
               : { color: "#DC3545" }
           }
-        >{`${tilesData?.totalProfitPercentage.toFixed(2)}%`}</span>
+        >
+          {tilesData?.totalProfitPercentage
+            ? `${tilesData?.totalProfitPercentage.toFixed(2)}%`
+            : "0.00%"}
+        </span>
       ),
 
       Image: <SignalCellularAltIcon style={{ fill: "#147D73" }} />,
@@ -84,7 +97,7 @@ function StockDetails() {
     },
 
     {
-      title: tilesData?.noOfOrders,
+      title: tilesData?.noOfOrders ? tilesData?.noOfOrders : 0,
 
       description: "Total Orders this month",
 
@@ -95,7 +108,11 @@ function StockDetails() {
               ? { color: "#45CB85" }
               : { color: "#DC3545" }
           }
-        >{`${tilesData?.noOfOrdersPercentage.toFixed(2)}%`}</span>
+        >
+          {tilesData?.noOfOrdersPercentage
+            ? `${tilesData?.noOfOrdersPercentage.toFixed(2)}%`
+            : "0.00%"}
+        </span>
       ),
 
       Image: <ShoppingCartOutlinedIcon style={{ fill: "#147D73" }} />,
@@ -109,11 +126,15 @@ function StockDetails() {
     },
 
     {
-      title: customer,
+      title: customer ? customer : "0",
 
       description: "Active customers",
 
-      value: <span style={{ color: "#DC3545" }}>{customerPercentage}</span>,
+      value: (
+        <span style={{ color: "#DC3545" }}>
+          {customerPercentage ? customerPercentage : "0.00%"}
+        </span>
+      ),
 
       Image: <PeopleAltOutlinedIcon style={{ fill: "#147D73" }} />,
 
