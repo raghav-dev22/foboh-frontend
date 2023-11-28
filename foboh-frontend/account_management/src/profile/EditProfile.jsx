@@ -8,7 +8,7 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const user = useSelector((state) => state.user);
   const [file, setFile] = useState([]);
   const [showError, setShowError] = useState();
-  const defaultImage = "/assets/update-user.png";
+  const defaultImage = "/assets/default-user.png";
   const fileInputRef = useRef();
   const authUrl = process.env.REACT_APP_AUTH_URL;
   const [saveClicked, setSaveClicked] = useState(false);
@@ -113,7 +113,7 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
                 id="previewImage"
                 src={imageSrc || defaultImage}
                 alt=""
-                className="w-14	h-14	object-cover	rounded-full"
+                className="w-14	h-14	object-contain	rounded-full"
               />
             </div>
             <div className="">

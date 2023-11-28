@@ -735,11 +735,11 @@ const MyOrders = () => {
                   <div className=" z-10 left-0 px-3 h-[180px]  w-max custom-product-dropdown  absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                     <ul className="dropdown-content ">
                       <li className="py-1 flex gap-1  green-checkbox">
-                        <div className="flex justify-between items-center  my-2">
+                        <div className="flex justify-start items-center  my-2">
                           <h5 className="text-base font-medium text-[#2B4447]">
                             Date
                           </h5>
-                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                          {/* <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} /> */}
                         </div>
                       </li>
                       <li className="py-1 flex gap-1  green-checkbox ">
@@ -780,12 +780,12 @@ const MyOrders = () => {
                         </label>
                       </li>
                       <li className="py-1 flex gap-1  green-checkbox">
-                        <div className="flex justify-between items-center  my-2">
+                        <div className="flex justify-start items-center  my-2">
                           <h5 className="text-base font-medium text-[#2B4447]">
                             Total
                           </h5>
 
-                          <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} />
+                          {/* <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} /> */}
                         </div>
                       </li>
                       <li className="py-1 flex gap-1  green-checkbox">

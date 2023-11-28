@@ -78,7 +78,7 @@ function Range() {
 
   const [isSearchResult, setisSearchResult] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
-
+  console.log(selectedProducts.length, "products===========>");
   const saveProduct = () => {
     messageApi.open({
       content: (
@@ -224,7 +224,7 @@ function Range() {
 
     setSelectedProducts(updatedSelectedProducts);
 
-    setIsBulkEdit(updatedSelectedProducts.length > 1);
+    setIsBulkEdit(updatedSelectedProducts.length > 0);
 
     console.log("selected products >>", selectedProducts);
 
@@ -255,7 +255,6 @@ function Range() {
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify(
           selectedProducts.map((product) => {
             return {
@@ -633,7 +632,7 @@ function Range() {
                 className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
               >
                 <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium">
-                  Bulk edit{" "}
+                  Bulk edit
                 </h6>
               </button>
 
@@ -642,7 +641,7 @@ function Range() {
                 className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
               >
                 <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                  Set as Visible{" "}
+                  Set as Visible
                 </h6>
               </button>
 
@@ -651,7 +650,7 @@ function Range() {
                 className="rounded-md bg-custom-skyBlue py-2.5  px-7  "
               >
                 <h6 className="text-white md:font-semibold md:text-base  text-sm font-medium ">
-                  Set as Hidden{" "}
+                  Set as Hidden
                 </h6>
               </button>
 
@@ -673,6 +672,7 @@ function Range() {
 
         <Visible
           handleBulkVisibility={handleBulkVisibility}
+          totalProducts={selectedProducts.length}
           open={deleteModalOpen}
           onOk={() => {
             setDeleteModalOpen(false);
@@ -683,6 +683,7 @@ function Range() {
         />
 
         <HiddenModal
+          totalProducts={selectedProducts.length}
           handleBulkVisibility={handleBulkVisibility}
           open={hiddenModalOpen}
           onOk={() => {

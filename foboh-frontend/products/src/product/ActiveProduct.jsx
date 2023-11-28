@@ -18,10 +18,10 @@ function ActiveProduct({ totalProducts, selectedProductsLength, productId }) {
         </div>
         <div className=" flex-wrap	 flex judstify-center items-center gap-2">
           <ImportProductBtn />
-          <EditProductBtn
+          {/* <EditProductBtn
             selectedProductsLength={selectedProductsLength}
             productId={productId}
-          />
+          /> */}
           <AddProductBtn />
         </div>
       </div>

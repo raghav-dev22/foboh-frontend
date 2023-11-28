@@ -771,7 +771,11 @@ function AddProduct() {
     },
   }));
   const [deleteModal, setDeleteModal] = useState(false);
-
+  const maxCharacters = 1000;
+  const remainingCharacters = Math.max(
+    0,
+    maxCharacters - (values.description || "").length
+  );
   return (
     <>
       <div className="padding-top-custom">
@@ -1667,6 +1671,10 @@ function AddProduct() {
                         value={values.description}
                         onChange={handleChange}
                       />
+                      <p className="mt-2 mb-2 text-gray-500 text-xs font-normal">
+                        {remainingCharacters} character
+                        {remainingCharacters !== 1 ? "s" : ""} left
+                      </p>
                       {errors.description && touched.description && (
                         <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
                           {errors.description}
@@ -1677,7 +1685,7 @@ function AddProduct() {
                   <div className="flex flex-nowrap -mx-3 mb-5">
                     <div className="w-full px-3">
                       <label
-                        className="block  tracking-wide text-gray-700 text-base font-medium "
+                        className="block  tracking-wide text-gray-700 text-base font-medium  mb-2"
                         htmlFor="tags"
                       >
                         Tags (optional)

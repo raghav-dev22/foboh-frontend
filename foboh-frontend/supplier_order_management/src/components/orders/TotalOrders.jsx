@@ -51,13 +51,12 @@ const TotalOrders = () => {
           <div className="absolute top-[11px] left-[50%] bg-[#E7E7E7] h-[80%] w-[1px]"></div>
           <div className="w-full py-3 px-4 ">
             <h5 className="text-lg font-bold text-[#212B36]">
-              {allOrders?.totalOrders}
+              ${allOrders?.totalOrders}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Total Orders</p>
               <div className="flex justify-center items-center gap-2 ">
                 <p className="text-sm font-medium text-[#009900]">
-                  {" "}
                   {allOrders?.totalOrdersPercentage}%
                 </p>
                 {totalOrders > 0 ? (
@@ -76,13 +75,12 @@ const TotalOrders = () => {
           </div>
           <div className="w-full py-3 px-4">
             <h5 className="text-lg font-bold text-[#212B36]">
-              {allOrders?.openOrders}
+              ${allOrders?.openOrders}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Open Orders</p>
               <div className="flex justify-center items-center gap-2">
                 <p className="text-sm font-medium">
-                  {" "}
                   {allOrders?.openOrdersPercentage}%
                 </p>
 
@@ -114,7 +112,6 @@ const TotalOrders = () => {
               <p className="text-sm font-medium text-[#637381]">Paid Orders</p>
               <div className="flex justify-center items-center gap-2 ">
                 <p className="text-sm font-medium text-[#009900]">
-                  {" "}
                   {allOrders?.paidOrdersPercentage}%
                 </p>
                 {paidOrders > 0 ? (
