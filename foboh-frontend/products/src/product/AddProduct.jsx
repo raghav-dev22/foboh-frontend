@@ -91,7 +91,7 @@ function AddProduct() {
   const [country, setCountry] = useState([]);
   const [baseUnitMeasure, setBaseUnitMeasure] = useState([]);
   const [innerUnitMeasure, setInnerUnitMeasure] = useState([]);
-
+  console.log(country, "country==================");
   const {
     values,
     errors,
@@ -715,14 +715,16 @@ function AddProduct() {
       .then((response) => response.json())
       .then((data) => {
         console.log("country -->", data.data);
-        setCountry(
-          data.data.map((item) => {
+
+        const sortedCountry = data.data
+          .map((item) => {
             return {
               value: item.countryID,
               label: item.countryName,
             };
           })
-        );
+          .sort((a, b) => a.label.localeCompare(b.label));
+        setCountry(sortedCountry);
       })
       .catch((error) => console.log(error));
 
@@ -733,14 +735,22 @@ function AddProduct() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Region -->", data);
-        setRegion(
-          data.map((item) => {
-            return {
-              value: item.regionId,
-              label: item.regionName,
-            };
-          })
-        );
+        // setRegion(
+        //   data.map((item) => {
+        //     return {
+        //       value: item.regionId,
+        //       label: item.regionName,
+        //     };
+        //   })
+        // );
+        const sortedRegion = data
+          .map((item) => ({
+            value: item.regionId,
+            label: item.regionName,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
+
+        setRegion(sortedRegion);
       })
       .catch((error) => console.log(error));
   }, []);

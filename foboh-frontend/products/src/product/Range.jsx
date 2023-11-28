@@ -224,7 +224,7 @@ function Range() {
 
     setSelectedProducts(updatedSelectedProducts);
 
-    setIsBulkEdit(updatedSelectedProducts.length > 0);
+    setIsBulkEdit(updatedSelectedProducts.length > 1);
 
     console.log("selected products >>", selectedProducts);
 
