@@ -23,47 +23,47 @@ const CustomerBillingStatement = ({
           <div className="mb-4">
             <label
               className="block text-[#2B4447] text-base font-medium mb-2"
-              htmlFor="username"
+              htmlFor="billingStatementdescriptor"
             >
               Statement descriptor
             </label>
             <input
               className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
+              id="billingStatementdescriptor"
               type="text"
               placeholder="Enter statement descriptor"
-              name="StatementDescriptor"
+              name="billingStatementdescriptor"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.StatementDescriptor}
             />
-            {errors.StatementDescriptor && touched.StatementDescriptor && (
+            {errors.billingStatementdescriptor && touched.billingStatementdescriptor && (
               <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                {errors.StatementDescriptor}
+                {errors.billingStatementdescriptor}
               </p>
             )}
           </div>
           <div className="mb-4">
             <label
               className="block text-[#2B4447] text-base font-medium mb-2"
-              htmlFor="username"
+              htmlFor="billingStatementMobile"
             >
               Mobile number
             </label>
             <input
               className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="PhoneNumber"
+              id="billingStatementMobile"
               type="text"
-              name="PhoneNumber"
+              name="billingStatementMobile"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.PhoneNumber}
+              value={values.billingStatementMobile}
               placeholder="04XX XXX XXX / +61 4XX XXX XXX
                       "
             />
-            {errors.PhoneNumber && touched.PhoneNumber && (
+            {errors.billingStatementMobile && touched.billingStatementMobile && (
               <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                {errors.PhoneNumber}
+                {errors.billingStatementMobile}
               </p>
             )}
           </div>

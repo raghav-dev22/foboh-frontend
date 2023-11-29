@@ -182,9 +182,13 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     return calculationResult;
   }, [cartData]);
 
+  const localDefaultPaymentMethod = buyer.defaultPaymentMethod.trim();
+
   useEffect(() => {
     setSelectedPaymentTerm(
-      defaultPaymentTerm === "prepaid" ? "Pay Now" : "Pay Later"
+      localDefaultPaymentMethod === "Credit Card/Debit Card"
+        ? "Pay Now"
+        : "Pay Later"
     );
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
     getBuyerValues(buyerId)
@@ -245,7 +249,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           }
         });
         getAddress("delivery-contact").then((data) => {
-          const buyerData = data?.data[0];
+          const buyerData =
+            data?.data?.length && data?.data?.length > 0 && data?.data[0];
           if (data.success) {
             const contactData = {
               FirstName: buyerData?.firstname,
@@ -299,7 +304,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
       return;
     }
 
-    if (selectedPaymentTerm === "Pay Now") {
+    if (localDefaultPaymentMethod === "Credit Card/Debit Card") {
       // Stripe for credit/debit
       const payload = await stripe.createPaymentMethod({
         type: "card",
@@ -452,7 +457,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             cartStatusUpdate();
             orderStatusUpdate();
             countDown("payLater", convertedPaymentDueDate);
-
             // Show a confirmation message to your customer.
             // The PaymentIntent is in the 'processing' state.
             // BECS Direct Debit is a delayed notification payment
@@ -705,7 +709,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                 activeKey={activeKey}
                 onChange={handleTabChange}
               >
-                {buyer.defaultPaymentTerm[0] === "prepaid" ? (
+                {localDefaultPaymentMethod === "Credit Card/Debit Card" ? (
                   <TabPane
                     tab={
                       <div
@@ -714,7 +718,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                           setIsChecked(true);
                           setCardDetails(true);
                         }}
-                        className={`  rounded-md w-[175px] py-[18px]`}
+                        className={`rounded-md w-[175px] py-[18px]`}
                         style={{
                           background:
                             activeKey === "2" ? token.bannerThemeColor : "#fff",

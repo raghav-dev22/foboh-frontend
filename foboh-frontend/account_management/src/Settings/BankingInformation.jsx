@@ -14,7 +14,11 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
 
-import { useElements, AuBankAccountElement } from "@stripe/react-stripe-js";
+import {
+  useElements,
+  AuBankAccountElement,
+  useStripe,
+} from "@stripe/react-stripe-js";
 import BusinessDetails from "./BusinessDetails";
 import RepresentativeInformation from "./RepresentativeInformation";
 import BankingInfoForm from "./BankingInfoForm";
@@ -45,6 +49,7 @@ const BankingInformation = () => {
   const [stateOptions, setStateOptions] = useState([]);
   const [businessType, setBusinessType] = useState([]);
   const elements = useElements();
+  const stripe = useStripe();
 
   const [initialValues, setInitialValues] = useState({
     businessType: "",
@@ -68,8 +73,8 @@ const BankingInformation = () => {
     representativeInformationMobile: "",
     representativeInformationEmail: "",
     representativeInformationOwnership: "",
-    bankingInformationBsb: "",
-    bankingInformationAccountNumber: "",
+    bankingInformationBsb: "", // Won't be saving any information
+    bankingInformationAccountNumber: "", // Won't be saving any information
     bankingInformationBankName: "",
     billingStatementdescriptor: "",
     billingStatementMobile: "",
@@ -188,9 +193,11 @@ const BankingInformation = () => {
     setValues(setupBankingValues);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const auBankAccount = elements.getElement(AuBankAccountElement);
     console.log("auBankAccount", auBankAccount);
+
+    
 
     return true;
 
@@ -345,6 +352,7 @@ const BankingInformation = () => {
           </div>
           <div className="w-full  gap-5  overflow-y-scroll	lg:flex">
             <BankingInfoForm
+              setValues={setValues}
               formChange={formChange}
               handleChange={handleChange}
               handleBlur={handleBlur}

@@ -1,5 +1,5 @@
 import React from "react";
-import { AuBankAccountElement } from "@stripe/react-stripe-js";
+import { AuBankAccountElement, useElements } from "@stripe/react-stripe-js";
 import { useState } from "react";
 
 const BankingInfoForm = ({
@@ -9,9 +9,13 @@ const BankingInfoForm = ({
   values,
   touched,
   errors,
+  setValues,
 }) => {
   const [cardErrors, setCardErrors] = useState({});
   const [bankName, setBankName] = useState("");
+
+  const element = document.getElementById("AuBankAccountElement~root");
+  console.log("au ele", element);
 
   const AU_BANK_ACCOUNT_STYLE = {
     base: {
@@ -33,14 +37,17 @@ const BankingInfoForm = ({
     },
   };
 
+  const val = document.getElementsByClassName("InputElement is-complete Input");
+
+  console.log(val);
+
   const AU_BANK_ACCOUNT_ELEMENT_OPTIONS = {
     style: AU_BANK_ACCOUNT_STYLE,
     disabled: false,
-    hideIcon: false,
+    hideIcon: true,
+
     iconStyle: "default", // or "solid"
   };
-
-  
 
   return (
     <div className="border w-full border-[#E7E7E7] rounded-md  bg-white ">
@@ -55,6 +62,7 @@ const BankingInfoForm = ({
       <div className="py-6 px-6">
         <form action="" onChange={formChange}>
           <AuBankAccountElement
+            id="AuBankAccountElement"
             options={AU_BANK_ACCOUNT_ELEMENT_OPTIONS}
             onChange={(event) => {
               setCardErrors({
@@ -62,6 +70,12 @@ const BankingInfoForm = ({
                 [event.elementType]: event.error,
               });
               setBankName(event.bankName);
+              setValues((prev) => {
+                return {
+                  ...prev,
+                  bankingInformationBankName: event.bankName,
+                };
+              });
               console.log("CardNumberElement [change]", event);
             }}
           />
