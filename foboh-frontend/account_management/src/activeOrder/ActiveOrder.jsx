@@ -87,7 +87,7 @@ function ActiveOrder({ mutate }) {
               />
               <CloseRoundedIcon
                 onClick={handleCustomClear}
-                className="clear-icon absolute top-[21%] right-[12px]  "
+                className="clear-icon absolute top-[21%] right-[12px]  cursor-pointer "
                 style={{
                   fill: "#d9d9d9",
                   width: "18px",

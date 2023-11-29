@@ -51,7 +51,9 @@ const TotalOrders = () => {
           <div className="absolute top-[11px] left-[50%] bg-[#E7E7E7] h-[80%] w-[1px]"></div>
           <div className="w-full py-3 px-4 ">
             <h5 className="text-lg font-bold text-[#212B36]">
-              ${allOrders?.totalOrders}
+              {allOrders?.totalOrders
+                ? formatPrice(allOrders?.totalOrders)
+                : "00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Total Orders</p>
@@ -75,7 +77,9 @@ const TotalOrders = () => {
           </div>
           <div className="w-full py-3 px-4">
             <h5 className="text-lg font-bold text-[#212B36]">
-              ${allOrders?.openOrders}
+              {allOrders?.openOrders
+                ? formatPrice(allOrders?.openOrders)
+                : "00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Open Orders</p>
@@ -103,10 +107,9 @@ const TotalOrders = () => {
           <div className="absolute top-[11px] left-[50%] bg-[#E7E7E7] h-[80%] w-[1px]"></div>
           <div className="w-full py-3 px-4 ">
             <h5 className="text-lg font-bold text-[#212B36]">
-              {" "}
               {allOrders?.paidOrders
                 ? formatPrice(allOrders?.paidOrders)
-                : "$00.00"}
+                : "00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Paid Orders</p>
@@ -132,7 +135,7 @@ const TotalOrders = () => {
             <h5 className="text-lg font-bold text-[#212B36]">
               {allOrders?.unpaidOrders
                 ? formatPrice(allOrders?.unpaidOrders)
-                : "$00.00"}
+                : "00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">
