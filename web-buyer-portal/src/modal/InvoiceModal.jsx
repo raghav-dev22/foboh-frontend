@@ -19,8 +19,6 @@ const InvoiceModal = forwardRef(
     const { useToken } = theme;
     const { token } = useToken();
     const cancelButtonRef = useRef(null);
-    console.log(invoiceData, "ccccccccccccccc");
-    console.log("invoiceDataProducts", invoiceDataProducts);
 
     useImperativeHandle(ref, () => ({
       handlePrint(orderId) {

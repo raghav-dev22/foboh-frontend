@@ -56,7 +56,7 @@ const BankingInformation = () => {
     businessDetailsSuburb: "",
     businessDetailsPostcode: "",
     businessDetailsState: "",
-    businessDetailsCountry: "",
+    businessDetailsCountry: "Australia",
     businessWebsiteUrl: "",
     representativeInformationFirstName: "",
     representativeInformationLastName: "",
@@ -92,6 +92,8 @@ const BankingInformation = () => {
       console.log(values, "kkk");
     },
   });
+
+  console.log("values", values);
 
   const DetilsUpdated = () => {
     messageApi.open({
@@ -162,7 +164,7 @@ const BankingInformation = () => {
       businessDetailsSuburb: "",
       businessDetailsPostcode: "",
       businessDetailsState: "",
-      businessDetailsCountry: "",
+      businessDetailsCountry: "Australia",
       businessWebsiteUrl: "",
       representativeInformationFirstName: "",
       representativeInformationLastName: "",

@@ -13,9 +13,9 @@ function MenuIcon() {
         <path
           d="M8.88 17.2797H20.88M2.88 12.4797H20.88M2.88 7.67969H14.88"
           stroke="#637381"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </>

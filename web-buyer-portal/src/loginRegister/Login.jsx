@@ -46,7 +46,6 @@ function Login() {
           .then((response) => response.json())
           .then((data) => {
             setIsLoading(false);
-            console.log("Buyer response", data);
             if (data.success) {
               localStorage.setItem("buyerInfo", JSON.stringify(data.data));
               localStorage.setItem("email", data.data.deliveryEmail);

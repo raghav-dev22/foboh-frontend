@@ -16,13 +16,9 @@ function ShopSection() {
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllBySubcategory?OrganisationId=${organisationId}`;
     fetch(apiUrl)
       .then((response) => {
-        // if (!response.ok) {
-        //   throw new Error("Network response was not ok");
-        // }
         return response.json();
       })
       .then((data) => {
-        console.log(data.data, "products data1111");
         const limitedProducts = data.data.slice(0, 8);
         setProducts(limitedProducts);
       })
@@ -51,10 +47,9 @@ function ShopSection() {
               className="carousel"
               autoplay={3000}
             >
-              {products.map((product) => {
-                console.log(products, "products------------->");
+              {products.map((product, idx) => {
                 return (
-                  <Carousel.Item>
+                  <Carousel.Item key={`${idx}`}>
                     <div className=" ">
                       <img
                         className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"

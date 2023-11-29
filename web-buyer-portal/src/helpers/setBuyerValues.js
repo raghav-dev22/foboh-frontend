@@ -1,5 +1,4 @@
 export const setBuyerValues = (buyer, dispatch, updateField) => {
-  console.log("buyer", buyer);
   dispatch(
     updateField({
       name: buyer?.businessName,

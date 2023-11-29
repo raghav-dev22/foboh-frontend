@@ -1,11 +1,7 @@
-import Login from "./loginRegister/Login";
-
-import CreateAccount from "./CreateAccount/CreateAccount";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
   Navigate,
 } from "react-router-dom";
 import Signup from "./loginRegister/Signup";
@@ -13,10 +9,8 @@ import { Provider } from "react-redux";
 
 import HomePage from "./HomePage/HomePage";
 import store from "./store/Store";
-import MainHomePage from "./HomePage/MainHomePage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Auth from "./loginRegister/Auth";
-import { theme } from "antd";
 import { ConfigProvider } from "antd";
 import OrderDetails from "./Order/OrderDetails";
 import MyOrders from "./Order/MyOrders";
@@ -25,7 +19,6 @@ import InvoiceExcludingWET from "./invoice/InvoiceExcludingWET";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
-  const { getDesignToken, useToken } = theme;
   const [config, setConfig] = useState({});
 
   const queryClient = new QueryClient();

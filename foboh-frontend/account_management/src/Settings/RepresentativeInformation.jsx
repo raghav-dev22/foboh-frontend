@@ -1,6 +1,12 @@
 import React from "react";
 import { Select } from "antd";
 
+const checkboxList = [
+  "I own more than 25% of the company",
+  "I am a member of the governing board of the company",
+  "I am a company executive.",
+];
+
 const RepresentativeInformation = ({
   values,
   handleChange,
@@ -23,88 +29,48 @@ const RepresentativeInformation = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="firstName"
+                htmlFor="representativeInformationFirstName"
               >
                 First name
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="firstName"
+                id="representativeInformationFirstName"
                 type="text"
-                name="firstName"
+                name="representativeInformationFirstName"
                 placeholder="Enter first name"
-                value={values.firstName}
+                value={values.representativeInformationFirstName}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.firstName && touched.firstName && (
-                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.firstName}
-                </p>
-              )}
+              {errors.representativeInformationFirstName &&
+                touched.representativeInformationFirstName && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                    {errors.representativeInformationFirstName}
+                  </p>
+                )}
             </div>
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="lastName"
+                htmlFor="representativeInformationLastName"
               >
                 Last name
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="lastName"
+                id="representativeInformationLastName"
                 type="text"
-                name="lastName"
+                name="representativeInformationLastName"
                 placeholder="Enter last name"
-                value={values.lastName}
+                value={values.representativeInformationLastName}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.lastName && touched.lastName && (
-                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.lastName}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-nowrap gap-2">
-            <div className="mb-4 w-full">
-              <label
-                className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="Dateofbirth"
-              >
-                Date of birth
-              </label>
-              <input
-                className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="Dateofbirth"
-                type="date"
-                name="DateOfBirth"
-                placeholder="dd/mm/yyyy"
-              />
-            </div>
-            <div className="mb-4 w-full">
-              <label
-                className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="RepresentativeAddress"
-              >
-                Address
-              </label>
-
-              <input
-                className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="RepresentativeAddress"
-                type="text"
-                placeholder="Enter address"
-                name="RepresentativeAddress"
-                value={values.RepresentativeAddress}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.RepresentativeAddress &&
-                touched.RepresentativeAddress && (
+              {errors.representativeInformationLastName &&
+                touched.representativeInformationLastName && (
                   <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                    {errors.RepresentativeAddress}
+                    {errors.representativeInformationLastName}
                   </p>
                 )}
             </div>
@@ -113,96 +79,142 @@ const RepresentativeInformation = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="Suburb"
+                htmlFor="representativeInformationDob"
               >
-                Suburb
+                Date of birth
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter suburb"
-                name="Suburb"
-                id="Suburb"
-                type="text"
-                value={values.Suburb}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                id="representativeInformationDob"
+                type="date"
+                name="representativeInformationDob"
+                placeholder="dd/mm/yyyy"
               />
-              {errors.Suburb && touched.Suburb && (
-                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.Suburb}
-                </p>
-              )}
             </div>
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="Postcode"
+                htmlFor="representativeInformationAddress"
               >
-                Postcode
+                Address
               </label>
+
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="Postcode"
+                id="representativeInformationAddress"
                 type="text"
-                placeholder="Enter postcode"
-                name="Postcode"
-                value={values.Postcode}
+                placeholder="Enter address"
+                name="representativeInformationAddress"
+                value={values.representativeInformationAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.Postcode && touched.Postcode && (
-                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.Postcode}
-                </p>
-              )}
+              {errors.representativeInformationAddress &&
+                touched.representativeInformationAddress && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                    {errors.representativeInformationAddress}
+                  </p>
+                )}
             </div>
           </div>
           <div className="flex flex-nowrap gap-2">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="State"
+                htmlFor="representativeInformationSuburb"
+              >
+                Suburb
+              </label>
+              <input
+                className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter suburb"
+                name="representativeInformationSuburb"
+                id="representativeInformationSuburb"
+                type="text"
+                value={values.representativeInformationSuburb}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.representativeInformationSuburb &&
+                touched.representativeInformationSuburb && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                    {errors.representativeInformationSuburb}
+                  </p>
+                )}
+            </div>
+            <div className="mb-4 w-full">
+              <label
+                className="block text-[#2B4447] text-base font-medium mb-2"
+                htmlFor="representativeInformationPostcode"
+              >
+                Postcode
+              </label>
+              <input
+                className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="representativeInformationPostcode"
+                type="text"
+                placeholder="Enter postcode"
+                name="representativeInformationPostcode"
+                value={values.representativeInformationPostcode}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.representativeInformationPostcode &&
+                touched.representativeInformationPostcode && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                    {errors.representativeInformationPostcode}
+                  </p>
+                )}
+            </div>
+          </div>
+          <div className="flex flex-nowrap gap-2">
+            <div className="mb-4 w-full">
+              <label
+                className="block text-[#2B4447] text-base font-medium mb-2"
+                htmlFor="representativeInformationState"
               >
                 State
               </label>
               <Select
                 className="mt-[3px]"
                 showSearch
-                name="State"
+                id="representativeInformationState"
+                name="representativeInformationState"
                 style={{ width: "100%", height: "48px" }}
                 placeholder="Search to Select"
                 options={stateOptions}
                 onChange={handleState}
                 onBlur={handleBlur}
-                value={values.State}
+                value={values.representativeInformationState}
               />
-              {errors.State && touched.State && (
-                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.State}
-                </p>
-              )}
+              {errors.representativeInformationState &&
+                touched.representativeInformationState && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                    {errors.representativeInformationState}
+                  </p>
+                )}
             </div>
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="RepresentativePhoneNumber"
+                htmlFor="representativeInformationMobile"
               >
                 Mobile number
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="RepresentativePhoneNumber"
+                id="representativeInformationMobile"
                 type="text"
                 placeholder="04XX XXX XXX / +61 4XX XXX XXX"
-                name="RepresentativePhoneNumber"
-                value={values.RepresentativePhoneNumber}
+                name="representativeInformationMobile"
+                value={values.representativeInformationMobile}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.RepresentativePhoneNumber &&
-                touched.RepresentativePhoneNumber && (
+              {errors.representativeInformationMobile &&
+                touched.representativeInformationMobile && (
                   <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                    {errors.RepresentativePhoneNumber}
+                    {errors.representativeInformationMobile}
                   </p>
                 )}
             </div>
@@ -210,78 +222,57 @@ const RepresentativeInformation = ({
           <div className="mb-4 w-full">
             <label
               className="block text-[#2B4447] text-base font-medium mb-2"
-              htmlFor="email"
+              htmlFor="representativeInformationEmail"
             >
               Email ID
             </label>
             <input
               className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
+              id="representativeInformationEmail"
               type="text"
               placeholder="Enter valid email ID"
-              name="email"
-              value={values.email}
+              name="representativeInformationEmail"
+              value={values.representativeInformationEmail}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {errors.email && touched.email && (
-              <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                {errors.email}
-              </p>
-            )}
+            {errors.representativeInformationEmail &&
+              touched.representativeInformationEmail && (
+                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                  {errors.representativeInformationEmail}
+                </p>
+              )}
           </div>
           <div className="flex flex-wrap gap-2">
-            <div className=" gap-2 w-full green-checkbox flex justify-start items-center">
-              <div className="w-4 h-4">
-                <input
-                  className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
-                  id="default-radio-1"
-                  type="checkbox"
-                  defaultValue=""
-                  name="default-radio"
-                />
-              </div>
-              <label
-                for="default-radio-1"
-                className="ml-2 text-lg font-normal text-[#2B4447] "
-              >
-                I own more than 25% of the company
-              </label>
-            </div>
-            <div className=" gap-2 w-full green-checkbox flex justify-start items-center ">
-              <div className="w-4 h-4">
-                <input
-                  id="default-radio-1"
-                  type="checkbox"
-                  name="default-radio"
-                  defaultValue=""
-                  className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
-                />
-              </div>
-              <label
-                for="default-radio-1"
-                className="ml-2 text-lg font-normal text-[#2B4447] "
-              >
-                I am a member of the governing board of the company
-              </label>
-            </div>
-            <div className=" gap-2 w-full green-checkbox flex justify-start items-center">
-              <div className="w-4 h-4">
-                <input
-                  className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
-                  id="default-radio-3"
-                  type="checkbox"
-                  defaultValue=""
-                  name="default-radio"
-                />
-              </div>
-              <label
-                for="default-radio-3"
-                className="ml-2 text-lg font-normal text-[#2B4447] "
-              >
-                I am a company executive.
-              </label>
-            </div>
+            {checkboxList.map((item) => {
+              return (
+                <div
+                  key={`${item}`}
+                  className=" gap-2 w-full green-checkbox flex justify-start items-center"
+                >
+                  <div className="w-4 h-4">
+                    
+                    <input
+                      className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
+                      id={item}
+                      type="radio"
+                      checked={
+                        values.representativeInformationOwnership === item
+                      }
+                      value={item}
+                      onClick={handleChange}
+                      name="representativeInformationOwnership"
+                    />
+                  </div>
+                  <label
+                    htmlFor={item}
+                    className="ml-2 text-lg font-normal text-[#2B4447] "
+                  >
+                    {item}
+                  </label>
+                </div>
+              );
+            })}
           </div>
         </form>
       </div>

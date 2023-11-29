@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Dialog } from "@headlessui/react";
@@ -6,11 +6,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import { remove, setCart } from "../slices/CartSlice";
-import { Button, Modal, Space } from "antd";
+import { setCart } from "../slices/CartSlice";
+import { Modal } from "antd";
 import { theme } from "antd";
 
-const Cart = ({ open, onClose, addCart }) => {
+const Cart = ({ open, onClose }) => {
   // const dispatch = useDispatch((item) => {
   //   dispatch(remove(item));
   // });

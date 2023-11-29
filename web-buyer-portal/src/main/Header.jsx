@@ -12,7 +12,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { add, setCart } from "../slices/CartSlice";
+import { setCart } from "../slices/CartSlice";
 import Cart from "../CartPage/Cart";
 import { useDispatch, useSelector } from "react-redux";
 import MobileSidebar from "./MobileSidebar";
@@ -23,7 +23,6 @@ function Header() {
   const cart = useSelector((items) => items.cart);
   const dispatch = useDispatch();
   const [showUser, setShowUser] = useState(false);
-  const [addCart, setAddCart] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -47,13 +46,11 @@ function Header() {
 
   useEffect(() => {
     const cartId = localStorage.getItem("cartId");
-
     fetch(`${url}/api/Product/getAddToCartByCartId?CartId=${cartId}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, "addcart");
 
         if (data.success) {
           const updatedCartList = data.data.map((item) => {
@@ -98,7 +95,6 @@ function Header() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Title search", data);
 
         if (data.success) {
           dispatch(
@@ -382,7 +378,6 @@ function Header() {
         />
         <Cart
           open={mobileCartOpen}
-          addCart={addCart}
           onClose={() => {
             setMobileCartOpen(false);
           }}

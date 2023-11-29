@@ -12,8 +12,6 @@ function Footer() {
   const { useToken } = theme;
   const { token } = useToken();
 
-  console.log("organisation", organisation);
-
   return (
     <>
       <div

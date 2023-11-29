@@ -66,8 +66,6 @@ let localFilterSort = {
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
 
-  console.log("url", url);
-
   const [loading, setLoading] = useState(true);
   const [countryList, setCountryList] = useState([]);
 
@@ -418,7 +416,6 @@ const ProductList = () => {
 
   useEffect(() => {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-    console.log("dfg", localStorage.getItem("buyerInfo"));
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}&OrganisationId=${organisationId}`;
 
     fetch(apiUrl)
@@ -455,9 +452,6 @@ const ProductList = () => {
       });
   }, [page]);
 
-  console.log(totalData, "alldata");
-
-  console.log(productData, "products data");
 
   const WineBtn = () => {
     setWine(!wine);
@@ -1787,6 +1781,7 @@ const ProductList = () => {
               <div className="grid md:grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  md:gap-4 gap-2   ">
                 {productData.map((item, index) => (
                   <Skeleton
+                    key={item?.product?.productId}
                     style={{ padding: "10px" }}
                     loading={loading}
                     active
@@ -1924,30 +1919,30 @@ const ProductList = () => {
                                     clip-rule="evenodd"
                                     d="M10.6641 15.1105H4.48791C2.21924 15.1105 0.478794 14.2912 0.973161 10.9931L1.5488 6.52349C1.85354 4.87785 2.90323 4.24805 3.82425 4.24805H11.3549C12.2895 4.24805 13.2782 4.92526 13.6304 6.52349L14.2059 10.9931C14.6258 13.9187 12.9329 15.1105 10.6641 15.1105Z"
                                     stroke="white"
-                                    stroke-width="1.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                   />
                                   <path
                                     d="M10.7659 4.08516C10.7659 2.31981 9.33475 0.8887 7.56937 0.8887C6.71927 0.885107 5.90276 1.22028 5.30038 1.82012C4.698 2.41996 4.35937 3.23506 4.35938 4.08516"
                                     stroke="white"
-                                    stroke-width="1.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                   />
                                   <path
                                     d="M9.76376 7.41846H9.72998"
                                     stroke="white"
-                                    stroke-width="1.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                   />
                                   <path
                                     d="M5.44988 7.41846H5.41602"
                                     stroke="white"
-                                    stroke-width="1.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                   />
                                 </g>
                                 <defs>

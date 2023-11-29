@@ -92,9 +92,6 @@ const OrderConfirmation = () => {
       })
       .then(() => {
         getAddress("delivery-address").then((data) => {
-          console.log("delivery-address", data);
-          console.log("statesData", statesData);
-
           if (data.success) {
             const buyerData = data?.data[0];
             const buyerState = statesData.find(

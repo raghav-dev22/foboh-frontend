@@ -6,11 +6,7 @@ import { useSelector } from "react-redux";
 
 const MainHomePage = () => {
   const buyer = useSelector((state) => state.buyer);
-
   useEffect(() => {}, []);
-
-  console.log("buyer", buyer);
-
   return (
     <>
       <Banner />

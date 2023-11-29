@@ -28,11 +28,12 @@ const BusinessDetails = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="businessType"
               >
                 Business type
               </label>
               <Select
+                id="businessType"
                 className="mt-[3px]"
                 showSearch
                 style={{
@@ -55,23 +56,23 @@ const BusinessDetails = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="legalBusinessName"
               >
                 Legal business name
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="LegalBusiness"
+                id="legalBusinessName"
                 type="text"
-                name="LegalBusiness"
+                name="legalBusinessName"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Enter business name"
-                value={values.LegalBusiness}
+                value={values.legalBusinessName}
               />
-              {errors.LegalBusiness && touched.LegalBusiness && (
+              {errors.legalBusinessName && touched.legalBusinessName && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.LegalBusiness}
+                  {errors.legalBusinessName}
                 </p>
               )}
             </div>
@@ -80,46 +81,46 @@ const BusinessDetails = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="acn"
               >
                 ACN
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="ACN"
+                id="acn"
                 type="text"
-                name="ACN"
+                name="acn"
                 placeholder="Enter ACN"
-                value={values.ACN}
+                value={values.acn}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.ACN && touched.ACN && (
+              {errors.acn && touched.acn && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.ACN}
+                  {errors.acn}
                 </p>
               )}
             </div>
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="abn"
               >
                 ABN
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="ABN"
+                id="abn"
                 type="text"
-                name="ABN"
+                name="ABabnN"
                 placeholder="Enter ABN"
-                value={values.ABN}
+                value={values.abn}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.ABN && touched.ABN && (
+              {errors.abn && touched.abn && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.ABN}
+                  {errors.abn}
                 </p>
               )}
             </div>
@@ -134,40 +135,40 @@ const BusinessDetails = ({
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
+                id="businessAddress"
                 type="text"
-                name="BusinessAddress"
+                name="businessAddress"
                 placeholder="Enter business address "
-                value={values.BusinessAddress}
+                value={values.businessAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.BusinessAddress && touched.BusinessAddress && (
+              {errors.businessAddress && touched.businessAddress && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.BusinessAddress}
+                  {errors.businessAddress}
                 </p>
               )}
             </div>
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="BusinessMobileNumber"
+                htmlFor="businessPhoneNumber"
               >
                 Business Phone Number
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="BusinessMobileNumber"
+                id="businessPhoneNumber"
                 type="text"
-                name="BusinessMobileNumber"
+                name="businessPhoneNumber"
                 placeholder="Enter phone number"
-                value={values.BusinessMobileNumber}
+                value={values.businessPhoneNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.BusinessMobileNumber && touched.BusinessMobileNumber && (
+              {errors.businessPhoneNumber && touched.businessPhoneNumber && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.BusinessMobileNumber}
+                  {errors.businessPhoneNumber}
                 </p>
               )}
             </div>
@@ -176,90 +177,93 @@ const BusinessDetails = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="businessDetailsSuburb"
               >
                 Suburb
               </label>
 
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="BusinessSuburb"
+                id="businessDetailsSuburb"
                 type="text"
-                name="BusinessSuburb"
+                name="businessDetailsSuburb"
                 placeholder="Enter suburb"
-                value={values.BusinessSuburb}
+                value={values.businessDetailsSuburb}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.BusinessSuburb && touched.BusinessSuburb && (
-                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.BusinessSuburb}
-                </p>
-              )}
+              {errors.businessDetailsSuburb &&
+                touched.businessDetailsSuburb && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                    {errors.businessDetailsSuburb}
+                  </p>
+                )}
             </div>
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="businessDetailsPostcode"
               >
                 Postcode
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
+                id="businessDetailsPostcode"
                 type="text"
                 placeholder="Enter postcode"
-                name="Postcode"
-                value={values.Postcode}
+                name="businessDetailsPostcode"
+                value={values.businessDetailsPostcode}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.Postcode && touched.Postcode && (
-                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.Postcode}
-                </p>
-              )}
+              {errors.businessDetailsPostcode &&
+                touched.businessDetailsPostcode && (
+                  <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                    {errors.businessDetailsPostcode}
+                  </p>
+                )}
             </div>
           </div>
           <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="businessDetailsState"
               >
                 State
               </label>
               <Select
                 className="mt-[3px]"
                 showSearch
-                name="State"
+                id="businessDetailsState"
+                name="businessDetailsState"
                 style={{ width: "100%", height: "48px" }}
                 placeholder="Search to Select"
                 options={stateOptions}
                 onChange={handleState}
                 onBlur={handleBlur}
-                value={values.State}
+                value={values.businessDetailsState}
               />
-              {errors.State && touched.State && (
+              {errors.businessDetailsState && touched.businessDetailsState && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.State}
+                  {errors.businessDetailsState}
                 </p>
               )}
             </div>
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="businessDetailsCountry"
               >
                 Country
               </label>
               <input
                 disabled
                 className="appearance-none  border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
+                id="businessDetailsCountry"
                 type="text"
                 placeholder="Australia "
-                value={values.Country}
+                value={values.businessDetailsCountry}
                 style={{ background: "#E0E0E0" }}
               />
             </div>
@@ -268,7 +272,7 @@ const BusinessDetails = ({
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
-                htmlFor="username"
+                htmlFor="businessWebsiteUrl"
               >
                 <CustomTooltip
                   placement="right"
@@ -287,17 +291,17 @@ const BusinessDetails = ({
               </label>
               <input
                 className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
+                id="businessWebsiteUrl"
                 type="text"
                 placeholder="Business website URL"
-                name="BusinessWebsiteURL"
-                value={values.BusinessWebsiteURL}
+                name="businessWebsiteUrl"
+                value={values.businessWebsiteUrl}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.BusinessWebsiteURL && touched.BusinessWebsiteURL && (
+              {errors.businessWebsiteUrl && touched.businessWebsiteUrl && (
                 <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                  {errors.BusinessWebsiteURL}
+                  {errors.businessWebsiteUrl}
                 </p>
               )}
             </div>

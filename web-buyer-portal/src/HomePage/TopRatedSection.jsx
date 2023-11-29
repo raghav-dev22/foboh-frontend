@@ -55,9 +55,9 @@ function TopRatedSection() {
         </div>
 
         <Carousel cols={4} rows={1} gap={10} mobileBreakpoint={575} loop>
-          {CartData.map((item, index) => {
+          {CartData.map((item, idx) => {
             return (
-              <Carousel.Item>
+              <Carousel.Item key={`${idx}`}>
                 <div className="border border-inherit rounded-lg">
                   <div className="relative">
                     <img

@@ -37,7 +37,7 @@ function HomePage({ setConfig }) {
     if (!email) {
       navigate("/auth/sign-in");
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -53,7 +53,6 @@ function HomePage({ setConfig }) {
         .then((response) => response.json())
         .then((data) => {
           setConfig({ token: data?.data[0]?.theme });
-          console.log(data?.data[0]?.theme, "all theme");
         })
         .catch((error) => console.log(error));
 
@@ -65,7 +64,6 @@ function HomePage({ setConfig }) {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("Organisation response", data);
           if (data.success && data?.data.length === 1) {
             const org = data?.data[0];
             dispatch(updateSetting(org));
@@ -123,13 +121,13 @@ function HomePage({ setConfig }) {
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/account*" element={<MyAccount />} />
+        <Route path="/account/*" element={<MyAccount />} />
         <Route path="/my-cart" element={<CartPage />} />
         <Route path="/product-name/:id" element={<ProductDetails />} />
         <Route path="/delivery-contact" element={<DeliveryEdit />} />
         <Route path="/business-details" element={<ProfileEdit />} />
         <Route path="/delivery" element={<Delivery />} />
-        <Route path="/payment-page*" element={<PaymentDetail />} />
+        <Route path="/payment-page/*" element={<PaymentDetail />} />
         <Route path="/order-history/:id" element={<OrderDetails />} />
       </Routes>
       <Footer />

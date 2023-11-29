@@ -11,8 +11,6 @@ function Banner() {
   const { useToken } = theme;
   const { token } = useToken();
 
-  console.log("buyer", token.bannerThemeColor);
-
   return (
     <>
       <div
