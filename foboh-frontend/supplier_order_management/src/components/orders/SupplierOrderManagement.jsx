@@ -13,7 +13,7 @@ const SupplierOrderManagement = () => {
         <CreateOrderHeader />
         <div className="">
           <TotalOrders />
-          <div className="py-5">
+          <div className="py-5 hidden">
             <h5 className=" mb-2 text-[#212B36] font-semibold text-[24px] leading-[30px]">
               Action required
             </h5>

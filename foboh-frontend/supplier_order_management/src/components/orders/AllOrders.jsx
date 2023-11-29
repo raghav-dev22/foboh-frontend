@@ -145,7 +145,7 @@ const AllOrders = () => {
         <h5 className="text-base font-medium text-[#2B4447]">Order Date</h5>
       ),
       dataIndex: "OrderDate",
-      width: 120,
+      width: 140,
     },
     {
       title: <h5 className="text-base font-medium text-[#2B4447]">Amount</h5>,
@@ -245,7 +245,7 @@ const AllOrders = () => {
                 return "#D5EEFF";
               }
               // Default background color if none of the conditions match
-              return "transparent";
+              return "#C9C9C9";
             })(),
           }}
         >
@@ -277,7 +277,7 @@ const AllOrders = () => {
                   return "#3498DB";
                 }
                 // Default background color if none of the conditions match
-                return "transparent";
+                return "#637381";
               })(),
             }}
           >

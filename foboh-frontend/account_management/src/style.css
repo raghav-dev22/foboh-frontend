@@ -1423,3 +1423,23 @@ a:hover {
 .custom .bhHnmT {
   margin: 0px !important;
 }
+.w-44 {
+  width: 176px !important;
+}
+.border-0 {
+  border: 0px !important;
+}
+.p-0 {
+  padding: 0 !important;
+}
+
+.basic-multi-select-2 .css-1u9des2-indicatorSeparator {
+  width: 0px !important;
+}
+.css-t3ipsp-control,
+.css-t3ipsp-control:hover,
+.basic-multi-select-2 .select__control {
+  border-width: 0px !important;
+
+  box-shadow: none !important;
+}

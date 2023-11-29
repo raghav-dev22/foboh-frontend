@@ -335,7 +335,7 @@ const ActionRequired = () => {
 
   return (
     <>
-      <div className="custom-collapse py-5">
+      <div className="custom-collapse py-5 hidden">
         <Space direction="vertical" className="w-full ">
           <Collapse
             // expandIcon={({ isActive }) => null}
