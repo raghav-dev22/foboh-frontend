@@ -205,6 +205,7 @@ const SearchProduct = forwardRef(
                 setisSearchResult(true);
                 setProducts(data.data);
                 setTotalPages(data.last_page);
+                setPageIndex(data.page);
               } else {
                 setisSearchResult(false);
                 setTotalPages(0);

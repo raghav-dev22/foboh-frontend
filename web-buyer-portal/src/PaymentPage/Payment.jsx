@@ -705,8 +705,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                 activeKey={activeKey}
                 onChange={handleTabChange}
               >
-                {/* {buyer.defaultPaymentTerm[0] === "prepaid" ? ( */}
-                {"prepaid" === "prepaid" ? (
+                {buyer.defaultPaymentTerm[0] === "prepaid" ? (
                   <TabPane
                     tab={
                       <div

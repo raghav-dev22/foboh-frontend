@@ -8,7 +8,6 @@ import { updateUserData } from "../Redux/Action/userSlice";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
-
 function PersonalDetails({
   profileUri,
   setShow,
@@ -19,6 +18,7 @@ function PersonalDetails({
   setSaveClicked,
 }) {
   const user = useSelector((state) => state.user);
+  const [initiaLogoUri, setInitiaLogoUri] = useState("");
   const dispatch = useDispatch();
   const authUrl = process.env.REACT_APP_AUTH_URL;
   const [initialValues, setInitialValues] = useState({
@@ -77,6 +77,8 @@ function PersonalDetails({
           imageUrl: data.data[0].imageUrl,
         });
         setImageSrc(data.data[0].imageUrl);
+        setInitiaLogoUri(data.data[0].imageUrl);
+        dispatch(updateUserData(data.data[0].imageUrl));
       })
       .catch((error) => console.log(error));
   }, []);
@@ -87,7 +89,8 @@ function PersonalDetails({
     setShow(false);
     setValues(initialValues);
     resetProfileImage(initialValues?.imageUrl);
-    setImageSrc(initialValues?.imageUrl);
+    setImageSrc(initiaLogoUri);
+    dispatch(updateUserData(initiaLogoUri));
   };
 
   const {
