@@ -44,7 +44,7 @@ const RouterComponent = ({ setConfig }) => {
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/invoice-including-wet" element={<InvoiceIncludingWET />} />
       <Route path="/invoice-excluding-wet" element={<InvoiceExcludingWET />} />
-      <Route path="/order-history/:id" element={<OrderDetails />} />
+      <Route path="/my-orders/order/:id" element={<OrderDetails />} />
       <Route path="/my-orders" element={<MyOrders />} />
       <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
     </Routes>

@@ -76,14 +76,38 @@ function HomePage({ setConfig }) {
   const location = useLocation();
 
   let pathname = "";
-
-  const pathSegments = location.pathname
+  const orderIdArr = location.pathname
     .split("/")
-    .filter((segment) => segment.trim() !== "")
-    .map((crum) => {
-      pathname += `/${crum}`;
-      const crumName =
+    .filter((segment) => segment.trim() !== "");
+  let pathArr = location.pathname
+    .split("/")
+    .filter((segment) => segment.trim() !== "");
+
+  pathArr.forEach((item) => {
+    if (item === "order") {
+      pathArr.pop();
+    }
+  });
+
+  const segments = pathArr.map((crum) => {
+    
+    let orderId = orderIdArr[orderIdArr.length - 1];
+
+    pathname += crum === "order" ? `/${crum}/${orderId}` : `/${crum}`;
+
+    let crumName;
+    if (crum === "order") {
+      orderId = orderIdArr[orderIdArr.length - 1];
+      crumName =
+        "order #".charAt(0).toUpperCase() +
+        `order #${orderId}`.slice(1).split("-").join(" ");
+    } else {
+      crumName =
         crum.charAt(0).toUpperCase() + crum.slice(1).split("-").join(" ");
+    }
+    if (crumName === orderId) {
+      return "";
+    } else {
       return {
         title: (
           <a href={pathname} className="text-[#637381]  font-normal  text-lg">
@@ -91,7 +115,8 @@ function HomePage({ setConfig }) {
           </a>
         ),
       };
-    });
+    }
+  });
 
   const { useToken } = theme;
   const { token } = useToken();
@@ -109,7 +134,7 @@ function HomePage({ setConfig }) {
       {location.pathname !== "/home" &&
         location.pathname !== "/home/order-confirm" && (
           <div className="md:w-4/5 w-full mx-auto md:px-0 px-6 md:flex gap-3 py-8 hidden">
-            <Breadcrumb items={pathSegments} />
+            <Breadcrumb items={segments} />
           </div>
         )}
       <Routes>
@@ -128,7 +153,7 @@ function HomePage({ setConfig }) {
         <Route path="/business-details" element={<ProfileEdit />} />
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/payment-page/*" element={<PaymentDetail />} />
-        <Route path="/order-history/:id" element={<OrderDetails />} />
+        <Route path="/my-orders/order/:id" element={<OrderDetails />} />
       </Routes>
       <Footer />
       <BottomToTop />
