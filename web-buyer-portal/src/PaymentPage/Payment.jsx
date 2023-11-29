@@ -82,7 +82,7 @@ const useOptions = () => {
 
 const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [isBecs, setIsBecs] = useState(false);
-  
+
   const [selectedPaymentTerm, setSelectedPaymentTerm] = useState("");
   const text = <span>Edit</span>;
 
@@ -703,66 +703,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                 activeKey={activeKey}
                 onChange={handleTabChange}
               >
-                {buyer.defaultPaymentTerm === "prepaid" ? (
-                  <TabPane
-                    tab={
-                      <>
-                        <div
-                          onClick={() => setSelectedPaymentTerm("Pay Later")}
-                          className={`  rounded-md w-[175px] py-[18px]`}
-                          style={{
-                            background:
-                              activeKey === "1"
-                                ? token.bannerThemeColor
-                                : "#fff",
-                            border: `1px solid ${
-                              activeKey === "1"
-                                ? token.commonThemeColor
-                                : "#E7E7E7"
-                            }
-                          `,
-                          }}
-                        >
-                          <h5
-                            className="text-[#2B4447] font-semibold text-base text-center mb-1"
-                            style={{
-                              color:
-                                activeKey === "1"
-                                  ? token.commonThemeColor
-                                  : "#2B4447",
-                            }}
-                          >
-                            Pay Later
-                          </h5>
-                          <p
-                            className="text-base text-[#637381] text-center"
-                            style={{
-                              color:
-                                activeKey === "1"
-                                  ? token.commonThemeColor
-                                  : "#637381",
-                            }}
-                          >
-                            {" "}
-                            Manual, BECS
-                          </p>
-                        </div>
-                      </>
-                    }
-                    key="1"
-                  >
-                    {
-                      <Becs
-                        setBankName={setBankName}
-                        setCardHolderName={setCardHolderName}
-                        cardHolderName={cardHolderName}
-                        setEmail={setEmail}
-                        email={email}
-                      />
-                    }
-                    {/* </div> */}
-                  </TabPane>
-                ) : (
+                {buyer.defaultPaymentMethod === "BECS (Direct Debit)" ? (
                   <TabPane
                     tab={
                       <div
@@ -1131,6 +1072,65 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                       </>
                     )} */}
                     </div>
+                  </TabPane>
+                ) : (
+                  <TabPane
+                    tab={
+                      <>
+                        <div
+                          onClick={() => setSelectedPaymentTerm("Pay Later")}
+                          className={`  rounded-md w-[175px] py-[18px]`}
+                          style={{
+                            background:
+                              activeKey === "1"
+                                ? token.bannerThemeColor
+                                : "#fff",
+                            border: `1px solid ${
+                              activeKey === "1"
+                                ? token.commonThemeColor
+                                : "#E7E7E7"
+                            }
+                          `,
+                          }}
+                        >
+                          <h5
+                            className="text-[#2B4447] font-semibold text-base text-center mb-1"
+                            style={{
+                              color:
+                                activeKey === "1"
+                                  ? token.commonThemeColor
+                                  : "#2B4447",
+                            }}
+                          >
+                            Pay Later
+                          </h5>
+                          <p
+                            className="text-base text-[#637381] text-center"
+                            style={{
+                              color:
+                                activeKey === "1"
+                                  ? token.commonThemeColor
+                                  : "#637381",
+                            }}
+                          >
+                            {" "}
+                            Manual, BECS
+                          </p>
+                        </div>
+                      </>
+                    }
+                    key="1"
+                  >
+                    {
+                      <Becs
+                        setBankName={setBankName}
+                        setCardHolderName={setCardHolderName}
+                        cardHolderName={cardHolderName}
+                        setEmail={setEmail}
+                        email={email}
+                      />
+                    }
+                    {/* </div> */}
                   </TabPane>
                 )}
               </Tabs>

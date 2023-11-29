@@ -101,7 +101,7 @@ function SearchCustomer({
   };
 
   const DropDownFirst = () => {
-    setFirst(!First);
+    setFirst(true);
     setSecond(false);
     setThird(false);
   };
@@ -207,6 +207,7 @@ function SearchCustomer({
         .then((data) => {
           if (data?.data?.length > 0) {
             setTotalPages(data.last_page);
+            setPageIndex(data.last_page);
             console.log("filter customer table", data.data);
             setProducts(data.data);
             setSearch(data.data.length);
@@ -229,7 +230,7 @@ function SearchCustomer({
         .then((respose) => respose.json())
         .then((data) => {
           if (search) {
-            totalPages(data.total);
+            setTotalPages(data.total);
             setisSearchResult(true);
             console.log("search data on filter >>", data);
             setProducts(data.data);
@@ -252,23 +253,20 @@ function SearchCustomer({
 
   useEffect(() => {
     function handleClickOutside(event) {
-      // if (sortRef.current && !sortRef.current.contains(event.target)) {
-      //   setSort(false);
-      // }
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        const selectDropdowns = document.querySelectorAll(
-          ".ant-select-dropdown"
-        );
-        let isInsideSelectDropdown = false;
+        console.log("Clicked outside dropdown container");
 
-        for (const dropdown of selectDropdowns) {
+        const dropdowns = document.querySelectorAll(".product-dropdown");
+        let isInsideDropdown = false;
+
+        for (const dropdown of dropdowns) {
           if (dropdown.contains(event.target)) {
-            isInsideSelectDropdown = true;
+            isInsideDropdown = true;
             break;
           }
         }
 
-        if (!isInsideSelectDropdown) {
+        if (!isInsideDropdown) {
           setFirst(false);
           setSecond(false);
           setThird(false);
@@ -282,9 +280,13 @@ function SearchCustomer({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
+
   return (
     <>
-      <div className=" border border-inherit bg-white h-full py-3	 px-4">
+      <div
+        className=" border border-inherit bg-white h-full py-3	 px-4"
+        ref={dropdownRef}
+      >
         <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center ">
           <div>
             <div className="relative 	">
@@ -325,7 +327,6 @@ function SearchCustomer({
             <div
               onClick={() => setIsFilter(!isFilter)}
               className="h-11	w-fit px-5 shadow-md cursor-pointer	border  border-inherit rounded-md flex items-center justify-center gap-2"
-              // ref={dropdownRef}
             >
               <div className="">
                 {/* {search === 0 && (
@@ -357,13 +358,9 @@ function SearchCustomer({
           </div>
         </div>
         {isFilter && (
-          <div
-            className="flex justify-between items-center pt-4 "
-            ref={dropdownRef}
-          >
+          <div className="flex justify-between items-center pt-4 ">
             <div className="flex  gap-8 relative   flex-wrap">
               <div className="relative">
-                {/* ref={firstDropdownRef} */}
                 <div
                   className="flex items-center gap-2 product-category-box cursor-pointer"
                   onClick={DropDownFirst}
@@ -378,7 +375,7 @@ function SearchCustomer({
                       className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit py-3  "
                       style={{ top: "37px" }}
                     >
-                      <ul className="dropdown-content    ">
+                      <ul className="dropdown-content">
                         {status.map((sts) => (
                           <li className="py-2.5 px-4  ">
                             <div className="flex items-center ">
@@ -411,10 +408,7 @@ function SearchCustomer({
                   )}
                 </div>
               </div>
-              <div
-                className="relative"
-                // ref={secondDropdownRef}
-              >
+              <div className="relative">
                 <div
                   className="flex items-center gap-2 product-category-box cursor-pointer"
                   onClick={DropDownSecond}
@@ -449,12 +443,10 @@ function SearchCustomer({
                         );
                       })}
                     </Select>
-                    {/* ant */}
                   </div>
                 )}
               </div>
               <div className="relative">
-                {/* ref={thirdDropdownRef} */}
                 <div
                   className="flex items-center gap-2 product-category-box cursor-pointer"
                   onClick={DropDownThird}

@@ -44,6 +44,7 @@ function Organisation() {
   const [show, setShow] = useState(false);
   const [check, setCheck] = useState(false);
   const [logoUri, setLogoUri] = useState("");
+  const [initiaLogoUri, setInitiaLogoUri] = useState("");
   const fileInputRef = useRef();
   const [showError, setShowError] = useState();
   const [categories, setCategories] = useState([]);
@@ -406,6 +407,7 @@ function Organisation() {
                 });
                 setLoading(false);
                 setLogoUri(organisationSettings.organisationlogo);
+                setInitiaLogoUri(organisationSettings.organisationlogo);
               }
             });
         })
@@ -499,74 +501,16 @@ function Organisation() {
       organisationlogo: "",
     });
     setShow(true);
+    dispatch(updateLogoURI(""));
   };
 
   const handleUpdate = () => {
     open();
   };
 
-  // const onDrop = useCallback((acceptedFiles) => {
-  //   // Do something with the files
-  //   console.log("Data >>>", acceptedFiles[0]);
-  //   const file = acceptedFiles[0];
-  //   if (file) {
-  //     const fileNameParts = file.name.split(".");
-  //     const fileExtension =
-  //       fileNameParts[fileNameParts.length - 1].toLowerCase();
-
-  //     // List of allowed image extensions (add more if needed)
-  //     const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
-
-  //     if (allowedExtensions.includes(fileExtension)) {
-  //       setShowError(false);
-  //       const reader = new FileReader();
-  //       const formData = new FormData();
-  //       formData.append("file", file);
-
-  //       reader.onload = () => {
-  //         const imgData = reader.result;
-  //         setLogoUri(imgData);
-  //         setShow(true);
-  //         console.log("imgData", imgData);
-  //       };
-  //       reader.readAsDataURL(file);
-
-  //       console.log("imgData", formData);
-  //       const orgId = localStorage.getItem("organisationId");
-  //       fetch(
-  //         `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
-  //         {
-  //           method: "POST",
-  //           body: formData,
-  //         }
-  //       )
-  //         .then((response) => response.json())
-  //         .then((data) => {
-  //           // Handle the response from the server
-  //           console.log("user value --->", values);
-  //           console.log("Server response:", data);
-
-  //           if (!data.error) {
-  //             console.log("uri --->", data.blob.uri);
-  //             setShow(true);
-  //             setLogoUri(data?.blob.uri);
-  //             dispatch(updateLogoURI(data?.blob.uri));
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           // Handle any errors that occurred during the request
-  //           console.error("Error:", error);
-  //         });
-  //     } else {
-  //       setShowError(true);
-  //       // Clear the file input field
-  //       fileInputRef.current.value = "";
-  //     }
-  //   }
-  // }, []);
   const onDrop = useCallback((acceptedFiles) => {
+    console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
-
     if (file) {
       const fileNameParts = file.name.split(".");
       const fileExtension =
@@ -575,9 +519,10 @@ function Organisation() {
       const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 
       if (allowedExtensions.includes(fileExtension)) {
-        formData.append("file", file);
         setShowError(false);
         const reader = new FileReader();
+        const formData = new FormData();
+        formData.append("file", file);
 
         reader.onload = () => {
           const imgData = reader.result;
@@ -587,7 +532,30 @@ function Organisation() {
         };
         reader.readAsDataURL(file);
 
-        // Append the file to formData
+        console.log("imgData", formData);
+        const orgId = localStorage.getItem("organisationId");
+        fetch(
+          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("user value --->", values);
+            console.log("Server response:", data);
+
+            if (!data.error) {
+              console.log("uri --->", data.blob.uri);
+              setShow(true);
+              setLogoUri(data?.blob.uri);
+              dispatch(updateLogoURI(data?.blob.uri));
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
       } else {
         setShowError(true);
         fileInputRef.current.value = "";
@@ -606,7 +574,8 @@ function Organisation() {
   const handleReset = () => {
     setShow(false);
     setValues(initialValues);
-    setLogoUri(initialValues.organisationlogo);
+    setLogoUri(initiaLogoUri);
+    dispatch(updateLogoURI(initiaLogoUri));
   };
 
   const handleFormChange = () => {
@@ -644,32 +613,6 @@ function Organisation() {
     });
   };
 
-  const handleSaveButtonClick = () => {
-    const orgId = localStorage.getItem("organisationId");
-    fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Server response:", data);
-        if (!data.error) {
-          formData.delete("file");
-          console.log("uri --->", data.blob.uri);
-          setShow(true);
-          setLogoUri(data.blob.uri);
-          dispatch(updateLogoURI(data.blob.uri));
-          // Additional state updates or actions if needed
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
   // useEffect(() => {}, []);
   return (
     <>
@@ -689,8 +632,7 @@ function Organisation() {
                   <button
                     type="submit"
                     onClick={() => {
-                      // handleSubmit();
-                      handleSaveButtonClick();
+                      handleSubmit();
                     }}
                     className="rounded-md	bg-white px-6	py-2.5 text-green text-base	font-medium	"
                   >
