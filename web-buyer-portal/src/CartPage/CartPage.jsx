@@ -310,7 +310,10 @@ const CartPage = () => {
                             </div>
                           </div>
                           <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
-                            ${item?.product?.globalPrice * item.quantity}
+                            $
+                            {(
+                              item?.product?.globalPrice * item.quantity
+                            ).toFixed(2)}
                           </h4>
                         </div>
 
