@@ -327,84 +327,51 @@ function Organisation() {
                     item.label === organisationSettings?.billingAddressState
                 );
 
-                setInitialValues({
-                  tradingName: organisationSettings.tradingName,
-                  businessName: organisationSettings.businessName,
-                  abn: organisationSettings.abn,
-                  liquorLicence: organisationSettings.liquorLicense,
-                  organisationAddress: organisationSettings.organisationAddress,
-                  organisationAddressApartment: organisationSettings.apartment,
-                  organisationAddressSuburb: organisationSettings.suburb,
-                  organisationAddressPostcode: organisationSettings.postcode,
-                  billingAddress: organisationSettings.billingAddress,
+                const body = {
+                  tradingName: organisationSettings?.tradingName || "",
+                  businessName: organisationSettings?.businessName || "",
+                  abn: organisationSettings?.abn || "",
+                  liquorLicence: organisationSettings?.liquorLicense || "",
+                  organisationAddress:
+                    organisationSettings?.organisationAddress || "",
+                  organisationAddressApartment:
+                    organisationSettings?.apartment || "",
+                  organisationAddressSuburb: organisationSettings?.suburb || "",
+                  organisationAddressPostcode:
+                    organisationSettings?.postcode || "",
+                  billingAddress: organisationSettings?.billingAddress || "",
                   billingAddressApartment:
-                    organisationSettings.billingAddressApartment,
+                    organisationSettings?.billingAddressApartment || "",
                   billingAddressSuburb:
-                    organisationSettings.billingAddressSuburb,
+                    organisationSettings?.billingAddressSuburb || "",
                   billingAddressPostcode:
-                    organisationSettings.billingAddressPostCode,
+                    organisationSettings?.billingAddressPostCode || "",
                   billingAddressState: billingState,
                   orderingContactFirstName:
-                    organisationSettings.orderingContactFirstName,
+                    organisationSettings?.orderingContactFirstName || "",
                   orderingContactLastName:
-                    organisationSettings.orderingContactLastName,
+                    organisationSettings?.orderingContactLastName || "",
                   orderingContactEmail:
-                    organisationSettings.orderingContactEmail,
+                    organisationSettings?.orderingContactEmail || "",
                   orderingContactMobile:
-                    organisationSettings.orderingContactMobile,
+                    organisationSettings?.orderingContactMobile || "",
                   logisticsContactFirstName:
-                    organisationSettings.logisticsContactFirstName,
+                    organisationSettings?.logisticsContactFirstName || "",
                   logisticsContactLastName:
-                    organisationSettings.logisticsContactLastName,
+                    organisationSettings?.logisticsContactLastName || "",
                   logisticsContactEmail:
-                    organisationSettings.logisticsContactEmail,
+                    organisationSettings?.logisticsContactEmail || "",
                   logisticsContactMobile:
-                    organisationSettings.logisticsContactMobile,
-                  categories: organisationSettings.categories,
-                  description: organisationSettings.description,
-                  state: state,
-                  postcode: organisationSettings.postcode,
-                  categoryList: categoryList,
-                });
-                setValues({
-                  tradingName: organisationSettings.tradingName,
-                  businessName: organisationSettings.businessName,
-                  abn: organisationSettings.abn,
-                  liquorLicence: organisationSettings.liquorLicense,
-                  organisationAddress: organisationSettings.organisationAddress,
-                  organisationAddressApartment: organisationSettings.apartment,
-                  organisationAddressSuburb: organisationSettings.suburb,
-                  organisationAddressPostcode: organisationSettings.postcode,
-                  billingAddress: organisationSettings.billingAddress,
-                  billingAddressApartment:
-                    organisationSettings.billingAddressApartment,
-                  billingAddressSuburb:
-                    organisationSettings.billingAddressSuburb,
-                  billingAddressPostcode:
-                    organisationSettings.billingAddressPostCode,
-                  billingAddressState: billingState,
-                  orderingContactFirstName:
-                    organisationSettings.orderingContactFirstName,
-                  orderingContactLastName:
-                    organisationSettings.orderingContactLastName,
-                  orderingContactEmail:
-                    organisationSettings.orderingContactEmail,
-                  orderingContactMobile:
-                    organisationSettings.orderingContactMobile,
-                  logisticsContactFirstName:
-                    organisationSettings?.logisticsContactFirstName,
-                  logisticsContactLastName:
-                    organisationSettings?.logisticsContactLastName,
-                  logisticsContactEmail:
-                    organisationSettings?.logisticsContactEmail,
-                  logisticsContactMobile:
-                    organisationSettings?.logisticsContactMobile,
-                  categories: organisationSettings.categories,
-                  description: organisationSettings.description,
-                  state: state,
-                  postcode: organisationSettings.postcode,
-                  categoryList: categoryList,
-                });
+                    organisationSettings?.logisticsContactMobile || "",
+                  categories: organisationSettings?.categories || "",
+                  description: organisationSettings?.description || "",
+                  state: state || "",
+                  postcode: organisationSettings.postcode || "",
+                  categoryList: categoryList || "",
+                };
+
+                setInitialValues(body);
+                setValues(body);
                 setLoading(false);
                 setLogoUri(organisationSettings.organisationlogo);
                 setInitiaLogoUri(organisationSettings.organisationlogo);
