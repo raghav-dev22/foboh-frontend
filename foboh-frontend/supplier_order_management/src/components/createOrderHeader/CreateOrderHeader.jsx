@@ -4,9 +4,19 @@ import ControlPointIcon from "@mui/icons-material/ControlPoint";
 
 import { Menu } from "antd";
 import CreateOrderModal from "../../Modal/CreateOrderModal";
+import { useEffect } from "react";
 
 const CreateOrderHeader = () => {
   const [createOrderModal, setCreateOrderModal] = useState(false);
+  const popupData = localStorage.getItem("orderpopup");
+  useEffect(() => {
+    if (popupData === "true") {
+      setCreateOrderModal(true);
+      localStorage.removeItem("orderpopup");
+    } else {
+      setCreateOrderModal(false);
+    }
+  }, []);
   return (
     <>
       <div className="flex justify-between items-center py-5 ">
@@ -22,7 +32,7 @@ const CreateOrderHeader = () => {
         </button>
       </div>
       <CreateOrderModal
-        setCreateOrderModal ={setCreateOrderModal}
+        setCreateOrderModal={setCreateOrderModal}
         handleCancel={() => {
           setCreateOrderModal(false);
         }}
