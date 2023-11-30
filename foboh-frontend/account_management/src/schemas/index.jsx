@@ -91,6 +91,7 @@ export const PersonalDetailsSchema = Yup.object().shape({
 
 export const OrganisationSettingsSchema = Yup.object().shape({
   // Organization Details
+
   businessName: Yup.string()
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
@@ -172,8 +173,8 @@ export const BankingSchema = Yup.object().shape({
   legalBusinessName: Yup.string()
     .min(2, "Your trading name should have at least 2 letters")
     .max(50)
-    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Trading name is required"),
+    // .matches(/^[^\d]*$/, "business name should not contain numbers")
+    .required("business name is required"),
 
   acn: Yup.string()
     .matches(/^\d{9}$/, "Invalid ACN format")

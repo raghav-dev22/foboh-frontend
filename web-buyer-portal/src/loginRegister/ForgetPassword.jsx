@@ -77,20 +77,17 @@ const ForgetPassword = () => {
 
   return (
     <div>
-      <div className="absolute md:bg-[#F8FAFC]  w-full flex items-center justify-center  top-0	right-0	bottom-0	left-0	">
-        <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
-          <div className="w-full lg:scale-90">
-            <div className="flex flex-col md:flex-row md:justify-center bg-white   ">
-              <div className="    block md:hidden">
-                <img
-                  src="/assets/supplier-logo.png"
-                  className="h-36	object-cover	 w-full  "
-                  alt="signin"
-                />
-              </div>
+      <div className="h-screen w-full relative">
+        <img src="/assets/login-bg.png" alt="" className="w-full h-full" />
+        <div
+          className="w-full lg:scale-90 absolute top-[50%] left-[50%] "
+          style={{ transform: "translate(-50%,-50%)" }}
+        >
+          <div className="lg:container container-fluid mx-auto lg:px-6  px-0">
+            <div className="w-full lg:scale-90 flex justify-center">
               <form
-                className="w-fit	 md:w-1/2  #FFFFFF
-                  rounded-lg custom-shadow p-8 mx-10 my-14 flex flex-col justify-center items-center gap-8"
+                className="w-fit	 md:w-1/2  bg-[#FFFFFF]
+                  rounded-lg custom-shadow p-8  flex flex-col justify-center items-center gap-8"
                 onSubmit={handleSubmit}
               >
                 <h2 className="text-[#563FE3]  text-3xl	font-bold text-center	">
@@ -168,14 +165,6 @@ const ForgetPassword = () => {
                   </button>
                 )}
               </form>
-
-              <div className="  md:w-1/2  hidden md:block ">
-                <img
-                  src="/assets/supplier-logo.png"
-                  className="h-full w-full  "
-                  alt="signin"
-                />
-              </div>
             </div>
           </div>
         </div>

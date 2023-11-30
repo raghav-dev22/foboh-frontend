@@ -670,7 +670,21 @@ function Organisation() {
                               onKeyPress={(e) =>
                                 e.key === "Enter" && e.preventDefault()
                               }
+                              style={{
+                                border:
+                                  errors.tradingName &&
+                                  touched.tradingName &&
+                                  "1px solid red",
+                              }}
                             />
+                            {errors.tradingName && touched.tradingName && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal">
+                                {errors.tradingName}
+                              </p>
+                            )}
+                            {errors.tradingName && touched.tradingName && (
+                              <ErrorOutlineIcon className="absolute text-red-500 top-[41px] right-5 transition-all duration-[0.3s]" />
+                            )}
                           </div>
                           <div className="w-full md:w-1/2 px-3 relative">
                             <label
@@ -1616,7 +1630,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="orderingContactMobile"
                               type="text"
-                              placeholder="Enter Mobile No"
+                              placeholder="Enter mobile no"
                               name="orderingContactMobile"
                               value={values.orderingContactMobile}
                               onChange={handleChange}
@@ -1810,7 +1824,7 @@ function Organisation() {
                               className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                               id="logisticsContactMobile"
                               type="text"
-                              placeholder="Enter Mobile No"
+                              placeholder="Enter mobile no"
                               name="logisticsContactMobile"
                               value={values.logisticsContactMobile}
                               onChange={handleChange}
