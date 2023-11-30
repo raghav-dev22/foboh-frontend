@@ -91,6 +91,7 @@ export const PersonalDetailsSchema = Yup.object().shape({
 
 export const OrganisationSettingsSchema = Yup.object().shape({
   // Organization Details
+
   businessName: Yup.string()
     .min(2, "Your business name should have at least 2 letters")
     .max(50)
@@ -167,10 +168,10 @@ export const OrganisationSettingsSchema = Yup.object().shape({
 });
 export const BankingSchema = Yup.object().shape({
   LegalBusiness: Yup.string()
-    .min(2, "Your trading name should have at least 2 letters")
+    .min(2, "Your business name should have at least 2 letters")
     .max(50)
-    // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Trading name is required"),
+    // .matches(/^[^\d]*$/, "business name should not contain numbers")
+    .required("business name is required"),
 
   ACN: Yup.string()
     .matches(/^\d{9}$/, "Invalid ACN format")
@@ -180,10 +181,10 @@ export const BankingSchema = Yup.object().shape({
     .required("ABN is required"),
 
   BusinessAddress: Yup.string()
-    .min(2, "Address should have at least 2 letters")
+    .min(2, "Business address should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
-    .required("Address is required"),
+    .required("Business address is required"),
   BusinessWebsiteURL: Yup.string()
     .min(2, "Business website URL should have at least 2 letters")
     .max(50)
@@ -225,10 +226,10 @@ export const BankingSchema = Yup.object().shape({
       "Mobile number must be a valid Australian mobile number"
     ),
   BusinessMobileNumber: Yup.string()
-    .required("Mobile number is required")
+    .required("Business mobile number is required")
     .matches(
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-      "Mobile number must be a valid Australian mobile number"
+      "Business mobile number must be a valid Australian mobile number"
     ),
   BusinessSuburb: Yup.string()
     .required("Suburb name is required")

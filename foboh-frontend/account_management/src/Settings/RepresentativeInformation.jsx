@@ -19,7 +19,7 @@ const RepresentativeInformation = ({
       </div>
       <div className="py-6 px-6">
         <form action="">
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -67,7 +67,7 @@ const RepresentativeInformation = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -109,7 +109,7 @@ const RepresentativeInformation = ({
                 )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -157,7 +157,7 @@ const RepresentativeInformation = ({
               )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
