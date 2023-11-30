@@ -9,6 +9,10 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { generateUniqueKey } from "../../helpers/uniqueKey";
 import { Visibility } from "@mui/icons-material";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import {
+  postBusinessName,
+  putUserUpdate,
+} from "../../reactQuery/registrationApiModule";
 const initialValues = {
   email: "",
   password: "",
@@ -51,7 +55,6 @@ const SignupNew = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             if (
               data?.userdetails?.value?.length > 0 &&
               !data.error &&
@@ -80,7 +83,6 @@ const SignupNew = () => {
                   console.log(data);
                   localStorage.setItem("email", values.email.toLowerCase());
                   localStorage.setItem("password", values.password);
-
                   localStorage.setItem("uniqueKey", data.key);
                   navigate(`/auth/registration-email/${data.key}`);
                 })
@@ -144,7 +146,7 @@ const SignupNew = () => {
             },
             body: JSON.stringify({
               firstName: googleResponse.given_name,
-              lastName: googleResponse.family_name,
+              lastName: googleResponse?.family_name || "",
               email: googleResponse.email.toLowerCase(),
               password: "",
               status: true,
@@ -159,7 +161,19 @@ const SignupNew = () => {
             }),
           })
             .then((response) => response.json())
-            .then((data) => {
+            .then(async (data) => {
+              const organisationId = await postBusinessName("");
+
+              await putUserUpdate(
+                data.data.ccrn,
+                data.data.firstName,
+                data.data.lastName,
+                data.data.email,
+                data.data.mobile,
+                data.data.password,
+                "",
+                organisationId
+              );
               localStorage.setItem("email", googleResponse.email);
               navigate("/dashboard/main");
             });
