@@ -374,7 +374,11 @@ const CreateOrderModal = ({
       // Posting customer info on loading modal
       setIsCustomerSelected(true);
       await postBuyerDetails(customerInfo.data[0]);
-
+      // let buyerIDFromLocalStorage = localStorage.getItem("buyerID");
+      // let buyerIDToUse = buyerIDFromLocalStorage || value?.value;
+      // if (buyerIDFromLocalStorage) {
+      //   localStorage.removeItem("buyerID");
+      // }
       const buyerDetails = await getBuyerDetails(value?.value);
 
       if (buyerDetails.success) {

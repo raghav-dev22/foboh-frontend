@@ -1068,6 +1068,9 @@ function AddProduct() {
                         className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-last-name"
                         value={values.minimumOrder}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" && e.preventDefault()
+                        }
                         name="minimumOrder"
                         type="number"
                         placeholder="Select"
@@ -1091,6 +1094,9 @@ function AddProduct() {
                         name="availableQty"
                         type="number"
                         value={values.availableQty}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" && e.preventDefault()
+                        }
                         placeholder="Select"
                       />
                       {errors.availableQty && touched.availableQty && (
@@ -1140,6 +1146,9 @@ function AddProduct() {
                             //     : null
                             // }
                             value={values.stockAlertLevel}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && e.preventDefault()
+                            }
                             className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="stock-alert-level"
                             name="stockAlertLevel"

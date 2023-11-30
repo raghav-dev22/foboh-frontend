@@ -32,6 +32,7 @@ const BaseUnit = ({
 
   const handleSelectUnit = (value) => {
     setSelectedBaseUnit(value);
+    console.log(value, "important base");
   };
   const handleSelectType = (value) => {
     setSelectedBaseType(value);
@@ -118,7 +119,6 @@ const BaseUnit = ({
     response
       ? success("Base unit measure added!")
       : error("Some error occurred, please try again.");
-
     response && masterAsyncFunction();
   };
 

@@ -11,5 +11,5 @@ export const getBuyerDetails = async (buyerId) => {
     })
     .catch((error) => console.log(error));
 
-    return buyer
-}
+  return buyer;
+};

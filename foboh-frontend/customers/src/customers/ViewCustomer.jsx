@@ -27,6 +27,7 @@ function ViewCustomer() {
 
   const [show, setShow] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [isBussiness, setIsBussiness] = useState();
   const [initialValues, setInitialValues] = useState({
     buyerId: "",
     businessName: "",
@@ -48,12 +49,13 @@ function ViewCustomer() {
     handleSubmit,
     touched,
     setValues,
+    isValid,
   } = useFormik({
     initialValues: initialValues,
     validationSchema: ViewCustomerDetails,
     onSubmit: (values) => {},
   });
-
+  console.log(values, "all vahhhhhhhhhhhhhhhhhhhhhhh");
   const handleCustomerTiles = () => {
     const buyID = location?.state?.data.buyerId;
     fetch(
@@ -81,6 +83,7 @@ function ViewCustomer() {
         setCustomerEdit(true);
         setShow(true);
         setIsOpen(false);
+        setIsBussiness(data.businessName);
         // }
       })
       .catch((error) => console.log(error));
@@ -90,6 +93,19 @@ function ViewCustomer() {
     setShow(true);
     setIsOpen(false);
     setValues(initialValues);
+    setSelectedValue(() => {
+      if (initialValues.isActive === "1") {
+        return {
+          label: "Active",
+          value: "1",
+        };
+      } else {
+        return {
+          label: "inactive",
+          value: "0",
+        };
+      }
+    });
   };
   const handleSelectChange = (selectedOption) => {
     setSelectedValue(selectedOption);
@@ -100,7 +116,9 @@ function ViewCustomer() {
 
   const handleCustomerDetails = (data) => {
     setInitialValues(data);
+    setIsBussiness(data.businessName);
     setValues(data);
+    localStorage.setItem;
     data.isActive === "1"
       ? setSelectedValue({
           label: "Active",
@@ -135,6 +153,11 @@ function ViewCustomer() {
       image: <PersonIcon />,
     },
   ];
+  const handlePopUp = () => {
+    localStorage.setItem("orderpopup", "true");
+    // localStorage.setItem("buyerID", values.buyerId);
+  };
+
   return (
     <div className="px-6 padding-top-custom">
       {/* {show === true ? (
@@ -151,7 +174,7 @@ function ViewCustomer() {
             </div>
           </Link>
           <h4 className=" text-2xl font-semibold text-darkGreen">
-            {values?.businessName}
+            {isBussiness}
           </h4>
         </div>
         {show && (
@@ -179,7 +202,10 @@ function ViewCustomer() {
               </div>
               <h6 className="text-darkGreen">Edit</h6>
             </button>
-            <Link to="/dashboard/supplier-order-management">
+            <Link
+              to="/dashboard/supplier-order-management"
+              onClick={handlePopUp}
+            >
               <button
                 type="button"
                 className=" border rounded 	w-fit px-4		h-10	flex justify-center items-center text-base	font-medium	gap-2 btn-animation"
@@ -214,7 +240,8 @@ function ViewCustomer() {
             </button>
             <button
               onClick={handleCustomerTiles}
-              className="rounded-md px-6	py-2.5 text-white text-base	font-medium	bg-[#147d73]	"
+              disabled={!isValid}
+              className="rounded-md px-6	py-2.5 text-white text-base	font-medium	bg-[#147d73]"
             >
               Save
             </button>
@@ -329,6 +356,15 @@ function ViewCustomer() {
                 </p>
               )}
               {errors.abn && touched.abn && (
+                <ErrorOutlineIcon className="absolute text-red-500 top-[55px] right-5 transition-all duration-[0.3s] " />
+              )}
+
+              {errors.liquorLicence && touched.liquorLicence && (
+                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                  {errors.liquorLicence}
+                </p>
+              )}
+              {errors.liquorLicence && touched.liquorLicence && (
                 <ErrorOutlineIcon className="absolute text-red-500 top-[55px] right-5 transition-all duration-[0.3s] " />
               )}
             </div>
