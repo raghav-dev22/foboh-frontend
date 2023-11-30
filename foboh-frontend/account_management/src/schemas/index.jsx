@@ -191,10 +191,10 @@ export const BankingSchema = Yup.object().shape({
     .required("Address is required"),
 
   businessPhoneNumber: Yup.string()
-    .required("Mobile number is required")
+    .required("Business mobile number is required")
     .matches(
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-      "Mobile number must be a valid Australian mobile number"
+      "Business mobile number must be a valid Australian mobile number"
     ),
 
   businessDetailsSuburb: Yup.string()
