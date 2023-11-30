@@ -29,6 +29,20 @@ function CustomerDetailsFirst({
         ...values,
         [name]: e,
       });
+
+      if (name === "defaultPaymentTerms") {
+        // Reset the value of "defaultPaymentMethodId" when "defaultPaymentTerms" changes
+        setValues({
+          ...values,
+          defaultPaymentTerms: e,
+          defaultPaymentMethodId: null, // Reset "defaultPaymentMethodId" to null
+        });
+      } else {
+        setValues({
+          ...values,
+          [name]: e,
+        });
+      }
       setIsUpDate(true);
     }
 

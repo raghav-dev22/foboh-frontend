@@ -78,20 +78,17 @@ function PersonalDetails({
         });
         setImageSrc(data.data[0].imageUrl);
         setInitiaLogoUri(data.data[0].imageUrl);
-        dispatch(updateUserData(data.data[0].imageUrl));
+        dispatch(
+          updateUserData({
+            ...user,
+            imageUrl: data.data[0].imageUrl,
+          })
+        );
       })
       .catch((error) => console.log(error));
   }, []);
 
   console.log("Initial Values >>>", initialValues);
-
-  const handleReset = () => {
-    setShow(false);
-    setValues(initialValues);
-    resetProfileImage(initialValues?.imageUrl);
-    setImageSrc(initiaLogoUri);
-    dispatch(updateUserData(initiaLogoUri));
-  };
 
   const {
     values,
@@ -198,6 +195,19 @@ function PersonalDetails({
 
   const handleInputChange = () => {
     setShow(true);
+  };
+
+  const handleReset = () => {
+    setShow(false);
+    setValues(initialValues);
+    resetProfileImage(initialValues?.imageUrl);
+    setImageSrc(initialValues.imageUrl);
+    dispatch(
+      updateUserData({
+        ...user,
+        imageUrl: initialValues.imageUrl,
+      })
+    );
   };
 
   const CustomTooltip = styled(({ className, ...props }) => (
