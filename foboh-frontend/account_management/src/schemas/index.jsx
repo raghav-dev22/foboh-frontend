@@ -76,16 +76,20 @@ export const SignInSchema = Yup.object().shape({
 // Personal Details Schema [User Profile]
 export const PersonalDetailsSchema = Yup.object().shape({
   firstName: Yup.string()
+    .required("First Name name is required")
     .min(2, "Your first name should have at least 2 letters")
     .max(50),
   lastName: Yup.string()
+    .required("Last Name name is required")
     .min(2, "Your last name should have at least 2 letters")
     .max(50),
   email: Yup.string().email("Please enter a valid email"),
-  mobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-    "Mobile number must be a valid Australian mobile number"
-  ),
+  mobile: Yup.string()
+    .required("Mobile number is required")
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    ),
   bio: Yup.string().max(255, "Bio cannot be more than 255 characters"), // Set max limit to 225 and error message
 });
 
