@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import AddProductListing from "../addProduct/AddProductListing";
-
+import FilterIcon from "@mui/icons-material/Filter";
 import UploadImg from "../addProduct/UploadImg";
 import AddInventory from "../addProduct/AddInventory";
 import AddProductDetails from "../addProduct/AddProductDetails";
@@ -820,11 +820,15 @@ function AddProduct() {
             <div className="grid gap-5">
               {/* Upload Image  */}
               <div className="edit-img">
-                <img
-                  src="/assets/defaultImg.png"
-                  alt=""
-                  className=" w-full h-[357px] object-contain"
-                />
+                <div className="w-full h-[357px] flex justify-center items-center border border-[#E0E0E0] rounded-md bg-[#F2F2F2]">
+                  <FilterIcon
+                    style={{
+                      fill: "#E0E0E0",
+                      width: "121px",
+                      height: "121px",
+                    }}
+                  />
+                </div>
               </div>
               <div className="my-2">
                 <div className="flex justify-start items-center gap-2 mb-1">

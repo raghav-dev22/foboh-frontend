@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import Carousel from "better-react-carousel";
 import CloseIcon from "@mui/icons-material/Close";
 // import ActiveProduct from './ActiveProduct'
+import FilterIcon from "@mui/icons-material/Filter";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteModal from "../modal/DeleteModal";
 import HelpIcon from "@mui/icons-material/Help";
@@ -1391,11 +1392,15 @@ function ViewProduct() {
                         )}
                       </>
                     ) : (
-                      <img
-                        src="/assets/defaultImg.png"
-                        alt=""
-                        className="w-full h-[357px] object-contain"
-                      />
+                      <div className="w-full h-[357px] flex justify-center items-center border border-[#E0E0E0] rounded-md bg-[#F2F2F2]">
+                        <FilterIcon
+                          style={{
+                            fill: "#E0E0E0",
+                            width: "121px",
+                            height: "121px",
+                          }}
+                        />
+                      </div>
                     )}
                   </div>
                 </Skeleton>

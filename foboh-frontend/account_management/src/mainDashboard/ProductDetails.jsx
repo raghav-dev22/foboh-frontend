@@ -1,6 +1,7 @@
 import React from "react";
 
 import { stockStatus } from "../helpers/stockStatusButton";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 function ProductDetails({ stock }) {
   return (
@@ -37,7 +38,19 @@ function ProductDetails({ stock }) {
         })
       ) : (
         <div className="flex justify-center items-center h-full">
-          <img src="/assets/no-product.jpg" className="w-[100px]" alt="" />
+          {/* <img src="/assets/no-product.jpg" className="w-[100px]" alt="" /> */}
+          <div className="flex justify-center items-center gap-2 flex-col">
+            <RemoveShoppingCartIcon
+              style={{
+                fill: "rgb(140 140 140)",
+                width: "70px",
+                height: "70px",
+              }}
+            />
+            <h5 className="text-base font-medium text-[#808080]">
+              No data available
+            </h5>
+          </div>
         </div>
       )}
     </>

@@ -2,13 +2,14 @@ import React, { useCallback, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [file, setFile] = useState([]);
   const [showError, setShowError] = useState();
-  const defaultImage = "/assets/default-user.png";
+
   const fileInputRef = useRef();
   const authUrl = process.env.REACT_APP_AUTH_URL;
   const [saveClicked, setSaveClicked] = useState(false);
@@ -109,12 +110,22 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
         <div className="px-6 py-7">
           <div className="flex justify-start gap-3 items-center">
             <div className="update-user rounded-full">
-              <img
-                id="previewImage"
-                src={imageSrc || defaultImage}
-                alt=""
-                className="w-14	h-14	object-contain	rounded-full"
-              />
+              {imageSrc ? (
+                <img
+                  id="previewImage"
+                  src={imageSrc}
+                  alt=""
+                  className="w-14	h-14	object-contain	rounded-full"
+                />
+              ) : (
+                <AccountCircleIcon
+                  style={{
+                    height: "3.5rem",
+                    width: "3.5rem",
+                    fill: "#BABABA",
+                  }}
+                />
+              )}
             </div>
             <div className="">
               <h6 className="font-normal text-base text-green">

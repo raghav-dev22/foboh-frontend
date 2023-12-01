@@ -328,16 +328,21 @@ select {
 }
 .custom-card {
   height: 46px !important;
-  background: rgb(248, 248, 248);
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
 }
-
+.ant-steps
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  border: 2px dashed #e17908;
+}
 .ant-tabs-nav::before {
   border-bottom: 0px !important;
 }
 .StripeElement {
   padding: 12px !important;
+  border: 1px solid #e2e8f0;
+  background: rgb(248, 248, 248);
+  border-radius: 6px;
 }
 .ant-pagination {
   justify-content: center !important;

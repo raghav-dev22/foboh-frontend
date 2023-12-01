@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Header = () => {
   const user = useSelector((state) => state.user);
@@ -166,15 +167,21 @@ const Header = () => {
                     </p>
                   </div>
                   <div className="">
-                    <img
-                      src={
-                        user.imageUrl
-                          ? user.imageUrl
-                          : "/assets/default-user.png"
-                      }
-                      alt=""
-                      className="h-11	w-11 rounded-full object-contain"
-                    />
+                    {user.imageUrl ? (
+                      <img
+                        src={user.imageUrl}
+                        alt=""
+                        className="h-11	w-11 rounded-full object-contain"
+                      />
+                    ) : (
+                      <AccountCircleIcon
+                        style={{
+                          height: "2.75rem",
+                          width: "2.75rem",
+                          fill: "rgb(246 246 246)",
+                        }}
+                      />
+                    )}
                   </div>
                   <div className="">
                     <img src={"/assets/arrow.png"} alt="" />
