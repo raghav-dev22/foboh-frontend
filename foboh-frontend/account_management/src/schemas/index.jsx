@@ -101,7 +101,7 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .required("ABN is required"),
   description: Yup.string()
     .max(255, "Bio cannot be more than 255 characters")
-    .required("description is required"),
+    .required("Description is required"),
   // Organization Address
   organisationAddress: Yup.string()
     .min(10, "Your address should have at least 10 letters")
@@ -113,7 +113,7 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .max(50),
   organisationAddressPostcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
-    .required("postcode is required"),
+    .required("Postcode is required"),
 
   // Billing address
   billingAddress: Yup.string()
@@ -126,20 +126,20 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .required("Suburb is required"),
   billingAddressPostcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
-    .required("postcode is required"),
+    .required("Postcode is required"),
 
   // Ordering contact
   orderingContactFirstName: Yup.string()
     .min(2, "Your first name should have at least 2 letters")
-    .required("FirstName is required")
+    .required("First name is required")
     .max(50),
   orderingContactLastName: Yup.string()
     .min(2, "Your last name should have at least 2 letters")
-    .required("LastName is required")
+    .required("Last name is required")
     .max(50),
   orderingContactEmail: Yup.string()
     .email("Please enter a valid email")
-    .required("email is required"),
+    .required("Email is required"),
   orderingContactMobile: Yup.string()
     .matches(
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
@@ -158,7 +158,7 @@ export const OrganisationSettingsSchema = Yup.object().shape({
     .max(50),
   logisticsContactEmail: Yup.string()
     .email("Please enter a valid email")
-    .required("email is required"),
+    .required("Email is required"),
   logisticsContactMobile: Yup.string()
     .matches(
       /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
@@ -174,7 +174,7 @@ export const BankingSchema = Yup.object().shape({
     .min(2, "Your trading name should have at least 2 letters")
     .max(50)
     // .matches(/^[^\d]*$/, "business name should not contain numbers")
-    .required("business name is required"),
+    .required("Business name is required"),
 
   acn: Yup.string()
     .matches(/^\d{9}$/, "Invalid ACN format")
@@ -198,15 +198,15 @@ export const BankingSchema = Yup.object().shape({
     ),
 
   businessDetailsSuburb: Yup.string()
-    .required("Suburb name is required")
+    .required("Suburb is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
 
   businessDetailsPostcode: Yup.string()
-    .required("Postcode name is required")
+    .required("Postcode is required")
     .matches(/^\d{4}$/, "Invalid postcode"),
 
-  businessDetailsState: Yup.mixed().required("state is required"),
+  businessDetailsState: Yup.mixed().required("State is required"),
 
   businessWebsiteUrl: Yup.string()
     .min(2, "Business website URL should have at least 2 letters")
@@ -235,15 +235,15 @@ export const BankingSchema = Yup.object().shape({
     .required("Address is required"),
 
   representativeInformationSuburb: Yup.string()
-    .required("Suburb name is required")
+    .required("Suburb is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
 
   representativeInformationPostcode: Yup.string()
-    .required("Postcode name is required")
+    .required("Postcode is required")
     .matches(/^\d{4}$/, "Invalid postcode"),
 
-  representativeInformationState: Yup.mixed().required("state is required"),
+  representativeInformationState: Yup.mixed().required("State is required"),
 
   representativeInformationMobile: Yup.string()
     .required("Mobile number is required")

@@ -19,7 +19,7 @@ function Profile() {
     <>
       <div className="padding-top-custom">
         <div className="profile-section  sm:px-11 px-5      	">
-          <div className="sm:pb-12 pb-8	sm:pt-5 pt-4">
+          <div className="sm:pb-10 pb-8	sm:pt-5 pt-4">
             <h4 className="text-green text-2xl	font-semibold pb-2	">
               {" "}
               Your profile

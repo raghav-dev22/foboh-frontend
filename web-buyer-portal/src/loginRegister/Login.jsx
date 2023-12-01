@@ -232,9 +232,8 @@ function Login() {
                     className="login-btn bg-custom-blue rounded-md	w-full p-2.5 hover:bg-[#6a59ce]"
                   >
                     <p className="text-white text-center font-semibold	text-sm	">
-                      {" "}
                       Login
-                    </p>{" "}
+                    </p>
                   </button>
                 )}
 

@@ -574,3 +574,9 @@ a.foboh-green-btn:hover {
   color: #fff;
   border-radius: 50px !important;
 }
+.basic-multi-select .select__control.css-13cymwt-control,
+.basic-multi-select .select__control.select__control--is-focused {
+  padding: 5px 45px 5px 20px !important;
+  min-height: 48px;
+  border: 1px solid #0000001a !important;
+}

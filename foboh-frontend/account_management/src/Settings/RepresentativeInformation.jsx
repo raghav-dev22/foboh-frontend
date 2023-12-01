@@ -167,7 +167,7 @@ const RepresentativeInformation = ({
                 )}
             </div>
           </div>
-          <div className="flex flex-nowrap gap-2">
+          <div className="flex flex-nowrap gap-4">
             <div className="mb-4 w-full">
               <label
                 className="block text-[#2B4447] text-base font-medium mb-2"
@@ -251,7 +251,6 @@ const RepresentativeInformation = ({
                   className=" gap-2 w-full green-checkbox flex justify-start items-center"
                 >
                   <div className="w-4 h-4">
-                    
                     <input
                       className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
                       id={item}

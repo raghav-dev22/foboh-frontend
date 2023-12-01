@@ -452,7 +452,6 @@ const ProductList = () => {
       });
   }, [page]);
 
-
   const WineBtn = () => {
     setWine(!wine);
 
@@ -995,7 +994,7 @@ const ProductList = () => {
         `}
       </style>
       {contextHolder}
-      <div className="md:w-4/5	w-full md:p-0 px-6 mx-auto">
+      <div className="xl:w-4/5	w-full xl:p-0 px-6 mx-auto">
         <div
           className=" relative border border-[#E7E7E7] rounded-lg  px-4 py-2 flex items-center justify-between"
           ref={sortRef}
