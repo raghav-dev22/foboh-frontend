@@ -37,7 +37,7 @@ const AddressDetails = () => {
               className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
             >
               <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
-                Delivery Addressxx
+                Delivery Address
               </h5>
             </div>
             <div className="px-4 sm:py-5 pb-5">

@@ -328,21 +328,23 @@ const OrderDetails = () => {
             <>
               {" "}
               {productList.map((item) => (
-                <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
-                  <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
+                <div className="flex justify-between items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
+                  <div className="md:w-[18%] flex justify-center items-center w-full border h-[100px] border-[#eaeaeae9] rounded-md shadow-custom">
                     <img
                       src={item.productImageUrls}
                       alt=""
-                      className="w-[150px]  object-cover	rounded-md"
+                      className="w-[150px]  object-contain h-full	rounded-md"
                     />
                   </div>
 
-                  <div className="flex flex-col justify-center gap-10 h-full py-3 w-full">
+                  <div className="md:w-[80%] w-full  flex flex-col justify-center gap-10 h-full py-3 ">
                     <div>
                       <div className="flex justify-between w-full gap-3">
                         <div className="">
                           <h4 className=" text-base font-semibold text-[#2B4447]">
-                            {item?.title}
+                            {item?.title.length > 15
+                              ? `${item?.title.slice(0, 15)}...`
+                              : item?.title}
                           </h4>
                           <p className="text-sm text-[#637381] font-medium ">
                             {item?.configuration}
@@ -364,7 +366,7 @@ const OrderDetails = () => {
         </div>
 
         <div className="mb-14 grid sm:grid-cols-2 grid-cols-1 justify-between gap-6">
-          <div className="border h-[235px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
+          <div className="border h-full rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-5 w-full">
             <div className="mb-4">
               <h5 className="text-lg font-semibold text-[#2B4447] mb-1">
                 Payment
@@ -385,7 +387,7 @@ const OrderDetails = () => {
               Payment Status - <span className="font-medium">Paid </span>
             </h5>
           </div>
-          <div className="border  h-[235px] rounded-md bg-[#F8F8F8] border-[#E7E7E7] p-3 w-full">
+          <div className="border  h-full rounded-md bg-[#F8F8F8] border-[#E7E7E7] py-3 px-5 w-full">
             <div className="">
               <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                 <h5 className="text-sm font-medium text-[#2B4447]">Subtotal</h5>
@@ -393,12 +395,7 @@ const OrderDetails = () => {
                   ${calculations?.subtotal}
                 </h5>
               </div>
-              {/* <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
-                <h5 className="text-sm font-medium text-[#2B4447]">
-                  Shipping estimate
-                </h5>
-                <h5 className="text-sm font-medium text-[#2B4447]">$0</h5>
-              </div> */}
+
               {calculations?.wet > 0 && (
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                   <h5 className="text-sm font-medium text-[#2B4447]">WET</h5>

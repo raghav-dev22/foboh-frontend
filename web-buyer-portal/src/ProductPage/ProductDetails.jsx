@@ -198,7 +198,7 @@ const ProductDetails = () => {
                   <Image
                     width={200}
                     src={selectedImage}
-                    style={{ height: "100%" }}
+                    style={{ height: "100%", objectFit: "contain" }}
                   />
                   {/* <img
                     src={selectedImage}
@@ -362,12 +362,21 @@ const ProductDetails = () => {
               <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
                 <div>
                   <div className="">
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      {selectData?.product?.countryOfOrigin ? "Country:" : ""}
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      {selectData?.product?.segmentId ? "Segment:" : ""}
-                    </p>
+                    {selectData?.product?.countryOfOrigin ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Country:
+                      </p>
+                    ) : (
+                      ""
+                    )}
+
+                    {selectData?.product?.segmentId ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Segment:
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="">
                     {selectData?.product?.vintage ? (
@@ -380,52 +389,93 @@ const ProductDetails = () => {
 
                     {selectData?.product?.award ? (
                       <p className="text-base font-normal text-[#2B4447] py-2">
-                        Awards:"
+                        Awards:
                       </p>
                     ) : (
                       ""
                     )}
 
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      {selectData?.product?.region ? "Region:" : ""}
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      {selectData?.product?.abv ? "ABV:" : ""}
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      {selectData?.product?.variety ? " Grape variety:" : ""}
-                    </p>
+                    {selectData?.product?.region ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Region:
+                      </p>
+                    ) : (
+                      ""
+                    )}
+
+                    {selectData?.product?.abv ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        ABV:
+                      </p>
+                    ) : (
+                      ""
+                    )}
+
+                    {selectData?.product?.variety &&
+                    selectData.product.variety.length > 0 ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Grape variety:
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
 
                 <div className="">
                   <div className="">
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.countryOfOrigin}
-                    </p>
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.segmentId}
-                    </p>
+                    {selectData?.product?.countryOfOrigin ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.countryOfOrigin}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+
+                    {selectData?.product?.segmentId ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.segmentId}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div>
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.vintage}
-                    </p>
-
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.award}
-                    </p>
-
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.region}
-                    </p>
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.abv}
-                    </p>
-
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.variety}
-                    </p>
+                    {selectData?.product?.vintage ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.vintage}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {selectData?.product?.award ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.award}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {selectData?.product?.region ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.region}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {selectData?.product?.abv ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.abv}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {selectData?.product?.variety ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.variety}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
@@ -434,22 +484,39 @@ const ProductDetails = () => {
               <div className="flex justify-between items-center md:w-[365px] w-full ">
                 <div>
                   <div className="">
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      Country:
-                    </p>
-                    <p className="text-base font-normal text-[#2B4447] py-2">
-                      Segment:
-                    </p>
+                    {selectData?.product?.countryOfOrigin ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Country:
+                      </p>
+                    ) : (
+                      ""
+                    )}
+
+                    {selectData?.product?.segmentId ? (
+                      <p className="text-base font-normal text-[#2B4447] py-2">
+                        Segment:
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <div className="">
                   <div className="">
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.countryOfOrigin}
-                    </p>
-                    <p className="text-base font-semibold text-[#2B4447] py-2">
-                      {selectData?.product?.segmentId}
-                    </p>
+                    {selectData?.product?.countryOfOrigin ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.countryOfOrigin}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {selectData?.product?.segmentId ? (
+                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                        {selectData?.product?.segmentId}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>

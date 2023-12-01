@@ -1,7 +1,13 @@
 import { AuBankAccountElement } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Becs = ({ cardHolderName, setCardHolderName, email, setEmail, setBankName }) => {
+const Becs = ({
+  cardHolderName,
+  setCardHolderName,
+  email,
+  setEmail,
+  setBankName,
+}) => {
   const [cardErrors, setCardErrors] = useState({});
 
   const AU_BANK_ACCOUNT_STYLE = {
@@ -22,6 +28,10 @@ const Becs = ({ cardHolderName, setCardHolderName, email, setEmail, setBankName 
         color: "#fa755a",
       },
     },
+    InputElement: {
+      border: "1px solid #000",
+      padding: "6px 6px 6px 6px",
+    },
   };
 
   const AU_BANK_ACCOUNT_ELEMENT_OPTIONS = {
@@ -32,7 +42,15 @@ const Becs = ({ cardHolderName, setCardHolderName, email, setEmail, setBankName 
   };
 
   console.log("cardErrors", cardErrors);
-
+  useEffect(() => {
+    const inputElement = document.querySelector(
+      ".custom-au-bank-element .InputElement"
+    );
+    if (inputElement) {
+      inputElement.style.border = "1px solid #000";
+      inputElement.style.padding = "6px";
+    }
+  }, []);
   return (
     <>
       <div className="mt-5 py-5 px-4 border rounded-lg">
@@ -92,13 +110,14 @@ const Becs = ({ cardHolderName, setCardHolderName, email, setEmail, setBankName 
             Account Details
           </label>
           <AuBankAccountElement
+            className="custom-au-bank-element"
             options={AU_BANK_ACCOUNT_ELEMENT_OPTIONS}
             onChange={(event) => {
               setCardErrors({
                 ...cardErrors,
                 [event.elementType]: event.error,
               });
-              setBankName(event.bankName)
+              setBankName(event.bankName);
               console.log("CardNumberElement [change]", event);
             }}
           />

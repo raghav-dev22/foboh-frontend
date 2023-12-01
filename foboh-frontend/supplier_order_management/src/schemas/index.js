@@ -62,12 +62,12 @@ export const BankingSchema = Yup.object().shape({
     // .matches(/^[^\d]*$/, "Trading name should not contain numbers")
     .required("Business website URL is required"),
   Suburb: Yup.string()
-    .required("Suburb name is required")
+    .required("Suburb is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
 
   Postcode: Yup.string()
-    .required("Postcode name is required")
+    .required("Postcode is required")
     .matches(/^\d{4}$/, "Invalid postcode"),
   State: Yup.mixed().required("state is required"),
 
@@ -103,7 +103,7 @@ export const BankingSchema = Yup.object().shape({
       "Mobile number must be a valid Australian mobile number"
     ),
   BusinessSuburb: Yup.string()
-    .required("Suburb name is required")
+    .required("Suburb is required")
     .min(2, "Suburb should have atleast 2 letters")
     .max(50),
   firstName: Yup.string()
