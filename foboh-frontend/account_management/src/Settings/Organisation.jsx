@@ -858,15 +858,17 @@ function Organisation() {
                                   </button>
                                 </th>
                               </tr>
-                              {baseUnitMeasure.map((item) => {
-                                return (
-                                  <tr className="p-2 border-b">
-                                    <td className="font-normal px-2 py-4">
-                                      {`${item.unit} ${item.type}`}
-                                    </td>
-                                  </tr>
-                                );
-                              })}
+                              <div className="min-h-[0px] max-h-[170px] overflow-y-auto custom-scroll-bar">
+                                {baseUnitMeasure.map((item) => {
+                                  return (
+                                    <tr className="p-2 border-b">
+                                      <td className="font-normal px-2 py-4">
+                                        {`${item.unit} ${item.type}`}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </div>
                             </table>
                           </div>
                           <div className="w-full md:w-1/2 px-3 relative">
@@ -887,15 +889,17 @@ function Organisation() {
                                   </button>
                                 </th>
                               </tr>
-                              {innerUnitMeasure.map((item) => {
-                                return (
-                                  <tr className="border-b">
-                                    <td className="font-normal px-2 py-4">
-                                      {`${item.unit} ${item.type}`}
-                                    </td>
-                                  </tr>
-                                );
-                              })}
+                              <div className="min-h-[0px] max-h-[170px] overflow-y-auto custom-scroll-bar">
+                                {innerUnitMeasure.map((item) => {
+                                  return (
+                                    <tr className="border-b">
+                                      <td className="font-normal px-2 py-4">
+                                        {`${item.unit} ${item.type}`}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </div>
                             </table>
                           </div>
                         </div>
