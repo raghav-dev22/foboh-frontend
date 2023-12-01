@@ -14,7 +14,7 @@ import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import { message } from "antd";
 import SaveCancel from "../customers/SaveCancel";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import {
   getStates,
@@ -22,7 +22,7 @@ import {
   getdefaultPaymentTerm,
 } from "../reactQuery/viewCustomerApiModule";
 
-const OrderDetails = ({ datas, handleCustomerDetails }) => {
+const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   console.log(datas, ">>id");
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -185,7 +185,7 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Customer data --->", data.orderingFirstName);
+        console.log("Customer data --->", data);
         customerData = data;
         handleCustomerDetails(data);
         setInitialValues({
@@ -303,26 +303,24 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
           address: values?.address,
           apartment: values?.apartment,
           suburb: values?.suburb,
-          billingState: values?.billingState,
+          billingState: values?.billingState.label,
           billingPostalCode: values?.billingPostalCode,
           billingSuburb: values?.billingSuburb,
           billingApartment: values?.billingApartment,
           deliveryNotes: values?.deliveryNotes,
           billingAddress: values?.billingAddress,
-          state: values?.state,
+          state: values?.state.label,
           postalCode: values?.postalCode,
           deliveryEmail: values?.deliveryEmail,
           deliveryMobile: values?.deliveryMobile,
           deliveryLastName: values?.deliveryLastName,
           deliveryFirstName: values?.deliveryFirstName,
           businessName: values?.businessName,
-          defaultPaymentMethodId: "",
-          defaultPaymentTerm: "",
+          defaultPaymentMethodId: [values?.defaultPaymentMethodId?.label],
+          defaultPaymentTerms: [values?.defaultPaymentTerm?.label],
           abn: values?.abn,
           liquorLicence: values?.liquorLicence,
           organisationId: organisationId,
-          defaultPaymentMethodId: values?.defaultPaymentMethodId,
-          defaultPaymentTerm: values?.defaultPaymentTerms,
           tags: [],
           pricingProfileId: "",
           salesRepId: "",
@@ -331,12 +329,22 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
       }
     )
       .then((response) => {
-        console.log("updatedd", response);
+        // return response.json();
       })
       .then((data) => {
         console.log("response after update>>", data);
         setShow(false);
         saveCustomer();
+        callCustomerDetails((prev) => {
+          return {
+            ...prev,
+            apartment: data?.apartment,
+            address: data?.address,
+            suburb: data?.suburb,
+            state: data?.state,
+            postalCode: data?.postalCode,
+          };
+        });
       });
   };
   const {
@@ -1109,8 +1117,9 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={(selectedValue) => {
                               setValues((prevValues) => ({
                                 ...prevValues,
-                                billingState: selectedValue,
+                                state: selectedValue,
                               }));
+                              setShow(true);
                             }}
                             value={values.state}
                           />
@@ -1323,8 +1332,9 @@ const OrderDetails = ({ datas, handleCustomerDetails }) => {
                             onChange={(selectedValue) => {
                               setValues((prevValues) => ({
                                 ...prevValues,
-                                state: selectedValue,
+                                billingState: selectedValue,
                               }));
+                              setShow(true);
                             }}
                             value={values.billingState}
                           />

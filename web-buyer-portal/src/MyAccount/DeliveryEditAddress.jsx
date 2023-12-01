@@ -193,7 +193,7 @@ const DeliveryEditAddress = ({
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
             <label htmlFor="" className="text-base font-normal text-[#2B4447]">
-              Apartment etc
+              Apartment etc (optional)
             </label>
             <input
               type="text"
@@ -202,19 +202,7 @@ const DeliveryEditAddress = ({
               onChange={handleChange}
               name="Apartment"
               className=""
-              style={{
-                border: errors?.Apartment && "1px solid red",
-                background: "#F8F8F8",
-              }}
             />
-            {errors?.Apartment && (
-              <p className="mt-2 mb-2 text-red-500 text-xs">
-                {errors?.Apartment}
-              </p>
-            )}
-            {errors.Apartment && (
-              <ErrorOutlineIcon className="absolute text-red-500 top-[44px] right-3 transition-all duration-[0.3s]" />
-            )}
           </div>
           <div className="w-full mb-4 relative">
             <label

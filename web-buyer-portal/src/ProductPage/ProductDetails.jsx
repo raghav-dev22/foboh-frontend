@@ -395,14 +395,6 @@ const ProductDetails = () => {
                       ""
                     )}
 
-                    {selectData?.product?.region ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        Region:
-                      </p>
-                    ) : (
-                      ""
-                    )}
-
                     {selectData?.product?.abv ? (
                       <p className="text-base font-normal text-[#2B4447] py-2">
                         ABV:
@@ -410,14 +402,26 @@ const ProductDetails = () => {
                     ) : (
                       ""
                     )}
+                    {(selectData?.product?.subCategoryId === "SC5000" ||
+                      selectData?.product?.subCategoryId === "SC500") && (
+                      <div>
+                        {selectData?.product?.region ? (
+                          <p className="text-base font-normal text-[#2B4447] py-2">
+                            Region:
+                          </p>
+                        ) : (
+                          ""
+                        )}
 
-                    {selectData?.product?.variety &&
-                    selectData.product.variety.length > 0 ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        Grape variety:
-                      </p>
-                    ) : (
-                      ""
+                        {selectData?.product?.variety &&
+                        selectData.product.variety.length > 0 ? (
+                          <p className="text-base font-normal text-[#2B4447] py-2">
+                            Grape variety:
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -455,13 +459,7 @@ const ProductDetails = () => {
                     ) : (
                       ""
                     )}
-                    {selectData?.product?.region ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
-                        {selectData?.product?.region}
-                      </p>
-                    ) : (
-                      ""
-                    )}
+
                     {selectData?.product?.abv ? (
                       <p className="text-base font-semibold text-[#2B4447] py-2">
                         {selectData?.product?.abv}
@@ -469,12 +467,25 @@ const ProductDetails = () => {
                     ) : (
                       ""
                     )}
-                    {selectData?.product?.variety ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
-                        {selectData?.product?.variety}
-                      </p>
-                    ) : (
-                      ""
+
+                    {(selectData?.product?.subCategoryId === "SC5000" ||
+                      selectData?.product?.subCategoryId === "SC500") && (
+                      <div>
+                        {selectData?.product?.region ? (
+                          <p className="text-base font-semibold text-[#2B4447] py-2">
+                            {selectData?.product?.region}
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                        {selectData?.product?.variety ? (
+                          <p className="text-base font-semibold text-[#2B4447] py-2">
+                            {selectData?.product?.variety}
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>

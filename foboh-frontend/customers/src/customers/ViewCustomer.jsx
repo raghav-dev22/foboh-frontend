@@ -418,6 +418,7 @@ function ViewCustomer() {
       <OrderDetails
         handleCustomerDetails={handleCustomerDetails}
         datas={location?.state?.data?.buyerId}
+        setTileValues={setValues}
       />
     </div>
   );

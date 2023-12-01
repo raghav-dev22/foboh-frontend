@@ -51,7 +51,6 @@ function Header() {
     })
       .then((response) => response.json())
       .then((data) => {
-
         if (data.success) {
           const updatedCartList = data.data.map((item) => {
             return {
@@ -95,7 +94,6 @@ function Header() {
     )
       .then((response) => response.json())
       .then((data) => {
-
         if (data.success) {
           dispatch(
             setProductData(
@@ -299,7 +297,7 @@ function Header() {
                           Payments
                         </h6>
                       </li>
-                      <Link to="/home/account">
+                      <Link to="/home/profile">
                         <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
                           <AccountCircleIcon style={{ fill: "#637381" }} />
                           <h6 className="text-sm font-medium		text-[#637381]">
@@ -363,7 +361,7 @@ function Header() {
                 Orders
               </h6>
             </Link>
-            <Link to="/home/account">
+            <Link to="/home/profile">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
                 Account
               </h6>
