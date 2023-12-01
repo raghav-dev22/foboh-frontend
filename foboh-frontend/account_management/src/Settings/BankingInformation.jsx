@@ -24,6 +24,8 @@ import RepresentativeInformation from "./RepresentativeInformation";
 import BankingInfoForm from "./BankingInfoForm";
 import CustomerBillingStatement from "./CustomerBillingStatement";
 import BankingInfoFooter from "./BankingInfoFooter";
+import { useMutation } from "react-query";
+import { postBankingInformations } from "../reactQuery/bankingInformationApiModule";
 
 const BankingInformation = () => {
   const CustomTooltip = styled(({ className, ...props }) => (
@@ -95,10 +97,20 @@ const BankingInformation = () => {
     validationSchema: BankingSchema,
     onSubmit: (values) => {
       console.log(values, "kkk");
+
+      return true;
+      mutate(values);
     },
   });
 
-  console.log("values", values);
+  const { mutate } = useMutation(postBankingInformations, {
+    onSuccess: (data) => {
+      console.log("setupBankingInformations", data);
+    },
+    onError: (err) => {
+      console.log("setupBankingInformationsErr", data);
+    },
+  });
 
   const DetilsUpdated = () => {
     messageApi.open({
@@ -121,11 +133,10 @@ const BankingInformation = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("state -->", data);
         setStateOptions(
           data.map((ele) => {
             return {
-              value: ele.stateId,
+              value: ele.stateName,
               label: ele.stateName,
             };
           })
@@ -197,8 +208,6 @@ const BankingInformation = () => {
     const auBankAccount = elements.getElement(AuBankAccountElement);
     console.log("auBankAccount", auBankAccount);
 
-    
-
     return true;
 
     if (isValid) {
@@ -264,16 +273,6 @@ const BankingInformation = () => {
     setShow(true);
   };
 
-  const handleBusinessDetails = (e) => {
-    const item = e.label;
-    const itemId = e.value;
-    setValues({
-      ...values,
-      businessType: e,
-    });
-    setShow(true);
-  };
-
   const formChange = () => {
     setShow(true);
   };
@@ -286,28 +285,7 @@ const BankingInformation = () => {
   return (
     <>
       {contextHolder}
-      {show && (
-        <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
-          <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
-            <div className="block">
-              <nav className="flex h-[65px] items-center justify-end gap-5 ">
-                <button
-                  onClick={handleReset}
-                  className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium "
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium "
-                >
-                  Save
-                </button>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
+
       <div className="bank-information-page padding-top-custom">
         <div className="pb-6 px-6 flex justify-start items-center gap-2">
           <div
@@ -322,54 +300,76 @@ const BankingInformation = () => {
             Set up banking Information
           </h4>
         </div>
-        <div className="lg:flex flex-col gap-5 px-6 ">
-          <div className="  w-full  gap-5 h-full	 grid	  ">
-            <BusinessDetails
-              values={values}
-              formChange={formChange}
-              businessType={businessType}
-              handleBusinessDetails={handleBusinessDetails}
-              handleBlur={handleBlur}
-              errors={errors}
-              handleChange={handleChange}
-              stateOptions={stateOptions}
-              handleState={handleState}
-              CustomTooltip={CustomTooltip}
-              HelpIcon={HelpIcon}
-              touched={touched}
-            />
+        <form onSubmit={handleSubmit} onChange={formChange}>
+          {show && (
+            <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">
+              <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">
+                <div className="block">
+                  <nav className="flex h-[65px] items-center justify-end gap-5 ">
+                    <button
+                      onClick={handleReset}
+                      className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium "
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium "
+                    >
+                      Save
+                    </button>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="lg:flex flex-col gap-5 px-6 ">
+            <div className="  w-full  gap-5 h-full	 grid">
+              <BusinessDetails
+                values={values}
+                businessType={businessType}
+                handleBlur={handleBlur}
+                errors={errors}
+                setValues={setValues}
+                handleChange={handleChange}
+                stateOptions={stateOptions}
+                CustomTooltip={CustomTooltip}
+                HelpIcon={HelpIcon}
+                touched={touched}
+              />
+            </div>
+            <div className="  w-full  gap-5 h-full	 grid	  ">
+              <RepresentativeInformation
+                setValues={setValues}
+                values={values}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                touched={touched}
+                errors={errors}
+                stateOptions={stateOptions}
+              />
+            </div>
+            <div className="w-full  gap-5  overflow-y-scroll	lg:flex">
+              <BankingInfoForm
+                setValues={setValues}
+                formChange={formChange}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                values={values}
+                touched={touched}
+                errors={errors}
+              />
+              <CustomerBillingStatement
+                formChange={formChange}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                values={values}
+                errors={errors}
+                touched={touched}
+              />
+            </div>
           </div>
-          <div className="  w-full  gap-5 h-full	 grid	  ">
-            <RepresentativeInformation
-              values={values}
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              touched={touched}
-              errors={errors}
-              stateOptions={stateOptions}
-              handleState={handleState}
-            />
-          </div>
-          <div className="w-full  gap-5  overflow-y-scroll	lg:flex">
-            <BankingInfoForm
-              setValues={setValues}
-              formChange={formChange}
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              values={values}
-              touched={touched}
-              errors={errors}
-            />
-            <CustomerBillingStatement
-              formChange={formChange}
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              values={values}
-              errors={errors}
-              touched={touched}
-            />
-          </div>
-        </div>
+        </form>
         <BankingInfoFooter />
       </div>
     </>
