@@ -37,10 +37,7 @@ function ViewCustomer() {
     pricingProfileId: "",
     isActive: "",
   });
-  const handleInputChange = () => {
-    setShow(false);
-    setIsOpen(true);
-  };
+
   const {
     values,
     errors,
@@ -84,6 +81,19 @@ function ViewCustomer() {
         setShow(true);
         setIsOpen(false);
         setIsBussiness(data.businessName);
+        setValues((prev) => {
+          if (data.isActive === "1") {
+            return {
+              ...prev,
+              isActive: "1",
+            };
+          } else {
+            return {
+              ...prev,
+              isActive: "0",
+            };
+          }
+        });
         // }
       })
       .catch((error) => console.log(error));
@@ -101,7 +111,7 @@ function ViewCustomer() {
         };
       } else {
         return {
-          label: "inactive",
+          label: "Inactive",
           value: "0",
         };
       }
@@ -110,7 +120,6 @@ function ViewCustomer() {
   const handleSelectChange = (selectedOption) => {
     setSelectedValue(selectedOption);
     setShow(false);
-    setIsOpen(true);
     console.log(selectedOption.value, "dropdown");
   };
 
@@ -125,7 +134,7 @@ function ViewCustomer() {
           value: "1",
         })
       : setSelectedValue({
-          label: "inactive",
+          label: "Inactive",
           value: "0",
         });
   };
@@ -182,6 +191,8 @@ function ViewCustomer() {
             <button
               onClick={() => {
                 setCustomerEdit(false);
+                setIsOpen(true);
+                setShow(false);
               }}
               type="button"
               className="border-darkGreen shadow-md border rounded	w-fit px-4		h-10	flex justify-center items-center text-base	font-medium gap-2	"
@@ -275,7 +286,7 @@ function ViewCustomer() {
           })}
         </div>
       ) : (
-        <form onChange={handleInputChange}>
+        <form>
           <div className="grid gap-6 lg:grid-cols-2 grid-cols-1 px-12">
             <div className={`relative`}>
               <div className="flex items-center gap-3 mb-4">

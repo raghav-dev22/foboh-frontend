@@ -1664,6 +1664,9 @@ function ViewProduct() {
                           <input
                             onChange={handleMinimumOrderQuantity}
                             value={values.minimumOrder}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && e.preventDefault()
+                            }
                             className="appearance-none block w-full text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-last-name"
                             name="firstName"
@@ -1684,6 +1687,9 @@ function ViewProduct() {
                             name="availableQty"
                             type="number"
                             value={values.availableQty}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && e.preventDefault()
+                            }
                             placeholder="Select"
                           />
                         </div>
@@ -1723,6 +1729,9 @@ function ViewProduct() {
                               <input
                                 onChange={handleStockAlertLevel}
                                 value={values.stockAlertLevel}
+                                onKeyPress={(e) =>
+                                  e.key === "Enter" && e.preventDefault()
+                                }
                                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="stock-alert-level"
                                 name="stock-alert-level"
@@ -1793,6 +1802,9 @@ function ViewProduct() {
                             onChange={handleChange}
                             value={values.title}
                             onBlur={handleBlur}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && e.preventDefault()
+                            }
                             style={{
                               border:
                                 errors.title &&
@@ -1841,6 +1853,9 @@ function ViewProduct() {
                           <input
                             onChange={handleChange}
                             value={values.skuCode}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && e.preventDefault()
+                            }
                             style={{
                               border:
                                 errors.skuCode &&
@@ -1876,6 +1891,9 @@ function ViewProduct() {
                             onChange={handleChange}
                             value={values.brand}
                             onBlur={handleBlur}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && e.preventDefault()
+                            }
                             style={{
                               border:
                                 errors.brand &&
@@ -2048,6 +2066,9 @@ function ViewProduct() {
                               type="text"
                               value={values.vintage}
                               onChange={handleChange}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               placeholder="2004"
                             />
                           </div>
@@ -2066,6 +2087,9 @@ function ViewProduct() {
                               name="awards"
                               onChange={handleChange}
                               onKeyPress={(event) => {
+                                if (event.key === "Enter") {
+                                  event.preventDefault();
+                                }
                                 const allowedCharacters = /^[A-Za-z0-9]*$/;
                                 if (!allowedCharacters.test(event.key)) {
                                   event.preventDefault();
@@ -2108,6 +2132,9 @@ function ViewProduct() {
                               id="abv"
                               name="abv"
                               onChange={handleChange}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               value={values.abv}
                               type="text"
                               placeholder="15%"
@@ -2327,6 +2354,9 @@ function ViewProduct() {
                             name="buyPrice"
                             onChange={handleBuyPrice}
                             value={values.buyPrice}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && e.preventDefault()
+                            }
                             onBlur={handleBlur}
                             placeholder="$250.00"
                           />
