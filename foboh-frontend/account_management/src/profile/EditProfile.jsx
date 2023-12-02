@@ -3,6 +3,9 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../Redux/Action/userSlice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { validateImage } from "../helpers/validatesize";
+import { Modal, Progress } from "antd";
+import { message } from "antd";
 
 function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const dispatch = useDispatch();
@@ -13,6 +16,8 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const fileInputRef = useRef();
   const authUrl = process.env.REACT_APP_AUTH_URL;
   const [saveClicked, setSaveClicked] = useState(false);
+  const [modal2Open, setModal2Open] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleDelete = () => {
     if (fileInputRef.current) {
@@ -35,8 +40,16 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
     open();
   };
 
+  const error = (error) => {
+    messageApi.open({
+      type: "error",
+      content: error,
+    });
+  };
+
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
+
     console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
 
@@ -46,7 +59,7 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
         fileNameParts[fileNameParts.length - 1].toLowerCase();
 
       // List of allowed image extensions (add more if needed)
-      const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+      const allowedExtensions = ["jpg", "jpeg", "png"];
 
       if (allowedExtensions.includes(fileExtension)) {
         setShowError(false);
@@ -85,12 +98,17 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
           })
           .catch((error) => {
             console.error("Error:", error);
+            setModal2Open(true);
           });
+      } else {
+        error(
+          "Invalid file type. Please upload a valid image (JPEG, PNG, JPG )."
+        );
+        // setShowError(true);
+        fileInputRef.current.value = "";
       }
-    } else {
-      setShowError(true);
-      fileInputRef.current.value = "";
     }
+
     // }
   }, []);
 
@@ -100,6 +118,29 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
 
   return (
     <>
+      {contextHolder}
+      <Modal
+        centered
+        open={modal2Open}
+        onOk={() => setModal2Open(false)}
+        onCancel={() => setModal2Open(false)}
+        closable={false}
+        footer={false}
+      >
+        <div className="w-full text-center">
+          <div
+            style={{
+              marginBottom: "10px",
+            }}
+            className="mb-1"
+          >
+            {/* <Progress type="circle" percent={progress} /> */}
+          </div>
+          <p className="font-medium font-inter text-lg">
+            Uploading image, please wait!
+          </p>
+        </div>
+      </Modal>
       <div
         className="w-full lg:w-2/5	rounded-md	 border border-inherit bg-white  overflow-y-scroll	scroll-smooth	scrollable	"
         style={{ height: "380px" }}
@@ -147,12 +188,12 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
               </div>
             </div>
           </div>
-          {showError && (
+          {/* {showError && (
             <p className="mt-2 mb-2 text-red-500 text-sm">
               Invalid file format. Please upload an image (jpg, jpeg, png, or
               gif).
             </p>
-          )}
+          )} */}
           <div
             {...getRootProps()}
             className="border-darkGreen border border-dashed	flex justify-center items-center rounded-md	h-44 w-full mt-4"
@@ -162,7 +203,6 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
                 <input
                   {...getInputProps()}
                   type="file"
-                  accept="image/*"
                   ref={fileInputRef}
                   className="download-file w-full h-full rounded-full absolute opacity-0	"
                   // value={imageSrc}

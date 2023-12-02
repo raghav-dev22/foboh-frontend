@@ -333,10 +333,6 @@ export const ContactSchema = Yup.object().shape({
   Mobile: Yup.string().required("Mobile number is required"),
 });
 export const DeliveryAddressEditSchema = Yup.object().shape({
-  Apartment: Yup.string()
-    .min(2, "Your Apartment should have atleast 2 letters")
-    .required("Apartment is required")
-    .max(50),
   Address: Yup.string()
     .min(2, "Your Address should have atleast 2 letters")
     .required("Address is required")

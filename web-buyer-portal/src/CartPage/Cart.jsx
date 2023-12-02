@@ -178,7 +178,7 @@ const Cart = ({ open, onClose }) => {
                           <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
                             <div className="max-w-[80px] w-[80px] h-[80px]  bg-[#c3c3c3]">
                               <img
-                                src={item.product?.productImageUrls}
+                                src={item.product?.productImageUrls[0]}
                                 alt=""
                                 className="max-w-[80px] w-[80px] h-[80px] object-cover	"
                               />
