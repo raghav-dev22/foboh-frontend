@@ -14,6 +14,7 @@ const Becs = ({
     base: {
       color: "#32325d",
       fontSize: "16px",
+      border: "1px solid #000",
       "::placeholder": {
         color: "#aab7c4",
       },
@@ -29,7 +30,6 @@ const Becs = ({
       },
     },
     InputElement: {
-      border: "1px solid #000",
       padding: "6px 6px 6px 6px",
     },
   };
@@ -42,15 +42,6 @@ const Becs = ({
   };
 
   console.log("cardErrors", cardErrors);
-  useEffect(() => {
-    const inputElement = document.querySelector(
-      ".custom-au-bank-element .InputElement"
-    );
-    if (inputElement) {
-      inputElement.style.border = "1px solid #000";
-      inputElement.style.padding = "6px";
-    }
-  }, []);
   return (
     <>
       <div className="mt-5 py-5 px-4 border rounded-lg">
@@ -103,12 +94,14 @@ const Becs = ({
           className={`relative mb-4 w-full`}
           // data-te-input-wrapper-init
         >
-          <label
-            htmlFor="AccountNumber"
-            className="text-[#2B4447] font-normal text-sm"
-          >
-            Account Details
-          </label>
+          <div className="mb-2">
+            <label
+              htmlFor="AccountNumber"
+              className="text-[#2B4447] font-normal text-sm "
+            >
+              Account Details
+            </label>
+          </div>
           <AuBankAccountElement
             className="custom-au-bank-element"
             options={AU_BANK_ACCOUNT_ELEMENT_OPTIONS}

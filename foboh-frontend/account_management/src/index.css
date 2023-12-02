@@ -580,3 +580,7 @@ a.foboh-green-btn:hover {
   min-height: 48px;
   border: 1px solid #0000001a !important;
 }
+.bg-\[\#F2F2F2\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(242 242 242 / var(--tw-bg-opacity));
+}

@@ -212,121 +212,123 @@ const InnerUnit = ({
                 Added units:
               </h5>
             )}
-            {unit.map((item, idx) => (
-              <div className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7]">
-                {item.editable ? (
-                  <div className="flex flex-nowrap -mx-3 mb-5 relative">
-                    <div className="w-full  px-3 relative">
-                      <h5 className="text-base font-medium text-[#2B4447] mb-2">
-                        Inner unit of measure
-                      </h5>
-                      <div className="flex items-center  justify-start border rounded-[6px] border-[#E0E0E0]">
-                        <input
-                          className="border-0 placeholder:text-[15px] placeholder:font-normal "
-                          type="text"
-                          placeholder="Enter amount"
-                          style={{
-                            width: "60%",
-                            height: "32px",
-                            marginTop: "0px ",
-                            paddingRight: "18px",
-                            paddingLeft: "18px",
-                          }}
-                          onChange={(e) =>
-                            handleEdit(idx, "amount", e.target.value)
-                          }
-                          onKeyPress={(event) => {
-                            const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
-                            if (!allowedCharacters.test(event.key)) {
-                              event.preventDefault();
+            <div className="min-h-[0px] max-h-[172px] overflow-y-auto custom-scroll-bar">
+              {unit.map((item, idx) => (
+                <div className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7]">
+                  {item.editable ? (
+                    <div className="flex flex-nowrap -mx-3 mb-5 relative">
+                      <div className="w-full  px-3 relative">
+                        <h5 className="text-base font-medium text-[#2B4447] mb-2">
+                          Inner unit of measure
+                        </h5>
+                        <div className="flex items-center  justify-start border rounded-[6px] border-[#E0E0E0]">
+                          <input
+                            className="border-0 placeholder:text-[15px] placeholder:font-normal "
+                            type="text"
+                            placeholder="Enter amount"
+                            style={{
+                              width: "60%",
+                              height: "32px",
+                              marginTop: "0px ",
+                              paddingRight: "18px",
+                              paddingLeft: "18px",
+                            }}
+                            onChange={(e) =>
+                              handleEdit(idx, "amount", e.target.value)
                             }
-                          }}
-                        />
-                        <Select
-                          className="custom-border-none"
-                          style={{
-                            width: "40%",
-                          }}
-                          placeholder="Enter amount"
-                          optionFilterProp="children"
-                          filterOption={(input, option) =>
-                            (option?.label ?? "").includes(input)
-                          }
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? "")
-                              .toLowerCase()
-                              .localeCompare(
-                                (optionB?.label ?? "").toLowerCase()
-                              )
-                          }
-                          onChange={(value) =>
-                            handleEdit(idx, "baseUnitMeasureType", value)
-                          }
-                          options={baseUnitMeasureTypeList}
-                        />
-                      </div>
-                    </div>
-                    <div className="w-full  px-3 relative">
-                      <h5 className="text-base font-medium text-[#2B4447] mb-2">
-                        Type
-                      </h5>
-                      <div className="flex items-center">
-                        <Select
-                          showSearch
-                          style={{
-                            width: "100%",
-                          }}
-                          placeholder="Select type"
-                          optionFilterProp="children"
-                          filterOption={(input, option) =>
-                            (option?.label ?? "").includes(input)
-                          }
-                          filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? "")
-                              .toLowerCase()
-                              .localeCompare(
-                                (optionB?.label ?? "").toLowerCase()
-                              )
-                          }
-                          onChange={(value) =>
-                            handleEdit(idx, "innerUnitMeasureType", value)
-                          }
-                          options={innerUnitTypeList}
-                        />
-                        <div
-                          onClick={() => handleSaveEdit(idx, item?.id)}
-                          className="ml-[16px]"
-                        >
-                          <CheckCircleOutlineIcon
-                            style={{ fill: "#147D73", cursor: "pointer" }}
+                            onKeyPress={(event) => {
+                              const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
+                              if (!allowedCharacters.test(event.key)) {
+                                event.preventDefault();
+                              }
+                            }}
+                          />
+                          <Select
+                            className="custom-border-none"
+                            style={{
+                              width: "40%",
+                            }}
+                            placeholder="Enter amount"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "").includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            onChange={(value) =>
+                              handleEdit(idx, "baseUnitMeasureType", value)
+                            }
+                            options={baseUnitMeasureTypeList}
                           />
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <h5 className="text-base font-bold text-[#637381]">
-                      {`${item?.amount} ${item?.iumUnit}`} {item?.iumType}{" "}
-                    </h5>
-                    <div className="flex items-center justify-end gap-3">
-                      <div
-                        onClick={() => handleIsEdit(idx)}
-                        className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
-                      >
-                        <EditRoundedIcon style={{ fill: "#147D73" }} />
+                      <div className="w-full  px-3 relative">
+                        <h5 className="text-base font-medium text-[#2B4447] mb-2">
+                          Type
+                        </h5>
+                        <div className="flex items-center">
+                          <Select
+                            showSearch
+                            style={{
+                              width: "100%",
+                            }}
+                            placeholder="Select type"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              (option?.label ?? "").includes(input)
+                            }
+                            filterSort={(optionA, optionB) =>
+                              (optionA?.label ?? "")
+                                .toLowerCase()
+                                .localeCompare(
+                                  (optionB?.label ?? "").toLowerCase()
+                                )
+                            }
+                            onChange={(value) =>
+                              handleEdit(idx, "innerUnitMeasureType", value)
+                            }
+                            options={innerUnitTypeList}
+                          />
+                          <div
+                            onClick={() => handleSaveEdit(idx, item?.id)}
+                            className="ml-[16px]"
+                          >
+                            <CheckCircleOutlineIcon
+                              style={{ fill: "#147D73", cursor: "pointer" }}
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div
-                        onClick={() => handleDelete(idx, item?.id)}
-                        className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
-                      >
-                        <DeleteIcon style={{ fill: "#147D73" }} />
-                      </div>
                     </div>
-                  </>
-                )}
-              </div>
-            ))}
+                  ) : (
+                    <>
+                      <h5 className="text-base font-bold text-[#637381]">
+                        {`${item?.amount} ${item?.iumUnit}`} {item?.iumType}{" "}
+                      </h5>
+                      <div className="flex items-center justify-end gap-3">
+                        <div
+                          onClick={() => handleIsEdit(idx)}
+                          className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
+                        >
+                          <EditRoundedIcon style={{ fill: "#147D73" }} />
+                        </div>
+                        <div
+                          onClick={() => handleDelete(idx, item?.id)}
+                          className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
+                        >
+                          <DeleteIcon style={{ fill: "#147D73" }} />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex flex-nowrap -mx-3 mb-5 relative">
             <div className="w-full  px-3 relative">

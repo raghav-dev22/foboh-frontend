@@ -51,7 +51,6 @@ function Header() {
     })
       .then((response) => response.json())
       .then((data) => {
-
         if (data.success) {
           const updatedCartList = data.data.map((item) => {
             return {
@@ -95,7 +94,6 @@ function Header() {
     )
       .then((response) => response.json())
       .then((data) => {
-
         if (data.success) {
           dispatch(
             setProductData(
@@ -376,12 +374,14 @@ function Header() {
             setMobileMenuOpen(false);
           }}
         />
-        <Cart
-          open={mobileCartOpen}
-          onClose={() => {
-            setMobileCartOpen(false);
-          }}
-        />
+        {mobileCartOpen === true && (
+          <Cart
+            open={mobileCartOpen}
+            onClose={() => {
+              setMobileCartOpen(false);
+            }}
+          />
+        )}
       </header>
       <div className=" relative md:hidden xl:hidden block mx-6 mb-4">
         <input
