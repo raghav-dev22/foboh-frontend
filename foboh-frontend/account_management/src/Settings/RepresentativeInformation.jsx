@@ -95,6 +95,8 @@ const RepresentativeInformation = ({
               className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="representativeInformationDob"
               type="date"
+              onChange={handleChange}
+              value={values.representativeInformationDob}
               name="representativeInformationDob"
               placeholder="dd/mm/yyyy"
             />

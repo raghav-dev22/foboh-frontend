@@ -19,3 +19,21 @@ export const getSegments = async (segmentIds) => {
 
   return segments;
 };
+
+export const getAllSegments = async () => {
+  const segments = await fetch(
+    "https://masters-api-foboh.azurewebsites.net/api/Segment/get",
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        return data.data;
+      }
+    })
+    .catch((error) => console.log(error));
+
+  return segments;
+};

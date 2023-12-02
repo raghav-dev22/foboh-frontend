@@ -24,8 +24,13 @@ import RepresentativeInformation from "./RepresentativeInformation";
 import BankingInfoForm from "./BankingInfoForm";
 import CustomerBillingStatement from "./CustomerBillingStatement";
 import BankingInfoFooter from "./BankingInfoFooter";
-import { useMutation } from "react-query";
-import { postBankingInformations } from "../reactQuery/bankingInformationApiModule";
+import { useMutation, useQuery } from "react-query";
+import {
+  getBankingInformation,
+  postBankingInformations,
+  putBankingInformations,
+} from "../reactQuery/bankingInformationApiModule";
+import { useSelector } from "react-redux";
 
 const BankingInformation = () => {
   const CustomTooltip = styled(({ className, ...props }) => (
@@ -51,7 +56,10 @@ const BankingInformation = () => {
   const [stateOptions, setStateOptions] = useState([]);
   const [businessType, setBusinessType] = useState([]);
   const elements = useElements();
-  const stripe = useStripe();
+
+  const organisation = useSelector((state) => state.organisationDetails);
+
+  
 
   const [initialValues, setInitialValues] = useState({
     businessType: "",
@@ -75,12 +83,13 @@ const BankingInformation = () => {
     representativeInformationMobile: "",
     representativeInformationEmail: "",
     representativeInformationOwnership: "",
-    bankingInformationBsb: "", // Won't be saving any information
-    bankingInformationAccountNumber: "", // Won't be saving any information
+    bankingInformationBsb: "",
+    bankingInformationAccountNumber: "",
     bankingInformationBankName: "",
     billingStatementdescriptor: "",
     billingStatementMobile: "",
-    termsAndConditions: "",
+    termsAndConditions: false,
+    organisationId: localStorage.getItem("organisationId"),
   });
 
   const {
@@ -96,14 +105,32 @@ const BankingInformation = () => {
     initialValues: initialValues,
     validationSchema: BankingSchema,
     onSubmit: (values) => {
-      console.log(values, "kkk");
-
-      return true;
-      mutate(values);
+      postBankingInfo(values);
     },
   });
 
-  const { mutate } = useMutation(postBankingInformations, {
+  // Fetching bank information
+  const {
+    data: bankingInformationData,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["getBankingInformation"],
+    queryFn: getBankingInformation,
+  });
+
+  // Posting bank information
+  const { mutate: postBankingInfo } = useMutation(postBankingInformations, {
+    onSuccess: (data) => {
+      console.log("setupBankingInformations", data);
+    },
+    onError: (err) => {
+      console.log("setupBankingInformationsErr", data);
+    },
+  });
+
+  // Updating bank information
+  const { mutate: putBankingInfo } = useMutation(putBankingInformations, {
     onSuccess: (data) => {
       console.log("setupBankingInformations", data);
     },
@@ -370,7 +397,7 @@ const BankingInformation = () => {
             </div>
           </div>
         </form>
-        <BankingInfoFooter />
+        <BankingInfoFooter setValues={setValues} values={values} />
       </div>
     </>
   );

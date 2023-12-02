@@ -7,9 +7,36 @@ const organisationDetailsSlice = createSlice({
     businessName: "",
     abn: "",
     liquorLicence: "",
+    organisationAddress: "",
+    organisationAddressApartment: "",
+    organisationAddressSuburb: "",
+    organisationAddressPostcode: "",
+    billingAddress: "",
+    billingAddressApartment: "",
+    billingAddressSuburb: "",
+    billingAddressPostcode: "",
+    billingAddressState: "",
+    orderingContactFirstName: "",
+    orderingContactLastName: "",
+    orderingContactEmail: "",
+    orderingContactMobile: "",
+    logisticsContactFirstName: "",
+    logisticsContactLastName: "",
+    logisticsContactEmail: "",
+    logisticsContactMobile: "",
+    categories: [],
     description: "",
+    state: "",
+    postcode: "",
+    categoryList: [],
   },
   reducers: {
+    setOrganisationDetails: (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
     setTradingName: (state, action) => {
       state.tradingName = action.payload;
     },
@@ -28,6 +55,13 @@ const organisationDetailsSlice = createSlice({
   },
 });
 
-export const { setTradingName, setbusinessName, setAbn, setLiquorLicence, setDescription } = organisationDetailsSlice.actions;
+export const {
+  setTradingName,
+  setbusinessName,
+  setAbn,
+  setLiquorLicence,
+  setDescription,
+  setOrganisationDetails
+} = organisationDetailsSlice.actions;
 
 export default organisationDetailsSlice.reducer;

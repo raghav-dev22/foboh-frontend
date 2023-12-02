@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const BankingInfoFooter = () => {
+const BankingInfoFooter = ({ setValues, values }) => {
   return (
     <div className="px-6 pt-6">
       <h4 className="text-xl font-semibold  text-[#2B4447]">
@@ -10,12 +10,22 @@ const BankingInfoFooter = () => {
       <div className="flex mt-3 justify-start items-center gap-2 green-checkbox">
         <input
           className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
-          id="default-radio-1"
+          id="termsAndConditions"
           type="checkbox"
-          defaultValue=""
-          name="default-radio"
+          name="termsAndConditions"
+          onChange={(e) => {
+            setValues((prev) => {
+              return {
+                ...prev,
+                termsAndConditions: e.target.checked,
+              };
+            });
+          }}
         />
-        <p className=" text-sm font-medium text-[#637381]">
+        <label
+          htmlFor="termsAndConditions"
+          className=" text-sm font-medium text-[#637381]"
+        >
           By using FOBOH Payments you agree to the{" "}
           <span>
             <Link
@@ -27,7 +37,7 @@ const BankingInfoFooter = () => {
             </Link>
           </span>
           .
-        </p>
+        </label>
       </div>
     </div>
   );

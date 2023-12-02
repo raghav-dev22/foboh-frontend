@@ -3,7 +3,8 @@ import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import { Select, Space } from "antd";
+import { Space } from "antd";
+import Select from "react-select";
 let filterAndSort = {
   filter: {
     businessName: "",
@@ -42,6 +43,7 @@ function SearchCustomer({
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
   const [itemLabel, setItemLabel] = useState("");
   const [isFilter, setIsFilter] = useState(false);
+  const [selectedState, setSelectedState] = useState([]);
   const dropdownRef = useRef(null);
   const { Option } = Select;
 
@@ -78,9 +80,9 @@ function SearchCustomer({
   };
 
   const addState = (value) => {
-    console.log(value, "item");
+    setSelectedState(value);
 
-    const newState = value;
+    const newState = value.map((item) => item.value);
     // Clone the filter object to avoid mutating the state directly
     const updatedFilter = {
       ...filterAndSort.filter,
@@ -284,8 +286,8 @@ function SearchCustomer({
   return (
     <>
       <div
-        className=" border border-inherit bg-white h-full py-3	 px-4"
         ref={dropdownRef}
+        className=" border border-inherit bg-white h-full py-3	 px-4"
       >
         <div className=" rounded-md gap-3	  sm:flex grid sm:justify-between items-center ">
           <div>
@@ -420,29 +422,26 @@ function SearchCustomer({
                 </div>
                 {Second && (
                   <div
-                    className=" z-10	left-0   w-60 absolute product-dropdown rounded-lg	 overflow-y-scroll py-3	"
+                    className="z-10 left-0  w-60 absolute product-dropdown rounded-lg	overflow-y-scroll py-3"
                     style={{ height: "175px" }}
                   >
                     <Select
-                      mode="multiple"
+                      className=""
+                      isMulti={true}
+                      isSearchable={true}
                       style={{
                         width: "100%",
                       }}
                       placeholder="select one country"
                       onChange={addState}
-                      optionLabelProp="label"
-                      open={true}
-                    >
-                      {State.map((item, index) => {
-                        return (
-                          <>
-                            <Option value={item} label={item}>
-                              <Space>{item}</Space>
-                            </Option>
-                          </>
-                        );
+                      value={selectedState}
+                      options={State.map((item) => {
+                        return {
+                          label: item,
+                          value: item,
+                        };
                       })}
-                    </Select>
+                    />
                   </div>
                 )}
               </div>

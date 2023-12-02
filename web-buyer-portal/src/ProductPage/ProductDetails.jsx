@@ -10,6 +10,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import { stockStatus } from "../helpers/getStockStatus";
 import { Image } from "antd";
+import { getAllSegments } from "../helpers/getSegments";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const ProductDetails = () => {
   const productData = products.find((item) => item?.product?.productId === +id);
   const dispatch = useDispatch();
   let selectedpic = "";
+  const [segments, setSegments] = useState("");
 
   // const addCart = (product) => {
   //   dispatch(add(product));
@@ -76,6 +78,7 @@ const ProductDetails = () => {
       })
       .then((data) => {
         console.log("product detail", data);
+        asyncFunction(data?.data[0]?.segmentId);
         setSelectedImage(data?.data[0]?.productImageUrls[0]);
         setSelectData({
           product: data.data[0],
@@ -87,6 +90,17 @@ const ProductDetails = () => {
         console.error("There was a problem with the fetch operation:", error);
       });
   }, []);
+
+  const asyncFunction = async (segmentId) => {
+    const segmentsResponse = await getAllSegments();
+    setSegments(
+      segmentsResponse.find((item) => {
+        if (item.segmentId === segmentId) {
+          return item.segmentName;
+        }
+      })
+    );
+  };
 
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
@@ -434,7 +448,7 @@ const ProductDetails = () => {
 
                     {selectData?.product?.segmentId ? (
                       <p className="text-base font-semibold text-[#2B4447] py-2">
-                        {selectData?.product?.segmentId}
+                        {segments.segmentName}
                       </p>
                     ) : (
                       ""
@@ -512,7 +526,7 @@ const ProductDetails = () => {
                     )}
                     {selectData?.product?.segmentId ? (
                       <p className="text-base font-semibold text-[#2B4447] py-2">
-                        {selectData?.product?.segmentId}
+                        {segments.segmentName}
                       </p>
                     ) : (
                       ""

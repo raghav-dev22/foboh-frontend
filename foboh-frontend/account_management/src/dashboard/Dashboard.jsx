@@ -13,7 +13,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import SafeComponent from "./SafeComponent";
 import Loader from "./Loader";
 import FallbackComponent from "./FallbackComponent";
-import { setbusinessName } from "../Redux/Action/organisationDetailsSlice";
+import {
+  setOrganisationDetails,
+  setbusinessName,
+} from "../Redux/Action/organisationDetailsSlice";
 
 const ViewProduct = React.lazy(() =>
   import("products/ViewProduct").catch(() => {
@@ -156,7 +159,7 @@ function Dashboard() {
             console.log("get org --> ", data);
             if (data.success) {
               const org = data?.data[0];
-
+              dispatch(setOrganisationDetails(org));
               dispatch(updateLogoURI(org?.organisationlogo));
               dispatch(setbusinessName(org?.businessName));
             }

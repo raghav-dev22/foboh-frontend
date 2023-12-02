@@ -24,3 +24,11 @@ export const fomatDateAndTime = (inputDateTime) => {
 
   return `${formattedDate} at ${formattedTime}`;
 };
+
+export function formatGivenDate(inputDate) {
+  const date = new Date(inputDate);
+
+  const isoString = date.toISOString();
+
+  return isoString;
+}

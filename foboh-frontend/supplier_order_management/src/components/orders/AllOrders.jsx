@@ -14,6 +14,7 @@ import { formatDateAfterRelativeDate } from "../../helpers/dateFormatter";
 import { formatDate } from "../../helpers/dateFormate";
 import { useNavigate } from "react-router-dom";
 import { formatPrice } from "../../helpers/formatPrice";
+import { formatGivenDate } from "../../helpers/formatDateAndTime";
 
 let filterAndSort = {
   filter: {
@@ -26,8 +27,8 @@ let filterAndSort = {
     page: 0,
   },
   sort: {
-    sortBy: "date",
-    sortOrder: "desc",
+    sortBy: "",
+    sortOrder: "asc",
   },
 };
 
@@ -67,6 +68,7 @@ const AllOrders = () => {
   });
   const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState([]);
+  const [customSelectedDate, setCustomSelectedDate] = useState([]);
 
   const statusCheckAll = statusList.length === selectedStatus.length;
 
@@ -85,10 +87,6 @@ const AllOrders = () => {
     console.log("Selected date:", date);
   };
 
-  console.log(
-    orderData,
-    "orderData----------------------------------------------------->"
-  );
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
@@ -385,7 +383,6 @@ const AllOrders = () => {
   };
 
   const handleFilter = (value, name) => {
-    console.log(value, name, "value============>");
     if (name === "status") {
       setSelectedStatus(value);
       const newFilter = {
@@ -427,13 +424,13 @@ const AllOrders = () => {
         filter: newFilter,
       };
     } else if (name === "customDate") {
-      const formatedDate = value
-        ? `${value.$y}-${value.$M + 1}-${value.$D}`
-        : "";
+      setCustomSelectedDate(value);
 
+      const date = value?.map((item) => formatGivenDate(item.$d));
       const newFilter = {
         ...filterAndSort.filter,
-        customeDate: formatedDate,
+        orderEntryDate: value ? date[0] : "",
+        orderFilterEndDate: value ? date[1] : "",
       };
 
       filterAndSort = {
@@ -829,6 +826,7 @@ const AllOrders = () => {
                                 //     </div>
                                 //   </div>
                                 // )}
+                                value={customSelectedDate}
                                 onChange={(value) =>
                                   handleFilter(value, "customDate")
                                 }
