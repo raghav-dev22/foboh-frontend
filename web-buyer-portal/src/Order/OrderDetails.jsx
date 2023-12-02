@@ -331,7 +331,7 @@ const OrderDetails = () => {
                 <div className="flex justify-between items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
                   <div className="md:w-[18%] flex justify-center items-center w-full border h-[100px] border-[#eaeaeae9] rounded-md shadow-custom">
                     <img
-                      src={item.productImageUrls}
+                      src={item.productImageUrls[0]}
                       alt=""
                       className="w-[150px]  object-contain h-full	rounded-md"
                     />
