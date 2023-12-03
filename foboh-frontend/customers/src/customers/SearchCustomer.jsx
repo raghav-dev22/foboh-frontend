@@ -46,6 +46,7 @@ function SearchCustomer({
   const [selectedState, setSelectedState] = useState([]);
   const dropdownRef = useRef(null);
   const { Option } = Select;
+  const [statusSelected, setStatusSelected] = useState(false);
 
   const handleChange = (value) => {
     console.log("Value >>", value);
@@ -146,8 +147,8 @@ function SearchCustomer({
 
   const toggleCategory = (e, value, category) => {
     const checked = e.target.checked;
-
     const newStatus = checked ? value : "";
+    setStatusSelected(newStatus);
 
     const updatedFilter = {
       ...filterAndSort.filter,
@@ -283,6 +284,27 @@ function SearchCustomer({
     };
   }, [dropdownRef]);
 
+  const handleClearFilter = () => {
+    filterAndSort = {
+      filter: {
+        businessName: "",
+        status: "",
+        postCode: "",
+        state: [],
+        page: 1,
+      },
+      sort: {
+        sortBy: "",
+        sortOrder: "asc",
+      },
+    };
+    setSelectedState([]);
+    setStatusSelected(false);
+    setPinCode("");
+    processChange("filterAndSort");
+    setIsFilter(false);
+  };
+
   return (
     <>
       <div
@@ -388,7 +410,7 @@ function SearchCustomer({
                                     filterAndSort?.filter?.status === sts.value
                                   }
                                   type="checkbox"
-                                  value={sts.value}
+                                  value={statusSelected}
                                   onClick={(e) =>
                                     toggleCategory(e, sts.value, "status")
                                   }
@@ -476,7 +498,7 @@ function SearchCustomer({
             <div
               className="cursor-pointer"
               onClick={() => {
-                setIsFilter(false);
+                handleClearFilter();
               }}
             >
               <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">

@@ -7,7 +7,6 @@ import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 function ActiveOrder({ mutate }) {
-  
   const { RangePicker } = DatePicker;
   const [selectedDates, setSelectedDates] = useState([]);
 
@@ -62,6 +61,22 @@ function ActiveOrder({ mutate }) {
     dates[1] !== null && debouncedHandleInput(dates, 500);
   };
   const handleCustomClear = () => {
+    mutate({
+      filter: {
+        searchByValue: "",
+        region: [],
+        orderStatus: ["New", "Pending"],
+        orderEntryDate: "",
+        OrderFilterEndDate: "",
+        customeDate: "",
+        page: 0,
+        pagination: false,
+      },
+      sort: {
+        sortBy: "",
+        sortOrder: "",
+      },
+    });
     setSelectedDates([]);
     setShow("false"); // Clear the selected dates when the custom close button is clicked
   };

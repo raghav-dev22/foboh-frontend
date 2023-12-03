@@ -17,8 +17,8 @@ const stock = [
 
 const status = [
   { label: "Active", value: "Active" },
-  { label: "Inactive", value: "inactive" },
-  { label: "Archived", value: "archived" },
+  { label: "Inactive", value: "Inactive" },
+  { label: "Archived", value: "Archived" },
 ];
 
 let filterAndSort = {
@@ -35,6 +35,8 @@ let filterAndSort = {
     sortOrder: "asc",
   },
 };
+
+let categoryList = [];
 
 const SearchProduct = forwardRef(
   (
@@ -63,15 +65,10 @@ const SearchProduct = forwardRef(
     const [showFilter, setShowFilter] = useState(false);
     const dropdownRef = useRef(null);
     const { Option } = Select;
-    const [alcoholicSelectedList, setAlcoholicSelectedList] = useState([]);
-    const [nonAlcoholicSelectedList, setNonAlcoholicSelectedList] = useState(
-      []
-    );
-
-    const [subCategorySelectedList, setSubCategorySelectedList] = useState([
-      [],
-      [],
-    ]);
+    const [selectSubcategory, setSelectSubcategory] = useState([]);
+    const [selectStatus, setSelectStatus] = useState([]);
+    const [selectStock, setSelectStock] = useState([]);
+    const [selectVisibility, setSelectVisibility] = useState("");
 
     const handleChange = (e, value, name) => {
       console.log(e, value, name);
@@ -252,19 +249,30 @@ const SearchProduct = forwardRef(
         name: name,
         categoryName: categoryName,
       };
+
       console.log("filterValue", filterValue);
 
       // Handling pagination
 
       if (name === "category") {
+        setSelectSubcategory([]);
         setOpen(!Open);
         const newCategoryIds = e.target.checked
+          ? [id]
+          : filterAndSort.filter.category.filter((catId) => catId !== id);
+
+        const newCategoryList = e.target.checked
           ? [...filterAndSort.filter.category, id]
           : filterAndSort.filter.category.filter((catId) => catId !== id);
+
+        categoryList = newCategoryList;
+
+        console.log("categoryList", categoryList);
 
         const newFilter = {
           ...filterAndSort.filter,
           category: newCategoryIds,
+          subcategory: [],
         };
 
         filterAndSort = {
@@ -273,6 +281,8 @@ const SearchProduct = forwardRef(
         };
       } else if (name === "subcategory") {
         const newSubcategoryIds = e;
+
+        // console.log("selectSubcategory", selectSubcategory);
 
         const newFilter = {
           ...filterAndSort.filter,
@@ -283,6 +293,9 @@ const SearchProduct = forwardRef(
           ...filterAndSort,
           filter: newFilter,
         };
+
+        setSelectSubcategory(e);
+        console.log("filterAndSort", filterAndSort);
       } else if (name === "stock") {
         const newStockValues = e.target.checked
           ? [...filterAndSort.filter.stock, id]
@@ -290,7 +303,7 @@ const SearchProduct = forwardRef(
               (stockValue) => stockValue !== id
             );
 
-        console.log("stock", newStockValues);
+        setSelectStock(newStockValues);
 
         const newFilter = {
           ...filterAndSort.filter,
@@ -308,6 +321,8 @@ const SearchProduct = forwardRef(
               (statusValue) => statusValue !== id
             );
 
+        setSelectStatus(newStatusValues);
+
         const newFilter = {
           ...filterAndSort.filter,
           productStatus: newStatusValues,
@@ -321,6 +336,8 @@ const SearchProduct = forwardRef(
         const checked = e.target.checked;
 
         const newVisibilityValue = checked ? id : "";
+
+        setSelectVisibility(newVisibilityValue);
 
         const newFilter = {
           ...filterAndSort.filter,
@@ -363,7 +380,6 @@ const SearchProduct = forwardRef(
       };
 
       processChange("filterAndSort");
-      console.log("val", filterAndSort);
     };
 
     const handleFilter = () => {
@@ -436,6 +452,28 @@ const SearchProduct = forwardRef(
 
       return () => clearTimeout(timeoutId);
     }, []);
+
+    const handleClearFilter = () => {
+      setSelectStatus([]);
+      setSelectStock([]);
+      setSelectSubcategory([]);
+      setSelectVisibility("");
+      filterAndSort = {
+        filter: {
+          category: [],
+          subcategory: [],
+          stock: [],
+          productStatus: [],
+          visibility: "",
+          page: 1,
+        },
+        sort: {
+          sortBy: "",
+          sortOrder: "asc",
+        },
+      };
+      processChange("filterAndSort");
+    };
 
     return (
       <>
@@ -537,12 +575,14 @@ const SearchProduct = forwardRef(
                                     toggleCategoryAndSubcategory(
                                       e,
                                       category.categoryId,
-                                      "category"
+                                      "category",
+                                      category.categoryName
                                     )
                                   }
-                                  checked={filterAndSort.filter.category.includes(
+                                  checked={
+                                    filterAndSort.filter.category[0] ===
                                     category.categoryId
-                                  )}
+                                  }
                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                                 />
                                 <label
@@ -553,22 +593,22 @@ const SearchProduct = forwardRef(
                                 </label>
                               </div>
 
-                              {filterAndSort.filter.category.includes(
-                                category.categoryId
-                              ) && (
+                              {filterAndSort.filter.category[0] ===
+                                category.categoryId && (
                                 <ul className="dropdown-content">
                                   <Select
                                     mode="multiple"
                                     style={{
                                       width: "100%",
                                     }}
+                                    value={selectSubcategory}
                                     placeholder={`select ${category.categoryName}`}
                                     onChange={(e, value) =>
                                       toggleCategoryAndSubcategory(
                                         e,
                                         value,
                                         "subcategory",
-                                        category.categoryName
+                                        category.categoryId
                                       )
                                     }
                                     //value={subCategorySelectedList[idx]}
@@ -626,9 +666,7 @@ const SearchProduct = forwardRef(
                                       "stock"
                                     )
                                   }
-                                  checked={filterAndSort.filter.stock.includes(
-                                    ele.value
-                                  )}
+                                  checked={selectStock.includes(ele.value)}
                                   className=""
                                 />
                               </div>
@@ -666,9 +704,7 @@ const SearchProduct = forwardRef(
                                   id={sts.value}
                                   type="checkbox"
                                   value={sts.value}
-                                  checked={filterAndSort.filter.productStatus.includes(
-                                    sts.value
-                                  )}
+                                  checked={selectStatus.includes(sts.value)}
                                   onClick={(e) =>
                                     toggleCategoryAndSubcategory(
                                       e,
@@ -721,9 +757,7 @@ const SearchProduct = forwardRef(
                                     "visibility"
                                   )
                                 }
-                                checked={
-                                  filterAndSort.filter.visibility === "1"
-                                }
+                                checked={selectVisibility === "1"}
                                 className=""
                               />
                             </div>
@@ -749,9 +783,7 @@ const SearchProduct = forwardRef(
                                     "visibility"
                                   )
                                 }
-                                checked={
-                                  filterAndSort.filter.visibility === "0"
-                                }
+                                checked={selectVisibility === "0"}
                                 className=""
                               />
                             </div>
@@ -772,6 +804,7 @@ const SearchProduct = forwardRef(
                 className="cursor-pointer"
                 onClick={() => {
                   setShowFilter(false);
+                  handleClearFilter();
                 }}
               >
                 <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
