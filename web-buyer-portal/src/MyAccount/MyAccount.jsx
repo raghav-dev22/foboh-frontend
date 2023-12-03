@@ -9,7 +9,7 @@ const MyAccount = () => {
   const { token } = useToken();
   const navigate = useNavigate();
   const ProfileBtn = () => {
-    navigate("/home/profile");
+    navigate("/home/account");
   };
   return (
     <>

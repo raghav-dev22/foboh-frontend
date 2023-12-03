@@ -121,6 +121,7 @@ const ProductList = () => {
   const dropdownRef = useRef(null);
   const sortRef = useRef(null);
   const productData = useSelector((state) => state.product);
+  const [selectSlider, setSelectSlider] = useState([]);
 
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
@@ -629,6 +630,8 @@ const ProductList = () => {
   const handleChange = (e, value) => {
     console.log("price slider", e, value);
 
+    setSelectSlider(e);
+
     const newFilter = {
       ...localFilterSort.filter,
       minPrice: e[0],
@@ -648,6 +651,7 @@ const ProductList = () => {
         maxPrice: e[1],
       },
     }));
+    processChange();
     setWine(false);
   };
 
@@ -760,14 +764,15 @@ const ProductList = () => {
     if (name === "category") {
       // setOpen(!Open);
       const newCategoryIds = e.target.checked
-        ? [...localFilterSort.filter.category, id]
+        ? [id]
         : localFilterSort.filter.category.filter((catId) => catId !== id);
 
       const newFilter = {
         ...localFilterSort.filter,
         category: newCategoryIds,
+        subCategory: [],
       };
-      console.log(newCategoryIds, "id.key");
+
       if (e.target.checked) {
         setFilter(true);
       } else {
@@ -783,15 +788,20 @@ const ProductList = () => {
         ...localFilterSort,
         filter: newFilter,
       });
-      console.log(newCategoryIds, "newCategoryIds--->");
     } else if (name === "subcategory") {
       const newSubcategoryIds = id.map((subCat) => subCat.key);
+      const subcategoryName = e;
 
       setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
         ...localFilterSort.filter,
         subCategory: newSubcategoryIds,
+      };
+
+      const newSubcategoryFilter = {
+        ...localFilterSort.filter,
+        subCategory: subcategoryName,
       };
 
       localFilterSort = {
@@ -801,7 +811,7 @@ const ProductList = () => {
 
       setFilterAndSort({
         ...localFilterSort,
-        filter: newFilter,
+        filter: newSubcategoryFilter,
       });
 
       (e.includes("wine") || e.includes("Wine")) &&
@@ -822,12 +832,18 @@ const ProductList = () => {
       getWineSpecific(e, newSubcategoryIds);
     } else if (name === "segment") {
       const newSegmentIds = id.map((segment) => segment.key);
+      const newSegmentsName = e;
 
       const newFilter = {
         ...localFilterSort.filter,
         segment: newSegmentIds,
       };
 
+      const newSegmentFilter = {
+        ...localFilterSort.filter,
+        segment: newSegmentsName,
+      };
+
       localFilterSort = {
         ...localFilterSort,
         filter: newFilter,
@@ -835,16 +851,22 @@ const ProductList = () => {
 
       setFilterAndSort({
         ...localFilterSort,
-        filter: newFilter,
+        filter: newSegmentFilter,
       });
     } else if (name === "variety") {
       const newVarietyIds = id.map((variety) => variety.key);
+      const newVarietyName = e;
 
       const newFilter = {
         ...localFilterSort.filter,
         variety: newVarietyIds,
       };
 
+      const newVarietyFilter = {
+        ...localFilterSort.filter,
+        variety: newVarietyName,
+      };
+
       localFilterSort = {
         ...localFilterSort,
         filter: newFilter,
@@ -852,7 +874,7 @@ const ProductList = () => {
 
       setFilterAndSort({
         ...localFilterSort,
-        filter: newFilter,
+        filter: newVarietyFilter,
       });
     } else if (name === "country") {
       const newCountryIds = id.map((country) => country.key);
@@ -891,11 +913,18 @@ const ProductList = () => {
       });
     } else if (name === "regionAvailable") {
       const newRegionAvailableIds = id.map((region) => region.key);
+      const newRegionAvailableName = e;
+
       setRegionAvailability(id);
       id.length > 0 ? setFilter(true) : setFilter(false);
       const newFilter = {
         ...localFilterSort.filter,
         regionAvailability: newRegionAvailableIds,
+      };
+
+      const newRegionAvailableFilter = {
+        ...localFilterSort.filter,
+        regionAvailability: newRegionAvailableName,
       };
 
       localFilterSort = {
@@ -905,7 +934,7 @@ const ProductList = () => {
 
       setFilterAndSort({
         ...localFilterSort,
-        filter: newFilter,
+        filter: newRegionAvailableFilter,
       });
     } else if (name === "tags") {
       id.length > 0 ? setFilter(true) : setFilter(false);
@@ -1175,6 +1204,10 @@ const ProductList = () => {
                             <input
                               id={idx}
                               type="checkbox"
+                              checked={
+                                filterAndSort.filter.category[0] ===
+                                category.categoryId
+                              }
                               value={category.categoryId}
                               onClick={(e) =>
                                 toggleCategoryAndSubcategory(
@@ -1191,9 +1224,8 @@ const ProductList = () => {
                               {category.categoryName}
                             </label>
                           </div>
-                          {filterAndSort.filter.category.includes(
-                            category.categoryId
-                          ) && (
+                          {filterAndSort.filter.category[0] ===
+                            category.categoryId && (
                             <ul className="dropdown-content">
                               <Select
                                 // open={true}
@@ -1201,7 +1233,8 @@ const ProductList = () => {
                                 style={{
                                   width: "100%",
                                 }}
-                                placeholder="Search|"
+                                placeholder="Search"
+                                value={filterAndSort.filter.subCategory}
                                 onChange={(e, value) =>
                                   toggleCategoryAndSubcategory(
                                     e,
@@ -1213,9 +1246,8 @@ const ProductList = () => {
                               >
                                 {category.subcategory.map((subcat, i) => (
                                   <>
-                                    {filterAndSort.filter.category.includes(
-                                      category.categoryId
-                                    ) && (
+                                    {filterAndSort.filter.category[0] ===
+                                      category.categoryId && (
                                       <Option
                                         value={subcat.name}
                                         key={subcat.id}
@@ -1282,6 +1314,7 @@ const ProductList = () => {
                         }}
                         placeholder="Search"
                         className=""
+                        value={filterAndSort?.filter?.segment}
                         optionLabelProp="label"
                         onChange={(e, value) =>
                           toggleCategoryAndSubcategory(e, value, "segment")
@@ -1345,6 +1378,7 @@ const ProductList = () => {
                         placeholder="Search"
                         className=""
                         optionLabelProp="label"
+                        value={filterAndSort.filter.variety}
                         onChange={(e, value) =>
                           toggleCategoryAndSubcategory(e, value, "variety")
                         }
@@ -1503,6 +1537,7 @@ const ProductList = () => {
                       placeholder="Search"
                       className=""
                       optionLabelProp="label"
+                      value={filterAndSort.filter.regionAvailability}
                       onChange={(e, value) =>
                         toggleCategoryAndSubcategory(
                           e,
@@ -1653,6 +1688,7 @@ const ProductList = () => {
                           getAriaLabel={() => "Temperature range"}
                           range
                           defaultValue={[20, 50]}
+                          value={selectSlider}
                           onChange={handleChange}
                           valueLabelDisplay="auto"
                         />
@@ -1808,7 +1844,7 @@ const ProductList = () => {
                           }  object-contain`}
                           onClick={() =>
                             navigate(
-                              `/home/product-name/${item?.product?.productId}`
+                              `/home/all-products/product/${item?.product?.productId}`
                             )
                           }
                         />
@@ -1818,7 +1854,7 @@ const ProductList = () => {
                         <h4
                           onClick={() =>
                             navigate(
-                              `/home/product-name/${item?.product?.productId}`
+                              `/home/all-products/product/${item?.product?.productId}`
                             )
                           }
                           className="text-lg font-semibold mt-3 cursor-pointer"

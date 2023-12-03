@@ -42,7 +42,7 @@ const DeliveryEdit = () => {
     onSubmit: (values) => {
       console.log(values);
       localStorage.setItem("deliveryEdit", JSON.stringify(cart));
-      navigate("/home/profile");
+      navigate("/home/account");
       setCart(values);
       console.log(cart, "flag>>");
     },

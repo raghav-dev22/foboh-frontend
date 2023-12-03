@@ -35,7 +35,7 @@ function Banner() {
             <div className="mt-2 text-center xl:text-start md:text-start">
               <button
                 onClick={() => {
-                  navigate("/home/product-list");
+                  navigate("/home/all-products");
                 }}
                 style={{ backgroundColor: token.buttonThemeColor }}
                 className=" bg-[#fff] xl:bg-[#563FE3] md:bg-[#563FE3] py-2.5	px-7	rounded-3xl"

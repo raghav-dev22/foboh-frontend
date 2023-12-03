@@ -15,22 +15,22 @@ export const getCalculations = (cartList) => {
         product.subCategoryId === "SC5000" ||
         product.subCategoryId === "SC500"
       ) {
-        const productSubtotal = price * quantity;
-        const wetApplied = productSubtotal * 0.29;
-        wet += wetApplied;
-        const luc = productSubtotal + wetApplied;
-        lucUnit = luc;
-        const gstAppliedLuc = luc * 0.1;
-        gst += gstAppliedLuc;
-        subtotal1 += luc + gstAppliedLuc;
+        const productSubtotal = price * quantity; 
+        const wetApplied = productSubtotal * 0.29; 
+        wet += wetApplied; 
+        const luc = productSubtotal + wetApplied; 
+        lucUnit = luc; 
+        const gstAppliedLuc = luc * 0.1; 
+        gst += gstAppliedLuc; 
+        subtotal1 += luc + gstAppliedLuc; 
       } else {
-        const productSubtotal = price * quantity;
-        const gstAppliedOnNonWine = productSubtotal * 0.1;
-        gst += gstAppliedOnNonWine;
-        subtotal2 += productSubtotal + gstAppliedOnNonWine;
+        const productSubtotal = price * quantity; 
+        const gstAppliedOnNonWine = productSubtotal * 0.1; 
+        gst += gstAppliedOnNonWine; 
+        subtotal2 += productSubtotal + gstAppliedOnNonWine; 
       }
       subtotal += price * quantity;
-      total += subtotal1 + subtotal2;
+      total = subtotal1 + subtotal2; 
     });
     return {
       lucUnit: parseFloat(lucUnit.toFixed(2)),
@@ -74,7 +74,7 @@ export const getInvoiceDataCalculations = (data, setIsWine) => {
         subtotal2 += productSubtotal + gstAppliedOnNonWine;
       }
 
-      total += subtotal1 + subtotal2;
+      total = subtotal1 + subtotal2;
 
       return {
         totalPrice: item?.totalPrice,

@@ -55,14 +55,18 @@ function ShopSection() {
                         className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"
                         src={product.productImageUrls}
                         onClick={() =>
-                          navigate(`/home/product-name/${product?.productId}`)
+                          navigate(
+                            `/home/all-products/product/${product?.productId}`
+                          )
                         }
                       />
                       <div className="mt-3">
                         <h2
                           className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm cursor-pointer "
                           onClick={() =>
-                            navigate(`/home/product-name/${product?.productId}`)
+                            navigate(
+                              `/home/all-products/product/${product?.productId}`
+                            )
                           }
                         >
                           {product.subCategoryName}
@@ -70,7 +74,9 @@ function ShopSection() {
                         <p
                           className="text-[#637381] text-center text-sm md:block hidden cursor-pointer"
                           onClick={() =>
-                            navigate(`/home/product-name/${product?.productId}`)
+                            navigate(
+                              `/home/all-products/product/${product?.productId}`
+                            )
                           }
                         >
                           {product.configuration}
@@ -85,7 +91,7 @@ function ShopSection() {
           <div className="text-center py-10  hidden sm:block xl:block md:block">
             <div
               style={{ background: token.buttonThemeColor }}
-              onClick={() => navigate("/home/product-list")}
+              onClick={() => navigate("/home/all-products")}
               className="py-3	px-7	rounded-md	 bg-[#563FE3] w-fit mx-auto cursor-pointer"
             >
               <h6 className="font-semibold text-white text-center text-base">

@@ -22,6 +22,8 @@ import {
   getdefaultPaymentTerm,
 } from "../reactQuery/viewCustomerApiModule";
 
+let paymentTerm = [];
+
 const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   console.log(datas, ">>id");
   const navigate = useNavigate();
@@ -119,28 +121,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     queryFn: getdefaultPaymentTerm,
   });
 
-  let defaultPaymentMethodList = [];
-
-  const getcustomerDefaultPaymentMethod = async (defaultPaymentTerm) => {
-    const dpm = await getdefaultPaymentMethod(defaultPaymentTerm);
-
-    console.log("dpm", dpm);
-    defaultPaymentMethodList = dpm?.data.map((item) => {
-      return {
-        label: item,
-        value: item,
-      };
-    });
-
-    const defaultPaymentMethodId = defaultPaymentMethodList.find(
-      (item) => customerData.defaultPaymentMethodId[0] === item.label
-    );
-
-    return [defaultPaymentMethodId, defaultPaymentMethodList];
-  };
-
-  let paymentTerm = [];
-  if (paymentTermData && !paymentTermIsLoading) {
+  if (paymentTermData) {
     const data = paymentTermData.map((item) => {
       return {
         value: item.id,
@@ -156,6 +137,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
       setValues({
         ...values,
         defaultPaymentTerms: e,
+        defaultPaymentMethodId: {},
       });
 
       const defaultPaymentMethodList = await getdefaultPaymentMethod(e);
@@ -177,14 +159,14 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
 
   let customerData = {};
   const callCustomerDetails = async () => {
-    const data = await fetch(
+    await fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/${datas}`,
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         console.log("Customer data --->", data);
         customerData = data;
         handleCustomerDetails(data);
@@ -250,7 +232,9 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           abn: data.abn,
           liquorLicence: data.liquorLicence,
           organisationId: data?.organisationId,
-          defaultPaymentMethodId: defaultPaymentMethodSelected,
+          defaultPaymentMethodId: updatedPaymentMethod?.find(
+            (item) => data?.defaultPaymentMethodId[0] === item.label
+          ),
           defaultPaymentTerms: paymentTerm.find(
             (item) => data?.defaultPaymentTerm[0] === item.label
           ),
@@ -261,25 +245,28 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
         });
         setCustomerDetails(data);
 
-        return data;
+        const dpt = {
+          label: data?.defaultPaymentTerm[0],
+          value: data?.defaultPaymentTerm[0],
+        };
+
+        const defaultPaymentMethod = await getdefaultPaymentMethod(dpt);
+        const updatedPaymentMethod = defaultPaymentMethod?.data?.map((item) => {
+          return {
+            value: item,
+            label: item,
+          };
+        });
+        console.log("defaultPaymentMethodList", updatedPaymentMethod);
+        setValues((prev) => {
+          return {
+            ...prev,
+            defaultPaymentMethodId: updatedPaymentMethod?.find(
+              (item) => data?.defaultPaymentMethodId[0] === item.label
+            ),
+          };
+        });
       });
-
-    const defaultPaymentTerm = paymentTerm.find(
-      (item) => data?.defaultPaymentTerm[0] === item?.label
-    );
-    const [defaultPaymentMethodSelected, defaultPaymentMethodList] =
-      await getcustomerDefaultPaymentMethod(defaultPaymentTerm);
-
-    setDefaultPaymentMethod(defaultPaymentMethodList);
-
-    console.log("defaultPaymentMethodSelected", defaultPaymentMethodSelected);
-
-    setValues((prev) => {
-      return {
-        ...prev,
-        defaultPaymentMethodId: defaultPaymentMethodSelected,
-      };
-    });
   };
 
   const onFinalSubmit = (event) => {
@@ -317,7 +304,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           deliveryFirstName: values?.deliveryFirstName,
           businessName: values?.businessName,
           defaultPaymentMethodId: [values?.defaultPaymentMethodId?.label],
-          defaultPaymentTerms: [values?.defaultPaymentTerm?.label],
+          defaultPaymentTerm: [values?.defaultPaymentTerms?.label],
           abn: values?.abn,
           liquorLicence: values?.liquorLicence,
           organisationId: organisationId,
@@ -1364,7 +1351,10 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     </h6>
                   </div>
                   <div className="px-6 py-7   custom-scroll-bar overflow-y-auto ">
-                    <form className="w-full  overflow-y-auto overflow-x-visible	">
+                    <form
+                 
+                      className="w-full  overflow-y-auto overflow-x-visible	"
+                    >
                       <div className="flex flex-nowrap gap-2  mb-5">
                         <div className="w-full relative">
                           <label
@@ -1382,8 +1372,10 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                             options={paymentTerm}
                             onBlur={handleBlur}
                             value={values?.defaultPaymentTerms}
-                            onChange={(e) =>
+                            onChange={(e) =>{
+                              handleInputChange()
                               handleSelect(e, "defaultPaymentTerms")
+                            }
                             }
                           />
                         </div>
@@ -1403,10 +1395,13 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                             style={{ width: "100%", height: "48px" }}
                             placeholder="Select"
                             options={defaultPaymentMethod}
+                            value={values.defaultPaymentMethodId}
                             // isDisabled={defaultPaymentMethod.length < 1}
                             onBlur={handleBlur}
-                            onChange={(e) =>
+                            onChange={(e) =>{
+                              handleInputChange()
                               handleSelect(e, "defaultPaymentMethodId")
+                            }
                             }
                             // value={values.billingState}
                           />

@@ -11,10 +11,11 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 import { stockStatus } from "../helpers/getStockStatus";
 import { Image } from "antd";
 import { getAllSegments } from "../helpers/getSegments";
+import { setProductBreadcrumData } from "../slices/productBreadcrumSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const products = useSelector((state) => state.product);
+
   const { useToken } = theme;
   const { token } = useToken();
   const [selectData, setSelectData] = useState({
@@ -23,7 +24,6 @@ const ProductDetails = () => {
   });
   const [messageApi, contextHolder] = message.useMessage();
   const url = process.env.REACT_APP_PRODUCTS_URL;
-  const productData = products.find((item) => item?.product?.productId === +id);
   const dispatch = useDispatch();
   let selectedpic = "";
   const [segments, setSegments] = useState("");
@@ -85,6 +85,12 @@ const ProductDetails = () => {
           quantity: 1,
         });
         console.log(data.data[0], " slectedsproductsdata");
+        dispatch(
+          setProductBreadcrumData({
+            product: data.data[0],
+            quantity: 1,
+          })
+        );
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);

@@ -71,7 +71,7 @@ const ProfileEdit = () => {
         .then((data) => {
           console.log("Response update", data);
           if (data.success) {
-            navigate("/home/profile");
+            navigate("/home/account");
           }
         })
         .catch((error) => console.log(error));

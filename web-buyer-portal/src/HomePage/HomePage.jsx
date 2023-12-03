@@ -18,7 +18,7 @@ import CartPage from "../CartPage/CartPage";
 import { Breadcrumb, theme } from "antd";
 import Delivery from "../PaymentPage/Delivery";
 import PaymentDetail from "../PaymentPage/PaymentDetail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateField } from "../slices/buyerSlice";
 import { updateSetting } from "../slices/organisationSlice";
 import { setBuyerValues } from "../helpers/setBuyerValues";
@@ -26,10 +26,12 @@ import { setBuyerValues } from "../helpers/setBuyerValues";
 import OrderConfirmation from "../Order/OrderConfirmation";
 import MyOrders from "../Order/MyOrders";
 import OrderDetails from "../Order/OrderDetails";
+import AllProducts from "../ProductPage/AllProducts";
 
 function HomePage({ setConfig }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const product = useSelector((state) => state.productBreadcrum);
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -86,21 +88,28 @@ function HomePage({ setConfig }) {
   pathArr.forEach((item) => {
     if (item === "order") {
       pathArr.pop();
+    } else if (item === "product") {
+      pathArr.pop();
     }
   });
 
   const segments = pathArr.map((crum) => {
-    
     let orderId = orderIdArr[orderIdArr.length - 1];
 
-    pathname += crum === "order" ? `/${crum}/${orderId}` : `/${crum}`;
+    pathname += `/${crum}`;
 
     let crumName;
     if (crum === "order") {
+      pathname = `/${crum}/${orderId}`;
       orderId = orderIdArr[orderIdArr.length - 1];
       crumName =
         "order #".charAt(0).toUpperCase() +
         `order #${orderId}`.slice(1).split("-").join(" ");
+    } else if (crum === "product") {
+      pathname = `${orderId}`;
+      crumName =
+        "product >".charAt(0).toUpperCase() +
+        `product > ${product?.product?.title}`.slice(1).split("-").join(" ");
     } else {
       crumName =
         crum.charAt(0).toUpperCase() + crum.slice(1).split("-").join(" ");
@@ -139,16 +148,16 @@ function HomePage({ setConfig }) {
         )}
       <Routes>
         <Route path="/" element={<MainHomePage />} />
-        <Route path="/product-list" element={<ProductList />} />
+        <Route path="/all-products/*" element={<AllProducts />} />
         <Route path="/order-confirm" element={<OrderConfirmation />} />
         <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/account/*" element={<MyAccount />} />
+        <Route path="/account" element={<Profile />} />
+        {/* <Route path="/account/*" element={<MyAccount />} /> */}
         <Route path="/my-cart" element={<CartPage />} />
-        <Route path="/product-name/:id" element={<ProductDetails />} />
+        <Route path="/all-products/product/:id" element={<ProductDetails />} />
         <Route path="/delivery-contact" element={<DeliveryEdit />} />
         <Route path="/business-details" element={<ProfileEdit />} />
         <Route path="/delivery" element={<Delivery />} />

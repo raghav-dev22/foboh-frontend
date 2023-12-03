@@ -48,7 +48,7 @@ const DeliveryEditForm = () => {
     onSubmit: (values) => {
       console.log(values);
       localStorage.setItem("deliveryEdit", JSON.stringify(cart));
-      navigate("/home/profile");
+      navigate("/home/account");
       setCart(values);
       console.log(cart, "flag>>");
     },
@@ -143,7 +143,7 @@ const DeliveryEditForm = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Buyer address update", data);
-        navigate("/home/profile");
+        navigate("/home/account");
       })
       .catch((error) => console.log(error));
   };

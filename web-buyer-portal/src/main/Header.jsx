@@ -261,7 +261,7 @@ function Header() {
 
                     <ul className="dropdown-content pt-3">
                       <Link
-                        to="/home/product-list"
+                        to="/home/all-products"
                         className="focus-visible:outline-offset-0 focus-visible:outline-0		"
                       >
                         <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2 headerList">
@@ -297,7 +297,7 @@ function Header() {
                           Payments
                         </h6>
                       </li>
-                      <Link to="/home/profile">
+                      <Link to="/home/account">
                         <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
                           <AccountCircleIcon style={{ fill: "#637381" }} />
                           <h6 className="text-sm font-medium		text-[#637381]">
@@ -348,7 +348,7 @@ function Header() {
         >
           <Popover.Group className=" md:flex md:gap-x-12">
             <Popover className="relative"></Popover>
-            <Link to="/home/product-list">
+            <Link to="/home/all-products">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
                 Products
               </h6>
@@ -361,7 +361,7 @@ function Header() {
                 Orders
               </h6>
             </Link>
-            <Link to="/home/profile">
+            <Link to="/home/account">
               <h6 className="header-font text-base	text-white font-normal hover:font-bold">
                 Account
               </h6>

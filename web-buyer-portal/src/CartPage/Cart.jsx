@@ -81,7 +81,7 @@ const Cart = ({ open, onClose }) => {
     onClose(!onClose);
   };
   const handleExplore = () => {
-    navigate("/home/product-list");
+    navigate("/home/all-products");
     onClose(!onClose);
   };
   const handleCheckout = () => {
@@ -170,7 +170,6 @@ const Cart = ({ open, onClose }) => {
                 </>
               ) : (
                 <>
-                
                   {CARTdata.map((item, index) => {
                     return (
                       <>

@@ -5,7 +5,8 @@ import counterReducer from "../slices/counterSlice";
 import productReducer from "../slices/ProductSlice";
 import DeliveryEditReducer from "../slices/DeliveryEditSlice";
 import organisationReducer from "../slices/organisationSlice";
-import totalPageReducer from '../slices/totalPageSlice'
+import totalPageReducer from "../slices/totalPageSlice";
+import productBreadcrumReducer from "../slices/productBreadcrumSlice";
 
 const Store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const Store = configureStore({
     counter: counterReducer,
     product: productReducer,
     organisation: organisationReducer,
-    totalPage : totalPageReducer,
+    totalPage: totalPageReducer,
+    productBreadcrum: productBreadcrumReducer,
   },
 });
 export default Store;
