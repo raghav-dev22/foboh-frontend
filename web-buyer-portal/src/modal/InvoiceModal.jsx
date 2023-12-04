@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import CloseIcon from "@mui/icons-material/Close";
+import { Table, Divider } from "antd";
 import { Preview, print } from "react-html2pdf";
 import { theme } from "antd";
 import zIndex from "@mui/material/styles/zIndex";
@@ -29,7 +30,102 @@ const InvoiceModal = forwardRef(
         }, 1000);
       },
     }));
-
+    // const columns = [
+    //   {
+    //     title: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">Billed to</p>
+    //     ),
+    //     dataIndex: "BilledTo",
+    //   },
+    //   {
+    //     title: (
+    //       <p className="font-normal text-[10px] text-[#5E6470] ">Billed from</p>
+    //     ),
+    //     dataIndex: "BilledFrom",
+    //   },
+    //   {
+    //     title: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">Order number</p>
+    //     ),
+    //     dataIndex: "OrderNumber",
+    //   },
+    //   {
+    //     title: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">
+    //         Invoice number
+    //       </p>
+    //     ),
+    //     dataIndex: "InvoiceNumber",
+    //   },
+    // ];
+    // const data = [
+    //   {
+    //     key: "1",
+    //     BilledTo: (
+    //       <p className="font-semibold text-[10px] text-[#1A1C21]">
+    //         {invoiceData?.buyerBusinessName}
+    //       </p>
+    //     ),
+    //     BilledFrom: (
+    //       <p className="font-semibold text-[10px] text-[#1A1C21]">
+    //         Lo-Fi Wines
+    //       </p>
+    //     ),
+    //     OrderNumber: (
+    //       <p className="font-semibold text-[10px] text-[#1A1C21]">123456790</p>
+    //     ),
+    //     InvoiceNumber: (
+    //       <p className="font-semibold text-[10px] text-[#1A1C21]">123456790</p>
+    //     ),
+    //   },
+    //   {
+    //     key: "2",
+    //     BilledTo: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">
+    //         ABN 58 621 583 944
+    //       </p>
+    //     ),
+    //     BilledFrom: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">
+    //         ABN 58 621 583 944
+    //       </p>
+    //     ),
+    //     OrderNumber: "",
+    //     InvoiceNumber: "",
+    //   },
+    //   {
+    //     key: "3",
+    //     BilledTo: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">
+    //         106 Hardware St,
+    //         <br /> Melbourne VIC 3000
+    //       </p>
+    //     ),
+    //     BilledFrom: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">
+    //         106 Hardware St,
+    //         <br /> Melbourne VIC 3000
+    //       </p>
+    //     ),
+    //     OrderNumber: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">
+    //         Date issued <br />
+    //         <span className="font-semibold text-[10px] text-[#1A1C21]">
+    //           3rd Oct 2023
+    //         </span>
+    //       </p>
+    //     ),
+    //     InvoiceNumber: (
+    //       <p className="font-normal text-[10px] text-[#5E6470]">
+    //         Date due <br />{" "}
+    //         <span className="font-semibold text-[10px] text-[#1A1C21]">
+    //           {" "}
+    //           13th Nov 2023
+    //         </span>
+    //       </p>
+    //     ),
+    //   },
+    // ];
     return (
       <>
         <Transition appear show={show} as={Fragment}>
@@ -52,8 +148,8 @@ const InvoiceModal = forwardRef(
               {/*   bg-[#0000]  z-[0] */}
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-y-auto">
-              <div className="flex min-h-full md:items-center items-end	 justify-center  text-center opacity-0	">
+            <div className="fixed inset-0 overflow-y-auto w-[650px]">
+              <div className="flex min-h-full md:items-center items-end	 justify-center  text-center 	 ">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -77,7 +173,7 @@ const InvoiceModal = forwardRef(
                           </h1>
                           <div className="flex items-center ">
                             {/* <img className="w-[50px] h-[50px]" src="assets/Logo-1.png" /> */}
-                            {invoiceData?.organisationlogo !== "" ? (
+                            {invoiceData?.organisationlogo ? (
                               <img
                                 className="h-[42px] w-[125px] object-cover"
                                 src={invoiceData?.organisationlogo}
@@ -95,38 +191,75 @@ const InvoiceModal = forwardRef(
                             )}
                           </div>
                         </div>
-                        <div
-                          className="flex justify-between mt-10 mb-5"
-                          style={{ inset: "0" }}
-                        >
-                          <div style={{ inset: "0" }}>
-                            <div className="flex flex-col gap-1.5 items-start justify-start">
-                              <div
+                        {/* <div className=" mt-10 mb-5" style={{ inset: "0" }}>
+                          <Table
+                            columns={columns}
+                            dataSource={data}
+                            size="middle"
+                            pagination={false}
+                            className="custom-table-invoice"
+                          />
+                        </div> */}
+                        <div className="flex justify-between mt-10 mb-5">
+                          <table className="w-full">
+                            <tr>
+                              <th
                                 className="gray-text text-left w-[115px] h-[14.44px]"
                                 style={{
                                   font: "400 10px/14px 'Inter', sans-serif",
                                 }}
                               >
-                                Billed to{" "}
-                              </div>
-                              <div
-                                className="text-gray-900 text-left w-[115px] h-[15px]"
+                                Billed to
+                              </th>
+
+                              <th
+                                className="gray-text text-left w-[115px] h-[14.44px]"
                                 style={{
-                                  font: "600 10px/14px 'Inter', sans-serif",
+                                  font: "400 10px/14px 'Inter', sans-serif",
                                 }}
                               >
-                                {/* {invoiceData.businessName} */}
-                                {invoiceData?.buyerBusinessName}
-                              </div>
-                              <div
+                                billed from
+                              </th>
+                            </tr>
+                            <tr>
+                              <td
                                 className="text-gray-900 text-left w-[115px] h-[15px]"
                                 style={{
                                   font: "400 10px/14px 'Inter', sans-serif",
                                 }}
                               >
+                                {invoiceData?.buyerBusinessName}
+                              </td>
+                              <td
+                                className="text-gray-900 text-left w-[115px] h-[15px]"
+                                style={{
+                                  font: "600 10px/14px 'Inter', sans-serif",
+                                }}
+                              >
+                                {invoiceData?.businessName}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                className="text-gray-900 text-left w-[115px] h-[15px]"
+                                style={{
+                                  font: "400 10px/14px 'Inter', sans-serif",
+                                }}
+                              >
+                                {" "}
                                 ABN {invoiceData?.buyerABN}
-                              </div>
-                              <div
+                              </td>
+                              <td
+                                className="text-gray-900 text-left w-[115px] h-[15px]"
+                                style={{
+                                  font: "400 10px/14px 'Inter', sans-serif",
+                                }}
+                              >
+                                ABN {`${invoiceData?.abn}`}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
                                 className="text-[#000000] text-left w-[115px]"
                                 style={{
                                   font: "400 10px/14px 'Inter', sans-serif",
@@ -135,36 +268,8 @@ const InvoiceModal = forwardRef(
                                 {`${invoiceData?.apartmentSuite} ${invoiceData?.streetaddress},`}
                                 <br />
                                 {`${invoiceData?.buyerCity} ${invoiceData?.buyerState} ${invoiceData?.buyerPostCode}`}
-                              </div>
-                            </div>
-                          </div>
-                          <div style={{ inset: "0" }}>
-                            <div className="flex flex-col gap-1.5 items-start justify-start">
-                              <div
-                                className="gray-text text-left w-[115px] h-[14.44px]"
-                                style={{
-                                  font: "400 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                billed from
-                              </div>
-                              <div
-                                className="text-gray-900 text-left w-[115px] h-[15px]"
-                                style={{
-                                  font: "600 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                {invoiceData?.businessName}
-                              </div>
-                              <div
-                                className="text-gray-900 text-left w-[115px] h-[15px]"
-                                style={{
-                                  font: "400 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                ABN {`${invoiceData?.abn}`}
-                              </div>
-                              <div
+                              </td>
+                              <td
                                 className="text-[#000000] text-left w-[115px]"
                                 style={{
                                   font: "400 10px/14px 'Inter', sans-serif",
@@ -173,90 +278,92 @@ const InvoiceModal = forwardRef(
                                 {`${invoiceData?.apartment} ${invoiceData?.organisationAddress},`}{" "}
                                 <br />
                                 {`${invoiceData?.city} ${invoiceData?.state} ${invoiceData?.postcode}`}
-                              </div>
-                            </div>
-                          </div>
-                          <div style={{ inset: "0" }}>
-                            <div className="w-[83px] h-[33px] static">
-                              <div
-                                className="gray-text text-left w-[83px] h-[17.44px]"
-                                style={{
-                                  font: "400 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                Order number
-                              </div>
-                              <div
-                                className="text-gray-900 text-left w-[69.37px] h-[17.44px]"
-                                style={{
-                                  font: "600 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                {invoiceData?.orderId}
-                              </div>
-                            </div>
-                            <div className="w-[83px] h-[33px] static mt-7">
-                              <div
-                                className="gray-text text-left w-[83px] h-[17.44px]"
-                                style={{
-                                  font: "400 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                Date issued{" "}
-                              </div>
-                              <div
-                                className="text-gray-900 text-left w-[83px] h-[17.44px]"
-                                style={{
-                                  font: "600 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                {invoiceData?.orderEntryDate}
-                              </div>
-                            </div>
-                          </div>
-                          <div style={{ inset: "0" }}>
-                            <div className="w-[83px] h-[33px] static">
-                              <div
-                                className="gray-text text-left w-[83px] h-[17.44px]"
-                                style={{
-                                  font: "400 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                Invoice number{" "}
-                              </div>
-                              <div
-                                className="text-gray-900 text-left w-[62.81px] h-[17.44px]"
-                                style={{
-                                  font: "600 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                {invoiceData?.invoiceNo}
-                              </div>
-                            </div>
-                            <div className="w-[83px] h-[33px] static mt-7">
-                              <div
-                                className="gray-text text-left w-[83px] h-[17.44px]"
-                                style={{
-                                  font: "400 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                Date due{" "}
-                              </div>
-                              <div
-                                className="text-gray-900 text-left w-[83px] h-[17.44px]"
-                                style={{
-                                  font: "600 10px/14px 'Inter', sans-serif",
-                                }}
-                              >
-                                {invoiceData?.paymentDate}
-                              </div>
-                            </div>
+                              </td>
+                            </tr>
+                          </table>
+                          <div className="w-[70%]">
+                            <table className="w-full">
+                              <tr>
+                                <th
+                                  className="gray-text text-left w-[115px] h-[14.44px]"
+                                  style={{
+                                    font: "400 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  Order number
+                                </th>
+                                <th
+                                  className="gray-text text-left w-[115px] h-[14.44px]"
+                                  style={{
+                                    font: "400 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  Invoice number
+                                </th>
+                              </tr>
+                              <tr>
+                                <td
+                                  className="text-gray-900 text-left w-[69.37px] h-[17.44px]"
+                                  style={{
+                                    font: "600 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  {invoiceData?.orderId}
+                                </td>
+                                <td
+                                  className="text-gray-900 text-left w-[62.81px] h-[17.44px]"
+                                  style={{
+                                    font: "600 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  {invoiceData?.invoiceNo}
+                                </td>
+                              </tr>
+                            </table>
+                            <table className="w-full">
+                              <tr>
+                                <th
+                                  className="gray-text text-left w-[115px] h-[14.44px]"
+                                  style={{
+                                    font: "400 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  Date issued
+                                </th>
+                                <th
+                                  className="gray-text text-left w-[115px] h-[14.44px]"
+                                  style={{
+                                    font: "400 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  Date due
+                                </th>
+                              </tr>
+                              <tr>
+                                <td
+                                  className="text-gray-900 text-left w-[83px] h-[17.44px]"
+                                  style={{
+                                    font: "600 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  {invoiceData?.orderEntryDate}
+                                </td>
+                                <td
+                                  className="text-gray-900 text-left w-[83px] h-[17.44px]"
+                                  style={{
+                                    font: "600 10px/14px 'Inter', sans-serif",
+                                  }}
+                                >
+                                  {invoiceData?.paymentDate}
+                                </td>
+                              </tr>
+                            </table>
                           </div>
                         </div>
 
                         <div className="invoice-table pb-10 border-b">
                           <div className="flex flex-col mt-8">
-                            <table className="divide-slate-500 mr-[140px]">
+                            <table className="divide-slate-500 w-full">
                               <thead className="bg-neutral-slate-a-2 my-3 rounded-md">
                                 <tr>
                                   <th
@@ -270,7 +377,7 @@ const InvoiceModal = forwardRef(
                                   </th>
                                   <th
                                     scope="col"
-                                    className="text-[#687076] text-left relative w-[140px]"
+                                    className="text-[#687076] text-left relative w-[130px]"
                                     style={{
                                       font: "var(--outline-bold, 700 10px/133% 'Inter', sans-serif)",
                                     }}
@@ -406,60 +513,20 @@ const InvoiceModal = forwardRef(
                               </tbody>
                             </table>
 
-                            <div className="table-footer flex justify-end mt-4 pr-[180px]">
-                              <table className="w-[230px]">
-                                <tbody>
-                                  <tr>
-                                    <th
-                                      scope="row"
-                                      colspan="4"
-                                      className="text-gray-900 text-left"
-                                      style={{
-                                        font: "600 10px/14px 'Inter', sans-serif",
-                                      }}
-                                    >
-                                      Subtotal
-                                    </th>
-                                    <td
-                                      className="text-neutral-slate-a-12 text-right"
-                                      style={{
-                                        font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      ${calculations?.subtotal}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th
-                                      scope="row"
-                                      colspan="4"
-                                      className="neutral-slate-text text-left"
-                                      style={{
-                                        font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      Shipping Charges
-                                    </th>
-                                    <td
-                                      className="text-neutral-slate-a-12 text-right"
-                                      style={{
-                                        font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      $XX.XXX
-                                    </td>
-                                  </tr>
-                                  {isWine && (
+                            <div className="table-footer flex justify-end mt-4 ">
+                              <div className="w-[50%]">
+                                <table className="w-[100%]">
+                                  <tbody>
                                     <tr>
                                       <th
                                         scope="row"
-                                        colspan="4"
-                                        className="neutral-slate-text text-left"
+                                        colspan="6"
+                                        className="text-gray-900 text-left"
                                         style={{
-                                          font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                          font: "600 10px/14px 'Inter', sans-serif",
                                         }}
                                       >
-                                        WET (29%)
+                                        Subtotal
                                       </th>
                                       <td
                                         className="text-neutral-slate-a-12 text-right"
@@ -467,59 +534,101 @@ const InvoiceModal = forwardRef(
                                           font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
                                         }}
                                       >
-                                        ${calculations?.wet}
+                                        ${calculations?.subtotal}
                                       </td>
                                     </tr>
-                                  )}
-                                  <tr>
-                                    <th
-                                      scope="row"
-                                      colspan="4"
-                                      className="neutral-slate-text text-left"
-                                      style={{
-                                        font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      GST (10%)
-                                    </th>
-                                    <td
-                                      className="text-neutral-slate-a-12 text-right"
-                                      style={{
-                                        font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      ${calculations?.gst}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th
-                                      scope="row"
-                                      colspan="4"
-                                      className="text-neutral-slate-a-12 text-left"
-                                      style={{
-                                        font: "var(--paragraph-2-bold, 700 14px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      Total inc. GST
-                                    </th>
+                                    <tr>
+                                      <th
+                                        scope="row"
+                                        colspan="6"
+                                        className="neutral-slate-text text-left"
+                                        style={{
+                                          font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                        }}
+                                      >
+                                        Shipping Charges
+                                      </th>
+                                      <td
+                                        className="text-neutral-slate-a-12 text-right"
+                                        style={{
+                                          font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                        }}
+                                      >
+                                        $XX.XXX
+                                      </td>
+                                    </tr>
+                                    {isWine && (
+                                      <tr>
+                                        <th
+                                          scope="row"
+                                          colspan="6"
+                                          className="neutral-slate-text text-left"
+                                          style={{
+                                            font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                          }}
+                                        >
+                                          WET (29%)
+                                        </th>
+                                        <td
+                                          className="text-neutral-slate-a-12 text-right"
+                                          style={{
+                                            font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                          }}
+                                        >
+                                          ${calculations?.wet}
+                                        </td>
+                                      </tr>
+                                    )}
+                                    <tr>
+                                      <th
+                                        scope="row"
+                                        colspan="6"
+                                        className="neutral-slate-text text-left"
+                                        style={{
+                                          font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                        }}
+                                      >
+                                        GST (10%)
+                                      </th>
+                                      <td
+                                        className="text-neutral-slate-a-12 text-right"
+                                        style={{
+                                          font: "var(--outline-regular, 400 10px/33% 'Inter', sans-serif)",
+                                        }}
+                                      >
+                                        ${calculations?.gst}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th
+                                        scope="row"
+                                        colspan="6"
+                                        className="text-neutral-slate-a-12 text-left"
+                                        style={{
+                                          font: "var(--paragraph-2-bold, 700 14px/33% 'Inter', sans-serif)",
+                                        }}
+                                      >
+                                        Total inc. GST
+                                      </th>
 
-                                    <td
-                                      className="text-neutral-slate-a-12 text-right"
-                                      style={{
-                                        font: "var(--paragraph-2-bold, 700 14px/33% 'Inter', sans-serif)",
-                                      }}
-                                    >
-                                      ${calculations?.total}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                                      <td
+                                        className="text-neutral-slate-a-12 text-right"
+                                        style={{
+                                          font: "var(--paragraph-2-bold, 700 14px/33% 'Inter', sans-serif)",
+                                        }}
+                                      >
+                                        ${calculations?.total}
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex flex-row justify-between">
-                          <div className="bg-gray-2 rounded p-6 w-[245px] h-[140px]">
+                        <div className="flex flex-row justify-between gap-5 my-8">
+                          <div className="bg-gray-2 rounded p-6 w-[245px]">
                             <h4
                               className="text-[#687076] text-left mb-6"
                               style={{
@@ -528,7 +637,7 @@ const InvoiceModal = forwardRef(
                             >
                               Payment details
                             </h4>
-                            <table>
+                            <table className="w-full">
                               <tbody>
                                 <tr>
                                   <td
@@ -573,32 +682,22 @@ const InvoiceModal = forwardRef(
                               </tbody>
                             </table>
                           </div>
-                          <div className="bg-gray-2 rounded pr-[400px] w-[245px] h-[140px]">
-                            <div className="flex justify-between items-center mb-3 mt-3">
+                          <div className="bg-gray-2 rounded p-6 w-[245px]">
+                            <div className="flex justify-between items-start mb-b ">
                               <h4
                                 className="text-[#687076] text-left mb-6 mx-1"
                                 style={{
                                   font: "700 12px/150% 'Inter', sans-serif",
                                 }}
                               >
-                                Payment
-                              </h4>
-                              <h4
-                                className="text-[#687076] text-left mb-6 mx-1"
-                                style={{
-                                  font: "700 12px/150% 'Inter', sans-serif",
-                                }}
-                              >
-                                Status
+                                Payment Status
                               </h4>
 
-                              <div className="flex items-center justify-end ml-[80px]">
-                                <h6 className="inline-flex items-center rounded-full bg-red-700 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-red-600/10">
-                                  Overdue
-                                </h6>
-                              </div>
+                              <h6 className="inline-flex items-center rounded-full bg-red-700 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-red-600/10">
+                                Overdue
+                              </h6>
                             </div>
-                            <table>
+                            <table className="w-full">
                               <tbody>
                                 <tr>
                                   <td

@@ -233,8 +233,11 @@ const OrderDetails = () => {
               icon={<DownloadOutlined />}
               loading={loadings[1]}
               // onClick={() => enterLoading(1)}
+              // onClick={() => {
+              //   handleInvoiceDownload(id);
+              // }}
               onClick={() => {
-                handleInvoiceDownload(id);
+                setshowPreview(true);
               }}
               className=" h-full text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
             >
