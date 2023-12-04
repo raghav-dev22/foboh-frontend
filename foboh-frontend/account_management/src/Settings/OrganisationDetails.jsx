@@ -27,9 +27,7 @@ function OrganisationDetails({
     setValues,
   } = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: (values) => {},
   });
 
   const handleFormChange = () => {
@@ -45,8 +43,6 @@ function OrganisationDetails({
   };
 
   const handleCategoriesChange = (e) => {
-    console.log(e);
-    console.log(organisationSettings);
     setValues({
       ...values,
       categories: [...e],
@@ -58,8 +54,6 @@ function OrganisationDetails({
       }),
     });
   };
-
-  console.log(values);
 
   return (
     <>

@@ -36,7 +36,6 @@ const DeliveryContactForm = ({
     initialValues: initialValues,
     validationSchema: deliveryContactSchema,
     onSubmit: async (values) => {
-      console.log(JSON.stringify(values));
       //Update api fot delivery contact
       const update = await updateDeliveryContact(
         customerDetails?.buyerId,

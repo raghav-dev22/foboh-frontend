@@ -27,14 +27,10 @@ function ImportModal({ show, setShow }) {
         var data = to_json(workbook);
         let productList = [...data[firstSheet]].filter((i) => i.length);
         if (productList.length) {
-          console.log("productList", productList);
           localStorage.setItem("productImport", true);
           const dataStructure = [...productList].slice(0, 2);
           const productData = [...productList].slice(2);
-          console.log("product data", productData);
-          console.log(finalProductArray);
           let errorData = [];
-          console.log("error flg");
           const finalProductArray = productData.map((product, rowIndex) => {
             let tmpObj = {};
             errorData[rowIndex] = [];
@@ -47,21 +43,16 @@ function ImportModal({ show, setShow }) {
                 errorData[rowIndex].push(element);
                 setErrorFoundModal(true);
                 setShow(false);
-                console.log("this requires data is not there");
               }
             });
             return tmpObj;
           });
-          console.log("finalProductArray", finalProductArray);
-          console.log("error data", errorData);
           setErrorData(errorData.filter((err) => err.length));
           setImportedProducts(finalProductArray);
         }
-        console.log(productList);
       };
       r.readAsBinaryString(f);
     } else {
-      console.log("Failed to load file");
     }
   };
 

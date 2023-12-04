@@ -35,7 +35,6 @@ function AddCustomers() {
   const [selected, setSlected] = useState(0);
   const [isSearchResult, setisSearchResult] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
-  console.log(tableRecords, "tableRecords==============>");
   let timeoutId;
 
   const saveProduct = () => {
@@ -56,7 +55,6 @@ function AddCustomers() {
   const handleDebounce = (value) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      console.log("Performing action with value:", value);
       setInputValue(value);
       searchApi(value);
     }, 300);
@@ -67,7 +65,6 @@ function AddCustomers() {
     handleDebounce(newValue);
   };
   useEffect(() => {
-    console.log("isTrue", isTrue);
     if (isTrue === "true") {
       saveProduct();
     }
@@ -91,7 +88,6 @@ function AddCustomers() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("customer data --->", data);
         setTableRecords(data.data);
         setLoading(false);
         setPrevCustomer(data.data);
@@ -100,7 +96,6 @@ function AddCustomers() {
         setTotalPages(data.last_page);
         setPages(array);
       });
-    console.log(tableRecords, "data1");
   };
   const handleCustomerId = (item) => {
     navigate(`/dashboard/view-customer-details/`, { state: { data: item } });
@@ -117,7 +112,6 @@ function AddCustomers() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("user data --->", data);
         setTableRecords(data.data);
       });
   };
@@ -129,7 +123,6 @@ function AddCustomers() {
       : selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
     // setIsBulkEdit(updatedSelectedProducts.length > 1);
-    console.log("selected products >>", selectedProducts);
     setSlected(selectedProducts.length);
   };
 
@@ -139,14 +132,12 @@ function AddCustomers() {
   };
 
   const handleSelectAllChange = (e) => {
-    console.log("flag >>", e);
     const checked = e.target.checked;
     checked ? setSelectedProducts([...tableRecords]) : setSelectedProducts([]);
     // setIsBulkEdit(true);
     if (!checked) {
       setIsBulkEdit(false);
     }
-    console.log("selected products >>", selectedProducts);
   };
 
   return (

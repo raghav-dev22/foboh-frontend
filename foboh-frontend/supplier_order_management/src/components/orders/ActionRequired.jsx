@@ -284,7 +284,6 @@ const ActionRequired = () => {
   });
 
   const onShowSizeChange = (current, pageSize) => {
-    console.log("page", current, pageSize);
     setPage(current.current);
   };
 
@@ -298,7 +297,6 @@ const ActionRequired = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("neworders -->", data.data);
         setOrderNewOrder(data.data);
         setNewTotalData(data.total);
       })
@@ -312,7 +310,6 @@ const ActionRequired = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("pendding -->", data.data);
         setpendding(data.data);
         setNewTotalPendding(data.total);
       })
@@ -326,7 +323,6 @@ const ActionRequired = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("modification -->", data.data);
         setModification(data.data);
         setNewTotalModification(data.total);
       })

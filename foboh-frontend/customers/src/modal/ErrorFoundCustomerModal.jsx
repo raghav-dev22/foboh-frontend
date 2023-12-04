@@ -14,7 +14,6 @@ function ErrorFoundCustomerModal({
   errorData,
 }) {
   // const navigate = useNavigate();
-  console.log("product import is>>", importedCustomers);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
@@ -49,8 +48,6 @@ function ErrorFoundCustomerModal({
         wetFlag: product.wetFlag,
       };
     });
-    console.log(importedCustomers, "importedCustomers");
-    console.log("prod", prod);
 
     fetch(
       "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
@@ -109,7 +106,6 @@ function ErrorFoundCustomerModal({
     )
       .then((response) => {
         // navigation logic here
-        // console.log("Bulk-import-data-response->", response);
       })
       .catch((error) => console.log(error));
   };
@@ -246,7 +242,6 @@ function ErrorFoundCustomerModal({
                             </td>
                           </tr>
                         ))}
-                        {console.log(errorData, "errorDataerrorData")}
                       </tbody>
                     </table>
                   </div>

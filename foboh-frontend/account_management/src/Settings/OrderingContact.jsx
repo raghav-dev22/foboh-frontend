@@ -11,9 +11,7 @@ function OrderingContact({ organisationSettings, setOrganisationSettings }) {
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
-      onSubmit: (values) => {
-        console.log(values, "kkk");
-      },
+      onSubmit: (values) => {},
     });
 
   const handleForm = () => {
@@ -24,7 +22,6 @@ function OrderingContact({ organisationSettings, setOrganisationSettings }) {
       orderingContactMobile: values.mobile,
       orderingContactEmail: values.email,
     });
-    console.log(organisationSettings);
   };
 
   return (

@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 
-function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPage }) {
+function TableRange({
+  products,
+  setProducts,
+  setIsBulkEdit,
+  setPages,
+  selectedPage,
+}) {
   const navigate = useNavigate();
   const [selectedProducts, setSelectedProducts] = useState([]);
-  console.log(selectedPage);
 
   // useEffect(() => {
   //   fetch(`https://fobohwepapifbh.azurewebsites.net/api/product/GetAll?page=${selectedPage}`, {
@@ -13,7 +18,6 @@ function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPa
   //   })
   //     .then((response) => response.json())
   //     .then((data) => {
-  //       console.log("product lists --->", data);
   //       setProducts(data.data);
   //       // const array = createArrayWithNumber(data.last_page)
   //       // setPages(array)
@@ -23,13 +27,11 @@ function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPa
   //  []);
 
   const handleProductId = (id) => {
-    console.log("id >>>", id);
     navigate(`/dashboard/view-product/${id}`);
   };
 
   // Setting product obj into an array
   const handleCheckbox = (product) => {
-    console.log("prod :->", product);
     setSelectedProducts(product);
     if (selectedProducts.includes(product)) {
       const newSelectedProducts = selectedProducts.filter(
@@ -43,13 +45,11 @@ function TableRange({ products, setProducts, setIsBulkEdit, setPages, selectedPa
 
   if (selectedProducts.length > 1) {
     setIsBulkEdit(true);
-    localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts))
-    console.log("local products", selectedProducts);
+    localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
   } else {
     setIsBulkEdit(false);
-    localStorage.removeItem('selectedProducts');
+    localStorage.removeItem("selectedProducts");
   }
-  console.log("selected products: ", selectedProducts);
 
   return (
     <>

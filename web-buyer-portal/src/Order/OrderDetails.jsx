@@ -18,7 +18,11 @@ import {
   getInvoiceDataCalculations,
 } from "../helper/getCalculations";
 import { fetchInvoice } from "../react-query/orderApiModule";
+var htmlToPdfmake = require("html-to-pdfmake");
 
+var pdfMake = require("pdfmake/build/pdfmake");
+var pdfFonts = require("pdfmake/build/vfs_fonts");
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const OrderDetails = () => {
   const customDot = (dot, { status, index }) => <Popover>{dot}</Popover>;
   const childRef = useRef();
@@ -178,6 +182,7 @@ const OrderDetails = () => {
   };
 
   const handleInvoiceDownload = async (orderId) => {
+    console.log("sfgdfgfd");
     invoiceMutate(orderId);
   };
 

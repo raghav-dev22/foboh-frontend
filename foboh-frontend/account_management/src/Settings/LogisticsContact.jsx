@@ -11,9 +11,7 @@ function LogisticsContact({ organisationSettings, setOrganisationSettings }) {
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
-      onSubmit: (values) => {
-        console.log(values, "kkk");
-      },
+      onSubmit: (values) => {},
     });
 
   const handleForm = () => {

@@ -15,7 +15,6 @@ function PreviewModal({
   setErrorData,
   importedCustomers,
 }) {
-  console.log("imported data>>", importedCustomers);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [activeTab, setActiveTab] = useState("CUSTOMER 1");
@@ -25,7 +24,6 @@ function PreviewModal({
     setActiveTab(event.target.value);
     // const selectedOptionId = event.target.value;
     // // Do something with the selected option id
-    // console.log(`Selected option id: ${selectedOptionId}`);
   };
 
   const updatedCustomerImport = useMemo(() => {
@@ -56,7 +54,6 @@ function PreviewModal({
         });
         setErrList(errList);
         setLoading(false);
-        console.log(errList, "customer bulk");
       })
       .catch((error) => console.log(error, "csv"));
   };
@@ -99,7 +96,6 @@ function PreviewModal({
       isActive: customer.isActive || "",
     };
   });
-  console.log(customerModalData, "customerModalData----");
   return (
     <>
       <Transition.Root show={show} as={Fragment}>
@@ -183,18 +179,12 @@ function PreviewModal({
                           {/* <KeyboardArrowDownIcon /> */}
                           {customerModalData.map((tab, index) => (
                             <>
-                              <option
-                                key={index}
-                                onChange={() => {
-                                  console.log(index, "click");
-                                }}
-                              >
+                              <option key={index} onChange={() => {}}>
                                 <div
                                   key={index}
                                   className={`text-center w-full py-2 bg-[#F8FAFC]`}
                                   // onClick={() => setActiveTab(index)}
                                 >
-                                  {console.log(index, "{console.log(index)}")}
                                   <p
                                     className="text-sm font-bold text-[#147D73]"
                                     style={{}}

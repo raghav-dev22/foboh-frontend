@@ -32,7 +32,6 @@ const BaseUnit = ({
 
   const handleSelectUnit = (value) => {
     setSelectedBaseUnit(value);
-    console.log(value, "important base");
   };
   const handleSelectType = (value) => {
     setSelectedBaseType(value);

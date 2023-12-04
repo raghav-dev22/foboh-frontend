@@ -18,7 +18,6 @@ function AddProductListing({ setValues, values }) {
 
   // Product Availability
   const handleChange = () => {
-    
     setValues({
       ...values,
       visibility: !values.visibility,
@@ -27,8 +26,6 @@ function AddProductListing({ setValues, values }) {
 
   // Region Availability
   const handleRegionAvailability = (e) => {
-    console.log("isRegion >>>", e.target.checked);
-    console.log(e.target.value);
     if (e.target.checked) {
       if (!values.region.includes(e.target.value)) {
         setValues({
@@ -42,18 +39,15 @@ function AddProductListing({ setValues, values }) {
         region: values.region.filter((region) => region !== e.target.value),
       });
     }
-    
-    console.log("values >>>",values);
   };
 
   // status
   const handleStateSelection = (event) => {
     setSelectedState(event.target.value);
-    console.log(selectedState);
     setValues({
-      ...values, 
-      status : event.target.value
-    })
+      ...values,
+      status: event.target.value,
+    });
   };
 
   return (

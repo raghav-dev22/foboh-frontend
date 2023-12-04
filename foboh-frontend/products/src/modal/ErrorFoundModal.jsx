@@ -14,8 +14,6 @@ function ErrorFoundModal({
   errorData,
 }) {
   // const navigate = useNavigate();
-  console.log(errorData, "firsterror");
-  console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
@@ -50,8 +48,6 @@ function ErrorFoundModal({
         wetFlag: product.wetFlag,
       };
     });
-    console.log(importedProducts, "importedProducts");
-    console.log("prod", prod);
 
     fetch(
       "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
@@ -110,7 +106,6 @@ function ErrorFoundModal({
     )
       .then((response) => {
         // navigation logic here
-        // console.log("Bulk-import-data-response->", response);
       })
       .catch((error) => console.log(error));
   };
@@ -247,7 +242,6 @@ function ErrorFoundModal({
                             </td>
                           </tr>
                         ))}
-                        {console.log(errorData, "errorDataerrorData")}
                       </tbody>
                     </table>
                   </div>

@@ -43,11 +43,11 @@ function StockDetails() {
 
       value: (
         <span
-          style={
-            tilesData?.totalRevenuePercentage > 0
-              ? { color: "#45CB85" }
-              : { color: "#DC3545" }
-          }
+          className={`text-sm font-medium ${
+            tilesData?.totalRevenuePercentage === 0
+              ? "text-[#637381]"
+              : "text-[#000]"
+          }`}
         >
           {tilesData?.totalRevenuePercentage
             ? `${tilesData?.totalRevenuePercentage.toFixed(2)}%`
@@ -58,11 +58,11 @@ function StockDetails() {
       Image: <AttachMoneyIcon style={{ fill: "#147D73" }} />,
 
       Arrow:
-        tilesData?.totalRevenuePercentage > 0 ? (
-          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
-        ) : (
+        parseFloat(tilesData?.totalRevenuePercentage) > 0 ? (
+          <ArrowUpwardIcon style={{ fill: "#009900" }} />
+        ) : parseFloat(tilesData?.totalRevenuePercentage) < 0 ? (
           <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
-        ),
+        ) : null,
     },
 
     {
@@ -74,11 +74,11 @@ function StockDetails() {
 
       value: (
         <span
-          style={
-            tilesData?.totalProfitPercentage
-              ? { color: "#45CB85" }
-              : { color: "#DC3545" }
-          }
+          className={`text-sm font-medium ${
+            tilesData?.totalProfitPercentage === 0
+              ? "text-[#637381]"
+              : "text-[#000]"
+          }`}
         >
           {tilesData?.totalProfitPercentage
             ? `${tilesData?.totalProfitPercentage.toFixed(2)}%`
@@ -89,11 +89,11 @@ function StockDetails() {
       Image: <SignalCellularAltIcon style={{ fill: "#147D73" }} />,
 
       Arrow:
-        tilesData?.totalProfitPercentage > 0 ? (
+        parseFloat(tilesData?.totalProfitPercentage) > 0 ? (
           <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
-        ) : (
+        ) : parseFloat(tilesData?.totalProfitPercentage) < 0 ? (
           <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
-        ),
+        ) : null,
     },
 
     {
@@ -103,11 +103,11 @@ function StockDetails() {
 
       value: (
         <span
-          style={
-            tilesData?.noOfOrdersPercentage > 0
-              ? { color: "#45CB85" }
-              : { color: "#DC3545" }
-          }
+          className={`text-sm font-medium ${
+            tilesData?.noOfOrdersPercentage === 0
+              ? "text-[#637381]"
+              : "text-[#000]"
+          }`}
         >
           {tilesData?.noOfOrdersPercentage
             ? `${tilesData?.noOfOrdersPercentage.toFixed(2)}%`
@@ -118,11 +118,11 @@ function StockDetails() {
       Image: <ShoppingCartOutlinedIcon style={{ fill: "#147D73" }} />,
 
       Arrow:
-        tilesData?.noOfOrdersPercentage > 0 ? (
+        parseFloat(tilesData?.noOfOrdersPercentage) > 0 ? (
           <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
-        ) : (
+        ) : parseFloat(tilesData?.noOfOrdersPercentage) < 0 ? (
           <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
-        ),
+        ) : null,
     },
 
     {
@@ -131,7 +131,11 @@ function StockDetails() {
       description: "Active customers",
 
       value: (
-        <span style={{ color: "#DC3545" }}>
+        <span
+          className={`text-sm font-medium ${
+            customerPercentage === 0 ? "text-[#637381]" : "text-[#000]"
+          }`}
+        >
           {customerPercentage ? customerPercentage : "0.00%"}
         </span>
       ),
@@ -139,11 +143,11 @@ function StockDetails() {
       Image: <PeopleAltOutlinedIcon style={{ fill: "#147D73" }} />,
 
       Arrow:
-        customerPercentage > 0 ? (
+        parseFloat(customerPercentage) > 0 ? (
           <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
-        ) : (
+        ) : parseFloat(customerPercentage) < 0 ? (
           <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
-        ),
+        ) : null,
     },
   ];
 
@@ -204,7 +208,6 @@ function StockDetails() {
           const revenueData = data?.data[0];
           setRevenue(revenueData?.totalRevenue);
         }
-        // console.log(data.data[0], "totalrevenue");
       })
       .catch((error) => console.log(error));
 
@@ -222,7 +225,6 @@ function StockDetails() {
           const profitData = data?.data[0];
           setProfit(profitData?.totalProfit);
         }
-        // console.log(data.data[0], "totalProfit");
       })
       .catch((error) => console.log(error));
   }, [organisationId]);

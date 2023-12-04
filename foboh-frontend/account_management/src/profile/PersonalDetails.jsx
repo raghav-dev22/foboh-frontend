@@ -44,8 +44,6 @@ function PersonalDetails({
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-
         const ccrn = data.data[0].ccrn;
         localStorage.setItem("ccrn", ccrn);
 
@@ -88,8 +86,6 @@ function PersonalDetails({
       .catch((error) => console.log(error));
   }, []);
 
-  console.log("Initial Values >>>", initialValues);
-
   const {
     values,
     errors,
@@ -126,7 +122,6 @@ function PersonalDetails({
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           if (data.success) {
             dispatch(
               updateUserData({
@@ -152,8 +147,6 @@ function PersonalDetails({
             })
               .then((response) => response.json())
               .then((data) => {
-                console.log(data);
-
                 setInitialValues({
                   firstName: data.data[0].firstName,
                   lastName: data.data[0].lastName,

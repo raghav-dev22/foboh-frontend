@@ -73,9 +73,7 @@ const SearchProduct = forwardRef(
       [],
     ]);
 
-    const handleChange = (e, value, name) => {
-      console.log(e, value, name);
-    };
+    const handleChange = (e, value, name) => {};
 
     const FirstDropdown = () => {
       setFilterTextFirst(!filterTextFirst);
@@ -111,20 +109,18 @@ const SearchProduct = forwardRef(
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("Category and Subcategory >>", data);
-
-          console.log(
-            "cat drop",
-            data.map((i) => {
-              return {
-                categoryName: i.categoryName,
-                categoryId: i.categoryId,
-                subcategory: i.subcategoryId.map((c, n) => {
-                  return { name: i.subCategorys[n], id: c };
-                }),
-              };
-            })
-          );
+          // console.log(
+          //   "cat drop",
+          //   data.map((i) => {
+          //     return {
+          //       categoryName: i.categoryName,
+          //       categoryId: i.categoryId,
+          //       subcategory: i.subcategoryId.map((c, n) => {
+          //         return { name: i.subCategorys[n], id: c };
+          //       }),
+          //     };
+          //   })
+          // );
 
           setCategoryAndSubcategory(
             data.map((i) => {
@@ -145,7 +141,6 @@ const SearchProduct = forwardRef(
     };
 
     const handleInputChange = (e) => {
-      console.log("events >>", e);
       setInput(e.target.value);
     };
 
@@ -187,7 +182,6 @@ const SearchProduct = forwardRef(
               setTotalPages(0);
             }
             setLoading(false);
-            console.log("filter data table", data);
           })
           .catch((error) => console.log(error));
       } else {
@@ -220,7 +214,6 @@ const SearchProduct = forwardRef(
 
     useImperativeHandle(ref, () => ({
       handleFilterPagination(pageNumber) {
-        console.log("handleFilterPagination");
         const newFilter = {
           ...filterAndSort.filter,
           page: pageNumber,
@@ -252,7 +245,6 @@ const SearchProduct = forwardRef(
         name: name,
         categoryName: categoryName,
       };
-      console.log("filterValue", filterValue);
 
       // Handling pagination
 
@@ -289,9 +281,6 @@ const SearchProduct = forwardRef(
           : filterAndSort.filter.stock.filter(
               (stockValue) => stockValue !== id
             );
-
-        console.log("stock", newStockValues);
-
         const newFilter = {
           ...filterAndSort.filter,
           stock: newStockValues,
@@ -332,8 +321,6 @@ const SearchProduct = forwardRef(
           filter: newFilter,
         };
       }
-      console.log(filterAndSort);
-
       processChange("filterAndSort");
     };
 
@@ -348,8 +335,6 @@ const SearchProduct = forwardRef(
         ...filterAndSort,
         filter: newFilter,
       };
-
-      console.log(sortBy, sortOrder);
       setItemLabel(sortBy);
 
       const newSort = {
@@ -363,7 +348,6 @@ const SearchProduct = forwardRef(
       };
 
       processChange("filterAndSort");
-      console.log("val", filterAndSort);
     };
 
     const handleFilter = () => {
@@ -380,7 +364,6 @@ const SearchProduct = forwardRef(
           dropdownRef.current &&
           !dropdownRef.current.contains(event.target)
         ) {
-          console.log("Hello!!!");
           const selectDropdowns = document.querySelectorAll(
             ".ant-select-dropdown"
           );
@@ -413,7 +396,6 @@ const SearchProduct = forwardRef(
     useEffect(() => {
       const timeoutId = setTimeout(() => {
         const mainFilter = localStorage.getItem("yourBooleanKey");
-        console.log(mainFilter, "seeall");
         if (mainFilter === "true") {
           let newFilterAndSort = {
             filter: {

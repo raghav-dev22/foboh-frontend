@@ -23,7 +23,6 @@ import {
 } from "../reactQuery/viewCustomerApiModule";
 
 const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
-  console.log(datas, ">>id");
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const [customerDetails, setCustomerDetails] = React.useState();
@@ -123,8 +122,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
 
   const getcustomerDefaultPaymentMethod = async (defaultPaymentTerm) => {
     const dpm = await getdefaultPaymentMethod(defaultPaymentTerm);
-
-    console.log("dpm", dpm);
     defaultPaymentMethodList = dpm?.data.map((item) => {
       return {
         label: item,
@@ -151,7 +148,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   }
 
   const handleSelect = async (e, name) => {
-    console.log("selected tags>>>>...", e, name);
     if (name === "defaultPaymentTerms") {
       setValues({
         ...values,
@@ -185,7 +181,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Customer data --->", data);
         customerData = data;
         handleCustomerDetails(data);
         setInitialValues({
@@ -272,8 +267,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
 
     setDefaultPaymentMethod(defaultPaymentMethodList);
 
-    console.log("defaultPaymentMethodSelected", defaultPaymentMethodSelected);
-
     setValues((prev) => {
       return {
         ...prev,
@@ -283,7 +276,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   };
 
   const onFinalSubmit = (event) => {
-    console.log(datas, "data");
     event.preventDefault();
     const organisationId = localStorage.getItem("organisationId");
 
@@ -332,7 +324,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
         // return response.json();
       })
       .then((data) => {
-        console.log("response after update>>", data);
         setShow(false);
         saveCustomer();
         callCustomerDetails((prev) => {
@@ -361,9 +352,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     onSubmit: (values) => {},
   });
 
-  console.log("errors", errors);
-  console.log("values", values);
-
   const handleInputChange = () => {
     setShow(true);
   };
@@ -385,7 +373,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   }));
 
   const addressSame = (e) => {
-    console.log("e --->", e.target.checked);
     if (e.target.checked) {
       setValues({
         ...values,

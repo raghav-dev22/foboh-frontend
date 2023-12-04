@@ -15,9 +15,7 @@ function CustomerDetailsFirst({
   setValues,
   setIsUpDate,
 }) {
-  console.log(errors, "error");
   const handleSelect = (e, name) => {
-    console.log("selected tags>>>>...", e, name);
     if (name === "tags") {
       setValues({
         ...values,
@@ -47,7 +45,6 @@ function CustomerDetailsFirst({
     }
 
     if (name === "defaultPaymentTerms") {
-      console.log("defaultPaymentTerms", e);
       fetch(
         `https://masters-api-foboh.azurewebsites.net/api/order?DefaultPaymentTerm=${e.label.trim()}`,
         {
@@ -67,7 +64,6 @@ function CustomerDetailsFirst({
         })
         .catch((error) => console.log(error));
     }
-    console.log("all values>>", values);
   };
 
   const [defaultPaymentTrems, setDefaultPaymentTrems] = useState([]);
@@ -84,7 +80,6 @@ function CustomerDetailsFirst({
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("defaultPaymentMethodId -->", data);
         setDefaultPaymentTrems(
           data.map((ele) => {
             return {
@@ -104,7 +99,6 @@ function CustomerDetailsFirst({
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("tag -->", data);
         setCustomerTag(
           data.map((item) => {
             return {

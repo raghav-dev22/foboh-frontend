@@ -63,13 +63,9 @@ function CustomerDetails() {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchemas[activeStep],
-    onSubmit: (values) => {
-      console.log("All Vlaues>>", values);
-    },
+    onSubmit: (values) => {},
   });
   const handleSubmit = () => {
-    console.log(">>>>>>>>>>>", formik.values);
-
     const defaultPaymentTermsList = formik.values?.defaultPaymentTerms?.label;
     const defaultPaymentMethodIdList =
       formik.values?.defaultPaymentMethodId?.label;
@@ -121,7 +117,6 @@ function CustomerDetails() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Customer added>>", data);
         localStorage.setItem("customerAdded", true);
         navigate("/dashboard/customers");
       })
@@ -141,7 +136,6 @@ function CustomerDetails() {
   };
   const handleNext = () => {
     formik.validateForm().then((errors) => {
-      console.log("error on submit button click>>", errors);
       if (activeStep !== 2 && Object.values(errors).length === 0) {
         setActiveStep((cur) => cur + 1);
       } else if (
@@ -151,7 +145,6 @@ function CustomerDetails() {
           (value) => value == !null || value == !""
         )
       ) {
-        console.log("Form submitted");
         formik.submitForm();
 
         handleSubmit();

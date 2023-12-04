@@ -51,10 +51,8 @@ const SigninNew = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             setIsLoading(false);
             if (data.success) {
-              console.log(data);
               localStorage.setItem("userId", data.data.ccrn);
               localStorage.setItem("email", values.email.toLowerCase());
               const user = data.data;
@@ -98,8 +96,7 @@ const SigninNew = () => {
       .then((data) => {
         let randomPassword = generateUniqueKey();
         let password = randomPassword.slice(0, 8);
-        console.log(data);
-        console.log("Email >>>", googleResponse);
+
         if (data.success) {
           localStorage.setItem("email", googleResponse.email);
           navigate("/dashboard/main");
@@ -116,7 +113,6 @@ const SigninNew = () => {
           )
             .then((response) => response.json())
             .then((data) => {
-              console.log("issuerAssignedId eq", data);
               fetch(`${authUrl}/api/User/create`, {
                 method: "POST",
                 headers: {
@@ -141,8 +137,6 @@ const SigninNew = () => {
                 .then((response) => response.json())
                 .then((data) => {
                   if (data.success) {
-                    console.log("user instance created in db");
-
                     fetch("https://graph.microsoft.com/v1.0/users", {
                       method: "POST",
                       headers: {

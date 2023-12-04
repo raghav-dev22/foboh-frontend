@@ -23,14 +23,10 @@ function BillingAddress({ organisationSettings, setOrganisationSettings }) {
     setValues,
   } = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-      console.log(values, "kkk");
-    },
+    onSubmit: (values) => {},
   });
 
   const handleCheckbox = (e) => {
-    console.log("e --->", e.target.checked);
-
     setCheck(!e.target.checked);
     if (e.target.checked) {
       setValues({

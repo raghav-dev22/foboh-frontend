@@ -33,7 +33,6 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
       })
     );
     setShow(true);
-    console.log("Image deleted");
   };
 
   const handleUpdate = () => {
@@ -50,7 +49,6 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
 
-    console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
 
     if (file) {
@@ -71,7 +69,6 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
           const imgData = reader.result;
           setImageSrc(imgData);
           setShow(true);
-          console.log("imgData", imgData);
         };
         reader.readAsDataURL(file);
         // if (saveClicked) {
@@ -82,9 +79,7 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("Server response:", data);
             if (!data.error) {
-              console.log("uri --->", data.blob.uri);
               setShow(true);
               setImageSrc(data.blob.uri);
               setProfileUri(data.blob.uri);

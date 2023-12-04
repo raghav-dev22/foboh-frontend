@@ -80,7 +80,6 @@ const SignupNew = () => {
                 .then((response) => response.json())
                 .then((data) => {
                   setIsLoading(false);
-                  console.log(data);
                   localStorage.setItem("email", values.email.toLowerCase());
                   localStorage.setItem("password", values.password);
                   localStorage.setItem("uniqueKey", data.key);
@@ -100,7 +99,6 @@ const SignupNew = () => {
   // Sign in with google
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);
-    console.log(googleResponse);
     let randomPassword = generateUniqueKey();
     let password = randomPassword.slice(0, 8);
     fetch(`${authService}/api/Verify/CreateUser`, {
@@ -132,8 +130,6 @@ const SignupNew = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        console.log("Registration data ->", data);
         if (data.error) {
           if (data.error.error) {
             setEmailPresent(true);
