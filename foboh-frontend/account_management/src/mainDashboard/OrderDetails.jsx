@@ -13,7 +13,7 @@ function OrderDetails({ orderDetails }) {
     <>
       {orderDetails?.map((value, index) => {
         return (
-          <tr className={`orderNo-${index}`}>
+          <tr key={index} className={`orderNo-${index}`}>
             <td className="px-4 py-4 border-b border-gray-200 text-base ">
               <h5 className="sm:font-normal font-light text-xs sm:text-sm whitespace-no-wrap text-gray">
                 {value.orderId}

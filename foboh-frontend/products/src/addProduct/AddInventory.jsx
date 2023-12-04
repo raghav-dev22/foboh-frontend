@@ -84,17 +84,17 @@ function AddInventory({ setValues, values }) {
               <h5 className="text-green text-base font-medium">
                 Track inventory
               </h5>
-              <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+              <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
                   onChange={handleTrackInventory}
                   type="checkbox"
                   name="track-inventory"
                   id="track-inventory"
-                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                  className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />
                 <label
                   for="track-inventory"
-                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                  className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                 ></label>
               </div>
             </div>
@@ -125,17 +125,17 @@ function AddInventory({ setValues, values }) {
               <h5 className="text-green text-base font-medium">
                 Sell when out of stack
               </h5>
-              <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+              <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
                   onChange={handleSellOutOfStock}
                   type="checkbox"
                   name="SellOutOfStock"
                   id="SellOutOfStock"
-                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                  className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />
                 <label
                   for="SellOutOfStock"
-                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                  className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                 ></label>
               </div>
             </div>

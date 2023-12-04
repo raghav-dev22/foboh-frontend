@@ -199,7 +199,7 @@ const Sidebar = () => {
             </div>
           </li>
           {openMenu && (
-            <ul id="dropdown-example" class="  space-y-2 ">
+            <ul id="dropdown-example" className="  space-y-2 ">
               <li
                 className={`ps-12 list-inside cursor-pointer  ${
                   location.pathname === "/dashboard/customers" ? "active" : ""
@@ -213,7 +213,10 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li className="ps-12 list-inside cursor-pointer hidden">
-                <Link to="#" class="flex items-center w-full p-2 no-underline">
+                <Link
+                  to="#"
+                  className="flex items-center w-full p-2 no-underline"
+                >
                   <h6 className="text-base	font-medium  text-gray">Segments</h6>{" "}
                 </Link>
               </li>
@@ -295,7 +298,7 @@ const Sidebar = () => {
 
           {isOpen && (
             <>
-              <ul id="dropdown-example" class="  space-y-2 ">
+              <ul id="dropdown-example" className="  space-y-2 ">
                 <li
                   className={`ps-12 list-inside cursor-pointer  ${
                     location.pathname === "/dashboard/products" ? "active" : ""
@@ -311,7 +314,7 @@ const Sidebar = () => {
                 <li className="ps-12 list-inside cursor-pointer">
                   <Link
                     href="#"
-                    class="flex items-center w-full p-2 no-underline"
+                    className="flex items-center w-full p-2 no-underline"
                   >
                     <h6 className="text-base	font-medium  text-gray">
                       Inventory

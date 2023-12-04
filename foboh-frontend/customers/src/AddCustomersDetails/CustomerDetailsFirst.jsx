@@ -314,7 +314,7 @@ function CustomerDetailsFirst({
           <div className=" w-full relative md:w-1/2 px-3">
             <div className=" flex justify-between items-center mb-2 mt-4">
               <h5 className="text-green t[ext-base font-medium">WET liable</h5>
-              <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+              <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
                   type="checkbox"
                   name="wetLiable"
@@ -322,11 +322,11 @@ function CustomerDetailsFirst({
                   value={values.wetLiable}
                   onChange={handleChange}
                   checked={values.wetLiable}
-                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                  className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />
                 <label
                   for="toggle"
-                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                  className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                 ></label>
               </div>
             </div>

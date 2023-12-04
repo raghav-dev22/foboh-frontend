@@ -89,8 +89,7 @@ function Inventory() {
                                     className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
                                       active ? "text-white" : "text-teal-600"
                                     }`}
-                                  >
-                                  </span>
+                                  ></span>
                                 ) : null}
                               </>
                             )}
@@ -108,16 +107,16 @@ function Inventory() {
               <h5 className="text-green text-base font-medium">
                 Track inventory
               </h5>
-              <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+              <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
                   type="checkbox"
                   name="toggle"
                   id="toggle"
-                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                  className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />
                 <label
                   for="toggle"
-                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                  className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                 ></label>
               </div>
             </div>
@@ -203,16 +202,16 @@ function Inventory() {
               <h5 className="text-green text-base font-medium">
                 Sell when out of stack
               </h5>
-              <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
+              <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid	rounded-full	">
                 <input
                   type="checkbox"
                   name="toggle"
                   id="toggle"
-                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                  className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />
                 <label
                   for="toggle"
-                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                  className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                 ></label>
               </div>
             </div>

@@ -93,8 +93,9 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
 
   let allStateData = [];
   if (statesData && !statesIsLoading) {
-    const list = statesData.map((item) => {
+    const list = statesData.map((item, index) => {
       return {
+        key: index,
         value: item.stateId,
         label: item.stateName,
       };

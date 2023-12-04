@@ -36,10 +36,11 @@ const InnerUnit = ({
     const innerUnitMeasure = await getInnerUnitMeasureList();
     isPut = innerUnitMeasure.length > 0;
     setUnit(
-      innerUnitMeasure.map((item) => {
+      innerUnitMeasure.map((item, index) => {
         const amount = item.unit.split(" ")[0];
         const iumUnit = item.unit.split(" ")[1];
         return {
+          key: index,
           id: item._id,
           amount: amount,
           iumType: item.type,

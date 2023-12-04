@@ -269,6 +269,7 @@ function Organisation() {
         console.log(data, "state");
         states = data.map((i) => {
           return {
+            key: i,
             value: i?.stateId,
             label: i?.stateName,
           };
@@ -285,8 +286,9 @@ function Organisation() {
         .then((data) => {
           console.log("categories >>", data);
           if (data.success) {
-            const catList = data.data.map((item) => {
+            const catList = data.data.map((item, index) => {
               return {
+                key: index,
                 value: item.categoryId,
                 label: item.categoryName,
               };
@@ -396,8 +398,9 @@ function Organisation() {
 
     const baseUnitMeasureTypeResponse = await getBaseUnitMeasureType();
     setBaseMeasureTypeList(
-      baseUnitMeasureTypeResponse.map((item) => {
+      baseUnitMeasureTypeResponse.map((item, index) => {
         return {
+          key: index,
           label: item.type,
           value: item.type,
         };
@@ -406,8 +409,9 @@ function Organisation() {
 
     const baseUnitMeasureUnitResponse = await baseUnitMeasureUnit();
     setBaseMeasureUnitList(
-      baseUnitMeasureUnitResponse.map((item) => {
+      baseUnitMeasureUnitResponse.map((item, index) => {
         return {
+          key: index,
           label: item.value,
           value: item.value,
         };
@@ -416,8 +420,9 @@ function Organisation() {
 
     const innerUnitMeasureTypeResponse = await getInnerUnitMeasureType();
     setInnerUnitTypeList(
-      innerUnitMeasureTypeResponse.map((item) => {
+      innerUnitMeasureTypeResponse.map((item, index) => {
         return {
+          key: index,
           label: item.type,
           value: item.type,
         };
@@ -815,7 +820,7 @@ function Organisation() {
                               </p>
                             )}
                             {/* // />  */}
-                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                            {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
                           </div>
                           <div className="w-full mt-5 px-3">
                             <label
@@ -859,9 +864,9 @@ function Organisation() {
                                 </th>
                               </tr>
                               <div className="min-h-[0px] max-h-[170px] overflow-y-auto custom-scroll-bar">
-                                {baseUnitMeasure.map((item) => {
+                                {baseUnitMeasure.map((item, index) => {
                                   return (
-                                    <tr className="p-2 border-b">
+                                    <tr className="p-2 border-b" key={index}>
                                       <td className="font-normal px-2 py-4">
                                         {`${item.unit} ${item.type}`}
                                       </td>
@@ -890,9 +895,9 @@ function Organisation() {
                                 </th>
                               </tr>
                               <div className="min-h-[0px] max-h-[170px] overflow-y-auto custom-scroll-bar">
-                                {innerUnitMeasure.map((item) => {
+                                {innerUnitMeasure.map((item, index) => {
                                   return (
-                                    <tr className="border-b">
+                                    <tr className="border-b" key={index}>
                                       <td className="font-normal px-2 py-4">
                                         {`${item.unit} ${item.type}`}
                                       </td>
@@ -1606,7 +1611,7 @@ function Organisation() {
                               touched.orderingContactEmail && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
-                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                            {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
                           </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-5 relative">
@@ -1663,7 +1668,7 @@ function Organisation() {
                               touched.orderingContactMobile && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
-                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                            {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
                           </div>
                         </div>
                       </div>
@@ -1800,7 +1805,7 @@ function Organisation() {
                               touched.logisticsContactEmail && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
-                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                            {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
                           </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-5">
@@ -1857,7 +1862,7 @@ function Organisation() {
                               touched.logisticsContactMobile && (
                                 <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                               )}
-                            {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                            {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
                           </div>
                         </div>
                       </div>
