@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import CloseIcon from "@mui/icons-material/Close";
+import { Table, Divider } from "antd";
 import { Preview, print } from "react-html2pdf";
 import { theme } from "antd";
 import zIndex from "@mui/material/styles/zIndex";
