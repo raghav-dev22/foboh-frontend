@@ -41,7 +41,6 @@ const TotalOrders = () => {
     setOpenOrders(OrdersResponse.openOrdersPercentage);
     setPaidOrders(OrdersResponse.paidOrdersPercentage);
     setUnPaidOrders(OrdersResponse.unpaidOrdersPercentage);
-    console.log("OrdersResponse", OrdersResponse);
   };
 
   return (
@@ -51,14 +50,16 @@ const TotalOrders = () => {
           <div className="absolute top-[11px] left-[50%] bg-[#E7E7E7] h-[80%] w-[1px]"></div>
           <div className="w-full py-3 px-4 ">
             <h5 className="text-lg font-bold text-[#212B36]">
-              {allOrders?.totalOrders
-                ? formatPrice(allOrders?.totalOrders)
-                : "00.00"}
+              {allOrders?.totalOrders ? allOrders?.totalOrders : "00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Total Orders</p>
               <div className="flex justify-center items-center gap-2 ">
-                <p className="text-sm font-medium text-[#009900]">
+                <p
+                  className={`text-sm font-medium ${
+                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                  }`}
+                >
                   {allOrders?.totalOrdersPercentage}%
                 </p>
                 {totalOrders > 0 ? (
@@ -67,24 +68,22 @@ const TotalOrders = () => {
                   <ArrowDownwardIcon
                     style={{ fill: "#DC3545", width: "20px" }}
                   />
-                ) : (
-                  <ArrowDownwardIcon
-                    style={{ fill: "#7f868c", width: "20px" }}
-                  />
-                )}
+                ) : null}
               </div>
             </div>
           </div>
           <div className="w-full py-3 px-4">
             <h5 className="text-lg font-bold text-[#212B36]">
-              {allOrders?.openOrders
-                ? formatPrice(allOrders?.openOrders)
-                : "00.00"}
+              {allOrders?.openOrders ? allOrders?.openOrders : "00.00"}
             </h5>
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Open Orders</p>
               <div className="flex justify-center items-center gap-2">
-                <p className="text-sm font-medium">
+                <p
+                  className={`text-sm font-medium ${
+                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                  }`}
+                >
                   {allOrders?.openOrdersPercentage}%
                 </p>
 
@@ -94,11 +93,7 @@ const TotalOrders = () => {
                   <ArrowDownwardIcon
                     style={{ fill: "#DC3545", width: "20px" }}
                   />
-                ) : (
-                  <ArrowDownwardIcon
-                    style={{ fill: "#7f868c", width: "20px" }}
-                  />
-                )}
+                ) : null}
               </div>
             </div>
           </div>
@@ -114,7 +109,11 @@ const TotalOrders = () => {
             <div className="flex justify-between items-center pt-3 ">
               <p className="text-sm font-medium text-[#637381]">Paid Orders</p>
               <div className="flex justify-center items-center gap-2 ">
-                <p className="text-sm font-medium text-[#009900]">
+                <p
+                  className={`text-sm font-medium ${
+                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                  }`}
+                >
                   {allOrders?.paidOrdersPercentage}%
                 </p>
                 {paidOrders > 0 ? (
@@ -123,11 +122,7 @@ const TotalOrders = () => {
                   <ArrowDownwardIcon
                     style={{ fill: "#DC3545", width: "20px" }}
                   />
-                ) : (
-                  <ArrowDownwardIcon
-                    style={{ fill: "#7f868c", width: "20px" }}
-                  />
-                )}
+                ) : null}
               </div>
             </div>
           </div>
@@ -142,7 +137,11 @@ const TotalOrders = () => {
                 Unpaid Orders
               </p>
               <div className="flex justify-center items-center gap-2">
-                <p className="text-sm font-medium">
+                <p
+                  className={`text-sm font-medium ${
+                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                  }`}
+                >
                   {allOrders?.unpaidOrdersPercentage}%
                 </p>
                 {unpaidOrders > 0 ? (
@@ -151,11 +150,7 @@ const TotalOrders = () => {
                   <ArrowDownwardIcon
                     style={{ fill: "#DC3545", width: "20px" }}
                   />
-                ) : (
-                  <ArrowDownwardIcon
-                    style={{ fill: "#7f868c", width: "20px" }}
-                  />
-                )}
+                ) : null}
               </div>
             </div>
           </div>

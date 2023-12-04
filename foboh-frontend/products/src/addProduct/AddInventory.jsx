@@ -38,7 +38,6 @@ function AddInventory({ setValues, values }) {
       ...values,
       trackInventory: !values.trackInventory,
     });
-    console.log(values.trackInventory);
   };
 
   const handleStockAlertLevel = (e) => {
@@ -46,7 +45,6 @@ function AddInventory({ setValues, values }) {
       ...values,
       stockAlertLevel: e.target.value,
     });
-    console.log(values.stockAlertLevel);
   };
 
   const handleSellOutOfStock = () => {
@@ -54,7 +52,6 @@ function AddInventory({ setValues, values }) {
       ...values,
       sellOutOfStock: !values.sellOutOfStock,
     });
-    console.log(values.sellOutOfStock);
   };
 
   return (

@@ -120,7 +120,6 @@ function Dashboard() {
       .then((response) => response.json())
       .then((data) => {
         const userInfo = data?.data[0];
-        console.log("user data --->", userInfo);
         localStorage.setItem("organisationId", userInfo.organisationId);
         localStorage.setItem("ccrn", userInfo.ccrn);
 
@@ -142,8 +141,6 @@ function Dashboard() {
             organisationId: userInfo.organisationId,
           })
         );
-
-        console.log("redux user >>", user);
       })
       .then(() => {
         fetch(
@@ -156,7 +153,6 @@ function Dashboard() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log("get org --> ", data);
             if (data.success) {
               const org = data?.data[0];
               dispatch(setOrganisationDetails(org));

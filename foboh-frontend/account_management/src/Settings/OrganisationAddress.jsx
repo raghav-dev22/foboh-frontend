@@ -18,9 +18,7 @@ function OrganisationAddress({
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: initialValues,
-      onSubmit: (values) => {
-        console.log(values, "kkk");
-      },
+      onSubmit: (values) => {},
     });
 
   const handleFormChange = (e) => {
@@ -34,8 +32,6 @@ function OrganisationAddress({
       state: values.state,
       suburb: values.suburb,
     });
-
-    console.log("org >>>>", organisationSettings);
   };
 
   return (

@@ -42,7 +42,6 @@ const Root = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem("token", data.tokenresponse.access_token);
       })
       .catch((error) => console.log(error));

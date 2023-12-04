@@ -83,9 +83,7 @@ const AllOrders = () => {
   const handleCheckboxChange = (e) => {
     setShowDatePicker(e.target.checked);
   };
-  const handleDatePickerChange = (date) => {
-    console.log("Selected date:", date);
-  };
+  const handleDatePickerChange = (date) => {};
 
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
@@ -169,7 +167,6 @@ const AllOrders = () => {
     },
   ];
 
-  console.log("orderData", orderData);
   const data = orderData?.map((item, index) => {
     return {
       key: index,
@@ -287,8 +284,6 @@ const AllOrders = () => {
   });
 
   const onShowSizeChange = (current, pageSize) => {
-    console.log("page", current, pageSize);
-
     const newFilter = {
       ...filterAndSort.filter,
       page: current.current,
@@ -337,7 +332,6 @@ const AllOrders = () => {
 
   const saveInput = async () => {
     const ordersData = await searchOrders(filterAndSort);
-    console.log("ordersData", ordersData);
     if (ordersData.success) {
       setOrderData(ordersData?.data);
       setTotalData(ordersData?.total);
@@ -439,7 +433,6 @@ const AllOrders = () => {
       };
     }
     processChange("filterAndSort");
-    console.log("filterAndSort", filterAndSort);
   };
 
   const handleSort = (name, value) => {

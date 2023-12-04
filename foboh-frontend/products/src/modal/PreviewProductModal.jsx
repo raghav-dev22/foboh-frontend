@@ -20,7 +20,6 @@ function PreviewProductModal({
   setAddedFile,
 }) {
   const [activeTab, setActiveTab] = useState("PRODUCT 1");
-  console.log("product import is>>", importedProducts);
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [errList, setErrList] = useState([]);
@@ -29,7 +28,6 @@ function PreviewProductModal({
     setActiveTab(event.target.value);
     // const selectedOptionId = event.target.value;
     // // Do something with the selected option id
-    // console.log(`Selected option id: ${selectedOptionId}`);
   };
 
   const updatedImports = useMemo(() => {
@@ -52,7 +50,6 @@ function PreviewProductModal({
       .then((response) => {
         return response.json();
         // navigation logic here
-        // console.log("Bulk-import-data-response->", response);
       })
       .then((data) => {
         const errList = data.data.map((item) => {
@@ -64,8 +61,6 @@ function PreviewProductModal({
         setErrList(errList);
         setLoading(false);
         setShowPreviewModal(true);
-        console.log("import data response >>", data.data);
-        console.log("err list", errList);
       })
       .catch((error) => console.log(error));
   };
@@ -160,18 +155,12 @@ function PreviewProductModal({
                           {/* <KeyboardArrowDownIcon /> */}
                           {importedProducts.map((tab, index) => (
                             <>
-                              <option
-                                key={index}
-                                onChange={() => {
-                                  console.log(index, "click");
-                                }}
-                              >
+                              <option key={index} onChange={() => {}}>
                                 <div
                                   key={index}
                                   className={`text-center w-full py-2 bg-[#F8FAFC]`}
                                   // onClick={() => setActiveTab(index)}
                                 >
-                                  {console.log(index, "{console.log(index)}")}
                                   <p
                                     className="text-sm font-bold text-[#147D73]"
                                     style={{}}

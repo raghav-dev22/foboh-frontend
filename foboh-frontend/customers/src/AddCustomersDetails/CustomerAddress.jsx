@@ -14,9 +14,7 @@ function CustomerAddress({
   setIsAddressChecked,
   isAddressChecked,
 }) {
-  console.log("contact address>>", errors, touched);
   const sameAddresses = (e) => {
-    console.log("e --->", e.target.checked);
     setIsAddressChecked(e.target.checked);
     if (e.target.checked) {
       setValues({
@@ -46,7 +44,6 @@ function CustomerAddress({
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("state -->", data);
         setStateOptions(
           data.map((ele) => {
             return {
@@ -60,7 +57,6 @@ function CustomerAddress({
   }, []);
 
   const handleSelect = (e, name) => {
-    console.log("selected state>>>>...", e, name);
     if (name === "state") {
       setValues({
         ...values,
@@ -74,7 +70,6 @@ function CustomerAddress({
       });
       setIsUpDate(true);
     }
-    console.log("all values>>", values);
   };
 
   return (

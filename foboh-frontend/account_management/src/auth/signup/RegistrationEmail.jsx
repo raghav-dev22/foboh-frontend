@@ -23,23 +23,19 @@ const RegistrationEmail = () => {
   const handleResendLink = () => {
     // const url = process.env.REACT_APP_URL
     //Resend Link
-    fetch(
-      `${SMTP_URL}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: email,
-          mailtype: "oms-emailverification",
-          name: "email",
-        }),
-      }
-    )
+    fetch(`${SMTP_URL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: email,
+        mailtype: "oms-emailverification",
+        name: "email",
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem("uniqueKey", data.key);
         alert("Email sent successfully!");
       })

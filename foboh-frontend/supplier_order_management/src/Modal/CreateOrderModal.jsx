@@ -230,11 +230,14 @@ const CreateOrderModal = ({
               // </Link>
             ),
 
-            value: "createNewCustomer", // You can set a unique value here
+            value: "createNewCustomer",
           },
           ...customerData,
         ];
         setCustomerList(customerListWithHeader);
+        if (localStorage.getItem("buyerID")) {
+          handleCustomerSelect({ value: localStorage.getItem("buyerID") });
+        }
       }
     });
 
@@ -317,7 +320,6 @@ const CreateOrderModal = ({
         key: item,
       };
     });
-    console.log("list", list);
     setProductSelectList(list);
   };
 
@@ -369,16 +371,13 @@ const CreateOrderModal = ({
 
   const handleCustomerSelect = async (value) => {
     const customerInfo = await getCustomerDetails(value?.value);
-
+    if (localStorage.getItem("buyerID")) {
+      localStorage.removeItem("buyerID");
+    }
     if (customerInfo.success) {
       // Posting customer info on loading modal
       setIsCustomerSelected(true);
       await postBuyerDetails(customerInfo.data[0]);
-      // let buyerIDFromLocalStorage = localStorage.getItem("buyerID");
-      // let buyerIDToUse = buyerIDFromLocalStorage || value?.value;
-      // if (buyerIDFromLocalStorage) {
-      //   localStorage.removeItem("buyerID");
-      // }
       const buyerDetails = await getBuyerDetails(value?.value);
 
       if (buyerDetails.success) {
@@ -405,7 +404,6 @@ const CreateOrderModal = ({
       product?.key,
       customerDetails?.buyerId
     );
-    console.log("addToCartResponse", addToCartResponse);
 
     addToCartResponse &&
       localStorage.setItem("cartId", addToCartResponse[0]?.cartId);
@@ -431,7 +429,6 @@ const CreateOrderModal = ({
   // Handle for removing product from cart
   const handleRemoveCart = async (productId) => {
     const removeCart = await removeToCart(productId, customerDetails?.buyerId);
-    console.log("removeCart", removeCart);
     removeCart
       ? warning("Product removed from cart!")
       : error("Some error occurred, please try again!");

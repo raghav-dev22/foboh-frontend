@@ -18,7 +18,6 @@ function ImportCustomerModal({ show, setShow, error }) {
       setShow(false);
     }
   };
-  console.log(error, "error");
 
   return (
     <>

@@ -100,7 +100,6 @@ function Organisation() {
     validationSchema: OrganisationSettingsSchema,
     onSubmit: (values) => {
       saveDetails();
-      console.log(values, "kkk");
       if (!localStorage.getItem("organisationId")) {
         fetch(
           "https://organization-api-foboh.azurewebsites.net/api/Organization/create",
@@ -149,10 +148,8 @@ function Organisation() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data, "org Post Data");
             if (data.success) {
               const organisationID = data.data.organisationID;
-              console.log("organisationID =>", organisationID);
               localStorage.setItem("organisationId", organisationID);
               const id = localStorage.getItem("ccrn");
               fetch(`${authUrl}/api/User/update?ccrn=${id}`, {
@@ -177,9 +174,7 @@ function Organisation() {
                 }),
               })
                 .then((response) => response.json())
-                .then((data) => {
-                  console.log("org id updated in user profile--->", data);
-                });
+                .then((data) => {});
 
               const organisationSettings = data.data;
               setShow(false);
@@ -187,7 +182,6 @@ function Organisation() {
           })
           .catch((error) => console.log(error));
       } else {
-        console.log("org id", localStorage.getItem("organisationId"));
         const orgId = localStorage.getItem("organisationId");
         fetch(
           `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${orgId}`,
@@ -236,7 +230,6 @@ function Organisation() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             if (data.success) {
               setShow(false);
             }
@@ -245,7 +238,6 @@ function Organisation() {
       }
     },
   });
-  console.log("bbbbb", errors);
 
   const handleStateChange = (e, name) => {
     setShow(true);
@@ -266,7 +258,6 @@ function Organisation() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, "state");
         states = data.map((i) => {
           return {
             key: i,
@@ -284,7 +275,6 @@ function Organisation() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("categories >>", data);
           if (data.success) {
             const catList = data.data.map((item, index) => {
               return {
@@ -306,7 +296,6 @@ function Organisation() {
           )
             .then((response) => response.json())
             .then((data) => {
-              console.log("get org --> ", data);
               if (data.success && data.data.length === 1) {
                 const organisationSettings = data.data[0];
                 dispatch(
@@ -388,7 +377,6 @@ function Organisation() {
     asyncFunction();
   }, []);
 
-  console.log(logoUri, "important value org");
   const asyncFunction = async () => {
     const innerUnitMeasureResponse = await getInnerUnitMeasureList();
     setInnerUnitMeasure(innerUnitMeasureResponse);
@@ -441,8 +429,6 @@ function Organisation() {
 
   // Check Box --- Same as Organisation Address
   const handleCheckbox = (e) => {
-    console.log("e --->", e.target.checked);
-
     setCheck(e.target.checked);
     if (e.target.checked) {
       setValues({
@@ -464,7 +450,6 @@ function Organisation() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-    console.log("delet");
     setFile("");
 
     setLogoUri("");
@@ -481,7 +466,6 @@ function Organisation() {
   };
 
   const onDrop = useCallback((acceptedFiles) => {
-    console.log("Data >>>", acceptedFiles[0]);
     const file = acceptedFiles[0];
     if (file) {
       const fileNameParts = file.name.split(".");
@@ -500,11 +484,9 @@ function Organisation() {
           const imgData = reader.result;
           setLogoUri(imgData);
           setShow(true);
-          console.log("imgData", imgData);
         };
         reader.readAsDataURL(file);
 
-        console.log("imgData", formData);
         const orgId = localStorage.getItem("organisationId");
         fetch(
           `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
@@ -515,11 +497,7 @@ function Organisation() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log("user value --->", values);
-            console.log("Server response:", data);
-
             if (!data.error) {
-              console.log("uri --->", data.blob.uri);
               setShow(true);
               setLogoUri(data?.blob.uri);
               dispatch(updateLogoURI(data?.blob.uri));

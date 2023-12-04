@@ -48,9 +48,7 @@ function SearchCustomer({
   const { Option } = Select;
   const [statusSelected, setStatusSelected] = useState(false);
 
-  const handleChange = (value) => {
-    console.log("Value >>", value);
-  };
+  const handleChange = (value) => {};
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -64,7 +62,6 @@ function SearchCustomer({
       filter: newFilter,
     };
 
-    console.log(sortBy, sortOrder);
     setItemLabel(sortBy);
 
     filterAndSort = {
@@ -77,7 +74,6 @@ function SearchCustomer({
 
     processChange("filterAndSort");
     // processChange("filterAndSort");
-    console.log("val", filterAndSort);
   };
 
   const addState = (value) => {
@@ -97,7 +93,6 @@ function SearchCustomer({
 
     // Update the filterAndSort object with the new state
 
-    console.log("debou >>", filterAndSort);
     // Save input here if needed
 
     processChange("filterAndSort");
@@ -127,14 +122,12 @@ function SearchCustomer({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log("values is>", name, value);
     // if(value === 0){
     //   saveInput()
     // }
     switch (name) {
       case "text":
         filterAndSort.filter.businessName = value;
-        console.log("businessName", filterAndSort.filter.businessName);
         break;
       case "pincode":
         filterAndSort.filter.postCode = value;
@@ -193,7 +186,6 @@ function SearchCustomer({
   const processChange = debounce((name) => saveInput(name));
 
   const saveInput = (name) => {
-    console.log("debounce val >>", filterAndSort);
     const orgID = localStorage.getItem("organisationId");
     if (name === "filterAndSort") {
       fetch(
@@ -211,7 +203,6 @@ function SearchCustomer({
           if (data?.data?.length > 0) {
             setTotalPages(data.last_page);
             setPageIndex(data.last_page);
-            console.log("filter customer table", data.data);
             setProducts(data.data);
             setSearch(data.data.length);
             setisSearchResult(true);
@@ -235,7 +226,6 @@ function SearchCustomer({
           if (search) {
             setTotalPages(data.total);
             setisSearchResult(true);
-            console.log("search data on filter >>", data);
             setProducts(data.data);
           } else {
             setisSearchResult(false);
@@ -257,8 +247,6 @@ function SearchCustomer({
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        console.log("Clicked outside dropdown container");
-
         const dropdowns = document.querySelectorAll(".product-dropdown");
         let isInsideDropdown = false;
 

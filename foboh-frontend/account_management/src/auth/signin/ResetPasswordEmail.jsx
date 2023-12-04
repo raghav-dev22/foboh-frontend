@@ -33,8 +33,6 @@ const ResetPasswordEmail = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-
           if (data.value) {
             if (data.value.length > 0) {
               const userName = data.value[0].displayName;

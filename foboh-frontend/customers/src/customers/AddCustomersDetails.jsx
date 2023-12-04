@@ -14,7 +14,6 @@ function AddCustomersDetails() {
   const [messageApi, contextHolder] = message.useMessage();
   const isTrue = localStorage.getItem("customerAdded");
   useEffect(() => {
-    console.log("isTrue", isTrue);
     if (isTrue === "true") {
       saveCustomer();
     }

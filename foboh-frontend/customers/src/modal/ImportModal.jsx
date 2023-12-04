@@ -27,14 +27,9 @@ function ImportModal({ show, setShow }) {
         var data = to_json(workbook);
         let customerList = [...data[firstSheet]].filter((i) => i.length);
         if (customerList.length) {
-          console.log("customerList", customerList);
-
           const dataStructure = [...customerList].slice(0, 2);
           const customerData = [...customerList].slice(2);
-          console.log("customer data", customerData);
-          console.log(finalCustomerArray);
           let errorData = [];
-          console.log("error flg");
           const finalCustomerArray = customerData.map((customer, rowIndex) => {
             let tmpObj = {};
             errorData[rowIndex] = [];
@@ -45,23 +40,18 @@ function ImportModal({ show, setShow }) {
                 dataStructure[0][index]
               ) {
                 errorData[rowIndex].push(element);
-                console.log("this requires data is not there");
                 setErrorFoundModal(true);
                 setShow(false);
               }
             });
             return tmpObj;
           });
-          console.log("finalCustomerArray", finalCustomerArray);
-          console.log("error data", errorData);
           setErrorData(errorData.filter((err) => err.length));
           setImportedCustomers(finalCustomerArray);
         }
-        console.log(customerList);
       };
       r.readAsBinaryString(f);
     } else {
-      console.log("Failed to load file");
     }
   };
 

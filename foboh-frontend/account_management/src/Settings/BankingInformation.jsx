@@ -59,8 +59,6 @@ const BankingInformation = () => {
 
   const organisation = useSelector((state) => state.organisationDetails);
 
-  
-
   const [initialValues, setInitialValues] = useState({
     businessType: "",
     legalBusinessName: "",
@@ -121,22 +119,14 @@ const BankingInformation = () => {
 
   // Posting bank information
   const { mutate: postBankingInfo } = useMutation(postBankingInformations, {
-    onSuccess: (data) => {
-      console.log("setupBankingInformations", data);
-    },
-    onError: (err) => {
-      console.log("setupBankingInformationsErr", data);
-    },
+    onSuccess: (data) => {},
+    onError: (err) => {},
   });
 
   // Updating bank information
   const { mutate: putBankingInfo } = useMutation(putBankingInformations, {
-    onSuccess: (data) => {
-      console.log("setupBankingInformations", data);
-    },
-    onError: (err) => {
-      console.log("setupBankingInformationsErr", data);
-    },
+    onSuccess: (data) => {},
+    onError: (err) => {},
   });
 
   const DetilsUpdated = () => {
@@ -178,12 +168,10 @@ const BankingInformation = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("setBusinessType -->", data);
         const businessTypeOptions = data.map((item) => ({
           value: item,
           label: item,
         }));
-        console.log(businessTypeOptions, "businessTypeOptions====>");
         setBusinessType(businessTypeOptions);
       });
 
@@ -192,7 +180,6 @@ const BankingInformation = () => {
 
   const asyncFuntion = async () => {
     const organisationDetails = await getOrganisationDetails();
-    console.log(organisationDetails, "mainData");
     await postSetupBankingDetails(organisationDetails);
 
     const setupBankingDetails = await getSetupBankingDetails();
@@ -233,7 +220,6 @@ const BankingInformation = () => {
 
   const handleSave = async () => {
     const auBankAccount = elements.getElement(AuBankAccountElement);
-    console.log("auBankAccount", auBankAccount);
 
     return true;
 
@@ -279,7 +265,6 @@ const BankingInformation = () => {
         .then((data) => {
           setShow(false);
           DetilsUpdated();
-          console.log(data, "postbanking data");
         })
         .catch((error) => console.log(error));
     } else {

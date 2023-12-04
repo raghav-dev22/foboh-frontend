@@ -15,11 +15,9 @@ import {
   options,
 } from "../data";
 
-
-
 function AddProductDetails({ setValues, values }) {
-  const [department, setDepartment] = useState([])
-  const [category, setCategory] = useState([])
+  const [department, setDepartment] = useState([]);
+  const [category, setCategory] = useState([]);
 
   // Department
   const [selectedDepartment, setSelectedDepartment] = useState(department[0]);
@@ -163,7 +161,7 @@ function AddProductDetails({ setValues, values }) {
   };
 
   const handleDepartment = (e) => {
-    setSelectedDepartment
+    setSelectedDepartment;
     setValues({
       ...values,
       department: e.target.value,
@@ -173,23 +171,22 @@ function AddProductDetails({ setValues, values }) {
   const handleConfiguration = (e) => {
     setValues({
       ...values,
-      configuration: (selectedInnerUnitOfMeasurement.value *
-      selectedBaseUnitOfMeasurement.value)
+      configuration:
+        selectedInnerUnitOfMeasurement.value *
+        selectedBaseUnitOfMeasurement.value,
     });
-    console.log(values.configuration);
   };
 
-  
   useEffect(() => {
-    fetch('https://masters-api-foboh.azurewebsites.net/api/Department/get', {
-      method: 'GET',
-    }).then(response => response.json())
-    .then(data => {
-      console.log("department -->",data);
-      setDepartment(data.data)
-      
-    }).catch(error => console.log(error))
-  }, [])
+    fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setDepartment(data.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -950,43 +947,47 @@ function AddProductDetails({ setValues, values }) {
                               Nothing found.
                             </div>
                           ) : (
-                            filteredInnerUnitOfMeasurement.map((IUOM, index) => (
-                              <Combobox.Option
-                                key={IUOM.index}
-                                className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                    active
-                                      ? "bg-teal-600 text-white"
-                                      : "text-gray-900"
-                                  }`
-                                }
-                                value={IUOM}
-                              >
-                                {({ selected, active }) => (
-                                  <>
-                                    <span
-                                      className={`block truncate ${
-                                        selected ? "font-medium" : "font-normal"
-                                      }`}
-                                    >
-                                      {IUOM.name}
-                                    </span>
-                                    {selected ? (
+                            filteredInnerUnitOfMeasurement.map(
+                              (IUOM, index) => (
+                                <Combobox.Option
+                                  key={IUOM.index}
+                                  className={({ active }) =>
+                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                      active
+                                        ? "bg-teal-600 text-white"
+                                        : "text-gray-900"
+                                    }`
+                                  }
+                                  value={IUOM}
+                                >
+                                  {({ selected, active }) => (
+                                    <>
                                       <span
-                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                          active
-                                            ? "text-white"
-                                            : "text-teal-600"
+                                        className={`block truncate ${
+                                          selected
+                                            ? "font-medium"
+                                            : "font-normal"
                                         }`}
                                       >
-                                        {/* <ArrowDropDownIcon/> */}
-                                        {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
+                                        {IUOM.name}
                                       </span>
-                                    ) : null}
-                                  </>
-                                )}
-                              </Combobox.Option>
-                            ))
+                                      {selected ? (
+                                        <span
+                                          className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                            active
+                                              ? "text-white"
+                                              : "text-teal-600"
+                                          }`}
+                                        >
+                                          {/* <ArrowDropDownIcon/> */}
+                                          {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
+                                        </span>
+                                      ) : null}
+                                    </>
+                                  )}
+                                </Combobox.Option>
+                              )
+                            )
                           )}
                         </Combobox.Options>
                       </Transition>

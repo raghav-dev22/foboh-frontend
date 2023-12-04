@@ -91,7 +91,6 @@ function AddProduct() {
   const [country, setCountry] = useState([]);
   const [baseUnitMeasure, setBaseUnitMeasure] = useState([]);
   const [innerUnitMeasure, setInnerUnitMeasure] = useState([]);
-  console.log(country, "country==================");
   const {
     values,
     errors,
@@ -105,7 +104,6 @@ function AddProduct() {
     initialValues: initialValues,
     validationSchema: addProductSchema,
     onSubmit: (values) => {
-      console.log(values);
       const organisationId = localStorage.getItem("organisationId");
 
       fetch(
@@ -167,9 +165,7 @@ function AddProduct() {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           localStorage.setItem("productAdded", true);
-          console.log("Success >>>", data);
           setShow(false);
 
           navigate("/dashboard/products");
@@ -224,7 +220,6 @@ function AddProduct() {
   const handleProductImage = (e) => {
     alert("You need to save this product first");
     const files = e.target.files;
-    console.log("files -->", files);
     if (files.length) {
       files.length = files.length > 3 && 3;
       const formData = new FormData();
@@ -240,9 +235,7 @@ function AddProduct() {
         }
       )
         .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-        })
+        .then((data) => {})
         .catch((error) => console.log(error));
     }
   };
@@ -265,8 +258,6 @@ function AddProduct() {
 
   // Product Availability
   const handleVisibility = (e) => {
-    console.log("handle visibility", e);
-
     const checked = e.target.checked;
     let newVisibility;
 
@@ -280,7 +271,6 @@ function AddProduct() {
 
   // Region Availability
   const handleRegionAvailability = (e) => {
-    console.log(e.target.value);
     if (e.target.checked) {
       if (!values.region.includes(e.target.value)) {
         setValues({
@@ -298,9 +288,7 @@ function AddProduct() {
 
   // status
   const handleStateSelection = (event) => {
-    console.log("status --->", event.target.value);
     setSelectedState(event.target.value);
-    console.log(selectedState, "value");
     setValues({
       ...values,
       status: event.target.value,
@@ -349,7 +337,6 @@ function AddProduct() {
         stockAlertLevel: 0,
       });
     }
-    console.log(values.trackInventory, "hhhhhhhhh");
   };
 
   const handleStockAlertLevel = (e) => {
@@ -360,8 +347,6 @@ function AddProduct() {
 
       stockAlertLevel: Math.max(0, inputValue),
     });
-
-    console.log(values.stockAlertLevel);
   };
 
   const handleSellOutOfStock = () => {
@@ -369,7 +354,6 @@ function AddProduct() {
       ...values,
       sellOutOfStock: !values.sellOutOfStock,
     });
-    console.log(values.sellOutOfStock);
   };
   // Inventory ----END
 
@@ -391,7 +375,6 @@ function AddProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("category --->", data);
         if (data.success) {
           setCategory(
             data.data.map((i) => {
@@ -447,7 +430,6 @@ function AddProduct() {
   const handleSubCategoryChange = (e) => {
     const item = e.label;
     const itemId = e.value;
-    console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
       setIsWet(true);
@@ -467,7 +449,6 @@ function AddProduct() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("segment data>>", data);
         setSegment(
           data.data.map((i) => {
             return {
@@ -527,8 +508,6 @@ function AddProduct() {
   };
 
   const handleinnerUnitOfMeasurement = (e) => {
-    console.log(e);
-
     if (values.baseUnitMeasure?.value) {
       setValues({
         ...values,
@@ -560,7 +539,6 @@ function AddProduct() {
       const profit = salePrice - values.buyPrice;
       setProfitCopy(profit);
       const margin = (profit * 100) / salePrice;
-      console.log(margin);
       setMarginCopy(margin);
       setValues({
         ...values,
@@ -600,7 +578,6 @@ function AddProduct() {
 
   const handleGSTChange = (e) => {
     setCheckGST(!checkGST);
-    console.log(checkGST);
   };
 
   const handleWETChange = (e) => {
@@ -625,11 +602,9 @@ function AddProduct() {
     }
 
     setCheckWET(!checkWET);
-    console.log(checkWET);
   };
 
   const handleConfiguration = (e) => {
-    console.log(values.innerUnitMeasure.value);
     setValues({
       ...values,
       configuration:
@@ -648,9 +623,7 @@ function AddProduct() {
       }
     )
       .then((response) => response.json())
-      .then((data) => {
-        console.log("organization data--->", data);
-      });
+      .then((data) => {});
 
     // Department
     fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
@@ -658,7 +631,6 @@ function AddProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("department -->", data);
         if (data.success) {
           setDepartment(
             data.data.map((i) => {
@@ -678,7 +650,6 @@ function AddProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("grapeVariety -->", data);
         setVariety(
           data.map((item) => {
             return {
@@ -696,7 +667,6 @@ function AddProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("tag -->", data);
         setTag(
           data.map((item) => {
             return {
@@ -714,8 +684,6 @@ function AddProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("country -->", data.data);
-
         const sortedCountry = data.data
           .map((item) => {
             return {
@@ -734,7 +702,6 @@ function AddProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Region -->", data);
         // setRegion(
         //   data.map((item) => {
         //     return {
@@ -758,7 +725,6 @@ function AddProduct() {
   // Product Details ----END
 
   const handleFormChange = (e) => {
-    console.log(e.target.value, "inputvalues");
     if (e.target.value) {
       setShow(true);
     }

@@ -33,12 +33,8 @@ function CustomerBulkEdit() {
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
       initialValues: initialValues,
-      onSubmit: (values) => {
-        console.log(values);
-      },
+      onSubmit: (values) => {},
     });
-
-  console.log("vals", values);
 
   const getDatafromLocal = () => {
     const data = localStorage.getItem("selectedCustomers");

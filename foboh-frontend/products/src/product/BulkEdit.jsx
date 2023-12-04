@@ -127,15 +127,12 @@ function BulkEdit() {
       region: e,
     });
   };
-  console.log(Prompt, "");
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
       initialValues: initialValues,
       validationSchema: addProductSchema,
-      onSubmit: (values) => {
-        console.log(values);
-      },
+      onSubmit: (values) => {},
     });
 
   const handleSubmit = () => {
@@ -182,7 +179,6 @@ function BulkEdit() {
         response.json();
       })
       .then((data) => {
-        console.log("response data:", data);
         localStorage.removeItem("selectedProducts");
         navigate("/dashboard/products");
       })
@@ -197,11 +193,6 @@ function BulkEdit() {
   useEffect(() => {
     const selectedProducts = JSON.parse(
       localStorage.getItem("selectedProducts")
-    );
-
-    console.log(
-      "selectedProducts:",
-      JSON.parse(localStorage.getItem("selectedProducts"))
     );
 
     const selectedProductsValue = selectedProducts.map((product) => {
@@ -226,8 +217,6 @@ function BulkEdit() {
       const ium = innerUnitOfMeasureList && innerUnitOfMeasureList.find(
         (iumObj) => iumObj.label === product.innerUnitofMeasure
       );
-      console.log("bum --->", bum);
-      console.log("ium --->", ium);
 
       const configuration = {};
 
@@ -277,8 +266,6 @@ function BulkEdit() {
       return updatedProducts;
     });
   };
-
-  console.log("valuessss", values.length);
 
   const handleCancle = () => {
     setIsUpdate(false);

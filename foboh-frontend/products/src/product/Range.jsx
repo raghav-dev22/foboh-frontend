@@ -78,7 +78,6 @@ function Range() {
 
   const [isSearchResult, setisSearchResult] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
-  console.log(selectedProducts.length, "products===========>");
   const saveProduct = () => {
     messageApi.open({
       content: (
@@ -109,7 +108,6 @@ function Range() {
   };
   const productUrl = process.env.REACT_APP_PRODUCT_API_URL;
   // useEffect(() => {
-  //   console.log("importTrue", importTrue);
   //   if (importTrue === "true") {
   //     importProduct();
   //   }
@@ -121,7 +119,6 @@ function Range() {
   // }, []);
 
   useEffect(() => {
-    console.log("isTrue", isTrue);
     if (isTrue === "true") {
       saveProduct();
     } else if (isProductDeleted === "true") {
@@ -154,9 +151,6 @@ function Range() {
       .then((response) => response.json())
 
       .then((data) => {
-        console.log("product list >>", data);
-
-        console.log("bbbbbb", data.total);
         setProducts(data.data);
 
         setPrevProducts(data.data);
@@ -183,8 +177,6 @@ function Range() {
     setLoading(true);
 
     if (childRef.current) {
-      console.log("values>>", values);
-
       childRef.current.handleFilterPagination(values);
     }
 
@@ -194,8 +186,6 @@ function Range() {
   };
 
   const handleSelectAllChange = (e) => {
-    // console.log("flag >>", e);
-
     const checked = e.target.checked;
 
     checked ? setSelectedProducts([...products]) : setSelectedProducts([]);
@@ -205,8 +195,6 @@ function Range() {
     if (!checked) {
       setIsBulkEdit(false);
     }
-
-    console.log("selected products >>", selectedProducts);
   };
 
   const handleBulkEdit = () => {
@@ -225,9 +213,6 @@ function Range() {
     setSelectedProducts(updatedSelectedProducts);
 
     setIsBulkEdit(updatedSelectedProducts.length > 1);
-
-    console.log("selected products >>", selectedProducts);
-
     setSlected(selectedProducts.length);
   };
 
@@ -242,8 +227,6 @@ function Range() {
   };
 
   const handleBulkVisibility = (name) => {
-    // console.log("handle visibility >>",selectedProducts);
-
     // return true
 
     fetch(
@@ -281,20 +264,13 @@ function Range() {
       }
     )
       .then((response) => {
-        console.log("response product bulk update >>", response);
-
         response.json();
       })
 
       .then((data) => {
-        console.log("response data1:", data);
-
         setIsBulkEdit(false);
-
         setSelectedProducts([]);
-
         // setProducts(data.data);
-
         getAllproduct();
       })
 

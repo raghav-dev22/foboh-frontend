@@ -44,7 +44,6 @@ const ResetPasswordForm = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.value) {
           if (data.value.length > 0) {
             const id = data.value[0].id;
@@ -72,7 +71,6 @@ const ResetPasswordForm = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             if (data.success) {
               localStorage.removeItem("uniqueKey");
               localStorage.removeItem("email");
@@ -86,13 +84,10 @@ const ResetPasswordForm = () => {
               localStorage.removeItem("id");
               alert("Some error occurred, please try again later.");
             }
-            console.log(data);
           })
           .catch((error) => console.log(error));
       },
     });
-
-  console.log(errors);
 
   // Encrypting the password
 

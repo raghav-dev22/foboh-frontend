@@ -17,10 +17,6 @@ function ViewCustomer() {
     { value: "0", label: "Inactive" },
   ];
   const location = useLocation();
-  console.log(
-    "params location for checking at view time>>",
-    location?.state?.data
-  );
   const [customerEdit, setCustomerEdit] = useState(true);
   const [selectedValue, setSelectedValue] = useState(null);
   // const [customerDetails, setCustomerDetails] = useState({});
@@ -52,7 +48,6 @@ function ViewCustomer() {
     validationSchema: ViewCustomerDetails,
     onSubmit: (values) => {},
   });
-  console.log(values, "all vahhhhhhhhhhhhhhhhhhhhhhh");
   const handleCustomerTiles = () => {
     const buyID = location?.state?.data.buyerId;
     fetch(
@@ -75,7 +70,6 @@ function ViewCustomer() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, "postdata");
         // if (data.success) {
         setCustomerEdit(true);
         setShow(true);
@@ -120,7 +114,6 @@ function ViewCustomer() {
   const handleSelectChange = (selectedOption) => {
     setSelectedValue(selectedOption);
     setShow(false);
-    console.log(selectedOption.value, "dropdown");
   };
 
   const handleCustomerDetails = (data) => {
@@ -138,7 +131,6 @@ function ViewCustomer() {
           value: "0",
         });
   };
-  console.log(values, "maindata");
   const ordeItem = [
     {
       title: "Business name",
@@ -164,7 +156,7 @@ function ViewCustomer() {
   ];
   const handlePopUp = () => {
     localStorage.setItem("orderpopup", "true");
-    // localStorage.setItem("buyerID", values.buyerId);
+    localStorage.setItem("buyerID", values.buyerId);
   };
 
   return (

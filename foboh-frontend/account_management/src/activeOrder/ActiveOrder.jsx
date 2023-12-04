@@ -57,7 +57,6 @@ function ActiveOrder({ mutate }) {
   };
 
   const onChange = (dates) => {
-    console.log("selected dates", dates);
     dates[1] !== null && debouncedHandleInput(dates, 500);
   };
   const handleCustomClear = () => {

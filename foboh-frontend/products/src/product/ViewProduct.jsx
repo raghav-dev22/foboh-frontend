@@ -41,7 +41,6 @@ import { Modal, Progress } from "antd";
 
 function ViewProduct() {
   const { id } = useParams();
-  console.log("product id>>", id);
   const [productImageUris, setProductImageUris] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -145,9 +144,7 @@ function ViewProduct() {
       }
     )
       .then((response) => response.json())
-      .then((data) => {
-        console.log("organization data--->", data);
-      });
+      .then((data) => {});
 
     // Department
     await fetch(
@@ -158,7 +155,6 @@ function ViewProduct() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("department -->", data);
         if (data.success) {
           setDepartment(
             data.data.map((i) => {
@@ -181,7 +177,6 @@ function ViewProduct() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("grapeVariety -->", data);
         varietyList = data.map((item) => {
           return {
             value: item.grapeVarietyId,
@@ -198,7 +193,6 @@ function ViewProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("tag -->", data);
         tagList = data.map((item) => {
           return {
             value: item.tagId,
@@ -215,7 +209,6 @@ function ViewProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("country -->", data.data);
         countryList = data.data.map((item) => {
           return {
             value: item.countryID,
@@ -227,17 +220,12 @@ function ViewProduct() {
       .catch((error) => console.log(error));
 
     productPromise.then((data) => {
-      console.log("selected product data>>", data);
-
-      console.log("product promise --->", data);
-
       const product = data;
       if (product.trackInventory === true) {
         setStock(true);
       } else {
         setStock(false);
       }
-      console.log(values.trackInventory);
 
       const productId = product.productId;
       setProductName(product.title);
@@ -253,7 +241,6 @@ function ViewProduct() {
       const regions = product.regionAvailability;
       const regionName = product.region;
       setRegions(regions);
-      // console.log("vikas tags >>",product.tags)
       const tags = product.tags;
       const profit = product.globalPrice - product.buyPrice;
       const margin = (profit * 100) / product.globalPrice;
@@ -342,8 +329,6 @@ function ViewProduct() {
           segmentPromise,
         ])
           .then((data) => {
-            console.log("Promise all --->", data);
-
             const departmentObj = [
               data[0].data.find((obj) => obj.departmentId === departmentId),
             ];
@@ -386,8 +371,6 @@ function ViewProduct() {
                 };
               }
             });
-            console.log("segmentObj", segment);
-
             const grapeVarietyObj = varietyList.filter((option) =>
               grapeVarietyName.includes(option.label)
             );
@@ -407,11 +390,8 @@ function ViewProduct() {
             const tagsObj = tagList.filter((option) =>
               tags.includes(option.label)
             );
-            console.log("tags : --->", tagsObj);
 
             const regionObj = region.find((rgn) => rgn.label === regionName);
-
-            console.log("region obj ---->", regionObj);
             if (subCategoryId === "SC500") {
               setIsWet(true);
             } else if (subCategoryId === "SC500") {
@@ -662,21 +642,13 @@ function ViewProduct() {
     useFormik({
       initialValues: initialValues,
       validationSchema: addProductSchema,
-      onSubmit: (values) => {
-        console.log(values.configuration);
-      },
+      onSubmit: (values) => {},
     });
-
-  console.log("values >>", values);
-  console.log("errors", errors);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const organisationId = localStorage.getItem("organisationId");
     const err = Object.values(errors);
-    console.log("err val", err);
-    console.log("result", values);
     if (err.length < 1) {
       setInitialValues({
         ...initialValues,
@@ -775,11 +747,8 @@ function ViewProduct() {
           }),
         }
       )
-        .then((response) => {
-          console.log("product response >>", response);
-        })
+        .then((response) => {})
         .then((data) => {
-          console.log("response after update>>", data);
           updateProduct();
           setShow(false);
         })
@@ -806,17 +775,14 @@ function ViewProduct() {
   // Product Availability
   const handleVisibility = (e) => {
     const checked = e.target.checked;
-    console.log("Before state update:", values.visibility);
     setValues({
       ...values,
       visibility: checked ? "1" : "0",
     });
-    console.log("After state update:", !values.visibility);
   };
 
   // Region Availability
   const handleRegionAvailability = (e) => {
-    console.log(e.target.value);
     if (e.target.checked) {
       if (!values.region.includes(e.target.value)) {
         setValues({
@@ -834,9 +800,7 @@ function ViewProduct() {
 
   // status
   const handleStateSelection = (event) => {
-    console.log("status --->", event.target.value);
     setSelectedState(event.target.value);
-    console.log(selectedState);
     setValues({
       ...values,
       status: event.target.value,
@@ -871,7 +835,6 @@ function ViewProduct() {
     } else {
       setStock(false);
     }
-    console.log(values.trackInventory);
   };
 
   const handleStockAlertLevel = (e) => {
@@ -880,7 +843,6 @@ function ViewProduct() {
       ...values,
       stockAlertLevel: Math.max(0, inputValue),
     });
-    console.log(values.stockAlertLevel);
   };
 
   const handleSellOutOfStock = () => {
@@ -888,7 +850,6 @@ function ViewProduct() {
       ...values,
       sellOutOfStock: !values.sellOutOfStock,
     });
-    console.log("nikit", !values.sellOutOfStock);
   };
   // Inventory ----END
 
@@ -916,7 +877,6 @@ function ViewProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("category --->", data);
         if (data.success) {
           setCategory(
             data.data.map((i) => {
@@ -980,7 +940,6 @@ function ViewProduct() {
   const handleSubCategoryChange = (e) => {
     const item = e.label;
     const itemId = e.value;
-    console.log("item -->>", item.toLowerCase());
     if (item.toLowerCase() === "wine") {
       setIsWine(true);
       setIsWet(true);
@@ -1001,7 +960,6 @@ function ViewProduct() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setSegment(
           data.data.map((i) => {
             return {
@@ -1063,8 +1021,6 @@ function ViewProduct() {
   };
 
   const handleinnerUnitOfMeasurement = (e) => {
-    console.log(e);
-
     if (values.baseUnitMeasure?.value) {
       setValues({
         ...values,
@@ -1081,7 +1037,6 @@ function ViewProduct() {
   };
 
   const handletagsChange = (e) => {
-    console.log("tags -->", e);
     setValues({
       ...values,
       tags: [...e],
@@ -1095,7 +1050,6 @@ function ViewProduct() {
     if (values.buyPrice) {
       const profit = salePrice - values.buyPrice;
       setProfitCopy(profit);
-      console.log("profit >>>", profit);
       const margin = (profit * 100) / salePrice;
       setMarginCopy(margin);
       setValues({
@@ -1118,7 +1072,6 @@ function ViewProduct() {
     if (values.salePrice) {
       const profit = values.salePrice - buyPrice;
       setProfitCopy(profit);
-      console.log("profit >>>", profit);
       const margin = (profit * 100) / values.salePrice;
       setMarginCopy(margin);
       setValues({
@@ -1138,7 +1091,6 @@ function ViewProduct() {
 
   const handleGSTChange = (e) => {
     setCheckGST(!checkGST);
-    console.log(checkGST);
     setShow(true);
   };
 
@@ -1164,11 +1116,9 @@ function ViewProduct() {
     }
     setShow(true);
     setCheckWET(!checkWET);
-    console.log(checkWET);
   };
 
   const handleConfiguration = (e) => {
-    console.log(values.innerUnitMeasure.value);
     setValues({
       ...values,
       configuration:
@@ -1250,7 +1200,6 @@ function ViewProduct() {
   //   })
   //     .then((response) => response.json())
   //     .then((data) => {
-  //       console.log("department -->", data);
   //       if (data.success) {
   //         setDepartment(
   //           data.data.map((i) => {
@@ -1588,10 +1537,6 @@ function ViewProduct() {
                         <h5 className="text-green text-base font-medium">
                           Visible to customers
                         </h5>
-                        {console.log(
-                          values.visibility,
-                          "visbilty condition hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
-                        )}
                         <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in bg-slate-200 border-solid rounded-full">
                           <input
                             onChange={handleVisibility}

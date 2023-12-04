@@ -7,7 +7,6 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { Button, message } from "antd";
 function ImportProductModal({ show, setShow, error, loader }) {
-  console.log(error, "hiii");
   const remove = () => {
     if (error.length === 0) {
       setShow(false);
@@ -24,7 +23,6 @@ function ImportProductModal({ show, setShow, error, loader }) {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   // const [showError, setShowError] = useState(false);
 
-  console.log(error, "model error");
   return (
     <>
       <Transition.Root show={show} as={Fragment}>

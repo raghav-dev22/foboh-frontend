@@ -76,8 +76,6 @@ const Registration = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("userdetails", data);
-
             const userInfo = data?.userdetails;
             fetch(`${authUrl}/api/User/create`, {
               method: "POST",
@@ -104,7 +102,6 @@ const Registration = () => {
               .then((data) => {
                 localStorage.removeItem("uniqueKey");
                 if (!data.error) {
-                  console.log("user", data);
                   putUserUpdate(
                     data.data.ccrn,
                     data.data.firstName,
@@ -120,7 +117,6 @@ const Registration = () => {
                   localStorage.setItem("loginPopup", "true");
                   navigate("/dashboard/main");
                 } else {
-                  console.log(data);
                   localStorage.setItem("id", data.id);
                   localStorage.removeItem("email");
                   localStorage.removeItem("uniqueKey");
