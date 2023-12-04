@@ -221,7 +221,7 @@ function OrganisationDetails({
                   placeholder="Leave a comment..."
                   defaultValue={""}
                 />
-                {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
               <div className="w-full mt-5 px-3">
                 <label

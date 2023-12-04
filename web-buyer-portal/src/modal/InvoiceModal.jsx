@@ -90,7 +90,7 @@ const InvoiceModal = forwardRef(
                                   font: "700 10px/150% 'Source Sans Pro', sans-serif",
                                 }}
                               >
-                                Supplier Logo{" "}
+                                Supplier Logo
                               </div>
                             )}
                           </div>
@@ -254,9 +254,9 @@ const InvoiceModal = forwardRef(
                           </div>
                         </div>
 
-                        <div class="invoice-table pb-10 border-b">
-                          <div class="flex flex-col mt-8">
-                            <table class="divide-slate-500 mr-[140px]">
+                        <div className="invoice-table pb-10 border-b">
+                          <div className="flex flex-col mt-8">
+                            <table className="divide-slate-500 mr-[140px]">
                               <thead className="bg-neutral-slate-a-2 my-3 rounded-md">
                                 <tr>
                                   <th
@@ -331,7 +331,7 @@ const InvoiceModal = forwardRef(
                               <tbody>
                                 {invoiceDataProducts?.map((product) => {
                                   return (
-                                    <tr class="border-b">
+                                    <tr className="border-b">
                                       <td
                                         className="text-neutral-slate-a-12 text-left"
                                         style={{

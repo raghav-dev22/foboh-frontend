@@ -233,6 +233,7 @@ function StockDetails() {
         return (
           <>
             <div
+              key={index}
               className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index}`}
             >
               <div className="grid grid-cols-1 gap-6 p-4">

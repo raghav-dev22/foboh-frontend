@@ -19,7 +19,7 @@ const Loader = () => {
       className="flex min-h-full font-inter justify-center gap-2 place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8"
     >
       <h1 className="font-inter font-normal text-lg">LOADING...</h1>
-      <Spin size="large" spinning={spinning} fullscreen />
+      <Spin size="large" spinning={spinning} fullscreen="true" />
     </main>
   );
 };

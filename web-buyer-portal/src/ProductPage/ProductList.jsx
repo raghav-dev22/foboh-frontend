@@ -1912,10 +1912,10 @@ const ProductList = () => {
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
-                                <g clip-path="url(#clip0_128_2591)">
+                                <g clipPath="url(#clip0_128_2591)">
                                   <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
                                     d="M10.6641 15.1105H4.48791C2.21924 15.1105 0.478794 14.2912 0.973161 10.9931L1.5488 6.52349C1.85354 4.87785 2.90323 4.24805 3.82425 4.24805H11.3549C12.2895 4.24805 13.2782 4.92526 13.6304 6.52349L14.2059 10.9931C14.6258 13.9187 12.9329 15.1105 10.6641 15.1105Z"
                                     stroke="white"
                                     strokeWidth="1.5"

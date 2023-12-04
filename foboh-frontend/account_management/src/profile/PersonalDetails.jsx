@@ -361,7 +361,7 @@ function PersonalDetails({
                   <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                 )}
 
-                {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-5">
@@ -411,7 +411,7 @@ function PersonalDetails({
                 {errors.mobile && touched.mobile && (
                   <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s]" />
                 )}
-                {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-5">
@@ -440,7 +440,7 @@ function PersonalDetails({
                 {errors.bio && (
                   <p className="mt-2 mb-2 text-red-500">{errors.bio}</p>
                 )}
-                {/* <p class="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
+                {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
               </div>
             </div>
           </form>

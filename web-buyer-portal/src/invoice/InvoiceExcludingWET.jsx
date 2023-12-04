@@ -141,9 +141,9 @@ function InvoiceExcludingWET() {
           </div>
         </div>
 
-        <div class="invoice-table pb-20 border-b">
-          <div class="flex flex-col mt-8">
-            <table class="min-w-full divide-slate-500 ">
+        <div className="invoice-table pb-20 border-b">
+          <div className="flex flex-col mt-8">
+            <table className="min-w-full divide-slate-500 ">
               <thead className="bg-neutral-slate-a-2 my-3 rounded-md">
                 <tr>
                   <th
@@ -203,7 +203,7 @@ function InvoiceExcludingWET() {
                 </tr>
               </thead>
               <tbody>
-                <tr class="border-b">
+                <tr className="border-b">
                   <td
                     className="text-neutral-slate-a-12 text-left"
                     style={{ font: "400 10px/133% 'Inter', sans-serif" }}

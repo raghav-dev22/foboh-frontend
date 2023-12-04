@@ -144,7 +144,7 @@ function ImportCustomerModal({ show, setShow, error }) {
                         </div>
                       </div>
                       <table
-                        class="table-auto"
+                        className="table-auto"
                         style={{
                           borderRadius: "8px",
                           border: "1px solid #EEEEEE",
