@@ -31,6 +31,13 @@ import {
 } from "../data";
 import { useNavigate } from "react-router-dom";
 import UnSavedModal from "../modal/UnSavedModal";
+import { useQuery } from "react-query";
+import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
+import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
+
+let baseUnitOfMeasureList = [];
+let innerUnitOfMeasureList = [];
+
 function BulkEdit() {
   const location = useLocation();
   const [unSaved, setUnSaved] = useState(false);
@@ -85,6 +92,34 @@ function BulkEdit() {
     { value: 1, label: "Visible" },
     { value: 2, label: "Hidden" },
   ];
+
+  const { data: baseUnitOfMeasureData } = useQuery({
+    queryKey: ["getBaseUnitMeasure"],
+    queryFn: getBaseUnitMeasure,
+  });
+
+  const { data: innerUnitMeasureData } = useQuery({
+    queryKey: ["getInnerUnitMeasure"],
+    queryFn: getInnerUnitMeasure,
+  });
+
+  console.log("innerUnitMeasureData", innerUnitMeasureData);
+
+  if (baseUnitOfMeasureData && innerUnitMeasureData) {
+    baseUnitOfMeasureList = baseUnitOfMeasureData.map((item) => {
+      return {
+        label: `${item.unit} ${item.type}`,
+        value: `${item.unit} ${item.type}`,
+      };
+    });
+
+    innerUnitOfMeasureList = innerUnitMeasureData.map((item) => {
+      return {
+        label: `${item.unit} ${item.type}`,
+        value: `${item.unit} ${item.type}`,
+      };
+    });
+  }
 
   const handleDepartmentChange = (e) => {
     setValues({
@@ -185,11 +220,11 @@ function BulkEdit() {
         }
       });
 
-      const bum = baseUnitOfMeasurement.find(
-        (bumObj) => bumObj?.value.toString() === product.unitofMeasure
+      const bum = baseUnitOfMeasureList && baseUnitOfMeasureList.find(
+        (bumObj) => bumObj.label === product.unitofMeasure
       );
-      const ium = innerUnitOfMeasurement.find(
-        (iumObj) => iumObj?.value.toString() === product.innerUnitofMeasure
+      const ium = innerUnitOfMeasureList && innerUnitOfMeasureList.find(
+        (iumObj) => iumObj.label === product.innerUnitofMeasure
       );
       console.log("bum --->", bum);
       console.log("ium --->", ium);
@@ -413,7 +448,7 @@ function BulkEdit() {
                       <div className="w-44 flex justify-between items-center">
                         <Select
                           name="colors"
-                          options={baseUnitOfMeasurement}
+                          options={baseUnitOfMeasureList}
                           value={product.baseUnitMeasure}
                           onChange={(e) =>
                             handleFieldChange(
@@ -432,7 +467,7 @@ function BulkEdit() {
                       <div className="w-44 flex justify-between items-center">
                         <Select
                           name="colors"
-                          options={innerUnitOfMeasurement}
+                          options={innerUnitOfMeasureList}
                           value={product.innerUnitMeasure}
                           onChange={(e) =>
                             handleFieldChange(

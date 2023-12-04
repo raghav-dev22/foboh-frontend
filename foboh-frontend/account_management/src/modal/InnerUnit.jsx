@@ -6,6 +6,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import { postInnerUnitMeasure } from "../helpers/postInnerUnitMeasure";
 import { message } from "antd";
@@ -22,9 +23,9 @@ const InnerUnit = ({
   onCancel,
 }) => {
   const [unit, setUnit] = useState([]);
-  const [amount, setAmount] = useState(0);
-  const [iumUnit, setiumUnit] = useState("");
-  const [iumType, setIumType] = useState("");
+  const [amount, setAmount] = useState("");
+  const [iumUnit, setiumUnit] = useState(null);
+  const [iumType, setIumType] = useState(null);
   const [messageApi, contextHolder] = message.useMessage();
   let isPut = false;
 
@@ -83,6 +84,10 @@ const InnerUnit = ({
   };
 
   const HandleAddUnit = async () => {
+    setAmount("");
+    setIumType(null);
+    setiumUnit(null);
+
     setUnit((prev) => {
       return [
         ...prev,
@@ -181,6 +186,20 @@ const InnerUnit = ({
     response && masterAsyncFunction();
   };
 
+  const handleCancelEdit = (idx) => {
+    setUnit((prev) =>
+      prev.map((item, itemIndex) => {
+        if (itemIndex === idx) {
+          return {
+            ...item,
+            editable: false,
+          };
+        }
+        return item;
+      })
+    );
+  };
+
   return (
     <>
       {contextHolder}
@@ -226,6 +245,7 @@ const InnerUnit = ({
                           <input
                             className="border-0 placeholder:text-[15px] placeholder:font-normal "
                             type="text"
+                            value={item.amount}
                             placeholder="Enter amount"
                             style={{
                               width: "60%",
@@ -249,7 +269,8 @@ const InnerUnit = ({
                             style={{
                               width: "40%",
                             }}
-                            placeholder="Enter amount"
+                            placeholder="Select unit"
+                            value={item.iumUnit}
                             optionFilterProp="children"
                             filterOption={(input, option) =>
                               (option?.label ?? "").includes(input)
@@ -278,6 +299,7 @@ const InnerUnit = ({
                             style={{
                               width: "100%",
                             }}
+                            value={item.iumType}
                             placeholder="Select type"
                             optionFilterProp="children"
                             filterOption={(input, option) =>
@@ -300,6 +322,14 @@ const InnerUnit = ({
                             className="ml-[16px]"
                           >
                             <CheckCircleOutlineIcon
+                              style={{ fill: "#147D73", cursor: "pointer" }}
+                            />
+                          </div>
+                          <div
+                            onClick={() => handleCancelEdit(idx, item?.id)}
+                            className="ml-[16px]"
+                          >
+                            <CancelOutlinedIcon
                               style={{ fill: "#147D73", cursor: "pointer" }}
                             />
                           </div>
@@ -348,6 +378,7 @@ const InnerUnit = ({
                     paddingLeft: "18px",
                   }}
                   placeholder="Enter amount"
+                  value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   onKeyPress={(event) => {
                     const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
@@ -362,6 +393,7 @@ const InnerUnit = ({
                     width: "40%",
                   }}
                   placeholder="Enter amount"
+                  value={iumUnit}
                   optionFilterProp="children"
                   filterOption={(input, option) =>
                     (option?.label ?? "").includes(input)
@@ -387,6 +419,7 @@ const InnerUnit = ({
                     width: "100%",
                   }}
                   placeholder="Select type"
+                  value={iumType}
                   optionFilterProp="children"
                   filterOption={(input, option) =>
                     (option?.label ?? "").includes(input)

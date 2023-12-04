@@ -7,6 +7,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { postBaseUnitMeasure } from "../helpers/postBaseUnitMeasure";
 import { message } from "antd";
 import { getbaseUnitMeasureList } from "../helpers/getUnitOfMeasures";
@@ -26,7 +27,7 @@ const BaseUnit = ({
   const cancelButtonRef = useRef(null);
   const [selectedBaseUnit, setSelectedBaseUnit] = useState(null);
   const [selectedBaseType, setSelectedBaseType] = useState(null);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(null);
   const [messageApi, contextHolder] = message.useMessage();
   const [isPut, setIsPut] = useState(false);
 
@@ -96,6 +97,9 @@ const BaseUnit = ({
   };
 
   const addBtn = async () => {
+    setSelectedBaseType(null);
+    setSelectedBaseUnit(null);
+    setAmount("");
     setUnit((prev) => [
       ...prev,
       {
@@ -191,6 +195,20 @@ const BaseUnit = ({
     response && masterAsyncFunction();
   };
 
+  const handleCancelEdit = (idx) => {
+    setUnit((prev) =>
+      prev.map((item, itemIndex) => {
+        if (itemIndex === idx) {
+          return {
+            ...item,
+            editable: false,
+          };
+        }
+        return item;
+      })
+    );
+  };
+
   return (
     <>
       {contextHolder}
@@ -242,6 +260,7 @@ const BaseUnit = ({
                                 paddingRight: "40px",
                               }}
                               placeholder="Enter amount"
+                              value={item?.amount}
                               type="text"
                               onChange={(e) =>
                                 handleEdit(idx, "amount", e.target.value)
@@ -260,6 +279,7 @@ const BaseUnit = ({
                                   width: "30%",
                                 }}
                                 placeholder="Enter amount"
+                                value={item?.bumUnit}
                                 optionFilterProp="children"
                                 filterOption={(input, option) =>
                                   (option?.label ?? "").includes(input)
@@ -286,6 +306,7 @@ const BaseUnit = ({
                           <div className="flex items-center">
                             <Select
                               showSearch
+                              value={item?.type}
                               onChange={(value) =>
                                 handleEdit(
                                   idx,
@@ -315,6 +336,14 @@ const BaseUnit = ({
                               className="ml-[16px]"
                             >
                               <CheckCircleOutlineIcon
+                                style={{ fill: "#147D73", cursor: "pointer" }}
+                              />
+                            </div>
+                            <div
+                              onClick={() => handleCancelEdit(idx, item?.id)}
+                              className="ml-[16px]"
+                            >
+                              <CancelOutlinedIcon
                                 style={{ fill: "#147D73", cursor: "pointer" }}
                               />
                             </div>
@@ -363,6 +392,7 @@ const BaseUnit = ({
                     paddingRight: "40px",
                   }}
                   placeholder="Enter amount"
+                  value={amount}
                   type="text"
                   onChange={(e) => setAmount(e.target.value)}
                   onKeyPress={(event) => {
@@ -387,6 +417,7 @@ const BaseUnit = ({
                       .toLowerCase()
                       .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
+                  value={selectedBaseUnit}
                   options={baseUnitMeasureUnitList}
                   onChange={handleSelectUnit}
                 />
@@ -404,6 +435,7 @@ const BaseUnit = ({
                     width: "100%",
                   }}
                   placeholder="Select type"
+                  value={selectedBaseType}
                   optionFilterProp="children"
                   filterOption={(input, option) =>
                     (option?.label ?? "").includes(input)
