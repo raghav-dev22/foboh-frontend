@@ -121,30 +121,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     queryFn: getdefaultPaymentTerm,
   });
 
-<<<<<<< HEAD
   if (paymentTermData) {
-=======
-  let defaultPaymentMethodList = [];
-
-  const getcustomerDefaultPaymentMethod = async (defaultPaymentTerm) => {
-    const dpm = await getdefaultPaymentMethod(defaultPaymentTerm);
-    defaultPaymentMethodList = dpm?.data.map((item) => {
-      return {
-        label: item,
-        value: item,
-      };
-    });
-
-    const defaultPaymentMethodId = defaultPaymentMethodList.find(
-      (item) => customerData.defaultPaymentMethodId[0] === item.label
-    );
-
-    return [defaultPaymentMethodId, defaultPaymentMethodList];
-  };
-
-  let paymentTerm = [];
-  if (paymentTermData && !paymentTermIsLoading) {
->>>>>>> a400762c27e7f58724c34402a2a51284cb27d43d
     const data = paymentTermData.map((item) => {
       return {
         value: item.id,
@@ -188,12 +165,8 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
       }
     )
       .then((response) => response.json())
-<<<<<<< HEAD
       .then(async (data) => {
         console.log("Customer data --->", data);
-=======
-      .then((data) => {
->>>>>>> a400762c27e7f58724c34402a2a51284cb27d43d
         customerData = data;
         handleCustomerDetails(data);
         setInitialValues({
@@ -293,24 +266,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           };
         });
       });
-<<<<<<< HEAD
-=======
-
-    const defaultPaymentTerm = paymentTerm.find(
-      (item) => data?.defaultPaymentTerm[0] === item?.label
-    );
-    const [defaultPaymentMethodSelected, defaultPaymentMethodList] =
-      await getcustomerDefaultPaymentMethod(defaultPaymentTerm);
-
-    setDefaultPaymentMethod(defaultPaymentMethodList);
-
-    setValues((prev) => {
-      return {
-        ...prev,
-        defaultPaymentMethodId: defaultPaymentMethodSelected,
-      };
-    });
->>>>>>> a400762c27e7f58724c34402a2a51284cb27d43d
   };
 
   const onFinalSubmit = (event) => {

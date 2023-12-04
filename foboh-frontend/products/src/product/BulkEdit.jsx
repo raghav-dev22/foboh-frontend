@@ -211,10 +211,10 @@ function BulkEdit() {
         }
       });
 
-      const bum = baseUnitOfMeasureList && baseUnitOfMeasureList.find(
+      const bum = baseUnitOfMeasureList.find(
         (bumObj) => bumObj.label === product.unitofMeasure
       );
-      const ium = innerUnitOfMeasureList && innerUnitOfMeasureList.find(
+      const ium = innerUnitOfMeasureList.find(
         (iumObj) => iumObj.label === product.innerUnitofMeasure
       );
 
