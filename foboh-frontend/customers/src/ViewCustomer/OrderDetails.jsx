@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import OrderTable from "./OrderTable";
 import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,6 +21,8 @@ import {
   getdefaultPaymentMethod,
   getdefaultPaymentTerm,
 } from "../reactQuery/viewCustomerApiModule";
+import ColumnGroup from "antd/es/table/ColumnGroup";
+import { formatDate } from "../helper/formateDate";
 
 let paymentTerm = [];
 
@@ -31,6 +33,10 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   const [activeStatus, setActiveStatus] = React.useState(1);
   const [show, setShow] = React.useState(false);
   const [stateData, setStateData] = useState([]);
+  const [buyerData, setBuyerData] = useState();
+  const [tabshow, setTabShow] = React.useState(false);
+  const [allOrder, setAllOrder] = useState();
+
   const saveCustomer = () => {
     messageApi.open({
       content: (
@@ -101,16 +107,37 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     });
     allStateData = list;
   }
-
   useEffect(() => {
-    if (statesData) {
-      // Assuming statesData is an array of state objects
-      callCustomerDetails();
-    }
-    if (paymentTermData) {
-      callCustomerDetails();
-    }
-  }, [statesData, paymentTermData]);
+    const fetchData = async () => {
+      if (statesData) {
+        await callCustomerDetails();
+      }
+      if (paymentTermData) {
+        await callCustomerDetails();
+      }
+      if (buyerData) {
+        try {
+          const response = await fetch(
+            `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Orders/BuyerId?buyerId=${buyerData}&page=${tabshow}`,
+            {
+              method: "GET",
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch orders for buyerId");
+          }
+
+          const data = await response.json();
+          setAllOrder(data.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [statesData, paymentTermData, buyerData, tabshow]);
 
   const {
     data: paymentTermData,
@@ -168,6 +195,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
       .then(async (data) => {
         console.log("Customer data --->", data);
         customerData = data;
+        setBuyerData(data.buyerId);
         handleCustomerDetails(data);
         setInitialValues({
           ...initialValues,
@@ -256,7 +284,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
             label: item,
           };
         });
-        console.log("defaultPaymentMethodList", updatedPaymentMethod);
         setValues((prev) => {
           return {
             ...prev,
@@ -410,7 +437,12 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
               >
                 <div className="flex gap-2 items-center">
                   <LocalMallOutlinedIcon style={{ fill: "#fff" }} />
-                  <div className="flex items-center">
+                  <div
+                    className="flex items-center"
+                    onClick={() => {
+                      setTabShow(false);
+                    }}
+                  >
                     <span
                       className={`${
                         activeStatus == 1
@@ -492,7 +524,12 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     : "customer-tab  px-4 text-sm text-gray-600 py-3 flex items-center  hover:text-indigo-700 cursor-pointer"
                 }
               >
-                <div className="flex gap-2 items-center">
+                <div
+                  className="flex gap-2 items-center"
+                  onClick={() => {
+                    setTabShow(true);
+                  }}
+                >
                   <AddCardIcon style={{ fill: "#fff" }} />
                   <div className="flex items-center">
                     <span
@@ -565,7 +602,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    <OrderTable />
+                    <OrderTable allOrder={allOrder} />
                   </tbody>
                 </table>
               </div>
@@ -1344,10 +1381,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     </h6>
                   </div>
                   <div className="px-6 py-7   custom-scroll-bar overflow-y-auto ">
-                    <form
-                 
-                      className="w-full  overflow-y-auto overflow-x-visible	"
-                    >
+                    <form className="w-full  overflow-y-auto overflow-x-visible	">
                       <div className="flex flex-nowrap gap-2  mb-5">
                         <div className="w-full relative">
                           <label
@@ -1365,11 +1399,10 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                             options={paymentTerm}
                             onBlur={handleBlur}
                             value={values?.defaultPaymentTerms}
-                            onChange={(e) =>{
-                              handleInputChange()
-                              handleSelect(e, "defaultPaymentTerms")
-                            }
-                            }
+                            onChange={(e) => {
+                              handleInputChange();
+                              handleSelect(e, "defaultPaymentTerms");
+                            }}
                           />
                         </div>
                       </div>
@@ -1391,11 +1424,10 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                             value={values.defaultPaymentMethodId}
                             // isDisabled={defaultPaymentMethod.length < 1}
                             onBlur={handleBlur}
-                            onChange={(e) =>{
-                              handleInputChange()
-                              handleSelect(e, "defaultPaymentMethodId")
-                            }
-                            }
+                            onChange={(e) => {
+                              handleInputChange();
+                              handleSelect(e, "defaultPaymentMethodId");
+                            }}
                             // value={values.billingState}
                           />
                         </div>
@@ -1460,130 +1492,46 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     {/* <ProductDetails /> */}
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                       <tbody>
-                        <tr
-                          className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  `}
-                        >
-                          <td className=" px-4 py-4 ">
-                            <h5 className="font-medium whitespace-no-wrap text-green">
-                              Order Number
-                            </h5>
-                            <p
-                              className="text-sm font-normal	text-green cursor-pointer"
-                              onClick={() =>
-                                navigate(`/dashboard/order-details`)
-                              }
-                            >
-                              Order Date
-                            </p>
-                          </td>
-                          <td className="px-4 py-4">
-                            <h5 className="font-normal whitespace-no-wrap text-green">
-                              $1004.50
-                            </h5>
-                          </td>
-
-                          <td className="px-4 py-4">
-                            <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-max	px-3">
-                              <div className="dot bg-custom-darkGreen rounded-full	" />
-                              <p className="text-green font-medium	text-sm	">
-                                Overdue
+                        {allOrder?.map((product, index) => (
+                          <tr
+                            key={index}
+                            className={`bg-white border-b  dark:border-gray-700  cursor-pointer bg-violet-600`}
+                            onClick={() =>
+                              navigate(
+                                `/dashboard/order-details/${product?.orderId}`
+                              )
+                            }
+                          >
+                            <td className="px-4 py-4">
+                              <h5 className="font-medium whitespace-no-wrap text-green">
+                                {product?.orderId}
+                              </h5>
+                              <p className="text-sm font-normal text-green">
+                                {formatDate(product?.orderEntryDate)}
                               </p>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr
-                          className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  `}
-                        >
-                          <td className=" px-4 py-4 ">
-                            <h5 className="font-medium whitespace-no-wrap text-green">
-                              Order Number
-                            </h5>
-                            <p
-                              className="text-sm font-normal	text-green cursor-pointer"
-                              onClick={() =>
-                                navigate(`/dashboard/order-details`)
-                              }
-                            >
-                              Order Date
-                            </p>
-                          </td>
-                          <td className="px-4 py-4">
-                            <h5 className="font-normal whitespace-no-wrap text-green">
-                              $1004.50
-                            </h5>
-                          </td>
+                            </td>
+                            <td className="px-4 py-4">
+                              <h5 className="font-normal whitespace-no-wrap text-green">
+                                ${product?.payAmountLong}
+                              </h5>
+                            </td>
 
-                          <td className="px-4 py-4">
-                            <div className="flex justify-center items-center gap-1 radius-30 bg-custom-red h-7	w-max	px-3">
-                              <div className="dot bg-custom-darkRed rounded-full	" />
-                              <p className="text-red font-medium	text-sm	">
-                                Overdue
-                              </p>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr
-                          className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  `}
-                        >
-                          <td className=" px-4 py-4 ">
-                            <h5 className="font-medium whitespace-no-wrap text-green">
-                              Order Number
-                            </h5>
-                            <p
-                              className="text-sm font-normal	text-green cursor-pointer"
-                              onClick={() =>
-                                navigate(`/dashboard/order-details`)
-                              }
-                            >
-                              Order Date
-                            </p>
-                          </td>
-                          <td className="px-4 py-4">
-                            <h5 className="font-normal whitespace-no-wrap text-green">
-                              $1004.50
-                            </h5>
-                          </td>
-
-                          <td className="px-4 py-4">
-                            <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-max	px-3">
-                              <div className="dot bg-custom-darkGreen rounded-full	" />
-                              <p className="text-green font-medium	text-sm	">
-                                Overdue
-                              </p>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr
-                          className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  `}
-                        >
-                          <td className=" px-4 py-4 ">
-                            <h5 className="font-medium whitespace-no-wrap text-green">
-                              Order Number
-                            </h5>
-                            <p
-                              className="text-sm font-normal	text-green cursor-pointer"
-                              onClick={() =>
-                                navigate(`/dashboard/order-details`)
-                              }
-                            >
-                              Order Date
-                            </p>
-                          </td>
-                          <td className="px-4 py-4">
-                            <h5 className="font-normal whitespace-no-wrap text-green">
-                              $1004.50
-                            </h5>
-                          </td>
-
-                          <td className="px-4 py-4">
-                            <div className="flex justify-center items-center gap-1 radius-30 bg-custom-yellow h-7	w-max	px-3">
-                              <div className="dot bg-custom-darkYellow rounded-full	" />
-                              <p className="text-yellow font-medium	text-sm	">
-                                Overdue
-                              </p>
-                            </div>
-                          </td>
-                        </tr>
+                            <td className="px-4 py-4">
+                              <div
+                                className={`flex justify-center items-center gap-1 radius-30 width-[60px] ${
+                                  product?.transactionStatus === "overdue"
+                                    ? "bg-custom-red-100"
+                                    : "bg-custom-gray"
+                                } h-7 px-3`}
+                              >
+                                {/* <div className="dot bg-custom-darkGreen rounded-full" /> */}
+                                <p className="text-green font-medium text-sm">
+                                  {product?.transactionStatus}
+                                </p>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

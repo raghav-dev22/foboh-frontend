@@ -1443,3 +1443,7 @@ a:hover {
 
   box-shadow: none !important;
 }
+
+.bg-violet-600:hover{
+  background-color: #f0f0f0 !important;
+}

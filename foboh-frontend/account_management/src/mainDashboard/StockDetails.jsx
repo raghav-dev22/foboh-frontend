@@ -46,7 +46,9 @@ function StockDetails() {
           className={`text-sm font-medium ${
             tilesData?.totalRevenuePercentage === 0
               ? "text-[#637381]"
-              : "text-[#000]"
+              : tilesData?.totalRevenuePercentage > 0
+              ? "text-[#009900]"
+              : "text-[#DC3545]"
           }`}
         >
           {tilesData?.totalRevenuePercentage
@@ -77,7 +79,9 @@ function StockDetails() {
           className={`text-sm font-medium ${
             tilesData?.totalProfitPercentage === 0
               ? "text-[#637381]"
-              : "text-[#000]"
+              : tilesData?.totalProfitPercentage > 0
+              ? "text-[#009900]"
+              : "text-[#DC3545]"
           }`}
         >
           {tilesData?.totalProfitPercentage
@@ -106,7 +110,9 @@ function StockDetails() {
           className={`text-sm font-medium ${
             tilesData?.noOfOrdersPercentage === 0
               ? "text-[#637381]"
-              : "text-[#000]"
+              : tilesData?.noOfOrdersPercentage > 0
+              ? "text-[#009900]"
+              : "text-[#DC3545]"
           }`}
         >
           {tilesData?.noOfOrdersPercentage
@@ -133,7 +139,11 @@ function StockDetails() {
       value: (
         <span
           className={`text-sm font-medium ${
-            customerPercentage === 0 ? "text-[#637381]" : "text-[#000]"
+            customerPercentage === 0
+              ? "text-[#637381]"
+              : customerPercentage > 0
+              ? "text-[#009900]"
+              : "text-[#DC3545]"
           }`}
         >
           {customerPercentage ? customerPercentage : "0.00%"}
