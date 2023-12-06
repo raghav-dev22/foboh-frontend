@@ -8,35 +8,55 @@ import { Button, message } from "antd";
 import useUnsavedChangesWarning from "../helpers/useUnsavedChangesWarning";
 import { useFormik } from "formik";
 import { addProductSchema } from "../schemas";
-import {
-  Prompt,
-  Redirect,
-  withRouter,
-  BrowserRouter,
-  Link,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-import {
-  segment,
-  subCategory,
-  region,
-  country,
-  baseUnitOfMeasurement,
-  innerUnitOfMeasurement,
-  options,
-  configurations,
-} from "../data";
 import { useNavigate } from "react-router-dom";
 import UnSavedModal from "../modal/UnSavedModal";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
 import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
 
 let baseUnitOfMeasureList = [];
 let innerUnitOfMeasureList = [];
+
+let initialValues = [
+  {
+    visibility: false,
+    region: [],
+    minimumOrder: "",
+    trackInventory: false,
+    stockAlertLevel: "",
+    sellOutOfStock: false,
+    title: "",
+    skuCode: "",
+    productId: "",
+    brand: "",
+    department: "",
+    category: "",
+    subcategory: "",
+    segment: "",
+    grapeVariety: [],
+    regionSelect: "",
+    vintage: "",
+    awards: "",
+    abv: "",
+    country: "",
+    baseUnitMeasure: {},
+    innerUnitMeasure: {},
+    configuration: "",
+    description: "",
+    tags: [],
+    salePrice: null,
+    buyPrice: null,
+    profit: "",
+    margin: "",
+    tax: "",
+    wineEqualisationTax: "",
+    landedUnitCost: "",
+    status: ["Active", "Inactive", "Archived"],
+  },
+];
 
 function BulkEdit() {
   const location = useLocation();
@@ -44,43 +64,7 @@ function BulkEdit() {
   const [productTable, setProductTable] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const [Prompt, setDirty, setPrestine] = useUnsavedChangesWarning();
-  const [initialValues, setInitialValues] = useState([
-    {
-      visibility: false,
-      region: [],
-      minimumOrder: "",
-      trackInventory: false,
-      stockAlertLevel: "",
-      sellOutOfStock: false,
-      title: "",
-      skuCode: "",
-      productId: "",
-      brand: "",
-      department: "",
-      category: "",
-      subcategory: "",
-      segment: "",
-      grapeVariety: [],
-      regionSelect: "",
-      vintage: "",
-      awards: "",
-      abv: "",
-      country: "",
-      baseUnitMeasure: {},
-      innerUnitMeasure: {},
-      configuration: "",
-      description: "",
-      tags: [],
-      salePrice: null,
-      buyPrice: null,
-      profit: "",
-      margin: "",
-      tax: "",
-      wineEqualisationTax: "",
-      landedUnitCost: "",
-      status: ["Active", "Inactive", "Archived"],
-    },
-  ]);
+  const [initialValues, setInitialValues] = useState([{}]);
   const navigate = useNavigate();
   const status = [
     { value: 1, label: "Active" },
@@ -93,26 +77,41 @@ function BulkEdit() {
     { value: 2, label: "Hidden" },
   ];
 
-  const { data: baseUnitOfMeasureData } = useQuery({
-    queryKey: ["getBaseUnitMeasure"],
-    queryFn: getBaseUnitMeasure,
-  });
-
-  const { data: innerUnitMeasureData } = useQuery({
+  const {
+    data: innerUnitMeasureData,
+    isLoading: innerUnitMeasureIsLoading,
+    refetch: refetchInnerUnitMeasure,
+  } = useQuery({
     queryKey: ["getInnerUnitMeasure"],
     queryFn: getInnerUnitMeasure,
   });
 
-  console.log("innerUnitMeasureData", innerUnitMeasureData);
+  const { mutate: fetchBaseUnitMeasure } = useMutation(getBaseUnitMeasure, {
+    onSuccess: (data) => {
+      baseUnitOfMeasureList = data.map((item) => {
+        return {
+          label: `${item.unit} ${item.type}`,
+          value: `${item.unit} ${item.type}`,
+        };
+      });
 
-  if (baseUnitOfMeasureData && innerUnitMeasureData) {
-    baseUnitOfMeasureList = baseUnitOfMeasureData.map((item) => {
-      return {
-        label: `${item.unit} ${item.type}`,
-        value: `${item.unit} ${item.type}`,
-      };
-    });
+      console.log("baseUnitOfMeasureList", baseUnitOfMeasureList);
+      setValues((prev) => {
+        console.log("prev", prev);
+        return prev.map((product) => {
+          return {
+            ...product,
+            baseUnitMeasure: baseUnitOfMeasureList.find(
+              (item) => item.label === product.unitofMeasure
+            ),
+          };
+        });
+      });
+    },
+    onError: (error) => {},
+  });
 
+  if (innerUnitMeasureData) {
     innerUnitOfMeasureList = innerUnitMeasureData.map((item) => {
       return {
         label: `${item.unit} ${item.type}`,
@@ -191,9 +190,12 @@ function BulkEdit() {
   };
 
   useEffect(() => {
+    fetchBaseUnitMeasure();
     const selectedProducts = JSON.parse(
       localStorage.getItem("selectedProducts")
     );
+
+    console.log(selectedProducts);
 
     const selectedProductsValue = selectedProducts.map((product) => {
       const [state] = status.filter(
@@ -212,7 +214,7 @@ function BulkEdit() {
       });
 
       const bum = baseUnitOfMeasureList.find(
-        (bumObj) => bumObj.label === product.unitofMeasure
+        (item) => item.label === product.unitofMeasure
       );
       const ium = innerUnitOfMeasureList.find(
         (iumObj) => iumObj.label === product.innerUnitofMeasure
@@ -223,8 +225,8 @@ function BulkEdit() {
       return {
         title: product?.title || "",
         skuCode: product?.skUcode || "",
-        baseUnitMeasure: bum || "",
-        innerUnitMeasure: ium || "",
+        baseUnitMeasure: product.unitofMeasure || "",
+        innerUnitMeasure: product.innerUnitofMeasure || "",
         configuration: product?.configuration || "",
         salePrice: product?.globalPrice || "",
         stockAlertLevel: product?.stockThreshold || "",

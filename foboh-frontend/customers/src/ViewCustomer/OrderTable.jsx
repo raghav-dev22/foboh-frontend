@@ -1,11 +1,13 @@
 import React from "react";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-function OrderTable() {
+import { formatDate } from "../helper/formateDate";
+
+function OrderTable({ allOrder }) {
   const tableItem = Array.from({ length: 8 });
 
   return (
     <>
-      {tableItem.map((product, index) => {
+      {allOrder?.map((product, index) => {
         return (
           <tr
             key={index}
@@ -13,28 +15,30 @@ function OrderTable() {
           >
             <td className=" px-6 py-4 ">
               <h5 className="font-medium whitespace-no-wrap text-gray">
-                #LF1001024
+                {product?.orderId}
               </h5>
             </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
-                $450.10
+                ${product?.payAmountLong}
               </h5>
             </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
-                25 Dec 2023
+                {formatDate(product?.orderEntryDate)}
               </h5>
             </td>
             <td className="px-6 py-4">
               <h5 className="font-normal whitespace-no-wrap text-gray">
-                25 Dec 2023
+                {formatDate(product?.modifiedDate)}
               </h5>
             </td>
 
             <td className="px-6 py-4">
-              <div className="flex justify-center items-center gap-1 radius-30 bg-custom-green h-7	w-32		px-3">
-                <p className="text-green-dark font-normal		text-sm	">New</p>
+              <div className="flex items-center gap-1 radius-30 bg-custom-green h-7	w-32">
+                <p className="text-gray font-normal		text-sm	">
+                  {product?.orderStatus}
+                </p>
               </div>
             </td>
             <td className="px-6 py-4 ">
