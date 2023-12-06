@@ -57,14 +57,18 @@ const TotalOrders = () => {
               <div className="flex justify-center items-center gap-2 ">
                 <p
                   className={`text-sm font-medium ${
-                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                    allOrders?.totalOrdersPercentage === 0
+                      ? "text-[#637381]"
+                      : allOrders?.totalOrdersPercentage > 0
+                      ? "text-[#009900]"
+                      : "text-[#DC3545]"
                   }`}
                 >
                   {allOrders?.totalOrdersPercentage}%
                 </p>
-                {totalOrders > 0 ? (
+                {allOrders?.totalOrdersPercentage > 0 ? (
                   <ArrowUpwardIcon style={{ fill: "#009900", width: "20px" }} />
-                ) : totalOrders < 0 ? (
+                ) : allOrders?.totalOrdersPercentage < 0 ? (
                   <ArrowDownwardIcon
                     style={{ fill: "#DC3545", width: "20px" }}
                   />
@@ -81,7 +85,11 @@ const TotalOrders = () => {
               <div className="flex justify-center items-center gap-2">
                 <p
                   className={`text-sm font-medium ${
-                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                    allOrders?.openOrdersPercentage === 0
+                      ? "text-[#637381]"
+                      : allOrders?.openOrdersPercentage > 0
+                      ? "text-[#009900]"
+                      : "text-[#DC3545]"
                   }`}
                 >
                   {allOrders?.openOrdersPercentage}%
@@ -111,7 +119,11 @@ const TotalOrders = () => {
               <div className="flex justify-center items-center gap-2 ">
                 <p
                   className={`text-sm font-medium ${
-                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                    allOrders?.paidOrdersPercentage === 0
+                      ? "text-[#637381]"
+                      : allOrders?.paidOrdersPercentage > 0
+                      ? "text-[#009900]"
+                      : "text-[#DC3545]"
                   }`}
                 >
                   {allOrders?.paidOrdersPercentage}%
@@ -139,7 +151,11 @@ const TotalOrders = () => {
               <div className="flex justify-center items-center gap-2">
                 <p
                   className={`text-sm font-medium ${
-                    totalOrders === 0 ? "text-[#637381]" : "text-[#009900]"
+                    allOrders?.unpaidOrdersPercentage === 0
+                      ? "text-[#637381]"
+                      : allOrders?.unpaidOrdersPercentage > 0
+                      ? "text-[#009900]"
+                      : "text-[#DC3545]"
                   }`}
                 >
                   {allOrders?.unpaidOrdersPercentage}%

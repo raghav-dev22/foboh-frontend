@@ -302,7 +302,8 @@ const Registration = () => {
                     value={values.businessName}
                     onChange={handleChange}
                     onKeyPress={(event) => {
-                      const allowedCharacters = /^[A-Za-z0-9\s]*$/;
+                      const allowedCharacters =
+                        /^[A-Za-z0-9\s!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]*$/;
                       if (!allowedCharacters.test(event.key)) {
                         event.preventDefault();
                       }

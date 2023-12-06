@@ -17,7 +17,8 @@ const RegistrationEmail = () => {
 
   const handleEmailLink = () => {
     //Email link
-    window.open(`https://${email}`, "_blank");
+    window.open(`https://${email}`);
+    // , "_blank"
   };
 
   const handleResendLink = () => {
