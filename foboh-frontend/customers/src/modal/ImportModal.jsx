@@ -113,7 +113,7 @@ function ImportModal({ show, setShow }) {
                 <Dialog.Panel className="relative transform overflow-hidden text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl	">
                   <div className="bg-white px-8 pb-8 pt-8 sm:p-6 sm:pb-4 rounded-t-lg">
                     <div className="sm:flex sm:items-center">
-                      <div className="">
+                      <div className="h-[48px] w-[48px] rounded-full">
                         <img src="/assets/downloadBtn.png" alt="" />
                       </div>
                       <div className=" text-center sm:ml-4 sm:mt-0 sm:text-left">
