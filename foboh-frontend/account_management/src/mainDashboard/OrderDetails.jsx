@@ -16,27 +16,30 @@ function OrderDetails({ orderDetails }) {
           <tr key={index} className={`orderNo-${index}`}>
             <td className="px-4 py-4 border-b border-gray-200 text-base ">
               <h5 className="sm:font-normal font-light text-xs sm:text-sm whitespace-no-wrap text-gray">
-                {value.orderId}
+                {value?.orderId}
               </h5>
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
-              <h5 className="sm:font-semibold  font-semibold   text-xs    sm:text-sm   whitespace-no-wrap text-gray">
-                {value.customerName}
+              <h5 className="sm:font-semibold font-semibold text-xs sm:text-sm whitespace-no-wrap text-gray">
+                {value?.businessName}
               </h5>
 
-              <p className="text-xs   sm:text-sm sm:font-normal font-light        text-gray"></p>
+              <p className="text-xs sm:text-sm sm:font-normal font-light text-gray">
+                {" "}
+                ({value?.customerName})
+              </p>
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
-              <h5 className="sm:font-normal font-light    text-xs sm:text-sm   whitespace-no-wrap text-gray">
-                ${value.payAmountLong}
+              <h5 className="sm:font-normal font-light text-xs sm:text-sm whitespace-no-wrap text-gray">
+                ${value?.payAmountLong}
               </h5>
             </td>
 
             <td className="px-4 py-4 border-b border-gray-200   ">
-              <h5 className="sm:font-normal   text-xs sm:text-sm whitespace-no-wrap text-gray">
-                {formatDate(value.orderEntryDate)}
+              <h5 className="sm:font-normal  text-xs sm:text-sm whitespace-no-wrap text-gray">
+                {formatDate(value?.orderEntryDate)}
               </h5>
             </td>
 

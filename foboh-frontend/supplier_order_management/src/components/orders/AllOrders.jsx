@@ -451,6 +451,43 @@ const AllOrders = () => {
 
     processChange("filterAndSort");
   };
+  useEffect(() => {
+    filterAndSort = {
+      filter: {
+        searchByValue: "",
+        region: [],
+        orderStatus: [],
+        orderEntryDate: "",
+        orderFilterEndDate: "",
+        customeDate: "",
+        page: 0,
+      },
+      sort: {
+        sortBy: "",
+        sortOrder: "asc",
+      },
+    };
+  }, []);
+
+  const handleClearFilter = () => {
+    setShowFilter(false);
+    filterAndSort = {
+      filter: {
+        searchByValue: "",
+        region: [],
+        orderStatus: [],
+        orderEntryDate: "",
+        orderFilterEndDate: "",
+        customeDate: "",
+        page: 0,
+      },
+      sort: {
+        sortBy: "",
+        sortOrder: "asc",
+      },
+    };
+    processChange("filterAndSort");
+  };
   const { RangePicker } = DatePicker;
   return (
     <>
@@ -850,12 +887,7 @@ const AllOrders = () => {
                   )}
                 </div>
               </div>
-              <div
-                className="cursor-pointer"
-                onClick={() => {
-                  setShowFilter(false);
-                }}
-              >
+              <div className="cursor-pointer" onClick={handleClearFilter}>
                 <h5 className="font-medium text-base text-[#DC3545] border-b border-b-[#DC3545]">
                   Clear Filters
                 </h5>
