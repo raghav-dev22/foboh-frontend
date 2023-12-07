@@ -226,7 +226,7 @@ function ImportModal({ show, setShow }) {
                         </>
                       )}
                     </div>
-                    {errorData?.length > 0 && (
+                    {/* {errorData?.length > 0 && (
                       <div
                         style={{
                           color: "red",
@@ -258,7 +258,7 @@ function ImportModal({ show, setShow }) {
                           </div>
                         ))}
                       </div>
-                    )}
+                    )} */}
 
                     <div className="grid grid-cols-12 items-center  green-checkbox">
                       <input

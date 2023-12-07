@@ -47,19 +47,18 @@ function PreviewModal({
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, "importdata");
         if (data.success) {
           setSuccess(true);
         } else {
           setSuccess(false);
+          const errList = data?.data?.map((item) => {
+            return {
+              businessName: item.businessName,
+              error: item.message,
+            };
+          });
+          setErrList(errList);
         }
-        const errList = data?.data?.map((item) => {
-          return {
-            businessName: item.businessName,
-            error: item.message,
-          };
-        });
-        setErrList(errList);
         setLoading(false);
       })
       .catch((error) => console.log(error, "csv"));
