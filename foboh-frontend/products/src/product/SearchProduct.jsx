@@ -459,6 +459,22 @@ const SearchProduct = forwardRef(
       };
       processChange("filterAndSort");
     };
+    useEffect(() => {
+      filterAndSort = {
+        filter: {
+          category: [],
+          subcategory: [],
+          stock: [],
+          productStatus: [],
+          visibility: "",
+          page: 1,
+        },
+        sort: {
+          sortBy: "",
+          sortOrder: "asc",
+        },
+      };
+    }, []);
 
     return (
       <>

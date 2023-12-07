@@ -310,7 +310,7 @@ function MainDashBoard() {
                     Order ID
                   </th>
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
-                    Customer
+                    BusinessName
                   </th>
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
                     Amount
@@ -318,7 +318,7 @@ function MainDashBoard() {
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm			 font-semibold ">
                     Order date
                   </th>
-                  <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
+                  <th className="pl-12 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">
                     Status
                   </th>
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base		text-sm		 font-semibold ">

@@ -342,7 +342,7 @@ const InvoiceModal = forwardRef(
           console.log("val", val);
           var dd = { content: val };
           pdfMake.createPdf(dd).download();
-        }, 1000);
+        }, 500);
       },
     }));
 

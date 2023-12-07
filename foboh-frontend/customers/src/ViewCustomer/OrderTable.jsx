@@ -1,9 +1,11 @@
 import React from "react";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { formatDate } from "../helper/formateDate";
+import { json, useNavigate } from "react-router-dom";
 
 function OrderTable({ allOrder }) {
   const tableItem = Array.from({ length: 8 });
+  const navigate = useNavigate();
 
   return (
     <>
@@ -11,7 +13,10 @@ function OrderTable({ allOrder }) {
         return (
           <tr
             key={index}
-            className={`bg-white border-b  dark:border-gray-700 hover:bg-gray-50  tableNo-${index}`}
+            className={`bg-white border-b  dark:border-gray-700 bg-violet-600  tableNo-${index} cursor-pointer`}
+            onClick={() =>
+              navigate(`/dashboard/order-details/${product?.orderId}`)
+            }
           >
             <td className=" px-6 py-4 ">
               <h5 className="font-medium whitespace-no-wrap text-gray">
