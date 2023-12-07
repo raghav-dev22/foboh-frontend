@@ -96,6 +96,7 @@ const SignupNew = () => {
   const handleRememberMe = () => {
     setRememberMe((prevRememberMe) => !prevRememberMe);
   };
+  
   // Sign in with google
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);

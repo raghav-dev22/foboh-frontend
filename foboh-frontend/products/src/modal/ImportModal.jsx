@@ -48,6 +48,7 @@ function ImportModal({ show, setShow }) {
             return tmpObj;
           });
           setErrorData(errorData.filter((err) => err.length));
+          console.log("finalProductArray", finalProductArray);
           setImportedProducts(finalProductArray);
         }
       };

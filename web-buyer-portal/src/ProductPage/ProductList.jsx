@@ -282,10 +282,11 @@ const ProductList = () => {
             )
           );
           dispatch(setTotalProducts(data.total));
+        } else {
+          dispatch(setProductData([]));
+
+          dispatch(setTotalProducts(data.total));
         }
-        //  else {
-        //   warning();
-        // }
         setLoading(false);
       })
       .catch((error) => {

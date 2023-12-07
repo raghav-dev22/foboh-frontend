@@ -17,6 +17,7 @@ function ErrorFoundModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
+
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
@@ -177,9 +178,11 @@ function ErrorFoundModal({
                         style={{ background: "#FDF5F6" }}
                       >
                         <p className="text-sm font-normal">
-                          <span className="font-bold">X products</span> have
-                          errors that need correcting before importing. After
-                          you fix the errors, try importing the file again
+                          <span className="font-bold">
+                            {errorData?.length} products
+                          </span>{" "}
+                          have errors that need correcting before importing.
+                          After you fix the errors, try importing the file again
                         </p>
                       </div>
                     </div>
@@ -230,15 +233,22 @@ function ErrorFoundModal({
                             <td className="font-medium text-sm p-4">
                               {errorRow + 1}
                             </td>
+
                             <td className="font-normal text-sm p-4">
-                              {errors}
+                              {errors.join(", ")}
                             </td>
                             <td className="font-normal text-sm p-4">
-                              Column: {errors}
+                              Column: {errors.join(", ")}
                             </td>
                             <td className="font-normal text-sm p-4">
-                              Missing [{errors}], please enter a valid [{errors}
-                              ].
+                              {errors.map((err, idx) => (
+                                <p>
+                                  {idx + 1}: Missing{" "}
+                                  <span className="font-semibold">{err}</span>,
+                                  please add a valid{" "}
+                                  <span className="font-semibold">{err}</span>.
+                                </p>
+                              ))}
                             </td>
                           </tr>
                         ))}
