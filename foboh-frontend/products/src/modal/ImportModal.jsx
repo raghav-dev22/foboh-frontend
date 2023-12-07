@@ -36,10 +36,14 @@ function ImportModal({ show, setShow }) {
             errorData[rowIndex] = [];
             dataStructure[1].forEach((element, index) => {
               tmpObj[element] = product[index];
+              
+              console.log("error importing",(!product[index] || product[index] === undefined) &&
+              dataStructure[0][index]);
               if (
                 (!product[index] || product[index] === undefined) &&
                 dataStructure[0][index]
               ) {
+
                 errorData[rowIndex].push(element);
                 setErrorFoundModal(true);
                 setShow(false);
