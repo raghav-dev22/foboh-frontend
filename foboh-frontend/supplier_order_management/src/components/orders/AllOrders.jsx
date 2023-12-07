@@ -887,8 +887,11 @@ const AllOrders = () => {
                   )}
                 </div>
               </div>
-              <div className="cursor-pointer" onClick={handleClearFilter}>
-                <h5 className="font-medium text-base text-[#DC3545] border-b border-b-[#DC3545]">
+              <div
+                className="cursor-pointer bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
+                onClick={handleClearFilter}
+              >
+                <h5 className="text-[#060505] font-medium text-base leading-[24px]">
                   Clear Filters
                 </h5>
               </div>

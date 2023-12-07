@@ -743,7 +743,7 @@ const SearchProduct = forwardRef(
                     </div>
                   </div>
                   {filterTextForth && (
-                    <div className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit py-3  ">
+                    <div className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit py-3  border border-[#e2e8f0]">
                       <ul className="dropdown-content    ">
                         <li className="py-2.5 px-4  ">
                           <div className="flex items-center">
@@ -802,13 +802,13 @@ const SearchProduct = forwardRef(
                 </div>
               </div>
               <div
-                className="cursor-pointer"
+                className="cursor-pointer bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
                 onClick={() => {
                   setShowFilter(false);
                   handleClearFilter();
                 }}
               >
-                <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
+                <h2 className="text-[#DC3545] font-medium text-base leading-[24px] ">
                   Clear filters
                 </h2>
               </div>

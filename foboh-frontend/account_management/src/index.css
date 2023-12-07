@@ -584,3 +584,51 @@ a.foboh-green-btn:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(242 242 242 / var(--tw-bg-opacity));
 }
+.h-\[48px\] {
+  height: 48px;
+}
+.w-\[48px\] {
+  width: 48px;
+}
+.pt-8 {
+  padding-top: 2rem /* 32px */;
+}
+.ant-checkbox .ant-checkbox-input {
+  width: 20px;
+  height: 20px;
+  border-color: #147d73;
+}
+.ant-checkbox-inner {
+  width: 20px !important;
+  height: 20px !important;
+}
+.ant-checkbox-checked:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+  background-color: #fff;
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #ffffff !important;
+  border-color: #147d73 !important;
+  width: 20px;
+  height: 20px;
+}
+.ant-checkbox .ant-checkbox-inner:after {
+  content: "\2713";
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  line-height: 20px;
+  color: #147d73;
+  top: 21%;
+  border: none !important;
+  left: 40%;
+  transform: translate(-50%, -50%);
+}
+.ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+  border: 1px solid #147d73 !important;
+}
+.max-h-\[172x\] {
+  max-height: 172px;
+}
+.bg-\[\#ed1c1c36\] {
+  background-color: #ed1c1c36;
+}

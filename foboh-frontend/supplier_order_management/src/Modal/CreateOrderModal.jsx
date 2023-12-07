@@ -812,9 +812,11 @@ const CreateOrderModal = ({
                         </div>
                         <button
                           onClick={handleRemoveAllCart}
-                          className="border border-[#DC3545] rounded-[6px] p-2 text-base font-medium text-[#DC3545]"
+                          className="bg-[#ed1c1c36] py-1.5 px-3 rounded-md "
                         >
-                          Remove All
+                          <p className="text-[#DC3545] font-medium text-base leading-[24px]">
+                            Remove All
+                          </p>
                         </button>
                       </div>
                       <div
@@ -877,14 +879,16 @@ const CreateOrderModal = ({
                                         : "Hidden"}
                                     </p>
                                   </div>
-                                  <p
+                                  <button
+                                    className="bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
                                     onClick={() =>
                                       handleRemoveCart(product?.productId)
                                     }
-                                    className="text-base font-medium cursor-pointer text-[#DC3545] border-b border-[#DC3545]"
                                   >
-                                    Remove
-                                  </p>
+                                    <p className="text-[#DC3545] font-medium text-base leading-[24px]">
+                                      Remove
+                                    </p>
+                                  </button>
                                 </div>
                               </div>
                             </div>
