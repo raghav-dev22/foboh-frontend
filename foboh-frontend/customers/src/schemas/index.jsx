@@ -92,7 +92,7 @@ export const AddCustomerSchema = Yup.object().shape({
   billingPostalCode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
-  billingState: Yup.mixed().required("State is required"),
+  billingState: Yup.mixed().required("Postcode is required"),
 });
 
 export const stepOneSchema = Yup.object().shape({
@@ -184,7 +184,7 @@ export const stepThreeSchema = Yup.object().shape({
 
   billingPostalCode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
-    .required("suburb is required"),
+    .required("postcode is required"),
 });
 export const ViewCustomerDetails = Yup.object().shape({
   businessName: Yup.string()

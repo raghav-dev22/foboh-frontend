@@ -384,7 +384,7 @@ function SearchCustomer({
 
                   {First && (
                     <div
-                      className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit py-3  "
+                      className=" z-10 left-0   w-60 absolute product-dropdown bg-white  shadow-md rounded-lg  h-fit py-3 border border-[#e2e8f0] "
                       style={{ top: "37px" }}
                     >
                       <ul className="dropdown-content">
@@ -484,12 +484,12 @@ function SearchCustomer({
               </div>
             </div>
             <div
-              className="cursor-pointer"
+              className="cursor-pointer bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
               onClick={() => {
                 handleClearFilter();
               }}
             >
-              <h2 className="text-[#DC3545] font-medium text-base leading-[24px] underline">
+              <h2 className="text-[#DC3545] font-medium text-base leading-[24px]">
                 Clear filters
               </h2>
             </div>

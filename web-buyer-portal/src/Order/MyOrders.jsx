@@ -280,9 +280,7 @@ const MyOrders = () => {
 
           <RemoveRedEyeIcon
             style={{ fill: "#637381" }}
-            onClick={() =>
-              navigate(`/home/my-orders/order/${order.orderId}`)
-            }
+            onClick={() => navigate(`/home/my-orders/order/${order.orderId}`)}
             className=" cursor-pointer"
           />
         </Tooltip>
@@ -985,12 +983,12 @@ const MyOrders = () => {
                 </div>
               </div>
               <div
-                className="cursor-pointer"
+                className="cursor-pointer bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
                 onClick={() => {
                   setShowFilter(false);
                 }}
               >
-                <h5 className="font-medium text-base text-[#DC3545] border-b border-b-[#DC3545]">
+                <h5 className="text-[#DC3545] font-medium text-base leading-[24px]">
                   Clear Filters
                 </h5>
               </div>
