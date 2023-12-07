@@ -309,6 +309,15 @@ function SearchCustomer({
     };
   }, []);
 
+  const handlecut = () => {
+    filterAndSort = {
+      filter: {
+        postCode: "",
+      },
+    };
+    processChange("filterAndSort");
+  };
+
   return (
     <>
       <div
