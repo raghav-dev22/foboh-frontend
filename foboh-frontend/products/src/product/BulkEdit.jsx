@@ -13,7 +13,6 @@ import { useLocation } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 import UnSavedModal from "../modal/UnSavedModal";
-import { useMutation, useQuery } from "react-query";
 import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
 import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
 
@@ -77,49 +76,6 @@ function BulkEdit() {
     { value: 2, label: "Hidden" },
   ];
 
-  const {
-    data: innerUnitMeasureData,
-    isLoading: innerUnitMeasureIsLoading,
-    refetch: refetchInnerUnitMeasure,
-  } = useQuery({
-    queryKey: ["getInnerUnitMeasure"],
-    queryFn: getInnerUnitMeasure,
-  });
-
-  const { mutate: fetchBaseUnitMeasure } = useMutation(getBaseUnitMeasure, {
-    onSuccess: (data) => {
-      baseUnitOfMeasureList = data.map((item) => {
-        return {
-          label: `${item.unit} ${item.type}`,
-          value: `${item.unit} ${item.type}`,
-        };
-      });
-
-      console.log("baseUnitOfMeasureList", baseUnitOfMeasureList);
-      setValues((prev) => {
-        console.log("prev", prev);
-        return prev.map((product) => {
-          return {
-            ...product,
-            baseUnitMeasure: baseUnitOfMeasureList.find(
-              (item) => item.label === product.unitofMeasure
-            ),
-          };
-        });
-      });
-    },
-    onError: (error) => {},
-  });
-
-  if (innerUnitMeasureData) {
-    innerUnitOfMeasureList = innerUnitMeasureData.map((item) => {
-      return {
-        label: `${item.unit} ${item.type}`,
-        value: `${item.unit} ${item.type}`,
-      };
-    });
-  }
-
   const handleDepartmentChange = (e) => {
     setValues({
       ...values,
@@ -164,10 +120,9 @@ function BulkEdit() {
               unitofMeasure: product?.baseUnitMeasure?.label,
               innerUnitofMeasure: product?.innerUnitMeasure?.label,
               globalPrice: product?.salePrice,
-              buyPrice: product?.buyPrice,
               configuration: product?.configuration,
               availableQty: product?.stockAlertLevel,
-              visibility: product?.visibility?.label === "1" ? "1" : "0",
+              visibility: product?.visibility?.value === 1 ? "1" : "0",
               productStatus: product?.status?.label,
             };
           })
@@ -175,11 +130,10 @@ function BulkEdit() {
       }
     )
       .then((response) => {
-        response.json();
-      })
-      .then((data) => {
-        localStorage.removeItem("selectedProducts");
-        navigate("/dashboard/products");
+        if (response.ok) {
+          localStorage.removeItem("selectedProducts");
+          navigate("/dashboard/products");
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -190,12 +144,9 @@ function BulkEdit() {
   };
 
   useEffect(() => {
-    fetchBaseUnitMeasure();
     const selectedProducts = JSON.parse(
       localStorage.getItem("selectedProducts")
     );
-
-    console.log(selectedProducts);
 
     const selectedProductsValue = selectedProducts.map((product) => {
       const [state] = status.filter(
@@ -213,15 +164,6 @@ function BulkEdit() {
         }
       });
 
-      const bum = baseUnitOfMeasureList.find(
-        (item) => item.label === product.unitofMeasure
-      );
-      const ium = innerUnitOfMeasureList.find(
-        (iumObj) => iumObj.label === product.innerUnitofMeasure
-      );
-
-      const configuration = {};
-
       return {
         title: product?.title || "",
         skuCode: product?.skUcode || "",
@@ -238,9 +180,49 @@ function BulkEdit() {
 
     setInitialValues(selectedProductsValue);
     setValues(selectedProductsValue);
+    asyncFunction();
   }, []);
 
+  const asyncFunction = async () => {
+    const innerUnitMeasureData = await getInnerUnitMeasure();
+    const baseUnitMeasureData = await getBaseUnitMeasure();
+
+    innerUnitOfMeasureList = innerUnitMeasureData.map((item) => {
+      return {
+        label: `${item.unit} ${item.type}`,
+        value: item.unit,
+        key: item.type,
+      };
+    });
+
+    baseUnitOfMeasureList = baseUnitMeasureData.map((item) => {
+      return {
+        label: `${item.unit} ${item.type}`,
+        value: item.unit,
+        key: item.type,
+      };
+    });
+
+    setValues((prev) => {
+      return prev.map((product) => {
+        const ium = innerUnitOfMeasureList.find(
+          (item) => item.label === product.innerUnitMeasure
+        );
+
+        const bum = baseUnitOfMeasureList.find(
+          (item) => item.label === product.baseUnitMeasure
+        );
+        return {
+          ...product,
+          innerUnitMeasure: ium === undefined ? product.innerUnitMeasure : ium,
+          baseUnitMeasure: bum === undefined ? product.unitofMeasure : bum,
+        };
+      });
+    });
+  };
+
   const handleFieldChange = (productId, title, value) => {
+    console.log(title, value);
     setIsUpdate(true);
 
     setValues((values) => {
@@ -249,7 +231,7 @@ function BulkEdit() {
           return {
             ...product,
             baseUnitMeasure: value,
-            configuration: `${product?.innerUnitMeasure?.value} x ${value?.label}`,
+            configuration: `(${value?.value} x ${product.innerUnitMeasure?.value}) ${product.innerUnitMeasure?.key}`,
           };
         } else if (
           product.productId === productId &&
@@ -258,7 +240,7 @@ function BulkEdit() {
           return {
             ...product,
             innerUnitMeasure: value,
-            configuration: `${value?.value} x ${product?.baseUnitMeasure?.label}`,
+            configuration: `(${product.baseUnitMeasure?.value} x ${value?.value}) ${value?.key}`,
           };
         } else if (product.productId === productId) {
           return { ...product, [title]: value };
@@ -315,7 +297,7 @@ function BulkEdit() {
               Bulk edit
             </h4>
             <p className="text-gray font-normal text-sm">
-              Editing {values.length} selected products
+              Editing {values?.length} selected products
             </p>
           </div>
         </div>
@@ -378,7 +360,7 @@ function BulkEdit() {
               </tr>
             </thead>
             <tbody>
-              {values.map((product, index) => {
+              {values?.map((product, index) => {
                 return (
                   <tr
                     key={index.toString()}

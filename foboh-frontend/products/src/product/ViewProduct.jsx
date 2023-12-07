@@ -714,7 +714,7 @@ function ViewProduct() {
             variety: values?.grapeVariety.map((item) => {
               return item?.label;
             }),
-            vintage: values?.vintage,
+            vintage: values?.vintage.toString() || "0",
             abv: values?.abv,
             globalPrice: values?.salePrice,
             luCcost: values?.landedUnitCost ? values.landedUnitCost : 0,

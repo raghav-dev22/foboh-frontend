@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import ImportComplete from "./ImportComplete";
 
-function ImportCustomerModal({ show, setShow, error }) {
+function ImportCustomerModal({ show, setShow, error, success }) {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const cancelButtonRef = useRef(null);
   const remove = () => {
@@ -18,6 +18,7 @@ function ImportCustomerModal({ show, setShow, error }) {
       setShow(false);
     }
   };
+  console.log(success, "reallllllllllllllllllll");
 
   return (
     <>
@@ -52,7 +53,7 @@ function ImportCustomerModal({ show, setShow, error }) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden  text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl	">
-                  {error?.length === 0 && (
+                  {success === 0 && (
                     <div className="bg-white px-8 pb-8 pt-6 sm:p-6 sm:pb-4 rounded-t-lg">
                       <div className="sm:flex sm:items-center">
                         <div className="">
@@ -164,12 +165,12 @@ function ImportCustomerModal({ show, setShow, error }) {
                               {" "}
                               Row
                             </th>
-                            <th
+                            {/* <th
                               className="font-semiBold text-sm p-4"
                               style={{ width: "105px" }}
                             >
                               Title
-                            </th>
+                            </th> */}
                             <th
                               className="font-semiBold text-sm p-4"
                               style={{ width: "200px" }}
@@ -180,13 +181,16 @@ function ImportCustomerModal({ show, setShow, error }) {
                         </thead>
                         <tbody>
                           {error.map((err, index) => (
-                            <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
+                            <tr
+                              key={index}
+                              style={{ borderBottom: "1px solid #EEEEEE" }}
+                            >
                               <td className="font-medium text-sm p-4">
                                 {index + 1}
                               </td>
-                              <td className="font-normal text-sm p-4">
+                              {/* <td className="font-normal text-sm p-4">
                                 {err?.businessName}
-                              </td>
+                              </td> */}
                               <td className="font-normal text-sm p-4">
                                 {err?.error}
                               </td>

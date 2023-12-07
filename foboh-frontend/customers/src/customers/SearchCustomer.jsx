@@ -293,6 +293,22 @@ function SearchCustomer({
     setIsFilter(false);
   };
 
+  useEffect(() => {
+    filterAndSort = {
+      filter: {
+        businessName: "",
+        status: "",
+        postCode: "",
+        state: [],
+        page: 1,
+      },
+      sort: {
+        sortBy: "",
+        sortOrder: "asc",
+      },
+    };
+  }, []);
+
   return (
     <>
       <div

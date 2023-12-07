@@ -31,8 +31,12 @@ function PreviewProductModal({
   };
 
   const updatedImports = useMemo(() => {
-    const updatedProducts = convertImportedProductList(importedProducts);
-    return updatedProducts;
+    try {
+      const updatedProducts = convertImportedProductList(importedProducts);
+      return updatedProducts;
+    } catch (error) {
+      
+    }
   }, [importedProducts]);
 
   const showModal = () => {

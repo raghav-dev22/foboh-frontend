@@ -9,8 +9,8 @@ import { Typography, CardBody, CardFooter } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { PaginationCustomer } from "./PaginationCustomer";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
-import createArrayWithNumber from "../../../products/src/helpers/createArrayWithNumbers";
 import { formatPrice } from "../helper/formatPrice";
+import createArrayWithNumber from "../helper/createArrayWithNumbers";
 const TABLE_HEAD = [
   "Business name",
   "Ordering contact",
@@ -122,7 +122,7 @@ function AddCustomers() {
       ? [...selectedProducts, product]
       : selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
-    // setIsBulkEdit(updatedSelectedProducts.length > 1);
+    setIsBulkEdit(updatedSelectedProducts.length > 1);
     setSlected(selectedProducts.length);
   };
 
@@ -134,7 +134,7 @@ function AddCustomers() {
   const handleSelectAllChange = (e) => {
     const checked = e.target.checked;
     checked ? setSelectedProducts([...tableRecords]) : setSelectedProducts([]);
-    // setIsBulkEdit(true);
+    setIsBulkEdit(true);
     if (!checked) {
       setIsBulkEdit(false);
     }

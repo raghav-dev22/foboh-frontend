@@ -124,12 +124,14 @@ const DownloadInvoice = (
   <span className="text-[#7D7C7C] ">Download Invoice</span>
 );
 
+let invoiceData = {};
+
 const MyOrders = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showPreview, setshowPreview] = useState(false);
   const [page, setPage] = useState(1);
   const [orderData, setOrderData] = useState([]);
-  const [invoiceData, setInvoiceData] = useState({});
+  // const [invoiceData, setInvoiceData] = useState({});
   const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
   const [totalData, setTotalData] = useState({});
 
@@ -338,14 +340,15 @@ const MyOrders = () => {
   const fetchInvoice = async (id) => {
     const apiUrl = `https://orderhistoryfobohapi-fbh.azurewebsites.net/api/OrderHistory/getOrderInvoiceByOrderId?OrderId=${id}`;
 
-    const invoiceData = await fetch(apiUrl)
+    const invoiceDataResponse = await fetch(apiUrl)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         console.log(data.total, "data------>");
         setshowPreview(true);
-        setInvoiceData(data.data[0]);
+        // setInvoiceData(data.data[0]);
+        invoiceData = data?.data[0];
         orderId = data.data[0]?.orderId;
         setInvoiceDataProducts(
           data.data.map((item) => {
@@ -403,7 +406,7 @@ const MyOrders = () => {
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
       });
-    return invoiceData;
+    return invoiceDataResponse;
   };
 
   //ReOrder API

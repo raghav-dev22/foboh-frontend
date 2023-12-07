@@ -20,6 +20,7 @@ function PreviewModal({
   const [activeTab, setActiveTab] = useState("CUSTOMER 1");
   const [loading, setLoading] = useState(false); // Initialize as true to show the spinner initially
   const [errList, setErrList] = useState();
+  const [success, setSuccess] = useState(null);
   const handleOptionChange = (event) => {
     setActiveTab(event.target.value);
     // const selectedOptionId = event.target.value;
@@ -46,6 +47,12 @@ function PreviewModal({
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data, "importdata");
+        if (data.success === "true") {
+          setSuccess(true);
+        } else {
+          setSuccess(false);
+        }
         const errList = data?.data?.map((item) => {
           return {
             businessName: item.businessName,
@@ -280,6 +287,7 @@ function PreviewModal({
       <ImportCustomerModal
         show={showPreviewModal}
         error={errList}
+        success={success}
         // loader={loading}
         setShow={(set) => setShowPreviewModal(set)}
       />
