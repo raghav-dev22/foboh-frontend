@@ -28,13 +28,20 @@ import {
   getbaseUnitMeasureList,
 } from "../helpers/getUnitOfMeasures";
 import { getBaseUnitMeasureType } from "../helpers/getBaseUnitOfMeasureType";
+import { useQuery, useMutation } from "react-query";
+import {
+  getCategories,
+  getDepartments,
+} from "../reactQuery/organisationApiModule";
+
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
 ];
 
+let departmentList = [];
+
 let categoryListVar = [];
-const formData = new FormData();
 
 function Organisation() {
   const navigate = useNavigate();
@@ -80,11 +87,12 @@ function Organisation() {
     logisticsContactLastName: "",
     logisticsContactEmail: "",
     logisticsContactMobile: "",
-    categories: [],
+
     description: "",
     state: "",
     postcode: "",
     categoryList: [],
+    departments: [],
   });
 
   const {
@@ -137,6 +145,9 @@ function Organisation() {
               billingAddressPostCode: values.billingAddressPostcode,
               billingAddressState: values.billingAddressState,
               categoryList: values.categoryList?.map((obj) => {
+                return `${obj.value}`;
+              }),
+              departmentList: values.departments?.map((obj) => {
                 return `${obj.value}`;
               }),
               isActive: true,
@@ -218,6 +229,9 @@ function Organisation() {
               billingAddressSuburb: values.billingAddressSuburb,
               billingAddressPostCode: values.billingAddressPostcode,
               billingAddressState: values.billingAddressState?.label,
+              departmentList: values.departments?.map((obj) => {
+                return `${obj.value}`;
+              }),
               categoryList: values.categoryList?.map((obj) => {
                 return `${obj.value}`;
               }),
@@ -236,6 +250,36 @@ function Organisation() {
           })
           .catch((error) => console.log(error));
       }
+    },
+  });
+
+  useQuery("getDepartments", getDepartments, {
+    onSuccess: (data) => {
+      departmentList = data.map((item) => {
+        return {
+          label: item.departmentName,
+          value: item.departmentId,
+        };
+      });
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const { mutate: mutateCategories } = useMutation(getCategories, {
+    onSuccess: (data) => {
+      const catList = data.map((item, index) => {
+        return {
+          key: index,
+          value: item.categoryId,
+          label: item.categoryName,
+        };
+      });
+      setCategories([...catList]);
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
 
@@ -283,7 +327,7 @@ function Organisation() {
                 label: item.categoryName,
               };
             });
-            setCategories([...catList]);
+
             categoryListVar = [...catList];
           }
         })
@@ -309,6 +353,11 @@ function Organisation() {
                     return categoryListVar.find((obj) => obj.value === id);
                   }
                 );
+
+                const departmentListData =
+                  organisationSettings?.departmentList?.map((id) => {
+                    return departmentList.find((obj) => obj.value === id);
+                  });
 
                 const state = states.find(
                   (item) => item.label === organisationSettings?.state
@@ -354,11 +403,11 @@ function Organisation() {
                     organisationSettings?.logisticsContactEmail || "",
                   logisticsContactMobile:
                     organisationSettings?.logisticsContactMobile || "",
-                  categories: organisationSettings?.categories || "",
                   description: organisationSettings?.description || "",
                   state: state || "",
                   postcode: organisationSettings.postcode || "",
                   categoryList: categoryList || "",
+                  departments: departmentListData || "",
                 };
 
                 setInitialValues(body);
@@ -422,8 +471,19 @@ function Organisation() {
   const handleCategoriesChange = (e) => {
     setValues({
       ...values,
-      categories: [...e],
+
       categoryList: [...e],
+    });
+  };
+
+  const handleDepartmentChange = (e) => {
+    const departmentNames = e?.length > 0 ? e.map((item) => item.label) : [];
+    mutateCategories(e?.length > 0 ? departmentNames : null);
+    setValues((prev) => {
+      return {
+        ...prev,
+        departments: [...e],
+      };
     });
   };
 
@@ -803,6 +863,27 @@ function Organisation() {
                           <div className="w-full mt-5 px-3">
                             <label
                               className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
+                              htmlFor="departments"
+                            >
+                              Departments
+                            </label>
+                            <div className="w-full">
+                              <Select
+                                id="departments"
+                                name="departments"
+                                isMulti
+                                onChange={handleDepartmentChange}
+                                value={values.departments}
+                                isDisabled={!departmentList.length}
+                                options={departmentList}
+                                className="basic-multi-select "
+                                classNamePrefix="select"
+                              />
+                            </div>
+                          </div>
+                          <div className="w-full mt-5 px-3">
+                            <label
+                              className="block mb-2 text-sm	 font-medium text-gray-700 dark:text-white"
                               htmlFor="CategoryList"
                             >
                               Categories
@@ -814,7 +895,10 @@ function Organisation() {
                                 isMulti
                                 value={values?.categoryList}
                                 onChange={handleCategoriesChange}
-                                isDisabled={!categories.length}
+                                isDisabled={
+                                  values?.categoryList.length === 0 &&
+                                  categories.length === 0
+                                }
                                 options={categories}
                                 className="basic-multi-select "
                                 classNamePrefix="select"
