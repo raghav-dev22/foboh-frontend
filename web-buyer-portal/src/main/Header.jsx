@@ -60,7 +60,6 @@ function Header() {
           });
 
           dispatch(setCart(updatedCartList));
-          console.log("updatedCartList", updatedCartList);
         }
       })
       .catch((error) => console.log(error));

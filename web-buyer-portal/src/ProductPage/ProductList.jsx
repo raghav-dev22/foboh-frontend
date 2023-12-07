@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,7 +15,6 @@ import {
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../slices/CartSlice";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router";
 import { setProductData } from "../slices/ProductSlice";
 import { useRef } from "react";
@@ -49,20 +46,6 @@ let localFilterSort = {
   },
 };
 
-//   filter: {
-//     category: [],
-//     subcategory: [],
-//     stock: [],
-//     productStatus: [],
-//     visibility: true,
-//     page: 1,
-//   },
-//   sort: {
-//     sortBy: "",
-//     sortOrder: "asc",
-//   },
-// };
-
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
 
@@ -70,17 +53,13 @@ const ProductList = () => {
   const [countryList, setCountryList] = useState([]);
 
   const { Option } = Select;
-  const handleChangeOption = (value) => {
-    console.log(`selected ${value}`);
-    setWine(false);
-  };
+
   const itemRender = (_, type, originalElement) => {
     if (type === "prev") {
       return (
         <a className="  hover:text-black">
           <ArrowBackIosIcon style={{ width: "13px" }} />
         </a>
-        // <a>Previous</a>
       );
     }
     if (type === "next") {
@@ -92,8 +71,6 @@ const ProductList = () => {
     }
     return originalElement;
   };
-  // const Data = listdata;
-  // console.log("data", listdata);
 
   const [wine, setWine] = useState(false);
   const [Segment, setSegment] = useState(false);
@@ -107,7 +84,6 @@ const ProductList = () => {
   const [Sort, setSort] = useState(false);
   const [page, setPage] = useState(1);
   const [isWine, setIsWine] = useState(false);
-  const [totalData, setTotalData] = useState({});
   const [countries, setCountries] = useState([]);
   const [segments, setSegments] = useState([]);
   const [varieties, setVarieties] = useState([]);
@@ -122,8 +98,6 @@ const ProductList = () => {
   const sortRef = useRef(null);
   const productData = useSelector((state) => state.product);
   const [selectSlider, setSelectSlider] = useState([]);
-
-  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const [filterAndSort, setFilterAndSort] = useState({
     filter: {
@@ -149,7 +123,6 @@ const ProductList = () => {
     setSort(!Sort);
   };
 
-  //  for redux
   const dispatch = useDispatch();
   const totalProducts = useSelector((state) => state.totalPage.totalProducts);
 
@@ -173,7 +146,6 @@ const ProductList = () => {
     const { buyerId, organisationId } = JSON.parse(
       localStorage.getItem("buyerInfo")
     );
-    console.log("id", id, "item", data, "actionType", actionType);
 
     fetch(`${url}/api/Product/AddToCart`, {
       method: "POST",
@@ -237,11 +209,9 @@ const ProductList = () => {
           });
           dispatch(setCart(updatedCartList));
           localStorage.setItem("cartId", cartId);
-          console.log(data, "add data");
         } else {
           warning(data.message);
         }
-        console.log("cat response", data);
       });
   };
 
@@ -296,7 +266,6 @@ const ProductList = () => {
   const processChange = debounce((name) => saveInput(name));
 
   const onShowSizeChange = (current, pageSize) => {
-    console.log("page", current, pageSize);
     setPage(current);
   };
 
@@ -347,21 +316,6 @@ const ProductList = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Category and Subcategory >>", data);
-
-        console.log(
-          "cat drop",
-          data.map((i) => {
-            return {
-              categoryName: i.categoryName,
-              categoryId: i.categoryId,
-              subcategory: i.subcategoryId.map((c, n) => {
-                return { name: i.subCategorys[n], id: c };
-              }),
-            };
-          })
-        );
-
         setCategoryAndSubcategory(
           data.map((i) => {
             return {
@@ -377,7 +331,6 @@ const ProductList = () => {
 
     getCountry()
       .then((data) => {
-        console.log("country", data);
         setCountries(
           data.map((country) => {
             return {
@@ -579,7 +532,6 @@ const ProductList = () => {
 
   const getWineSpecific = (e, newSubcategoryIds) => {
     getSegments(newSubcategoryIds).then((data) => {
-      console.log("segments", data);
       if (data) {
         setSegments(
           data.map((segment) => {
@@ -655,27 +607,8 @@ const ProductList = () => {
     processChange();
     setWine(false);
   };
-
-  const [expandedKeys, setExpandedKeys] = useState(["0-0-0", "0-0-1"]);
-  const [checkedKeys, setCheckedKeys] = useState(["0-0-0"]);
-  const [selectedKeys, setSelectedKeys] = useState([]);
   const [regionAvailability, setRegionAvailability] = useState([]);
   const [tagsValue, setTagsvalue] = useState([]);
-  const [autoExpandParent, setAutoExpandParent] = useState(true);
-  const onExpand = (expandedKeysValue) => {
-    console.log("onExpand", expandedKeysValue);
-
-    setExpandedKeys(expandedKeysValue);
-    setAutoExpandParent(false);
-  };
-  const onCheck = (checkedKeysValue) => {
-    console.log("onCheck", checkedKeysValue);
-    setCheckedKeys(checkedKeysValue);
-  };
-  const onSelect = (selectedKeysValue, info) => {
-    console.log("onSelect", info);
-    setSelectedKeys(selectedKeysValue);
-  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -724,21 +657,6 @@ const ProductList = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Category and Subcategory >>", data);
-
-        console.log(
-          "cat drop",
-          data.map((i) => {
-            return {
-              categoryName: i.categoryName,
-              categoryId: i.categoryId,
-              subcategory: i.subcategoryId.map((c, n) => {
-                return { name: i.subCategorys[n], id: c };
-              }),
-            };
-          })
-        );
-
         setCategoryAndSubcategory(
           data.map((i) => {
             return {
@@ -753,17 +671,10 @@ const ProductList = () => {
       });
   }, []);
 
-  const updatedFilterAndSort = () => {
-    return filterAndSort;
-  };
   const [filter, setFilter] = useState(false);
 
   const toggleCategoryAndSubcategory = (e, id, name) => {
-    console.log("toggleCategoryAndSubcategory", e, id, name);
-    // Handling pagination
-
     if (name === "category") {
-      // setOpen(!Open);
       const newCategoryIds = e.target.checked
         ? [id]
         : localFilterSort.filter.category.filter((catId) => catId !== id);
@@ -818,7 +729,6 @@ const ProductList = () => {
       (e.includes("wine") || e.includes("Wine")) &&
         getVariety()
           .then((data) => {
-            console.log("variety", data);
             setVarieties(
               data.map((variety) => {
                 return {
@@ -958,8 +868,6 @@ const ProductList = () => {
         filter: newFilter,
       });
     }
-    console.log("filterAndSort", filterAndSort);
-    console.log("localFilterAndSort", localFilterSort);
 
     processChange();
   };
@@ -983,9 +891,6 @@ const ProductList = () => {
         sortOrder: sortOrder,
       },
     }));
-    console.log("filterAndSort", filterAndSort);
-    console.log("localFilterAndSort", localFilterSort);
-
     processChange();
   };
 
@@ -1064,7 +969,6 @@ const ProductList = () => {
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Alphabetical
                   </h5>
-                  {/* <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} /> */}
                 </div>
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3 green-checkbox">
@@ -1108,7 +1012,6 @@ const ProductList = () => {
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Price
                   </h5>
-                  {/* <KeyboardArrowRightIcon style={{ fill: "#2B4447" }} /> */}
                 </div>
                 <div className="pb-4 border-b border-[#E7E7E7]">
                   <div className="flex items-center mt-3 green-checkbox">
@@ -1229,7 +1132,6 @@ const ProductList = () => {
                             category.categoryId && (
                             <ul className="dropdown-content">
                               <Select
-                                // open={true}
                                 mode="multiple"
                                 style={{
                                   width: "100%",
@@ -1488,8 +1390,7 @@ const ProductList = () => {
 
             <div className="  border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff]  product-list
-`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff]  product-list`}
                 onClick={() => {
                   AvailabilityBtn();
                 }}
@@ -1804,9 +1705,6 @@ const ProductList = () => {
           <div className="md:w-9/12   w-full mx-auto">
             {productData.length === 0 ? (
               <div className="flex justify-center items-center h-full w-full">
-                {/* <h5 className="text-2xl font-semibold capitalize ">
-                no product found
-              </h5> */}
                 <img
                   src="/assets/no-product.jpg"
                   className="w-[100px]"

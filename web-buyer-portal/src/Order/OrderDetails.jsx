@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { remove, setCart, updateQuantity } from "../slices/CartSlice";
+import { setCart } from "../slices/CartSlice";
 import { DownloadOutlined } from "@ant-design/icons";
-import { PoweroffOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Instruction from "../Svg/Instruction";
 import { Popover, Steps } from "antd";
@@ -10,23 +9,22 @@ import InvoiceModal from "../modal/InvoiceModal";
 import { useParams } from "react-router-dom";
 import { message, theme } from "antd";
 import { getTrackerStatus } from "../helpers/getTrackerStatus";
-import { useMutation, useQuery } from "react-query";
-import { getCart, getSealedCart } from "../react-query/cartApiModule";
+import { useMutation } from "react-query";
+import { getSealedCart } from "../react-query/cartApiModule";
 import { useMemo } from "react";
 import {
   getCalculations,
   getInvoiceDataCalculations,
 } from "../helper/getCalculations";
 import { fetchInvoice } from "../react-query/orderApiModule";
-var htmlToPdfmake = require("html-to-pdfmake");
 
 var pdfMake = require("pdfmake/build/pdfmake");
 var pdfFonts = require("pdfmake/build/vfs_fonts");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const OrderDetails = () => {
-  const customDot = (dot, { status, index }) => <Popover>{dot}</Popover>;
+  const customDot = (dot) => <Popover>{dot}</Popover>;
   const childRef = useRef();
-  const [totalCost, setTotleCost] = useState(0);
+
   const [showPreview, setshowPreview] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
@@ -38,10 +36,8 @@ const OrderDetails = () => {
   const [invoiceData, setInvoiceData] = useState({});
   const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
   let orderId = "";
-  const CARTdata = useSelector((items) => items.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
-  let cart = "";
 
   const success = () => {
     messageApi.open({
@@ -64,13 +60,11 @@ const OrderDetails = () => {
     });
   };
 
-  // Fetching cart data
   const { mutate: sealedCartMutate, data: sealedCartData } = useMutation(
     getSealedCart,
     {
       onSuccess: (data) => {
         setProductList(data);
-        const item = data[0];
       },
       onError: (err) => {
         error(err);
@@ -97,8 +91,6 @@ const OrderDetails = () => {
       error(err);
     },
   });
-
-  // Calculating cart
   const calculations = useMemo(() => {
     const calculationResult = getCalculations(sealedCartData);
     return calculationResult;
@@ -106,7 +98,6 @@ const OrderDetails = () => {
 
   useEffect(() => {
     sealedCartMutate(id);
-    //Handling Stepper
     getTrackerStatus(id).then((status) => {
       console.log("getTrackerStatus", status);
       if (status === "Order Placed") {
@@ -182,14 +173,13 @@ const OrderDetails = () => {
   };
 
   const handleInvoiceDownload = async (orderId) => {
-    console.log("sfgdfgfd");
     invoiceMutate(orderId);
   };
 
   const formattedDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
-    const month = date.getMonth() + 1; // Months are zero-based
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
     const formattedDay = String(day).padStart(2, "0");
@@ -237,13 +227,9 @@ const OrderDetails = () => {
             <Button
               icon={<DownloadOutlined />}
               loading={loadings[1]}
-              // onClick={() => enterLoading(1)}
               onClick={() => {
                 handleInvoiceDownload(id);
               }}
-              // onClick={() => {
-              //   setshowPreview(true);
-              // }}
               className=" h-full text-base text-white py-[11px] px-[25px] font-semibold bg-[#2B4447] rounded-md"
             >
               Download Invoice

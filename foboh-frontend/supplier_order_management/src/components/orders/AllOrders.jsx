@@ -207,7 +207,19 @@ const AllOrders = () => {
         </p>
       ),
       Payment: (
-        <p className="text-sm md:text-base font-normal text-[#637381]">
+        <p
+          className="text-sm md:text-base font-normal text-[#637381]"
+          style={{
+            color: (() => {
+              if (item?.transactionStatus === "Overdue") {
+                return "#DC3545 ";
+              } else {
+                return "#637381 ";
+              }
+              // Default background color if none of the conditions match
+            })(),
+          }}
+        >
           {item?.transactionStatus}
         </p>
       ),
@@ -797,7 +809,7 @@ const AllOrders = () => {
                   {regionMenu && (
                     <div
                       style={{ width: "350px", height: "380px" }}
-                      className="z-10 left-0 px-3 absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                      className="z-10 left-0 px-3 absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
                     >
                       <Select
                         name="colors"
