@@ -877,7 +877,7 @@ const AllOrders = () => {
               showQuickJumper: false,
             }}
             scroll={{
-              x: 1120,
+              x: 1200,
               // y: 240,
             }}
           />

@@ -1444,6 +1444,16 @@ a:hover {
   box-shadow: none !important;
 }
 
-.bg-violet-600:hover{
+.bg-violet-600:hover {
   background-color: #f0f0f0 !important;
+}
+.css-13cymwt-control,
+.css-t3ipsp-control,
+.css-t3ipsp-control:hover {
+  border-color: hsl(0, 0%, 80%) !important;
+  border-width: 1px !important;
+}
+
+.css-wsp0cs-MultiValueGeneric {
+  color: #fff !important;
 }
