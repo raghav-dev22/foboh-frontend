@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CloseIcon from "@mui/icons-material/Close";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { Space } from "antd";
 import Select from "react-select";
@@ -202,7 +203,7 @@ function SearchCustomer({
         .then((data) => {
           if (data?.data?.length > 0) {
             setTotalPages(data.last_page);
-            setPageIndex(data.last_page);
+            setPageIndex(data.page);
             setProducts(data.data);
             setSearch(data.data.length);
             setisSearchResult(true);
@@ -310,12 +311,10 @@ function SearchCustomer({
   }, []);
 
   const handlecut = () => {
-    filterAndSort = {
-      filter: {
-        postCode: "",
-      },
-    };
-    processChange("filterAndSort");
+    filterAndSort.filter.postCode = "";
+    setPinCode("");
+    saveInput("filterAndSort");
+    setThird(false);
   };
 
   return (
@@ -493,7 +492,7 @@ function SearchCustomer({
                 {Third && (
                   <div className=" z-10	left-0   w-60 absolute product-dropdown bg-white	shadow-md rounded-lg	h-fit 	">
                     <input
-                      type="search"
+                      type=""
                       id="default-search"
                       maxLength={4}
                       className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
@@ -504,6 +503,18 @@ function SearchCustomer({
                       onKeyUp={() => processChange("filterAndSort")}
                       onChange={handleInputChange}
                     />
+                    <span onClick={handlecut}>
+                      <CloseIcon
+                        style={{
+                          top: "13px",
+                          right: "8px",
+                          position: "absolute",
+                          fill: "#9aa0ab",
+                          fontSize: "17px",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </span>
                   </div>
                 )}
               </div>
