@@ -170,8 +170,6 @@ const MyOrders = () => {
   };
   useEffect(() => {
     getCityState().then((data) => {
-      console.log("city, state", data);
-
       setRegions(
         data.map((item) => {
           return {
@@ -313,7 +311,6 @@ const MyOrders = () => {
       })
 
       .then((data) => {
-        console.log(data.total, "data------>");
         setOrderData(data.data);
         setTotalData(data.total);
       })
@@ -345,7 +342,6 @@ const MyOrders = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.total, "data------>");
         setshowPreview(true);
         // setInvoiceData(data.data[0]);
         invoiceData = data?.data[0];
@@ -477,7 +473,6 @@ const MyOrders = () => {
         .catch((error) => console.log(error));
     } else {
       const ordersData = await searchOrders(input, page);
-      console.log("ordersData", ordersData);
       setOrderData(ordersData?.data ? ordersData?.data : []);
       setTotalData(ordersData.total);
     }

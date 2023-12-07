@@ -456,8 +456,13 @@ function SearchCustomer({
                 </div>
                 {Second && (
                   <div
-                    className="z-10 left-0  w-60 absolute product-dropdown rounded-lg	overflow-y-scroll py-3"
-                    style={{ height: "175px" }}
+                    style={{
+                      top: "135%",
+                      position: "absolute",
+                      left: "0",
+                      zIndex: "1",
+                      width: "240px",
+                    }}
                   >
                     <Select
                       className=""

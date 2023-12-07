@@ -1,37 +1,15 @@
-import React, {
-  useRef,
-  Fragment,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import CloseIcon from "@mui/icons-material/Close";
-import { Table, Divider } from "antd";
-import { Preview, print } from "react-html2pdf";
-import { theme } from "antd";
-import zIndex from "@mui/material/styles/zIndex";
-import { useEffect } from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 var htmlToPdfmake = require("html-to-pdfmake");
-
 var pdfMake = require("pdfmake/build/pdfmake");
 var pdfFonts = require("pdfmake/build/vfs_fonts");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 const InvoiceModal = forwardRef(
-  (
-    { show, setShow, invoiceData, invoiceDataProducts, isWine, calculations },
-    ref
-  ) => {
-    const { useToken } = theme;
-    const { token } = useToken();
-    const cancelButtonRef = useRef(null);
-
+  ({ invoiceData, invoiceDataProducts, isWine, calculations }, ref) => {
     useImperativeHandle(ref, () => ({
       handlePrint(orderId) {
         console.log("orderId", orderId);
         setTimeout(() => {
           console.log("print", JSON.stringify(invoiceData));
-          // print(`Invoice-${orderId}`, "jsx-template");
           var val = htmlToPdfmake(
             ` 
             <table style="width:100%">
@@ -40,6 +18,7 @@ const InvoiceModal = forwardRef(
                   Tax Invoice
                </td>
                <td style="border:none;font-size:12px;font-weight:400;color:#111111">
+               
                   Supplier Logo
                </td>
             </tr>

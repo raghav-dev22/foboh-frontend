@@ -5,14 +5,10 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Header from "../main/Header";
-import Footer from "../main/Footer";
-import { useSelector } from "react-redux";
 import { getBuyerValues } from "../helpers/setBuyerValues";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { theme } from "antd";
-
 const Profile = () => {
   const navigate = useNavigate();
   const EditBtn = () => {
@@ -26,7 +22,6 @@ const Profile = () => {
       setBuyer(buyerInfo);
     });
   }, []);
-
   const [buyer, setBuyer] = useState({
     id: "",
     brn: "",
@@ -71,13 +66,10 @@ const Profile = () => {
     mobile: "",
     createdBy: "",
   });
-  // localStorage.getItem("deliveryEdit", JSON.stringify(values));
   const { useToken } = theme;
   const { token } = useToken();
-
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
-
     fetch(
       `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/getBuyerProfile?BuyerId=${buyerId}`,
       {
