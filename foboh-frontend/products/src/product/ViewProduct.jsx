@@ -19,7 +19,7 @@ import Inventory from "../editProduct/Inventory";
 import ProductListing from "../editProduct/ProducrListing";
 import PricingDetails from "../editProduct/PricingDetails";
 import { useParams } from "react-router-dom";
-import { addProductSchema } from "../schemas";
+import { addProductSchema, addProductSchemaWithSubcategory } from "../schemas";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import axios from "axios";
 import throttle from "lodash.throttle";
@@ -38,6 +38,15 @@ import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
 import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
 import { validateImage } from "../helpers/validateImage";
 import { Modal, Progress } from "antd";
+import { useMutation } from "react-query";
+import {
+  getCategories,
+  getDepartments,
+  getOrganisation,
+} from "../reactQuery/addProductApiModules";
+
+let organisationDatas = {};
+let isBeverage = false;
 
 function ViewProduct() {
   const { id } = useParams();
@@ -111,7 +120,15 @@ function ViewProduct() {
     organisationId: "string",
   });
 
+  const { mutateAsync: mutateGetOrganisation } = useMutation(getOrganisation);
+  const { mutateAsync: mutateGetDepartments } = useMutation(getDepartments);
+  const { mutateAsync: mutateGetCategories } = useMutation(getCategories);
+
   const asyncFunction = async () => {
+    const organisationData = await mutateGetOrganisation();
+    organisationDatas = organisationData;
+    const departmentsData = await mutateGetDepartments();
+
     const baseUnitMeasureResponse = await getBaseUnitMeasure();
 
     baseUnitMeasureList = baseUnitMeasureResponse.map((item) => {
@@ -134,39 +151,22 @@ function ViewProduct() {
     });
     setInnerUnitMeasureSelect(innerUnitMeasureList);
 
-    // Getting organization id
-    await fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-        "organisationID"
-      )}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {});
+    // Setting department list according to org settings
+    const departments = organisationData?.departmentList.map((item) => {
+      const selectedDepartment = departmentsData.find(
+        (depItem) => item === depItem.departmentId
+      );
+      return {
+        label: selectedDepartment.departmentName,
+        value: selectedDepartment.departmentId,
+      };
+    });
 
-    // Department
-    await fetch(
-      "https://masters-api-foboh.azurewebsites.net/api/Department/get",
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setDepartment(
-            data.data.map((i) => {
-              return {
-                value: i.departmentId,
-                label: i.departmentName,
-              };
-            })
-          );
-        }
-      })
-      .catch((error) => console.log(error));
+    departments.label === "Beverage"
+      ? (isBeverage = true)
+      : (isBeverage = false);
+
+    setDepartment(departments);
 
     // grapeVariety
     await fetch(
@@ -322,48 +322,55 @@ function ViewProduct() {
         cCatalogueId: product.cCatalogueId,
         organisationId: product.organisationId,
       }).then(() => {
-        Promise.all([
-          departmentPromise,
-          categoryPromise,
-          subCategoryPromise,
-          segmentPromise,
-        ])
-          .then((data) => {
-            const departmentObj = [
-              data[0].data.find((obj) => obj.departmentId === departmentId),
-            ];
+        Promise.all([subCategoryPromise, segmentPromise])
+          .then(async (data) => {
+            const selectedDepartment = departmentsData.find(
+              (item) => item.departmentId === departmentId
+            );
 
-            const [dept] = departmentObj.map((item) => {
+            const dept = {
+              label: selectedDepartment?.departmentName,
+              value: selectedDepartment?.departmentId,
+            };
+
+            const departmentName = [dept.label];
+
+            const categoryList = await mutateGetCategories(departmentName);
+
+            const selectedCategories = categoryList.map((c) => {
               return {
-                label: item.departmentName,
-                value: item.departmentId,
+                label: c.categoryName,
+                value: c.categoryId,
               };
             });
 
-            const categoryObj = [
-              data[1].data.find((obj) => obj.categoryId === categoryId),
-            ];
+            setCategory(selectedCategories);
 
-            const [cate] = categoryObj.map((item) => {
-              return {
-                label: item.categoryName,
-                value: item.categoryId,
-              };
-            });
+            const cate = categoryList
+              .map((item) => {
+                return {
+                  label: item.categoryName,
+                  value: item.categoryId,
+                };
+              })
+              .find((item) => item.value === categoryId);
 
             const subCategoryObj = [
-              data[2].data.find((obj) => obj.subCategoryId === subCategoryId),
+              data[0]?.data?.find((obj) => obj.subCategoryId === subCategoryId),
             ];
 
-            const [subCate] = subCategoryObj.map((item) => {
-              return {
-                label: item.subCategoryName,
-                value: item.subCategoryId,
-              };
-            });
+            const [subCate] =
+              dept.label === "Beverage"
+                ? subCategoryObj?.map((item) => {
+                    return {
+                      label: item?.subCategoryName,
+                      value: item?.subCategoryId,
+                    };
+                  })
+                : "";
 
             let segment = {};
-            data[3]?.data.forEach((obj) => {
+            data[1]?.data?.forEach((obj) => {
               if (obj.segmentId == segmentId) {
                 segment = {
                   label: obj?.segmentName,
@@ -393,8 +400,6 @@ function ViewProduct() {
 
             const regionObj = region.find((rgn) => rgn.label === regionName);
             if (subCategoryId === "SC500") {
-              setIsWet(true);
-            } else if (subCategoryId === "SC500") {
               setIsWet(true);
             } else {
               setIsWet(false);
@@ -479,61 +484,39 @@ function ViewProduct() {
               cCatalogueId: product.cCatalogueId,
               organisationId: product.organisationId,
             }).then(() => {
-              const [category] = categoryObj.map((item) => {
+              const [subCategory] = subCategoryObj?.map((item) => {
                 return {
-                  label: item.categoryName,
-                  value: item.categoryId,
+                  label: item?.subCategoryName,
+                  value: item?.subCategoryId,
                 };
               });
 
-              const [subCategory] = subCategoryObj.map((item) => {
-                return {
-                  label: item.subCategoryName,
-                  value: item.subCategoryId,
-                };
-              });
-
-              if (category.label.toLowerCase() === "alcoholic beverage") {
+              if (cate?.label?.toLowerCase() === "alcoholic beverage") {
                 setIsAlcoholicBeverage(true);
               } else {
                 setIsAlcoholicBeverage(false);
               }
 
-              if (subCategory.label.toLowerCase() === "wine") {
+              if (subCategory?.label?.toLowerCase() === "wine") {
                 setIsWine(true);
               } else {
                 setIsWine(false);
               }
             });
 
-            setDepartment(
-              data[0]?.data.map((item) => {
-                return {
-                  label: item.departmentName,
-                  value: item.departmentId,
-                };
-              })
-            );
-
-            setCategory(
-              data[1]?.data.map((item) => {
-                return {
-                  value: item.categoryId,
-                  label: item.categoryName,
-                };
-              })
-            );
             setSubCategory(
-              data[2]?.data.map((item) => {
-                return {
-                  value: item.subCategoryId,
-                  label: item.subCategoryName,
-                };
-              })
+              dept.label === "Beverage"
+                ? data[0]?.data.map((item) => {
+                    return {
+                      value: item.subCategoryId,
+                      label: item.subCategoryName,
+                    };
+                  })
+                : ""
             );
 
             setSegment(
-              data[3]?.data.map((item) => {
+              data[1]?.data.map((item) => {
                 return {
                   value: item.segmentId,
                   label: item.segmentName,
@@ -544,7 +527,7 @@ function ViewProduct() {
           .then(() => {
             setTimeout(() => {
               setLoading(false);
-            }, 2000);
+            }, 1000);
           })
           .catch((error) => console.log(error));
       });
@@ -562,32 +545,6 @@ function ViewProduct() {
         method: "GET",
       }
     )
-      .then((response) => response.json())
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-
-  const departmentPromise = new Promise((resolve, reject) => {
-    fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-
-  const categoryPromise = new Promise((resolve, reject) => {
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
-      method: "GET",
-    })
       .then((response) => response.json())
       .then((data) => {
         resolve(data);
@@ -641,7 +598,9 @@ function ViewProduct() {
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
       initialValues: initialValues,
-      validationSchema: addProductSchema,
+      validationSchema: isBeverage
+        ? addProductSchemaWithSubcategory
+        : addProductSchema,
       onSubmit: (values) => {},
     });
   const handleSubmit = (e) => {
@@ -865,37 +824,50 @@ function ViewProduct() {
   let countryList = [];
   let tagList = [];
 
-  const handleDepartmentChange = (e) => {
+  const handleDepartmentChange = async (e) => {
+    setIsAlcoholicBeverage(false);
+    setIsWine(false);
+    setIsWet(false);
+
     setValues({
       ...values,
       department: e,
+      category: "",
+      subcategory: "",
+      segment: "",
+      grapeVariety: [],
+      regionSelect: {},
+      vintage: "",
+      awards: "",
     });
+    setSubCategory("");
     setShow(true);
     // ?DepartmentId=${e.value}
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setCategory(
-            data.data.map((i) => {
-              return {
-                value: i.categoryId,
-                label: i.categoryName,
-              };
-            })
-          );
+    e.label === "Beverage" ? (isBeverage = true) : (isBeverage = false);
+    const departmentNames = [e.label];
+
+    const categories = await mutateGetCategories(departmentNames);
+
+    const selectedCategories = organisationDatas?.categoryList
+      ?.map((item) => {
+        const categoryItem = categories.find((c) => item === c?.categoryId);
+        if (categoryItem) {
+          return {
+            label: categoryItem?.categoryName,
+            value: categoryItem?.categoryId,
+          };
         }
       })
-      .catch((error) => console.log(error));
+      .filter((categoryItem) => categoryItem !== undefined);
+
+    setCategory(selectedCategories);
   };
 
   const handleCategoryChange = (e) => {
     const item = e.label;
     const itemId = e.value;
 
-    if (item.toLowerCase() === "alcoholic beverage") {
+    if (item?.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
       setShow(true);
       setIsWine(true);
@@ -926,7 +898,7 @@ function ViewProduct() {
       .then((response) => response.json())
       .then((data) => {
         setSubCategory(
-          data.data.map((i) => {
+          data?.data?.map((i) => {
             return {
               value: i.subCategoryId,
               label: i.subCategoryName,
@@ -940,7 +912,7 @@ function ViewProduct() {
   const handleSubCategoryChange = (e) => {
     const item = e.label;
     const itemId = e.value;
-    if (item.toLowerCase() === "wine") {
+    if (item?.toLowerCase() === "wine") {
       setIsWine(true);
       setIsWet(true);
     } else {
@@ -1938,7 +1910,7 @@ function ViewProduct() {
                               <Select
                                 name="colors"
                                 options={subCategory}
-                                isDisabled={!subCategory.length}
+                                isDisabled={!subCategory?.length}
                                 value={values.subcategory}
                                 onChange={handleSubCategoryChange}
                                 className="basic-multi-select "
@@ -1960,7 +1932,7 @@ function ViewProduct() {
                                 <Select
                                   name="colors"
                                   options={segment}
-                                  isDisabled={!segment.length}
+                                  isDisabled={!segment?.length}
                                   value={values.segment}
                                   onChange={handleSegmentChange}
                                   className="basic-multi-select "
@@ -1981,7 +1953,7 @@ function ViewProduct() {
                               <Select
                                 isMulti
                                 name="colors"
-                                isDisabled={!variety.length}
+                                isDisabled={!variety?.length}
                                 options={variety}
                                 value={
                                   values.grapeVariety.length > 0
@@ -2003,7 +1975,7 @@ function ViewProduct() {
                             <div className=" w-full">
                               <Select
                                 name="colors"
-                                isDisabled={!region.length}
+                                isDisabled={!region?.length}
                                 options={region}
                                 value={values.regionSelect}
                                 onChange={handleregionSelectChange}
@@ -2074,7 +2046,7 @@ function ViewProduct() {
                           <div className="w-full">
                             <Select
                               name="colors"
-                              isDisabled={!country.length}
+                              isDisabled={!country?.length}
                               options={country}
                               value={values?.country}
                               onChange={handleCountryChange}
@@ -2222,7 +2194,7 @@ function ViewProduct() {
                               isMulti
                               id="tags"
                               name="colors"
-                              isDisabled={!tag.length}
+                              isDisabled={!tag?.length}
                               options={tag}
                               value={
                                 values.tags.length > 0 ? values.tags : null

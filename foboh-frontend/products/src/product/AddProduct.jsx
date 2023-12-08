@@ -10,7 +10,7 @@ import ProductEditHeader from "../components/ProductEditHeader";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useFormik } from "formik";
 import { Combobox, Transition } from "@headlessui/react";
-import { addProductSchema } from "../schemas";
+import { addProductSchema, addProductSchemaWithSubcategory } from "../schemas";
 import Select from "react-select";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 
 import {
   segment,
@@ -34,6 +35,13 @@ import {
 import { Box } from "@mui/material";
 import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
 import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
+import {
+  getCategories,
+  getDepartments,
+  getOrganisation,
+} from "../reactQuery/addProductApiModules";
+
+let organisationDatas = {};
 
 const initialValues = {
   visibility: "0",
@@ -72,6 +80,7 @@ const initialValues = {
 };
 
 const status = ["Active", "Inactive", "Archived"];
+let isBeverage = false;
 
 function AddProduct() {
   const navigate = useNavigate();
@@ -102,7 +111,9 @@ function AddProduct() {
     setValues,
   } = useFormik({
     initialValues: initialValues,
-    validationSchema: addProductSchema,
+    validationSchema: isBeverage
+      ? addProductSchemaWithSubcategory
+      : addProductSchema,
     onSubmit: (values) => {
       const organisationId = localStorage.getItem("organisationId");
 
@@ -128,9 +139,11 @@ function AddProduct() {
             trackInventory: values.trackInventory,
             departmentId: values.department.value,
             categoryId: values.category.value,
-            subCategoryId: values.subcategory.value,
-            segmentId: values.segment.value ? values.segment.value : "",
-            variety: values.grapeVariety.map((item) => {
+            subCategoryId: values?.subcategory?.value
+              ? values?.subcategory?.value
+              : "",
+            segmentId: values.segment?.value ? values.segment?.value : "",
+            variety: values?.grapeVariety.map((item) => {
               return item.label;
             }),
             vintage: values?.vintage ? values?.vintage : 0,
@@ -179,6 +192,9 @@ function AddProduct() {
   }, []);
 
   const asyncFunction = async () => {
+    const organisationData = await mutateGetOrganisation();
+    organisationDatas = organisationData;
+    const departmentsData = await mutateGetDepartments();
     const baseUnitMeasureResponse = await getBaseUnitMeasure();
     setBaseUnitMeasure(
       baseUnitMeasureResponse.map((item) => {
@@ -200,7 +216,52 @@ function AddProduct() {
         };
       })
     );
+
+    const departments = organisationData?.departmentList.map((item) => {
+      const selectedDepartment = departmentsData.find(
+        (depItem) => item === depItem.departmentId
+      );
+
+      return {
+        label: selectedDepartment.departmentName,
+        value: selectedDepartment.departmentId,
+      };
+    });
+
+    setDepartment(departments);
   };
+
+  const { mutateAsync: mutateGetOrganisation } = useMutation(getOrganisation, {
+    onSuccess: (data) => {},
+    error: (err) => {
+      console.log(err);
+    },
+  });
+
+  const { mutateAsync: mutateGetDepartments } = useMutation(getDepartments, {
+    onSuccess: (data) => {
+      console.log("getDepartments", data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const { mutateAsync: mutateGetCategories } = useMutation(getCategories, {
+    onSuccess: (data) => {
+      const categoryList = data.map((item) => {
+        return {
+          label: item.categoryName,
+          value: item.categoryId,
+        };
+      });
+
+      setCategory(categoryList);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   const handleReset = () => {
     setShow(false);
@@ -363,35 +424,46 @@ function AddProduct() {
   const [subCategory, setSubCategory] = useState([]);
   const [segment, setSegment] = useState([]);
 
-  const handleDepartmentChange = (e) => {
+  const handleDepartmentChange = async (e) => {
+    setIsAlcoholicBeverage(false);
+    setIsWine(false);
+    setIsWet(false)
     setValues({
       ...values,
       department: e,
+      category: null,
     });
     setShow(true);
     // ?DepartmentId=${e.value}
-    fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setCategory(
-            data.data.map((i) => {
-              return {
-                value: i.categoryId,
-                label: i.categoryName,
-              };
-            })
-          );
+
+    e.label === "Beverage" ? (isBeverage = true) : (isBeverage = false);
+    const departmentNames = [e.label];
+
+    const categories = await mutateGetCategories(departmentNames);
+
+    const selectedCategories = organisationDatas?.categoryList
+      ?.map((item) => {
+        const categoryItem = categories.find((c) => item === c?.categoryId);
+        if (categoryItem) {
+          return {
+            label: categoryItem?.categoryName,
+            value: categoryItem?.categoryId,
+          };
         }
       })
-      .catch((error) => console.log(error));
+      .filter((categoryItem) => categoryItem !== undefined);
+
+    setCategory(selectedCategories);
   };
 
   const handleCategoryChange = (e) => {
     const item = e.label;
     const itemId = e.value;
+    setValues({
+      ...values,
+      subcategory: null,
+      category: e,
+    });
 
     if (item.toLowerCase() === "alcoholic beverage") {
       setIsAlcoholicBeverage(true);
@@ -402,11 +474,6 @@ function AddProduct() {
       setShow(true);
     }
 
-    setValues({
-      ...values,
-      subcategory: null,
-      category: e,
-    });
     fetch(
       `https://masters-api-foboh.azurewebsites.net/api/SubCategory/get?CategoryId=${itemId}`,
       {
@@ -613,37 +680,6 @@ function AddProduct() {
   };
 
   useEffect(() => {
-    // Getting organization id
-    fetch(
-      `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
-        "organisationID"
-      )}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {});
-
-    // Department
-    fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setDepartment(
-            data.data.map((i) => {
-              return {
-                value: i.departmentId,
-                label: i.departmentName,
-              };
-            })
-          );
-        }
-      })
-      .catch((error) => console.log(error));
-
     // grapeVariety
     fetch("https://masters-api-foboh.azurewebsites.net/api/GrapeVarieties", {
       method: "GET",
@@ -1358,12 +1394,16 @@ function AddProduct() {
                   {values.category && (
                     <div className="flex flex-nowrap gap-5 lg:gap-0 -mx-3 mb-5">
                       <div className=" w-full  px-3">
-                        <h5 className="text-base font-medium text-green mb-3">
+                        <label
+                          htmlFor="subcategory"
+                          className="text-base font-medium text-green mb-3"
+                        >
                           Subcategory
-                        </h5>
+                        </label>
                         <div className="w-full">
                           <Select
-                            name="colors"
+                            id="subcategory"
+                            name="subcategory"
                             options={subCategory}
                             onBlur={handleBlur}
                             isDisabled={!subCategory.length}
