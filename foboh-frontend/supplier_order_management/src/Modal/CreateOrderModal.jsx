@@ -954,6 +954,7 @@ const CreateOrderModal = ({
             )}
           </div>,
         ]}
+        maskClosable={false}
         onCancel={handleCancel}
         open={isModalOpen}
         onOk={handleOk}

@@ -284,6 +284,9 @@ function MainDashBoard() {
                     {stockCount.outOfStock}
                   </span>
                 </div>
+                {
+                  
+                }
                 <span
                   onClick={handleClick}
                   className="text-xs/[10px] font-normal text-darkBlue underline cursor-pointer"
