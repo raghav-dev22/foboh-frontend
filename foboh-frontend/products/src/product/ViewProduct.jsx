@@ -1237,10 +1237,24 @@ function ViewProduct() {
     setShow(true);
   };
 
-  const handleReset = () => {
-    setShow(false);
+  const handleReset = (e) => {
+    e.preventDefault();
     setValues(initialValues);
     setProductImageUris(prevImgUrl);
+
+    if (
+      initialValues?.category?.label?.toLowerCase() === "alcoholic beverage"
+    ) {
+      setIsAlcoholicBeverage(true);
+      setShow(true);
+      setIsWine(true);
+      setIsAlcoholicBeverage(true);
+    } else {
+      setIsAlcoholicBeverage(false);
+      setIsWine(false);
+      setShow(true);
+    }
+    setShow(false);
   };
 
   return (

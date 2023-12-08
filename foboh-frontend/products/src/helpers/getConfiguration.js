@@ -1,6 +1,8 @@
 export const getConfiguration = (innerUnitOfMeasure, baseUnitOfMeasure) => {
+  console.log("getConfiguration", innerUnitOfMeasure, baseUnitOfMeasure);
   const innerUnitMatch =
-    innerUnitOfMeasure && innerUnitOfMeasure.match(/(\d+)\s*([\s\S]*)/);
+    innerUnitOfMeasure &&
+    innerUnitOfMeasure?.toString()?.match(/(\d+)\s*([\s\S]*)/);
   const innerUnitValue = innerUnitMatch ? innerUnitMatch[1] : "";
   const innerUnitName = innerUnitMatch
     ? innerUnitMatch[2].trim().split(" ")[0]
@@ -10,7 +12,8 @@ export const getConfiguration = (innerUnitOfMeasure, baseUnitOfMeasure) => {
 
   // Extracting the numeric value and unit from the base unit of measure
   const baseUnitMatch =
-    baseUnitOfMeasure && baseUnitOfMeasure.match(/(\d+)\s*([\s\S]*)/);
+    baseUnitOfMeasure &&
+    baseUnitOfMeasure?.toString()?.match(/(\d+)\s*([\s\S]*)/);
   const baseUnitValue = baseUnitMatch ? baseUnitMatch[1] : "";
   const baseUnitName = baseUnitMatch
     ? baseUnitMatch[2].trim().split(" ")[0]
@@ -22,16 +25,26 @@ export const getConfiguration = (innerUnitOfMeasure, baseUnitOfMeasure) => {
   return convertedValue;
 };
 
-export const convertInnerUnitAndBaseUnit = (innerUnitOfMeasure, baseUnitOfMeasure) => {
+export const convertInnerUnitAndBaseUnit = (
+  innerUnitOfMeasure,
+  baseUnitOfMeasure
+) => {
+  console.log(
+    "convertInnerUnitAndBaseUnit",
+    innerUnitOfMeasure,
+    baseUnitOfMeasure
+  );
   const innerUnitMatch =
-    innerUnitOfMeasure && innerUnitOfMeasure.match(/(\d+)\s*([\s\S]*)/);
+    innerUnitOfMeasure &&
+    innerUnitOfMeasure?.toString()?.match(/(\d+)\s*([\s\S]*)/);
   const innerUnitValue = innerUnitMatch ? innerUnitMatch[1] : "";
   const innerUnitName = innerUnitMatch ? innerUnitMatch[2].trim() : "";
   const innerUnitType = innerUnitOfMeasure && innerUnitOfMeasure.split(" ");
 
   // Extracting the numeric value and unit from the base unit of measure
   const baseUnitMatch =
-    baseUnitOfMeasure && baseUnitOfMeasure.match(/(\d+)\s*([\s\S]*)/);
+    baseUnitOfMeasure &&
+    baseUnitOfMeasure?.toString()?.match(/(\d+)\s*([\s\S]*)/);
   const baseUnitValue = baseUnitMatch ? baseUnitMatch[1] : "";
   const baseUnitName = baseUnitMatch ? baseUnitMatch[2].trim() : "";
 

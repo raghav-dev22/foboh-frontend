@@ -7,7 +7,7 @@ function ImportCustomerModal({ show, setShow, error, success }) {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const cancelButtonRef = useRef(null);
   const remove = () => {
-    if (error.length === 0) {
+    if (success) {
       setShow(false);
       setShowCompleteModal(true);
       const timeout = setTimeout(() => {
@@ -18,7 +18,6 @@ function ImportCustomerModal({ show, setShow, error, success }) {
       setShow(false);
     }
   };
-  console.log(success, "reallllllllllllllllllll");
 
   return (
     <>
@@ -53,7 +52,7 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden  text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl	">
-                  {success === 0 && (
+                  {error.length === 0 && (
                     <div className="bg-white px-8 pb-8 pt-6 sm:p-6 sm:pb-4 rounded-t-lg">
                       <div className="sm:flex sm:items-center">
                         <div className="">
@@ -101,7 +100,7 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                       </div>
                     </div>
                   )}
-                  {error?.length > 0 && (
+                  {error.length > 0 && (
                     <div
                       className="bg-white px-8 pb-8 pt-8 sm:p-6 sm:pb-4 rounded-t-lg"
                       style={{ maxHeight: "451px", overflowY: "scroll" }}
@@ -135,7 +134,8 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                         >
                           <p className="text-sm font-normal">
                             <span className="font-bold">
-                              {error.length} products
+                              {error.length}
+                              products
                             </span>{" "}
                             have errors that need correcting before importing.
                             After you fix the errors, try importing the file
@@ -180,7 +180,7 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                           </tr>
                         </thead>
                         <tbody>
-                          {error.map((err, index) => (
+                          {error?.map((err, index) => (
                             <tr
                               key={index}
                               style={{ borderBottom: "1px solid #EEEEEE" }}

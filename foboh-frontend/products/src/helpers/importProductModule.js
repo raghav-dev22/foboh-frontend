@@ -19,7 +19,7 @@ export const convertImportedProductList = (importedProducts) => {
       );
 
       const calculatedLucCost =
-        product?.wetFlag === 1 || true && product.globalPrice
+        product?.wetFlag === 1 || (true && product.globalPrice)
           ? calculateLucCost(product.globalPrice)
           : 0;
 
