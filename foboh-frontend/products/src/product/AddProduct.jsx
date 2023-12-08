@@ -702,14 +702,6 @@ function AddProduct() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // setRegion(
-        //   data.map((item) => {
-        //     return {
-        //       value: item.regionId,
-        //       label: item.regionName,
-        //     };
-        //   })
-        // );
         const sortedRegion = data
           .map((item) => ({
             value: item.regionId,

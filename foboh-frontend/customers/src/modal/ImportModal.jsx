@@ -155,14 +155,24 @@ function ImportModal({ show, setShow }) {
                               </p>
                             </div>
                             <button
-                              className=" rounded-lg	border border-inherit py-2.5	px-5 max-w-max	"
-                              type="button"
-                              onChange={handleFileUpload}
+                              className={`rounded-lg	border border-inherit py-2.5	px-5 max-w-max download-file`}
+                              type="file"
+                              accept=".csv"
+                              onClick={() =>
+                                document.getElementById("fileInput").click()
+                              }
                             >
                               <h5 className="text-base	font-medium text-green	">
                                 Replace
                               </h5>
                             </button>
+                            <input
+                              id="fileInput"
+                              type="file"
+                              accept=".csv"
+                              onChange={handleFileUpload}
+                              className="hidden"
+                            />
                           </div>
                         </>
                       ) : (

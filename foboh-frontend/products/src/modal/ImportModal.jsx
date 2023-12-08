@@ -37,7 +37,6 @@ function ImportModal({ show, setShow }) {
             dataStructure[1].forEach((element, index) => {
               tmpObj[element] = product[index];
 
-              
               if (
                 (!product[index]?.toString() || product[index] === undefined) &&
                 dataStructure[0][index]
@@ -167,12 +166,21 @@ function ImportModal({ show, setShow }) {
                             <button
                               className=" rounded-lg	border border-inherit py-2.5	px-5 max-w-max	"
                               type="button"
-                              onChange={handleFileUpload}
+                              onClick={() =>
+                                document.getElementById("fileInput").click()
+                              }
                             >
                               <h5 className="text-base	font-medium text-green	">
                                 Replace
                               </h5>
                             </button>
+                            <input
+                              id="fileInput"
+                              type="file"
+                              accept=".csv"
+                              onChange={handleFileUpload}
+                              className="hidden"
+                            />
                           </div>
                         </>
                       ) : (

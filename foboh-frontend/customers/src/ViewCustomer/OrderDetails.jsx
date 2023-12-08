@@ -107,6 +107,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     });
     allStateData = list;
   }
+
   useEffect(() => {
     const fetchData = async () => {
       if (statesData) {
@@ -193,7 +194,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     )
       .then((response) => response.json())
       .then(async (data) => {
-        console.log("Customer data --->", data);
         customerData = data;
         setBuyerData(data.buyerId);
         handleCustomerDetails(data);
@@ -418,6 +418,13 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     setValues({
       ...initialValues,
     });
+  };
+
+  const handleClick = (name) => {
+    navigate(
+      `/dashboard/supplier-order-management?businessName=${values?.businessName}`
+    );
+    localStorage.setItem("bussinessName", values?.businessName);
   };
 
   return (
@@ -1482,8 +1489,8 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     </h6>
 
                     <a
-                      href="#"
-                      className="text-base font-normal	text-darkBlue underline"
+                      className="text-base font-normal	text-darkBlue underline cursor-pointer"
+                      onClick={handleClick}
                     >
                       See all
                     </a>

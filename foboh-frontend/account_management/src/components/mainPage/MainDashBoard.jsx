@@ -310,7 +310,7 @@ function MainDashBoard() {
                     Order ID
                   </th>
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
-                    BusinessName
+                    Customer
                   </th>
                   <th className="px-4 py-3 border-b border-gray-300   text-left text-green	sm:text-base	text-sm		 font-semibold ">
                     Amount

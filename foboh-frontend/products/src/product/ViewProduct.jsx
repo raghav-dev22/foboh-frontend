@@ -63,6 +63,7 @@ function ViewProduct() {
   let baseUnitMeasureList = [];
   let innerUnitMeasureList = [];
   const [modal2Open, setModal2Open] = useState(false);
+  // const [region, setRegion] = useState();
 
   const error = (error) => {
     messageApi.open({
@@ -216,6 +217,22 @@ function ViewProduct() {
           };
         });
         setCountry(countryList);
+      })
+      .catch((error) => console.log(error));
+    // Region
+    fetch("https://masters-api-foboh.azurewebsites.net/api/Region", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const sortedRegion = data
+          .map((item) => ({
+            value: item.regionId,
+            label: item.regionName,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
+
+        setRegions(sortedRegion);
       })
       .catch((error) => console.log(error));
 
@@ -2004,7 +2021,7 @@ function ViewProduct() {
                               <Select
                                 name="colors"
                                 isDisabled={!region.length}
-                                options={region}
+                                options={regions}
                                 value={values.regionSelect}
                                 onChange={handleregionSelectChange}
                                 className="basic-multi-select "

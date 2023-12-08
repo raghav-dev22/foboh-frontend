@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useRef, useState } from "react";
 
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
@@ -69,6 +69,7 @@ const AllOrders = () => {
   const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [customSelectedDate, setCustomSelectedDate] = useState([]);
+  const dropdownRef = useRef(null);
 
   const statusCheckAll = statusList.length === selectedStatus.length;
 
@@ -88,6 +89,7 @@ const AllOrders = () => {
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
+
   const statusMenuBtn = () => {
     setStatusMenu(!statusMenu);
     setRegionMenu(false);
@@ -179,12 +181,20 @@ const AllOrders = () => {
         </p>
       ),
       Customer: (
-        <p
-          onClick={() => navigate(`/dashboard/order-details/${item?.orderId}`)}
-          className="text-sm md:text-base font-normal text-[#637381] cursor-pointer"
-        >
-          {item?.customerName}
-        </p>
+        <div>
+          <p
+            onClick={() =>
+              navigate(`/dashboard/order-details/${item?.orderId}`)
+            }
+            className="text-sm md:text-base font-normal text-[#637381] cursor-pointer"
+          >
+            {item?.businessName}
+          </p>
+          <p className="text-xs sm:text-sm sm:font-normal font-light text-gray">
+            {" "}
+            ({item?.customerName})
+          </p>
+        </div>
       ),
       Region: (
         <p className="text-sm md:text-base font-normal text-[#637381]">
@@ -343,10 +353,18 @@ const AllOrders = () => {
   }
 
   const saveInput = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get("businessName");
     const ordersData = await searchOrders(filterAndSort);
+    var r = new URL(window.location.href);
+    r.searchParams.delete("businessName");
+    const newUrl = r.href;
+    console.log("r.href", newUrl);
+    window.history.pushState({ path: newUrl }, "", newUrl);
     if (ordersData.success) {
       setOrderData(ordersData?.data);
       setTotalData(ordersData?.total);
+      // myParam.delete("businessName");
     } else {
       setOrderData([]);
       setTotalData(0);
@@ -357,6 +375,7 @@ const AllOrders = () => {
 
   const handleSearch = (e) => {
     const search = e.target.value;
+    console.log(search);
     const newFilter = {
       ...filterAndSort.filter,
       searchByValue: search,
@@ -463,23 +482,6 @@ const AllOrders = () => {
 
     processChange("filterAndSort");
   };
-  useEffect(() => {
-    filterAndSort = {
-      filter: {
-        searchByValue: "",
-        region: [],
-        orderStatus: [],
-        orderEntryDate: "",
-        orderFilterEndDate: "",
-        customeDate: "",
-        page: 0,
-      },
-      sort: {
-        sortBy: "",
-        sortOrder: "asc",
-      },
-    };
-  }, []);
 
   const handleClearFilter = () => {
     setShowFilter(false);
@@ -499,8 +501,78 @@ const AllOrders = () => {
       },
     };
     processChange("filterAndSort");
+    setSelectedStatus([]);
+    setRegions([]);
+    setLastDate([]);
   };
   const { RangePicker } = DatePicker;
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get("businessName");
+
+    if (myParam) {
+      setInput(myParam);
+      filterAndSort = {
+        filter: {
+          searchByValue: myParam,
+          region: [],
+          orderStatus: [],
+          orderEntryDate: "",
+          orderFilterEndDate: "",
+          customeDate: "",
+          page: 0,
+        },
+        sort: {
+          sortBy: "",
+          sortOrder: "asc",
+        },
+      };
+    } else {
+      filterAndSort = {
+        filter: {
+          searchByValue: "",
+          region: [],
+          orderStatus: [],
+          orderEntryDate: "",
+          orderFilterEndDate: "",
+          customeDate: "",
+          page: 0,
+        },
+        sort: {
+          sortBy: "",
+          sortOrder: "asc",
+        },
+      };
+    }
+
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        const dropdowns = document.querySelectorAll(".product-dropdown");
+        let isInsideDropdown = false;
+
+        for (const dropdown of dropdowns) {
+          if (dropdown.contains(event.target)) {
+            isInsideDropdown = true;
+            break;
+          }
+        }
+
+        if (!isInsideDropdown) {
+          setStatusMenu(false);
+          setRegionMenu(false);
+          setDateMenu(false);
+          setSortItem(false);
+        }
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
   return (
     <>
       <div className="pt-5">
@@ -519,6 +591,7 @@ const AllOrders = () => {
                 className="border border-[#E7E7E7] py-2  rounded-md px-2"
                 placeholder="Search"
                 type="text"
+                value={input}
                 onChange={handleSearch}
               />
               <SearchIcon
@@ -526,7 +599,10 @@ const AllOrders = () => {
                 style={{ fill: "rgb(164 169 174)", top: "20px" }}
               />
             </div>
-            <div className="flex justify-end items-center gap-3 ">
+            <div
+              className="flex justify-end items-center gap-3 "
+              ref={dropdownRef}
+            >
               <button
                 className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
                 onClick={() => {
