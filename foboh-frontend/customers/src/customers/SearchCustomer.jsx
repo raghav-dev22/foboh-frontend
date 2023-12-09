@@ -525,7 +525,7 @@ function SearchCustomer({
               </div>
             </div>
             <div
-              className="cursor-pointer bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
+              className="cursor-pointer bg-[#0000] border border-[#0000002e] py-1.5 px-3 rounded-md"
               onClick={() => {
                 handleClearFilter();
               }}
