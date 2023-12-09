@@ -17,7 +17,6 @@ function ErrorFoundModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
-
   const showModal = () => {
     setShowPreviewModal(true);
     setShow(false);
@@ -228,30 +227,35 @@ function ErrorFoundModal({
                         </tr>
                       </thead>
                       <tbody>
-                        {errorData?.map((errors, errorRow) => (
-                          <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
-                            <td className="font-medium text-sm p-4">
-                              {errorRow + 1}
-                            </td>
+                        {errorData?.map((errors, errorRow) =>
+                          errors.length ? (
+                            <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
+                              <td className="font-medium text-sm p-4">
+                                {errorRow + 1}
+                              </td>
 
-                            <td className="font-normal text-sm p-4">
-                              {errors.join(", ")}
-                            </td>
-                            <td className="font-normal text-sm p-4">
-                              Column: {errors.join(", ")}
-                            </td>
-                            <td className="font-normal text-sm p-4">
-                              {errors.map((err, idx) => (
-                                <p>
-                                  {idx + 1}: Missing{" "}
-                                  <span className="font-semibold">{err}</span>,
-                                  please add a valid{" "}
-                                  <span className="font-semibold">{err}</span>.
-                                </p>
-                              ))}
-                            </td>
-                          </tr>
-                        ))}
+                              <td className="font-normal text-sm p-4">
+                                {errors.join(", ")}
+                              </td>
+                              <td className="font-normal text-sm p-4">
+                                Column: {errors.join(", ")}
+                              </td>
+                              <td className="font-normal text-sm p-4">
+                                {errors.map((err, idx) => (
+                                  <p>
+                                    {idx + 1}: Missing{" "}
+                                    <span className="font-semibold">{err}</span>
+                                    , please add a valid{" "}
+                                    <span className="font-semibold">{err}</span>
+                                    .
+                                  </p>
+                                ))}
+                              </td>
+                            </tr>
+                          ) : (
+                            ""
+                          )
+                        )}
                       </tbody>
                     </table>
                   </div>

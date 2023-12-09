@@ -38,9 +38,16 @@ function ImportModal({ show, setShow }) {
               tmpObj[element] = product[index];
 
               if (
-                (!product[index]?.toString() || product[index] === undefined) &&
-                dataStructure[0][index]
+                Boolean(!product[index]?.toString()) &&
+                dataStructure[0][index] == "Y"
               ) {
+                console.log(
+                  "in err",
+                  product[index]?.toString(),
+                  JSON.stringify(product),
+                  dataStructure[0][index],
+                  dataStructure[1][index]
+                );
                 errorData[rowIndex].push(element);
                 setErrorFoundModal(true);
                 setShow(false);
@@ -48,7 +55,7 @@ function ImportModal({ show, setShow }) {
             });
             return tmpObj;
           });
-          setErrorData(errorData.filter((err) => err.length));
+          setErrorData(errorData);
           console.log("finalProductArray", finalProductArray);
           setImportedProducts(finalProductArray);
         }
