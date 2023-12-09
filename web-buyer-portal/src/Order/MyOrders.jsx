@@ -27,6 +27,10 @@ import { date } from "yup";
 import { setCart } from "../slices/CartSlice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../helper/formateDates";
+import {
+  getCalculations,
+  getInvoiceDataCalculations,
+} from "../helper/getCalculations";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -125,14 +129,14 @@ const DownloadInvoice = (
 );
 
 let invoiceData = {};
+let invoiceDataProducts = [];
+let calculations;
 
 const MyOrders = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showPreview, setshowPreview] = useState(false);
   const [page, setPage] = useState(1);
   const [orderData, setOrderData] = useState([]);
-  // const [invoiceData, setInvoiceData] = useState({});
-  const [invoiceDataProducts, setInvoiceDataProducts] = useState([]);
   const [totalData, setTotalData] = useState({});
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -196,9 +200,15 @@ const MyOrders = () => {
   const [paymentMenu, setPaymentMenu] = useState(false);
 
   const handleInvoiceDownload = async (orderId) => {
-    const invoiceData = await fetchInvoice(orderId);
-    if (childRef.current && invoiceData) {
-      childRef.current.handlePrint(orderId);
+    const invoiceDatas = await fetchInvoice(orderId);
+    if (childRef.current && invoiceDatas) {
+      childRef.current.handlePrint(
+        orderId,
+        invoiceData,
+        invoiceDataProducts,
+        isWine,
+        calculations
+      );
     }
   };
 
@@ -342,67 +352,71 @@ const MyOrders = () => {
         return response.json();
       })
       .then((data) => {
-        setshowPreview(true);
-        // setInvoiceData(data.data[0]);
-        invoiceData = data?.data[0];
-        orderId = data.data[0]?.orderId;
-        setInvoiceDataProducts(
-          data.data.map((item) => {
-            let gstPerItem = 0;
-            let wetPerItem = null;
-            let amountPerItem = 0;
-
-            const salePrice = item?.globalPrice;
-            const quantity = item?.quantity;
-            const subCatId = item?.subCategoryId;
-            const gst = 0.1;
-            const wet = 0.29;
-
-            const subTotal = salePrice * quantity;
-            const subTotalGst = subTotal * gst;
-            const subTotalIncGst = subTotal + subTotalGst;
-            let subTotalWet = 0;
-            let subTotalIncWet = 0;
-
-            if (subCatId === "SC500" || subCatId === "SC5000") {
-              setIsWine(true);
-              subTotalWet = subTotal * wet;
-              subTotalIncWet = subTotal + subTotalWet;
-              wetPerItem = subTotalIncWet;
-            }
-
-            amountPerItem = subTotalIncGst;
-            gstPerItem = subTotalGst;
-
-            return {
-              totalPrice: item?.totalPrice,
-              quantity: item?.quantity,
-              cartId: item?.cartId,
-              subTotalPrice: item?.subTotalPrice,
-              shippingcharges: item?.shippingcharges,
-              gst: item?.gst,
-              wet: item?.wet,
-              productId: item?.productId,
-              skUcode: item?.skUcode,
-              configuration: item?.configuration,
-              luCcost: item?.luCcost,
-              globalPrice: item?.globalPrice,
-              title: item?.title,
-              unitofMeasure: item?.unitofMeasure,
-              amountPerItem: amountPerItem,
-              gstPerItem: gstPerItem,
-              wetPerItem: wetPerItem,
-            };
-          })
-        );
-      })
-      .then(() => {
-        return true;
+        return data;
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
       });
-    return invoiceDataResponse;
+    if (invoiceDataResponse) {
+      setshowPreview(true);
+      // setInvoiceData(data.data[0]);
+
+      invoiceData = invoiceDataResponse?.data[0];
+      orderId = invoiceDataResponse.data[0]?.orderId;
+
+      calculations = getCalculations(invoiceDataResponse?.data);
+      console.log(calculations, "calculations");
+      invoiceDataProducts = invoiceDataResponse?.data?.map((item) => {
+        let gstPerItem = 0;
+        let wetPerItem = null;
+        let amountPerItem = 0;
+
+        const salePrice = item?.globalPrice;
+        const quantity = item?.quantity;
+        const subCatId = item?.subCategoryId;
+        const gst = 0.1;
+        const wet = 0.29;
+
+        const subTotal = salePrice * quantity;
+        const subTotalGst = subTotal * gst;
+        const subTotalIncGst = subTotal + subTotalGst;
+        let subTotalWet = 0;
+        let subTotalIncWet = 0;
+
+        if (subCatId === "SC500" || subCatId === "SC5000") {
+          setIsWine(true);
+          subTotalWet = subTotal * wet;
+          subTotalIncWet = subTotal + subTotalWet;
+          wetPerItem = subTotalIncWet;
+        }
+
+        amountPerItem = subTotalIncGst;
+        gstPerItem = subTotalGst;
+
+        return {
+          totalPrice: item?.totalPrice,
+          quantity: item?.quantity,
+          cartId: item?.cartId,
+          subTotalPrice: item?.subTotalPrice,
+          shippingcharges: item?.shippingcharges,
+          gst: item?.gst,
+          wet: item?.wet,
+          productId: item?.productId,
+          skUcode: item?.skUcode,
+          configuration: item?.configuration,
+          luCcost: item?.luCcost,
+          globalPrice: item?.globalPrice,
+          title: item?.title,
+          unitofMeasure: item?.unitofMeasure,
+          amountPerItem: amountPerItem,
+          gstPerItem: gstPerItem,
+          wetPerItem: wetPerItem,
+        };
+      });
+    }
+
+    if (invoiceDataResponse) return true;
+    else return false;
   };
 
   //ReOrder API
@@ -1000,9 +1014,6 @@ const MyOrders = () => {
             ref={childRef}
             show={showPreview}
             setShow={setshowPreview}
-            invoiceData={invoiceData}
-            invoiceDataProducts={invoiceDataProducts}
-            isWine={isWine}
           />
           <Table
             className="custom-scroll-table "

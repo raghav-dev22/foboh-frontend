@@ -511,7 +511,7 @@ const ProductDetails = () => {
                 </div>
               </div>
             )}
-            {selectData.product.categoryId === "C6000" && (
+            {selectData.product.categoryId !== "C5000" && (
               <div className="flex justify-between items-center md:w-[365px] w-full ">
                 <div>
                   <div className="">

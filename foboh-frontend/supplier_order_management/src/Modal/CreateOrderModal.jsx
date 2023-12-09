@@ -45,6 +45,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
+let isValid = false;
 const CreateOrderModal = ({
   setCreateOrderModal,
   handleOk,
@@ -162,11 +163,21 @@ const CreateOrderModal = ({
   };
 
   const handleNext = () => {
-    !isLastStep && setActiveStep((cur) => cur + 1),
-      setDetails(true),
-      setSelectedItems("");
+    if (isValid === true && activeStep === 0) {
+      !isLastStep &&
+        (setActiveStep((cur) => cur + 1),
+        setDetails(true),
+        setSelectedItems(""));
+    } else if (isValid === true && activeStep === 1) {
+      !isLastStep &&
+        (setActiveStep((cur) => cur + 1),
+        setDetails(true),
+        setSelectedItems(""));
+    } else if (activeStep === 2) {
+      setActiveStep((cur) => cur + 1), setDetails(true), setSelectedItems("");
+    }
+    isValid = false;
   };
-
   const handlePrev = () => {
     if (isCustomerSelected) {
       setIsCustomerSelected(false);
@@ -371,6 +382,7 @@ const CreateOrderModal = ({
 
   const handleCustomerSelect = async (value) => {
     const customerInfo = await getCustomerDetails(value?.value);
+    // console.log(customerInfo.data[0], "buyerData");
     if (localStorage.getItem("buyerID")) {
       localStorage.removeItem("buyerID");
     }
@@ -381,6 +393,7 @@ const CreateOrderModal = ({
       const buyerDetails = await getBuyerDetails(value?.value);
 
       if (buyerDetails.success) {
+        isValid = true;
         const buyerData = buyerDetails.data[0];
         setCustomerDetails(buyerData);
         const defaultPaymentTermsListValue = defaultPaymentTerms.find(
@@ -394,6 +407,8 @@ const CreateOrderModal = ({
         );
 
         setDefaultPaymentTermsDate(defaultPaymentTermsDateValue);
+      } else {
+        isValid = false;
       }
     }
   };
@@ -422,7 +437,11 @@ const CreateOrderModal = ({
           },
         };
       });
+
       setCart(cartUpdatedList);
+      if (cartUpdatedList.length > 0) {
+        isValid = true;
+      }
     }
   };
 
