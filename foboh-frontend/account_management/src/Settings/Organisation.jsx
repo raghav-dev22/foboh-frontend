@@ -359,6 +359,14 @@ function Organisation() {
                     return departmentList.find((obj) => obj.value === id);
                   });
 
+                const departmentNames = departmentListData.map(
+                  (item) => item.label
+                );
+
+                mutateCategories(
+                  departmentListData?.length > 0 ? departmentNames : null
+                );
+
                 const state = states.find(
                   (item) => item.label === organisationSettings?.state
                 );
@@ -872,7 +880,10 @@ function Organisation() {
                                 id="departments"
                                 name="departments"
                                 isMulti
-                                onChange={handleDepartmentChange}
+                                onChange={(val) => {
+                                  handleFormChange();
+                                  handleDepartmentChange(val);
+                                }}
                                 value={values.departments}
                                 isDisabled={!departmentList.length}
                                 options={departmentList}
@@ -894,7 +905,10 @@ function Organisation() {
                                 name="categoryList"
                                 isMulti
                                 value={values?.categoryList}
-                                onChange={handleCategoriesChange}
+                                onChange={(val) => {
+                                  handleFormChange();
+                                  handleCategoriesChange(val);
+                                }}
                                 isDisabled={
                                   values?.categoryList.length === 0 &&
                                   categories.length === 0
