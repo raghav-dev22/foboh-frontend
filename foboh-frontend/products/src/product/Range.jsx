@@ -70,6 +70,7 @@ function Range() {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
 
   const [selected, setSlected] = useState(0);
+  const [dataLength, setDataLength] = useState(0);
 
   const [loading, setLoading] = useState(true);
   const isTrue = localStorage.getItem("productAdded");
@@ -156,6 +157,7 @@ function Range() {
         setPrevProducts(data.data);
 
         setTotalProducts(data.total);
+        setDataLength(data.data.length - 1);
 
         const array = createArrayWithNumber(data.last_page); //error
 
@@ -387,7 +389,11 @@ function Range() {
                           <input
                             id="default-checkbox"
                             type="checkbox"
-                            checked={selectedProducts.length > 0 ? true : false}
+                            checked={
+                              selectedProducts.length > dataLength
+                                ? true
+                                : false
+                            }
                             // defaultValue=""
 
                             onChange={(e) => handleSelectAllChange(e)}

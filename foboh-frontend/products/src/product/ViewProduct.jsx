@@ -1806,6 +1806,7 @@ function ViewProduct() {
                           <input
                             onChange={handleChange}
                             value={values.skuCode}
+                            onBlur={handleBlur}
                             onKeyPress={(e) =>
                               e.key === "Enter" && e.preventDefault()
                             }

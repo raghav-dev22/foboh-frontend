@@ -3,15 +3,20 @@ var htmlToPdfmake = require("html-to-pdfmake");
 var pdfMake = require("pdfmake/build/pdfmake");
 var pdfFonts = require("pdfmake/build/vfs_fonts");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-const InvoiceModal = forwardRef(
-  ({ invoiceData, invoiceDataProducts, isWine, calculations }, ref) => {
-    useImperativeHandle(ref, () => ({
-      handlePrint(orderId) {
-        console.log("orderId", orderId);
-        setTimeout(() => {
-          console.log("print", JSON.stringify(invoiceData));
-          var val = htmlToPdfmake(
-            ` 
+const InvoiceModal = forwardRef(({}, ref) => {
+  useImperativeHandle(ref, () => ({
+    handlePrint(
+      orderId,
+      invoiceData,
+      invoiceDataProducts,
+      isWine,
+      calculations
+    ) {
+      console.log("orderId", orderId);
+      setTimeout(() => {
+        console.log("print", JSON.stringify(invoiceData));
+        var val = htmlToPdfmake(
+          ` 
             <table style="width:100%">
             <tr>
                <td style="border:none;font-size:25px;font-weight:800;color:#111111  ;width:80%">
@@ -64,14 +69,14 @@ const InvoiceModal = forwardRef(
                <td style="border:none;color:#5E6470;font-size:12px;font-weight:400">${
                  invoiceData?.apartmentSuite
                } ${invoiceData?.streetaddress}<br />${invoiceData?.buyerCity} ${
-              invoiceData?.buyerState
-            } ${invoiceData?.buyerPostCode}
+            invoiceData?.buyerState
+          } ${invoiceData?.buyerPostCode}
                </td>
                <td style="border:none;color:#5E6470;font-size:12px;font-weight:400">${
                  invoiceData?.apartment
                } ${invoiceData?.organisationAddress}<br />${
-              invoiceData?.city
-            } ${invoiceData?.state} ${invoiceData?.postcode}
+            invoiceData?.city
+          } ${invoiceData?.state} ${invoiceData?.postcode}
                </td>
                <td style="border:none;color:#1A1C21;font-size:12px;font-weight:600">Date issued <br/>${
                  invoiceData?.orderEntryDate
@@ -314,19 +319,18 @@ const InvoiceModal = forwardRef(
       </tr>
       </table>
   `,
-            {
-              tableAutoSize: true,
-            }
-          );
-          console.log("val", val);
-          var dd = { content: val };
-          pdfMake.createPdf(dd).download();
-        }, 500);
-      },
-    }));
+          {
+            tableAutoSize: true,
+          }
+        );
+        console.log("val", val);
+        var dd = { content: val };
+        pdfMake.createPdf(dd).download();
+      }, 500);
+    },
+  }));
 
-    return <></>;
-  }
-);
+  return <></>;
+});
 
 export default InvoiceModal;
