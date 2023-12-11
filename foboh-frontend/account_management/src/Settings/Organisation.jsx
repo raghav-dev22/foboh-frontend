@@ -359,7 +359,7 @@ function Organisation() {
                     return departmentList.find((obj) => obj.value === id);
                   });
 
-                const departmentNames = departmentListData.map(
+                const departmentNames = departmentListData?.map(
                   (item) => item.label
                 );
 
@@ -367,10 +367,10 @@ function Organisation() {
                   departmentListData?.length > 0 ? departmentNames : null
                 );
 
-                const state = states.find(
+                const state = states?.find(
                   (item) => item.label === organisationSettings?.state
                 );
-                const billingState = states.find(
+                const billingState = states?.find(
                   (item) =>
                     item.label === organisationSettings?.billingAddressState
                 );

@@ -153,8 +153,8 @@ function ViewProduct() {
     setInnerUnitMeasureSelect(innerUnitMeasureList);
 
     // Setting department list according to org settings
-    const departments = organisationData?.departmentList.map((item) => {
-      const selectedDepartment = departmentsData.find(
+    const departments = organisationData?.departmentList?.map((item) => {
+      const selectedDepartment = departmentsData?.find(
         (depItem) => item === depItem.departmentId
       );
       return {
@@ -163,7 +163,7 @@ function ViewProduct() {
       };
     });
 
-    departments.label === "Beverage"
+    departments?.label === "Beverage"
       ? (isBeverage = true)
       : (isBeverage = false);
 
@@ -867,7 +867,7 @@ function ViewProduct() {
 
     const selectedCategories = organisationDatas?.categoryList
       ?.map((item) => {
-        const categoryItem = categories.find((c) => item === c?.categoryId);
+        const categoryItem = categories?.find((c) => item === c?.categoryId);
         if (categoryItem) {
           return {
             label: categoryItem?.categoryName,
