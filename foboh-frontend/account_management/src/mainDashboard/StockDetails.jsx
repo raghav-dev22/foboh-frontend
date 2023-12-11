@@ -44,9 +44,9 @@ function StockDetails() {
       value: (
         <span
           className={`text-sm font-medium ${
-            tilesData?.totalRevenuePercentage === 0
+            parseFloat(tilesData?.totalRevenuePercentage) === 0
               ? "text-[#637381]"
-              : tilesData?.totalRevenuePercentage > 0
+              : parseFloat(tilesData?.totalRevenuePercentage) > 0
               ? "text-[#009900]"
               : "text-[#DC3545]"
           }`}
@@ -77,9 +77,9 @@ function StockDetails() {
       value: (
         <span
           className={`text-sm font-medium ${
-            tilesData?.totalProfitPercentage === 0
+            parseFloat(tilesData?.totalProfitPercentage) === 0
               ? "text-[#637381]"
-              : tilesData?.totalProfitPercentage > 0
+              : parseFloat(tilesData?.totalProfitPercentage) > 0
               ? "text-[#009900]"
               : "text-[#DC3545]"
           }`}
@@ -110,7 +110,7 @@ function StockDetails() {
           className={`text-sm font-medium ${
             tilesData?.noOfOrdersPercentage === 0
               ? "text-[#637381]"
-              : tilesData?.noOfOrdersPercentage > 0
+              : parseFloat(tilesData?.noOfOrdersPercentage) > 0
               ? "text-[#009900]"
               : "text-[#DC3545]"
           }`}
@@ -125,7 +125,7 @@ function StockDetails() {
 
       Arrow:
         parseFloat(tilesData?.noOfOrdersPercentage) > 0 ? (
-          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
+          <ArrowUpwardIcon style={{ fill: "#009900" }} />
         ) : parseFloat(tilesData?.noOfOrdersPercentage) < 0 ? (
           <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
         ) : null,
@@ -139,9 +139,9 @@ function StockDetails() {
       value: (
         <span
           className={`text-sm font-medium ${
-            customerPercentage === 0
+            parseFloat(customerPercentage) === 0
               ? "text-[#637381]"
-              : customerPercentage > 0
+              : parseFloat(customerPercentage) > 0
               ? "text-[#009900]"
               : "text-[#DC3545]"
           }`}
@@ -154,7 +154,7 @@ function StockDetails() {
 
       Arrow:
         parseFloat(customerPercentage) > 0 ? (
-          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
+          <ArrowUpwardIcon style={{ fill: "#009900" }} />
         ) : parseFloat(customerPercentage) < 0 ? (
           <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
         ) : null,
@@ -163,7 +163,7 @@ function StockDetails() {
 
   const organisationId = localStorage.getItem("organisationId");
   useEffect(() => {
-    // // total  customer
+    // total  customer
     fetch(
       `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getCustomer?OrganisationId=${organisationId}`,
       {
