@@ -226,7 +226,7 @@ const MyOrders = () => {
     });
   };
 
-  const formattedData = orderData.map((order, index) => ({
+  const formattedData = orderData?.map((order, index) => ({
     key: index,
 
     OrderID: (
