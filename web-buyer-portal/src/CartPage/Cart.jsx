@@ -173,7 +173,10 @@ const Cart = ({ open, onClose }) => {
                   {CARTdata.map((item, index) => {
                     return (
                       <>
-                        <div className="box  my-4 relative cartbox-div">
+                        <div
+                          key={index}
+                          className="box  my-4 relative cartbox-div"
+                        >
                           <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
                             <div className="max-w-[80px] w-[80px] h-[80px]  bg-[#c3c3c3]">
                               <img
@@ -201,7 +204,6 @@ const Cart = ({ open, onClose }) => {
                               </div>
                               <div className="flex justify-between items-center">
                                 <h5 className="text-sm font-bold">
-                                  {" "}
                                   $
                                   {(
                                     item?.product?.globalPrice * item.quantity

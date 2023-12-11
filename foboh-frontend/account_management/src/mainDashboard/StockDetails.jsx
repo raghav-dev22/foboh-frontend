@@ -37,9 +37,9 @@ function StockDetails() {
     {
       title: tilesData?.totalRevenue
         ? `${formatPrice(tilesData?.totalRevenue)}`
-        : `$00.00`,
+        : `00.00`,
 
-      description: "Total Revenue this month",
+      description: "Total Revenue in this month",
 
       value: (
         <span
@@ -70,9 +70,9 @@ function StockDetails() {
     {
       title: tilesData?.totalProfit
         ? `${formatPrice(tilesData?.totalProfit)}`
-        : `$00.00`,
+        : `00.00`,
 
-      description: "Gross Profit this month",
+      description: "Gross Profit in this month",
 
       value: (
         <span
@@ -103,7 +103,7 @@ function StockDetails() {
     {
       title: tilesData?.noOfOrders ? tilesData?.noOfOrders : 0,
 
-      description: "Total Orders this month",
+      description: "Total Orders in this month",
 
       value: (
         <span
@@ -246,7 +246,7 @@ function StockDetails() {
           <>
             <div
               key={index}
-              className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index}`}
+              className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index} w-full`}
             >
               <div className="grid grid-cols-1 gap-6 p-4">
                 <div className="flex justify-between ">

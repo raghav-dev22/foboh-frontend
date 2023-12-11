@@ -67,7 +67,6 @@ export const addressSubmission = async (buyerInfo, type) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log("Data from addresspost", data);
       if (data.success) {
         return true;
       } else {

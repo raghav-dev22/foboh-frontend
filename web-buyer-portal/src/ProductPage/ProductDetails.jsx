@@ -1,21 +1,13 @@
-import React, { useState } from "react";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { theme } from "antd";
-import { add, setCart, updateQuantity } from "../slices/CartSlice";
-import { message } from "antd";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import { useDispatch } from "react-redux";
+import { setCart } from "../slices/CartSlice";
+import { message, Image, theme } from "antd";
 import { stockStatus } from "../helpers/getStockStatus";
-import { Image } from "antd";
 import { getAllSegments } from "../helpers/getSegments";
 import { setProductBreadcrumData } from "../slices/productBreadcrumSlice";
-
 const ProductDetails = () => {
   const { id } = useParams();
-
   const { useToken } = theme;
   const { token } = useToken();
   const [selectData, setSelectData] = useState({
@@ -25,30 +17,10 @@ const ProductDetails = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const dispatch = useDispatch();
-  let selectedpic = "";
   const [segments, setSegments] = useState("");
-
-  // const addCart = (product) => {
-  //   dispatch(add(product));
-  // };
   const [selectedImage, setSelectedImage] = useState(null);
-
-  const images = [
-    `${selectData?.product?.productImageUrls}`,
-    `${selectData?.product?.productImageUrls}`,
-    `${selectData?.product?.productImageUrls}`,
-    // Add more image URLs here
-  ];
-
-  console.log(images[0], "selceted image");
-
-  console.log(selectData, "selectData------------------------->");
   const handleImageClick = (image) => {
     setSelectedImage(image);
-  };
-
-  const handleClosePreview = () => {
-    setSelectedImage(null);
   };
   const warning = (message) => {
     messageApi.open({
@@ -70,21 +42,19 @@ const ProductDetails = () => {
       `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getByProductId?ProductId=${id}&OrganisationId=${organisationId}`,
       {
         method: "GET",
-        // body: JSON.stringify({ organisationId }),
       }
     )
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log("product detail", data);
         asyncFunction(data?.data[0]?.segmentId);
         setSelectedImage(data?.data[0]?.productImageUrls[0]);
         setSelectData({
           product: data.data[0],
           quantity: 1,
         });
-        console.log(data.data[0], " slectedsproductsdata");
+
         dispatch(
           setProductBreadcrumData({
             product: data.data[0],
@@ -111,11 +81,10 @@ const ProductDetails = () => {
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
     const quantity = itemData.quantity;
-    console.log(quantity, "quantity");
+
     const { buyerId, organisationId } = JSON.parse(
       localStorage.getItem("buyerInfo")
     );
-    console.log("id", id, "item", data, "actionType", actionType);
 
     fetch(`${url}/api/Product/AddToCart`, {
       method: "POST",
@@ -181,7 +150,6 @@ const ProductDetails = () => {
           });
           dispatch(setCart(updatedCartList));
           localStorage.setItem("cartId", cartId);
-          console.log(data, "add data");
         } else {
           warning(data.message);
         }
@@ -205,39 +173,26 @@ const ProductDetails = () => {
   return (
     <>
       {contextHolder}
-      {/* <Header /> */}
       <div className="md:w-[85%] w-full mx-auto md:px-0 px-6">
         <div className="flex md:flex-nowrap flex-wrap gap-8">
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
               {selectedImage && (
                 <div className=" py-2 flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md ">
-                  {/* <div className="absolute top-[10px] right-[10px] bg-white rounded-full h-[30px] w-[30px] flex justify-center items-center">
-                    <FavoriteBorderRoundedIcon className="" />
-                  </div> */}
                   <Image
                     width={200}
                     src={selectedImage}
                     style={{ height: "100%", objectFit: "contain" }}
                   />
-                  {/* <img
-                    src={selectedImage}
-                    alt="Selected-pic"
-                    className="  object-contain w-full"
-                  /> */}
                 </div>
               )}
 
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
                 {selectData?.product?.productImageUrls?.map((image, index) => (
-                  <div className=" rounded-md h-[99px] flex justify-center  relative">
-                    {/* <div className="absolute top-[5px] right-[5px] bg-white rounded-full h-[20px] w-[20px] flex justify-center items-center">
-                      <FavoriteBorderRoundedIcon
-                        className=""
-                        style={{ width: "10px" }}
-                      />
-                    </div> */}
-
+                  <div
+                    key={index}
+                    className=" rounded-md h-[99px] flex justify-center  relative"
+                  >
                     <img
                       key={index}
                       src={image}
@@ -318,7 +273,6 @@ const ProductDetails = () => {
                 }}
                 disabled={selectData?.quantity <= 0}
               >
-                {" "}
                 <svg
                   width="16"
                   height="16"

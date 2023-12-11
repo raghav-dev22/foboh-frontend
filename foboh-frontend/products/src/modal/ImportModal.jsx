@@ -41,13 +41,6 @@ function ImportModal({ show, setShow }) {
                 Boolean(!product[index]?.toString()) &&
                 dataStructure[0][index] == "Y"
               ) {
-                console.log(
-                  "in err",
-                  product[index]?.toString(),
-                  JSON.stringify(product),
-                  dataStructure[0][index],
-                  dataStructure[1][index]
-                );
                 errorData[rowIndex].push(element);
                 setErrorFoundModal(true);
                 setShow(false);
@@ -56,7 +49,6 @@ function ImportModal({ show, setShow }) {
             return tmpObj;
           });
           setErrorData(errorData);
-          console.log("finalProductArray", finalProductArray);
           setImportedProducts(finalProductArray);
         }
       };
@@ -75,12 +67,6 @@ function ImportModal({ show, setShow }) {
     });
     return result;
   }
-
-  // if (file) {
-  //   setUploadedFile(file);
-  // }
-  // https://cdn.com/photos/wine.jpg?width=5000
-  // const [click, setClick] = useState(0);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
     if (addedFile && !errorData?.length) {

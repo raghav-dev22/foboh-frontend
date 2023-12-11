@@ -284,15 +284,16 @@ function MainDashBoard() {
                     {stockCount.outOfStock}
                   </span>
                 </div>
-                {
-                  
-                }
-                <span
-                  onClick={handleClick}
-                  className="text-xs/[10px] font-normal text-darkBlue underline cursor-pointer"
-                >
-                  See all
-                </span>
+                {stock?.length > 0 ? (
+                  <span
+                    onClick={handleClick}
+                    className="text-xs/[10px] font-normal text-darkBlue underline cursor-pointer"
+                  >
+                    See all
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
               {/* <ProductDetails /> */}
               <div className="scroll-right mt-5">
