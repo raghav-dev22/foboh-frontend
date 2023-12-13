@@ -94,14 +94,13 @@ function ActiveOrder({ mutate }) {
         </div>
         {show === "true" ? (
           <div className="relative w-[40%]">
-            <div className="skashi">
-              <RangePicker
-                className="w-full h-[42px] px-[40px]"
-                onCalendarChange={onChange}
-                suffixIcon={null}
-                popupClassName="custom-date-picker"
-              />
-            </div>
+            <RangePicker
+              className="w-full h-[42px] px-[40px]"
+              onCalendarChange={onChange}
+              suffixIcon={null}
+              dropdownClassName="custom-date-picker"
+            />
+
             <div className="custom-icons">
               <CalendarTodayRoundedIcon
                 className="calendar-icon absolute top-[21%] left-[12px]  "

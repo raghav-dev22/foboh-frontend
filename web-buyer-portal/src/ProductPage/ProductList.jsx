@@ -142,7 +142,7 @@ const ProductList = () => {
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
     const quantity = itemData.quantity;
-    console.log(quantity, "quantity");
+
     const { buyerId, organisationId } = JSON.parse(
       localStorage.getItem("buyerInfo")
     );
@@ -239,7 +239,6 @@ const ProductList = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("filter response", data);
         if (data.success) {
           dispatch(
             setProductData(
@@ -581,10 +580,7 @@ const ProductList = () => {
 
   // Price slider handler
   const handleChange = (e, value) => {
-    console.log("price slider", e, value);
-
     setSelectSlider(e);
-
     const newFilter = {
       ...localFilterSort.filter,
       minPrice: e[0],

@@ -34,7 +34,6 @@ const ResetLinkCard = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.key) {
           localStorage.setItem("uniqueKey", data.key);
           alert("Email sent successfully!");

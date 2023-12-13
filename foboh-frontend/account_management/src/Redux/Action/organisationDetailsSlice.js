@@ -7,6 +7,7 @@ const organisationDetailsSlice = createSlice({
     businessName: "",
     abn: "",
     liquorLicence: "",
+    organisationId : "",
     organisationAddress: "",
     organisationAddressApartment: "",
     organisationAddressSuburb: "",

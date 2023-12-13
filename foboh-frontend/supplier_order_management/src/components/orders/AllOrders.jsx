@@ -1,11 +1,9 @@
 import { React, useRef, useState } from "react";
-
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Dropdown, Space, DatePicker, Table, Checkbox } from "antd";
-import { Menu } from "antd";
+import { DatePicker, Table, Checkbox } from "antd";
 import { useEffect } from "react";
 import { searchOrders } from "../../helpers/searchOrders";
 import Select from "react-select";
@@ -25,6 +23,7 @@ let filterAndSort = {
     orderFilterEndDate: "",
     customeDate: "",
     page: 0,
+    pagination: true,
   },
   sort: {
     sortBy: "",
@@ -35,8 +34,6 @@ let filterAndSort = {
 const statusList = [
   "New",
   "Pending",
-  // "Changes requested",
-  // "Updated",
   "Processing",
   "Shipped",
   "Partially fulfilled",
@@ -49,15 +46,10 @@ const lastDateList = ["Last 7 days", "Last 14 days", "Last 30 days"];
 
 const AllOrders = () => {
   const [sortItem, setSortItem] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
-  const [openStatus, setOpenStatus] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
-  const [openRegion, setOpenRegion] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState({});
   const [orderData, setOrderData] = useState([]);
-  const [Sort, setSort] = useState(false);
   const [input, setInput] = useState("");
   const [states, setStates] = useState([]);
   const [regions, setRegions] = useState([]);
@@ -84,7 +76,6 @@ const AllOrders = () => {
   const handleCheckboxChange = (e) => {
     setShowDatePicker(e.target.checked);
   };
-  const handleDatePickerChange = (date) => {};
 
   const [statusMenu, setStatusMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
@@ -106,21 +97,6 @@ const AllOrders = () => {
     setStatusMenu(false);
     setRegionMenu(false);
   };
-
-  const OPTIONS = ["Apples", "Nails", "Bananas", "Helicopters"];
-  const [selectedItems, setSelectedItems] = useState([]);
-  const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
-  const handleOpenStatus = (flag) => {
-    setOpenStatus(flag);
-  };
-  const handleOpenDate = (flag) => {
-    setOpenDate(flag);
-  };
-  const handleOpenRegion = (flag) => {
-    setOpenRegion(flag);
-  };
-
-  // const [startDate, setStartDate] = useState(new Date());
 
   const columns = [
     {
@@ -226,7 +202,6 @@ const AllOrders = () => {
               } else {
                 return "#637381 ";
               }
-              // Default background color if none of the conditions match
             })(),
           }}
         >
@@ -261,7 +236,7 @@ const AllOrders = () => {
               ) {
                 return "#D5EEFF";
               }
-              // Default background color if none of the conditions match
+
               return "#C9C9C9";
             })(),
           }}
@@ -293,7 +268,7 @@ const AllOrders = () => {
                 ) {
                   return "#3498DB";
                 }
-                // Default background color if none of the conditions match
+
                 return "#637381";
               })(),
             }}
@@ -354,17 +329,16 @@ const AllOrders = () => {
 
   const saveInput = async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get("businessName");
+
     const ordersData = await searchOrders(filterAndSort);
     var r = new URL(window.location.href);
     r.searchParams.delete("businessName");
     const newUrl = r.href;
-    console.log("r.href", newUrl);
+
     window.history.pushState({ path: newUrl }, "", newUrl);
     if (ordersData.success) {
       setOrderData(ordersData?.data);
       setTotalData(ordersData?.total);
-      // myParam.delete("businessName");
     } else {
       setOrderData([]);
       setTotalData(0);
@@ -375,7 +349,6 @@ const AllOrders = () => {
 
   const handleSearch = (e) => {
     const search = e.target.value;
-    console.log(search);
     const newFilter = {
       ...filterAndSort.filter,
       searchByValue: search,
@@ -542,6 +515,7 @@ const AllOrders = () => {
           orderFilterEndDate: "",
           customeDate: "",
           page: 0,
+          pagination: false,
         },
         sort: {
           sortBy: "date",
@@ -986,7 +960,6 @@ const AllOrders = () => {
                                 </div>
                               </div>
                             )}
-                            {/* <DatePicker onChange={onChange} /> */}
                           </div>
                         </li>
                       </ul>
@@ -995,10 +968,10 @@ const AllOrders = () => {
                 </div>
               </div>
               <div
-                className="cursor-pointer bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
+                className="cursor-pointer bg-[#0000] py-1.5 px-3 rounded-md border border-[#0000002e]"
                 onClick={handleClearFilter}
               >
-                <h5 className="text-[#060505] font-medium text-base leading-[24px]">
+                <h5 className="text-[#DC3545] font-medium text-base leading-[24px]">
                   Clear Filters
                 </h5>
               </div>
@@ -1020,7 +993,6 @@ const AllOrders = () => {
             }}
             scroll={{
               x: 1200,
-              // y: 240,
             }}
           />
         </div>

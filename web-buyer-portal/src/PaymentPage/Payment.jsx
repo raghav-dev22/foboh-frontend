@@ -1,19 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Tooltip } from "antd";
+
 import BillingAddress from "./BillingAddress";
 import ModeIcon from "@mui/icons-material/Mode";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { Tabs, theme } from "antd";
+import { Tabs, theme, message, Tooltip, Modal, Spin } from "antd";
 import CallIcon from "@mui/icons-material/Call";
 import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+
 import EditIcon from "@mui/icons-material/Edit";
-import { Select } from "antd";
-import BusinessIcon from "@mui/icons-material/Business";
+
 import ReceiptLongSharpIcon from "@mui/icons-material/ReceiptLongSharp";
-import { Button, message, Space } from "antd";
+
 import {
   useStripe,
   useElements,
@@ -23,24 +22,18 @@ import {
   AuBankAccountElement,
 } from "@stripe/react-stripe-js";
 import useResponsiveFontSize from "./useResponsiveFontSize";
-import useResponsiveHeight from "./useResponsiveHeight";
 import { useSelector } from "react-redux";
 import { getBuyerValues } from "../helpers/setBuyerValues";
-import { add } from "../slices/CartSlice";
 import { addressSubmission } from "../helpers/addressSubmission";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { paymentProcess } from "../helpers/PaymentProcess";
 import { paymentProcessUpdate } from "../helpers/paymentProcessUpdate";
 import { cartStatusUpdate } from "../helpers/cartStatusUpdate";
-import { Modal } from "antd";
-import { Spin } from "antd";
 import { orderStatusUpdate } from "../helpers/orderStatusUpdate";
 import Becs from "./Becs";
 import { getClientSecret } from "../helpers/getClientSecret";
-import { getCart } from "../react-query/cartApiModule";
-import { useQuery } from "react-query";
 import { getCalculations } from "../helper/getCalculations";
 import { convertDefaultPaymentTermValue } from "../helpers/invoiceDateFormat";
 import { formatDate } from "../helpers/formatDateToPaymentDueDate";
@@ -153,7 +146,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
       duration: 4,
     });
   };
-  console.log(buyer, "buyesrinformation");
+
   let billingAddress = {};
 
   const countDown = (name, convertedPaymentDueDate) => {
@@ -176,7 +169,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   if (sealedCartError) {
     errorMessage(sealedCartError);
   }
-  // Calculating cart
+
   const { lucUnit, gst, wet, subtotal, total } = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
@@ -193,7 +186,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
     getBuyerValues(buyerId)
       .then((data) => {
-        console.log("getBuyerValues", data);
         const buyerInfo = data;
         addressSubmission(buyerInfo, "delivery-address");
         addressSubmission(buyerInfo, "billing-address");
@@ -212,7 +204,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         });
 
         getAddress("delivery-address").then((data) => {
-          console.log("delivery-address", data);
           if (data.success) {
             const buyerData = data?.data[0];
             const buyerState = statesData.find(
@@ -231,7 +222,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         });
 
         getAddress("billing-address").then((data) => {
-          console.log("billing-address", data);
           if (data.success) {
             const buyerData = data?.data[0];
             const buyerState = statesData.find(
@@ -442,7 +432,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             });
 
           if (error) {
-            // Show error to your customer.
             setLoading(false);
             errorMessage(error.message);
           } else {
@@ -457,10 +446,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             cartStatusUpdate();
             orderStatusUpdate();
             countDown("payLater", convertedPaymentDueDate);
-            // Show a confirmation message to your customer.
-            // The PaymentIntent is in the 'processing' state.
-            // BECS Direct Debit is a delayed notification payment
-            // method, so funds are not immediately available.
           }
         }
       }
@@ -471,6 +456,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     <>
       <style>
         {`
+         .ant-btn-primary{
+          background:${token.commonThemeColor} !important
+        }
      .ant-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled),.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled){
       background:${token.bannerThemeColor} !important
     }

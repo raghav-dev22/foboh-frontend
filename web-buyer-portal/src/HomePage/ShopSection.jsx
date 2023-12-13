@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "better-react-carousel";
 import { Range } from "../data";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { theme } from "antd";
-
 function ShopSection() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const { useToken } = theme;
   const { token } = useToken();
-
   useEffect(() => {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllBySubcategory?OrganisationId=${organisationId}`;

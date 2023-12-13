@@ -239,7 +239,6 @@ function BulkEdit() {
   };
 
   const handleFieldChange = (productId, title, value) => {
-    console.log(title, value);
     setIsUpdate(true);
 
     setValues((values) => {

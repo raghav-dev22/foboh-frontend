@@ -17,6 +17,7 @@ import {
   setOrganisationDetails,
   setbusinessName,
 } from "../Redux/Action/organisationDetailsSlice";
+import { setOrganisationId } from "../Redux/Action/credentialsSlice";
 
 const ViewProduct = React.lazy(() =>
   import("products/ViewProduct").catch(() => {
@@ -106,6 +107,9 @@ function Dashboard() {
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
+  const organisationId = useSelector(
+    (state) => state?.credentials?.organisationId
+  );
   const authUrl = process.env.REACT_APP_AUTH_URL;
   const stripeKey = process.env.REACT_APP_STRIPE_KEY;
 
@@ -120,6 +124,7 @@ function Dashboard() {
       .then((response) => response.json())
       .then((data) => {
         const userInfo = data?.data[0];
+        dispatch(setOrganisationId(userInfo.organisationId));
         localStorage.setItem("organisationId", userInfo.organisationId);
         localStorage.setItem("ccrn", userInfo.ccrn);
 

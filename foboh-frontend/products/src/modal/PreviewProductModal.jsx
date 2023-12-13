@@ -1,16 +1,11 @@
 import React, { useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ImportProductModal from "./ImportProductModal";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-// import Carousel from "better-react-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { removePercentageFromString } from "../helpers/removePercentageToString";
-import { splitRegions } from "../helpers/splitRegions";
-import { Alert, Space, Spin } from "antd";
+import { Spin } from "antd";
 import { convertImportedProductList } from "../helpers/importProductModule";
 import { useMemo } from "react";
-
-// import "antd/dist/antd.css"; // Import Ant Design styles
 function PreviewProductModal({
   show,
   setShow,
@@ -23,11 +18,9 @@ function PreviewProductModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [errList, setErrList] = useState([]);
-  const [loading, setLoading] = useState(false); // Initialize as true to show the spinner initially
+  const [loading, setLoading] = useState(false);
   const handleOptionChange = (event) => {
     setActiveTab(event.target.value);
-    // const selectedOptionId = event.target.value;
-    // // Do something with the selected option id
   };
 
   const updatedImports = useMemo(() => {
@@ -53,7 +46,6 @@ function PreviewProductModal({
     )
       .then((response) => {
         return response.json();
-        // navigation logic here
       })
       .then((data) => {
         const errList = data.data.map((item) => {
@@ -156,14 +148,12 @@ function PreviewProductModal({
                             color: "#637381",
                           }}
                         >
-                          {/* <KeyboardArrowDownIcon /> */}
                           {importedProducts.map((tab, index) => (
                             <>
                               <option key={index} onChange={() => {}}>
                                 <div
                                   key={index}
                                   className={`text-center w-full py-2 bg-[#F8FAFC]`}
-                                  // onClick={() => setActiveTab(index)}
                                 >
                                   <p
                                     className="text-sm font-bold text-[#147D73]"
@@ -256,16 +246,13 @@ function PreviewProductModal({
           />
         </div>
       )}
-      {/* <div className=" inset-0 flex items-center justify-center "> */}
-      {/* <Spin spinning={loading} size="large"> */}
+
       <ImportProductModal
         show={showPreviewModal}
         setShow={(set) => setShowPreviewModal(set)}
         error={errList}
         loader={loading}
       />
-      {/* </Spin> */}
-      {/* </div> */}
     </>
   );
 }
