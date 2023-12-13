@@ -33,28 +33,29 @@ function ImportModal({ show, setShow }) {
           let errorData = [];
           const finalProductArray = productData.map((product, rowIndex) => {
             let tmpObj = {};
-            errorData[rowIndex] = [];
+
             dataStructure[1].forEach((element, index) => {
               tmpObj[element] = product[index];
-
               if (
                 Boolean(!product[index]?.toString()) &&
                 dataStructure[0][index] == "Y"
               ) {
-                console.log(
-                  "in err",
-                  product[index]?.toString(),
-                  JSON.stringify(product),
-                  dataStructure[0][index],
-                  dataStructure[1][index]
-                );
-                errorData[rowIndex].push(element);
+                if (!errorData?.[rowIndex]) {
+                  errorData[rowIndex] = [];
+                }
+                errorData[rowIndex] = [...errorData[rowIndex], element];
+                // errorData[`row_${rowIndex}`] = {
+                //   row: rowIndex,
+                //   errors: [errorData.map(ele), element],
+                // };
+                // errorData.push({ element, rowIndex });
                 setErrorFoundModal(true);
                 setShow(false);
               }
             });
             return tmpObj;
           });
+          console.log("errdaa", errorData);
           setErrorData(errorData);
           console.log("finalProductArray", finalProductArray);
           setImportedProducts(finalProductArray);
@@ -83,7 +84,7 @@ function ImportModal({ show, setShow }) {
   // const [click, setClick] = useState(0);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
-    if (addedFile && !errorData?.length) {
+    if (addedFile && !errorData?.length > 0) {
       setShowPreviewModal(true);
 
       setShow(false);

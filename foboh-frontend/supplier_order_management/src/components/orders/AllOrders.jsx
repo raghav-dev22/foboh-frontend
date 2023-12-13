@@ -25,6 +25,7 @@ let filterAndSort = {
     orderFilterEndDate: "",
     customeDate: "",
     page: 0,
+    pagination: true,
   },
   sort: {
     sortBy: "",
@@ -538,10 +539,11 @@ const AllOrders = () => {
           orderFilterEndDate: "",
           customeDate: "",
           page: 0,
+          pagination: false,
         },
         sort: {
           sortBy: "",
-          sortOrder: "asc",
+          sortOrder: "",
         },
       };
     }
