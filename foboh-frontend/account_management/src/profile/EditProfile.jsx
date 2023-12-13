@@ -137,7 +137,7 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
         </div>
       </Modal>
       <div
-        className="w-full lg:w-2/5	rounded-md	 border border-inherit bg-white  overflow-y-scroll	scroll-smooth	scrollable	"
+        className="w-full lg:w-2/5	rounded-md	 border border-inherit bg-white  overflow-y-auto	scroll-smooth	scrollable	"
         style={{ height: "380px" }}
       >
         <div className=" border-b border-inherit sm:px-5 sm:py-4 py-3 px-4">

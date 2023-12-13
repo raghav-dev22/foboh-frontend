@@ -23,7 +23,7 @@ const BusinessDetails = ({
   };
 
   return (
-    <div className="border border-[#E7E7E7] rounded-md bg-white  overflow-y-scroll">
+    <div className="border border-[#E7E7E7] rounded-md bg-white  overflow-y-auto">
       <div className="px-6 py-3 border-b border-[#E7E7E7]">
         <h5 className="text-base font-medium text-[#2B4447]">
           Business details

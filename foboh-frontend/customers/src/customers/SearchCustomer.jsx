@@ -288,6 +288,9 @@ function SearchCustomer({
   }, [dropdownRef]);
 
   const handleClearFilter = () => {
+    setFirst(false);
+    setSecond(false);
+    setThird(false);
     filterAndSort = {
       filter: {
         businessName: "",
@@ -486,7 +489,7 @@ function SearchCustomer({
                       style={{
                         width: "100%",
                       }}
-                      placeholder="select one country"
+                      placeholder="select..."
                       onChange={addState}
                       value={selectedState}
                       options={State.map((item) => {
@@ -495,6 +498,7 @@ function SearchCustomer({
                           value: item,
                         };
                       })}
+                      closeMenuOnSelect={false}
                     />
                   </div>
                 )}

@@ -1,37 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Table,
-  Dropdown,
-  Checkbox,
-  Tooltip,
-  DatePicker,
-  message,
-  Menu,
-  theme,
-} from "antd";
-import Select from "react-select";
+import { Table, Checkbox, Tooltip, DatePicker, message, theme } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
-
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InvoiceModal from "../modal/InvoiceModal";
 import { searchOrders } from "../helpers/searchOrders";
 import { getCityState } from "../helpers/getCityState";
 import { formatDateAfterRelativeDate } from "../helper/formatDateAfterRelativeDate";
-import { date } from "yup";
 import { setCart } from "../slices/CartSlice";
 import { useDispatch } from "react-redux";
 import { formatDate } from "../helper/formateDates";
-import {
-  getCalculations,
-  getInvoiceDataCalculations,
-} from "../helper/getCalculations";
-
+import { getCalculations } from "../helper/getCalculations";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -41,10 +24,6 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
-
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
 
 const columns = [
   {
@@ -138,7 +117,6 @@ const MyOrders = () => {
   const [page, setPage] = useState(1);
   const [orderData, setOrderData] = useState([]);
   const [totalData, setTotalData] = useState({});
-
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const childRef = useRef();
@@ -191,10 +169,6 @@ const MyOrders = () => {
     setShowDatePicker(e.target.checked);
   };
 
-  const handleDatePickerChange = (date) => {
-    // Handle the date selection here
-    console.log("Selected date:", date);
-  };
   const [statusMenu, setStatusMenu] = useState(false);
   const [dateMenu, setDateMenu] = useState(false);
   const [paymentMenu, setPaymentMenu] = useState(false);
@@ -286,8 +260,6 @@ const MyOrders = () => {
           </svg>
         </Tooltip>
         <Tooltip placement="bottom" title={details} color={"#DCDCDC"}>
-          {/* <Button>Bottom</Button> */}
-
           <RemoveRedEyeIcon
             style={{ fill: "#637381" }}
             onClick={() => navigate(`/home/my-orders/order/${order.orderId}`)}
@@ -330,7 +302,6 @@ const MyOrders = () => {
   }, [page]);
 
   const onShowSizeChange = (current, pageSize) => {
-    console.log("page", current, pageSize);
     setPage(current.current);
     const newFilter = {
       ...filterAndSort.filter,
@@ -365,7 +336,7 @@ const MyOrders = () => {
       orderId = invoiceDataResponse.data[0]?.orderId;
 
       calculations = getCalculations(invoiceDataResponse?.data);
-      console.log(calculations, "calculations");
+
       invoiceDataProducts = invoiceDataResponse?.data?.map((item) => {
         let gstPerItem = 0;
         let wetPerItem = null;
@@ -482,7 +453,6 @@ const MyOrders = () => {
         .then((data) => {
           setOrderData(data?.data ? data?.data : []);
           setTotalData(data.total);
-          console.log("filterAndSort response", data);
         })
         .catch((error) => console.log(error));
     } else {
@@ -513,7 +483,6 @@ const MyOrders = () => {
       ...filterAndSort,
       filter: newFilter,
     };
-    console.log("filterAndSort", filterAndSort);
   };
 
   //Payment select all Filter
@@ -529,13 +498,10 @@ const MyOrders = () => {
       ...filterAndSort,
       filter: newFilter,
     };
-    console.log("filterAndSort", filterAndSort);
   };
 
   //Handling Filter
   const handleFilter = (value, name) => {
-    console.log(value, name);
-
     if (name === "payment") {
       setSelectedPayment(value);
       const newFilter = {
@@ -562,11 +528,7 @@ const MyOrders = () => {
     } else if (name === "date") {
       // Initialize an empty array
       let dateArr = [];
-
       dateArr = [value[value.length - 1]];
-      // Set the latest value from the list
-
-      console.log("dateArr", dateArr);
       setSelectedDate(dateArr);
 
       const formattedData = formatDateAfterRelativeDate(dateArr);
@@ -581,8 +543,6 @@ const MyOrders = () => {
       };
     } else if (name === "customDate") {
       const formatedDate = `${value.$y}-${value.$M + 1}-${value.$D}`;
-      console.log("customDate", formatedDate);
-
       const newFilter = {
         ...filterAndSort.filter,
         customeDate: formatedDate,
@@ -594,7 +554,6 @@ const MyOrders = () => {
       };
     }
     processChange("filterAndSort");
-    console.log("filterAndSort", filterAndSort);
   };
 
   const handleSort = (value, order, name) => {
@@ -624,7 +583,6 @@ const MyOrders = () => {
       };
     }
     processChange("filterAndSort");
-    console.log("filterAndSort", filterAndSort);
   };
 
   // useEffect(() => {

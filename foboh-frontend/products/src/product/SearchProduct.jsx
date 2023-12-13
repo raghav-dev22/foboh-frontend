@@ -416,6 +416,10 @@ const SearchProduct = forwardRef(
     }, []);
 
     const handleClearFilter = () => {
+      setFilterTextFirst(false);
+      setFilterTextSecond(false);
+      setFilterTextThird(false);
+      setFilterTextForth(false);
       setSelectStatus([]);
       setSelectStock([]);
       setSelectSubcategory([]);
@@ -540,30 +544,35 @@ const SearchProduct = forwardRef(
                     </div>
                   </div>
                   {filterTextFirst && (
-                    <div className=" z-10 left-0   w-max  absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-3  ">
+                    <div
+                      className=" z-10 left-0    absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-1 "
+                      style={{ minWidth: "300px", maxWidth: "300px" }}
+                    >
                       <ul className="dropdown-content ">
                         {categoryAndSubcategory &&
                           categoryAndSubcategory.map((category, idx) => (
-                            <li className="py-2.5 px-4  ">
-                              <div className="flex items-center">
-                                <input
-                                  id={`${idx}-${category.categoryId}`}
-                                  type="checkbox"
-                                  value={category.categoryId}
-                                  onClick={(e) =>
-                                    toggleCategoryAndSubcategory(
-                                      e,
-                                      category.categoryId,
-                                      "category",
-                                      category.categoryName
-                                    )
-                                  }
-                                  checked={
-                                    filterAndSort.filter.category[0] ===
-                                    category.categoryId
-                                  }
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                                />
+                            <li className=" px-4  ">
+                              <div className="flex items-center py-2 ">
+                                <div className="green-checkbox flex ">
+                                  <input
+                                    id={`${idx}-${category.categoryId}`}
+                                    type="checkbox"
+                                    value={category.categoryId}
+                                    onClick={(e) =>
+                                      toggleCategoryAndSubcategory(
+                                        e,
+                                        category.categoryId,
+                                        "category",
+                                        category.categoryName
+                                      )
+                                    }
+                                    checked={
+                                      filterAndSort.filter.category[0] ===
+                                      category.categoryId
+                                    }
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                </div>
                                 <label
                                   htmlFor={`${idx}-${category.categoryId}`}
                                   className="ml-2 text-sm font-medium text-gray"
@@ -574,7 +583,7 @@ const SearchProduct = forwardRef(
 
                               {filterAndSort.filter.category[0] ===
                                 category.categoryId && (
-                                <ul className="dropdown-content">
+                                <ul className="dropdown-content my-1.5">
                                   <Select
                                     mode="multiple"
                                     style={{

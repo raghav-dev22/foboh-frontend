@@ -28,7 +28,7 @@ function Profile() {
               Customise your public profile
             </p>
           </div>
-          <div className="grid gap-5 lg:flex  overflow-y-scroll	scroll-smooth	scrollable">
+          <div className="grid gap-5 lg:flex  overflow-y-auto	scroll-smooth	scrollable">
             <PersonalDetails
               resetProfileImage={resetProfileImage}
               profileUri={profileUri}
