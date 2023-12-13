@@ -504,6 +504,10 @@ const AllOrders = () => {
     setSelectedStatus([]);
     setRegions([]);
     setLastDate([]);
+    setSortValue({
+      sortBy: "",
+      sortOrder: "asc",
+    });
   };
   const { RangePicker } = DatePicker;
 
@@ -540,8 +544,8 @@ const AllOrders = () => {
           page: 0,
         },
         sort: {
-          sortBy: "",
-          sortOrder: "asc",
+          sortBy: "date",
+          sortOrder: "desc",
         },
       };
     }
@@ -626,6 +630,21 @@ const AllOrders = () => {
                 </button>
                 {sortItem && (
                   <div className=" z-10 left-[-20px] top-[110%] px-3 min-h-fit max-h-[180px]  w-max   absolute  bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <div
+                      className="flex justify-end"
+                      style={{ paddingRight: "12px" }}
+                      onClick={() => handleClearFilter()}
+                    >
+                      <p
+                        className=" cursor-pointer border-b"
+                        style={{
+                          color: "#fa0000",
+                          borderBottom: "1px solid #fa0000",
+                        }}
+                      >
+                        clear
+                      </p>
+                    </div>
                     <ul className="dropdown-content ">
                       <li className="py-1">
                         <div className="flex justify-between items-center  my-2">

@@ -33,8 +33,6 @@ function PreviewProductModal({
   const updatedImports = useMemo(() => {
     try {
       const updatedProducts = convertImportedProductList(importedProducts);
-      console.log("updatedProducts", updatedProducts);
-
       return updatedProducts;
     } catch (error) {
       console.log("updatedProductserror", error);

@@ -406,9 +406,9 @@ function Range() {
                         <div className="flex items-center"></div>
                       </th>
 
-                      {TABLE_HEAD.map((head) => (
+                      {TABLE_HEAD.map((head, h) => (
                         <th
-                          key={head}
+                          key={h}
                           className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
                         >
                           <Typography
@@ -431,7 +431,7 @@ function Range() {
 
                         return (
                           <tr
-                            key={name}
+                            key={index}
                             style={
                               loading
                                 ? { position: "relative", height: "85px" }

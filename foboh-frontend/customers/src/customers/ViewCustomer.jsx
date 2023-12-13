@@ -257,6 +257,7 @@ function ViewCustomer() {
             return (
               <>
                 <div
+                  key={index}
                   className={`address-box address-box-${index} bg-white rounded-lg border border-darkGreen shadow-md	 p-5`}
                 >
                   <div className="flex items-center gap-3 mb-4">

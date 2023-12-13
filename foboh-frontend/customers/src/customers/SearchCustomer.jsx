@@ -28,6 +28,7 @@ function SearchCustomer({
   pageIndex,
   setPageIndex,
   setisSearchResult,
+  setLoading,
 }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
@@ -138,6 +139,18 @@ function SearchCustomer({
         break;
     }
   };
+  useEffect(() => {
+    const newFilter = {
+      ...filterAndSort.filter,
+      page: pageIndex,
+    };
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+    };
+
+    processChange("filterAndSort");
+  }, [pageIndex]);
 
   const toggleCategory = (e, value, category) => {
     const checked = e.target.checked;
@@ -207,6 +220,7 @@ function SearchCustomer({
             setProducts(data.data);
             setSearch(data.data.length);
             setisSearchResult(true);
+            setLoading(false);
           } else {
             setisSearchResult(false);
             setTotalPages(0);
@@ -390,6 +404,7 @@ function SearchCustomer({
               filterAndSort={filterAndSort}
               handleSortChange={handleSortChange}
               itemLabel={itemLabel}
+              handleClearFilter={handleClearFilter}
             />
           </div>
         </div>

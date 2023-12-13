@@ -35,7 +35,12 @@ const sort = [
   },
 ];
 
-function FilterCustomer({ handleSortChange, itemLabel, filterAndSort }) {
+function FilterCustomer({
+  handleSortChange,
+  itemLabel,
+  filterAndSort,
+  handleClearFilter,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -112,6 +117,21 @@ function FilterCustomer({ handleSortChange, itemLabel, filterAndSort }) {
           <>
             <div className=" z-10	right-0 w-56   sm:w-30 absolute top-14 border border-inherit bg-white	shadow-md rounded-lg	h-fit py-3	">
               <ul className="dropdown-content">
+                <div
+                  className="flex justify-end"
+                  style={{ paddingRight: "12px" }}
+                  onClick={() => handleClearFilter()}
+                >
+                  <p
+                    className=" cursor-pointer border-b"
+                    style={{
+                      color: "#fa0000",
+                      borderBottom: "1px solid #fa0000",
+                    }}
+                  >
+                    clear
+                  </p>
+                </div>
                 {sort.map((item) => (
                   <li className="py-2.5 px-4" key={item.label}>
                     <div className="flex items-center">

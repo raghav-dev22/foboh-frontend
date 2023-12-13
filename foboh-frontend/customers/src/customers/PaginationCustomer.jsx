@@ -90,12 +90,7 @@ function PaginationNav1({
   );
 }
 
-function PaginationCustomer({
-  totalPages,
-  getProductList,
-  pageIndex,
-  setPageIndex,
-}) {
+function PaginationCustomer({ totalPages, pageIndex, setPageIndex }) {
   const pageCount = totalPages;
 
   return (
@@ -107,7 +102,6 @@ function PaginationCustomer({
       pageIndex={pageIndex}
       onPageChange={(newPageIndex) => {
         setPageIndex(newPageIndex);
-        getProductList(newPageIndex); // Call getProductList with the new page index
       }}
     />
   );
