@@ -38,22 +38,26 @@ function ActiveOrder({ mutate }) {
   }
 
   const handleMutate = (dates) => {
-    mutate({
-      filter: {
-        searchByValue: "",
-        region: [],
-        orderStatus: ["New", "Pending"],
-        orderEntryDate: convertDateFormat(dates[0].$d),
-        OrderFilterEndDate: convertDateFormat(dates[1].$d),
-        customeDate: "",
-        page: 0,
-        pagination: false,
-      },
-      sort: {
-        sortBy: "",
-        sortOrder: "",
-      },
-    });
+    if (dates && dates[0] && dates[1]) {
+      mutate({
+        filter: {
+          searchByValue: "",
+          region: [],
+          orderStatus: ["New", "Pending"],
+          orderEntryDate: convertDateFormat(dates[0].$d),
+          OrderFilterEndDate: convertDateFormat(dates[1].$d),
+          customeDate: "",
+          page: 0,
+          pagination: false,
+        },
+        sort: {
+          sortBy: "",
+          sortOrder: "",
+        },
+      });
+    } else {
+      console.error("Invalid dates:", dates);
+    }
   };
 
   const onChange = (dates) => {
@@ -95,7 +99,7 @@ function ActiveOrder({ mutate }) {
                 className="w-full h-[42px] px-[40px]"
                 onCalendarChange={onChange}
                 suffixIcon={null}
-                dropdownClassName="custom-date-picker"
+                popupClassName="custom-date-picker"
               />
             </div>
             <div className="custom-icons">

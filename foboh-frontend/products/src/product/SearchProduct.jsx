@@ -432,6 +432,7 @@ const SearchProduct = forwardRef(
           };
           saveInput("filterAndSort", newFilterAndSort);
           localStorage.removeItem("yourBooleanKey");
+          setSelectStock(["lowStock", "outOfStock"]);
         }
       }, 3000);
 
@@ -538,6 +539,7 @@ const SearchProduct = forwardRef(
                 filterAndSort={filterAndSort}
                 itemLabel={itemLabel}
                 handleSortChange={handleSortChange}
+                handleClearFilter={handleClearFilter}
               />
             </div>
           </div>

@@ -203,6 +203,23 @@ function BulkEdit() {
       };
     });
 
+    setInitialValues((prev) => {
+      return prev.map((product) => {
+        const ium = innerUnitOfMeasureList.find(
+          (item) => item.label === product.innerUnitMeasure
+        );
+
+        const bum = baseUnitOfMeasureList.find(
+          (item) => item.label === product.baseUnitMeasure
+        );
+        return {
+          ...product,
+          innerUnitMeasure: ium === undefined ? product.innerUnitMeasure : ium,
+          baseUnitMeasure: bum === undefined ? product.unitofMeasure : bum,
+        };
+      });
+    });
+
     setValues((prev) => {
       return prev.map((product) => {
         const ium = innerUnitOfMeasureList.find(

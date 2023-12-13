@@ -75,28 +75,6 @@ function AddCustomers() {
 
     return () => clearTimeout(timeout);
   }, []);
-  useEffect(() => {
-    callApi(1);
-  }, []);
-  const callApi = (page) => {
-    const orgID = localStorage.getItem("organisationId");
-    fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/GetAll?page=${page}&OrganisationId=${orgID}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setTableRecords(data.data);
-        setLoading(false);
-        setPrevCustomer(data.data);
-        setTotalProducts(data.total);
-        const array = createArrayWithNumber(data.last_page);
-        setTotalPages(data.last_page);
-        setPages(array);
-      });
-  };
   const handleCustomerId = (item) => {
     navigate(`/dashboard/view-customer-details/`, { state: { data: item } });
   };
@@ -122,7 +100,7 @@ function AddCustomers() {
       ? [...selectedProducts, product]
       : selectedProducts.filter((prod) => prod !== product);
     setSelectedProducts(updatedSelectedProducts);
-    setIsBulkEdit(updatedSelectedProducts.length > 1);
+    // setIsBulkEdit(updatedSelectedProducts.length > 1);
     setSlected(selectedProducts.length);
   };
 
@@ -134,7 +112,7 @@ function AddCustomers() {
   const handleSelectAllChange = (e) => {
     const checked = e.target.checked;
     checked ? setSelectedProducts([...tableRecords]) : setSelectedProducts([]);
-    setIsBulkEdit(true);
+    // setIsBulkEdit(true);
     if (!checked) {
       setIsBulkEdit(false);
     }
@@ -159,6 +137,7 @@ function AddCustomers() {
               setisSearchResult={setisSearchResult}
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
+              setLoading={setLoading}
             />
           </div>
           <div className="pt-6 px-6 relative">
@@ -314,7 +293,6 @@ function AddCustomers() {
                 {!loading && isSearchResult && (
                   <PaginationCustomer
                     totalPages={totalPages}
-                    getProductList={callApi}
                     pageIndex={pageIndex}
                     setPageIndex={setPageIndex}
                   />
@@ -333,7 +311,7 @@ function AddCustomers() {
               </CardFooter>
             </div>
           </div>
-          {isBulkEdit ? (
+          {/* {isBulkEdit ? (
             <div className="bulk-update-popup rounded-lg bg-slate-100 justify-center items-center   border border-darkGreen p-6 w-max  flex gap-3 absolute  bottom-0  left-2/4">
               <button
                 onClick={handleBulkEdit}
@@ -355,7 +333,7 @@ function AddCustomers() {
             </div>
           ) : (
             ""
-          )}
+          )} */}
         </div>
       </div>
     </>

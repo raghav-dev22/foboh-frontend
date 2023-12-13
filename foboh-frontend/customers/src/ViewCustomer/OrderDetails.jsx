@@ -504,9 +504,9 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     <path
                       d="M1 5.75H19M1 10.25H19M6.25 5.75V14.75M1 1.25H19V14C19 14.1989 18.921 14.3897 18.7803 14.5303C18.6397 14.671 18.4489 14.75 18.25 14.75H1.75C1.55109 14.75 1.36032 14.671 1.21967 14.5303C1.07902 14.3897 1 14.1989 1 14V1.25Z"
                       stroke="white"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
 
@@ -1499,9 +1499,9 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     {/* <ProductDetails /> */}
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                       <tbody>
-                        {allOrder?.map((product, index) => (
+                        {allOrder?.map((product, p) => (
                           <tr
-                            key={index}
+                            key={p}
                             className={`bg-white border-b  dark:border-gray-700  cursor-pointer bg-violet-600`}
                             onClick={() =>
                               navigate(

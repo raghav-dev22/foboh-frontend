@@ -108,7 +108,7 @@ function StockDetails() {
       value: (
         <span
           className={`text-sm font-medium ${
-            tilesData?.noOfOrdersPercentage === 0
+            parseFloat(tilesData?.noOfOrdersPercentage) === 0
               ? "text-[#637381]"
               : parseFloat(tilesData?.noOfOrdersPercentage) > 0
               ? "text-[#009900]"
@@ -241,12 +241,12 @@ function StockDetails() {
 
   return (
     <>
-      {stockBox?.map((item, index) => {
+      {stockBox?.map((item, k) => {
         return (
           <>
             <div
-              key={index}
-              className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index}`}
+              key={k}
+              className={` rounded-md   border border-inherit bg-white grow h-40 stock-${k}`}
             >
               <div className="grid grid-cols-1 gap-6 p-4">
                 <div className="flex justify-between ">
