@@ -1,5 +1,4 @@
 export const getConfiguration = (innerUnitOfMeasure, baseUnitOfMeasure) => {
-  console.log("getConfiguration", innerUnitOfMeasure, baseUnitOfMeasure);
   const innerUnitMatch =
     innerUnitOfMeasure &&
     innerUnitOfMeasure?.toString()?.match(/(\d+)\s*([\s\S]*)/);
@@ -29,11 +28,6 @@ export const convertInnerUnitAndBaseUnit = (
   innerUnitOfMeasure,
   baseUnitOfMeasure
 ) => {
-  console.log(
-    "convertInnerUnitAndBaseUnit",
-    innerUnitOfMeasure,
-    baseUnitOfMeasure
-  );
   const innerUnitMatch =
     innerUnitOfMeasure &&
     innerUnitOfMeasure?.toString()?.match(/(\d+)\s*([\s\S]*)/);

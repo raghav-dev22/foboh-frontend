@@ -18,7 +18,6 @@ const Profile = () => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
 
     getBuyerValues(buyerId).then((buyerInfo) => {
-      console.log("buyer info", buyerInfo);
       setBuyer(buyerInfo);
     });
   }, []);
@@ -78,7 +77,6 @@ const Profile = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Buyer get response", data);
         setBuyer(data?.data[0]);
       })
       .catch((error) => console.log(error));
@@ -180,8 +178,8 @@ const Profile = () => {
                   >
                     <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
                       Business Details
-                    </h5>{" "}
-                  </div>{" "}
+                    </h5>
+                  </div>
                   <div className="px-4 sm:py-5 pb-5">
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.businessName}
@@ -194,8 +192,8 @@ const Profile = () => {
                     ) : (
                       ""
                     )}
-                  </div>{" "}
-                </div>{" "}
+                  </div>
+                </div>
                 <div className="rounded-[5px] border border-[#E0E0E0]">
                   <div
                     style={{ backgroundColor: token.commonThemeColor }}
@@ -203,8 +201,8 @@ const Profile = () => {
                   >
                     <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
                       Ordering Contact
-                    </h5>{" "}
-                  </div>{" "}
+                    </h5>
+                  </div>
                   <div className="px-4 sm:py-5 pb-5">
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.orderingFirstName} {buyer?.orderingLastName}
@@ -214,9 +212,9 @@ const Profile = () => {
                     </p>
                     <p className="text-sm font-normal">
                       {buyer?.orderingMobile}
-                    </p>{" "}
-                  </div>{" "}
-                </div>{" "}
+                    </p>
+                  </div>
+                </div>
                 <div className="rounded-[5px] border border-[#E0E0E0]">
                   <div
                     style={{ backgroundColor: token.commonThemeColor }}
@@ -224,8 +222,8 @@ const Profile = () => {
                   >
                     <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
                       Delivery Contact
-                    </h5>{" "}
-                  </div>{" "}
+                    </h5>
+                  </div>
                   <div className="px-4 sm:py-5 pb-5">
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.deliveryFirstName} {buyer?.deliveryLastName}
@@ -235,9 +233,9 @@ const Profile = () => {
                     </p>
                     <p className="text-sm font-normal">
                       {buyer?.deliveryMobile}
-                    </p>{" "}
-                  </div>{" "}
-                </div>{" "}
+                    </p>
+                  </div>
+                </div>
               </div>
             </TabPanel>
             <TabPanel>
@@ -348,7 +346,7 @@ const Profile = () => {
                         {buyer?.billingApartment} {buyer?.billingAddress}
                       </h5>
                       <p className="text-sm font-normal">
-                        {buyer?.billingSuburb}, {buyer?.billingState}{" "}
+                        {buyer?.billingSuburb}, {buyer?.billingState}
                         {buyer?.billingPostalCode}
                       </p>
                     </div>
@@ -356,6 +354,7 @@ const Profile = () => {
                 </div>
               </div>
             </TabPanel>
+            <TabPanel></TabPanel>
           </div>
         </Tabs>
       </div>

@@ -41,7 +41,6 @@ const Becs = ({
     iconStyle: "default", // or "solid"
   };
 
-  console.log("cardErrors", cardErrors);
   return (
     <>
       <div className="mt-5 py-5 px-4 border rounded-lg">
@@ -90,10 +89,7 @@ const Becs = ({
           </div>
         </div>
 
-        <div
-          className={`relative mb-4 w-full`}
-          // data-te-input-wrapper-init
-        >
+        <div className={`relative mb-4 w-full`}>
           <div className="mb-2">
             <label
               htmlFor="AccountNumber"

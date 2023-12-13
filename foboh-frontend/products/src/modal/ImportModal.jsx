@@ -57,7 +57,6 @@ function ImportModal({ show, setShow }) {
           });
           console.log("errdaa", errorData);
           setErrorData(errorData);
-          console.log("finalProductArray", finalProductArray);
           setImportedProducts(finalProductArray);
         }
       };
@@ -76,12 +75,6 @@ function ImportModal({ show, setShow }) {
     });
     return result;
   }
-
-  // if (file) {
-  //   setUploadedFile(file);
-  // }
-  // https://cdn.com/photos/wine.jpg?width=5000
-  // const [click, setClick] = useState(0);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
     if (addedFile && !errorData?.length > 0) {

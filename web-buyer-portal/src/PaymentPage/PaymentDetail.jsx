@@ -24,10 +24,6 @@ const PaymentDetail = () => {
     queryFn: getCart,
   });
 
-  if (cartData) {
-    console.log("cartData", cartData);
-  }
-
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">

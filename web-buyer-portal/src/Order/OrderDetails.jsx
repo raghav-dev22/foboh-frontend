@@ -1,30 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useRef, useState, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import { setCart } from "../slices/CartSlice";
 import { DownloadOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 import Instruction from "../Svg/Instruction";
-import { Popover, Steps } from "antd";
 import InvoiceModal from "../modal/InvoiceModal";
 import { useParams } from "react-router-dom";
-import { message, theme } from "antd";
+import { message, theme, Popover, Steps, Button } from "antd";
 import { getTrackerStatus } from "../helpers/getTrackerStatus";
 import { useMutation } from "react-query";
 import { getSealedCart } from "../react-query/cartApiModule";
-import { useMemo } from "react";
 import {
   getCalculations,
   getInvoiceDataCalculations,
 } from "../helper/getCalculations";
 import { fetchInvoice } from "../react-query/orderApiModule";
-
 var pdfMake = require("pdfmake/build/pdfmake");
 var pdfFonts = require("pdfmake/build/vfs_fonts");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const OrderDetails = () => {
   const customDot = (dot) => <Popover>{dot}</Popover>;
   const childRef = useRef();
-
   const [showPreview, setshowPreview] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
@@ -38,7 +33,6 @@ const OrderDetails = () => {
   let orderId = "";
   const dispatch = useDispatch();
   const { id } = useParams();
-
   const success = () => {
     messageApi.open({
       type: "success",
@@ -78,7 +72,6 @@ const OrderDetails = () => {
         data,
         setIsWine
       );
-
       if (childRef.current) {
         childRef.current.handlePrint(data[0]?.orderId);
       }
@@ -99,7 +92,6 @@ const OrderDetails = () => {
   useEffect(() => {
     sealedCartMutate(id);
     getTrackerStatus(id).then((status) => {
-      console.log("getTrackerStatus", status);
       if (status === "Order Placed") {
         setCurrentStep(0);
       } else if (status === "Pending") {
@@ -321,8 +313,11 @@ const OrderDetails = () => {
           ) : (
             <>
               {" "}
-              {productList.map((item) => (
-                <div className="flex justify-between items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
+              {productList.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4"
+                >
                   <div className="md:w-[18%] flex justify-center items-center w-full border h-[100px] border-[#eaeaeae9] rounded-md shadow-custom">
                     <img
                       src={item.productImageUrls[0]}

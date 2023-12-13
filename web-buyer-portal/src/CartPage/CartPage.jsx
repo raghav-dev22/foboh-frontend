@@ -1,31 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
-import EastIcon from "@mui/icons-material/East";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Header from "../main/Header";
-import Footer from "../main/Footer";
-import Select from "react-select";
 import CheckIcon from "@mui/icons-material/Check";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch, useSelector } from "react-redux";
-import ProductDetails from "../ProductPage/ProductDetails";
 import { remove, setCart, updateQuantity } from "../slices/CartSlice";
-import { timeline } from "@material-tailwind/react";
-import { removeDollarAndConvertToInteger } from "../helper/convertToInteger";
-import { theme } from "antd";
-import { Button, Modal, Space } from "antd";
-import { message } from "antd";
-import { useMutation, useQuery } from "react-query";
+import { message, theme } from "antd";
+import { useQuery } from "react-query";
 import { getCart } from "../react-query/cartApiModule";
 import { getCalculations } from "../helper/getCalculations";
 
-// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-
 const CartPage = () => {
-  const [Subtotal, setSubTotal] = useState(0);
-  const [totalCost, setTotleCost] = useState(0);
-  const [isWineSubcat, setIsWineSubcat] = useState(false);
   const [updatedQuantity, setUpdatedQuantity] = useState({
     productId: "",
     quantity: 0,
@@ -56,7 +40,6 @@ const CartPage = () => {
     });
   };
 
-  // Fetching cart data
   const {
     data: cartData,
     isLoading: isCartLoading,
@@ -64,7 +47,6 @@ const CartPage = () => {
     refetch: cartRefetch,
   } = useQuery("getCartApi", getCart);
 
-  // Calculating cart
   const { lucUnit, gst, wet, subtotal, total } = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
@@ -226,7 +208,6 @@ const CartPage = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("order response", data);
         if (data.success) {
           const orderId = data?.data?.orderId;
           localStorage.setItem("orderId", orderId);
@@ -241,7 +222,6 @@ const CartPage = () => {
   return (
     <>
       {contextHolder}
-      {/* <Header /> */}
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
         <div className="  mb-12 md:bg-white  bg-[#563FE3] md:p-0 p-4 relative">
           <h2
@@ -266,7 +246,10 @@ const CartPage = () => {
             ) : (
               <>
                 {cart.map((item, index) => (
-                  <div className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4">
+                  <div
+                    key={index}
+                    className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4"
+                  >
                     <div className="w-[150px] rounded-md h-[160px] bg-[#c3c3c3]">
                       <img
                         src={item.product?.productImageUrls[0]}
@@ -402,7 +385,6 @@ const CartPage = () => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

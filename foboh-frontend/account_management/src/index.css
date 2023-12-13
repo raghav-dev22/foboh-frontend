@@ -644,3 +644,14 @@ a.foboh-green-btn:hover {
 .border-\[\#0000002e\] {
   border-color: #0000002e;
 }
+/* .ant-picker-dropdown + #app {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+} */
+.custom-date-picker {
+  z-index: 10;
+}

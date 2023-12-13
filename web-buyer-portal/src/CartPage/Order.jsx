@@ -20,7 +20,7 @@ const Order = () => {
   const [bg, setBg] = useState(false);
   const [color, setColor] = useState();
   const [invalid, setInvalid] = useState("");
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi] = message.useMessage();
 
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const promoCodes = {
@@ -65,7 +65,6 @@ const Order = () => {
     });
   };
 
-  // Fetching cart data
   const {
     data: cartData,
     isLoading: isCartLoading,
@@ -76,8 +75,8 @@ const Order = () => {
   if (cartError) {
     error(cartError);
   }
-  // Calculating cart
-  const { lucUnit, gst, wet, subtotal, total } = useMemo(() => {
+
+  const { gst, wet, subtotal, total } = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
   }, [cartData]);
@@ -99,7 +98,6 @@ const Order = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("Data response", data);
         if (data.success) {
           const updatedCartList = data?.data.map((item) => {
             return {
@@ -110,7 +108,6 @@ const Order = () => {
           cartRefetch();
           dispatch(setCart(updatedCartList));
         }
-        console.log(data, "add data");
       })
       .catch((error) => {
         console.error("Error deleting data:", error);
@@ -127,7 +124,10 @@ const Order = () => {
         <>
           {" "}
           {CARTdata.map((item, index) => (
-            <div className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4">
+            <div
+              key={index}
+              className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4"
+            >
               <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                 <img
                   src={item.product?.productImageUrls[0]}

@@ -9,7 +9,7 @@ const MyAccount = () => {
   const { token } = useToken();
   const navigate = useNavigate();
   const ProfileBtn = () => {
-    navigate("/home/account");
+    navigate("/home/profile");
   };
   return (
     <>
@@ -40,22 +40,26 @@ const MyAccount = () => {
             </div>
           </div>
 
-          <Link to="/home/address-details">
-            <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
-              <div className=" 	">
-                <h5 className="text-lg font-semibold text-[#1D1E20]">
-                  {" "}
-                  Addresses
-                </h5>
-                <p className="text-[#8F959E] text-sm font-normal">
-                  Manage your addresses
-                </p>
-              </div>
-              <div className="">
-                <KeyboardArrowRightIcon />
-              </div>
+          <div
+            onClick={() => {
+              ProfileBtn();
+            }}
+            className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer"
+          >
+            <div className=" 	">
+              <h5 className="text-lg font-semibold text-[#1D1E20]">
+                {" "}
+                Addresses
+              </h5>
+              <p className="text-[#8F959E] text-sm font-normal">
+                Manage your addresses
+              </p>
             </div>
-          </Link>
+            <div className="">
+              <KeyboardArrowRightIcon />
+            </div>
+          </div>
+
           <Link to="#">
             <div className="px-6 py-5 flex justify-between items-center border border-[#E0E0E0] rounded-md hover-animation cursor-pointer">
               <div className=" 	">

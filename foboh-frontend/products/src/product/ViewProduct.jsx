@@ -6,7 +6,6 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import Carousel from "better-react-carousel";
 import CloseIcon from "@mui/icons-material/Close";
-// import ActiveProduct from './ActiveProduct'
 import FilterIcon from "@mui/icons-material/Filter";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteModal from "../modal/DeleteModal";
@@ -1182,26 +1181,6 @@ function ViewProduct() {
       }
     }
   };
-
-  // useEffect(() => {
-  //   fetch("https://masters-api-foboh.azurewebsites.net/api/Department/get", {
-  //     method: "GET",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         setDepartment(
-  //           data.data.map((i) => {
-  //             return {
-  //               value: i.departmentId,
-  //               label: i.departmentName,
-  //             };
-  //           })
-  //         );
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
 
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -2458,9 +2437,6 @@ function ViewProduct() {
                 </div>
               </div>
               <div className="flex justify-end items-start gap-3">
-                {/* <div className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#2B4447] w-[33%] text-white  text-base font-semibold">
-                  Archive
-                </div> */}
                 <div
                   onClick={() => {
                     setDeleteModalOpen(true);
