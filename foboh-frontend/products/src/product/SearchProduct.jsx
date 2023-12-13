@@ -49,6 +49,7 @@ const SearchProduct = forwardRef(
       setLoading,
       setisSearchResult,
       setTotalPages,
+      setActiveData,
     },
     ref
   ) => {

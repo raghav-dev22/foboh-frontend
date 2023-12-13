@@ -44,34 +44,21 @@ const TABLE_HEAD = [
 
 function Range() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
   const [hiddenModalOpen, setHiddenModalOpen] = useState(false);
-
   const childRef = useRef(null);
-
   const [isBulkEdit, setIsBulkEdit] = useState(false);
-
   const [products, setProducts] = useState([]);
-
   const [prevProducts, setPrevProducts] = useState([]);
-
   const [pages, setPages] = useState([]);
-
   const [totalProducts, setTotalProducts] = useState(0);
-
   const [selectedProducts, setSelectedProducts] = useState([]);
-
   const [totalPages, setTotalPages] = useState(0);
-
   const [pageIndex, setPageIndex] = useState(1);
-
   const navigate = useNavigate();
-
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-
+  const [activeData, setActiveData] = useState();
   const [selected, setSlected] = useState(0);
   const [dataLength, setDataLength] = useState(0);
-
   const [loading, setLoading] = useState(true);
   const isTrue = localStorage.getItem("productAdded");
   const isProductDeleted = localStorage.getItem("productDelete");
@@ -355,7 +342,7 @@ function Range() {
     <>
       <div className="padding-top-custom">
         <ActiveProduct
-          totalProducts={totalProducts}
+          activeData={activeData}
           selectedProductsLength={selectedProducts.length}
           productId={selectedProducts[0]?.productId}
         />
@@ -372,6 +359,7 @@ function Range() {
               products={products}
               prevProducts={prevProducts}
               setTotalPages={setTotalPages}
+              setActiveData={setActiveData}
             />
           </div>
 
