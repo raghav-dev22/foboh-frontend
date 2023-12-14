@@ -46,11 +46,14 @@ let localFilterSort = {
   },
 };
 
+let categoryList = [];
+
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
 
   const [loading, setLoading] = useState(true);
   const [countryList, setCountryList] = useState([]);
+  const [selectSubcategory, setSelectSubcategory] = useState([]);
 
   const { Option } = Select;
 
@@ -669,16 +672,23 @@ const ProductList = () => {
 
   const [filter, setFilter] = useState(false);
 
-  const toggleCategoryAndSubcategory = (e, id, name) => {
+  const toggleCategoryAndSubcategory = (e, id, name, categoryName) => {
     if (name === "category") {
       const newCategoryIds = e.target.checked
-        ? [id]
+        ? [...localFilterSort.filter.category, id]
         : localFilterSort.filter.category.filter((catId) => catId !== id);
+
+      if (!e.target.checked) {
+        setSelectSubcategory((prev) => {
+          categoryList = prev.filter((item) => item.cat !== id);
+          return prev.filter((item) => item.cat !== id);
+        });
+      }
 
       const newFilter = {
         ...localFilterSort.filter,
         category: newCategoryIds,
-        subCategory: [],
+        subCategory: categoryList.flatMap((i) => i.sub),
       };
 
       if (e.target.checked) {
@@ -697,19 +707,57 @@ const ProductList = () => {
         filter: newFilter,
       });
     } else if (name === "subcategory") {
-      const newSubcategoryIds = id.map((subCat) => subCat.key);
-      const subcategoryName = e;
+      const newSubcategoryIds = e;
+
+      setSelectSubcategory((prev) => {
+        const existingIndex = prev.findIndex(
+          (item) => item.cat === categoryName
+        );
+
+        if (existingIndex !== -1) {
+          // Update existing object if categoryName matches prev cat
+          categoryList = [
+            ...prev.slice(0, existingIndex),
+            {
+              cat: categoryName,
+              sub: e,
+            },
+            ...prev.slice(existingIndex + 1),
+          ];
+          return [
+            ...prev.slice(0, existingIndex),
+            {
+              cat: categoryName,
+              sub: e,
+            },
+            ...prev.slice(existingIndex + 1),
+          ];
+        } else {
+          // Create a new object if categoryName doesn't match any prev cat
+
+          categoryList = [
+            ...prev,
+            {
+              cat: categoryName,
+              sub: e,
+            },
+          ];
+          return [
+            ...prev,
+            {
+              cat: categoryName,
+              sub: e,
+            },
+          ];
+        }
+      });
+
 
       setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
         ...localFilterSort.filter,
-        subCategory: newSubcategoryIds,
-      };
-
-      const newSubcategoryFilter = {
-        ...localFilterSort.filter,
-        subCategory: subcategoryName,
+        subCategory: categoryList.flatMap((item) => item.sub),
       };
 
       localFilterSort = {
@@ -717,9 +765,10 @@ const ProductList = () => {
         filter: newFilter,
       };
 
+
       setFilterAndSort({
         ...localFilterSort,
-        filter: newSubcategoryFilter,
+        filter: newFilter,
       });
 
       (e.includes("wine") || e.includes("Wine")) &&
@@ -1104,10 +1153,9 @@ const ProductList = () => {
                             <input
                               id={idx}
                               type="checkbox"
-                              checked={
-                                filterAndSort.filter.category[0] ===
+                              checked={filterAndSort.filter.category.includes(
                                 category.categoryId
-                              }
+                              )}
                               value={category.categoryId}
                               onClick={(e) =>
                                 toggleCategoryAndSubcategory(
@@ -1124,8 +1172,9 @@ const ProductList = () => {
                               {category.categoryName}
                             </label>
                           </div>
-                          {filterAndSort.filter.category[0] ===
-                            category.categoryId && (
+                          {filterAndSort.filter.category.includes(
+                            category.categoryId
+                          ) && (
                             <ul className="dropdown-content">
                               <Select
                                 mode="multiple"
@@ -1133,23 +1182,30 @@ const ProductList = () => {
                                   width: "260px",
                                 }}
                                 placeholder="Search"
-                                value={filterAndSort.filter.subCategory}
+                                value={selectSubcategory
+                                  .filter(
+                                    (item) => item.cat === category.categoryId
+                                  )
+                                  .flatMap((item) => item.sub)}
                                 onChange={(e, value) =>
                                   toggleCategoryAndSubcategory(
                                     e,
                                     value,
-                                    "subcategory"
+                                    "subcategory",
+                                    category.categoryId
                                   )
                                 }
                                 optionLabelProp="label"
                               >
                                 {category.subcategory.map((subcat, i) => (
                                   <>
-                                    {filterAndSort.filter.category[0] ===
-                                      category.categoryId && (
+                                    {filterAndSort.filter.category.includes(
+                                      category.categoryId
+                                    ) && (
                                       <Option
-                                        value={subcat.name}
-                                        key={subcat.id}
+                                        value={subcat.id}
+                                        label={subcat.name}
+                                        key={i}
                                       >
                                         <Space>{subcat.name}</Space>
                                       </Option>

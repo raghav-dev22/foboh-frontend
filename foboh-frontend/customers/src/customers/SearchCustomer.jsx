@@ -29,6 +29,7 @@ function SearchCustomer({
   setPageIndex,
   setisSearchResult,
   setLoading,
+  setActiveData,
 }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
@@ -214,6 +215,7 @@ function SearchCustomer({
       )
         .then((response) => response.json())
         .then((data) => {
+          setActiveData(data.activeCustomer);
           if (data?.data?.length > 0) {
             setTotalPages(data.last_page);
             setPageIndex(data.page);
@@ -292,6 +294,7 @@ function SearchCustomer({
     setSecond(false);
     setThird(false);
     filterAndSort = {
+      ...filterAndSort,
       filter: {
         businessName: "",
         status: "",
@@ -299,16 +302,23 @@ function SearchCustomer({
         state: [],
         page: 1,
       },
-      sort: {
-        sortBy: "",
-        sortOrder: "asc",
-      },
     };
     setSelectedState([]);
     setStatusSelected(false);
     setPinCode("");
     processChange("filterAndSort");
     setIsFilter(false);
+  };
+
+  const handleClearSort = () => {
+    filterAndSort = {
+      ...filterAndSort,
+      sort: {
+        sortBy: "",
+        sortOrder: "asc",
+      },
+    };
+    processChange("filterAndSort");
   };
 
   useEffect(() => {
@@ -407,7 +417,7 @@ function SearchCustomer({
               filterAndSort={filterAndSort}
               handleSortChange={handleSortChange}
               itemLabel={itemLabel}
-              handleClearFilter={handleClearFilter}
+              handleClearSort={handleClearSort}
             />
           </div>
         </div>

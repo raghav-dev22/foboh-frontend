@@ -1907,7 +1907,7 @@ function ViewProduct() {
                               <Select
                                 name="colors"
                                 options={subCategory}
-                                isDisabled={!subCategory?.length}
+                                // isDisabled={!subCategory?.length}
                                 value={values.subcategory}
                                 onChange={handleSubCategoryChange}
                                 className="basic-multi-select "

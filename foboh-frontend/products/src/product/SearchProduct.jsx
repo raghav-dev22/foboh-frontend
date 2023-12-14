@@ -31,8 +31,8 @@ let filterAndSort = {
     page: 1,
   },
   sort: {
-    sortBy: "",
-    sortOrder: "asc",
+    sortBy: "date",
+    sortOrder: "desc",
   },
 };
 
@@ -49,6 +49,7 @@ const SearchProduct = forwardRef(
       setLoading,
       setisSearchResult,
       setTotalPages,
+      setActiveData,
     },
     ref
   ) => {
@@ -104,6 +105,19 @@ const SearchProduct = forwardRef(
       )
         .then((response) => response.json())
         .then((data) => {
+          // console.log(
+          //   "cat drop",
+          //   data.map((i) => {
+          //     return {
+          //       categoryName: i.categoryName,
+          //       categoryId: i.categoryId,
+          //       subcategory: i.subcategoryId.map((c, n) => {
+          //         return { name: i.subCategorys[n], id: c };
+          //       }),
+          //     };
+          //   })
+          // );
+
           setCategoryAndSubcategory(
             data.map((i) => {
               return {
@@ -155,6 +169,7 @@ const SearchProduct = forwardRef(
         )
           .then((response) => response.json())
           .then((data) => {
+            setActiveData(data?.activeproduct);
             if (data?.data?.length > 0) {
               setisSearchResult(true);
               setProducts(data.data);
@@ -211,50 +226,95 @@ const SearchProduct = forwardRef(
     }));
 
     const toggleCategoryAndSubcategory = (e, id, name, categoryName) => {
-      // if (categoryName === "Alcoholic Beverage") {
-      //   setSubCategorySelectedList((prev) => {
-      //     return (prev[0] = id);
-      //   });
-      // } else if (categoryName === "Non-Alcoholic Beverage") {
-      //   setSubCategorySelectedList((prev) => {
-      //     return (prev[1] = id);
-      //   });
-      // }
-
-      const filterValue = {
-        e: e,
-        id: id,
-        name: name,
-        categoryName: categoryName,
-      };
-
-      // Handling pagination
-
       if (name === "category") {
-        setSelectSubcategory([]);
         setOpen(!Open);
-        const newCategoryIds = e.target.checked
-          ? [id]
-          : filterAndSort.filter.category.filter((catId) => catId !== id);
 
-        const newCategoryList = e.target.checked
+        const newCategoryIds = e.target.checked
           ? [...filterAndSort.filter.category, id]
           : filterAndSort.filter.category.filter((catId) => catId !== id);
 
-        categoryList = newCategoryList;
-
-        const newFilter = {
+        let newFilter = {
           ...filterAndSort.filter,
           category: newCategoryIds,
-          subcategory: [],
         };
 
-        filterAndSort = {
-          ...filterAndSort,
-          filter: newFilter,
-        };
+        if (!e.target.checked) {
+          setSelectSubcategory((prev) => {
+            categoryList = prev.filter((item) => item.cat !== id);
+
+            let newFilter = {
+              ...filterAndSort.filter,
+              category: newCategoryIds,
+              subcategory: categoryList.flatMap((i) => i.sub),
+            };
+
+            filterAndSort = {
+              ...filterAndSort,
+              filter: newFilter,
+            };
+            return prev.filter((item) => item.cat !== id);
+          });
+        } else {
+          let newFilter = {
+            ...filterAndSort.filter,
+            category: newCategoryIds,
+            subcategory: categoryList.flatMap((i) => i.sub),
+          };
+
+          filterAndSort = {
+            ...filterAndSort,
+            filter: newFilter,
+          };
+        }
+
+        setSelectedCatId(newCategoryIds);
       } else if (name === "subcategory") {
-        const newSubcategoryIds = e;
+        setSelectSubcategory((prev) => {
+          const existingIndex = prev.findIndex(
+            (item) => item.cat === categoryName
+          );
+
+          if (existingIndex !== -1) {
+            // Update existing object if categoryName matches prev cat
+            categoryList = [
+              ...prev.slice(0, existingIndex),
+              {
+                cat: categoryName,
+                sub: e,
+              },
+              ...prev.slice(existingIndex + 1),
+            ];
+            return [
+              ...prev.slice(0, existingIndex),
+              {
+                cat: categoryName,
+                sub: e,
+              },
+              ...prev.slice(existingIndex + 1),
+            ];
+          } else {
+            // Create a new object if categoryName doesn't match any prev cat
+
+            categoryList = [
+              ...prev,
+              {
+                cat: categoryName,
+                sub: e,
+              },
+            ];
+            return [
+              ...prev,
+              {
+                cat: categoryName,
+                sub: e,
+              },
+            ];
+          }
+        });
+
+        const newSubcategoryIds = categoryList.flatMap((item) => item.sub);
+
+        // console.log("selectSubcategory", selectSubcategory);
 
         const newFilter = {
           ...filterAndSort.filter,
@@ -265,8 +325,6 @@ const SearchProduct = forwardRef(
           ...filterAndSort,
           filter: newFilter,
         };
-
-        setSelectSubcategory(e);
       } else if (name === "stock") {
         const newStockValues = e.target.checked
           ? [...filterAndSort.filter.stock, id]
@@ -287,7 +345,7 @@ const SearchProduct = forwardRef(
         };
       } else if (name === "status") {
         const newStatusValues = e.target.checked
-          ? [...filterAndSort.filter.productStatus, id]
+          ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
           : filterAndSort.filter.productStatus.filter(
               (statusValue) => statusValue !== id
             );
@@ -355,6 +413,10 @@ const SearchProduct = forwardRef(
 
     useEffect(() => {
       function handleClickOutside(event) {
+        // if (sortRef.current && !sortRef.current.contains(event.target)) {
+        //   setSort(false);
+        // }
+
         if (
           dropdownRef.current &&
           !dropdownRef.current.contains(event.target)
@@ -409,6 +471,21 @@ const SearchProduct = forwardRef(
           saveInput("filterAndSort", newFilterAndSort);
           localStorage.removeItem("yourBooleanKey");
           setSelectStock(["lowStock", "outOfStock"]);
+        } else {
+          filterAndSort = {
+            filter: {
+              category: [],
+              subcategory: [],
+              stock: [],
+              productStatus: [],
+              visibility: "",
+              page: 1,
+            },
+            sort: {
+              sortBy: "date",
+              sortOrder: "desc",
+            },
+          };
         }
       }, 3000);
 
@@ -425,6 +502,7 @@ const SearchProduct = forwardRef(
       setSelectSubcategory([]);
       setSelectVisibility("");
       filterAndSort = {
+        ...filterAndSort,
         filter: {
           category: [],
           subcategory: [],
@@ -432,30 +510,21 @@ const SearchProduct = forwardRef(
           productStatus: [],
           visibility: "",
           page: 1,
-        },
-        sort: {
-          sortBy: "",
-          sortOrder: "asc",
         },
       };
       processChange("filterAndSort");
     };
-    useEffect(() => {
+
+    const handleClearSort = () => {
       filterAndSort = {
-        filter: {
-          category: [],
-          subcategory: [],
-          stock: [],
-          productStatus: [],
-          visibility: "",
-          page: 1,
-        },
+        ...filterAndSort,
         sort: {
-          sortBy: "",
-          sortOrder: "asc",
+          sortBy: "date",
+          sortOrder: "desc",
         },
       };
-    }, []);
+      processChange("filterAndSort");
+    };
 
     return (
       <>
@@ -519,7 +588,7 @@ const SearchProduct = forwardRef(
                 filterAndSort={filterAndSort}
                 itemLabel={itemLabel}
                 handleSortChange={handleSortChange}
-                handleClearFilter={handleClearFilter}
+                handleClearSort={handleClearSort}
               />
             </div>
           </div>
@@ -551,28 +620,25 @@ const SearchProduct = forwardRef(
                       <ul className="dropdown-content ">
                         {categoryAndSubcategory &&
                           categoryAndSubcategory.map((category, idx) => (
-                            <li className=" px-4  ">
-                              <div className="flex items-center py-2 ">
-                                <div className="green-checkbox flex ">
-                                  <input
-                                    id={`${idx}-${category.categoryId}`}
-                                    type="checkbox"
-                                    value={category.categoryId}
-                                    onClick={(e) =>
-                                      toggleCategoryAndSubcategory(
-                                        e,
-                                        category.categoryId,
-                                        "category",
-                                        category.categoryName
-                                      )
-                                    }
-                                    checked={
-                                      filterAndSort.filter.category[0] ===
-                                      category.categoryId
-                                    }
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                                  />
-                                </div>
+                            <li className="py-2.5 px-4  ">
+                              <div className="flex items-center">
+                                <input
+                                  id={`${idx}-${category.categoryId}`}
+                                  type="checkbox"
+                                  value={category.categoryId}
+                                  onClick={(e) =>
+                                    toggleCategoryAndSubcategory(
+                                      e,
+                                      category.categoryId,
+                                      "category",
+                                      category.categoryName
+                                    )
+                                  }
+                                  checked={selectedCatId.includes(
+                                    category.categoryId
+                                  )}
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                                />
                                 <label
                                   htmlFor={`${idx}-${category.categoryId}`}
                                   className="ml-2 text-sm font-medium text-gray"
@@ -581,15 +647,19 @@ const SearchProduct = forwardRef(
                                 </label>
                               </div>
 
-                              {filterAndSort.filter.category[0] ===
-                                category.categoryId && (
-                                <ul className="dropdown-content my-1.5">
+                              {selectedCatId.includes(category.categoryId) && (
+                                <ul className="dropdown-content">
                                   <Select
                                     mode="multiple"
                                     style={{
                                       width: "100%",
                                     }}
-                                    value={selectSubcategory}
+                                    value={selectSubcategory
+                                      .filter(
+                                        (item) =>
+                                          item.cat === category.categoryId
+                                      )
+                                      .flatMap((item) => item.sub)}
                                     placeholder={`select ${category.categoryName}`}
                                     onChange={(e, value) =>
                                       toggleCategoryAndSubcategory(

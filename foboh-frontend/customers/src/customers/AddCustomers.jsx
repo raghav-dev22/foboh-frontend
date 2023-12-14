@@ -35,6 +35,7 @@ function AddCustomers() {
   const [selected, setSlected] = useState(0);
   const [isSearchResult, setisSearchResult] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [activeData, setActiveData] = useState(0);
   let timeoutId;
 
   const saveProduct = () => {
@@ -125,7 +126,7 @@ function AddCustomers() {
         <ActiveCustomers
           selectedProductsLength={selectedProducts.length}
           product={selectedProducts[0]}
-          totalProducts={totalProducts}
+          activeData={activeData}
         />
         <div className="   ">
           <div className="box-3 px-6 ">
@@ -138,6 +139,7 @@ function AddCustomers() {
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
               setLoading={setLoading}
+              setActiveData={setActiveData}
             />
           </div>
           <div className="pt-6 px-6 relative">

@@ -169,7 +169,7 @@ const AllOrders = () => {
           </p>
           <p className="text-xs sm:text-sm sm:font-normal font-light text-gray">
             {" "}
-            ({item?.customerName})
+            ({item?.orderingFirstName} {item?.orderingLastName})
           </p>
         </div>
       ),
@@ -463,6 +463,7 @@ const AllOrders = () => {
   const handleClearFilter = () => {
     setShowFilter(false);
     filterAndSort = {
+      ...filterAndSort,
       filter: {
         searchByValue: "",
         region: [],
@@ -472,20 +473,28 @@ const AllOrders = () => {
         customeDate: "",
         page: 0,
       },
-      sort: {
-        sortBy: "",
-        sortOrder: "asc",
-      },
     };
     processChange("filterAndSort");
     setSelectedStatus([]);
     setRegions([]);
     setLastDate([]);
+  };
+
+  const handleClearSort = () => {
+    filterAndSort = {
+      ...filterAndSort,
+      sort: {
+        sortBy: "date",
+        sortOrder: "desc",
+      },
+    };
     setSortValue({
       sortBy: "",
-      sortOrder: "asc",
+      sortOrder: "",
     });
+    processChange("filterAndSort");
   };
+
   const { RangePicker } = DatePicker;
 
   useEffect(() => {
@@ -505,8 +514,8 @@ const AllOrders = () => {
           page: 0,
         },
         sort: {
-          sortBy: "",
-          sortOrder: "asc",
+          sortBy: "date",
+          sortOrder: "desc",
         },
       };
     } else {
@@ -619,7 +628,7 @@ const AllOrders = () => {
                     <div
                       className="flex justify-end"
                       style={{ paddingRight: "12px" }}
-                      onClick={() => handleClearFilter()}
+                      onClick={() => handleClearSort()}
                     >
                       <p
                         className=" cursor-pointer border-b"

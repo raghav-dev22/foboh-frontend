@@ -39,7 +39,7 @@ function Filter({
   handleSortChange,
   itemLabel,
   filterAndSort,
-  handleClearFilter,
+  handleClearSort,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -120,7 +120,7 @@ function Filter({
                 <div
                   className="flex justify-end"
                   style={{ paddingRight: "12px" }}
-                  onClick={() => handleClearFilter()}
+                  onClick={() => handleClearSort()}
                 >
                   <p
                     className=" cursor-pointer border-b"

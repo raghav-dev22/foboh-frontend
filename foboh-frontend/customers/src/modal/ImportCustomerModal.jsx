@@ -134,8 +134,9 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                         >
                           <p className="text-sm font-normal">
                             <span className="font-bold">
-                              {error.length}
-                              products
+                              {error?.length > 1
+                                ? `${error?.length} customers`
+                                : `${error?.length} customer`}
                             </span>{" "}
                             have errors that need correcting before importing.
                             After you fix the errors, try importing the file
@@ -165,12 +166,12 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                               {" "}
                               Row
                             </th>
-                            {/* <th
+                            <th
                               className="font-semiBold text-sm p-4"
                               style={{ width: "105px" }}
                             >
                               Title
-                            </th> */}
+                            </th>
                             <th
                               className="font-semiBold text-sm p-4"
                               style={{ width: "200px" }}
@@ -188,11 +189,19 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                               <td className="font-medium text-sm p-4">
                                 {index + 1}
                               </td>
-                              {/* <td className="font-normal text-sm p-4">
-                                {err?.businessName}
-                              </td> */}
                               <td className="font-normal text-sm p-4">
-                                {err?.error}
+                                Column: {err?.error}
+                              </td>
+                              <td className="font-normal text-sm p-4">
+                                {index + 1}: Missing{" "}
+                                <span className="font-semibold">
+                                  {err?.error}
+                                </span>
+                                , please add a valid{" "}
+                                <span className="font-semibold">
+                                  {err?.error}
+                                </span>
+                                .
                               </td>
                             </tr>
                           ))}
