@@ -29,6 +29,7 @@ function SearchCustomer({
   setPageIndex,
   setisSearchResult,
   setLoading,
+  setActiveData,
 }) {
   const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
@@ -214,6 +215,7 @@ function SearchCustomer({
       )
         .then((response) => response.json())
         .then((data) => {
+          setActiveData(data.activeCustomer);
           if (data?.data?.length > 0) {
             setTotalPages(data.last_page);
             setPageIndex(data.page);

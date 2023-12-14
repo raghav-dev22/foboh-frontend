@@ -27,7 +27,8 @@ function OrderDetails({ orderDetails }) {
 
               <p className="text-xs sm:text-sm sm:font-normal font-light text-gray">
                 {" "}
-                ({value?.customerName})
+                ({value?.orderingFirstName}
+                {value?.orderingLastName})
               </p>
             </td>
 

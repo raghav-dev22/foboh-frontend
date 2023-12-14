@@ -31,8 +31,8 @@ let filterAndSort = {
     page: 1,
   },
   sort: {
-    sortBy: "",
-    sortOrder: "asc",
+    sortBy: "date",
+    sortOrder: "desc",
   },
 };
 
@@ -49,6 +49,7 @@ const SearchProduct = forwardRef(
       setLoading,
       setisSearchResult,
       setTotalPages,
+      setActiveData,
     },
     ref
   ) => {
@@ -69,6 +70,8 @@ const SearchProduct = forwardRef(
     const [selectStatus, setSelectStatus] = useState([]);
     const [selectStock, setSelectStock] = useState([]);
     const [selectVisibility, setSelectVisibility] = useState("");
+
+    const handleChange = (e, value, name) => {};
 
     const FirstDropdown = () => {
       setFilterTextFirst(!filterTextFirst);
@@ -104,6 +107,19 @@ const SearchProduct = forwardRef(
       )
         .then((response) => response.json())
         .then((data) => {
+          // console.log(
+          //   "cat drop",
+          //   data.map((i) => {
+          //     return {
+          //       categoryName: i.categoryName,
+          //       categoryId: i.categoryId,
+          //       subcategory: i.subcategoryId.map((c, n) => {
+          //         return { name: i.subCategorys[n], id: c };
+          //       }),
+          //     };
+          //   })
+          // );
+
           setCategoryAndSubcategory(
             data.map((i) => {
               return {
@@ -155,6 +171,7 @@ const SearchProduct = forwardRef(
         )
           .then((response) => response.json())
           .then((data) => {
+            setActiveData(data?.activeproduct);
             if (data?.data?.length > 0) {
               setisSearchResult(true);
               setProducts(data.data);
@@ -297,6 +314,8 @@ const SearchProduct = forwardRef(
 
         const newSubcategoryIds = categoryList.flatMap((item) => item.sub);
 
+        // console.log("selectSubcategory", selectSubcategory);
+
         const newFilter = {
           ...filterAndSort.filter,
           subcategory: newSubcategoryIds,
@@ -327,7 +346,7 @@ const SearchProduct = forwardRef(
         };
       } else if (name === "status") {
         const newStatusValues = e.target.checked
-          ? [...filterAndSort.filter.productStatus, id]
+          ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
           : filterAndSort.filter.productStatus.filter(
               (statusValue) => statusValue !== id
             );
@@ -395,6 +414,10 @@ const SearchProduct = forwardRef(
 
     useEffect(() => {
       function handleClickOutside(event) {
+        // if (sortRef.current && !sortRef.current.contains(event.target)) {
+        //   setSort(false);
+        // }
+
         if (
           dropdownRef.current &&
           !dropdownRef.current.contains(event.target)
@@ -449,6 +472,21 @@ const SearchProduct = forwardRef(
           saveInput("filterAndSort", newFilterAndSort);
           localStorage.removeItem("yourBooleanKey");
           setSelectStock(["lowStock", "outOfStock"]);
+        } else {
+          filterAndSort = {
+            filter: {
+              category: [],
+              subcategory: [],
+              stock: [],
+              productStatus: [],
+              visibility: "",
+              page: 1,
+            },
+            sort: {
+              sortBy: "date",
+              sortOrder: "desc",
+            },
+          };
         }
       }, 3000);
 
@@ -476,22 +514,6 @@ const SearchProduct = forwardRef(
       };
       processChange("filterAndSort");
     };
-    useEffect(() => {
-      filterAndSort = {
-        filter: {
-          category: [],
-          subcategory: [],
-          stock: [],
-          productStatus: [],
-          visibility: "",
-          page: 1,
-        },
-        sort: {
-          sortBy: "",
-          sortOrder: "asc",
-        },
-      };
-    }, []);
 
     return (
       <>

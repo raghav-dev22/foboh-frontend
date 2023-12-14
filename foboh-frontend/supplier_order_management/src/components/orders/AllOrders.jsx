@@ -168,7 +168,7 @@ const AllOrders = () => {
           </p>
           <p className="text-xs sm:text-sm sm:font-normal font-light text-gray">
             {" "}
-            ({item?.customerName})
+            ({item?.orderingFirstName} {item?.orderingLastName})
           </p>
         </div>
       ),
@@ -501,8 +501,8 @@ const AllOrders = () => {
           page: 0,
         },
         sort: {
-          sortBy: "",
-          sortOrder: "asc",
+          sortBy: "date",
+          sortOrder: "desc",
         },
       };
     } else {
