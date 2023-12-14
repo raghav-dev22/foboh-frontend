@@ -493,6 +493,10 @@ const SearchProduct = forwardRef(
     }, []);
 
     const handleClearFilter = () => {
+      setFilterTextFirst(false);
+      setFilterTextSecond(false);
+      setFilterTextThird(false);
+      setFilterTextForth(false);
       setSelectStatus([]);
       setSelectStock([]);
       setSelectSubcategory([]);
@@ -609,7 +613,10 @@ const SearchProduct = forwardRef(
                     </div>
                   </div>
                   {filterTextFirst && (
-                    <div className=" z-10 left-0   w-max  absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-3  ">
+                    <div
+                      className=" z-10 left-0    absolute product-dropdown bg-white shadow-md rounded-lg  h-fit py-1 "
+                      style={{ minWidth: "300px", maxWidth: "300px" }}
+                    >
                       <ul className="dropdown-content ">
                         {categoryAndSubcategory &&
                           categoryAndSubcategory.map((category, idx) => (

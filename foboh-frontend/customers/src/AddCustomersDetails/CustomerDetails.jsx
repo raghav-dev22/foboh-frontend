@@ -264,7 +264,7 @@ function CustomerDetails() {
       </div>
       <form
         onChange={onChangeText}
-        className=" mx-auto lg:w-3/5 w-full rounded-lg border border-inherit bg-white overflow-y-scroll	flex flex-col"
+        className=" mx-auto lg:w-3/5 w-full rounded-lg border border-inherit bg-white overflow-y-auto	flex flex-col"
       >
         {activeStep === 0 ? (
           <CustomerDetailsFirst

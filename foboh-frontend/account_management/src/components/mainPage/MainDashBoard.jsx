@@ -6,6 +6,7 @@ import StockDetails from "../../mainDashboard/StockDetails";
 import { Line } from "react-chartjs-2";
 import Select from "react-select";
 import "chart.js/auto";
+import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 // import StockDetails from '../mainDashboard/StockDetails';
 import SignupModel from "../../modal/SignupModel";
 import { stockQuantity } from "../../helpers/stockQuantity";
@@ -247,7 +248,7 @@ function MainDashBoard() {
   return (
     <>
       <SignupModel show={show} setShow={setShow} />
-      <div className="    overflow-y-scroll	scroll-smooth	scrollable padding-top-custom">
+      <div className="    overflow-y-auto	scroll-smooth	scrollable padding-top-custom">
         <div className="box pt-6 px-6 ">
           <div className="  lg:flex gap-6 grid sm:grid-cols-2 	grid-cols-1 	">
             {/* <StockDetails /> */}
@@ -306,7 +307,7 @@ function MainDashBoard() {
           <ActiveOrder mutate={mutate} />
         </div>
         <div className="box-4 pt-6 px-6">
-          <div className=" rounded-md	 border border-inherit bg-white overflow-x-scroll	">
+          <div className=" rounded-md	 border border-inherit bg-white overflow-x-auto	">
             <table className="min-w-full">
               <thead>
                 <tr>
@@ -330,9 +331,42 @@ function MainDashBoard() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className={`divide-y divide-gray-200 `}>
+                {orderDetails.length < 0 ? (
+                  <OrderDetails orderDetails={orderDetails} />
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="text-center">
+                      <div className="flex items-center justify-center h-[200px] no-data flex-col">
+                        <svg
+                          style={{ fill: "#808080", width: "60px" }}
+                          id="Layer_1"
+                          data-name="Layer 1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 74 100"
+                        >
+                          <defs>
+                            <style
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                              }}
+                            />
+                          </defs>
+                          <path
+                            className="cls-1"
+                            d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+                          />
+                        </svg>
+
+                        <h5 className="text-[#808080] text-lg font-medium">
+                          No Data
+                        </h5>
+                      </div>
+                    </td>
+                  </tr>
+                )}
                 {/* <OrderDetails /> */}
-                <OrderDetails orderDetails={orderDetails} />
               </tbody>
             </table>
           </div>

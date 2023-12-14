@@ -222,7 +222,7 @@ function PersonalDetails({
 
   return (
     <>
-      <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white	 grid	 overflow-y-scroll	scroll-smooth	scrollable ">
+      <div className=" lg:w-3/5 w-full  rounded-lg		 border border-inherit bg-white	 grid	 overflow-y-auto	scroll-smooth	scrollable ">
         {show && (
           <div className=" 2xl:mx-auto absolute z-50 top-0 right-0 left-0">
             <div className="bg-custom-extraDarkGreen shadow-lg py-1 px-7">

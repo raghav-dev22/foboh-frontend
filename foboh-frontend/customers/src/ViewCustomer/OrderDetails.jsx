@@ -430,15 +430,15 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   return (
     <>
       {contextHolder}
-      <div className="px-12 pt-6">
+      <div className=" pt-6">
         <form onChange={handleInputChange}>
-          <div className="xl:w-full xl:mx-0  sm:block rounded-lg border border-darkGreen	">
-            <ul className="flex      gap-5 bg-custom-skyBlue rounded-s-lg	rounded-e-lg	pt-4 overflow-x-scroll">
+          <div className="xl:w-full xl:mx-0  sm:block rounded-t-lg border border-darkGreen	">
+            <ul className="flex      gap-5 bg-custom-skyBlue 	rounded-t-lg	pt-4 overflow-x-scroll">
               <li
                 onClick={() => setActiveStatus(1)}
                 className={
                   activeStatus == 1
-                    ? "text-sm border-indigo-700 pt-3 rounded-t text-indigo-700 py-3 px-4	 cursor-pointer rounded-s-lg rounded-e-lg bg-white customer-tab-active"
+                    ? "text-sm border-indigo-700 pt-3  text-indigo-700 py-3 px-4	 cursor-pointer rounded-t-lg  bg-white customer-tab-active"
                     : "customer-tab text-sm text-gray-600 py-3 flex items-center  hover:text-indigo-700 cursor-pointer  px-4"
                 }
               >
@@ -466,7 +466,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                 onClick={() => setActiveStatus(2)}
                 className={
                   activeStatus == 2
-                    ? "py-3 px-4 text-sm border-indigo-700 pt-3 rounded-t text-indigo-700  rounded-s-lg rounded-e-lg cursor-pointer bg-white customer-tab-active"
+                    ? "py-3 px-4 text-sm border-indigo-700 pt-3 rounded-t-lg text-indigo-700  cursor-pointer bg-white customer-tab-active"
                     : "customer-tab  px-4 text-sm text-gray-600 py-3 flex items-center  hover:text-indigo-700 cursor-pointer"
                 }
               >
@@ -489,7 +489,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                 onClick={() => setActiveStatus(3)}
                 className={
                   activeStatus == 3
-                    ? "py-3 px-4 text-sm border-indigo-700 pt-3 rounded-t text-indigo-700  rounded-s-lg rounded-e-lg cursor-pointer bg-white customer-tab-active"
+                    ? "py-3 px-4 text-sm border-indigo-700 pt-3 rounded-t-lg text-indigo-700  cursor-pointer bg-white customer-tab-active"
                     : "customer-tab  px-4 text-sm text-gray-600 py-3 flex items-center  hover:text-indigo-700 cursor-pointer"
                 }
               >
@@ -527,7 +527,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                 onClick={() => setActiveStatus(4)}
                 className={
                   activeStatus == 4
-                    ? "py-3 px-4 text-sm border-indigo-700 pt-3 rounded-t text-indigo-700 rounded-s-lg rounded-e-lg cursor-pointer bg-white customer-tab-active"
+                    ? "py-3 px-4 text-sm border-indigo-700 pt-3 rounded-t-lg text-indigo-700 cursor-pointer bg-white customer-tab-active"
                     : "customer-tab  px-4 text-sm text-gray-600 py-3 flex items-center  hover:text-indigo-700 cursor-pointer"
                 }
               >
@@ -567,7 +567,10 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     : "hide-table hidden"
                 }`}
               >
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <table
+                  className="text-sm text-left text-gray-500 dark:text-gray-400"
+                  style={{ width: "950px" }}
+                >
                   <thead className=" border-b">
                     <tr>
                       <th
@@ -609,7 +612,40 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    <OrderTable allOrder={allOrder} />
+                    {allOrder?.length > 0 ? (
+                      <OrderTable allOrder={allOrder} />
+                    ) : (
+                      <tr>
+                        <td colSpan="6" className="text-center">
+                          <div className="flex items-center justify-center h-[200px] no-data flex-col">
+                            <svg
+                              style={{ fill: "#808080", width: "60px" }}
+                              id="Layer_1"
+                              data-name="Layer 1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 74 100"
+                            >
+                              <defs>
+                                <style
+                                  dangerouslySetInnerHTML={{
+                                    __html:
+                                      "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                                  }}
+                                />
+                              </defs>
+                              <path
+                                className="cls-1"
+                                d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+                              />
+                            </svg>
+
+                            <h5 className="text-[#808080] text-lg font-medium">
+                              No Data
+                            </h5>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -1499,46 +1535,79 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                     {/* <ProductDetails /> */}
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                       <tbody>
-                        {allOrder?.map((product, p) => (
-                          <tr
-                            key={p}
-                            className={`bg-white border-b  dark:border-gray-700  cursor-pointer bg-violet-600`}
-                            onClick={() =>
-                              navigate(
-                                `/dashboard/order-details/${product?.orderId}`
-                              )
-                            }
-                          >
-                            <td className="px-4 py-4">
-                              <h5 className="font-medium whitespace-no-wrap text-green">
-                                {product?.orderId}
-                              </h5>
-                              <p className="text-sm font-normal text-green">
-                                {formatDate(product?.orderEntryDate)}
-                              </p>
-                            </td>
-                            <td className="px-4 py-4">
-                              <h5 className="font-normal whitespace-no-wrap text-green">
-                                ${product?.payAmountLong}
-                              </h5>
-                            </td>
-
-                            <td className="px-4 py-4">
-                              <div
-                                className={`flex justify-center items-center gap-1 radius-30 width-[60px] ${
-                                  product?.transactionStatus === "overdue"
-                                    ? "bg-custom-red-100"
-                                    : "bg-custom-gray"
-                                } h-7 px-3`}
-                              >
-                                {/* <div className="dot bg-custom-darkGreen rounded-full" /> */}
-                                <p className="text-green font-medium text-sm">
-                                  {product?.transactionStatus}
+                        {allOrder?.length > 0 ? (
+                          allOrder?.map((product, p) => (
+                            <tr
+                              key={p}
+                              className={`bg-white border-b  dark:border-gray-700  cursor-pointer bg-violet-600`}
+                              onClick={() =>
+                                navigate(
+                                  `/dashboard/order-details/${product?.orderId}`
+                                )
+                              }
+                            >
+                              <td className="px-4 py-4">
+                                <h5 className="font-medium whitespace-no-wrap text-green">
+                                  {product?.orderId}
+                                </h5>
+                                <p className="text-sm font-normal text-green">
+                                  {formatDate(product?.orderEntryDate)}
                                 </p>
+                              </td>
+                              <td className="px-4 py-4">
+                                <h5 className="font-normal whitespace-no-wrap text-green">
+                                  ${product?.payAmountLong}
+                                </h5>
+                              </td>
+
+                              <td className="px-4 py-4">
+                                <div
+                                  className={`flex justify-center items-center gap-1 radius-30 width-[60px] ${
+                                    product?.transactionStatus === "overdue"
+                                      ? "bg-custom-red-100"
+                                      : "bg-custom-gray"
+                                  } h-7 px-3`}
+                                >
+                                  {/* <div className="dot bg-custom-darkGreen rounded-full" /> */}
+                                  <p className="text-green font-medium text-sm">
+                                    {product?.transactionStatus}
+                                  </p>
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="6" className="text-center">
+                              <div className="flex items-center justify-center h-[300px] no-data flex-col">
+                                <svg
+                                  style={{ fill: "#808080", width: "60px" }}
+                                  id="Layer_1"
+                                  data-name="Layer 1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 74 100"
+                                >
+                                  <defs>
+                                    <style
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                                      }}
+                                    />
+                                  </defs>
+                                  <path
+                                    className="cls-1"
+                                    d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+                                  />
+                                </svg>
+
+                                <h5 className="text-[#808080] text-lg font-medium">
+                                  No Data
+                                </h5>
                               </div>
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </table>
                   </div>

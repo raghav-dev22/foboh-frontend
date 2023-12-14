@@ -15,7 +15,7 @@ function Profile() {
           <div className="container mx-auto px-0">
             <Header />
             <div>
-              <div className="profile-section  px-11 padding-top-custom    overflow-y-scroll	scroll-smooth	scrollable	">
+              <div className="profile-section  px-11 padding-top-custom    overflow-y-auto	scroll-smooth	scrollable	">
                 <div className="py-12">
                   <h4 className="text-green text-2xl	font-semibold pb-2	">
                     {" "}

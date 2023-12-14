@@ -361,7 +361,7 @@ const BankingInformation = () => {
                 stateOptions={stateOptions}
               />
             </div>
-            <div className="w-full  gap-5  overflow-y-scroll	lg:flex">
+            <div className="w-full  gap-5  overflow-y-auto	lg:flex">
               <BankingInfoForm
                 setValues={setValues}
                 formChange={formChange}

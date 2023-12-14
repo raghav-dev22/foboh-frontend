@@ -1105,7 +1105,7 @@ const ProductList = () => {
           className="flex md:flex-nowrap  gap-6	flex-wrap py-8"
           ref={dropdownRef}
         >
-          <div className="md:w-1/4 w-full overflow-y-scroll   py-4">
+          <div className="md:w-1/4 w-full overflow-y-auto   py-4">
             <div className="flex items-center gap-2 pb-3">
               {filter === true ? (
                 <FilterAltIcon style={{ fill: "#2B4447", stroke: "#2B4447" }} />
@@ -1179,7 +1179,7 @@ const ProductList = () => {
                               <Select
                                 mode="multiple"
                                 style={{
-                                  width: "100%",
+                                  width: "260px",
                                 }}
                                 placeholder="Search"
                                 value={selectSubcategory
@@ -1265,7 +1265,7 @@ const ProductList = () => {
                       <Select
                         mode="multiple"
                         style={{
-                          width: "100%",
+                          width: "260px",
                         }}
                         placeholder="Search"
                         className=""
@@ -1328,7 +1328,7 @@ const ProductList = () => {
                       <Select
                         mode="multiple"
                         style={{
-                          width: "100%",
+                          width: "260px",
                         }}
                         placeholder="Search"
                         className=""
@@ -1405,7 +1405,7 @@ const ProductList = () => {
                     <Select
                       mode="multiple"
                       style={{
-                        width: "100%",
+                        width: "260px",
                       }}
                       placeholder="Search"
                       className=""
@@ -1486,7 +1486,7 @@ const ProductList = () => {
                     <Select
                       mode="multiple"
                       style={{
-                        width: "100%",
+                        width: "260px",
                       }}
                       placeholder="Search"
                       className=""
@@ -1568,7 +1568,7 @@ const ProductList = () => {
                       <Select
                         mode="multiple"
                         style={{
-                          width: "100%",
+                          width: "260px",
                         }}
                         placeholder="Search"
                         className=""
@@ -1718,7 +1718,7 @@ const ProductList = () => {
                     <Select
                       mode="multiple"
                       style={{
-                        width: "100%",
+                        width: "260px",
                       }}
                       placeholder="Search"
                       className=""

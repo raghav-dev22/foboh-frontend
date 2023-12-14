@@ -190,16 +190,26 @@ const Header = () => {
                 {isOpen && (
                   <div className=" z-50 w-60 absolute user-dropdown bg-white	shadow-md rounded-t-lg	h-44	">
                     <ul className="dropdown-content">
-                      <Link to="/dashboard/your-profile">
+                      <div
+                        onClick={() => {
+                          navigate("/dashboard/your-profile");
+                          setIsOpen(false);
+                        }}
+                      >
                         <li className="py-2.5	px-4 cursor-pointer hover:bg-[#147d7317] rounded-t-lg 	">
                           <h6 className="text-sm font-medium		">Profile</h6>
                         </li>
-                      </Link>
-                      <Link to="/dashboard/settings">
+                      </div>
+                      <div
+                        onClick={() => {
+                          navigate("/dashboard/settings");
+                          setIsOpen(false);
+                        }}
+                      >
                         <li className="py-2.5	px-4 cursor-pointer	hover:bg-[#147d7317]">
                           <h6 className="text-sm font-medium">Settings</h6>
                         </li>
-                      </Link>
+                      </div>
                       <li className="py-2.5	px-4 border-inherit cursor-pointer border-t-2	hover:bg-[#147d7317]">
                         <h6 className="text-sm font-medium		">Help</h6>
                       </li>

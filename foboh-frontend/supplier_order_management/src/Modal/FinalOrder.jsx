@@ -26,7 +26,7 @@ const FinalOrder = ({
           Order Confirm
         </h5>
         <div className="grid md:grid-cols-2 gap-3 ">
-          <div className="h-[600px] overflow-y-scroll">
+          <div className="h-[600px] overflow-y-auto">
             <div className="border border-[#E7E7E7] rounded-md p-4 mb-4">
               <div className="flex justify-between items-center ">
                 <div className="flex justify-start items-center gap-2">

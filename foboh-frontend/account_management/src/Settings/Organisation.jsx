@@ -662,7 +662,7 @@ function Organisation() {
           </div>
         )}
         <form onChange={handleFormChange}>
-          <div className="profile-section  sm:px-11 px-5 padding-top-custom overflow-y-scroll	scroll-smooth	scrollable	">
+          <div className="profile-section  sm:px-11 px-5 padding-top-custom overflow-y-auto scroll-smooth	scrollable	">
             <div className="sm:py-12 py-8 flex justify-start items-start gap-2">
               {/* <Link to="/dashboard/settings"> */}
               <div
@@ -889,6 +889,7 @@ function Organisation() {
                                 options={departmentList}
                                 className="basic-multi-select "
                                 classNamePrefix="select"
+                                closeMenuOnSelect={false}
                               />
                             </div>
                           </div>
@@ -903,6 +904,7 @@ function Organisation() {
                               <Select
                                 id="CategoryList"
                                 name="categoryList"
+                                closeMenuOnSelect={false}
                                 isMulti
                                 value={values?.categoryList}
                                 onChange={(val) => {
@@ -1172,7 +1174,6 @@ function Organisation() {
                                 options={state}
                                 className="appearance-none block w-full  text-gray-700 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 classNamePrefix="basic-multi-select "
-                                closeMenuOnSelect={false}
                               />
                             </div>
                           </div>
@@ -1390,7 +1391,6 @@ function Organisation() {
                                 options={state}
                                 className="appearance-none block w-full  text-gray-700 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 classNamePrefix="basic-multi-select "
-                                closeMenuOnSelect={false}
                               />
                             </div>
                           </div>

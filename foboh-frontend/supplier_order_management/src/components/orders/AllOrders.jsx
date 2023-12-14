@@ -887,7 +887,7 @@ const AllOrders = () => {
                   {regionMenu && (
                     <div
                       style={{ width: "350px", height: "380px" }}
-                      className="z-10 left-0 px-3 absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                      className="z-10 left-0  absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
                     >
                       <Select
                         name="colors"

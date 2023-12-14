@@ -8,7 +8,6 @@ import SearchOffIcon from "@mui/icons-material/SearchOff";
 import ActiveProduct from "./ActiveProduct";
 
 import { useNavigate } from "react-router-dom";
-import { Button, message } from "antd";
 import "../style.css";
 
 import {
@@ -22,7 +21,7 @@ import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 
 import { PaginationNav1Presentation } from "./Pagination";
 
-import { Avatar, List, Skeleton, Switch } from "antd";
+import { Skeleton, message } from "antd";
 
 import Visible from "../modal/Visible";
 
@@ -365,12 +364,12 @@ function Range() {
           </div>
 
           <div className="pt-6 px-6 relative">
-            <div
-              className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full"
-              style={{ height: "420px" }}
-            >
+            <div className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full">
               <CardBody className="p-0">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <table
+                  className=" text-sm text-left text-gray-500 dark:text-gray-400"
+                  style={{ width: "992px" }}
+                >
                   <thead>
                     <tr>
                       <th scope="col" className="p-4 border-y green-checkbox">
@@ -413,149 +412,186 @@ function Range() {
 
                   {isSearchResult && (
                     <tbody>
-                      {products.map((product, index) => {
-                        const isLast = index === products.length - 1;
+                      {products?.length > 0 ? (
+                        products.map((product, index) => {
+                          const isLast = index === products.length - 1;
 
-                        const classes = isLast ? "p-4" : "p-4  ";
+                          const classes = isLast ? "p-4" : "p-4  ";
 
-                        return (
-                          <tr
-                            key={index}
-                            style={
-                              loading
-                                ? { position: "relative", height: "85px" }
-                                : { position: "relative" }
-                            }
-                            className="border-b border-blue-gray-50"
-                          >
-                            <Skeleton
-                              style={{
-                                padding: "10px",
-
-                                width: "95%",
-
-                                position: "absolute",
-
-                                top: "20px",
-
-                                left: "14px",
-                              }}
-                              paragraph={{ rows: 1 }}
-                              loading={loading}
-                              active
-                              avatar
-                              className="custom-skeleton"
+                          return (
+                            <tr
+                              key={index}
+                              style={
+                                loading
+                                  ? { position: "relative", height: "85px" }
+                                  : { position: "relative" }
+                              }
+                              className="border-b border-blue-gray-50"
                             >
-                              <td className={classes}>
-                                <div className="flex items-center gap-3 cursor-pointer green-checkbox">
-                                  <input
-                                    id="default-checkbox"
-                                    type="checkbox"
-                                    name={product.title}
-                                    checked={selectedProducts.includes(product)}
-                                    onClick={(e) => handleCheckbox(e, product)}
-                                    className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
-                                  />
-                                </div>
-                              </td>
+                              <Skeleton
+                                style={{
+                                  padding: "10px",
 
-                              <td className={classes}>
-                                <div
-                                  onClick={() =>
-                                    navigate(
-                                      `/dashboard/view-product/${product.productId}`
-                                    )
-                                  }
-                                  className="flex items-center gap-3"
-                                >
-                                  {product.productImageUrls ? (
-                                    <>
-                                      <div className="">
-                                        <img
-                                          src={product.productImageUrls[0]}
-                                          alt=""
-                                          className="object-cover cursor-pointer  "
-                                          style={{
-                                            borderRadius: "6px",
+                                  width: "95%",
 
-                                            height: "40px",
+                                  position: "absolute",
 
-                                            width: "40px",
-                                          }}
-                                        />
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <div
-                                      className=" rounded-[6px] bg-[#D9D9D9]"
-                                      style={{
-                                        height: "40px",
+                                  top: "20px",
 
-                                        width: "40px",
+                                  left: "14px",
+                                }}
+                                paragraph={{ rows: 1 }}
+                                loading={loading}
+                                active
+                                avatar
+                                className="custom-skeleton"
+                              >
+                                <td className={classes}>
+                                  <div className="flex items-center gap-3 cursor-pointer green-checkbox">
+                                    <input
+                                      id="default-checkbox"
+                                      type="checkbox"
+                                      name={product.title}
+                                      checked={selectedProducts.includes(
+                                        product
+                                      )}
+                                      onClick={(e) =>
+                                        handleCheckbox(e, product)
+                                      }
+                                      className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded cursor-pointer dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                  </div>
+                                </td>
 
-                                        borderRadius: "6px",
-                                      }}
-                                    ></div>
-                                  )}
-                                </div>
-                              </td>
+                                <td className={classes}>
+                                  <div
+                                    onClick={() =>
+                                      navigate(
+                                        `/dashboard/view-product/${product.productId}`
+                                      )
+                                    }
+                                    className="flex items-center gap-3"
+                                  >
+                                    {product.productImageUrls ? (
+                                      <>
+                                        <div className="">
+                                          <img
+                                            src={product.productImageUrls[0]}
+                                            alt=""
+                                            className="object-cover cursor-pointer  "
+                                            style={{
+                                              borderRadius: "6px",
 
-                              <td className={classes}>
-                                <div
-                                  onClick={() =>
-                                    navigate(
-                                      `/dashboard/view-product/${product.productId}`
-                                    )
-                                  }
-                                  className="flex items-center gap-3"
-                                >
-                                  <Typography className="font-medium  md:text-base text-sm text-[#637381] cursor-pointer">
-                                    {product.title}
+                                              height: "40px",
+
+                                              width: "40px",
+                                            }}
+                                          />
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <div
+                                        className=" rounded-[6px] bg-[#D9D9D9]"
+                                        style={{
+                                          height: "40px",
+
+                                          width: "40px",
+
+                                          borderRadius: "6px",
+                                        }}
+                                      ></div>
+                                    )}
+                                  </div>
+                                </td>
+
+                                <td className={classes}>
+                                  <div
+                                    onClick={() =>
+                                      navigate(
+                                        `/dashboard/view-product/${product.productId}`
+                                      )
+                                    }
+                                    className="flex items-center gap-3"
+                                  >
+                                    <Typography className="font-medium  md:text-base text-sm text-[#637381] cursor-pointer">
+                                      {product.title}
+                                    </Typography>
+                                  </div>
+                                </td>
+
+                                <td className={classes}>
+                                  <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                    {product.skUcode}
                                   </Typography>
-                                </div>
-                              </td>
+                                </td>
 
-                              <td className={classes}>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product.skUcode}
-                                </Typography>
-                              </td>
+                                <td className={`${classes} `}>
+                                  <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                    {product.configuration}
+                                  </Typography>
+                                </td>
 
-                              <td className={`${classes} w-44`}>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product.configuration}
-                                </Typography>
-                              </td>
+                                <td className={classes}>
+                                  <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                    {`$${product.globalPrice}`}
+                                  </Typography>
+                                </td>
 
-                              <td className={classes}>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {`$${product.globalPrice}`}
-                                </Typography>
-                              </td>
+                                <td className={classes}>
+                                  {stockStatus(
+                                    product.availableQty,
 
-                              <td className={classes}>
-                                {stockStatus(
-                                  product.availableQty,
+                                    product.stockThreshold
+                                  )}
+                                </td>
 
-                                  product.stockThreshold
-                                )}
-                              </td>
+                                <td className={classes}>
+                                  <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                    {product.productStatus}
 
-                              <td className={classes}>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product.productStatus}
+                                    <br />
 
-                                  <br />
+                                    {product.visibility === "1"
+                                      ? "Visible"
+                                      : "Hidden"}
+                                  </Typography>
+                                </td>
+                              </Skeleton>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan="8" className="text-center">
+                            <div className="flex items-center justify-center h-[200px] no-data flex-col">
+                              <svg
+                                style={{ fill: "#808080", width: "60px" }}
+                                id="Layer_1"
+                                data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 74 100"
+                              >
+                                <defs>
+                                  <style
+                                    dangerouslySetInnerHTML={{
+                                      __html:
+                                        "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                                    }}
+                                  />
+                                </defs>
+                                <path
+                                  className="cls-1"
+                                  d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+                                />
+                              </svg>
 
-                                  {product.visibility === "1"
-                                    ? "Visible"
-                                    : "Hidden"}
-                                </Typography>
-                              </td>
-                            </Skeleton>
-                          </tr>
-                        );
-                      })}
+                              <h5 className="text-[#808080] text-lg font-medium">
+                                No Data
+                              </h5>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   )}
                 </table>
@@ -578,15 +614,31 @@ function Range() {
                 )}
 
                 {!isSearchResult && (
-                  <div
-                    style={{
-                      marginTop: "30px",
-                    }}
-                    className="text-center mt-7"
-                  >
-                    <SearchOffIcon fontSize="large" />
+                  <div className="flex items-center justify-center h-[200px] no-data flex-col">
+                    <svg
+                      style={{ fill: "#808080", width: "60px" }}
+                      id="Layer_1"
+                      data-name="Layer 1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 74 100"
+                    >
+                      <defs>
+                        <style
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                          }}
+                        />
+                      </defs>
+                      <path
+                        className="cls-1"
+                        d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+                      />
+                    </svg>
 
-                    <p className="font-semibold">No Result Found</p>
+                    <h5 className="text-[#808080] text-lg font-medium">
+                      No Data
+                    </h5>
                   </div>
                 )}
               </CardFooter>
@@ -658,8 +710,6 @@ function Range() {
           handleBulkVisibility={handleBulkVisibility}
           open={hiddenModalOpen}
           onOk={() => {
-            // handleBulkVisibility("hidden");
-
             setHiddenModalOpen(false);
           }}
           onCancel={() => {

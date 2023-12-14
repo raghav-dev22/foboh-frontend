@@ -167,7 +167,7 @@ function ViewCustomer() {
           handleCancel={handleCancel}
         />
       ) : null} */}
-      <div className="py-8 sm:flex grid items-center justify-between px-6 gap-5">
+      <div className="py-8 sm:flex grid items-center justify-between  gap-5">
         <div className="flex justify-start gap-3 items-center">
           <Link to="/dashboard/customers">
             <div className="">
@@ -252,7 +252,7 @@ function ViewCustomer() {
         )}
       </div>
       {customerEdit === true ? (
-        <div className="grid gap-4 lg:grid-cols-2 grid-cols-1 px-12">
+        <div className="grid gap-4 lg:grid-cols-2 grid-cols-1 ">
           {ordeItem.map((item, index) => {
             return (
               <>
@@ -280,7 +280,7 @@ function ViewCustomer() {
         </div>
       ) : (
         <form>
-          <div className="grid gap-6 lg:grid-cols-2 grid-cols-1 px-12">
+          <div className="grid gap-6 lg:grid-cols-2 grid-cols-1 ">
             <div className={`relative`}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-[25px] w-[25px] rounded-full bg-[#147D73] flex justify-center items-center order-tab-svg">

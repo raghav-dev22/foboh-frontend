@@ -166,7 +166,7 @@ function Header() {
         <div onClick={() => navigate("/home")}>
           {organisation?.organisationlogo ? (
             <img
-              className="h-[50px] w-[100px] cursor-pointer object-cover"
+              className="h-[50px] w-[100px] cursor-pointer object-contain"
               src={organisation?.organisationlogo}
               alt="organisationlogo"
             />

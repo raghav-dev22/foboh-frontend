@@ -482,8 +482,9 @@ a.foboh-green-btn:hover {
   left: -30px;
 }
 ::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
+  width: 6px !important;
+  height: 10px !important;
+
   background: #0000000f;
 }
 .custom-scroll-bar::-webkit-scrollbar {
@@ -502,6 +503,12 @@ a.foboh-green-btn:hover {
 .px-5 {
   padding-left: 1.25rem /* 20px */;
   padding-right: 1.25rem /* 20px */;
+}
+::-webkit-scrollbar-thumb {
+  width: 8px !important;
+  height: 8px !important;
+  background: #7a7a7a !important;
+  border-radius: 30px !important;
 }
 .custom-scroll-bar::-webkit-scrollbar-thumb {
   width: 8px !important;
@@ -654,4 +661,27 @@ a.foboh-green-btn:hover {
 } */
 .custom-date-picker {
   z-index: 10;
+}
+.overflow-y-auto {
+  overflow-y: auto;
+}
+.rounded-t {
+  border-top-left-radius: 0.25rem /* 4px */;
+  border-top-right-radius: 0.25rem /* 4px */;
+}
+.rounded-e-lg {
+  border-start-end-radius: 0.5rem /* 8px */;
+  border-end-end-radius: 0.5rem /* 8px */;
+}
+.rounded-s-lg {
+  border-start-start-radius: 0.5rem /* 8px */;
+  border-end-start-radius: 0.5rem /* 8px */;
+}
+.rounded-t-lg {
+  border-top-left-radius: 0.5rem /* 8px */;
+  border-top-right-radius: 0.5rem /* 8px */;
+}
+.no-data svg {
+  width: 76px;
+  fill: #00000036;
 }
