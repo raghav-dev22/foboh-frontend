@@ -291,6 +291,7 @@ function SearchCustomer({
 
   const handleClearFilter = () => {
     filterAndSort = {
+      ...filterAndSort,
       filter: {
         businessName: "",
         status: "",
@@ -298,16 +299,23 @@ function SearchCustomer({
         state: [],
         page: 1,
       },
-      sort: {
-        sortBy: "",
-        sortOrder: "asc",
-      },
     };
     setSelectedState([]);
     setStatusSelected(false);
     setPinCode("");
     processChange("filterAndSort");
     setIsFilter(false);
+  };
+
+  const handleClearSort = () => {
+    filterAndSort = {
+      ...filterAndSort,
+      sort: {
+        sortBy: "",
+        sortOrder: "asc",
+      },
+    };
+    processChange("filterAndSort");
   };
 
   useEffect(() => {
@@ -406,7 +414,7 @@ function SearchCustomer({
               filterAndSort={filterAndSort}
               handleSortChange={handleSortChange}
               itemLabel={itemLabel}
-              handleClearFilter={handleClearFilter}
+              handleClearSort={handleClearSort}
             />
           </div>
         </div>

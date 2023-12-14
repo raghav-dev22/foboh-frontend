@@ -71,8 +71,6 @@ const SearchProduct = forwardRef(
     const [selectStock, setSelectStock] = useState([]);
     const [selectVisibility, setSelectVisibility] = useState("");
 
-    const handleChange = (e, value, name) => {};
-
     const FirstDropdown = () => {
       setFilterTextFirst(!filterTextFirst);
       setFilterTextSecond(false);
@@ -228,46 +226,48 @@ const SearchProduct = forwardRef(
     }));
 
     const toggleCategoryAndSubcategory = (e, id, name, categoryName) => {
-      // if (categoryName === "Alcoholic Beverage") {
-      //   setSubCategorySelectedList((prev) => {
-      //     return (prev[0] = id);
-      //   });
-      // } else if (categoryName === "Non-Alcoholic Beverage") {
-      //   setSubCategorySelectedList((prev) => {
-      //     return (prev[1] = id);
-      //   });
-      // }
-
-      const filterValue = {
-        e: e,
-        id: id,
-        name: name,
-        categoryName: categoryName,
-      };
-
-      // Handling pagination
-
       if (name === "category") {
         setOpen(!Open);
 
         const newCategoryIds = e.target.checked
           ? [...filterAndSort.filter.category, id]
           : filterAndSort.filter.category.filter((catId) => catId !== id);
-          
-        const newFilter = {
+
+        let newFilter = {
           ...filterAndSort.filter,
           category: newCategoryIds,
         };
 
-        filterAndSort = {
-          ...filterAndSort,
-          filter: newFilter,
-        };
+        if (!e.target.checked) {
+          setSelectSubcategory((prev) => {
+            categoryList = prev.filter((item) => item.cat !== id);
 
-        categoryList = newCategoryIds;
+            let newFilter = {
+              ...filterAndSort.filter,
+              category: newCategoryIds,
+              subcategory: categoryList.flatMap((i) => i.sub),
+            };
+
+            filterAndSort = {
+              ...filterAndSort,
+              filter: newFilter,
+            };
+            return prev.filter((item) => item.cat !== id);
+          });
+        } else {
+          let newFilter = {
+            ...filterAndSort.filter,
+            category: newCategoryIds,
+            subcategory: categoryList.flatMap((i) => i.sub),
+          };
+
+          filterAndSort = {
+            ...filterAndSort,
+            filter: newFilter,
+          };
+        }
+
         setSelectedCatId(newCategoryIds);
-
-        console.log("categoryList", categoryList);
       } else if (name === "subcategory") {
         setSelectSubcategory((prev) => {
           const existingIndex = prev.findIndex(
@@ -325,7 +325,6 @@ const SearchProduct = forwardRef(
           ...filterAndSort,
           filter: newFilter,
         };
-
       } else if (name === "stock") {
         const newStockValues = e.target.checked
           ? [...filterAndSort.filter.stock, id]
@@ -499,6 +498,7 @@ const SearchProduct = forwardRef(
       setSelectSubcategory([]);
       setSelectVisibility("");
       filterAndSort = {
+        ...filterAndSort,
         filter: {
           category: [],
           subcategory: [],
@@ -507,9 +507,16 @@ const SearchProduct = forwardRef(
           visibility: "",
           page: 1,
         },
+      };
+      processChange("filterAndSort");
+    };
+
+    const handleClearSort = () => {
+      filterAndSort = {
+        ...filterAndSort,
         sort: {
-          sortBy: "",
-          sortOrder: "asc",
+          sortBy: "date",
+          sortOrder: "desc",
         },
       };
       processChange("filterAndSort");
@@ -577,7 +584,7 @@ const SearchProduct = forwardRef(
                 filterAndSort={filterAndSort}
                 itemLabel={itemLabel}
                 handleSortChange={handleSortChange}
-                handleClearFilter={handleClearFilter}
+                handleClearSort={handleClearSort}
               />
             </div>
           </div>

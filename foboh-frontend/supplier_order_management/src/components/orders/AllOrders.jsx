@@ -459,6 +459,7 @@ const AllOrders = () => {
   const handleClearFilter = () => {
     setShowFilter(false);
     filterAndSort = {
+      ...filterAndSort,
       filter: {
         searchByValue: "",
         region: [],
@@ -468,20 +469,28 @@ const AllOrders = () => {
         customeDate: "",
         page: 0,
       },
-      sort: {
-        sortBy: "",
-        sortOrder: "asc",
-      },
     };
     processChange("filterAndSort");
     setSelectedStatus([]);
     setRegions([]);
     setLastDate([]);
+  };
+
+  const handleClearSort = () => {
+    filterAndSort = {
+      ...filterAndSort,
+      sort: {
+        sortBy: "date",
+        sortOrder: "desc",
+      },
+    };
     setSortValue({
       sortBy: "",
-      sortOrder: "asc",
+      sortOrder: "",
     });
+    processChange("filterAndSort");
   };
+
   const { RangePicker } = DatePicker;
 
   useEffect(() => {
@@ -607,7 +616,7 @@ const AllOrders = () => {
                     <div
                       className="flex justify-end"
                       style={{ paddingRight: "12px" }}
-                      onClick={() => handleClearFilter()}
+                      onClick={() => handleClearSort()}
                     >
                       <p
                         className=" cursor-pointer border-b"

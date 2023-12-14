@@ -753,8 +753,6 @@ const ProductList = () => {
       });
 
 
-      categoryList.flatMap((item) => item.sub);
-
       setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
