@@ -291,7 +291,7 @@ const ProfileEdit = () => {
                     value={values.OrderingContactFirstName}
                     className="pl-custom-left"
                     onKeyPress={(event) => {
-                      const allowedCharacters = /^[A-Za-z]*$/;
+                      const allowedCharacters = /^[A-Za-z\s]*$/;
 
                       if (!allowedCharacters.test(event.key)) {
                         event.preventDefault();
@@ -329,7 +329,7 @@ const ProfileEdit = () => {
                     autoComplete="off"
                     value={values.OrderingContactLastName}
                     onKeyPress={(event) => {
-                      const allowedCharacters = /^[A-Za-z]*$/;
+                      const allowedCharacters = /^[A-Za-z\s]*$/;
 
                       if (!allowedCharacters.test(event.key)) {
                         event.preventDefault();
@@ -447,7 +447,7 @@ const ProfileEdit = () => {
                     className="pl-custom-left"
                     value={values.DeliveryContactFirstName}
                     onKeyPress={(event) => {
-                      const allowedCharacters = /^[A-Za-z]*$/;
+                      const allowedCharacters = /^[A-Za-z\s]*$/;
 
                       if (!allowedCharacters.test(event.key)) {
                         event.preventDefault();
@@ -485,7 +485,7 @@ const ProfileEdit = () => {
                     autoComplete="off"
                     value={values.DeliveryContactLastName}
                     onKeyPress={(event) => {
-                      const allowedCharacters = /^[A-Za-z]*$/;
+                      const allowedCharacters = /^[A-Za-z\s]*$/;
 
                       if (!allowedCharacters.test(event.key)) {
                         event.preventDefault();
