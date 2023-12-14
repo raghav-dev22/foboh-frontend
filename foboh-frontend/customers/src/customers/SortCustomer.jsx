@@ -190,7 +190,7 @@ function FilterCustomer({
                             sort.find(
                               (item) =>
                                 item?.key === filterAndSort?.sort?.sortBy
-                            ).value.asc
+                            )?.value?.asc
                           }
                         </h5>
                       </div>
@@ -221,10 +221,10 @@ function FilterCustomer({
                       <div className="">
                         <h5 className="text-base font-medium text-gray whitespace-nowrap">
                           {
-                            sort.find(
+                            sort?.find(
                               (item) =>
                                 item?.key === filterAndSort?.sort?.sortBy
-                            ).value.desc
+                            )?.value?.desc
                           }
                         </h5>
                       </div>

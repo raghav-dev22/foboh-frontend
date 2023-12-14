@@ -31,8 +31,8 @@ let filterAndSort = {
     page: 1,
   },
   sort: {
-    sortBy: "",
-    sortOrder: "asc",
+    sortBy: "date",
+    sortOrder: "desc",
   },
 };
 
@@ -71,6 +71,8 @@ const SearchProduct = forwardRef(
     const [selectStock, setSelectStock] = useState([]);
     const [selectVisibility, setSelectVisibility] = useState("");
 
+    const handleChange = (e, value, name) => {};
+
     const FirstDropdown = () => {
       setFilterTextFirst(!filterTextFirst);
       setFilterTextSecond(false);
@@ -105,6 +107,19 @@ const SearchProduct = forwardRef(
       )
         .then((response) => response.json())
         .then((data) => {
+          // console.log(
+          //   "cat drop",
+          //   data.map((i) => {
+          //     return {
+          //       categoryName: i.categoryName,
+          //       categoryId: i.categoryId,
+          //       subcategory: i.subcategoryId.map((c, n) => {
+          //         return { name: i.subCategorys[n], id: c };
+          //       }),
+          //     };
+          //   })
+          // );
+
           setCategoryAndSubcategory(
             data.map((i) => {
               return {
@@ -156,6 +171,7 @@ const SearchProduct = forwardRef(
         )
           .then((response) => response.json())
           .then((data) => {
+            setActiveData(data?.activeproduct);
             if (data?.data?.length > 0) {
               setisSearchResult(true);
               setProducts(data.data);
@@ -244,6 +260,8 @@ const SearchProduct = forwardRef(
 
         categoryList = newCategoryList;
 
+        console.log("categoryList", categoryList);
+
         const newFilter = {
           ...filterAndSort.filter,
           category: newCategoryIds,
@@ -257,6 +275,8 @@ const SearchProduct = forwardRef(
       } else if (name === "subcategory") {
         const newSubcategoryIds = e;
 
+        // console.log("selectSubcategory", selectSubcategory);
+
         const newFilter = {
           ...filterAndSort.filter,
           subcategory: newSubcategoryIds,
@@ -268,6 +288,7 @@ const SearchProduct = forwardRef(
         };
 
         setSelectSubcategory(e);
+        console.log("filterAndSort", filterAndSort);
       } else if (name === "stock") {
         const newStockValues = e.target.checked
           ? [...filterAndSort.filter.stock, id]
@@ -288,7 +309,7 @@ const SearchProduct = forwardRef(
         };
       } else if (name === "status") {
         const newStatusValues = e.target.checked
-          ? [...filterAndSort.filter.productStatus, id]
+          ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
           : filterAndSort.filter.productStatus.filter(
               (statusValue) => statusValue !== id
             );
@@ -356,6 +377,10 @@ const SearchProduct = forwardRef(
 
     useEffect(() => {
       function handleClickOutside(event) {
+        // if (sortRef.current && !sortRef.current.contains(event.target)) {
+        //   setSort(false);
+        // }
+
         if (
           dropdownRef.current &&
           !dropdownRef.current.contains(event.target)
@@ -410,6 +435,21 @@ const SearchProduct = forwardRef(
           saveInput("filterAndSort", newFilterAndSort);
           localStorage.removeItem("yourBooleanKey");
           setSelectStock(["lowStock", "outOfStock"]);
+        } else {
+          filterAndSort = {
+            filter: {
+              category: [],
+              subcategory: [],
+              stock: [],
+              productStatus: [],
+              visibility: "",
+              page: 1,
+            },
+            sort: {
+              sortBy: "date",
+              sortOrder: "desc",
+            },
+          };
         }
       }, 3000);
 
@@ -437,22 +477,6 @@ const SearchProduct = forwardRef(
       };
       processChange("filterAndSort");
     };
-    useEffect(() => {
-      filterAndSort = {
-        filter: {
-          category: [],
-          subcategory: [],
-          stock: [],
-          productStatus: [],
-          visibility: "",
-          page: 1,
-        },
-        sort: {
-          sortBy: "",
-          sortOrder: "asc",
-        },
-      };
-    }, []);
 
     return (
       <>

@@ -56,9 +56,9 @@ function Range() {
   const [pageIndex, setPageIndex] = useState(1);
   const navigate = useNavigate();
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [activeData, setActiveData] = useState();
   const [selected, setSlected] = useState(0);
   const [dataLength, setDataLength] = useState(0);
+  const [activeData, setActiveData] = useState(0);
   const [loading, setLoading] = useState(true);
   const isTrue = localStorage.getItem("productAdded");
   const isProductDeleted = localStorage.getItem("productDelete");
@@ -342,9 +342,10 @@ function Range() {
     <>
       <div className="padding-top-custom">
         <ActiveProduct
-          activeData={activeData}
+          totalProducts={totalProducts}
           selectedProductsLength={selectedProducts.length}
           productId={selectedProducts[0]?.productId}
+          activeData={activeData}
         />
 
         <div className="" style={{ height: "100%" }}>
