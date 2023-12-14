@@ -137,7 +137,7 @@ export const ProfileEditSchema = Yup.object().shape({
     // .matches(/^[^\d]*$/, "Business name should not contain numbers")
     .required("business name is required"),
   ABN: Yup.string()
-    .matches(/^\d{11}$/, "Invalid ABN format")
+    .matches(/^[0-9]{9,11}$/, "ABN should be a number between 9 to 11 digits")
     .required("ABN is required"),
   // LiquerLicence: Yup.string()
   //   .min(2, "Your Liquor licence should have at least 2 letters")
