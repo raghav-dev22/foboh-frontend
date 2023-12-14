@@ -183,6 +183,7 @@ const ProductDetails = () => {
                     width={200}
                     src={selectedImage}
                     style={{ height: "100%", objectFit: "contain" }}
+                    preview={false}
                   />
                 </div>
               )}
