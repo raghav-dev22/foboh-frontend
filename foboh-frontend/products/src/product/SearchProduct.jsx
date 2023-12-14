@@ -231,30 +231,71 @@ const SearchProduct = forwardRef(
       // Handling pagination
 
       if (name === "category") {
-        setSelectSubcategory([]);
         setOpen(!Open);
-        const newCategoryIds = e.target.checked
-          ? [id]
-          : filterAndSort.filter.category.filter((catId) => catId !== id);
 
-        const newCategoryList = e.target.checked
+        const newCategoryIds = e.target.checked
           ? [...filterAndSort.filter.category, id]
           : filterAndSort.filter.category.filter((catId) => catId !== id);
-
-        categoryList = newCategoryList;
-
+          
         const newFilter = {
           ...filterAndSort.filter,
           category: newCategoryIds,
-          subcategory: [],
         };
 
         filterAndSort = {
           ...filterAndSort,
           filter: newFilter,
         };
+
+        categoryList = newCategoryIds;
+        setSelectedCatId(newCategoryIds);
+
+        console.log("categoryList", categoryList);
       } else if (name === "subcategory") {
-        const newSubcategoryIds = e;
+        setSelectSubcategory((prev) => {
+          const existingIndex = prev.findIndex(
+            (item) => item.cat === categoryName
+          );
+
+          if (existingIndex !== -1) {
+            // Update existing object if categoryName matches prev cat
+            categoryList = [
+              ...prev.slice(0, existingIndex),
+              {
+                cat: categoryName,
+                sub: e,
+              },
+              ...prev.slice(existingIndex + 1),
+            ];
+            return [
+              ...prev.slice(0, existingIndex),
+              {
+                cat: categoryName,
+                sub: e,
+              },
+              ...prev.slice(existingIndex + 1),
+            ];
+          } else {
+            // Create a new object if categoryName doesn't match any prev cat
+
+            categoryList = [
+              ...prev,
+              {
+                cat: categoryName,
+                sub: e,
+              },
+            ];
+            return [
+              ...prev,
+              {
+                cat: categoryName,
+                sub: e,
+              },
+            ];
+          }
+        });
+
+        const newSubcategoryIds = categoryList.flatMap((item) => item.sub);
 
         const newFilter = {
           ...filterAndSort.filter,
@@ -266,7 +307,6 @@ const SearchProduct = forwardRef(
           filter: newFilter,
         };
 
-        setSelectSubcategory(e);
       } else if (name === "stock") {
         const newStockValues = e.target.checked
           ? [...filterAndSort.filter.stock, id]
@@ -558,10 +598,9 @@ const SearchProduct = forwardRef(
                                       category.categoryName
                                     )
                                   }
-                                  checked={
-                                    filterAndSort.filter.category[0] ===
+                                  checked={selectedCatId.includes(
                                     category.categoryId
-                                  }
+                                  )}
                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                                 />
                                 <label
@@ -572,15 +611,19 @@ const SearchProduct = forwardRef(
                                 </label>
                               </div>
 
-                              {filterAndSort.filter.category[0] ===
-                                category.categoryId && (
+                              {selectedCatId.includes(category.categoryId) && (
                                 <ul className="dropdown-content">
                                   <Select
                                     mode="multiple"
                                     style={{
                                       width: "100%",
                                     }}
-                                    value={selectSubcategory}
+                                    value={selectSubcategory
+                                      .filter(
+                                        (item) =>
+                                          item.cat === category.categoryId
+                                      )
+                                      .flatMap((item) => item.sub)}
                                     placeholder={`select ${category.categoryName}`}
                                     onChange={(e, value) =>
                                       toggleCategoryAndSubcategory(

@@ -17,98 +17,6 @@ function ErrorFoundCustomerModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
-  const showModal = () => {
-    setShowPreviewModal(true);
-    setShow(false);
-
-    const prod = importedCustomers.map((product) => {
-      return {
-        title: product.title,
-        skUcode: product.skUcode,
-        brand: product.brand,
-        description: product.description,
-        productImage: product.productImageUrls,
-        globalPrice: product.globalPrice,
-        createdBy: "",
-        articleID: 0,
-        skUcode: product.SkUcode,
-        unitofMeasure: product.unitofMeasure,
-        configuration: "",
-        brand: product.brand,
-        departmentId: product.departmentId,
-        categoryId: product.categoryID,
-        subCategoryId: product.subCategoryId,
-        segmentId: product.segmentId,
-        variety: product.variety ? product.variety.split(",") : [],
-        vintage: product.vintage,
-        abv: product.abv,
-        luCcost: product.luCcost ? product.luCcost : 0,
-        buyPrice: product.buyPrice ? product.buyPrice : 0,
-        gstFlag: product.gstFlag,
-        wetFlag: product.wetFlag,
-      };
-    });
-
-    fetch(
-      "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          importedCustomers.map((product) => {
-            return {
-              title: product.title,
-              description: product.description,
-              productImage: product.productImageUrls,
-              globalPrice: parseInt(product.globalPrice),
-              createdBy: "string",
-              articleID: 0,
-              skUcode: product.skUcode,
-              unitofMeasure: product.unitofMeasure,
-              configuration: "",
-              brand: product.brand,
-              departmentId: product.departmentId,
-              innerUnitofMeasure: "",
-              award: "",
-              categoryId: product.categoryID,
-              subCategoryId: product.subCategoryId,
-              segmentId: product.segmentId,
-              variety: product.variety ? product.variety.split(",") : [],
-              vintage: product.vintage,
-              abv: 0,
-              luCcost: product.luCcost ? parseInt(product.luCcost) : 0,
-              buyPrice: product.buyPrice ? parseInt(product.buyPrice) : 0,
-              gstFlag: product.gstFlag === 1 ? true : false,
-              wetFlag: product.wetFlag === 1 ? true : false,
-              trackInventory: true,
-              region: "string",
-              availableQty: 0,
-              stockThreshold: 0,
-              stockStatus: "string",
-              regionAvailability: ["string"],
-              productStatus: "string",
-              visibility: true,
-              minimumOrder: 0,
-              tags: ["string"],
-              countryOfOrigin: "string",
-              barcodes: "string",
-              esgStatus: "string",
-              healthRating: "string",
-              isActive: true,
-              category: "string",
-              subCategory: "string",
-              stock: "string",
-              status: true,
-            };
-          })
-        ),
-      }
-    )
-      .then((response) => {
-        // navigation logic here
-      })
-      .catch((error) => console.log(error));
-  };
   const previousModal = () => {
     previous(true);
     setShowPreviewModal(false);
@@ -177,9 +85,11 @@ function ErrorFoundCustomerModal({
                         style={{ background: "#FDF5F6" }}
                       >
                         <p className="text-sm font-normal">
-                          <span className="font-bold">X products</span> have
-                          errors that need correcting before importing. After
-                          you fix the errors, try importing the file again
+                          <span className="font-bold">
+                            {errorData?.length} customer
+                          </span>{" "}
+                          have errors that need correcting before importing.
+                          After you fix the errors, try importing the file again
                         </p>
                       </div>
                     </div>
@@ -225,23 +135,35 @@ function ErrorFoundCustomerModal({
                         </tr>
                       </thead>
                       <tbody>
-                        {errorData?.map((errors, errorRow) => (
-                          <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
-                            <td className="font-medium text-sm p-4">
-                              {errorRow + 1}
-                            </td>
-                            <td className="font-normal text-sm p-4">
-                              {errors}
-                            </td>
-                            <td className="font-normal text-sm p-4">
-                              Column B: {errors}
-                            </td>
-                            <td className="font-normal text-sm p-4">
-                              Missing [{errors}], please enter a valid [{errors}
-                              ].
-                            </td>
-                          </tr>
-                        ))}
+                        {errorData?.map((errors, errorRow) =>
+                          errors.length ? (
+                            <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
+                              <td className="font-medium text-sm p-4">
+                                {errorRow + 1}
+                              </td>
+
+                              <td className="font-normal text-sm p-4">
+                                {errors.join(", ")}
+                              </td>
+                              <td className="font-normal text-sm p-4">
+                                Column: {errors.join(", ")}
+                              </td>
+                              <td className="font-normal text-sm p-4">
+                                {errors.map((err, idx) => (
+                                  <p>
+                                    {idx + 1}: Missing{" "}
+                                    <span className="font-semibold">{err}</span>
+                                    , please add a valid{" "}
+                                    <span className="font-semibold">{err}</span>
+                                    .
+                                  </p>
+                                ))}
+                              </td>
+                            </tr>
+                          ) : (
+                            ""
+                          )
+                        )}
                       </tbody>
                     </table>
                   </div>

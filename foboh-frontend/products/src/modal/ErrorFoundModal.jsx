@@ -7,7 +7,6 @@ import Carousel from "better-react-carousel";
 function ErrorFoundModal({
   show,
   setShow,
-  importedProducts,
   previous,
   setErrorData,
   setAddedFile,
@@ -17,98 +16,6 @@ function ErrorFoundModal({
   const cancelButtonRef = useRef(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
-  const showModal = () => {
-    setShowPreviewModal(true);
-    setShow(false);
-
-    const prod = importedProducts.map((product) => {
-      return {
-        title: product.title,
-        skUcode: product.skUcode,
-        brand: product.brand,
-        description: product.description,
-        productImage: product.productImageUrls,
-        globalPrice: product.globalPrice,
-        createdBy: "",
-        articleID: 0,
-        skUcode: product.SkUcode,
-        unitofMeasure: product.unitofMeasure,
-        configuration: "",
-        brand: product.brand,
-        departmentId: product.departmentId,
-        categoryId: product.categoryID,
-        subCategoryId: product.subCategoryId,
-        segmentId: product.segmentId,
-        variety: product.variety ? product.variety.split(",") : [],
-        vintage: product.vintage,
-        abv: product.abv,
-        luCcost: product.luCcost ? product.luCcost : 0,
-        buyPrice: product.buyPrice ? product.buyPrice : 0,
-        gstFlag: product.gstFlag,
-        wetFlag: product.wetFlag,
-      };
-    });
-
-    fetch(
-      "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          importedProducts.map((product) => {
-            return {
-              title: product.title,
-              description: product.description,
-              productImage: product.productImageUrls,
-              globalPrice: parseInt(product.globalPrice),
-              createdBy: "string",
-              articleID: 0,
-              skUcode: product.skUcode,
-              unitofMeasure: product.unitofMeasure,
-              configuration: "",
-              brand: product.brand,
-              departmentId: product.departmentId,
-              innerUnitofMeasure: "",
-              award: "",
-              categoryId: product.categoryID,
-              subCategoryId: product.subCategoryId,
-              segmentId: product.segmentId,
-              variety: product.variety ? product.variety.split(",") : [],
-              vintage: product.vintage,
-              abv: 0,
-              luCcost: product.luCcost ? parseInt(product.luCcost) : 0,
-              buyPrice: product.buyPrice ? parseInt(product.buyPrice) : 0,
-              gstFlag: product.gstFlag === 1 ? true : false,
-              wetFlag: product.wetFlag === 1 ? true : false,
-              trackInventory: true,
-              region: "string",
-              availableQty: 0,
-              stockThreshold: 0,
-              stockStatus: "string",
-              regionAvailability: ["string"],
-              productStatus: "string",
-              visibility: true,
-              minimumOrder: 0,
-              tags: ["string"],
-              countryOfOrigin: "string",
-              barcodes: "string",
-              esgStatus: "string",
-              healthRating: "string",
-              isActive: true,
-              category: "string",
-              subCategory: "string",
-              stock: "string",
-              status: true,
-            };
-          })
-        ),
-      }
-    )
-      .then((response) => {
-        // navigation logic here
-      })
-      .catch((error) => console.log(error));
-  };
   const previousModal = () => {
     previous(true);
     setShowPreviewModal(false);

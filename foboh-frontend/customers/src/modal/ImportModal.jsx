@@ -25,29 +25,39 @@ function ImportModal({ show, setShow }) {
 
         var firstSheet = workbook.SheetNames[0];
         var data = to_json(workbook);
-        let customerList = [...data[firstSheet]].filter((i) => i.length);
-        if (customerList.length) {
-          const dataStructure = [...customerList].slice(0, 2);
-          const customerData = [...customerList].slice(2);
+        let productList = [...data[firstSheet]].filter((i) => i.length);
+        if (productList.length) {
+          localStorage.setItem("productImport", true);
+          const dataStructure = [...productList].slice(0, 2);
+          const productData = [...productList].slice(2);
           let errorData = [];
-          const finalCustomerArray = customerData.map((customer, rowIndex) => {
+          const finalProductArray = productData.map((product, rowIndex) => {
             let tmpObj = {};
-            errorData[rowIndex] = [];
+
             dataStructure[1].forEach((element, index) => {
-              tmpObj[element] = customer[index];
+              tmpObj[element] = product[index];
               if (
-                (!customer[index] || customer[index] === undefined) &&
-                dataStructure[0][index]
+                Boolean(!product[index]?.toString()) &&
+                dataStructure[0][index] == "Y"
               ) {
-                errorData[rowIndex].push(element);
+                if (!errorData?.[rowIndex]) {
+                  errorData[rowIndex] = [];
+                }
+                errorData[rowIndex] = [...errorData[rowIndex], element];
+                // errorData[`row_${rowIndex}`] = {
+                //   row: rowIndex,
+                //   errors: [errorData.map(ele), element],
+                // };
+                // errorData.push({ element, rowIndex });
                 setErrorFoundModal(true);
                 setShow(false);
               }
             });
             return tmpObj;
           });
-          setErrorData(errorData.filter((err) => err.length));
-          setImportedCustomers(finalCustomerArray);
+          console.log("errdaa", errorData);
+          setErrorData(errorData);
+          setImportedCustomers(finalProductArray);
         }
       };
       r.readAsBinaryString(f);
