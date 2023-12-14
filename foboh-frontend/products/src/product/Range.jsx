@@ -367,8 +367,8 @@ function Range() {
             <div className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full">
               <CardBody className="p-0">
                 <table
-                  className=" text-sm text-left text-gray-500 dark:text-gray-400"
-                  style={{ width: "992px" }}
+                  className=" text-sm text-left text-gray-500 dark:text-gray-400 w-full"
+                  style={{ width: "992px", minWidth: "100%" }}
                 >
                   <thead>
                     <tr>

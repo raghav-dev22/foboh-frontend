@@ -12,7 +12,7 @@ import { theme } from "antd";
 const Profile = () => {
   const navigate = useNavigate();
   const EditBtn = () => {
-    navigate("/home/business-details");
+    navigate("/home/account/account-details/profile");
   };
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -248,7 +248,7 @@ const Profile = () => {
                     Address
                   </h2>
                 </div>
-                <Link to="/home/delivery-contact" className="">
+                <Link to="/home/account/account-details/addresses" className="">
                   <div className="">
                     <button
                       style={{ borderColor: token.commonThemeColor }}

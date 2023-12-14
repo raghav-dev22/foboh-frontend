@@ -3,7 +3,7 @@ import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DatePicker, Table, Checkbox } from "antd";
+import { DatePicker, Table, Checkbox, Skeleton } from "antd";
 import { useEffect } from "react";
 import { searchOrders } from "../../helpers/searchOrders";
 import Select from "react-select";
@@ -54,6 +54,7 @@ const AllOrders = () => {
   const [states, setStates] = useState([]);
   const [regions, setRegions] = useState([]);
   const [lastDate, setLastDate] = useState("");
+  const [loading, setLoading] = useState(true);
   const [sortValue, setSortValue] = useState({
     sortBy: "",
     sortOrder: "",
@@ -339,6 +340,9 @@ const AllOrders = () => {
     if (ordersData.success) {
       setOrderData(ordersData?.data);
       setTotalData(ordersData?.total);
+      setTimeout(() => {
+        setLoading(true);
+      }, 2000);
     } else {
       setOrderData([]);
       setTotalData(0);
@@ -560,6 +564,14 @@ const AllOrders = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
+  const customSkeletonStyle = {
+    padding: "10px",
+    width: "95%",
+    position: "absolute",
+    top: "20px",
+    left: "14px",
+  };
+
   return (
     <>
       <div className="pt-5">
@@ -887,7 +899,7 @@ const AllOrders = () => {
                   {regionMenu && (
                     <div
                       style={{ width: "350px", height: "380px" }}
-                      className="z-10 left-0  absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                      className="z-10 left-0 bg-[#fff] absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
                     >
                       <Select
                         name="colors"
@@ -987,7 +999,7 @@ const AllOrders = () => {
             </div>
           )}
         </div>
-        <div className="border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination">
+        <div className="relative border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination">
           <Table
             columns={columns}
             dataSource={data}

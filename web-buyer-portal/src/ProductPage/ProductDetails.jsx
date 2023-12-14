@@ -186,7 +186,6 @@ const ProductDetails = () => {
                   />
                 </div>
               )}
-
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
                 {selectData?.product?.productImageUrls?.map((image, index) => (
                   <div

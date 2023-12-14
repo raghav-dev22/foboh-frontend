@@ -105,7 +105,7 @@ function SearchCustomer({
   };
 
   const DropDownFirst = () => {
-    setFirst(true);
+    setFirst(!fi);
     setSecond(false);
     setThird(false);
   };

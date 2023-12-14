@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import BillingAddress from "./BillingAddress";
 import ModeIcon from "@mui/icons-material/Mode";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { Tabs, theme, message, Tooltip, Modal, Spin } from "antd";
+import { Tabs, theme, message, Tooltip, Modal, Spin, Skeleton } from "antd";
 import CallIcon from "@mui/icons-material/Call";
 import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
@@ -139,6 +139,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [bankName, setBankName] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const errorMessage = (error) => {
     messageApi.open({
       type: "error",
@@ -205,6 +206,10 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
 
         getAddress("delivery-address").then((data) => {
           if (data.success) {
+            setTimeout(() => {
+              setLoadingData(false);
+            }, 2000);
+
             const buyerData = data?.data[0];
             const buyerState = statesData.find(
               (state) => state?.label === buyerData.state
@@ -222,6 +227,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         });
 
         getAddress("billing-address").then((data) => {
+          setTimeout(() => {
+            setLoadingData(false);
+          }, 2000);
           if (data.success) {
             const buyerData = data?.data[0];
             const buyerState = statesData.find(
@@ -239,6 +247,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           }
         });
         getAddress("delivery-contact").then((data) => {
+          setTimeout(() => {
+            setLoadingData(false);
+          }, 2000);
           const buyerData =
             data?.data?.length && data?.data?.length > 0 && data?.data[0];
           if (data.success) {
@@ -498,7 +509,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         Delivery Contact
                       </h5>
                     </div>
-                    {/* <Link to="#"> */}
                     <button
                       className="flex justify-start items-center gap-2 change-btn"
                       onClick={() => setEditContact(!editContact)}
@@ -507,19 +517,31 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         <EditIcon {...btnProps} style={{ width: "25px" }} />
                       </Tooltip>
                     </button>
-                    {/* </Link> */}
                   </div>
+                  <div className="relative mt-2">
+                    <Skeleton
+                      active
+                      loading={loadingData}
+                      paragraph={{ rows: 3 }}
+                    />
 
-                  <p className="text-base font-normal text-[#2B4447] my-1">
-                    {deliveryContact?.FirstName} {deliveryContact?.LastName}
-                  </p>
+                    {!loadingData && (
+                      <>
+                        <p className="text-base font-normal text-[#2B4447] my-1">
+                          {deliveryContact?.FirstName}{" "}
+                          {deliveryContact?.LastName}
+                        </p>
 
-                  <p className="text-base font-normal text-[#2B4447] my-1">
-                    {deliveryContact?.email}
-                  </p>
-                  <p className="text-base font-normal text-[#2B4447] my-1">
-                    {deliveryContact?.Mobile}
-                  </p>
+                        <p className="text-base font-normal text-[#2B4447] my-1">
+                          {deliveryContact?.email}
+                        </p>
+
+                        <p className="text-base font-normal text-[#2B4447] my-1">
+                          {deliveryContact?.Mobile}
+                        </p>
+                      </>
+                    )}
+                  </div>
                 </>
               )}
             </div>
@@ -555,52 +577,65 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                       </Tooltip>
                     </button>
                   </div>
-                  <p className="text-base font-normal text-[#2B4447] my-1">
-                    {`${deliveryAddress?.Apartment}, ${deliveryAddress?.Address}, ${deliveryAddress?.Suburb}, ${deliveryAddress?.State} ${deliveryAddress?.Postcode}`}
-                    , Australia
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <svg
-                      width={20}
-                      height={20}
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <mask
-                        id="mask0_18_521"
-                        style={{
-                          maskType: "luminance",
-                        }}
-                        maskUnits="userSpaceOnUse"
-                        x={0}
-                        y={0}
-                        width={20}
-                        height={20}
-                      >
-                        <path d="M20 0H0V20H20V0Z" fill="white" />
-                      </mask>
-                      <g mask="url(#mask0_18_521)">
-                        <g opacity="0.8">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M1.56524 3.23223C2.03408 2.76339 2.66996 2.5 3.333 2.5H9.16634C9.62657 2.5 9.99963 2.8731 9.99963 3.33333C9.99963 3.79357 9.62657 4.16667 9.16634 4.16667H3.333C3.11199 4.16667 2.90003 4.25446 2.74375 4.41074C2.58747 4.56702 2.49967 4.77899 2.49967 5V16.6667C2.49967 16.8877 2.58747 17.0996 2.74375 17.2559C2.90003 17.4122 3.11199 17.5 3.333 17.5H14.9996C15.2207 17.5 15.4326 17.4122 15.5889 17.2559C15.7452 17.0996 15.833 16.8877 15.833 16.6667V10.8333C15.833 10.3731 16.2061 10 16.6663 10C17.1265 10 17.4996 10.3731 17.4996 10.8333V16.6667C17.4996 17.3297 17.2362 17.9656 16.7674 18.4344C16.2986 18.9033 15.6627 19.1667 14.9996 19.1667H3.333C2.66996 19.1667 2.03408 18.9033 1.56524 18.4344C1.0964 17.9656 0.833008 17.3297 0.833008 16.6667V5C0.833008 4.33696 1.0964 3.70107 1.56524 3.23223Z"
-                            fill="#637381"
-                          />
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M16.6663 2.39909C16.4185 2.39909 16.1808 2.49754 16.0056 2.67278L8.25216 10.4262L7.81166 12.1882L9.57365 11.7477L17.3271 3.99427C17.5023 3.81903 17.6008 3.58135 17.6008 3.33352C17.6008 3.0857 17.5023 2.84802 17.3271 2.67278C17.1518 2.49754 16.9142 2.39909 16.6663 2.39909ZM14.8271 1.49427C15.3149 1.00647 15.9765 0.732422 16.6663 0.732422C17.3562 0.732422 18.0178 1.00647 18.5056 1.49427C18.9934 1.98207 19.2674 2.64367 19.2674 3.33352C19.2674 4.02338 18.9934 4.68498 18.5056 5.17278L10.5889 13.0894C10.4821 13.1962 10.3483 13.272 10.2018 13.3086L6.86847 14.142C6.58449 14.213 6.28408 14.1298 6.0771 13.9228C5.87012 13.7158 5.78691 13.4154 5.8579 13.1314L6.69124 9.79808C6.72787 9.65155 6.80363 9.51773 6.91043 9.41093L14.8271 1.49427Z"
-                            fill="#637381"
-                          />
-                        </g>
-                      </g>
-                    </svg>
-                    <p className="text-base font-normal text-[#2B4447] my-1">
-                      {deliveryAddress?.Notes}
-                    </p>
-                  </div>
+                  <Skeleton
+                    active
+                    loading={loadingData}
+                    paragraph={{ rows: 2 }}
+                    // active
+                    // avatar
+                    // className="custom-skeleton"
+                  />
+
+                  {!loadingData && (
+                    <>
+                      <p className="text-base font-normal text-[#2B4447] my-1">
+                        {`${deliveryAddress?.Apartment}, ${deliveryAddress?.Address}, ${deliveryAddress?.Suburb}, ${deliveryAddress?.State} ${deliveryAddress?.Postcode}`}
+                        , Australia
+                      </p>
+                      <div className="flex items-center gap-1">
+                        <svg
+                          width={20}
+                          height={20}
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <mask
+                            id="mask0_18_521"
+                            style={{
+                              maskType: "luminance",
+                            }}
+                            maskUnits="userSpaceOnUse"
+                            x={0}
+                            y={0}
+                            width={20}
+                            height={20}
+                          >
+                            <path d="M20 0H0V20H20V0Z" fill="white" />
+                          </mask>
+                          <g mask="url(#mask0_18_521)">
+                            <g opacity="0.8">
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M1.56524 3.23223C2.03408 2.76339 2.66996 2.5 3.333 2.5H9.16634C9.62657 2.5 9.99963 2.8731 9.99963 3.33333C9.99963 3.79357 9.62657 4.16667 9.16634 4.16667H3.333C3.11199 4.16667 2.90003 4.25446 2.74375 4.41074C2.58747 4.56702 2.49967 4.77899 2.49967 5V16.6667C2.49967 16.8877 2.58747 17.0996 2.74375 17.2559C2.90003 17.4122 3.11199 17.5 3.333 17.5H14.9996C15.2207 17.5 15.4326 17.4122 15.5889 17.2559C15.7452 17.0996 15.833 16.8877 15.833 16.6667V10.8333C15.833 10.3731 16.2061 10 16.6663 10C17.1265 10 17.4996 10.3731 17.4996 10.8333V16.6667C17.4996 17.3297 17.2362 17.9656 16.7674 18.4344C16.2986 18.9033 15.6627 19.1667 14.9996 19.1667H3.333C2.66996 19.1667 2.03408 18.9033 1.56524 18.4344C1.0964 17.9656 0.833008 17.3297 0.833008 16.6667V5C0.833008 4.33696 1.0964 3.70107 1.56524 3.23223Z"
+                                fill="#637381"
+                              />
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M16.6663 2.39909C16.4185 2.39909 16.1808 2.49754 16.0056 2.67278L8.25216 10.4262L7.81166 12.1882L9.57365 11.7477L17.3271 3.99427C17.5023 3.81903 17.6008 3.58135 17.6008 3.33352C17.6008 3.0857 17.5023 2.84802 17.3271 2.67278C17.1518 2.49754 16.9142 2.39909 16.6663 2.39909ZM14.8271 1.49427C15.3149 1.00647 15.9765 0.732422 16.6663 0.732422C17.3562 0.732422 18.0178 1.00647 18.5056 1.49427C18.9934 1.98207 19.2674 2.64367 19.2674 3.33352C19.2674 4.02338 18.9934 4.68498 18.5056 5.17278L10.5889 13.0894C10.4821 13.1962 10.3483 13.272 10.2018 13.3086L6.86847 14.142C6.58449 14.213 6.28408 14.1298 6.0771 13.9228C5.87012 13.7158 5.78691 13.4154 5.8579 13.1314L6.69124 9.79808C6.72787 9.65155 6.80363 9.51773 6.91043 9.41093L14.8271 1.49427Z"
+                                fill="#637381"
+                              />
+                            </g>
+                          </g>
+                        </svg>
+                        <p className="text-base font-normal text-[#2B4447] my-1">
+                          {deliveryAddress?.Notes}
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -637,10 +672,21 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                       </Tooltip>
                     </button>
                   </div>
-                  <p className="text-base font-normal text-[#2B4447] my-1">
-                    {`${billingAddressData?.Address}, ${billingAddressData?.Apartment}, ${billingAddressData?.Suburb}, ${billingAddressData?.State} ${billingAddressData?.Postcode}`}
-                    , Australia
-                  </p>
+                  <Skeleton
+                    active
+                    loading={loadingData}
+                    paragraph={{ rows: 1 }}
+                    // active
+                    // avatar
+                    // className="custom-skeleton"
+                  />
+
+                  {!loadingData && (
+                    <p className="text-base font-normal text-[#2B4447] my-1">
+                      {`${billingAddressData?.Address}, ${billingAddressData?.Apartment}, ${billingAddressData?.Suburb}, ${billingAddressData?.State} ${billingAddressData?.Postcode}`}
+                      , Australia
+                    </p>
+                  )}
                 </>
               )}
             </div>
