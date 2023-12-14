@@ -10,6 +10,7 @@ function ImportModal({ show, setShow }) {
   const [importedCustomers, setImportedCustomers] = useState([]);
   const [errorData, setErrorData] = useState(null);
   const [errorFoundModal, setErrorFoundModal] = useState(false);
+  const [isOverwrite, setIsOverwrite] = useState(false);
 
   // Function to handle the file upload
   const handleFileUpload = (evt) => {
@@ -284,7 +285,7 @@ function ImportModal({ show, setShow }) {
                       <input
                         id="default-checkbox"
                         type="checkbox"
-                        defaultValue=""
+                        onChange={(e) => setIsOverwrite(e.target.checked)}
                       />
 
                       <label
@@ -292,9 +293,9 @@ function ImportModal({ show, setShow }) {
                         className=" col-span-11 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                       >
                         <p className="text-gray text-sm	 font-normal	">
-                          Overwrite any current customers that have the same SKU
-                          code. Existing values will be used for any missing
-                          columns
+                          Overwrite any current customers that have the same
+                          Ordering email and ABN code. Existing values will be
+                          used for any missing columns
                         </p>
                       </label>
                     </div>
@@ -345,6 +346,7 @@ function ImportModal({ show, setShow }) {
       />
 
       <PreviewModal
+      isOverwrite={isOverwrite}
         show={showPreviewModal}
         setShow={setShowPreviewModal}
         previous={setShow}

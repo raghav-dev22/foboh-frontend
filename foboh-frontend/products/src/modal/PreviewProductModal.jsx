@@ -7,6 +7,7 @@ import { Spin } from "antd";
 import { convertImportedProductList } from "../helpers/importProductModule";
 import { useMemo } from "react";
 function PreviewProductModal({
+  isOverwrite,
   show,
   setShow,
   importedProducts,
@@ -41,7 +42,10 @@ function PreviewProductModal({
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedImports),
+        body: JSON.stringify({
+          products: updatedImports,
+          overwrite: isOverwrite,
+        }),
       }
     )
       .then((response) => {

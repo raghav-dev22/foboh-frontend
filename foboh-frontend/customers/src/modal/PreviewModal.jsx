@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { convertImportedCustomerList } from "../helper/customerImportModule";
 
 function PreviewModal({
+  isOverwrite,
   show,
   setShow,
   previous,
@@ -42,7 +43,10 @@ function PreviewModal({
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedCustomerImport),
+        body: JSON.stringify({
+          customers: updatedCustomerImport,
+          overwrite: isOverwrite,
+        }),
       }
     )
       .then((response) => response.json())
@@ -51,12 +55,14 @@ function PreviewModal({
           setSuccess(true);
         } else {
           setSuccess(false);
-          const errList = data?.data?.map((item) => {
-            return {
-              businessName: item.businessName,
-              error: item.message,
-            };
-          });
+          const errList = data?.data
+            ? data?.data?.map((item) => {
+                return {
+                  businessName: item.businessName,
+                  error: item.message,
+                };
+              })
+            : [];
           setErrList(errList);
         }
         setLoading(false);

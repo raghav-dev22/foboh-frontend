@@ -10,6 +10,7 @@ function ImportModal({ show, setShow }) {
   // const [errorFoundProduct, setErrorFoundProduct] = useState([]);
   const [errorFoundModal, setErrorFoundModal] = useState(false);
   const [errorData, setErrorData] = useState(null);
+  const [isOverwrite, setIsOverwrite] = useState(false);
 
   // Function to handle the file upload
   const handleFileUpload = (evt) => {
@@ -75,6 +76,11 @@ function ImportModal({ show, setShow }) {
     });
     return result;
   }
+
+  const handleOverwrite = (e) => {
+    setIsOverwrite(e.target.checked);
+  };
+
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const showModal = () => {
     if (addedFile && !errorData?.length > 0) {
@@ -249,7 +255,7 @@ function ImportModal({ show, setShow }) {
                       <input
                         id="default-checkbox"
                         type="checkbox"
-                        defaultValue=""
+                        onChange={handleOverwrite}
                       />
                       <label
                         htmlFor="default-checkbox"
@@ -314,6 +320,7 @@ function ImportModal({ show, setShow }) {
       {/* )} */}
 
       <PreviewProductModal
+        isOverwrite={isOverwrite}
         importedProducts={importedProducts}
         show={showPreviewModal}
         setShow={(set) => setShowPreviewModal(set)}
