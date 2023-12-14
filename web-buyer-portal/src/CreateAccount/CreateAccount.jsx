@@ -206,6 +206,7 @@ function CreateAccount() {
       bio: buyerData?.bio || "",
       mobile: buyerData?.mobile || "",
       createdBy: "",
+      
     };
     setIsLoading(true);
     fetch(

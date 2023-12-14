@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { Space } from "antd";
 import Select from "react-select";
+
 let filterAndSort = {
   filter: {
     businessName: "",
@@ -50,6 +51,8 @@ function SearchCustomer({
   const dropdownRef = useRef(null);
   const { Option } = Select;
   const [statusSelected, setStatusSelected] = useState(false);
+
+
 
   const handleChange = (value) => {};
 

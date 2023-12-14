@@ -4,6 +4,8 @@ import PreviewProductModal from "./PreviewProductModal";
 import * as XLSX from "xlsx";
 import { Link } from "@mui/material";
 import ErrorFoundModal from "./ErrorFoundModal";
+import { saveAs } from "file-saver";
+
 function ImportModal({ show, setShow }) {
   const [addedFile, setAddedFile] = useState(null);
   const [importedProducts, setImportedProducts] = useState([]);
@@ -92,7 +94,14 @@ function ImportModal({ show, setShow }) {
       setShow(false);
     }
   };
+
   const cancelButtonRef = useRef(null);
+  const handleDownload = () => {
+    saveAs(
+      "https://fbhdevomsstre.blob.core.windows.net/oms-xlsm-import-templates/OMSProductsBulkImportTemplate.xlsm",
+      "products-import-template.xlsm"
+    );
+  };
 
   return (
     <>
@@ -195,11 +204,12 @@ function ImportModal({ show, setShow }) {
                           <div className="pb-4">
                             <p className="text-sm text-gray-500 text-center">
                               Download a{" "}
-                              <Link to="#" className="">
-                                <span className="text-blue text-sm font-medium">
-                                  sample CSV template
-                                </span>
-                              </Link>{" "}
+                              <span
+                                onClick={handleDownload}
+                                className="text-blue text-sm font-medium cursor-pointer"
+                              >
+                                sample CSV template
+                              </span>{" "}
                               to see an example of the format required.
                             </p>
                           </div>
@@ -262,9 +272,9 @@ function ImportModal({ show, setShow }) {
                         className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 col-span-11"
                       >
                         <p className="text-gray text-sm	 font-normal	">
-                          Overwrite any current products that have the same SKU
-                          code. Existing values will be used for any missing
-                          columns
+                          Overwrite any current products that have the same
+                          Title and SKU code. Existing values will be used for
+                          any missing columns
                         </p>
                       </label>
                     </div>
