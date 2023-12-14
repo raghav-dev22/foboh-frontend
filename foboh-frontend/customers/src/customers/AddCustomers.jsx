@@ -146,8 +146,8 @@ function AddCustomers() {
             <div className="relative overflow-x-auto overflow-y-auto custom-scroll-bar shadow-md sm:rounded-lg rounded-md border border-inherit bg-white  w-full">
               <CardBody className="p-0">
                 <table
-                  style={{ width: "1000px" }}
-                  className=" text-sm text-left text-gray-500 dark:text-gray-400"
+                  style={{ width: "1000px", minWidth: "100%" }}
+                  className=" text-sm text-left text-gray-500 dark:text-gray-400 w-full"
                 >
                   <thead>
                     <tr>
@@ -284,7 +284,7 @@ function AddCustomers() {
                         })
                       ) : (
                         <tr>
-                          <td colSpan="7" className="text-center">
+                          <td colSpan="8" className="text-center">
                             <div className="flex items-center justify-center h-[200px] no-data flex-col">
                               <svg
                                 style={{ fill: "#808080", width: "60px" }}

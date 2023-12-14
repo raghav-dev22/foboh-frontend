@@ -685,3 +685,12 @@ a.foboh-green-btn:hover {
   width: 76px;
   fill: #00000036;
 }
+.min-h-full {
+  min-height: 100%;
+}
+.max-h-\[250px\] {
+  max-height: 250px;
+}
+.overflow-auto {
+  overflow: auto;
+}

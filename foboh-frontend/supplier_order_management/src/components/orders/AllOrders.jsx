@@ -1002,23 +1002,7 @@ const AllOrders = () => {
         <div className="relative border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination">
           <Table
             columns={columns}
-            dataSource={
-              loading
-                ? Array.from({ length: 3 }).map((_, index) => ({
-                    key: index,
-                    content: (
-                      <Skeleton
-                        // style={customSkeletonStyle}
-                        paragraph={{ rows: 1 }}
-                        loading={loading}
-                        active
-                        avatar
-                        // className="custom-skeleton"
-                      />
-                    ),
-                  }))
-                : data
-            }
+            dataSource={data}
             showSizeChanger={false}
             onChange={onShowSizeChange}
             pagination={{

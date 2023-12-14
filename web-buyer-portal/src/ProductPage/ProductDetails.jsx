@@ -183,11 +183,9 @@ const ProductDetails = () => {
                     width={200}
                     src={selectedImage}
                     style={{ height: "100%", objectFit: "contain" }}
-                    preview={false}
                   />
                 </div>
               )}
-
               <div className="grid md:grid-cols-3 grid-cols-2 gap-5">
                 {selectData?.product?.productImageUrls?.map((image, index) => (
                   <div

@@ -92,79 +92,57 @@ function ErrorFoundModal({
                         </p>
                       </div>
                     </div>
-                    <table
-                      className="table-auto"
-                      style={{
-                        borderRadius: "8px",
-                        border: "1px solid #EEEEEE",
-                      }}
-                    >
-                      <thead
-                        style={{
-                          background: "#F9FAFB",
-                          borderBottom: "1px solid #EEEEEE",
-                        }}
-                      >
-                        <tr>
-                          <th
-                            className="font-semiBold text-sm  p-4"
-                            style={{ width: "35px" }}
-                          >
-                            {" "}
-                            Row
-                          </th>
-                          <th
-                            className="font-semiBold text-sm p-4"
-                            style={{ width: "105px" }}
-                          >
-                            Title
-                          </th>
-                          <th
-                            className="font-semiBold text-sm p-4"
-                            style={{ width: "140px" }}
-                          >
-                            Error location
-                          </th>
-                          <th
-                            className="font-semiBold text-sm p-4"
-                            style={{ width: "200px" }}
-                          >
-                            Error description
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {errorData?.map((errors, errorRow) =>
-                          errors.length ? (
-                            <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
-                              <td className="font-medium text-sm p-4">
-                                {errorRow + 1}
-                              </td>
-
-                              <td className="font-normal text-sm p-4">
-                                {errors.join(", ")}
-                              </td>
-                              <td className="font-normal text-sm p-4">
-                                Column: {errors.join(", ")}
-                              </td>
-                              <td className="font-normal text-sm p-4">
-                                {errors.map((err, idx) => (
-                                  <p>
-                                    {idx + 1}: Missing{" "}
-                                    <span className="font-semibold">{err}</span>
-                                    , please add a valid{" "}
-                                    <span className="font-semibold">{err}</span>
-                                    .
-                                  </p>
-                                ))}
-                              </td>
-                            </tr>
-                          ) : (
-                            ""
-                          )
-                        )}
-                      </tbody>
-                    </table>
+                    <div className="w-full overflow-auto min-h-full max-h-[250px] ">
+                      <table className="w-full table-auto">
+                        <thead>
+                          <tr>
+                            <th className="font-semiBold text-sm p-4">Row</th>
+                            <th className="font-semiBold text-sm p-4">Title</th>
+                            <th className="font-semiBold text-sm p-4">
+                              Error Location
+                            </th>
+                            <th className="font-semiBold text-sm p-4">
+                              Error Description
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {errorData?.map((errors, errorRow) =>
+                            errors.length ? (
+                              <tr
+                                key={errorRow}
+                                className="border-t border-gray-200"
+                              >
+                                <td className="font-medium text-sm p-4">
+                                  {errorRow + 1}
+                                </td>
+                                <td className="font-normal text-sm p-4">
+                                  {errors.join(", ")}
+                                </td>
+                                <td className="font-normal text-sm p-4">
+                                  Column: {errors.join(", ")}
+                                </td>
+                                <td className="font-normal text-sm p-4 max-h-40 overflow-y-auto">
+                                  {errors.map((err, idx) => (
+                                    <p key={idx}>
+                                      {idx + 1}: Missing{" "}
+                                      <span className="font-semibold">
+                                        {err}
+                                      </span>
+                                      , please add a valid{" "}
+                                      <span className="font-semibold">
+                                        {err}
+                                      </span>
+                                      .
+                                    </p>
+                                  ))}
+                                </td>
+                              </tr>
+                            ) : null
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center  pb-6 px-8 ">
                     <div className="flex gap-3">
