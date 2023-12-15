@@ -50,7 +50,6 @@ const SearchProduct = forwardRef(
       setisSearchResult,
       setTotalPages,
       setActiveData,
-      checkedData,
     },
     ref
   ) => {
@@ -452,10 +451,6 @@ const SearchProduct = forwardRef(
     }, [dropdownRef]);
 
     useEffect(() => {
-      if (checkedData === true) {
-        saveInput();
-        console.log("object");
-      }
       const timeoutId = setTimeout(() => {
         const mainFilter = localStorage.getItem("yourBooleanKey");
         if (mainFilter === "true") {
