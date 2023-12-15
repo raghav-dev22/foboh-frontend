@@ -52,8 +52,6 @@ function SearchCustomer({
   const { Option } = Select;
   const [statusSelected, setStatusSelected] = useState(false);
 
-
-
   const handleChange = (value) => {};
 
   const handleSortChange = (sortBy, sortOrder) => {
@@ -105,7 +103,7 @@ function SearchCustomer({
   };
 
   const DropDownFirst = () => {
-    setFirst(!fi);
+    setFirst(!First);
     setSecond(false);
     setThird(false);
   };

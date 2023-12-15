@@ -61,7 +61,6 @@ function Range() {
   const [loading, setLoading] = useState(true);
   const isTrue = localStorage.getItem("productAdded");
   const isProductDeleted = localStorage.getItem("productDelete");
-  const [checkedData, setCheckedData] = useState(false);
   // const importTrue = localStorage.getItem("productImport");
 
   const [isSearchResult, setisSearchResult] = useState(true);
@@ -210,10 +209,8 @@ function Range() {
   const handleVisible = (name) => {
     if (name === "visible") {
       setDeleteModalOpen(true);
-      setCheckedData(true);
     } else {
       setHiddenModalOpen(true);
-      setCheckedData(true);
     }
   };
 
@@ -363,7 +360,6 @@ function Range() {
               prevProducts={prevProducts}
               setTotalPages={setTotalPages}
               setActiveData={setActiveData}
-              checkedData={checkedData}
             />
           </div>
 

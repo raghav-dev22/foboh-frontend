@@ -452,13 +452,13 @@ const MyOrders = () => {
         .then((response) => response.json())
         .then((data) => {
           setOrderData(data?.data ? data?.data : []);
-          setTotalData(data.total);
+          setTotalData(data?.total);
         })
         .catch((error) => console.log(error));
     } else {
       const ordersData = await searchOrders(input, page);
       setOrderData(ordersData?.data ? ordersData?.data : []);
-      setTotalData(ordersData.total);
+      setTotalData(ordersData?.total);
     }
   };
   const { useToken } = theme;
