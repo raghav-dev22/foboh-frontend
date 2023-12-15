@@ -12,7 +12,7 @@ export const ResetPasswordFormSchema = Yup.object().shape({
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-]{8,16}$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and at least one special character"
     ),
   repeatPassword: Yup.string()
@@ -33,7 +33,8 @@ export const SignUpSchema = Yup.object().shape({
     .min(8, "Password must be at least 8 characters")
     .max(16, "Password is too long")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#])[A-Za-z\d@$!%*?&^#]+$/,
+      // /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#])[A-Za-z\d@$!%*?&^#]+$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-]{8,16}$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
@@ -51,7 +52,7 @@ export const RegistrationSchema = Yup.object().shape({
   mobile: Yup.string()
     .required("Mobile number is required")
     .matches(
-      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~"`-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~"`-]{8,16}$/,
       "Mobile number must be a valid Australian mobile number"
     ),
   businessName: Yup.string()
@@ -68,7 +69,7 @@ export const SignInSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-]{8,16}$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });

@@ -31,8 +31,8 @@ let filterAndSort = {
     page: 1,
   },
   sort: {
-    sortBy: "date",
-    sortOrder: "desc",
+    sortBy: "title",
+    sortOrder: "asc",
   },
 };
 
@@ -50,6 +50,7 @@ const SearchProduct = forwardRef(
       setisSearchResult,
       setTotalPages,
       setActiveData,
+      checkedData,
     },
     ref
   ) => {
@@ -451,6 +452,10 @@ const SearchProduct = forwardRef(
     }, [dropdownRef]);
 
     useEffect(() => {
+      if (checkedData === true) {
+        saveInput();
+        console.log("object");
+      }
       const timeoutId = setTimeout(() => {
         const mainFilter = localStorage.getItem("yourBooleanKey");
         if (mainFilter === "true") {
@@ -482,8 +487,8 @@ const SearchProduct = forwardRef(
               page: 1,
             },
             sort: {
-              sortBy: "date",
-              sortOrder: "desc",
+              sortBy: "title",
+              sortOrder: "asc",
             },
           };
         }

@@ -6,6 +6,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { validateImage } from "../helpers/validatesize";
 import { Modal, Progress } from "antd";
 import { message } from "antd";
+import { Children } from "react";
 
 function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
   const dispatch = useDispatch();
@@ -46,66 +47,79 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
     });
   };
 
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      // Do something with the files
 
-    const file = acceptedFiles[0];
+      const file = acceptedFiles[0];
 
-    if (file) {
-      const fileNameParts = file.name.split(".");
-      const fileExtension =
-        fileNameParts[fileNameParts.length - 1].toLowerCase();
+      if (file) {
+        const fileNameParts = file.name.split(".");
+        const fileExtension =
+          fileNameParts[fileNameParts.length - 1].toLowerCase();
 
-      // List of allowed image extensions (add more if needed)
-      const allowedExtensions = ["jpg", "jpeg", "png"];
+        // List of allowed image extensions (add more if needed)
+        const allowedExtensions = ["jpg", "jpeg", "png"];
 
-      if (allowedExtensions.includes(fileExtension)) {
-        setShowError(false);
-        const reader = new FileReader();
-        const formData = new FormData();
-        formData.append("file", file);
+        if (allowedExtensions.includes(fileExtension)) {
+          setShowError(false);
+          const reader = new FileReader();
+          const formData = new FormData();
+          formData.append("file", file);
 
-        reader.onload = () => {
-          const imgData = reader.result;
-          setImageSrc(imgData);
-          setShow(true);
-        };
-        reader.readAsDataURL(file);
-        // if (saveClicked) {
-        const ccrn = localStorage.getItem("ccrn");
-        fetch(`${authUrl}/api/User/UploadProfileImage?ccrn=${ccrn}`, {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (!data.error) {
-              setShow(true);
-              setImageSrc(data.blob.uri);
-              setProfileUri(data.blob.uri);
-              dispatch(
-                updateUserData({
-                  ...user,
-                  imageUrl: data?.blob?.uri,
-                })
-              );
-            }
+          reader.onload = () => {
+            const imgData = reader.result;
+            console.log(imgData, "main");
+            setImageSrc(imgData);
+            setProfileUri(imgData);
+
+            dispatch(
+              updateUserData({
+                ...user,
+                imageUrl: imgData,
+              })
+            );
+            setShow(true);
+          };
+          reader.readAsDataURL(file);
+          // if (saveClicked) {
+          const ccrn = localStorage.getItem("ccrn");
+          fetch(`${authUrl}/api/User/UploadProfileImage?ccrn=${ccrn}`, {
+            method: "POST",
+            body: formData,
           })
-          .catch((error) => {
-            console.error("Error:", error);
-            setModal2Open(true);
-          });
-      } else {
-        error(
-          "Invalid file type. Please upload a valid image (JPEG, PNG, JPG )."
-        );
-        // setShowError(true);
-        fileInputRef.current.value = "";
-      }
-    }
+            .then((response) => response.json())
+            .then((data) => {
+              // setImageSrc(data.blob.uri);
 
-    // }
-  }, []);
+              if (!data.error) {
+                console.log(data.blob.uri, "formData");
+                setShow(true);
+                // setProfileUri(data.blob.uri);
+                // dispatch(
+                //   updateUserData({
+                //     ...user,
+                //     imageUrl: data?.blob?.uri,
+                //   })
+                // );
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              setModal2Open(true);
+            });
+        } else {
+          error(
+            "Invalid file type. Please upload a valid image (JPEG, PNG, JPG )."
+          );
+          // setShowError(true);
+          fileInputRef.current.value = "";
+        }
+      }
+      // }
+    },
+    [dispatch, setShow, setProfileUri, updateUserData, setImageSrc]
+  );
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,

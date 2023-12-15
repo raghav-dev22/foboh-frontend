@@ -628,7 +628,10 @@ const AllOrders = () => {
                     <div
                       className="flex justify-end"
                       style={{ paddingRight: "12px" }}
-                      onClick={() => handleClearSort()}
+                      onClick={() => {
+                        handleClearSort();
+                        setSortItem(false);
+                      }}
                     >
                       <p
                         className=" cursor-pointer border-b"
