@@ -772,3 +772,6 @@ select {
   border: 1px solid #000000; /* Add your border styling here */
   border-radius: 4px;
 }
+.back-btn:hover p {
+  color: #fff;
+}

@@ -752,7 +752,6 @@ const ProductList = () => {
         }
       });
 
-
       setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
@@ -764,7 +763,6 @@ const ProductList = () => {
         ...localFilterSort,
         filter: newFilter,
       };
-
 
       setFilterAndSort({
         ...localFilterSort,
@@ -1478,7 +1476,7 @@ const ProductList = () => {
 
               {Availability && (
                 <>
-                  <div className="relative">
+                  <div className="relative ">
                     <SearchIcon
                       className="absolute top-[22px] right-[8px] z-10"
                       style={{ fill: "#d9d9db" }}
@@ -1606,9 +1604,7 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
-               
-                `}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list`}
                 onClick={() => {
                   PriceBtn();
                 }}
@@ -1635,7 +1631,7 @@ const ProductList = () => {
 
               {Price && (
                 <>
-                  <div id="container">
+                  <div id="container ">
                     <div className="wrap">
                       <div className="sliderwrap">
                         <Slider
@@ -1648,7 +1644,7 @@ const ProductList = () => {
                         />
                       </div>
 
-                      <div className="pt-4 flex justify-between items-center">
+                      <div className="pt-4 flex justify-between items-center mb-3">
                         <div className="box">
                           <h5 className="text-base font-medium text-[#637381] mb-2">
                             Min. Price
@@ -1681,9 +1677,7 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
-               
-                `}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list`}
                 onClick={() => {
                   TagsBtn();
                 }}
@@ -1710,7 +1704,7 @@ const ProductList = () => {
 
               {Tags && (
                 <>
-                  <div className="relative">
+                  <div className="relative min-h-[300px] max-h-[100%]">
                     <SearchIcon
                       className="absolute top-[22px] right-[8px] z-10"
                       style={{ fill: "#d9d9db" }}

@@ -46,7 +46,6 @@ function CreateAccount() {
     DeliveryContactMobile: "",
   });
 
-  // Getting buyer data from local storage
   const buyerCred = JSON.parse(localStorage.getItem("buyerCred"));
   const buyerData = JSON.parse(localStorage.getItem("buyerData"));
   const key = localStorage.getItem("uniqueKey");
@@ -206,7 +205,6 @@ function CreateAccount() {
       bio: buyerData?.bio || "",
       mobile: buyerData?.mobile || "",
       createdBy: "",
-      
     };
     setIsLoading(true);
     fetch(
@@ -385,7 +383,7 @@ function CreateAccount() {
                   <div className="items-start	flex justify-between">
                     {currentStep > 0 && (
                       <button
-                        className="login-btn bg-transparent border-2 border-[#563fe3] rounded-md w-36 p-3 custom-shadow mx-1 hover:bg-[#6a59ce]"
+                        className="back-btn login-btn bg-transparent border-2 border-[#563fe3] rounded-md w-36 p-3 custom-shadow mx-1 hover:bg-[#6a59ce]"
                         type="button"
                         onClick={handleBack}
                       >
