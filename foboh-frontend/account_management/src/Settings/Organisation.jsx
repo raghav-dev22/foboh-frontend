@@ -551,7 +551,8 @@ function Organisation() {
         reader.onload = () => {
           const imgData = reader.result;
           setLogoUri(imgData);
-          setShow(true);
+          dispatch(updateLogoURI(imgData));
+          setShow(false);
         };
         reader.readAsDataURL(file);
 
@@ -567,8 +568,8 @@ function Organisation() {
           .then((data) => {
             if (!data.error) {
               setShow(true);
-              setLogoUri(data?.blob.uri);
-              dispatch(updateLogoURI(data?.blob.uri));
+              // setLogoUri(data?.blob.uri);
+              // dispatch(updateLogoURI(data?.blob.uri));
             }
           })
           .catch((error) => {

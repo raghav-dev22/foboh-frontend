@@ -8,7 +8,7 @@ export const LoginSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-]{8,16}$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
@@ -25,7 +25,7 @@ export const SignUpSchema = Yup.object().shape({
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-]{8,16}$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
@@ -370,7 +370,7 @@ export const ResetPasswordFormSchema = Yup.object().shape({
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~-]{8,16}$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
   repeatPassword: Yup.string()

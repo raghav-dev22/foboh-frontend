@@ -120,7 +120,10 @@ function Filter({
                 <div
                   className="flex justify-end"
                   style={{ paddingRight: "12px" }}
-                  onClick={() => handleClearSort()}
+                  onClick={() => {
+                    handleClearSort();
+                    setIsOpen(false);
+                  }}
                 >
                   <p
                     className=" cursor-pointer border-b"
