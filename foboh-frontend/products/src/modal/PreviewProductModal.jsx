@@ -38,14 +38,11 @@ function PreviewProductModal({
     localStorage.setItem("productImport", true);
     setLoading(true);
     fetch(
-      "https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData",
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/CreateUpdateBulkData?overwrite=${isOverwrite}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          products: updatedImports,
-          overwrite: isOverwrite,
-        }),
+        body: JSON.stringify(updatedImports),
       }
     )
       .then((response) => {

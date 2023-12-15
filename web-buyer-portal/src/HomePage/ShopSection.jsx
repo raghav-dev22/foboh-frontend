@@ -9,9 +9,9 @@ function ShopSection() {
   const navigate = useNavigate();
   const { useToken } = theme;
   const { token } = useToken();
+  const catalogueId = localStorage.getItem("catalogueId");
   useEffect(() => {
-    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllBySubcategory?OrganisationId=${organisationId}`;
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllBySubcategory?CatalogueId=${catalogueId}`;
     fetch(apiUrl)
       .then((response) => {
         return response.json();

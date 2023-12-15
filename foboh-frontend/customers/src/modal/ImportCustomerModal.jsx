@@ -168,12 +168,6 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                             </th>
                             <th
                               className="font-semiBold text-sm p-4"
-                              style={{ width: "105px" }}
-                            >
-                              Title
-                            </th>
-                            <th
-                              className="font-semiBold text-sm p-4"
                               style={{ width: "200px" }}
                             >
                               Error description
@@ -187,21 +181,11 @@ function ImportCustomerModal({ show, setShow, error, success }) {
                               style={{ borderBottom: "1px solid #EEEEEE" }}
                             >
                               <td className="font-medium text-sm p-4">
-                                {index + 1}
+                                {err?.row}
                               </td>
+
                               <td className="font-normal text-sm p-4">
-                                Column: {err?.error}
-                              </td>
-                              <td className="font-normal text-sm p-4">
-                                {index + 1}: Missing{" "}
-                                <span className="font-semibold">
-                                  {err?.error}
-                                </span>
-                                , please add a valid{" "}
-                                <span className="font-semibold">
-                                  {err?.error}
-                                </span>
-                                .
+                                {err?.error}
                               </td>
                             </tr>
                           ))}

@@ -6,10 +6,13 @@ import { message, Image, theme } from "antd";
 import { stockStatus } from "../helpers/getStockStatus";
 import { getAllSegments } from "../helpers/getSegments";
 import { setProductBreadcrumData } from "../slices/productBreadcrumSlice";
+import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 const ProductDetails = () => {
   const { id } = useParams();
   const { useToken } = theme;
   const { token } = useToken();
+  const catalogueId = localStorage.getItem("catalogueId");
+
   const [selectData, setSelectData] = useState({
     product: {},
     quantity: 1,
@@ -36,10 +39,8 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-
     fetch(
-      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getByProductId?ProductId=${id}&OrganisationId=${organisationId}`,
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getByProductId?ProductId=${id}&CatalogueId=${catalogueId}`,
       {
         method: "GET",
       }
@@ -49,7 +50,11 @@ const ProductDetails = () => {
       })
       .then((data) => {
         asyncFunction(data?.data[0]?.segmentId);
-        setSelectedImage(data?.data[0]?.productImageUrls[0]);
+        setSelectedImage(
+          data?.data[0]?.productImageUrls
+            ? data?.data[0]?.productImageUrls[0]
+            : null
+        );
         setSelectData({
           product: data.data[0],
           quantity: 1,
@@ -177,12 +182,18 @@ const ProductDetails = () => {
         <div className="flex md:flex-nowrap flex-wrap gap-8">
           <div className="w-full md:w-2/5	 h-full	">
             <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
-              {selectedImage && (
+              {selectedImage ? (
                 <div className=" py-2 flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md ">
                   <Image
                     width={200}
                     src={selectedImage}
                     style={{ height: "100%", objectFit: "contain" }}
+                  />
+                </div>
+              ) : (
+                <div className=" py-2 flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md ">
+                  <ImageNotSupportedIcon
+                    style={{ height: "100%", width: "200px", color: "gray" }}
                   />
                 </div>
               )}

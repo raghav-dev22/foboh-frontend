@@ -159,6 +159,7 @@ function Dashboard() {
             if (data.success) {
               const org = data?.data[0];
               localStorage.setItem("catalogueId", org?.catalogueId);
+              localStorage.setItem("cCatalogueId", org?.cCatalogueId);
               dispatch(setOrganisationDetails(org));
               dispatch(updateLogoURI(org?.organisationlogo));
               dispatch(setbusinessName(org?.businessName));

@@ -35,6 +35,8 @@ export const setBuyerValues = (buyer, dispatch, updateField) => {
       billingContactSuburb: buyer?.billingSuburb,
       defaultPaymentTerm: buyer?.defaultPaymentTerm[0],
       defaultPaymentMethod: buyer?.defaultPaymentMethodId[0],
+      catalogueId: buyer?.catalogueId,
+      cCatalogueId: buyer?.cCatalogueId,
     })
   );
 

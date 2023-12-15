@@ -59,6 +59,7 @@ export const convertImportedCustomerList = (importedCustomers) => {
           commonThemeColor: "",
         },
         catalogueId: localStorage.getItem("catalogueId"),
+        cCatalogueId: localStorage.getItem("cCatalogueId"),
         isActive: "1",
       };
     });

@@ -13,9 +13,11 @@ function TopRatedSection() {
   const addCart = (item) => {
     dispatch(add(item));
   };
+  const catalogueId = localStorage.getItem("catalogueId");
+
   useEffect(() => {
     const topRated = "Top rated";
-    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=${topRated}&page=1&OrganisationId=8931989992`;
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=${topRated}&page=1&CatalogueId=${catalogueId}`;
 
     fetch(apiUrl)
       .then((response) => {

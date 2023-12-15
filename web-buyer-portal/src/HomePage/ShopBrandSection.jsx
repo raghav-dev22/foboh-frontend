@@ -6,10 +6,10 @@ function ShopBrandSection() {
   const [BrandData, setBrandData] = useState([]);
 
   useEffect(() => {
-    const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
+    const catalogueId = localStorage.getItem("catalogueId");
 
     fetch(
-      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByBrands?OrganisationId=${buyer?.organisationId}`,
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByBrands?CatalogueId=${catalogueId}`,
       {
         method: "GET",
       }

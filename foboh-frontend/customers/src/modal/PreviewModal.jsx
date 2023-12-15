@@ -39,14 +39,11 @@ function PreviewModal({
     setShow(false);
 
     fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateBulkData`,
+      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/CreateBulkData?overwrite=${isOverwrite}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customers: updatedCustomerImport,
-          overwrite: isOverwrite,
-        }),
+        body: JSON.stringify(updatedCustomerImport),
       }
     )
       .then((response) => response.json())
@@ -58,7 +55,7 @@ function PreviewModal({
           const errList = data?.data
             ? data?.data?.map((item) => {
                 return {
-                  businessName: item.businessName,
+                  row : item.row,
                   error: item.message,
                 };
               })

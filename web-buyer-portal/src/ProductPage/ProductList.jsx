@@ -50,6 +50,7 @@ let categoryList = [];
 
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
+  const catalogueId = localStorage.getItem("catalogueId");
 
   const [loading, setLoading] = useState(true);
   const [countryList, setCountryList] = useState([]);
@@ -228,10 +229,9 @@ const ProductList = () => {
     };
   }
   function saveInput(name) {
-    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
     setLoading(true);
     fetch(
-      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/product/Filter?OrganisationId=${organisationId}`,
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/product/Filter?CatalogueId=${catalogueId}`,
       {
         method: "POST",
         headers: {
@@ -372,8 +372,7 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
-    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}&OrganisationId=${organisationId}`;
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}&CatalogueId=${catalogueId}`;
 
     fetch(apiUrl)
       .then((response) => {
@@ -752,7 +751,6 @@ const ProductList = () => {
         }
       });
 
-
       setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
@@ -764,7 +762,6 @@ const ProductList = () => {
         ...localFilterSort,
         filter: newFilter,
       };
-
 
       setFilterAndSort({
         ...localFilterSort,

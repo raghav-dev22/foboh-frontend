@@ -68,8 +68,8 @@ export const convertImportedProductList = (importedProducts) => {
         barcodes: "string",
         esgStatus: "string",
         healthRating: "string",
-        catalogueId: 0,
-        cCatalogueId: "string",
+        catalogueId: localStorage.getItem("catalogueId"),
+        cCatalogueId: localStorage.getItem("cCatalogueId"),
         organisationId: organisationId,
         isActive: true,
       };

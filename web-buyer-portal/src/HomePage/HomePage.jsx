@@ -43,6 +43,7 @@ function HomePage({ setConfig }) {
 
   useEffect(() => {
     const buyer = JSON.parse(localStorage.getItem("buyerInfo"));
+    localStorage.setItem("catalogueId", buyer?.catalogueId);
     setBuyerValues(buyer, dispatch, updateField);
 
     if (buyer) {

@@ -32,6 +32,8 @@ function Header() {
   const { token } = useToken();
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const organisation = useSelector((state) => state.organisation);
+  const catalogueId = localStorage.getItem("catalogueId");
+
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -84,9 +86,8 @@ function Header() {
   }
 
   function saveInput() {
-    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
     fetch(
-      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByTitles?Title=${input}&page=1&OrganisationId=${organisationId}`,
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByTitles?Title=${input}&page=1&CatalogueId=${catalogueId}`,
       {
         method: "GET",
       }
