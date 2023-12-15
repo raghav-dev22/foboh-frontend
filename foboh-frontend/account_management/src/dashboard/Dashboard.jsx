@@ -107,9 +107,7 @@ function Dashboard() {
   const sidebarHandler = () => {
     setIsDivVisible(!isDivVisible);
   };
-  const organisationId = useSelector(
-    (state) => state?.credentials?.organisationId
-  );
+
   const authUrl = process.env.REACT_APP_AUTH_URL;
   const stripeKey = process.env.REACT_APP_STRIPE_KEY;
 
@@ -160,6 +158,7 @@ function Dashboard() {
           .then((data) => {
             if (data.success) {
               const org = data?.data[0];
+              localStorage.setItem("catalogueId", org?.catalogueId);
               dispatch(setOrganisationDetails(org));
               dispatch(updateLogoURI(org?.organisationlogo));
               dispatch(setbusinessName(org?.businessName));

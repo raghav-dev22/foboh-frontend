@@ -24,7 +24,9 @@ export const convertImportedCustomerList = (importedCustomers) => {
         orderingLastName: customer?.orderingLastName
           ? customer.orderingLastName
           : "",
-        orderingMobile: customer?.orderingMobile ? customer.orderingMobile.toString() : "",
+        orderingMobile: customer?.orderingMobile
+          ? customer.orderingMobile.toString()
+          : "",
         orderingEmail: customer?.orderingEmail ? customer.orderingEmail : "",
         deliveryFirstName: customer?.deliveryFirstName
           ? customer.deliveryFirstName
@@ -32,7 +34,9 @@ export const convertImportedCustomerList = (importedCustomers) => {
         deliveryLastName: customer?.deliveryLastName
           ? customer.deliveryLastName
           : "",
-        deliveryMobile: customer?.deliveryMobile ? customer.deliveryMobile.toString() : "",
+        deliveryMobile: customer?.deliveryMobile
+          ? customer.deliveryMobile.toString()
+          : "",
         deliveryEmail: customer?.deliveryEmail ? customer.deliveryEmail : "",
         address: customer?.address ? customer.address : "",
         apartment: customer?.apartment ? customer.apartment : "",
@@ -54,6 +58,7 @@ export const convertImportedCustomerList = (importedCustomers) => {
           buttonThemeColor: "",
           commonThemeColor: "",
         },
+        catalogueId: localStorage.getItem("catalogueId"),
         isActive: "1",
       };
     });

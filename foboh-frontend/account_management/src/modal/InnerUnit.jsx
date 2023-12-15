@@ -186,7 +186,8 @@ const InnerUnit = ({
     response && masterAsyncFunction();
   };
 
-  const handleCancelEdit = (idx) => {
+  const handleCancelEdit = async (idx) => {
+    await asyncFunction();
     setUnit((prev) =>
       prev.map((item, itemIndex) => {
         if (itemIndex === idx) {
