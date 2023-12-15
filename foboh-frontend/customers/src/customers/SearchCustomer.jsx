@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import CloseIcon from "@mui/icons-material/Close";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import { Space } from "antd";
 import Select from "react-select";
 
 let filterAndSort = {
@@ -42,7 +39,7 @@ function SearchCustomer({
   const [Third, setThird] = useState(false);
   const [pincode, setPinCode] = React.useState("");
   const [search, setSearch] = React.useState(0);
-  const [selectArray, setSelectedArray] = React.useState([]);
+
   const [isActiveChecked, setIsActiveChecked] = React.useState(false);
   const [isInactiveChecked, setIsInactiveChecked] = React.useState(true);
   const [itemLabel, setItemLabel] = useState("");
@@ -51,8 +48,6 @@ function SearchCustomer({
   const dropdownRef = useRef(null);
   const { Option } = Select;
   const [statusSelected, setStatusSelected] = useState(false);
-
-  const handleChange = (value) => {};
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -77,14 +72,11 @@ function SearchCustomer({
     };
 
     processChange("filterAndSort");
-    // processChange("filterAndSort");
   };
 
   const addState = (value) => {
     setSelectedState(value);
-
     const newState = value.map((item) => item.value);
-    // Clone the filter object to avoid mutating the state directly
     const updatedFilter = {
       ...filterAndSort.filter,
       state: newState,
@@ -94,10 +86,6 @@ function SearchCustomer({
       ...filterAndSort,
       filter: updatedFilter,
     };
-
-    // Update the filterAndSort object with the new state
-
-    // Save input here if needed
 
     processChange("filterAndSort");
   };
@@ -126,9 +114,6 @@ function SearchCustomer({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // if(value === 0){
-    //   saveInput()
-    // }
     switch (name) {
       case "text":
         filterAndSort.filter.businessName = value;
@@ -136,7 +121,6 @@ function SearchCustomer({
       case "pincode":
         filterAndSort.filter.postCode = value;
         setPinCode(value);
-      // saveInput("filterAndSort");
       default:
         break;
     }
@@ -150,7 +134,6 @@ function SearchCustomer({
       ...filterAndSort,
       filter: newFilter,
     };
-
     processChange("filterAndSort");
   }, [pageIndex]);
 
@@ -164,12 +147,10 @@ function SearchCustomer({
       status: newStatus,
     };
 
-    // Update the filterAndSort object with the new filter object
     filterAndSort = {
       ...filterAndSort,
       filter: updatedFilter,
     };
-    // Save input here if needed
     processChange("filterAndSort");
   };
 
@@ -441,32 +422,35 @@ function SearchCustomer({
                       style={{ top: "37px" }}
                     >
                       <ul className="dropdown-content">
-                        {status.map((sts) => (
-                          <li className="py-2.5 px-4  ">
-                            <div className="flex items-center ">
-                              <div className="flex items-center gap-3 green-checkbox">
-                                <input
-                                  id={sts.label}
-                                  checked={
-                                    filterAndSort?.filter?.status === sts.value
-                                  }
-                                  type="checkbox"
-                                  value={statusSelected}
-                                  onClick={(e) =>
-                                    toggleCategory(e, sts.value, "status")
-                                  }
-                                  className=""
-                                />
-                              </div>
+                        {status.map((sts, index) => (
+                          <ul key={index}>
+                            <li className="py-2.5 px-4  ">
+                              <div className="flex items-center ">
+                                <div className="flex items-center gap-3 green-checkbox">
+                                  <input
+                                    id={sts.label}
+                                    checked={
+                                      filterAndSort?.filter?.status ===
+                                      sts.value
+                                    }
+                                    type="checkbox"
+                                    value={statusSelected}
+                                    onClick={(e) =>
+                                      toggleCategory(e, sts.value, "status")
+                                    }
+                                    className=""
+                                  />
+                                </div>
 
-                              <label
-                                htmlFor={sts.label}
-                                className="ml-2 text-sm font-medium text-gray"
-                              >
-                                {sts.label}
-                              </label>
-                            </div>
-                          </li>
+                                <label
+                                  htmlFor={sts.label}
+                                  className="ml-2 text-sm font-medium text-gray"
+                                >
+                                  {sts.label}
+                                </label>
+                              </div>
+                            </li>
+                          </ul>
                         ))}
                       </ul>
                     </div>

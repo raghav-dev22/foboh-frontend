@@ -62,6 +62,9 @@ const AllOrders = () => {
   const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [customSelectedDate, setCustomSelectedDate] = useState([]);
+  const [statusMenu, setStatusMenu] = useState(false);
+  const [regionMenu, setRegionMenu] = useState(false);
+  const [dateMenu, setDateMenu] = useState(false);
   const dropdownRef = useRef(null);
 
   const statusCheckAll = statusList.length === selectedStatus.length;
@@ -77,10 +80,6 @@ const AllOrders = () => {
   const handleCheckboxChange = (e) => {
     setShowDatePicker(e.target.checked);
   };
-
-  const [statusMenu, setStatusMenu] = useState(false);
-  const [regionMenu, setRegionMenu] = useState(false);
-  const [dateMenu, setDateMenu] = useState(false);
 
   const statusMenuBtn = () => {
     setStatusMenu(!statusMenu);
@@ -550,10 +549,10 @@ const AllOrders = () => {
         }
 
         if (!isInsideDropdown) {
-          setStatusMenu(false);
-          setRegionMenu(false);
-          setDateMenu(false);
-          setSortItem(false);
+          // setStatusMenu(false);
+          // setRegionMenu(false);
+          // setDateMenu(false);
+          // setSortItem(false);
         }
       }
     }
@@ -860,31 +859,27 @@ const AllOrders = () => {
                     <KeyboardArrowDownIcon />
                   </div>
                   {statusMenu && (
-                    <>
-                      <div className=" z-10 left-0 px-3 h-[200px] custom-product-dropdown  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
-                        <ul className="dropdown-content ">
-                          <li className="py-1">
-                            <Checkbox
-                              checked={statusCheckAll}
-                              onChange={(e) => handleCheckAll(e, "status")}
-                              className="text-base font-medium text-[#637381]"
-                            >
-                              Select all
-                            </Checkbox>
-                          </li>
-                          <li className="py-1">
-                            <Checkbox.Group
-                              onChange={(value) =>
-                                handleFilter(value, "status")
-                              }
-                              options={statusList}
-                              value={selectedStatus}
-                              className="text-base grid font-medium text-[#637381]"
-                            />
-                          </li>
-                        </ul>
-                      </div>
-                    </>
+                    <div className=" z-10 left-0 px-3 h-[200px] custom-product-dropdown  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                      <ul>
+                        <li className="py-1">
+                          <Checkbox
+                            checked={statusCheckAll}
+                            onChange={(e) => handleCheckAll(e, "status")}
+                            className="text-base font-medium text-[#637381]"
+                          >
+                            Select all
+                          </Checkbox>
+                        </li>
+                        <li className="py-1">
+                          <Checkbox.Group
+                            onChange={(value) => handleFilter(value, "status")}
+                            options={statusList}
+                            value={selectedStatus}
+                            className="text-base grid font-medium text-[#637381]"
+                          />
+                        </li>
+                      </ul>
+                    </div>
                   )}
                 </div>
 
@@ -929,7 +924,7 @@ const AllOrders = () => {
 
                   {dateMenu && (
                     <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
-                      <ul className="dropdown-content ">
+                      <ul>
                         {lastDateList.map((date) => (
                           <li className="py-1 green-checkbox flex gap-1">
                             <input
