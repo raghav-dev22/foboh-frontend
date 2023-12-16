@@ -242,7 +242,7 @@ const ProductList = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      processChange(searchTerm === "" && "clear"); ////////////
+      processChange(searchTerm === "" && "clear");
     }, 300);
 
     return () => clearTimeout(timeout);
