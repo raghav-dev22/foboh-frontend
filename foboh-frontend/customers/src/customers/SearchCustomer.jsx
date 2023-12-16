@@ -185,6 +185,7 @@ function SearchCustomer({
   const saveInput = (name) => {
     const orgID = localStorage.getItem("organisationId");
     if (name === "filterAndSort") {
+      setLoading(true);
       fetch(
         `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Filter?OrganisationId=${orgID}`,
         {
@@ -204,7 +205,9 @@ function SearchCustomer({
             setProducts(data.data);
             setSearch(data.data.length);
             setisSearchResult(true);
-            setLoading(false);
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
           } else {
             setisSearchResult(false);
             setTotalPages(0);
