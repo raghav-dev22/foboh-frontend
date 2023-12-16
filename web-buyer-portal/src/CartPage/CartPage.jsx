@@ -211,7 +211,7 @@ const CartPage = () => {
         if (data.success) {
           const orderId = data?.data?.orderId;
           localStorage.setItem("orderId", orderId);
-          navigate("/home/payment-page/checkout");
+          navigate("/home/my-cart/checkout");
         } else {
           warning();
         }

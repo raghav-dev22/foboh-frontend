@@ -343,177 +343,117 @@ const ProductDetails = () => {
               )}
             </div>
             {selectData.product.categoryId === "C5000" && (
-              <div className="flex justify-between items-center md:w-[365px] w-full pt-3">
-                <div>
-                  <div className="">
-                    {selectData?.product?.countryOfOrigin ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
+              <div className="w-full pt-3">
+                <div className="info-container grid gap-3">
+                  {selectData?.product?.countryOfOrigin && (
+                    <div className="info-item flex justify-start items-start gap-3">
+                      <p className="text-base font-normal text-[#2B4447] w-[200px]">
                         Country:
                       </p>
-                    ) : (
-                      ""
-                    )}
-
-                    {selectData?.product?.segmentId ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        Segment:
-                      </p>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div className="">
-                    {selectData?.product?.vintage ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        Vintage:
-                      </p>
-                    ) : (
-                      ""
-                    )}
-
-                    {selectData?.product?.award ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        Awards:
-                      </p>
-                    ) : (
-                      ""
-                    )}
-
-                    {selectData?.product?.abv ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        ABV:
-                      </p>
-                    ) : (
-                      ""
-                    )}
-                    {(selectData?.product?.subCategoryId === "SC5000" ||
-                      selectData?.product?.subCategoryId === "SC500") && (
-                      <div>
-                        {selectData?.product?.region ? (
-                          <p className="text-base font-normal text-[#2B4447] py-2">
-                            Region:
-                          </p>
-                        ) : (
-                          ""
-                        )}
-
-                        {selectData?.product?.variety &&
-                        selectData.product.variety.length > 0 ? (
-                          <p className="text-base font-normal text-[#2B4447] py-2">
-                            Grape variety:
-                          </p>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="">
-                  <div className="">
-                    {selectData?.product?.countryOfOrigin ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                      <p className="text-base font-semibold text-[#2B4447] ">
                         {selectData?.product?.countryOfOrigin}
                       </p>
-                    ) : (
-                      ""
-                    )}
+                    </div>
+                  )}
 
-                    {selectData?.product?.segmentId ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                  {selectData?.product?.segmentId && (
+                    <div className="info-item flex justify-start items-start gap-3">
+                      <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                        Segment:
+                      </p>
+                      <p className="text-base font-semibold text-[#2B4447]">
                         {segments.segmentName}
                       </p>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div>
-                    {selectData?.product?.vintage ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                    </div>
+                  )}
+
+                  {selectData?.product?.vintage && (
+                    <div className="info-item flex justify-start items-start gap-3">
+                      <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                        Vintage:
+                      </p>
+                      <p className="text-base font-semibold text-[#2B4447]">
                         {selectData?.product?.vintage}
                       </p>
-                    ) : (
-                      ""
-                    )}
-                    {selectData?.product?.award ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                    </div>
+                  )}
+
+                  {selectData?.product?.award && (
+                    <div className="info-item flex justify-start items-start gap-3">
+                      <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                        Awards:
+                      </p>
+                      <p className="text-base font-semibold text-[#2B4447]">
                         {selectData?.product?.award}
                       </p>
-                    ) : (
-                      ""
-                    )}
+                    </div>
+                  )}
 
-                    {selectData?.product?.abv ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
+                  {selectData?.product?.abv && (
+                    <div className="info-item flex justify-start items-start gap-3">
+                      <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                        ABV:
+                      </p>
+                      <p className="text-base font-semibold text-[#2B4447]">
                         {selectData?.product?.abv}
                       </p>
-                    ) : (
-                      ""
-                    )}
+                    </div>
+                  )}
 
-                    {(selectData?.product?.subCategoryId === "SC5000" ||
-                      selectData?.product?.subCategoryId === "SC500") && (
-                      <div>
-                        {selectData?.product?.region ? (
-                          <p className="text-base font-semibold text-[#2B4447] py-2">
+                  {(selectData?.product?.subCategoryId === "SC5000" ||
+                    selectData?.product?.subCategoryId === "SC500") && (
+                    <>
+                      {selectData?.product?.region && (
+                        <div className="info-item flex justify-start items-start gap-3">
+                          <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                            Region:
+                          </p>
+                          <p className="text-base font-semibold text-[#2B4447]">
                             {selectData?.product?.region}
                           </p>
-                        ) : (
-                          ""
+                        </div>
+                      )}
+
+                      {selectData?.product?.variety &&
+                        selectData.product.variety.length > 0 && (
+                          <div className="info-item flex justify-start items-start gap-3">
+                            <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                              Grape variety:
+                            </p>
+                            <p className="text-base font-semibold text-[#2B4447]">
+                              {selectData?.product?.variety}
+                            </p>
+                          </div>
                         )}
-                        {selectData?.product?.variety ? (
-                          <p className="text-base font-semibold text-[#2B4447] py-2">
-                            {selectData?.product?.variety}
-                          </p>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    )}
-                  </div>
+                    </>
+                  )}
                 </div>
               </div>
             )}
-            {selectData.product.categoryId !== "C5000" && (
-              <div className="flex justify-between items-center md:w-[365px] w-full ">
-                <div>
-                  <div className="">
-                    {selectData?.product?.countryOfOrigin ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        Country:
-                      </p>
-                    ) : (
-                      ""
-                    )}
 
-                    {selectData?.product?.segmentId ? (
-                      <p className="text-base font-normal text-[#2B4447] py-2">
-                        Segment:
-                      </p>
-                    ) : (
-                      ""
-                    )}
+            {selectData.product.categoryId !== "C5000" && (
+              <div className="info-container">
+                {selectData?.product?.countryOfOrigin && (
+                  <div className="info-item flex justify-start items-start gap-3">
+                    <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                      Country:
+                    </p>
+                    <p className="text-base font-semibold text-[#2B4447]">
+                      {selectData?.product?.countryOfOrigin}
+                    </p>
                   </div>
-                </div>
-                <div className="">
-                  <div className="">
-                    {selectData?.product?.countryOfOrigin ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
-                        {selectData?.product?.countryOfOrigin}
-                      </p>
-                    ) : (
-                      ""
-                    )}
-                    {selectData?.product?.segmentId ? (
-                      <p className="text-base font-semibold text-[#2B4447] py-2">
-                        {segments.segmentName}
-                      </p>
-                    ) : (
-                      ""
-                    )}
+                )}
+
+                {selectData?.product?.segmentId && (
+                  <div className="info-item flex justify-start items-start gap-3">
+                    <p className="text-base font-normal text-[#2B4447] w-[200px]">
+                      Segment:
+                    </p>
+                    <p className="text-base font-semibold text-[#2B4447]">
+                      {segments.segmentName}
+                    </p>
                   </div>
-                </div>
+                )}
               </div>
             )}
           </div>

@@ -312,7 +312,6 @@ const OrderDetails = () => {
             </h5>
           ) : (
             <>
-              {" "}
               {productList.map((item, index) => (
                 <div
                   key={index}

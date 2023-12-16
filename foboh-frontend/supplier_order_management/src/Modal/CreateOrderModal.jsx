@@ -871,10 +871,12 @@ const CreateOrderModal = ({
                                 />
                               </div>
                               <div className="w-full">
-                                <div className="flex justify-between items-center w-full">
-                                  <h3 className="text-xl font-semibold text-[#2B4447]">
-                                    {product?.title}
-                                  </h3>
+                                <div className="grid grid-cols-10  w-full ">
+                                  <div className="col-span-5">
+                                    <h3 className="text-xl font-semibold text-[#2B4447]">
+                                      {product?.title}
+                                    </h3>
+                                  </div>
                                   <div className="">
                                     <Select
                                       onChange={(value) =>
@@ -887,13 +889,17 @@ const CreateOrderModal = ({
                                       value={quantity}
                                     />
                                   </div>
-                                  <h4 className="text-lg font-semibold text-[#2B4447]">
-                                    ${product?.globalPrice}
-                                  </h4>
+                                  <div className="col-span-4 ">
+                                    <h4 className="text-lg font-semibold text-[#2B4447] text-end">
+                                      ${product?.globalPrice}
+                                    </h4>
+                                  </div>
                                 </div>
-                                <p className="text-base font-medium text-[#637381] ">
-                                  {product?.configuration}
-                                </p>
+                                <div>
+                                  <p className="text-base font-medium text-[#637381] ">
+                                    {product?.configuration}
+                                  </p>
+                                </div>
                                 <div className="flex justify-between  items-center mt-6 ">
                                   <div className="flex justify-start items-center gap-3">
                                     {stockStatus(

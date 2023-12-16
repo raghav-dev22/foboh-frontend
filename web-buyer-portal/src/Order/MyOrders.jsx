@@ -205,7 +205,7 @@ const MyOrders = () => {
 
     OrderID: (
       <h1
-        // to={`/home/order-details/${order.orderId}`}
+        // onClick={() => navigate(`/home/my-orders/order/details`)}
         onClick={() => navigate(`/home/my-orders/order/${order.orderId}`)}
         className="text-base font-medium text-[#2B4447] cursor-pointer"
       >

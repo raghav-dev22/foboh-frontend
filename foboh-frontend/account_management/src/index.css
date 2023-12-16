@@ -694,3 +694,15 @@ a.foboh-green-btn:hover {
 .overflow-auto {
   overflow: auto;
 }
+.grid-cols-10 {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.col-span-4 {
+  grid-column: span 4 / span 4;
+}
+.col-span-5 {
+  grid-column: span 5 / span 5;
+}
+.text-end {
+  text-align: end;
+}

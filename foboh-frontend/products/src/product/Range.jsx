@@ -340,8 +340,6 @@ function Range() {
                                 ? true
                                 : false
                             }
-                            // defaultValue=""
-
                             onChange={(e) => handleSelectAllChange(e)}
                             className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                           />
@@ -373,9 +371,7 @@ function Range() {
                       {products?.length > 0 ? (
                         products.map((product, index) => {
                           const isLast = index === products.length - 1;
-
                           const classes = isLast ? "p-4" : "p-4  ";
-
                           return (
                             <tr
                               key={index}
