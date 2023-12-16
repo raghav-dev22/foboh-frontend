@@ -99,10 +99,10 @@ const Profile = () => {
   };
   return (
     <>
-      <Routes>
+      {/* <Routes>
         <Route path="/profile-details" element={<ProfileEdit />} />
         <Route path="/addresses-details" element={<DeliveryEdit />} />
-      </Routes>
+      </Routes> */}
       <div className="md:w-4/5	w-full mx-auto md:p-0 mb-8 ">
         <Tabs
           className="md:flex justify-between"

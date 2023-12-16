@@ -155,7 +155,14 @@ function HomePage({ setConfig }) {
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />
-
+        <Route
+          path="account/profile/profile-details"
+          element={<ProfileEdit />}
+        />
+        <Route
+          path="account/addresses/addresses-details"
+          element={<DeliveryEdit />}
+        />
         <Route path="/account*" element={<MyAccount />} />
         <Route path="/my-cart" element={<CartPage />} />
         <Route path="/all-products/product/:id" element={<ProductDetails />} />
