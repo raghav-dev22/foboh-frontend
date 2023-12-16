@@ -67,71 +67,18 @@ function Header() {
       .catch((error) => console.log(error));
   }, []);
 
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      // processChange();
-    }, 1000);
-
-    return () => clearTimeout(debounceTimeout);
-  }, [input]);
-
-  function debounce(func, timeout = 0) {
-    let timer;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        func.apply(this, args);
-      }, timeout);
-    };
-  }
-
-  // function saveInput() {
-  //   fetch(
-  //     `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByTitles?Title=${input}&page=1&CatalogueId=${catalogueId}`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         dispatch(
-  //           setProductData(
-  //             data.data.map((item) => {
-  //               return {
-  //                 product: item,
-  //                 quantity: 0,
-  //               };
-  //             })
-  //           )
-  //         );
-  //         dispatch(setTotalProducts(data.total));
-  //       } else {
-  //         dispatch(setProductData([]));
-  //         dispatch(setTotalProducts(0));
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-
-  // const processChange = debounce(() => saveInput());
   const [errorMessage, setErrorMessage] = useState("");
   const maxInputLength = 27;
   const handleSearch = (e) => {
     const inputValue = e.target.value;
 
-    // setInput(e.target.value);
     if (inputValue.length <= maxInputLength) {
       dispatch(updateSearchTerm(inputValue));
       setInput(inputValue);
     } else {
       setErrorMessage(`Maximum ${maxInputLength} characters allowed.`);
     }
-    // const search = e.target.value;
-    // setInput(search);
   };
-
-  // const [searchValue, setSearchValue] = useState("");
   const handleClearSearch = () => {
     dispatch(updateSearchTerm(""));
 
