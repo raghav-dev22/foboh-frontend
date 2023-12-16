@@ -67,18 +67,71 @@ function Header() {
       .catch((error) => console.log(error));
   }, []);
 
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      // processChange();
+    }, 1000);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [input]);
+
+  function debounce(func, timeout = 0) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
+  // function saveInput() {
+  //   fetch(
+  //     `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByTitles?Title=${input}&page=1&CatalogueId=${catalogueId}`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data.success) {
+  //         dispatch(
+  //           setProductData(
+  //             data.data.map((item) => {
+  //               return {
+  //                 product: item,
+  //                 quantity: 0,
+  //               };
+  //             })
+  //           )
+  //         );
+  //         dispatch(setTotalProducts(data.total));
+  //       } else {
+  //         dispatch(setProductData([]));
+  //         dispatch(setTotalProducts(0));
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
+
+  // const processChange = debounce(() => saveInput());
   const [errorMessage, setErrorMessage] = useState("");
   const maxInputLength = 27;
   const handleSearch = (e) => {
     const inputValue = e.target.value;
 
+    // setInput(e.target.value);
     if (inputValue.length <= maxInputLength) {
       dispatch(updateSearchTerm(inputValue));
       setInput(inputValue);
     } else {
       setErrorMessage(`Maximum ${maxInputLength} characters allowed.`);
     }
+    // const search = e.target.value;
+    // setInput(search);
   };
+
+  // const [searchValue, setSearchValue] = useState("");
   const handleClearSearch = () => {
     dispatch(updateSearchTerm(""));
 
@@ -125,7 +178,7 @@ function Header() {
           ) : (
             <h2
               style={{ color: token.commonThemeColor }}
-              className="text-[#637381] font-bold md:text-3xl text-xl	py-2 px-4"
+              className="text-[#637381] font-bold md:text-3xl text-xl   py-2 px-4"
             >
               LOGO
             </h2>
@@ -166,7 +219,7 @@ function Header() {
         </div>
         <div className="flex items-center gap-2 relative">
           <div
-            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center cursor-pointer"
+            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10 md:w-10 flex justify-center items-center cursor-pointer"
             // onClick={() => {
             //   userDropdown();
             // }}
@@ -186,7 +239,7 @@ function Header() {
           >
             <Dialog.Panel>
               <div
-                className="md:right-16 md:top-20 top-0  right-0	 z-50 w-60 md:absolute fixed user-dropdown bg-white	 md:rounded-lg	md:h-fit h-full 	"
+                className="md:right-16 md:top-20 top-0  right-0  z-50 w-60 md:absolute fixed user-dropdown bg-white  md:rounded-lg  md:h-fit h-full     "
                 style={{
                   boxShadow: "rgb(0 0 0 / 14%) 0px 0px 5px 0px",
                 }}
@@ -204,7 +257,7 @@ function Header() {
                         Name
                       </h5>
                       <Link to="#">
-                        <div className="box-rounded bg-[#F4F7FF] rounded-full h-[40px] object-contain		w-[40px] flex justify-center items-center">
+                        <div className="box-rounded bg-[#F4F7FF] rounded-full h-[40px] object-contain       w-[40px] flex justify-center items-center">
                           <ShoppingCartIcon className="icon-svg" />
                         </div>
                       </Link>
@@ -213,11 +266,11 @@ function Header() {
                     <ul className="dropdown-content pt-3">
                       <Link
                         to="/home/all-products"
-                        className="focus-visible:outline-offset-0 focus-visible:outline-0		"
+                        className="focus-visible:outline-offset-0 focus-visible:outline-0       "
                       >
-                        <li className="py-2.5	px-4 cursor-pointer	flex items-center gap-2 headerList">
+                        <li className="py-2.5   px-4 cursor-pointer flex items-center gap-2 headerList">
                           <FormatListBulletedIcon style={{ fill: "#637381" }} />
-                          <h6 className="text-sm font-medium		text-[#637381]">
+                          <h6 className="text-sm font-medium        text-[#637381]">
                             Lists
                           </h6>
                         </li>
@@ -225,9 +278,9 @@ function Header() {
 
                       <Link
                         to="/home/my-orders"
-                        className="focus-visible:outline-offset-0 focus-visible:outline-0		"
+                        className="focus-visible:outline-offset-0 focus-visible:outline-0       "
                       >
-                        <li className="py-2.5	px-4 cursor-pointer flex items-center justify-between gap-2	headerList">
+                        <li className="py-2.5   px-4 cursor-pointer flex items-center justify-between gap-2 headerList">
                           <div className=" flex items-center gap-2">
                             <ShoppingBasketIcon style={{ fill: "#637381" }} />
                             <h6 className="text-sm font-medium text-[#637381]">
@@ -242,16 +295,16 @@ function Header() {
                           </div>
                         </li>
                       </Link>
-                      <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
+                      <li className="py-2.5 px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
                         <CreditCardIcon style={{ fill: "#637381" }} />
-                        <h6 className="text-sm font-medium	text-[#637381]	">
+                        <h6 className="text-sm font-medium  text-[#637381]  ">
                           Payments
                         </h6>
                       </li>
                       <Link to="/home/account">
-                        <li className="py-2.5	px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
+                        <li className="py-2.5   px-4 border-inherit cursor-pointer flex items-center gap-2 headerList">
                           <AccountCircleIcon style={{ fill: "#637381" }} />
-                          <h6 className="text-sm font-medium		text-[#637381]">
+                          <h6 className="text-sm font-medium        text-[#637381]">
                             Account
                           </h6>
                         </li>
@@ -261,7 +314,7 @@ function Header() {
                   <ul className="dropdown-content pb-3">
                     <li
                       onClick={handleLogout}
-                      className="py-2.5	px-4 border-t-2	 border-inherit cursor-pointer flex items-center gap-2 headerList"
+                      className="py-2.5 px-4 border-t-2  border-inherit cursor-pointer flex items-center gap-2 headerList"
                     >
                       <LogoutIcon style={{ fill: "#FF5757" }} />
                       <h6 className="text-sm font-medium text-[#FF5757]">
@@ -276,7 +329,7 @@ function Header() {
           {/* )} */}
 
           <div
-            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10	md:w-10 flex justify-center items-center relative cursor-pointer"
+            className="box-rounded md:bg-[#F4F7FF] rounded-full md:h-10 md:w-10 flex justify-center items-center relative cursor-pointer"
             onClick={() => setMobileCartOpen(true)}
           >
             <ShoppingCartIcon className="icon-svg" />
@@ -300,20 +353,20 @@ function Header() {
           <Popover.Group className=" md:flex md:gap-x-12">
             <Popover className="relative"></Popover>
             <Link to="/home/all-products">
-              <h6 className="header-font text-base	text-white font-normal hover:font-bold">
+              <h6 className="header-font text-base  text-white font-normal hover:font-bold">
                 Products
               </h6>
             </Link>
             <Link
               to="/home/my-orders"
-              className="focus-visible:outline-offset-0 focus-visible:outline-0		"
+              className="focus-visible:outline-offset-0 focus-visible:outline-0     "
             >
-              <h6 className="header-font text-base	text-white font-normal hover:font-bold">
+              <h6 className="header-font text-base  text-white font-normal hover:font-bold">
                 Orders
               </h6>
             </Link>
             <Link to="/home/account">
-              <h6 className="header-font text-base	text-white font-normal hover:font-bold">
+              <h6 className="header-font text-base  text-white font-normal hover:font-bold">
                 Account
               </h6>
             </Link>
@@ -337,7 +390,7 @@ function Header() {
       <div className=" relative md:hidden xl:hidden block mx-6 mb-4">
         <input
           type="text"
-          className="roun8ded-md	font-normal text-sm placeholder:text-sm"
+          className="roun8ded-md    font-normal text-sm placeholder:text-sm"
           placeholder="Search by product or brand"
           style={{
             padding: "12px 16px 12px 38px",
