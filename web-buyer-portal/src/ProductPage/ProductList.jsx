@@ -1100,7 +1100,7 @@ const ProductList = () => {
         </div>
 
         <div
-          className="flex md:flex-nowrap  gap-6	flex-wrap py-8"
+          className="flex md:flex-nowrap  gap-6	flex-wrap py-8 min-h-[590px] max-h-[100%]"
           ref={dropdownRef}
         >
           <div className="md:w-1/4 w-full overflow-y-auto   py-4">
@@ -1142,8 +1142,8 @@ const ProductList = () => {
                 />
               </div>
               {wine && (
-                <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
-                  <ul className="dropdown-content ">
+                <div className=" z-10	left-0 w-full product-dropdown rounded-lg	h-fit py-3	">
+                  <ul className="dropdown-content  min-h-[100%] max-h-[165px] overflow-auto custom-scroll-bar">
                     {categoryAndSubcategory &&
                       categoryAndSubcategory.map((category, idx) => (
                         <li className="py-2.5	px-4	">

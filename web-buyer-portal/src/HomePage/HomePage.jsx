@@ -154,18 +154,18 @@ function HomePage({ setConfig }) {
         <Route path="/delivery-contact" element={<DeliveryContact />} />
         <Route path="/address-details" element={<AddressDetails />} />
         <Route path="/business-details" element={<BusinessDetails />} />
-        <Route path="/account/account-details/" element={<Profile />} />
+
         <Route path="/account*" element={<MyAccount />} />
         <Route path="/my-cart" element={<CartPage />} />
         <Route path="/all-products/product/:id" element={<ProductDetails />} />
-        <Route
+        {/* <Route
           path="/account/account-details/addresses"
           element={<DeliveryEdit />}
         />
         <Route
           path="/account/account-details/profile"
           element={<ProfileEdit />}
-        />
+        /> */}
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/payment-page/*" element={<PaymentDetail />} />
         <Route path="/my-orders/order/:id" element={<OrderDetails />} />

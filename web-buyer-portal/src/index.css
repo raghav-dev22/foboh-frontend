@@ -775,3 +775,6 @@ select {
 .back-btn:hover p {
   color: #fff;
 }
+.ant-image-preview-root .ant-image-preview {
+  pointer-events: auto !important;
+}

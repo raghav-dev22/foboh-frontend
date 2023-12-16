@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Routes, Route } from "react-router-dom";
+
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -9,10 +10,12 @@ import { getBuyerValues } from "../helpers/setBuyerValues";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { theme } from "antd";
+import ProfileEdit from "./ProfileEdit";
+import DeliveryEdit from "./DeliveryEdit";
 const Profile = () => {
   const navigate = useNavigate();
   const EditBtn = () => {
-    navigate("/home/account/account-details/profile");
+    navigate("/home/account/profile/profile-details");
   };
   useEffect(() => {
     const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
@@ -81,11 +84,31 @@ const Profile = () => {
       })
       .catch((error) => console.log(error));
   }, []);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(
+    window.location.pathname === "/home/account/profile" ? 0 : 1
+  );
+  const handleTabChange = (index) => {
+    setSelectedTabIndex(index);
 
+    // Change the path when the tab is changed
+    if (index === 0) {
+      navigate("/home/account/profile");
+    } else {
+      navigate("/home/account/addresses");
+    }
+  };
   return (
     <>
+      <Routes>
+        <Route path="/profile-details" element={<ProfileEdit />} />
+        <Route path="/addresses-details" element={<DeliveryEdit />} />
+      </Routes>
       <div className="md:w-4/5	w-full mx-auto md:p-0 mb-8 ">
-        <Tabs className="md:flex justify-between">
+        <Tabs
+          className="md:flex justify-between"
+          selectedIndex={selectedTabIndex}
+          onSelect={handleTabChange}
+        >
           <TabList className="md:w-[25%]	w-full flex flex-col md:p-0 px-6">
             <style>
               {`
@@ -120,14 +143,14 @@ const Profile = () => {
                 <div className="flex justify-start  items-center gap-2">
                   <HomeIcon style={{ fill: "#637381" }} />
                   <h5 className="text-lg font-semibold text-[#637381]">
-                    Address
+                    Addresses
                   </h5>
                 </div>
                 <ChevronRightIcon style={{ fill: "#637381" }} />
               </div>
             </Tab>
             <Tab style={{ border: "none", margin: "5px 0" }}>
-              <div className="flex justify-between items-center">
+              <div className=" justify-between items-center hidden">
                 <div className="flex justify-start  items-center gap-2">
                   <SettingsIcon style={{ fill: "#637381" }} />
                   <h5 className="text-lg font-semibold text-[#637381]">
@@ -245,10 +268,13 @@ const Profile = () => {
                     style={{ color: token.commonThemeColor }}
                     className=" font-semibold  text-2xl	text-[#563FE3]  text-left "
                   >
-                    Address
+                    Addresses
                   </h2>
                 </div>
-                <Link to="/home/account/account-details/addresses" className="">
+                <Link
+                  to="/home/account/addresses/addresses-details"
+                  className=""
+                >
                   <div className="">
                     <button
                       style={{ borderColor: token.commonThemeColor }}

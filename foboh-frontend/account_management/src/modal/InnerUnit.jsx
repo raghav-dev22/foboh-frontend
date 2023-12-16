@@ -237,7 +237,7 @@ const InnerUnit = ({
               {unit.map((item, idx) => (
                 <div className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7]">
                   {item.editable ? (
-                    <div className="flex flex-nowrap -mx-3 mb-5 relative">
+                    <div className="flex flex-nowrap  mb-5 relative">
                       <div className="w-full  px-3 relative">
                         <h5 className="text-base font-medium text-[#2B4447] mb-2">
                           Inner unit of measure
@@ -342,7 +342,7 @@ const InnerUnit = ({
                       <h5 className="text-base font-bold text-[#637381]">
                         {`${item?.amount} ${item?.iumUnit}`} {item?.iumType}{" "}
                       </h5>
-                      <div className="flex items-center justify-end gap-3">
+                      <div className="flex items-center justify-end gap-3 pr-3">
                         <div
                           onClick={() => handleIsEdit(idx)}
                           className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
@@ -362,7 +362,7 @@ const InnerUnit = ({
               ))}
             </div>
           </div>
-          <div className="flex flex-nowrap -mx-3 mb-5 relative">
+          <div className="flex flex-nowrap  mb-5 relative">
             <div className="w-full  px-3 relative">
               <h5 className="text-base font-medium text-[#2B4447] mb-2">
                 Inner unit of measure
