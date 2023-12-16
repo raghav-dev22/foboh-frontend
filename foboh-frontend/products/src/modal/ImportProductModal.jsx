@@ -175,14 +175,10 @@ function ImportProductModal({ show, setShow, error, loader }) {
                       </table>
                     </div>
                   )}
-                  <div className="bg-white rounded-b-lg sm:flex grid gap-2 justify-center items-center sm:justify-between pb-6 px-8 ">
-                    <p
-                      className="text-gray text-sm font-medium"
-                      style={{ marginTop: "1rem" }}
-                    >
-                      This could take some time to complete. In the meantime,
-                      you can close this dialog box and continue working.
-                    </p>
+                  <div
+                    style={{ justifyContent: "end" }}
+                    className="bg-white rounded-b-lg sm:flex grid gap-2 justify-end items-center sm:justify-between pb-6 px-8"
+                  >
                     <div className="flex gap-3" style={{ marginTop: "1rem" }}>
                       <button
                         className="rounded-md bg-custom-skyBlue py-2.5  px-7  "

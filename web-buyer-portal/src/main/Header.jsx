@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MobileSidebar from "./MobileSidebar";
 import { setProductData } from "../slices/ProductSlice";
 import { setTotalProducts } from "../slices/totalPageSlice";
+import { updateSearchTerm } from "../slices/searchSlice";
 
 function Header() {
   const cart = useSelector((items) => items.cart);
@@ -33,7 +34,6 @@ function Header() {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const organisation = useSelector((state) => state.organisation);
   const catalogueId = localStorage.getItem("catalogueId");
-
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -69,7 +69,7 @@ function Header() {
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      processChange();
+      // processChange();
     }, 1000);
 
     return () => clearTimeout(debounceTimeout);
@@ -85,42 +85,44 @@ function Header() {
     };
   }
 
-  function saveInput() {
-    fetch(
-      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByTitles?Title=${input}&page=1&CatalogueId=${catalogueId}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          dispatch(
-            setProductData(
-              data.data.map((item) => {
-                return {
-                  product: item,
-                  quantity: 0,
-                };
-              })
-            )
-          );
-          dispatch(setTotalProducts(data.total));
-        } else {
-          dispatch(setProductData([]));
-          dispatch(setTotalProducts(0));
-        }
-      })
-      .catch((error) => console.log(error));
-  }
+  // function saveInput() {
+  //   fetch(
+  //     `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllByTitles?Title=${input}&page=1&CatalogueId=${catalogueId}`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data.success) {
+  //         dispatch(
+  //           setProductData(
+  //             data.data.map((item) => {
+  //               return {
+  //                 product: item,
+  //                 quantity: 0,
+  //               };
+  //             })
+  //           )
+  //         );
+  //         dispatch(setTotalProducts(data.total));
+  //       } else {
+  //         dispatch(setProductData([]));
+  //         dispatch(setTotalProducts(0));
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
 
-  const processChange = debounce(() => saveInput());
+  // const processChange = debounce(() => saveInput());
   const [errorMessage, setErrorMessage] = useState("");
   const maxInputLength = 27;
   const handleSearch = (e) => {
     const inputValue = e.target.value;
+
     // setInput(e.target.value);
     if (inputValue.length <= maxInputLength) {
+      dispatch(updateSearchTerm(inputValue));
       setInput(inputValue);
     } else {
       setErrorMessage(`Maximum ${maxInputLength} characters allowed.`);
@@ -131,6 +133,8 @@ function Header() {
 
   // const [searchValue, setSearchValue] = useState("");
   const handleClearSearch = () => {
+    dispatch(updateSearchTerm(""));
+
     setInput("");
     setErrorMessage("");
   };

@@ -28,17 +28,18 @@ import { setTotalProducts } from "../slices/totalPageSlice";
 
 let localFilterSort = {
   filter: {
+    searchByValue: "",
     category: [],
     subCategory: [],
     segment: [],
     variety: [],
-    country: [],
+    countryOfOrigin: [],
     regionAvailability: [],
     region: [],
     minPrice: 0,
     maxPrice: 0,
     tags: [],
-    page: 0,
+    page: 1,
   },
   sort: {
     sortBy: "",
@@ -51,12 +52,22 @@ let categoryList = [];
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
   const catalogueId = localStorage.getItem("catalogueId");
+  const searchTerm = useSelector((state) => state.search.searchTerm);
 
   const [loading, setLoading] = useState(true);
   const [countryList, setCountryList] = useState([]);
   const [selectSubcategory, setSelectSubcategory] = useState([]);
 
   const { Option } = Select;
+
+  localFilterSort = {
+    ...localFilterSort,
+    filter: {
+      ...localFilterSort.filter,
+
+      searchByValue: searchTerm,
+    },
+  };
 
   const itemRender = (_, type, originalElement) => {
     if (type === "prev") {
@@ -109,7 +120,7 @@ const ProductList = () => {
       subCategory: [],
       segment: [],
       variety: [],
-      country: [],
+      countryOfOrigin: [],
       regionAvailability: [],
       region: [],
       minPrice: 0,
@@ -228,8 +239,29 @@ const ProductList = () => {
       }, timeout);
     };
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      processChange(searchTerm === "" && "clear"); ////////////
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [searchTerm, page]);
+
   function saveInput(name) {
     setLoading(true);
+
+    if (name === "clear") {
+      setPage(1);
+      localFilterSort = {
+        ...localFilterSort,
+        filter: {
+          ...localFilterSort.filter,
+          page: 1,
+        },
+      };
+    }
+
     fetch(
       `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/product/Filter?CatalogueId=${catalogueId}`,
       {
@@ -269,6 +301,13 @@ const ProductList = () => {
 
   const onShowSizeChange = (current, pageSize) => {
     setPage(current);
+    localFilterSort = {
+      ...localFilterSort,
+      filter: {
+        ...localFilterSort.filter,
+        page: current,
+      },
+    };
   };
 
   useEffect(() => {
@@ -370,43 +409,6 @@ const ProductList = () => {
       })
       .catch((error) => console.log(error));
   }, []);
-
-  useEffect(() => {
-    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}&CatalogueId=${catalogueId}`;
-
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const prodauctData = data.data[0];
-        localStorage.setItem("organisationId", prodauctData.organisationId);
-        localStorage.setItem("catalogueId", prodauctData.catalogueId);
-        if (data.success) {
-          setTimeout(() => {
-            setLoading(false);
-          }, 2000);
-
-          dispatch(
-            setProductData(
-              data.data.map((item) => {
-                return {
-                  product: item,
-                  quantity: 0,
-                };
-              })
-            )
-          );
-          dispatch(setTotalProducts(data.total));
-        }
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
-  }, [page]);
 
   const WineBtn = () => {
     setWine(!wine);
@@ -830,13 +832,13 @@ const ProductList = () => {
         filter: newVarietyFilter,
       });
     } else if (name === "country") {
-      const newCountryIds = id.map((country) => country.key);
+      const newCountryIds = id.map((country) => country.value);
       setCountryList(id);
       id.length > 0 ? setFilter(true) : setFilter(false);
 
       const newFilter = {
         ...localFilterSort.filter,
-        country: newCountryIds,
+        countryOfOrigin: newCountryIds,
       };
 
       localFilterSort = {
@@ -1951,6 +1953,7 @@ const ProductList = () => {
                   // itemActiveBg={"#F8FAFC"}
                   showSizeChanger={false}
                   defaultCurrent={1}
+                  current={page}
                   pageSize={9}
                   total={totalProducts}
                   onChange={onShowSizeChange}

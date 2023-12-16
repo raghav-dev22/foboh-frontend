@@ -115,6 +115,7 @@ function BulkEdit() {
           values.map((product) => {
             return {
               productId: product?.productId,
+              catalogueId: localStorage.getItem("catalogueId"),
               title: product?.title,
               skUcode: product?.skuCode,
               unitofMeasure: product?.baseUnitMeasure?.label,

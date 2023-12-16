@@ -216,6 +216,7 @@ function Range() {
 
   const handleBulkVisibility = (name) => {
     // return true
+    const catalogueId = localStorage.getItem("catalogueId");
 
     fetch(
       `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/UpdateProductBulkData`,
@@ -229,22 +230,16 @@ function Range() {
         body: JSON.stringify(
           selectedProducts.map((product) => {
             return {
+              catalogueId: catalogueId,
+              unitofMeasure: product.unitofMeasure,
               productId: product.productId,
-
               title: product.title,
-
               skUcode: product.skUcode,
-
               configuration: product.configuration,
-
               globalPrice: product.globalPrice,
-
               buyPrice: product.buyPrice,
-
               availableQty: product.availableQty,
-
               visibility: name === "visible" ? "1" : "0",
-
               productStatus: product.productStatus,
             };
           })

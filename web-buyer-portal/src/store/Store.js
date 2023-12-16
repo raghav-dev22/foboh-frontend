@@ -7,6 +7,7 @@ import DeliveryEditReducer from "../slices/DeliveryEditSlice";
 import organisationReducer from "../slices/organisationSlice";
 import totalPageReducer from "../slices/totalPageSlice";
 import productBreadcrumReducer from "../slices/productBreadcrumSlice";
+import searchReducer from "../slices/searchSlice";
 
 const Store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const Store = configureStore({
     organisation: organisationReducer,
     totalPage: totalPageReducer,
     productBreadcrum: productBreadcrumReducer,
+    search: searchReducer,
   },
 });
 export default Store;
