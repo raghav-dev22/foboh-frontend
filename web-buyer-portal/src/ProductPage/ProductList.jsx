@@ -28,18 +28,17 @@ import { setTotalProducts } from "../slices/totalPageSlice";
 
 let localFilterSort = {
   filter: {
-    searchByValue: "",
     category: [],
     subCategory: [],
     segment: [],
     variety: [],
-    countryOfOrigin: [],
+    country: [],
     regionAvailability: [],
     region: [],
     minPrice: 0,
     maxPrice: 0,
     tags: [],
-    page: 1,
+    page: 0,
   },
   sort: {
     sortBy: "",
@@ -51,23 +50,12 @@ let categoryList = [];
 
 const ProductList = () => {
   const url = process.env.REACT_APP_PRODUCTS_URL;
-  const catalogueId = localStorage.getItem("catalogueId");
-  const searchTerm = useSelector((state) => state.search.searchTerm);
 
   const [loading, setLoading] = useState(true);
   const [countryList, setCountryList] = useState([]);
   const [selectSubcategory, setSelectSubcategory] = useState([]);
 
   const { Option } = Select;
-
-  localFilterSort = {
-    ...localFilterSort,
-    filter: {
-      ...localFilterSort.filter,
-
-      searchByValue: searchTerm,
-    },
-  };
 
   const itemRender = (_, type, originalElement) => {
     if (type === "prev") {
@@ -120,7 +108,7 @@ const ProductList = () => {
       subCategory: [],
       segment: [],
       variety: [],
-      countryOfOrigin: [],
+      country: [],
       regionAvailability: [],
       region: [],
       minPrice: 0,
@@ -239,31 +227,11 @@ const ProductList = () => {
       }, timeout);
     };
   }
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      processChange(searchTerm === "" && "clear"); ////////////
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [searchTerm, page]);
-
   function saveInput(name) {
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
     setLoading(true);
-
-    if (name === "clear") {
-      setPage(1);
-      localFilterSort = {
-        ...localFilterSort,
-        filter: {
-          ...localFilterSort.filter,
-          page: 1,
-        },
-      };
-    }
-
     fetch(
-      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/product/Filter?CatalogueId=${catalogueId}`,
+      `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/product/Filter?OrganisationId=${organisationId}`,
       {
         method: "POST",
         headers: {
@@ -301,13 +269,6 @@ const ProductList = () => {
 
   const onShowSizeChange = (current, pageSize) => {
     setPage(current);
-    localFilterSort = {
-      ...localFilterSort,
-      filter: {
-        ...localFilterSort.filter,
-        page: current,
-      },
-    };
   };
 
   useEffect(() => {
@@ -409,6 +370,44 @@ const ProductList = () => {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+    const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAll?page=${page}&OrganisationId=${organisationId}`;
+
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const prodauctData = data.data[0];
+        localStorage.setItem("organisationId", prodauctData.organisationId);
+        localStorage.setItem("catalogueId", prodauctData.catalogueId);
+        if (data.success) {
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+
+          dispatch(
+            setProductData(
+              data.data.map((item) => {
+                return {
+                  product: item,
+                  quantity: 0,
+                };
+              })
+            )
+          );
+          dispatch(setTotalProducts(data.total));
+        }
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }, [page]);
 
   const WineBtn = () => {
     setWine(!wine);
@@ -832,13 +831,13 @@ const ProductList = () => {
         filter: newVarietyFilter,
       });
     } else if (name === "country") {
-      const newCountryIds = id.map((country) => country.value);
+      const newCountryIds = id.map((country) => country.key);
       setCountryList(id);
       id.length > 0 ? setFilter(true) : setFilter(false);
 
       const newFilter = {
         ...localFilterSort.filter,
-        countryOfOrigin: newCountryIds,
+        country: newCountryIds,
       };
 
       localFilterSort = {
@@ -940,12 +939,12 @@ const ProductList = () => {
 
   const handleClearSort = () => {
     localFilterSort = {
+      ...localFilterSort.filter,
       sort: {
         sortBy: "",
         sortOrder: "",
       },
     };
-    processChange();
   };
 
   return (
@@ -1129,7 +1128,7 @@ const ProductList = () => {
         </div>
 
         <div
-          className="flex md:flex-nowrap  gap-6	flex-wrap py-8 min-h-[590px] max-h-[100%]"
+          className="flex md:flex-nowrap  gap-6	flex-wrap py-8"
           ref={dropdownRef}
         >
           <div className="md:w-1/4 w-full overflow-y-auto   py-4">
@@ -1171,8 +1170,8 @@ const ProductList = () => {
                 />
               </div>
               {wine && (
-                <div className=" z-10	left-0 w-full product-dropdown rounded-lg	h-fit py-3	">
-                  <ul className="dropdown-content  min-h-[100%] max-h-[165px] overflow-auto custom-scroll-bar">
+                <div className=" z-10	left-0 w-max product-dropdown rounded-lg	h-fit py-3	">
+                  <ul className="dropdown-content ">
                     {categoryAndSubcategory &&
                       categoryAndSubcategory.map((category, idx) => (
                         <li className="py-2.5	px-4	">
@@ -1505,7 +1504,7 @@ const ProductList = () => {
 
               {Availability && (
                 <>
-                  <div className="relative ">
+                  <div className="relative">
                     <SearchIcon
                       className="absolute top-[22px] right-[8px] z-10"
                       style={{ fill: "#d9d9db" }}
@@ -1513,8 +1512,7 @@ const ProductList = () => {
                     <Select
                       mode="multiple"
                       style={{
-                        minWidth: "250px",
-                        maxWidth: "100%",
+                        width: "260px",
                       }}
                       placeholder="Search"
                       className=""
@@ -1634,7 +1632,9 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer ">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
+               
+                `}
                 onClick={() => {
                   PriceBtn();
                 }}
@@ -1661,7 +1661,7 @@ const ProductList = () => {
 
               {Price && (
                 <>
-                  <div id="container ">
+                  <div id="container">
                     <div className="wrap">
                       <div className="sliderwrap">
                         <Slider
@@ -1674,7 +1674,7 @@ const ProductList = () => {
                         />
                       </div>
 
-                      <div className="pt-4 flex justify-between items-center mb-3">
+                      <div className="pt-4 flex justify-between items-center">
                         <div className="box">
                           <h5 className="text-base font-medium text-[#637381] mb-2">
                             Min. Price
@@ -1707,7 +1707,9 @@ const ProductList = () => {
 
             <div className=" border-b border-[#E7E7E7] cursor-pointer">
               <div
-                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list`}
+                className={`flex justify-between  px-2 py-4 hover:bg-[#f4f7ff] product-list
+               
+                `}
                 onClick={() => {
                   TagsBtn();
                 }}
@@ -1734,7 +1736,7 @@ const ProductList = () => {
 
               {Tags && (
                 <>
-                  <div className="relative min-h-[300px] max-h-[100%]">
+                  <div className="relative">
                     <SearchIcon
                       className="absolute top-[22px] right-[8px] z-10"
                       style={{ fill: "#d9d9db" }}
@@ -1742,7 +1744,7 @@ const ProductList = () => {
                     <Select
                       mode="multiple"
                       style={{
-                        width: "250px",
+                        width: "260px",
                       }}
                       placeholder="Search"
                       className=""
@@ -1982,7 +1984,6 @@ const ProductList = () => {
                   // itemActiveBg={"#F8FAFC"}
                   showSizeChanger={false}
                   defaultCurrent={1}
-                  current={page}
                   pageSize={9}
                   total={totalProducts}
                   onChange={onShowSizeChange}
