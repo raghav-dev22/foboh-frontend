@@ -33,7 +33,7 @@ import {
   getCategories,
   getDepartments,
 } from "../reactQuery/organisationApiModule";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export const options = [
   { value: 1234, label: "Alcoholic Beverage" },
   { value: 2345, label: "Non-Alcoholic Beverage" },
@@ -1420,21 +1420,22 @@ function Organisation() {
                     <div className="px-6 py-7">
                       <div className="flex justify-start gap-3 items-center">
                         <div className="update-user rounded-full">
-                          {/* {logoUri ? ( */}
-                          <img
-                            id="previewImage"
-                            src={logoUri || defaultImage}
-                            alt=""
-                            className="w-[187px]	h-[58px]	object-cover"
-                          />
-                          {/* ) : ( */}
-                          {/* <img
+                          {logoUri ? (
+                            <img
                               id="previewImage"
-                              src={defaultImage}
+                              src={logoUri || defaultImage}
                               alt=""
                               className="w-[187px]	h-[58px]	object-cover"
                             />
-                          )} */}
+                          ) : (
+                            <AccountCircleIcon
+                              style={{
+                                height: "3.5rem",
+                                width: "3.5rem",
+                                fill: "#BABABA",
+                              }}
+                            />
+                          )}
                         </div>
                         <div className="">
                           <h6 className="font-normal text-base text-green">

@@ -65,6 +65,7 @@ const CreateOrderModal = ({
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
   const [isCustomerSelected, setIsCustomerSelected] = useState(false);
+  const [errorData, setErrorData] = useState(true);
   const [customerDetails, setCustomerDetails] = useState({});
   const [defaultPaymentTerms, setDefaultPaymentTerms] = useState([]);
   const [defaultPaymentTermsValue, setDefaultPaymentTermsValue] = useState({});
@@ -168,7 +169,7 @@ const CreateOrderModal = ({
         (setActiveStep((cur) => cur + 1),
         setDetails(true),
         setSelectedItems(""));
-    } else if (isValid === true && activeStep === 1) {
+    } else if (activeStep === 1 && !errorData) {
       !isLastStep &&
         (setActiveStep((cur) => cur + 1),
         setDetails(true),
@@ -177,7 +178,11 @@ const CreateOrderModal = ({
       setActiveStep((cur) => cur + 1), setDetails(true), setSelectedItems("");
     }
     isValid = false;
+    console.log(errorData, "errorData");
+    console.log(activeStep, "errorData");
+    console.log(isValid, "errorData");
   };
+
   const handlePrev = () => {
     if (isCustomerSelected) {
       setIsCustomerSelected(false);
@@ -309,10 +314,12 @@ const CreateOrderModal = ({
         globalPrice,
         quantity,
         success,
-        error
+        error,
+        setErrorData
       );
     }
   );
+  console.log(errorData, "error");
 
   const asyncFunction = async () => {
     const productList = await getProducts();
@@ -439,6 +446,7 @@ const CreateOrderModal = ({
       });
 
       setCart(cartUpdatedList);
+      console.log(cartUpdatedList.length, "cartUpdatedList.length");
       if (cartUpdatedList.length > 0) {
         isValid = true;
       }

@@ -15,9 +15,13 @@ const InvoiceModal = forwardRef(({}, ref) => {
     ) {
       setTimeout(() => {
         (async function () {
-          let blob = await fetch(invoiceData.organisationlogo).then((r) =>
-            r.blob()
-          );
+          console.log(invoiceData, "invoiceData.organisationlogo");
+          let blob = await fetch(invoiceData?.organisationlogo, {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+          }).then((r) => r.blob());
           let imgUrl = await new Promise((resolve) => {
             let reader = new FileReader();
             reader.onload = () => resolve(reader.result);

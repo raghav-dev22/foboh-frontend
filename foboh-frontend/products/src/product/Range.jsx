@@ -122,44 +122,7 @@ function Range() {
 
   useEffect(() => {
     getProductList(1);
-
-    getAllproduct();
   }, []);
-
-  const getAllproduct = () => {
-    const orgID = localStorage.getItem("organisationId");
-
-    fetch(
-      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAll?page=1&OrganisationId=${orgID}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-
-      .then((data) => {
-        setProducts(data.data);
-
-        setPrevProducts(data.data);
-
-        setTotalProducts(data.total);
-        setDataLength(data.data.length - 1);
-
-        const array = createArrayWithNumber(data.last_page); //error
-
-        setTotalPages(data.last_page);
-
-        setPages(array);
-      })
-
-      .then(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-      })
-
-      .catch((error) => console.log(error));
-  };
 
   const getProductList = (values) => {
     setLoading(true);
