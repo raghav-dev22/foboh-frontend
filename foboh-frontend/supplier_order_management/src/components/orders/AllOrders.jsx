@@ -815,11 +815,11 @@ const AllOrders = () => {
                           type="checkbox"
                           value={"asc"}
                           checked={
-                            sortValue.sortBy === "paymentpmount" &&
+                            sortValue.sortBy === "paymentamount" &&
                             sortValue.sortOrder === "asc"
                           }
                           onChange={(e) =>
-                            handleSort("paymentpmount", e.target.value)
+                            handleSort("paymentamount", e.target.value)
                           }
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />
@@ -835,12 +835,12 @@ const AllOrders = () => {
                           id="Order-Z-A"
                           type="checkbox"
                           checked={
-                            sortValue.sortBy === "paymentpmount" &&
+                            sortValue.sortBy === "paymentamount" &&
                             sortValue.sortOrder === "desc"
                           }
                           value={"desc"}
                           onChange={(e) =>
-                            handleSort("paymentpmount", e.target.value)
+                            handleSort("paymentamount", e.target.value)
                           }
                           className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                         />

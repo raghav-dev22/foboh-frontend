@@ -569,7 +569,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
               >
                 <table
                   className="text-sm text-left text-gray-500 dark:text-gray-400"
-                  style={{ width: "950px" }}
+                  style={{ width: "100%" }}
                 >
                   <thead className=" border-b">
                     <tr>

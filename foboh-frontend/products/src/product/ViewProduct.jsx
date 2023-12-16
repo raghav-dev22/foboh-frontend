@@ -555,8 +555,9 @@ function ViewProduct() {
   }, []);
 
   const productPromise = new Promise((resolve, reject) => {
+    const catId = localStorage.getItem("catalogueId");
     fetch(
-      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/${id}`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/${id}?CatalogueId=${catId}`,
       {
         method: "GET",
       }
@@ -713,10 +714,9 @@ function ViewProduct() {
             barcodes: "string",
             esgStatus: "string",
             healthRating: "string",
-            catalogueId: 0,
-            cCatalogueId: "string",
+            catalogueId: localStorage.getItem("catalogueId"),
             organisationId: organisationId,
-            cCatalogueId: values.cCatalogueId,
+            cCatalogueId: localStorage.getItem("cCatalogueId"),
             organisationId: values.organisationId,
             isActive: true,
           }),

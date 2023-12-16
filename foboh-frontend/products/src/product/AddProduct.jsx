@@ -427,7 +427,7 @@ function AddProduct() {
   const handleDepartmentChange = async (e) => {
     setIsAlcoholicBeverage(false);
     setIsWine(false);
-    setIsWet(false)
+    setIsWet(false);
     setValues({
       ...values,
       department: e,
@@ -743,8 +743,8 @@ function AddProduct() {
             value: item.regionId,
             label: item.regionName,
           }))
-          .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
-
+          .sort((a, b) => a.label.localeCompare(b.label));
+        console.log(sortedRegion, "sortedRegion");
         setRegion(sortedRegion);
       })
       .catch((error) => console.log(error));
