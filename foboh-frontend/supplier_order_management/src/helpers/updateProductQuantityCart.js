@@ -4,7 +4,8 @@ export const updateProductQuantityCart = async (
   globalPrice,
   quantity,
   success,
-  error
+  error,
+  setErrorData
 ) => {
   const cartId = localStorage.getItem("cartId");
   let count = 0;
@@ -33,8 +34,12 @@ export const updateProductQuantityCart = async (
     .then((data) => {
       if (data.success) {
         count++;
+        setErrorData(false);
         success("Quantity updated successfully!");
-      } else if (!data.success && data.message) return error(data.message);
+      } else if (!data.success && data.message) {
+        setErrorData(true);
+        return error(data.message);
+      }
     })
     .catch((error) => console.log(error));
 

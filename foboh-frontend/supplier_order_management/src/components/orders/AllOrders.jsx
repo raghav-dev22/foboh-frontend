@@ -330,7 +330,6 @@ const AllOrders = () => {
 
   const saveInput = async () => {
     const urlParams = new URLSearchParams(window.location.search);
-
     const ordersData = await searchOrders(filterAndSort);
     var r = new URL(window.location.href);
     r.searchParams.delete("businessName");
@@ -353,16 +352,30 @@ const AllOrders = () => {
 
   const handleSearch = (e) => {
     const search = e.target.value;
-    const newFilter = {
-      ...filterAndSort.filter,
-      searchByValue: search,
-    };
-
-    filterAndSort = {
-      ...filterAndSort,
-      filter: newFilter,
-    };
     setInput(search);
+    if (search === "") {
+      setPage(1);
+      const newFilter = {
+        ...filterAndSort.filter,
+        searchByValue: search,
+        page: 1,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    } else {
+      const newFilter = {
+        ...filterAndSort.filter,
+        searchByValue: search,
+      };
+
+      filterAndSort = {
+        ...filterAndSort,
+        filter: newFilter,
+      };
+    }
   };
 
   const handleCheckAll = (e, name) => {
@@ -478,6 +491,7 @@ const AllOrders = () => {
     setSelectedStatus([]);
     setRegions([]);
     setLastDate([]);
+    setSelectedStatus([]);
   };
 
   const handleClearSort = () => {

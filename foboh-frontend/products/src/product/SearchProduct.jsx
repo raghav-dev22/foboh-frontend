@@ -29,6 +29,7 @@ let filterAndSort = {
     productStatus: [],
     visibility: "",
     page: 1,
+    searchByTitle: "",
   },
   sort: {
     sortBy: "title",
@@ -137,8 +138,40 @@ const SearchProduct = forwardRef(
     };
 
     const handleInputChange = (e) => {
-      setInput(e.target.value);
+      const search = e.target.value;
+      setInput(search);
+      if (search === "") {
+        setPageIndex(1);
+        const newFilter = {
+          ...filterAndSort.filter,
+          searchByTitle: search,
+          page: 1,
+        };
+
+        filterAndSort = {
+          ...filterAndSort,
+          filter: newFilter,
+        };
+      } else {
+        const newFilter = {
+          ...filterAndSort.filter,
+          searchByTitle: search,
+        };
+
+        filterAndSort = {
+          ...filterAndSort,
+          filter: newFilter,
+        };
+      }
     };
+
+    useEffect(() => {
+      const debounceTimeout = setTimeout(() => {
+        processChange("filterAndSort");
+      }, 1000);
+
+      return () => clearTimeout(debounceTimeout);
+    }, [input]);
 
     // Debouce function
     function debounce(func, timeout = 1000) {
@@ -152,6 +185,7 @@ const SearchProduct = forwardRef(
     }
     function saveInput(name, newFilterAndSort) {
       if (name === "filterAndSort") {
+        setLoading(true);
         const orgID = localStorage.getItem("organisationId");
         const filterBody =
           localStorage.getItem("yourBooleanKey") === "true"
@@ -180,35 +214,15 @@ const SearchProduct = forwardRef(
             }
             setLoading(false);
           })
+          .then(() => {
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
+          })
           .catch((error) => console.log(error));
-      } else {
-        const orgID = localStorage.getItem("organisationId");
-        fetch(
-          `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/GetAllByTitle?search=${input}&OrganisationId=${orgID}`,
-          {
-            method: "GET",
-          }
-        )
-          .then((respose) => respose.json())
-          .then((data) => {
-            if (!data.status) {
-              if (data?.data?.length > 0) {
-                setisSearchResult(true);
-                setProducts(data.data);
-                setTotalPages(data.last_page);
-                setPageIndex(data.page);
-              } else {
-                setisSearchResult(false);
-                setTotalPages(0);
-              }
-            } else {
-              setProducts(prevProducts);
-            }
-          });
       }
     }
     const processChange = debounce((name) => saveInput(name));
-
     useImperativeHandle(ref, () => ({
       handleFilterPagination(pageNumber) {
         const newFilter = {
@@ -462,6 +476,7 @@ const SearchProduct = forwardRef(
               productStatus: [],
               visibility: "",
               page: 1,
+              searchByTitle: "",
             },
             sort: {
               sortBy: "",
@@ -480,6 +495,7 @@ const SearchProduct = forwardRef(
               productStatus: [],
               visibility: "",
               page: 1,
+              searchByTitle: "",
             },
             sort: {
               sortBy: "title",
@@ -551,7 +567,6 @@ const SearchProduct = forwardRef(
                 </div>
                 <input
                   onChange={handleInputChange}
-                  onKeyUp={processChange}
                   type="text"
                   id="default-search"
                   className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "

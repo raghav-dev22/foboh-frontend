@@ -126,9 +126,6 @@ function SearchCustomer({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // if(value === 0){
-    //   saveInput()
-    // }
     switch (name) {
       case "text":
         filterAndSort.filter.businessName = value;

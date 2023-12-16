@@ -752,7 +752,6 @@ const ProductList = () => {
         }
       });
 
-
       setIsWine(e.includes("wine") || e.includes("Wine"));
 
       const newFilter = {
@@ -764,7 +763,6 @@ const ProductList = () => {
         ...localFilterSort,
         filter: newFilter,
       };
-
 
       setFilterAndSort({
         ...localFilterSort,
@@ -939,6 +937,16 @@ const ProductList = () => {
     processChange();
   };
 
+  const handleClearSort = () => {
+    localFilterSort = {
+      sort: {
+        sortBy: "",
+        sortOrder: "",
+      },
+    };
+    processChange();
+  };
+
   return (
     <>
       <style>
@@ -1010,6 +1018,24 @@ const ProductList = () => {
           {Sort && (
             <>
               <div className=" border border-[#E7E7E7] w-[262px] bg-white rounded-lg shadow-md p-4 z-50 absolute top-[50px] right-0">
+                <div
+                  className="flex justify-end"
+                  style={{ paddingRight: "12px" }}
+                  onClick={() => {
+                    handleClearSort();
+                    setSort(false);
+                  }}
+                >
+                  <p
+                    className=" cursor-pointer border-b"
+                    style={{
+                      color: "#fa0000",
+                      borderBottom: "1px solid #fa0000",
+                    }}
+                  >
+                    clear
+                  </p>
+                </div>
                 <div className="flex justify-start items-center pb-2">
                   <h5 className="text-base font-medium text-[#2B4447] ">
                     Alphabetical
