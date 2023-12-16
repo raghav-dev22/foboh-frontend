@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-
 import BillingAddress from "./BillingAddress";
 import ModeIcon from "@mui/icons-material/Mode";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -8,11 +7,8 @@ import CallIcon from "@mui/icons-material/Call";
 import ContactEdit from "../MyAccount/ContactEdit";
 import DeliveryEditAddress from "../MyAccount/DeliveryEditAddress";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-
 import EditIcon from "@mui/icons-material/Edit";
-
 import ReceiptLongSharpIcon from "@mui/icons-material/ReceiptLongSharp";
-
 import {
   useStripe,
   useElements,
@@ -52,10 +48,9 @@ const useOptions = () => {
           letterSpacing: "0.025em",
           fontFamily: "Source Code Pro, monospace",
           "::placeholder": {
-            content: "", // Remove placeholder text
+            content: "",
           },
           placeholder: "",
-          // backgroundColor: "rgb(248, 248, 248)",
           border: "1px solid #e2e8f0",
         },
         invalid: {
@@ -171,7 +166,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     errorMessage(sealedCartError);
   }
 
-  const { lucUnit, gst, wet, subtotal, total } = useMemo(() => {
+  const { gst, wet, subtotal, total } = useMemo(() => {
     const calculationResult = getCalculations(cartData);
     return calculationResult;
   }, [cartData]);
@@ -528,7 +523,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     {!loadingData && (
                       <>
                         <p className="text-base font-normal text-[#2B4447] my-1">
-                          {deliveryContact?.FirstName}{" "}
+                          {deliveryContact?.FirstName}
                           {deliveryContact?.LastName}
                         </p>
 
@@ -581,9 +576,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     active
                     loading={loadingData}
                     paragraph={{ rows: 2 }}
-                    // active
-                    // avatar
-                    // className="custom-skeleton"
                   />
 
                   {!loadingData && (

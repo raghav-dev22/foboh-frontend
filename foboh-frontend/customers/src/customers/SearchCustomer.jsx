@@ -374,10 +374,6 @@ function SearchCustomer({
               className="h-11	w-fit px-5 shadow-md cursor-pointer	border  border-inherit rounded-md flex items-center justify-center gap-2"
             >
               <div className="">
-                {/* {search === 0 && (
-                  <FilterAltOutlinedIcon style={{ fill: "#637381" }} />
-                )}
-                {search > 0 && <FilterAltIcon style={{ fill: "#637381" }} />} */}
                 <svg
                   width={18}
                   height={18}

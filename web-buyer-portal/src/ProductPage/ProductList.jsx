@@ -1484,7 +1484,8 @@ const ProductList = () => {
                     <Select
                       mode="multiple"
                       style={{
-                        width: "260px",
+                        minWidth: "250px",
+                        maxWidth: "100%",
                       }}
                       placeholder="Search"
                       className=""
@@ -1712,7 +1713,7 @@ const ProductList = () => {
                     <Select
                       mode="multiple"
                       style={{
-                        width: "260px",
+                        width: "250px",
                       }}
                       placeholder="Search"
                       className=""

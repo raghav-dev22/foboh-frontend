@@ -167,7 +167,7 @@ function HomePage({ setConfig }) {
           element={<ProfileEdit />}
         /> */}
         <Route path="/delivery" element={<Delivery />} />
-        <Route path="/payment-page/*" element={<PaymentDetail />} />
+        <Route path="/my-cart/*" element={<PaymentDetail />} />
         <Route path="/my-orders/order/:id" element={<OrderDetails />} />
       </Routes>
       <Footer />

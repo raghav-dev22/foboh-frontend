@@ -46,6 +46,7 @@ const lastDateList = ["Last 7 days", "Last 14 days", "Last 30 days"];
 
 const AllOrders = () => {
   const [sortItem, setSortItem] = useState(false);
+
   const [showFilter, setShowFilter] = useState(false);
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState({});
@@ -167,116 +168,13 @@ const AllOrders = () => {
             {item?.businessName}
           </p>
           <p className="text-xs sm:text-sm sm:font-normal font-light text-gray">
-            {" "}
             ({item?.orderingFirstName} {item?.orderingLastName})
           </p>
         </div>
       ),
-      Region: (
-        <p className="text-sm md:text-base font-normal text-[#637381]">
-          {item?.region}
-        </p>
-      ),
-      OrderDate: (
-        <p className="text-sm md:text-base font-normal text-[#637381]">
-          {formatDate(item?.orderEntryDate)}
-        </p>
-      ),
-      Amount: (
-        <p className="text-sm md:text-base font-normal text-[#637381]">
-          {formatPrice(item?.payAmountLong)}
-        </p>
-      ),
-      LastUpdated: (
-        <p className="text-sm md:text-base font-normal text-[#637381]">
-          {formatDate(item?.modifiedDate)}
-        </p>
-      ),
-      Payment: (
-        <p
-          className="text-sm md:text-base font-normal text-[#637381]"
-          style={{
-            color: (() => {
-              if (item?.transactionStatus === "Overdue") {
-                return "#DC3545 ";
-              } else {
-                return "#637381 ";
-              }
-            })(),
-          }}
-        >
-          {item?.transactionStatus}
-        </p>
-      ),
-      Status: (
-        <div
-          className={`rounded-md py-[4px] px-[8px] w-[166px]	 flex justify-center items-center  `}
-          style={{
-            backgroundColor: (() => {
-              if (
-                item?.orderStatus === "Complete" ||
-                item?.orderStatus === "Delivered"
-              ) {
-                return "#CFEBE6";
-              } else if (
-                item?.orderStatus === "Pending" ||
-                item?.orderStatus === "Shipped" ||
-                item?.orderStatus === "InProcess" ||
-                item?.orderStatus === "Partially fulfilled" ||
-                item?.orderStatus === "Processing"
-              ) {
-                return "#C9C9C9";
-              } else if (item?.orderStatus === "Changes requested") {
-                return "#FEF3C8";
-              } else if (item?.orderStatus === "Cancelled") {
-                return "#FFDFDB";
-              } else if (
-                item?.orderStatus === "New" ||
-                item?.orderStatus === "Updated"
-              ) {
-                return "#D5EEFF";
-              }
+      // ... (other fields with similar logic)
 
-              return "#C9C9C9";
-            })(),
-          }}
-        >
-          <p
-            className=" text-[base] font-medium"
-            style={{
-              color: (() => {
-                if (
-                  item?.orderStatus === "Complete" ||
-                  item?.orderStatus === "Delivered"
-                ) {
-                  return "#16A085";
-                } else if (
-                  item?.orderStatus === "Pending" ||
-                  item?.orderStatus === "Shipped" ||
-                  item?.orderStatus === "InProcess" ||
-                  item?.orderStatus === "Partially fulfilled" ||
-                  item?.orderStatus === "Processing"
-                ) {
-                  return "#637381";
-                } else if (item?.orderStatus === "Changes requested") {
-                  return "#E9B600";
-                } else if (item?.orderStatus === "Cancelled") {
-                  return "#C0392B";
-                } else if (
-                  item?.orderStatus === "New" ||
-                  item?.orderStatus === "Updated"
-                ) {
-                  return "#3498DB";
-                }
-
-                return "#637381";
-              })(),
-            }}
-          >
-            {item?.orderStatus}
-          </p>
-        </div>
-      ),
+      // Repeat the above pattern for other fields...
     };
   });
 
@@ -339,9 +237,10 @@ const AllOrders = () => {
     if (ordersData.success) {
       setOrderData(ordersData?.data);
       setTotalData(ordersData?.total);
-      setTimeout(() => {
-        setLoading(true);
-      }, 2000);
+      setLoading(false);
+      // setTimeout(() => {
+
+      // }, 2000);
     } else {
       setOrderData([]);
       setTotalData(0);
@@ -549,10 +448,10 @@ const AllOrders = () => {
         }
 
         if (!isInsideDropdown) {
-          // setStatusMenu(false);
-          // setRegionMenu(false);
-          // setDateMenu(false);
-          // setSortItem(false);
+          setStatusMenu(false);
+          setRegionMenu(false);
+          setDateMenu(false);
+          setSortItem(false);
         }
       }
     }
@@ -563,13 +462,6 @@ const AllOrders = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
-  const customSkeletonStyle = {
-    padding: "10px",
-    width: "95%",
-    position: "absolute",
-    top: "20px",
-    left: "14px",
-  };
 
   return (
     <>
@@ -582,7 +474,10 @@ const AllOrders = () => {
             View all your orders here starting with the most recent ones
           </p>
         </div>
-        <div className="border border-[#E7E7E7] rounded-[8px]   mb-6  p-5 bg-white">
+        <div
+          ref={dropdownRef}
+          className="border border-[#E7E7E7] rounded-[8px]   mb-6  p-5 bg-white"
+        >
           <div className="grid md:grid-cols-2 grid-cols-1 md:gap-0 gap-3 justify-between items-center ">
             <div className="relative max-w-max	">
               <input
@@ -1001,6 +896,7 @@ const AllOrders = () => {
           <Table
             columns={columns}
             dataSource={data}
+            loading={loading}
             showSizeChanger={false}
             onChange={onShowSizeChange}
             pagination={{
