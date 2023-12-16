@@ -335,11 +335,7 @@ function Range() {
                           <input
                             id="default-checkbox"
                             type="checkbox"
-                            checked={
-                              selectedProducts.length > dataLength
-                                ? true
-                                : false
-                            }
+                            checked={selectedProducts.length > 8 ? true : false}
                             onChange={(e) => handleSelectAllChange(e)}
                             className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                           />

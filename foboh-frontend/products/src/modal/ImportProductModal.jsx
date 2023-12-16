@@ -145,12 +145,6 @@ function ImportProductModal({ show, setShow, error, loader }) {
                             </th>
                             <th
                               className="font-semiBold text-sm p-4"
-                              style={{ width: "105px" }}
-                            >
-                              Title
-                            </th>
-                            <th
-                              className="font-semiBold text-sm p-4"
                               style={{ width: "200px" }}
                             >
                               Error description
@@ -162,9 +156,6 @@ function ImportProductModal({ show, setShow, error, loader }) {
                             <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
                               <td className="font-medium text-sm p-4">
                                 {index + 1}
-                              </td>
-                              <td className="font-normal text-sm p-4">
-                                {err?.productName}
                               </td>
                               <td className="font-normal text-sm p-4">
                                 {err?.error}

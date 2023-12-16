@@ -380,7 +380,6 @@ const Profile = () => {
                 </div>
               </div>
             </TabPanel>
-            <TabPanel></TabPanel>
           </div>
         </Tabs>
       </div>
