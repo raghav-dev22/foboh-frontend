@@ -140,23 +140,9 @@ const OrderListing = () => {
       const updatedName = nameShortner(orderDetailsResponse[0]?.customerName);
       setShortenName(updatedName);
 
-      //If order status is New then it will be updated to Pending Order
-      if (orderDetailsResponse[0]?.orderStatus === "New") {
-        const orderStatusChangeResponse = await orderStatusChange(
-          "Pending",
-          orderDetailsResponse[0]
-        );
-        if (orderStatusChangeResponse) {
-          success(`Order status successfully changed to Pending !`);
-          asyncFunction();
-        } else {
-          error("Some error has occurred, please try again later!");
-        }
-      }
-
       //If order status is New and payment is Paid
       if (
-        orderDetailsResponse[0]?.orderStatus === "Pending" &&
+        orderDetailsResponse[0]?.orderStatus === "New" &&
         orderDetailsResponse[0]?.transactionStatus === "Paid"
       ) {
         const orderStatusChangeResponse = await orderStatusChange(
@@ -164,7 +150,18 @@ const OrderListing = () => {
           orderDetailsResponse[0]
         );
         if (orderStatusChangeResponse) {
-          success(`Order status successfully changed to Complete !`);
+          success(`Order status successfully changed to Processing !`);
+          asyncFunction();
+        } else {
+          error("Some error has occurred, please try again later!");
+        }
+      } else if (orderDetailsResponse[0]?.orderStatus === "New") {
+        const orderStatusChangeResponse = await orderStatusChange(
+          "Pending",
+          orderDetailsResponse[0]
+        );
+        if (orderStatusChangeResponse) {
+          success(`Order status successfully changed to Pending !`);
           asyncFunction();
         } else {
           error("Some error has occurred, please try again later!");

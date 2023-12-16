@@ -131,6 +131,7 @@ const OrderDetailHeader = ({
             </div>
             {paymentStatusDropdown && (
               <button
+                disabled={orderStatus === "Cancelled"}
                 style={{
                   backgroundColor: "#147D73",
                   borderRadius: "5px",
