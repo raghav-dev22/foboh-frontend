@@ -940,6 +940,7 @@ const ProductList = () => {
 
   const handleClearSort = () => {
     localFilterSort = {
+      ...localFilterSort,
       sort: {
         sortBy: "",
         sortOrder: "",
