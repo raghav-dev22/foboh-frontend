@@ -227,6 +227,15 @@ const ProductList = () => {
       }, timeout);
     };
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      processChange(searchTerm === "" && "clear");
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [searchTerm, page]);
+
   function saveInput(name) {
     const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
     setLoading(true);

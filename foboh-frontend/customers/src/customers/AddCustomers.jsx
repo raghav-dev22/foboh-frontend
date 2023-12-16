@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { message } from "antd";
+import { message, Skeleton } from "antd";
 
 import "../style.css";
 import ActiveCustomers from "./ActiveCustomers";
@@ -36,6 +36,7 @@ function AddCustomers() {
   const [isSearchResult, setisSearchResult] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
   const [activeData, setActiveData] = useState(0);
+  // const [loadData, setLoadData] = useState(false);
   let timeoutId;
 
   const saveProduct = () => {
@@ -92,6 +93,12 @@ function AddCustomers() {
       .then((response) => response.json())
       .then((data) => {
         setTableRecords(data.data);
+        setTimeout(() => {
+          setLoadData(false);
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
       });
   };
 
@@ -180,141 +187,162 @@ function AddCustomers() {
                     </tr>
                   </thead>
                   {isSearchResult && (
-                    <tbody>
-                      {tableRecords?.length > 0 ? (
-                        tableRecords?.map((product, index) => {
-                          const isLast = index === products.length - 1;
-                          const classes = isLast ? "p-4" : "p-4  ";
-
-                          return (
-                            <tr
-                              key={name}
-                              style={
-                                loading
-                                  ? { position: "relative", height: "55px" }
-                                  : { position: "relative" }
-                              }
-                              className="border-b border-blue-gray-50"
-                            >
-                              <td className={classes}>
-                                <div className="flex items-center gap-3 green-checkbox">
-                                  <input
-                                    id="default-checkbox"
-                                    type="checkbox"
-                                    name={product.title}
-                                    checked={
-                                      selectedProducts.includes(product)
-                                        ? true
-                                        : false
-                                    }
-                                    onClick={(e) => handleCheckbox(e, product)}
-                                    className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
-                                  />
-                                </div>
-                              </td>
-                              <td className={classes}></td>
-                              <td className={`${classes} `}>
-                                <div
-                                  onClick={() => handleCustomerId(product)}
-                                  className="flex items-center gap-3 cursor-pointer"
-                                >
-                                  <Typography className="font-medium	md:text-base text-sm text-[#637381]">
-                                    {product.businessName}
-                                  </Typography>
-                                </div>
-                              </td>
-                              <td className={classes}>
-                                <div className="">
-                                  <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                    {product.deliveryFirstName}{" "}
-                                    {product.deliveryLastName}
-                                  </Typography>
-                                </div>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product.orderingEmail}
-                                </Typography>
-                              </td>
-                              <td className={`${classes} `}>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product.suburb} , {product.state}
-                                </Typography>
-                              </td>
-                              <td className={classes}>
-                                <td className={classes}>
-                                  {product?.isActive === "1" ? (
-                                    <div
-                                      style={{
-                                        background: "#EDF7F1",
-                                        borderRadius: "30px",
-                                      }}
-                                      className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-full py-1.5	w-full 		px-3.5"
-                                    >
-                                      <p className="text-[#219653] font-medium	text-sm	">
-                                        Active
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    <div
-                                      style={{
-                                        background: "#FFF8EB",
-                                        borderRadius: "30px",
-                                      }}
-                                      className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-full py-1.5	w-full 		px-3.5"
-                                    >
-                                      <p className="text-[#FFA70B] font-normal text-sm	">
-                                        Inactive
-                                      </p>
-                                    </div>
-                                  )}
-                                </td>
-                              </td>
-                              <td className={classes}>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {product?.noOfOrders}
-                                </Typography>
-                              </td>
-                              <td className={classes}>
-                                <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                  {formatPrice(product?.totalspendAmount)}
-                                </Typography>
-                              </td>
-                              {/* </Skeleton> */}
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <tr>
-                          <td colSpan="8" className="text-center">
-                            <div className="flex items-center justify-center h-[200px] no-data flex-col">
-                              <svg
-                                style={{ fill: "#808080", width: "60px" }}
-                                id="Layer_1"
-                                data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 74 100"
+                    <>
+                      <tbody>
+                        {tableRecords?.length > 0 ? (
+                          tableRecords.map((product, index) => {
+                            const isLast = index === product.length - 1;
+                            const classes = isLast ? "p-4" : "p-4  ";
+                            return (
+                              <tr
+                                key={index}
+                                style={
+                                  loading
+                                    ? { position: "relative", height: "85px" }
+                                    : { position: "relative" }
+                                }
+                                className="border-b border-blue-gray-50"
                               >
-                                <defs>
-                                  <style
-                                    dangerouslySetInnerHTML={{
-                                      __html:
-                                        "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
-                                    }}
-                                  />
-                                </defs>
-                                <path
-                                  className="cls-1"
-                                  d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
-                                />
-                              </svg>
+                                <Skeleton
+                                  style={{
+                                    padding: "10px",
 
-                              <h5 className="text-[#808080] text-lg font-medium">
-                                No Data
-                              </h5>
-                            </div>
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
+                                    width: "95%",
+
+                                    position: "absolute",
+
+                                    top: "4px",
+
+                                    left: "14px",
+                                  }}
+                                  paragraph={{ rows: 1 }}
+                                  loading={loading}
+                                  active
+                                  avatar
+                                  className="custom-skeleton"
+                                >
+                                  <td className={classes}>
+                                    <div className="flex items-center gap-3 green-checkbox">
+                                      <input
+                                        id="default-checkbox"
+                                        type="checkbox"
+                                        name={product.title}
+                                        checked={
+                                          selectedProducts.includes(product)
+                                            ? true
+                                            : false
+                                        }
+                                        onClick={(e) =>
+                                          handleCheckbox(e, product)
+                                        }
+                                        className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
+                                      />
+                                    </div>
+                                  </td>
+                                  <td className={classes}></td>
+                                  <td className={`${classes} `}>
+                                    <div
+                                      onClick={() => handleCustomerId(product)}
+                                      className="flex items-center gap-3 cursor-pointer"
+                                    >
+                                      <Typography className="font-medium	md:text-base text-sm text-[#637381]">
+                                        {product.businessName}
+                                      </Typography>
+                                    </div>
+                                  </td>
+                                  <td className={classes}>
+                                    <div className="">
+                                      <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                        {product.deliveryFirstName}{" "}
+                                        {product.deliveryLastName}
+                                      </Typography>
+                                    </div>
+                                    <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                      {product.orderingEmail}
+                                    </Typography>
+                                  </td>
+                                  <td className={`${classes} `}>
+                                    <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                      {product.suburb} , {product.state}
+                                    </Typography>
+                                  </td>
+                                  <td className={classes}>
+                                    <td className={classes}>
+                                      {product?.isActive === "1" ? (
+                                        <div
+                                          style={{
+                                            background: "#EDF7F1",
+                                            borderRadius: "30px",
+                                          }}
+                                          className="flex justify-center items-center gap-1 radius-20 bg-custom-green h-full py-1.5	w-full 		px-3.5"
+                                        >
+                                          <p className="text-[#219653] font-medium	text-sm	">
+                                            Active
+                                          </p>
+                                        </div>
+                                      ) : (
+                                        <div
+                                          style={{
+                                            background: "#FFF8EB",
+                                            borderRadius: "30px",
+                                          }}
+                                          className="flex justify-center items-center rounded-[30px] gap-1 radius-20  h-full py-1.5	w-full 		px-3.5"
+                                        >
+                                          <p className="text-[#FFA70B] font-normal text-sm	">
+                                            Inactive
+                                          </p>
+                                        </div>
+                                      )}
+                                    </td>
+                                  </td>
+                                  <td className={classes}>
+                                    <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                      {product?.noOfOrders}
+                                    </Typography>
+                                  </td>
+                                  <td className={classes}>
+                                    <Typography className="font-normal md:text-base text-sm text-[#637381]">
+                                      {formatPrice(product?.totalspendAmount)}
+                                    </Typography>
+                                  </td>
+                                </Skeleton>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <tr>
+                            <td colSpan="8" className="text-center">
+                              <div className="flex items-center justify-center h-[200px] no-data flex-col">
+                                <svg
+                                  style={{ fill: "#808080", width: "60px" }}
+                                  id="Layer_1"
+                                  data-name="Layer 1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 74 100"
+                                >
+                                  <defs>
+                                    <style
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                                      }}
+                                    />
+                                  </defs>
+                                  <path
+                                    className="cls-1"
+                                    d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+                                  />
+                                </svg>
+
+                                <h5 className="text-[#808080] text-lg font-medium">
+                                  No Data
+                                </h5>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </>
                   )}
                 </table>
               </CardBody>
