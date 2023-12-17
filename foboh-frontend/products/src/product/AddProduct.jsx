@@ -22,7 +22,7 @@ import Button from "@mui/material/Button";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-
+import { message } from "antd";
 import {
   segment,
   subCategory,
@@ -100,6 +100,7 @@ function AddProduct() {
   const [country, setCountry] = useState([]);
   const [baseUnitMeasure, setBaseUnitMeasure] = useState([]);
   const [innerUnitMeasure, setInnerUnitMeasure] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
   const {
     values,
     errors,
@@ -178,15 +179,43 @@ function AddProduct() {
       )
         .then((response) => response.json())
         .then((data) => {
+          if (data.success) {
+            console.log(data.message);
+            success(data.message);
+            navigate("/dashboard/products");
+          } else {
+            error(data.message);
+          }
           localStorage.setItem("productAdded", true);
           setShow(false);
-
-          navigate("/dashboard/products");
         })
         .catch((error) => console.log(error));
     },
   });
+  const success = (message) => {
+    messageApi.open({
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+      // content: message,
+    });
+  };
 
+  const error = (message) => {
+    messageApi.open({
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+    });
+  };
   useEffect(() => {
     asyncFunction();
   }, []);
@@ -782,6 +811,7 @@ function AddProduct() {
   );
   return (
     <>
+      {contextHolder}
       <div className="padding-top-custom">
         <AddProductHeader />
         <form
@@ -1595,7 +1625,7 @@ function AddProduct() {
                           isDisabled={!baseUnitOfMeasurement.length}
                           options={baseUnitMeasure}
                           onBlur={handleBlur}
-                          value={values.baseUnitMeasure || null} // Set value to null when no option is selected
+                          value={values.baseUnitMeasure || null}
                           name="baseUnitMeasure"
                           onChange={handlebaseUnitOfMeasurement}
                           className="basic-multi-select"

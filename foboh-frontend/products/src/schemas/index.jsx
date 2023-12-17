@@ -24,8 +24,8 @@ export const addProductSchema = Yup.object().shape({
   grapeVariety: Yup.array(),
   regionSelect: Yup.mixed(),
   country: Yup.mixed().required("country is required"),
-  baseUnitMeasure: Yup.object().required("Base unit measure is required"),
-  innerUnitMeasure: Yup.object().required("Inner unit measure is required"),
+  baseUnitMeasure: Yup.mixed().required("Base unit measure is required"),
+  innerUnitMeasure: Yup.mixed().required("Inner unit measure is required"),
   configuration: Yup.string(),
   description: Yup.string()
     .required("Please Enter Description")
@@ -64,8 +64,8 @@ export const addProductSchemaWithSubcategory = Yup.object().shape({
   grapeVariety: Yup.array(),
   regionSelect: Yup.mixed(),
   country: Yup.mixed().required("country is required"),
-  baseUnitMeasure: Yup.object().required("Base unit measure is required"),
-  innerUnitMeasure: Yup.object().required("Inner unit measure is required"),
+  baseUnitMeasure: Yup.mixed().required("Base unit measure is required"),
+  innerUnitMeasure: Yup.mixed().required("Inner unit measure is required"),
   configuration: Yup.string(),
   description: Yup.string()
     .required("Please Enter Description")

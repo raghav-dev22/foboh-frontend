@@ -67,16 +67,37 @@ function ViewProduct() {
   const [loading, setLoading] = useState(true);
   const [Stock, setStock] = useState(false);
   const [baseUnitMeasureSelect, setBaseUnitMeasureSelect] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
   const [innerUnitMeasureSelect, setInnerUnitMeasureSelect] = useState([]);
+
   let baseUnitMeasureList = [];
   let innerUnitMeasureList = [];
   const [modal2Open, setModal2Open] = useState(false);
   // const [region, setRegion] = useState();
-
-  const error = (error) => {
+  const updateProduct = () => {
     messageApi.open({
-      type: "error",
-      content: error,
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Products saved!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
+
+  const error = (message) => {
+    messageApi.open({
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
     });
   };
 
@@ -596,21 +617,6 @@ function ViewProduct() {
         reject(error);
       });
   });
-  const [messageApi, contextHolder] = message.useMessage();
-  const updateProduct = () => {
-    messageApi.open({
-      content: (
-        <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
-          <p className="text-base font-semibold text-[#F8FAFC]">
-            Products saved!
-          </p>
-        </div>
-      ),
-      className: "custom-class",
-      rtl: true,
-    });
-  };
 
   const { values, errors, handleBlur, handleChange, touched, setValues } =
     useFormik({
@@ -722,9 +728,14 @@ function ViewProduct() {
           }),
         }
       )
-        .then((response) => {})
+        .then((response) => response.json())
         .then((data) => {
-          updateProduct();
+          if (!data.success) {
+            error(data.message);
+          } else {
+            updateProduct();
+            navigate("/dashboard/products");
+          }
           setShow(false);
         })
         .catch((error) => console.log(error));
@@ -1227,6 +1238,7 @@ function ViewProduct() {
 
   return (
     <>
+      {contextHolder}
       <Modal
         centered
         open={modal2Open}
@@ -1953,7 +1965,7 @@ function ViewProduct() {
                                 isDisabled={!variety?.length}
                                 options={variety}
                                 value={
-                                  values.grapeVariety.length > 0
+                                  values?.grapeVariety?.length > 0
                                     ? values.grapeVariety
                                     : null
                                 }
@@ -2087,15 +2099,16 @@ function ViewProduct() {
                               options={baseUnitMeasureSelect}
                               value={values.baseUnitMeasure}
                               onChange={handlebaseUnitOfMeasurement}
+                              onBlur={handleBlur}
                               className="basic-multi-select "
                               classNamePrefix="select"
+                              name="baseUnitMeasure"
                             />
-                            {errors.baseUnitMeasure &&
-                              touched.baseUnitMeasure && (
-                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                                  {errors.baseUnitMeasure}
-                                </p>
-                              )}
+                            {errors.baseUnitMeasure && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs font-normal">
+                                {errors.baseUnitMeasure}
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="w-full  px-3">
@@ -2108,15 +2121,16 @@ function ViewProduct() {
                               options={innerUnitMeasureSelect}
                               value={values.innerUnitMeasure}
                               onChange={handleinnerUnitOfMeasurement}
+                              onBlur={handleBlur}
                               className="basic-multi-select "
                               classNamePrefix="select"
+                              name="innerUnitMeasure"
                             />
-                            {errors.innerUnitMeasure &&
-                              touched.innerUnitMeasure && (
-                                <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
-                                  {errors.innerUnitMeasure}
-                                </p>
-                              )}
+                            {errors.innerUnitMeasure && (
+                              <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                                {errors.innerUnitMeasure}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
