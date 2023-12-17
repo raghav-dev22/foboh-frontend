@@ -709,3 +709,8 @@ a.foboh-green-btn:hover {
 .basic-multi-select-1 {
   width: 130px;
 }
+.multi-select-custom .select__control.css-13cymwt-control {
+  min-height: 50px;
+  max-height: 102px !important;
+  overflow: auto;
+}
