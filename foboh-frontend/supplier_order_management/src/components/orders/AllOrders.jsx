@@ -27,7 +27,7 @@ let filterAndSort = {
   },
   sort: {
     sortBy: "",
-    sortOrder: "asc",
+    sortOrder: "",
   },
 };
 
@@ -282,15 +282,15 @@ const AllOrders = () => {
   });
 
   const onShowSizeChange = (current, pageSize) => {
+    setPage(current?.current);
     const newFilter = {
       ...filterAndSort.filter,
-      page: current.current,
+      page: current?.current,
     };
     filterAndSort = {
       ...filterAndSort,
       filter: newFilter,
     };
-    setPage(current.current);
     processChange("filterAndSort");
   };
 
@@ -367,9 +367,12 @@ const AllOrders = () => {
         filter: newFilter,
       };
     } else {
+      setPage(1);
+
       const newFilter = {
         ...filterAndSort.filter,
         searchByValue: search,
+        page: 1,
       };
 
       filterAndSort = {
@@ -381,6 +384,7 @@ const AllOrders = () => {
 
   const handleCheckAll = (e, name) => {
     const checked = e.target.checked;
+    setPage(1)
 
     if (name === "status") {
       const newFilter = {
@@ -399,11 +403,13 @@ const AllOrders = () => {
   };
 
   const handleFilter = (value, name) => {
+    setPage(1);
     if (name === "status") {
       setSelectedStatus(value);
       const newFilter = {
         ...filterAndSort.filter,
         orderStatus: value,
+        page:1
       };
 
       filterAndSort = {
@@ -417,6 +423,8 @@ const AllOrders = () => {
       const newFilter = {
         ...filterAndSort.filter,
         region: regions,
+        page:1
+
       };
 
       filterAndSort = {
@@ -433,6 +441,8 @@ const AllOrders = () => {
       const newFilter = {
         ...filterAndSort.filter,
         orderEntryDate: checked ? formattedData : "",
+        page:1
+
       };
 
       filterAndSort = {
@@ -452,6 +462,8 @@ const AllOrders = () => {
       filterAndSort = {
         ...filterAndSort,
         filter: newFilter,
+        page:1
+
       };
     }
     processChange("filterAndSort");
@@ -475,6 +487,7 @@ const AllOrders = () => {
   };
 
   const handleClearFilter = () => {
+    setPage(1);
     setShowFilter(false);
     filterAndSort = {
       ...filterAndSort,
@@ -485,7 +498,7 @@ const AllOrders = () => {
         orderEntryDate: "",
         orderFilterEndDate: "",
         customeDate: "",
-        page: 0,
+        page: 1,
       },
     };
     processChange("filterAndSort");
@@ -496,11 +509,12 @@ const AllOrders = () => {
   };
 
   const handleClearSort = () => {
+    setPage(1);
     filterAndSort = {
       ...filterAndSort,
       sort: {
-        sortBy: "date",
-        sortOrder: "desc",
+        sortBy: "",
+        sortOrder: "",
       },
     };
     setSortValue({
@@ -526,11 +540,11 @@ const AllOrders = () => {
           orderEntryDate: "",
           orderFilterEndDate: "",
           customeDate: "",
-          page: 0,
+          page: 1,
         },
         sort: {
-          sortBy: "date",
-          sortOrder: "desc",
+          sortBy: "",
+          sortOrder: "",
         },
       };
     } else {
@@ -542,12 +556,12 @@ const AllOrders = () => {
           orderEntryDate: "",
           orderFilterEndDate: "",
           customeDate: "",
-          page: 0,
+          page: 1,
           pagination: false,
         },
         sort: {
-          sortBy: "date",
-          sortOrder: "desc",
+          sortBy: "",
+          sortOrder: "",
         },
       };
     }

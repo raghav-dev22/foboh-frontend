@@ -10,8 +10,9 @@ const DeleteModal = ({ open, onOk, onCancel, setDeleteModalOpen }) => {
   const { id } = useParams();
 
   const handleDelete = async () => {
+    const catalogueId = localStorage.getItem("catalogueId");
     await fetch(
-      `https://product-fobohwepapi-fbh.azurewebsites.net/api/Delete/${id}`,
+      `https://product-fobohwepapi-fbh.azurewebsites.net/api/Delete/${id}?CatalogueId=${catalogueId}`,
       {
         method: "Delete",
       }

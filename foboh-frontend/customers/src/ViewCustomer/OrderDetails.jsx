@@ -153,7 +153,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     const data = paymentTermData.map((item) => {
       return {
         value: item.id,
-        label: item.paymentTermName,
+        label: item?.paymentTermName?.trim(),
       };
     });
     paymentTerm = data;

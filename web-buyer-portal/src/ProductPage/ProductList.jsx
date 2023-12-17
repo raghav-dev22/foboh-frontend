@@ -246,7 +246,7 @@ const ProductList = () => {
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [searchTerm, page]);
+  }, [searchTerm]);
 
   function saveInput(name) {
     setLoading(true);
@@ -308,6 +308,7 @@ const ProductList = () => {
         page: current,
       },
     };
+    processChange();
   };
 
   useEffect(() => {
@@ -584,11 +585,13 @@ const ProductList = () => {
 
   // Price slider handler
   const handleChange = (e, value) => {
+    setPage(1);
     setSelectSlider(e);
     const newFilter = {
       ...localFilterSort.filter,
       minPrice: e[0],
       maxPrice: e[1],
+      page: 1,
     };
 
     localFilterSort = {
@@ -674,6 +677,7 @@ const ProductList = () => {
   const [filter, setFilter] = useState(false);
 
   const toggleCategoryAndSubcategory = (e, id, name, categoryName) => {
+    setPage(1);
     if (name === "category") {
       const newCategoryIds = e.target.checked
         ? [...localFilterSort.filter.category, id]
@@ -690,6 +694,7 @@ const ProductList = () => {
         ...localFilterSort.filter,
         category: newCategoryIds,
         subCategory: categoryList.flatMap((i) => i.sub),
+        page: 1,
       };
 
       if (e.target.checked) {
@@ -758,6 +763,7 @@ const ProductList = () => {
       const newFilter = {
         ...localFilterSort.filter,
         subCategory: categoryList.flatMap((item) => item.sub),
+        page: 1,
       };
 
       localFilterSort = {
@@ -792,6 +798,7 @@ const ProductList = () => {
       const newFilter = {
         ...localFilterSort.filter,
         segment: newSegmentIds,
+        page: 1,
       };
 
       const newSegmentFilter = {
@@ -815,11 +822,13 @@ const ProductList = () => {
       const newFilter = {
         ...localFilterSort.filter,
         variety: newVarietyIds,
+        page: 1,
       };
 
       const newVarietyFilter = {
         ...localFilterSort.filter,
         variety: newVarietyName,
+        page: 1,
       };
 
       localFilterSort = {
@@ -839,6 +848,7 @@ const ProductList = () => {
       const newFilter = {
         ...localFilterSort.filter,
         countryOfOrigin: newCountryIds,
+        page: 1,
       };
 
       localFilterSort = {
@@ -855,6 +865,7 @@ const ProductList = () => {
       const newFilter = {
         ...localFilterSort.filter,
         region: newRegionIds,
+        page: 1,
       };
 
       localFilterSort = {
@@ -875,11 +886,13 @@ const ProductList = () => {
       const newFilter = {
         ...localFilterSort.filter,
         regionAvailability: newRegionAvailableIds,
+        page: 1,
       };
 
       const newRegionAvailableFilter = {
         ...localFilterSort.filter,
         regionAvailability: newRegionAvailableName,
+        page: 1,
       };
 
       localFilterSort = {
@@ -900,11 +913,13 @@ const ProductList = () => {
       const newFilter = {
         ...localFilterSort.filter,
         tags: newTagsIds,
+        page: 1,
       };
 
       localFilterSort = {
         ...localFilterSort,
         filter: newFilter,
+        page: 1,
       };
 
       setFilterAndSort({

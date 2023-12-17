@@ -46,7 +46,7 @@ function Range() {
   const [hiddenModalOpen, setHiddenModalOpen] = useState(false);
   const childRef = useRef(null);
   const [isBulkEdit, setIsBulkEdit] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [prevProducts, setPrevProducts] = useState([]);
   const [pages, setPages] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);

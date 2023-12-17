@@ -22,7 +22,7 @@ const TABLE_HEAD = [
 function AddCustomers() {
   const navigate = useNavigate();
   const [totalPages, setTotalPages] = useState(0);
-  const [tableRecords, setTableRecords] = useState([]);
+  const [tableRecords, setTableRecords] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [prevCustomer, setPrevCustomer] = useState([]);
   const [page, setPage] = React.useState(1);
   const [pages, setPages] = useState([]);
@@ -206,13 +206,9 @@ function AddCustomers() {
                                 <Skeleton
                                   style={{
                                     padding: "10px",
-
                                     width: "95%",
-
                                     position: "absolute",
-
                                     top: "4px",
-
                                     left: "14px",
                                   }}
                                   paragraph={{ rows: 1 }}

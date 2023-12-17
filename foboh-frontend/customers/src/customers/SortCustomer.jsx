@@ -147,7 +147,7 @@ function FilterCustomer({
                         onChange={() =>
                           handleSortChange(
                             item?.key,
-                            filterAndSort?.sort?.sortOrder
+                            ""
                           )
                         }
                         defaultValue=""

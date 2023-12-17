@@ -32,8 +32,8 @@ let filterAndSort = {
     searchByTitle: "",
   },
   sort: {
-    sortBy: "title",
-    sortOrder: "asc",
+    sortBy: "",
+    sortOrder: "",
   },
 };
 
@@ -156,7 +156,9 @@ const SearchProduct = forwardRef(
         const newFilter = {
           ...filterAndSort.filter,
           searchByTitle: search,
+          page: 1,
         };
+        setPageIndex(1);
 
         filterAndSort = {
           ...filterAndSort,
@@ -214,11 +216,7 @@ const SearchProduct = forwardRef(
             }
             setLoading(false);
           })
-          .then(() => {
-            setTimeout(() => {
-              setLoading(false);
-            }, 2000);
-          })
+          .then(() => {})
           .catch((error) => console.log(error));
       }
     }
@@ -240,17 +238,12 @@ const SearchProduct = forwardRef(
     }));
 
     const toggleCategoryAndSubcategory = (e, id, name, categoryName) => {
+      setPageIndex(1);
       if (name === "category") {
         setOpen(!Open);
-
         const newCategoryIds = e.target.checked
           ? [...filterAndSort.filter.category, id]
           : filterAndSort.filter.category.filter((catId) => catId !== id);
-
-        let newFilter = {
-          ...filterAndSort.filter,
-          category: newCategoryIds,
-        };
 
         if (!e.target.checked) {
           setSelectSubcategory((prev) => {
@@ -260,6 +253,7 @@ const SearchProduct = forwardRef(
               ...filterAndSort.filter,
               category: newCategoryIds,
               subcategory: categoryList.flatMap((i) => i.sub),
+              page: 1,
             };
 
             filterAndSort = {
@@ -273,6 +267,7 @@ const SearchProduct = forwardRef(
             ...filterAndSort.filter,
             category: newCategoryIds,
             subcategory: categoryList.flatMap((i) => i.sub),
+            page: 1,
           };
 
           filterAndSort = {
@@ -333,6 +328,7 @@ const SearchProduct = forwardRef(
         const newFilter = {
           ...filterAndSort.filter,
           subcategory: newSubcategoryIds,
+          page: 1,
         };
 
         filterAndSort = {
@@ -351,6 +347,7 @@ const SearchProduct = forwardRef(
         const newFilter = {
           ...filterAndSort.filter,
           stock: newStockValues,
+          page: 1,
         };
 
         filterAndSort = {
@@ -369,6 +366,7 @@ const SearchProduct = forwardRef(
         const newFilter = {
           ...filterAndSort.filter,
           productStatus: newStatusValues,
+          page: 1,
         };
 
         filterAndSort = {
@@ -385,6 +383,7 @@ const SearchProduct = forwardRef(
         const newFilter = {
           ...filterAndSort.filter,
           visibility: newVisibilityValue,
+          page: 1,
         };
 
         filterAndSort = {
@@ -480,7 +479,7 @@ const SearchProduct = forwardRef(
             },
             sort: {
               sortBy: "",
-              sortOrder: "asc",
+              sortOrder: "",
             },
           };
           saveInput("filterAndSort", newFilterAndSort);
@@ -498,8 +497,8 @@ const SearchProduct = forwardRef(
               searchByTitle: "",
             },
             sort: {
-              sortBy: "title",
-              sortOrder: "asc",
+              sortBy: "",
+              sortOrder: "",
             },
           };
         }
@@ -509,6 +508,7 @@ const SearchProduct = forwardRef(
     }, []);
 
     const handleClearFilter = () => {
+      setPageIndex(1);
       setFilterTextFirst(false);
       setFilterTextSecond(false);
       setFilterTextThird(false);
@@ -532,11 +532,12 @@ const SearchProduct = forwardRef(
     };
 
     const handleClearSort = () => {
+      setPageIndex(1)
       filterAndSort = {
         ...filterAndSort,
         sort: {
-          sortBy: "date",
-          sortOrder: "desc",
+          sortBy: "",
+          sortOrder: "",
         },
       };
       processChange("filterAndSort");

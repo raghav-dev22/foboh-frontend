@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import UnSavedModal from "../modal/UnSavedModal";
 import { getBaseUnitMeasure } from "../helpers/getBaseUnitOfMeasure";
 import { getInnerUnitMeasure } from "../helpers/getInnerUnitMeasure";
+import BulkEditErrorModal from "./BulkEditErrorModal";
 
 let baseUnitOfMeasureList = [];
 let innerUnitOfMeasureList = [];
@@ -64,6 +65,10 @@ function BulkEdit() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [Prompt, setDirty, setPrestine] = useUnsavedChangesWarning();
   const [initialValues, setInitialValues] = useState([{}]);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [errList, setErrList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const status = [
     { value: 1, label: "Active" },
@@ -91,19 +96,6 @@ function BulkEdit() {
     });
 
   const handleSubmit = () => {
-    message.open({
-      content: (
-        <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
-          <p className="text-base font-semibold text-[#F8FAFC]">
-            Products saved!
-          </p>
-        </div>
-      ),
-      className: "custom-class",
-      rtl: true,
-    });
-
     fetch(
       `https://product-fobohwepapi-fbh.azurewebsites.net/api/product/UpdateProductBulkData`,
       {
@@ -132,8 +124,24 @@ function BulkEdit() {
     )
       .then((response) => {
         if (response.ok) {
-          localStorage.removeItem("selectedProducts");
-          navigate("/dashboard/products");
+          return response.json();
+        }
+      })
+      .then((data) => {
+        if (data.success) {
+          setErrList(
+            data.data
+              .map((item) => {
+                if (!item.success) {
+                  return {
+                    row: item.row,
+                    error: item.message,
+                  };
+                }
+              })
+              .filter((item) => item)
+          );
+          setShowPreviewModal(true);
         }
       })
       .catch((error) => console.log(error));
@@ -149,7 +157,7 @@ function BulkEdit() {
       localStorage.getItem("selectedProducts")
     );
 
-    const selectedProductsValue = selectedProducts.map((product) => {
+    const selectedProductsValue = selectedProducts?.map((product) => {
       const [state] = status.filter(
         (state) =>
           state?.label.toLowerCase() === product?.productStatus.toLowerCase()
@@ -559,6 +567,12 @@ function BulkEdit() {
         onCancel={() => {
           setUnSaved(false);
         }}
+      />
+      <BulkEditErrorModal
+        show={showPreviewModal}
+        setShow={(set) => setShowPreviewModal(set)}
+        error={errList}
+        loader={loading}
       />
     </>
   );

@@ -144,12 +144,7 @@ function Filter({
                         type="radio"
                         name="filterTextFirst"
                         checked={filterAndSort.sort.sortBy === item.key}
-                        onChange={() =>
-                          handleSortChange(
-                            item.key,
-                            filterAndSort.sort.sortOrder
-                          )
-                        }
+                        onChange={() => handleSortChange(item.key, "")}
                         defaultValue=""
                         className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
                       />

@@ -3,6 +3,8 @@ import FilterCustomer from "./SortCustomer";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Select from "react-select";
+import { useQuery } from "react-query";
+import { getStates } from "../reactQuery/customerListingApiModule";
 
 let filterAndSort = {
   filter: {
@@ -29,7 +31,6 @@ function SearchCustomer({
   setLoading,
   setActiveData,
 }) {
-  const State = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"];
   const status = [
     { label: "Active", value: "1" },
     { label: "Inactive", value: "0" },
@@ -48,6 +49,8 @@ function SearchCustomer({
   const dropdownRef = useRef(null);
   const { Option } = Select;
   const [statusSelected, setStatusSelected] = useState(false);
+
+  const { data: State } = useQuery("getStates", getStates);
 
   const handleSortChange = (sortBy, sortOrder) => {
     // Handling pagination
@@ -80,7 +83,10 @@ function SearchCustomer({
     const updatedFilter = {
       ...filterAndSort.filter,
       state: newState,
+      page: 1,
     };
+
+    setPageIndex(1);
 
     filterAndSort = {
       ...filterAndSort,
@@ -116,10 +122,33 @@ function SearchCustomer({
     const { name, value } = e.target;
     switch (name) {
       case "text":
-        filterAndSort.filter.businessName = value;
+        const updatedFilter1 = {
+          ...filterAndSort.filter,
+          businessName: value,
+          page: 1,
+        };
+
+        setPageIndex(1);
+
+        filterAndSort = {
+          ...filterAndSort,
+          filter: updatedFilter1,
+        };
+
         break;
       case "pincode":
-        filterAndSort.filter.postCode = value;
+        const updatedFilter = {
+          ...filterAndSort.filter,
+          postCode: value,
+          page: 1,
+        };
+
+        setPageIndex(1);
+
+        filterAndSort = {
+          ...filterAndSort,
+          filter: updatedFilter,
+        };
         setPinCode(value);
       default:
         break;
@@ -145,29 +174,14 @@ function SearchCustomer({
     const updatedFilter = {
       ...filterAndSort.filter,
       status: newStatus,
+      page: 1,
     };
-
+    setPageIndex(1);
     filterAndSort = {
       ...filterAndSort,
       filter: updatedFilter,
     };
     processChange("filterAndSort");
-  };
-
-  const toggleCheckbox = (name, e) => {
-    switch (name) {
-      case "active":
-        setIsActiveChecked(true);
-        setIsInactiveChecked(false);
-        filterClick();
-        break;
-      case "inactive":
-        setIsActiveChecked(false);
-        setIsInactiveChecked(true);
-        filterClick();
-      default:
-        break;
-    }
   };
 
   function debounce(func, timeout = 1000) {
@@ -205,9 +219,8 @@ function SearchCustomer({
             setProducts(data.data);
             setSearch(data.data.length);
             setisSearchResult(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 2000);
+
+            setLoading(false);
           } else {
             setisSearchResult(false);
             setTotalPages(0);
@@ -275,6 +288,7 @@ function SearchCustomer({
   }, [dropdownRef]);
 
   const handleClearFilter = () => {
+    setPageIndex(1);
     setFirst(false);
     setSecond(false);
     setThird(false);
@@ -296,11 +310,12 @@ function SearchCustomer({
   };
 
   const handleClearSort = () => {
+    setPageIndex(1);
     filterAndSort = {
       ...filterAndSort,
       sort: {
         sortBy: "",
-        sortOrder: "asc",
+        sortOrder: "",
       },
     };
     processChange("filterAndSort");
@@ -486,10 +501,10 @@ function SearchCustomer({
                       placeholder="select..."
                       onChange={addState}
                       value={selectedState}
-                      options={State.map((item) => {
+                      options={State?.map((item) => {
                         return {
-                          label: item,
-                          value: item,
+                          label: item?.stateName,
+                          value: item?.stateName,
                         };
                       })}
                       closeMenuOnSelect={false}

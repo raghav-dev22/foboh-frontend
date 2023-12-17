@@ -53,12 +53,14 @@ function PreviewModal({
         } else {
           setSuccess(false);
           const errList = data?.data
-            ? data?.data?.map((item) => {
-                return {
-                  row : item.row,
-                  error: item.message,
-                };
-              })
+            ? data?.data
+                ?.map((item) => {
+                  return {
+                    row: item.row,
+                    error: item.message,
+                  };
+                })
+                .filter((item) => item)
             : [];
           setErrList(errList);
         }

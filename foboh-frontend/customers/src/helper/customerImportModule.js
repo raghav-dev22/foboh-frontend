@@ -15,7 +15,7 @@ export const convertImportedCustomerList = (importedCustomers) => {
         defaultPaymentTerm: customer?.defaultPaymentTerm
           ? customer.defaultPaymentTerm.split(",")
           : [],
-        tags: customer?.tags ? customer.tags.split(",") : [],
+        tags: customer?.tags ? customer.tags.split(",") : [""],
         organisationId: organisationId,
         wetLiable: customer?.wetLiable === 1 || true ? true : false,
         orderingFirstName: customer?.orderingFirstName
