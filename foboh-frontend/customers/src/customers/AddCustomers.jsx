@@ -253,8 +253,8 @@ function AddCustomers() {
                                   <td className={classes}>
                                     <div className="">
                                       <Typography className="font-normal md:text-base text-sm text-[#637381]">
-                                        {product.deliveryFirstName}{" "}
-                                        {product.deliveryLastName}
+                                        {product.orderingFirstName}{" "}
+                                        {product.orderingLastName}
                                       </Typography>
                                     </div>
                                     <Typography className="font-normal md:text-base text-sm text-[#637381]">

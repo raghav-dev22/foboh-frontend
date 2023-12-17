@@ -8,6 +8,8 @@ import CustomerDetailsFirst from "./CustomerDetailsFirst";
 import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { stepOneSchema, stepTwoSchema, stepThreeSchema } from "../schemas";
+import CloseIcon from "@mui/icons-material/Close";
+import { message } from "antd";
 import Toast from "../Toast";
 export const options = [
   { value: "1", label: "Active" },
@@ -60,11 +62,37 @@ function CustomerDetails() {
   const [isUpdate, setIsUpDate] = useState(false);
   const [isChecked, setIsChecked] = useState();
   const [isAddressChecked, setIsAddressChecked] = useState();
+  const [messageApi, contextHolder] = message.useMessage();
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchemas[activeStep],
     onSubmit: (values) => {},
   });
+
+  const success = (message) => {
+    messageApi.open({
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+      // content: message,
+    });
+  };
+
+  const error = (message) => {
+    messageApi.open({
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+        </div>
+      ),
+    });
+  };
   const handleSubmit = () => {
     const defaultPaymentTermsList = formik.values?.defaultPaymentTerms?.label;
     const defaultPaymentMethodIdList =
@@ -117,8 +145,13 @@ function CustomerDetails() {
     )
       .then((response) => response.json())
       .then((data) => {
+        if (data.success) {
+          success(data.message);
+          navigate("/dashboard/customers");
+        } else {
+          error(data.message);
+        }
         localStorage.setItem("customerAdded", true);
-        navigate("/dashboard/customers");
       })
       .catch((error) => console.log(error));
   };
@@ -161,6 +194,7 @@ function CustomerDetails() {
 
   return (
     <>
+      {contextHolder}
       <div className="mx-auto lg:w-3/5 w-full pb-20 lg:px-20 px-10 custom-stepper ">
         {isUpdate && (
           <div className="2xl:mx-auto absolute z-50 top-0 right-0 left-0">

@@ -37,17 +37,21 @@ export const AddCustomerSchema = Yup.object().shape({
 
   orderingEmail: Yup.string().email("Please enter a valid email"),
 
-  orderingMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-    "Mobile number must be a valid Australian mobile number"
-  ),
+  orderingMobile: Yup.string()
+    .required("Mobile Number is required")
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    ),
 
   deliveryEmail: Yup.string().email("Please enter a valid email"),
 
-  deliveryMobile: Yup.string().matches(
-    /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
-    "Mobile number must be a valid Australian mobile number"
-  ),
+  deliveryMobile: Yup.string()
+    .required("Mobile Number is required")
+    .matches(
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
+      "Mobile number must be a valid Australian mobile number"
+    ),
 
   address: Yup.string()
     .min(2, "Address should have atleast 2 letters")
