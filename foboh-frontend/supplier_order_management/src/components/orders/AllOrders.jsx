@@ -13,7 +13,8 @@ import { formatDate } from "../../helpers/dateFormate";
 import { useNavigate } from "react-router-dom";
 import { formatPrice } from "../../helpers/formatPrice";
 import { formatGivenDate } from "../../helpers/formatDateAndTime";
-
+import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 let filterAndSort = {
   filter: {
     searchByValue: "",
@@ -80,8 +81,11 @@ const AllOrders = () => {
 
   const handleCheckboxChange = (e) => {
     setShowDatePicker(e.target.checked);
+    setShowDatePicker(true);
   };
-
+  const handleCustomClear = () => {
+    setShowDatePicker(false);
+  };
   const statusMenuBtn = () => {
     setStatusMenu(!statusMenu);
     setRegionMenu(false);
@@ -488,6 +492,9 @@ const AllOrders = () => {
 
   const handleClearFilter = () => {
     setPage(1);
+    setStatusMenu(false);
+    setRegionMenu(false);
+    setDateMenu(false);
     setShowFilter(false);
     filterAndSort = {
       ...filterAndSort,
@@ -579,10 +586,10 @@ const AllOrders = () => {
         }
 
         if (!isInsideDropdown) {
-          setStatusMenu(false);
-          setRegionMenu(false);
-          setDateMenu(false);
-          setSortItem(false);
+          // setStatusMenu(false);
+          // setRegionMenu(false);
+          // setDateMenu(false);
+          // setSortItem(false);
         }
       }
     }
@@ -923,17 +930,17 @@ const AllOrders = () => {
                   {regionMenu && (
                     <div
                       style={{ width: "350px", height: "380px" }}
-                      className="z-10 left-0 bg-[#fff] absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                      className="z-10 left-0 absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
                     >
                       <Select
                         name="colors"
                         isMulti={true}
                         isDisabled={!states.length}
-                        menuIsOpen={true}
+                        // menuIsOpen={true}
                         options={states}
                         value={regions}
                         onChange={(value) => handleFilter(value, "region")}
-                        className="basic-multi-select "
+                        className="basic-multi-select multi-select-custom"
                         classNamePrefix="select"
                       />
                     </div>
@@ -970,23 +977,43 @@ const AllOrders = () => {
                         ))}
                         <li className="py-1">
                           <div className="relative custom-datePicker h-[40px]">
-                            {showDatePicker ? (
-                              <RangePicker
-                                // renderExtraFooter={() => (
-                                //   <div className="flex justify-center items-center gap-2 ">
-                                //     <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                                //       Remove
-                                //     </div>
-                                //     <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                                //       Done
-                                //     </div>
-                                //   </div>
-                                // )}
-                                value={customSelectedDate}
-                                onChange={(value) =>
-                                  handleFilter(value, "customDate")
-                                }
-                              />
+                            {showDatePicker === true ? (
+                              <div className="relative w-[100%]">
+                                <RangePicker
+                                  className="w-full h-[42px] px-[40px]"
+                                  // renderExtraFooter={() => (
+                                  //   <div className="flex justify-center items-center gap-2 ">
+                                  //     <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                                  //       Remove
+                                  //     </div>
+                                  //     <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
+                                  //       Done
+                                  //     </div>
+                                  //   </div>
+                                  // )}
+                                  dropdownClassName="custom-date-picker"
+                                  value={customSelectedDate}
+                                  suffixIcon={null}
+                                  onChange={(value) =>
+                                    handleFilter(value, "customDate")
+                                  }
+                                />
+
+                                <div className="custom-icons">
+                                  <CalendarTodayRoundedIcon
+                                    className="calendar-icon absolute top-[21%] left-[12px]  "
+                                    style={{ fill: "#d9d9d9", width: "18px" }}
+                                  />
+                                  <CloseRoundedIcon
+                                    onClick={handleCustomClear}
+                                    className="clear-icon absolute top-[21%] right-[12px]  cursor-pointer "
+                                    style={{
+                                      fill: "#d9d9d9",
+                                      width: "18px",
+                                    }}
+                                  />
+                                </div>
+                              </div>
                             ) : (
                               <div className=" absolute top-0 left-0 w-full h-full">
                                 <div className="flex gap-1  green-checkbox ">
