@@ -23,6 +23,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { message } from "antd";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   segment,
   subCategory,
@@ -179,26 +180,27 @@ function AddProduct() {
       )
         .then((response) => response.json())
         .then((data) => {
-          if (data.success) {
-            console.log(data.message);
-            success(data.message);
+          if (data.success === true) {
+            success();
             navigate("/dashboard/products");
+            setShow(false);
           } else {
             error(data.message);
           }
           localStorage.setItem("productAdded", true);
-          setShow(false);
         })
         .catch((error) => console.log(error));
     },
   });
-  const success = (message) => {
+  const success = () => {
     messageApi.open({
       className: "custom-class",
       content: (
         <div className="flex justify-center gap-2 items-center">
           <CloseIcon style={{ fill: "#fff", width: "15px" }} />
-          <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            {"Product Saved Successfully"}
+          </p>
         </div>
       ),
       // content: message,

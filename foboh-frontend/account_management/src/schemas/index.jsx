@@ -52,7 +52,7 @@ export const RegistrationSchema = Yup.object().shape({
   mobile: Yup.string()
     .required("Mobile number is required")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#{}()\[\]\\.\\/<>\^+_~"`-])[A-Za-z\d@$!%*?&^#{}()\[\]\\.\\/<>\^+_~"`-]{8,16}$/,
+      /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-47-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/,
       "Mobile number must be a valid Australian mobile number"
     ),
   businessName: Yup.string()

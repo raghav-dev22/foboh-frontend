@@ -730,13 +730,13 @@ function ViewProduct() {
       )
         .then((response) => response.json())
         .then((data) => {
+          setShow(false);
           if (!data.success) {
             error(data.message);
           } else {
             updateProduct();
             navigate("/dashboard/products");
           }
-          setShow(false);
         })
         .catch((error) => console.log(error));
     }
@@ -2192,6 +2192,11 @@ function ViewProduct() {
                             value={values.description}
                             onChange={handleChange}
                           />
+                          {errors.description && (
+                            <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
+                              {errors.description}
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div className="flex flex-nowrap -mx-3 mb-5">
