@@ -152,7 +152,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   if (paymentTermData) {
     const data = paymentTermData.map((item) => {
       return {
-        value: item.id,
+        value: item?.id,
         label: item?.paymentTermName?.trim(),
       };
     });
@@ -184,7 +184,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     }
   };
 
-  let customerData = {};
   const callCustomerDetails = async () => {
     await fetch(
       `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/${datas}`,
@@ -194,9 +193,10 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     )
       .then((response) => response.json())
       .then(async (data) => {
-        customerData = data;
         setBuyerData(data.buyerId);
+
         handleCustomerDetails(data);
+
         setInitialValues({
           ...initialValues,
           buyerId: data?.buyerId,
@@ -207,13 +207,15 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           address: data.address,
           apartment: data.apartment,
           suburb: data.suburb,
-          billingState: data.billingState,
+          billingState: allStateData?.find(
+            (item) => data?.billingState === item?.label
+          ),
           billingPostalCode: data.billingPostalCode,
           billingSuburb: data.billingSuburb,
           billingApartment: data.billingApartment,
           deliveryNotes: data.deliveryNotes,
           billingAddress: data.billingAddress,
-          state: data.state,
+          state: allStateData?.find((item) => data?.state === item?.label),
           postalCode: data.postalCode,
           deliveryEmail: data.deliveryEmail,
           deliveryMobile: data.deliveryMobile,
@@ -221,10 +223,18 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           deliveryFirstName: data.deliveryFirstName,
           businessName: data.businessName,
           abn: data.abn,
-          liquorLicence: data.liquorLicence,
+          liquorLicence: data?.liquorLicence,
           organisationId: data?.organisationId,
-          defaultPaymentMethodId: data?.defaultPaymentMethodId,
-          defaultPaymentTerms: data?.defaultPaymentTerm,
+          defaultPaymentMethodId: data?.defaultPaymentMethodId[0]
+            ? updatedPaymentMethod?.find(
+                (item) => data?.defaultPaymentMethodId[0] === item?.label
+              )
+            : [""],
+          defaultPaymentTerms: data?.defaultPaymentTerm[0]
+            ? paymentTerm.find(
+                (item) => data?.defaultPaymentTerm[0] === item?.label
+              )
+            : [""],
           tags: [],
           pricingProfileId: "",
           salesRepId: "",
@@ -249,7 +259,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           billingApartment: data.billingApartment,
           deliveryNotes: data.deliveryNotes,
           billingAddress: data.billingAddress,
-          state: allStateData.find((item) => data.state === item.label),
+          state: allStateData?.find((item) => data?.state === item?.label),
           postalCode: data.postalCode,
           deliveryEmail: data.deliveryEmail,
           deliveryMobile: data.deliveryMobile,
@@ -259,12 +269,16 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           abn: data.abn,
           liquorLicence: data.liquorLicence,
           organisationId: data?.organisationId,
-          defaultPaymentMethodId: updatedPaymentMethod?.find(
-            (item) => data?.defaultPaymentMethodId[0] === item.label
-          ),
-          defaultPaymentTerms: paymentTerm.find(
-            (item) => data?.defaultPaymentTerm[0] === item.label
-          ),
+          defaultPaymentMethodId: data?.defaultPaymentMethodId[0]
+            ? updatedPaymentMethod?.find(
+                (item) => data?.defaultPaymentMethodId[0] === item?.label
+              )
+            : [""],
+          defaultPaymentTerms: data?.defaultPaymentTerm[0]
+            ? paymentTerm.find(
+                (item) => data?.defaultPaymentTerm[0] === item?.label
+              )
+            : [""],
           tags: [],
           pricingProfileId: "",
           salesRepId: "",
@@ -277,19 +291,25 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           value: data?.defaultPaymentTerm[0],
         };
 
-        const defaultPaymentMethod = await getdefaultPaymentMethod(dpt);
-        const updatedPaymentMethod = defaultPaymentMethod?.data?.map((item) => {
-          return {
-            value: item,
-            label: item,
-          };
-        });
+        const defaultPaymentMethod = dpt?.label
+          ? await getdefaultPaymentMethod(dpt)
+          : [];
+        const updatedPaymentMethod = defaultPaymentMethod?.data
+          ?.map((item) => {
+            return {
+              value: item,
+              label: item,
+            };
+          })
+          .filter((item) => item);
         setValues((prev) => {
           return {
             ...prev,
-            defaultPaymentMethodId: updatedPaymentMethod?.find(
-              (item) => data?.defaultPaymentMethodId[0] === item.label
-            ),
+            defaultPaymentMethodId: updatedPaymentMethod.length
+              ? updatedPaymentMethod?.find(
+                  (item) => data?.defaultPaymentMethodId[0] === item?.label
+                )
+              : "",
           };
         });
       });
@@ -328,8 +348,12 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
           deliveryLastName: values?.deliveryLastName,
           deliveryFirstName: values?.deliveryFirstName,
           businessName: values?.businessName,
-          defaultPaymentMethodId: [values?.defaultPaymentMethodId?.label],
-          defaultPaymentTerm: [values?.defaultPaymentTerms?.label],
+          defaultPaymentMethodId: values?.defaultPaymentMethodId?.label
+            ? [values?.defaultPaymentMethodId?.label]
+            : [""],
+          defaultPaymentTerm: values?.defaultPaymentTerms?.label
+            ? [values?.defaultPaymentTerms?.label]
+            : [""],
           abn: values?.abn,
           liquorLicence: values?.liquorLicence,
           organisationId: organisationId,
@@ -346,7 +370,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
       .then((data) => {
         setShow(false);
         saveCustomer();
-        callCustomerDetails((prev) => {
+        setCustomerDetails((prev) => {
           return {
             ...prev,
             apartment: data?.apartment,
@@ -1464,7 +1488,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                             style={{ width: "100%", height: "48px" }}
                             placeholder="Select"
                             options={defaultPaymentMethod}
-                            value={values.defaultPaymentMethodId}
+                            value={values?.defaultPaymentMethodId}
                             // isDisabled={defaultPaymentMethod.length < 1}
                             onBlur={handleBlur}
                             onChange={(e) => {

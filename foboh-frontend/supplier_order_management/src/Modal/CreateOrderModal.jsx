@@ -178,9 +178,6 @@ const CreateOrderModal = ({
       setActiveStep((cur) => cur + 1), setDetails(true), setSelectedItems("");
     }
     isValid = false;
-    console.log(errorData, "errorData");
-    console.log(activeStep, "errorData");
-    console.log(isValid, "errorData");
   };
 
   const handlePrev = () => {
@@ -210,6 +207,9 @@ const CreateOrderModal = ({
         : error(" Some error has occurred! Please try again");
 
       setCreateOrderModal(false);
+      setCustomerDetails({});
+      setIsCustomerSelected(false);
+      setActiveStep(0);
     }
   };
 
@@ -319,7 +319,6 @@ const CreateOrderModal = ({
       );
     }
   );
-  console.log(errorData, "error");
 
   const asyncFunction = async () => {
     const productList = await getProducts();
@@ -389,7 +388,6 @@ const CreateOrderModal = ({
 
   const handleCustomerSelect = async (value) => {
     const customerInfo = await getCustomerDetails(value?.value);
-    // console.log(customerInfo.data[0], "buyerData");
     if (localStorage.getItem("buyerID")) {
       localStorage.removeItem("buyerID");
     }
@@ -446,7 +444,6 @@ const CreateOrderModal = ({
       });
 
       setCart(cartUpdatedList);
-      console.log(cartUpdatedList.length, "cartUpdatedList.length");
       if (cartUpdatedList.length > 0) {
         isValid = true;
       }
@@ -941,6 +938,7 @@ const CreateOrderModal = ({
                 )}
                 {activeStep === 3 && (
                   <FinalOrder
+                    
                     customerDetails={customerDetails}
                     cart={cart}
                     handleRemoveCart={handleRemoveCart}

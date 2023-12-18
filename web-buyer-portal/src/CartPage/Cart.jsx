@@ -88,7 +88,7 @@ const Cart = ({ open, onClose }) => {
     onClose(!onClose);
     const cartId = localStorage.getItem("cartId");
 
-    const { deliveryEmail, deliveryFirstName } = JSON.parse(
+    const { deliveryEmail, deliveryFirstName, organisationId } = JSON.parse(
       localStorage.getItem("buyerInfo")
     );
 
@@ -103,7 +103,7 @@ const Cart = ({ open, onClose }) => {
           cartID: cartId,
           orderByEmailID: deliveryEmail,
           orderBy: deliveryFirstName,
-          organisationID: localStorage.getItem("organisationId"),
+          organisationID: organisationId,
           catalogueID: localStorage.getItem("catalogueId"),
         }),
       }

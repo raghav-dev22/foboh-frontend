@@ -152,10 +152,10 @@ function ImportProductModal({ show, setShow, error, loader }) {
                           </tr>
                         </thead>
                         <tbody>
-                          {error.map((err, index) => (
+                          {error?.map((err, index) => (
                             <tr style={{ borderBottom: "1px solid #EEEEEE" }}>
                               <td className="font-medium text-sm p-4">
-                                {index + 1}
+                                {err?.row}
                               </td>
                               <td className="font-normal text-sm p-4">
                                 {err?.error}

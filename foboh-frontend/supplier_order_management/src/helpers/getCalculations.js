@@ -29,8 +29,8 @@ export const getCalculations = (cartList, shipCharges) => {
         gst += gstAppliedOnNonWine;
         subtotal2 += productSubtotal + gstAppliedOnNonWine;
       }
-      subtotal += price * quantity;
-      total += subtotal1 + subtotal2 + shipCharges;
+      subtotal = price * quantity;
+      total = subtotal1 + subtotal2 + shipCharges;
     });
     return {
       gst: gst.toFixed(2),

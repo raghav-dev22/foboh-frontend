@@ -186,7 +186,7 @@ const CartPage = () => {
 
   const handleCheckout = () => {
     const cartId = localStorage.getItem("cartId");
-    const { deliveryEmail, deliveryFirstName } = JSON.parse(
+    const { deliveryEmail, deliveryFirstName, organisationId } = JSON.parse(
       localStorage.getItem("buyerInfo")
     );
 
@@ -201,7 +201,7 @@ const CartPage = () => {
           cartID: cartId,
           orderByEmailID: deliveryEmail,
           orderBy: deliveryFirstName,
-          organisationID: localStorage.getItem("organisationId"),
+          organisationID: organisationId,
           catalogueID: localStorage.getItem("catalogueId"),
         }),
       }

@@ -516,6 +516,7 @@ const SearchProduct = forwardRef(
       setSelectStatus([]);
       setSelectStock([]);
       setSelectSubcategory([]);
+      setSelectedCatId([]);
       setSelectVisibility("");
       filterAndSort = {
         ...filterAndSort,
@@ -532,7 +533,7 @@ const SearchProduct = forwardRef(
     };
 
     const handleClearSort = () => {
-      setPageIndex(1)
+      setPageIndex(1);
       filterAndSort = {
         ...filterAndSort,
         sort: {

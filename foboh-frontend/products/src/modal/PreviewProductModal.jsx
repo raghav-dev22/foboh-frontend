@@ -51,10 +51,10 @@ function PreviewProductModal({
       .then((data) => {
         const errList = data.data.map((item) => {
           return {
-            productName: item.title,
+            row: item.row,
             error: item.message,
           };
-        });
+        }).filter(item => item)
         setErrList(errList);
         setLoading(false);
         setShowPreviewModal(true);
