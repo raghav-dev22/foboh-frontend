@@ -79,6 +79,19 @@ function Range() {
       rtl: true,
     });
   };
+  const error = () => {
+    messageApi.open({
+      className: "custom-class",
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            {"duplicate product"}
+          </p>
+        </div>
+      ),
+    });
+  };
   const DeleteProduct = () => {
     messageApi.open({
       content: (
@@ -216,8 +229,11 @@ function Range() {
       .then((data) => {
         setIsBulkEdit(false);
         setSelectedProducts([]);
-        // setProducts(data.data);
-        getAllproduct();
+        if (!data?.data[0]?.success) {
+          error();
+        } else {
+          saveProduct();
+        }
       })
 
       .catch((error) => console.log(error));
@@ -297,6 +313,7 @@ function Range() {
 
   return (
     <>
+      {contextHolder}
       <div className="padding-top-custom">
         <ActiveProduct
           totalProducts={totalProducts}
@@ -649,6 +666,11 @@ function Range() {
           open={deleteModalOpen}
           onOk={() => {
             setDeleteModalOpen(false);
+            setTimeout(() => {
+              if (childRef.current) {
+                childRef.current.handleFilterPagination(1);
+              }
+            }, 1000);
           }}
           onCancel={() => {
             setDeleteModalOpen(false);

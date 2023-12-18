@@ -388,7 +388,7 @@ const AllOrders = () => {
 
   const handleCheckAll = (e, name) => {
     const checked = e.target.checked;
-    setPage(1)
+    setPage(1);
 
     if (name === "status") {
       const newFilter = {
@@ -413,7 +413,7 @@ const AllOrders = () => {
       const newFilter = {
         ...filterAndSort.filter,
         orderStatus: value,
-        page:1
+        page: 1,
       };
 
       filterAndSort = {
@@ -427,8 +427,7 @@ const AllOrders = () => {
       const newFilter = {
         ...filterAndSort.filter,
         region: regions,
-        page:1
-
+        page: 1,
       };
 
       filterAndSort = {
@@ -445,8 +444,7 @@ const AllOrders = () => {
       const newFilter = {
         ...filterAndSort.filter,
         orderEntryDate: checked ? formattedData : "",
-        page:1
-
+        page: 1,
       };
 
       filterAndSort = {
@@ -466,8 +464,7 @@ const AllOrders = () => {
       filterAndSort = {
         ...filterAndSort,
         filter: newFilter,
-        page:1
-
+        page: 1,
       };
     }
     processChange("filterAndSort");
@@ -586,10 +583,10 @@ const AllOrders = () => {
         }
 
         if (!isInsideDropdown) {
-          // setStatusMenu(false);
-          // setRegionMenu(false);
-          // setDateMenu(false);
-          // setSortItem(false);
+          setStatusMenu(false);
+          setRegionMenu(false);
+          setDateMenu(false);
+          setSortItem(false);
         }
       }
     }

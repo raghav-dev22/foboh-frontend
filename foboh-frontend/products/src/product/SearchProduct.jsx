@@ -467,7 +467,7 @@ const SearchProduct = forwardRef(
       const timeoutId = setTimeout(() => {
         const mainFilter = localStorage.getItem("yourBooleanKey");
         if (mainFilter === "true") {
-          let newFilterAndSort = {
+          filterAndSort = {
             filter: {
               category: [],
               subcategory: [],
@@ -482,7 +482,7 @@ const SearchProduct = forwardRef(
               sortOrder: "",
             },
           };
-          saveInput("filterAndSort", newFilterAndSort);
+          saveInput("filterAndSort", filterAndSort);
           localStorage.removeItem("yourBooleanKey");
           setSelectStock(["lowStock", "outOfStock"]);
         } else {
