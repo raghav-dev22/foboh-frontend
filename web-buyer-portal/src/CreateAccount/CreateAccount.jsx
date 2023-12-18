@@ -205,6 +205,8 @@ function CreateAccount() {
       bio: buyerData?.bio || "",
       mobile: buyerData?.mobile || "",
       createdBy: "",
+      catalogueId: buyerData?.catalogueId,
+      cCatalogueId: buyerData?.cCatalogueId,
     };
     setIsLoading(true);
     fetch(
