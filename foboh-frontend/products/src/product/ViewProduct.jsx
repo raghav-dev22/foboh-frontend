@@ -250,7 +250,7 @@ function ViewProduct() {
             value: item.regionId,
             label: item.regionName,
           }))
-          .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
+          .sort((a, b) => a.label.localeCompare(b.label));
 
         setRegions(sortedRegion);
       })
@@ -925,12 +925,14 @@ function ViewProduct() {
       .then((response) => response.json())
       .then((data) => {
         setSubCategory(
-          data?.data?.map((i) => {
-            return {
-              value: i.subCategoryId,
-              label: i.subCategoryName,
-            };
-          })
+          data?.data
+            ?.map((i) => {
+              return {
+                value: i.subCategoryId,
+                label: i.subCategoryName,
+              };
+            })
+            .filter((i) => i)
         );
       })
       .catch((error) => console.log(error));
@@ -1918,9 +1920,9 @@ function ViewProduct() {
                             <div className="w-full">
                               <Select
                                 name="colors"
-                                options={subCategory}
+                                options={subCategory?.length ? subCategory : []}
                                 // isDisabled={!subCategory?.length}
-                                value={values.subcategory}
+                                value={values?.subcategory}
                                 onChange={handleSubCategoryChange}
                                 className="basic-multi-select "
                                 classNamePrefix="select"
