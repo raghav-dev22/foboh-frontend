@@ -13,7 +13,8 @@ export const paymentProcess = async (
   last4
 ) => {
   const payAmt = total.toString();
-
+  const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+  console.log(organisationId, "organisationId");
   const clientSecret = await fetch(
     "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/ProcessPayment_PayType_PayMethod_PayNow",
     {
@@ -23,7 +24,7 @@ export const paymentProcess = async (
         orderId: orderId,
         orderByEmailID: email,
         orderBy: orderBy,
-        organisationID: localStorage.getItem("organisationId"),
+        organisationID: organisationId,
         catalogueID: localStorage.getItem("catalogueId"),
         orderStatus: "InProcess",
         paymentType: paymentType,

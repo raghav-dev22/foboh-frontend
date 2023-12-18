@@ -64,7 +64,7 @@ const TotalOrders = () => {
                       : "text-[#DC3545]"
                   }`}
                 >
-                  {(allOrders?.totalOrdersPercentage)?.toFixed(2)}%
+                  {allOrders?.totalOrdersPercentage?.toFixed(2)}%
                 </p>
                 {allOrders?.totalOrdersPercentage > 0 ? (
                   <ArrowUpwardIcon style={{ fill: "#009900", width: "20px" }} />
@@ -92,7 +92,7 @@ const TotalOrders = () => {
                       : "text-[#DC3545]"
                   }`}
                 >
-                  {(allOrders?.openOrdersPercentage)?.toFixed(2)}%
+                  {allOrders?.openOrdersPercentage?.toFixed(2)}%
                 </p>
 
                 {openOrders > 0 ? (
@@ -126,7 +126,7 @@ const TotalOrders = () => {
                       : "text-[#DC3545]"
                   }`}
                 >
-                  {(allOrders?.paidOrdersPercentage)?.toFixed(2)}%
+                  {allOrders?.paidOrdersPercentage?.toFixed(2)}%
                 </p>
                 {paidOrders > 0 ? (
                   <ArrowUpwardIcon style={{ fill: "#009900", width: "20px" }} />
@@ -158,7 +158,7 @@ const TotalOrders = () => {
                       : "text-[#DC3545]"
                   }`}
                 >
-                  {(allOrders?.unpaidOrdersPercentage)?.toFixed(2)}%
+                  {allOrders?.unpaidOrdersPercentage?.toFixed(2)}%
                 </p>
                 {unpaidOrders > 0 ? (
                   <ArrowUpwardIcon style={{ fill: "#009900", width: "20px" }} />
