@@ -482,15 +482,21 @@ const CreateOrderModal = ({
             value: value.value,
           };
 
-          setUpdatedQuantity({
-            ...item,
-            quantity: newQuantityValue,
-          });
+          if (newQuantityValue.value <= item.product.availableQty) {
+            setUpdatedQuantity({
+              ...item,
+              quantity: newQuantityValue,
+            });
 
-          return {
-            ...item,
-            quantity: newQuantityValue,
-          };
+            return {
+              ...item,
+              quantity: newQuantityValue,
+            };
+          } else {
+            warning(
+              `Please add product below available quantity ${item.product.availableQty}`
+            );
+          }
         }
         return item;
       });

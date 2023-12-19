@@ -86,79 +86,84 @@ const ProductDetails = () => {
   const addCart = (id, itemData, actionType) => {
     const data = itemData.product;
     const quantity = itemData.quantity;
+    const availableQty = itemData.product.availableQty;
 
     const { buyerId, organisationId } = JSON.parse(
       localStorage.getItem("buyerInfo")
     );
 
-    fetch(`${url}/api/Product/AddToCart`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        buyerId: buyerId,
-        productId: data?.productId,
-        title: data?.title,
-        description: data?.description,
-        articleId: data?.articleID,
-        skUcode: data?.skUcode,
-        productImageUrls: data?.productImageUrls,
-        unitofMeasure: data?.unitofMeasure,
-        innerUnitofMeasure: data?.innerUnitofMeasure,
-        configuration: data?.configuration,
-        award: data?.award,
-        brand: data?.brand,
-        departmentId: data?.departmentId,
-        categoryId: data?.categoryId,
-        subCategoryId: data?.subCategoryId,
-        segmentId: data?.segmentId,
-        variety: [],
-        vintage: data?.vintage,
-        abv: data?.abv,
-        globalPrice: data?.globalPrice,
-        luCcost: data?.luCcost,
-        buyPrice: data?.buyPrice,
-        gstFlag: true,
-        wetFlag: true,
-        trackInventory: true,
-        region: "",
-        availableQty: data?.availableQty,
-        quantity: quantity,
-        stockThreshold: data?.stockThreshold,
-        stockStatus: data?.stockStatus,
-        regionAvailability: data?.regionAvailability,
-        productStatus: data?.productStatus,
-        visibility: data?.visibility,
-        minimumOrder: data?.minimumOrder,
-        tags: data?.tags,
-        countryOfOrigin: data?.countryOfOrigin,
-        barcodes: data?.barcodes,
-        esgStatus: data?.esgStatus,
-        healthRating: data?.healthRating,
-        organisationId: organisationId,
-        isActive: true,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          success();
+    if (quantity <= availableQty) {
+      fetch(`${url}/api/Product/AddToCart`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          buyerId: buyerId,
+          productId: data?.productId,
+          title: data?.title,
+          description: data?.description,
+          articleId: data?.articleID,
+          skUcode: data?.skUcode,
+          productImageUrls: data?.productImageUrls,
+          unitofMeasure: data?.unitofMeasure,
+          innerUnitofMeasure: data?.innerUnitofMeasure,
+          configuration: data?.configuration,
+          award: data?.award,
+          brand: data?.brand,
+          departmentId: data?.departmentId,
+          categoryId: data?.categoryId,
+          subCategoryId: data?.subCategoryId,
+          segmentId: data?.segmentId,
+          variety: [],
+          vintage: data?.vintage,
+          abv: data?.abv,
+          globalPrice: data?.globalPrice,
+          luCcost: data?.luCcost,
+          buyPrice: data?.buyPrice,
+          gstFlag: true,
+          wetFlag: true,
+          trackInventory: true,
+          region: "",
+          availableQty: data?.availableQty,
+          quantity: quantity,
+          stockThreshold: data?.stockThreshold,
+          stockStatus: data?.stockStatus,
+          regionAvailability: data?.regionAvailability,
+          productStatus: data?.productStatus,
+          visibility: data?.visibility,
+          minimumOrder: data?.minimumOrder,
+          tags: data?.tags,
+          countryOfOrigin: data?.countryOfOrigin,
+          barcodes: data?.barcodes,
+          esgStatus: data?.esgStatus,
+          healthRating: data?.healthRating,
+          organisationId: organisationId,
+          isActive: true,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            success();
 
-          const cartId = data.data[0].cartId;
+            const cartId = data.data[0].cartId;
 
-          const updatedCartList = data?.data.map((item) => {
-            return {
-              product: item,
-              quantity: item?.quantity,
-            };
-          });
-          dispatch(setCart(updatedCartList));
-          localStorage.setItem("cartId", cartId);
-        } else {
-          warning(data.message);
-        }
-      });
+            const updatedCartList = data?.data.map((item) => {
+              return {
+                product: item,
+                quantity: item?.quantity,
+              };
+            });
+            dispatch(setCart(updatedCartList));
+            localStorage.setItem("cartId", cartId);
+          } else {
+            warning(data.message);
+          }
+        });
+    } else {
+      warning(`Please add product below available quantity ${availableQty}`);
+    }
   };
 
   const handleIncrementDecrement = (id, actionType) => {
@@ -420,13 +425,12 @@ const ProductDetails = () => {
                             <p className="text-base font-normal text-[#2B4447] w-[200px]">
                               Grape variety:
                             </p>
-                           
-                              {selectData?.product?.variety.map(i => (
-                                <p className="text-xs font-semibold border py-1 px-2 rounded-md bg-slate-100 text-[#2B4447]">
-                                  {i}
-                                </p>
-                              ))}
-                          
+
+                            {selectData?.product?.variety.map((i) => (
+                              <p className="text-xs font-semibold border py-1 px-2 rounded-md bg-slate-100 text-[#2B4447]">
+                                {i}
+                              </p>
+                            ))}
                           </div>
                         )}
                     </>

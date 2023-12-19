@@ -151,16 +151,35 @@ const CartPage = () => {
     }
   );
 
-  const handleIncrementDecrement = (productId, quantity, action) => {
+  const handleIncrementDecrement = (
+    productId,
+    quantity,
+    action,
+    availableQty
+  ) => {
     const updatedList = () => {
       return cart.map((product) => {
         if (product.product.productId === productId) {
           let newQuantity = product.quantity;
 
           if (action === "increment") {
-            newQuantity++;
+            if (newQuantity < availableQty) {
+              newQuantity++;
+            } else {
+              warning(
+                `Please add product below available quantity ${availableQty}`
+              );
+            }
           } else if (action === "decrement" && newQuantity > 0) {
-            newQuantity--;
+            if (newQuantity <= availableQty) {
+              newQuantity--;
+            } else {
+              newQuantity--;
+
+              warning(
+                `Please add product below available quantity ${availableQty}`
+              );
+            }
           }
           setUpdatedQuantity({
             productId: productId,
@@ -267,7 +286,8 @@ const CartPage = () => {
                                   handleIncrementDecrement(
                                     item?.product?.productId,
                                     item?.quantity,
-                                    "decrement"
+                                    "decrement",
+                                    item?.product?.availableQty
                                   )
                                 }
                               >
@@ -280,7 +300,8 @@ const CartPage = () => {
                                   handleIncrementDecrement(
                                     item?.product?.productId,
                                     item?.quantity,
-                                    "increment"
+                                    "increment",
+                                    item?.product?.availableQty
                                   )
                                 }
                               >
