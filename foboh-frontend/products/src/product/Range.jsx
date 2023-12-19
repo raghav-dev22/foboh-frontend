@@ -21,7 +21,7 @@ import createArrayWithNumber from "../helpers/createArrayWithNumbers";
 
 import { PaginationNav1Presentation } from "./Pagination";
 
-import { Skeleton, message } from "antd";
+import { Skeleton, message, Modal } from "antd";
 
 import Visible from "../modal/Visible";
 
@@ -61,10 +61,10 @@ function Range() {
   const [loading, setLoading] = useState(true);
   const isTrue = localStorage.getItem("productAdded");
   const isProductDeleted = localStorage.getItem("productDelete");
-  // const importTrue = localStorage.getItem("productImport");
-
+  const [modal] = Modal.useModal();
   const [isSearchResult, setisSearchResult] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
+
   const saveProduct = () => {
     messageApi.open({
       content: (
@@ -79,19 +79,25 @@ function Range() {
       rtl: true,
     });
   };
-  const error = () => {
-    messageApi.open({
-      className: "custom-class",
+
+  const error = (errors) => {
+    modal.error({
+      title: "Use Hook!",
       content: (
-        <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
-          <p className="text-base font-semibold text-[#F8FAFC]">
-            {"duplicate product"}
-          </p>
-        </div>
+        <>
+          <h1>Error editing products</h1>
+          <ul>
+            {errors?.map((item) => (
+              <li className="flex gap-2">
+                <p>{item?.row}</p>: <p>{item?.message}</p>
+              </li>
+            ))}
+          </ul>
+        </>
       ),
     });
   };
+
   const DeleteProduct = () => {
     messageApi.open({
       content: (
@@ -106,6 +112,7 @@ function Range() {
       rtl: true,
     });
   };
+  
   const productUrl = process.env.REACT_APP_PRODUCT_API_URL;
   // useEffect(() => {
   //   if (importTrue === "true") {
