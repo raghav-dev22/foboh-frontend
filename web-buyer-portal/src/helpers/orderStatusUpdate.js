@@ -19,8 +19,6 @@ export const orderStatusUpdate = () => {
     }
   )
     .then((response) => response.json())
-    .then((data) => {
-      console.log("order status response", data);
-    })
+    .then((data) => {})
     .catch((error) => console.log(error));
 };

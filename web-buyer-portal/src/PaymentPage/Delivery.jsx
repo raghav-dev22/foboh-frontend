@@ -17,7 +17,6 @@ const Delivery = () => {
   };
 
   const storedValue = JSON.parse(localStorage.getItem("myKey"));
-  console.log(storedValue, "local");
   const navigate = useNavigate();
 
   return (

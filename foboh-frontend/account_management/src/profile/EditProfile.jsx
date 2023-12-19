@@ -69,7 +69,6 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
 
           reader.onload = () => {
             const imgData = reader.result;
-            console.log(imgData, "main");
             setImageSrc(imgData);
             setProfileUri(imgData);
 
@@ -93,7 +92,6 @@ function EditProfile({ setProfileUri, setShow, show, setImageSrc, imageSrc }) {
               // setImageSrc(data.blob.uri);
 
               if (!data.error) {
-                console.log(data.blob.uri, "formData");
                 setShow(true);
                 // setProfileUri(data.blob.uri);
                 // dispatch(

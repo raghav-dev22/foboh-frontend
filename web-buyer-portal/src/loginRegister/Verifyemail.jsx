@@ -31,7 +31,6 @@ function Verifyemail() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem("uniqueKey", data.key);
         alert("Email sent successfully!");
       })
@@ -48,7 +47,6 @@ function Verifyemail() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.data[0], "for logo");
         setOrganisationLogo(data.data[0]);
       })
       .catch((error) => console.log(error));

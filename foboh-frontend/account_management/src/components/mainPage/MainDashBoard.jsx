@@ -86,7 +86,6 @@ function MainDashBoard() {
   const { mutate } = useMutation(getAllOrders, {
     onSuccess: (data) => {
       setOrderDetails(data);
-      console.log(data, "orderDetails");
     },
   });
 

@@ -53,7 +53,6 @@ const ForgetPasswordForm = () => {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             if (data.success) {
               localStorage.clear();
               navigate("/auth/sign-in");
@@ -61,7 +60,6 @@ const ForgetPasswordForm = () => {
               localStorage.clear();
               alert("Some error occurred, please try again later.");
             }
-            console.log(data);
           })
           .catch((error) => console.log(error));
       },

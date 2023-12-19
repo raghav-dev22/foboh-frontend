@@ -112,7 +112,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     navigate("home/order-confirm");
   };
   // const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
-  // console.log(EditDeliveryVal, "EditDeliveryVal");
   const [activeKey, setActiveKey] = useState("1");
   const [editDelivery, setEditDelivery] = useState(false);
   const [editBillingAddress, setEditBillingAddress] = useState(false);
@@ -206,7 +205,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             }, 2000);
 
             const buyerData = data?.data[0];
-            const buyerState = statesData.find(
+            const buyerState = statesData?.find(
               (state) => state?.label === buyerData.state
             ).label;
             const addressBody = {
@@ -389,17 +388,19 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
 
       if (payload) {
         const pm_id = payload?.paymentMethod?.id;
-        const last4 = payload.paymentMethod.au_becs_debit.last4;
+        const last4 = payload?.paymentMethod?.au_becs_debit.last4;
         const convertedPaymentDueDate = convertDefaultPaymentTermValue(
           defaultPaymentTerm?.length ? defaultPaymentTerm[0] : "",
           "paymentDueDate"
         );
-
+        const { organisationId } = JSON.parse(
+          localStorage.getItem("buyerInfo")
+        );
         const details = {
           orderId: localStorage.getItem("orderId"),
           orderByEmailID: email,
           orderBy: cardHolderName,
-          organisationID: localStorage.getItem("organisationId"),
+          organisationID: organisationId,
           catalogueID: localStorage.getItem("catalogueId"),
           orderStatus: "InProcessBecs",
           paymentType: "PayLater",
@@ -421,8 +422,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         };
 
         const clientSecret = await getClientSecret(details);
-        console.log("clientSecretBecs", clientSecret);
-
         const auBankAccount = elements.getElement(AuBankAccountElement);
 
         if (clientSecret) {
@@ -879,10 +878,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                                   ...cardErrors,
                                   [event.elementType]: event.error,
                                 });
-                                console.log(
-                                  "CardNumberElement [change]",
-                                  event
-                                );
                               }}
                             />
                           </div>
@@ -936,10 +931,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                                       ...cardErrors,
                                       [event?.elementType]: event?.error,
                                     });
-                                    console.log(
-                                      "CardNumberElement [change]",
-                                      event
-                                    );
                                   }}
                                 />
                               </div>
@@ -962,10 +953,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                                       ...cardErrors,
                                       [event.elementType]: event.error,
                                     });
-                                    console.log(
-                                      "CardNumberElement [change]",
-                                      event
-                                    );
                                   }}
                                 />
                               </div>

@@ -28,7 +28,6 @@ const ContactEdit = ({
       initialValues: initialValues,
       validationSchema: ContactSchema,
       onSubmit: (values) => {
-        console.log(values, "values");
         addressUpdate(values, "delivery-contact");
         setEditContact(!editContact);
         setDeliveryContact(values);

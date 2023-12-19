@@ -12,12 +12,9 @@ function DeliveryAddress({
   values,
   states,
 }) {
-  console.log("errorsdddd", errors);
-
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleState = (e) => {
-    console.log("state", e);
     setValues({
       ...values,
       DeliveryAddressState: e,

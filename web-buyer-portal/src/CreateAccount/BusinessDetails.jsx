@@ -9,8 +9,6 @@ function BusinessDetails({
   touched,
   setValues,
 }) {
-  console.log("steponeschema", errors);
-
   return (
     <>
       <div className="flex flex-col justify-center">

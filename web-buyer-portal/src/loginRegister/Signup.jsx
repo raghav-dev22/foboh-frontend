@@ -40,7 +40,6 @@ function Signup() {
           .then((response) => response.json())
           .then((data) => {
             setIsLoading(false);
-            console.log("Customer data", data);
             if (data.success) {
               // sendVerificationMail();
 
@@ -85,7 +84,6 @@ function Signup() {
   //Google handle callback
   const handleCallback = (response) => {
     const googleResponse = jwtDecode(response.credential);
-    console.log("googleResponse", googleResponse);
   };
 
   const sendVerificationMail = () => {
@@ -105,7 +103,6 @@ function Signup() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem("uniqueKey", data.key);
         navigate("/auth/verify-email");
       })
@@ -113,9 +110,7 @@ function Signup() {
   };
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
-    console.log(showPassword);
   };
-  // console.log(values, "values");
   return (
     <>
       <div>

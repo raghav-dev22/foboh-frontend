@@ -44,14 +44,10 @@ const DeliveryEditAddress = ({
   } = useFormik({
     initialValues: initialValues,
     validationSchema: DeliveryAddressEditSchema,
-    onSubmit: (values) => {
-      console.log(values, "value");
-    },
+    onSubmit: (values) => {},
   });
 
   const handleSubmit = () => {
-    console.log(values, "value");
-    console.log("Form is valid. Submitting...", isValid);
     if (isValid) {
       setDeliveryAddress(() => {
         return {

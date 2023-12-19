@@ -10,7 +10,8 @@ export const getClientSecret = async (details) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.result.success) return data.result.transactionConfirmationCode;
+        if (data?.result?.success)
+          return data?.result?.transactionConfirmationCode;
         else throw new Error("Error occurred while getting client secret!");
       })
       .catch((err) => console.log(err));

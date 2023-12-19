@@ -51,7 +51,6 @@ const Cart = ({ open, onClose }) => {
         return response.json();
       })
       .then((data) => {
-        console.log("Data response", data);
         if (data.success) {
           const updatedCartList = data?.data.map((item) => {
             return {
@@ -61,13 +60,11 @@ const Cart = ({ open, onClose }) => {
           });
           dispatch(setCart(updatedCartList));
         }
-        console.log(data, "add data");
       })
       .catch((error) => {
         console.error("Error deleting data:", error);
       });
   };
-  // console.log(CARTdata, "CARTdata");
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -110,7 +107,6 @@ const Cart = ({ open, onClose }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("order response", data);
         if (data.success) {
           const orderId = data?.data?.orderId;
           localStorage.setItem("orderId", orderId);

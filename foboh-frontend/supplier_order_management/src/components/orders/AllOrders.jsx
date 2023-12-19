@@ -571,12 +571,16 @@ const AllOrders = () => {
     }
 
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !document.querySelector(".product-dropdown")?.contains(event.target)
+      ) {
         const dropdowns = document.querySelectorAll(".product-dropdown");
         let isInsideDropdown = false;
 
         for (const dropdown of dropdowns) {
-          if (dropdown.contains(event.target)) {
+          if (dropdown?.contains(event.target)) {
             isInsideDropdown = true;
             break;
           }
@@ -585,12 +589,11 @@ const AllOrders = () => {
         if (!isInsideDropdown) {
           setStatusMenu(false);
           setRegionMenu(false);
-          setDateMenu(false);
+          // setDateMenu(false);
           setSortItem(false);
         }
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
@@ -629,7 +632,7 @@ const AllOrders = () => {
             </div>
             <div
               className="flex justify-end items-center gap-3 "
-              ref={dropdownRef}
+              // ref={dropdownRef}
             >
               <button
                 className="border-[#E7E7E7] border rounded-md py-2 px-4 max-w-max flex justify-center items-center gap-2	"
@@ -927,7 +930,7 @@ const AllOrders = () => {
                   {regionMenu && (
                     <div
                       style={{ width: "350px", height: "380px" }}
-                      className="z-10 left-0 absolute product-dropdown  rounded-lg overflow-y-auto custom-scroll-bar py-3"
+                      className="z-10 left-0 absolute rounded-lg overflow-y-auto custom-scroll-bar py-3"
                     >
                       <Select
                         name="colors"
@@ -953,7 +956,7 @@ const AllOrders = () => {
                   </div>
 
                   {dateMenu && (
-                    <div className=" z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute product-dropdown bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
+                    <div className="z-10 left-0 px-3 max-h-[200px] min-h-fit  w-max   absolute bg-white shadow-md rounded-lg overflow-y-auto custom-scroll-bar py-3  ">
                       <ul>
                         {lastDateList.map((date) => (
                           <li className="py-1 green-checkbox flex gap-1">
@@ -973,29 +976,18 @@ const AllOrders = () => {
                           </li>
                         ))}
                         <li className="py-1">
-                          <div className="relative custom-datePicker h-[40px]">
+                          <div className="relative custom-datePicker h-[40px] ">
                             {showDatePicker === true ? (
-                              <div className="relative w-[100%]">
+                              <div className="relative w-[100%] product-dropdown">
                                 <RangePicker
                                   className="w-full h-[42px] px-[40px]"
-                                  // renderExtraFooter={() => (
-                                  //   <div className="flex justify-center items-center gap-2 ">
-                                  //     <div className="bg-[#2B4447] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                                  //       Remove
-                                  //     </div>
-                                  //     <div className="bg-[#147D73] py-2.5 w-full flex justify-center items-center rounded-[4px] font-semibold text-white text-sm">
-                                  //       Done
-                                  //     </div>
-                                  //   </div>
-                                  // )}
-                                  dropdownClassName="custom-date-picker"
+                                  popupClassName="custom-date-picker"
                                   value={customSelectedDate}
                                   suffixIcon={null}
                                   onChange={(value) =>
                                     handleFilter(value, "customDate")
                                   }
                                 />
-
                                 <div className="custom-icons">
                                   <CalendarTodayRoundedIcon
                                     className="calendar-icon absolute top-[21%] left-[12px]  "

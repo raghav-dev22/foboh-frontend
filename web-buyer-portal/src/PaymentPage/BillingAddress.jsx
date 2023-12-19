@@ -27,7 +27,6 @@ function BillingAddress({
   const [change, setChange] = useState(false);
   const { useToken } = theme;
   const { token } = useToken();
-  console.log(change, "change");
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
   const [states, setStates] = useState([]);
 
@@ -51,15 +50,10 @@ function BillingAddress({
   } = useFormik({
     initialValues: initialValues,
     validationSchema: BillingAddressCheckoutSchema,
-    onSubmit: (values) => {
-      console.log(values, "values22--->");
-    },
+    onSubmit: (values) => {},
   });
 
   const handleSubmit = () => {
-    console.log("Handling submit...");
-    console.log("Form values:", values);
-
     if (isValid) {
       addressUpdate(values, "billing-address");
       setEditBillingAddress(!editBillingAddress);
@@ -110,7 +104,6 @@ function BillingAddress({
 
     timeout = setTimeout(() => {
       getAddress("billing-address").then((data) => {
-        console.log("billing-address", data);
         if (data.success) {
           const buyerData = data?.data[0];
           const buyerState = statesData.find(
@@ -137,7 +130,6 @@ function BillingAddress({
   }, []);
 
   const handleSameAs = (e) => {
-    console.log("deliveryAddress >>", deliveryAddress);
     const checked = e.target.checked;
     checked ? setValues(deliveryAddress) : setValues(initialValues);
     setActiveChecked(!activeChecked);

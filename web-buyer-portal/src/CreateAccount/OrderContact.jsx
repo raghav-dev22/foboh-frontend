@@ -14,7 +14,6 @@ function OrderContact({
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const handleState = (e) => {
-    console.log("state", e);
     setValues({
       ...values,
       OrderContactState: e.value,

@@ -24,8 +24,6 @@ export const paymentProcessUpdate = (
     }
   )
     .then((response) => response.json())
-    .then((data) => {
-      console.log("paymentProcessUpdate", data);
-    })
+    .then((data) => {})
     .catch((error) => console.log(error));
 };

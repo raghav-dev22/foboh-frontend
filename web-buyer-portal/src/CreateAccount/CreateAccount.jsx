@@ -66,7 +66,6 @@ function CreateAccount() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("states", data);
         states = data.map((state) => {
           return {
             label: state.stateName,
@@ -148,10 +147,8 @@ function CreateAccount() {
         if (currentStep < 2 && Object.values(errors).length === 0) {
           setCurrentStep((cur) => cur + 1);
         } else if (currentStep === 2) {
-          console.log("Form submitted");
           formik.submitForm();
         }
-        console.log("res", errors);
       })
       .catch((error) => console.log(error));
   };
@@ -222,7 +219,6 @@ function CreateAccount() {
       .then((response) => response.json())
       .then((data) => {
         setIsLoading(false);
-        console.log("response data", data);
         if (data.success) {
           localStorage.removeItem("buyerCred");
           localStorage.removeItem("buyerData");
@@ -249,7 +245,6 @@ function CreateAccount() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.data[0], "for logo");
         setOrganisationLogo(data.data[0]);
       })
       .catch((error) => console.log(error));

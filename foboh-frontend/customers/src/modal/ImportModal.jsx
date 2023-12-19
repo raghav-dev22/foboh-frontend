@@ -57,7 +57,6 @@ function ImportModal({ show, setShow }) {
             });
             return tmpObj;
           });
-          console.log("errdaa", errorData);
           setErrorData(errorData);
           setImportedCustomers(finalProductArray);
         }

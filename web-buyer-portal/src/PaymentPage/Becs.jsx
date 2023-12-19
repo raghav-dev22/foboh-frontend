@@ -107,7 +107,6 @@ const Becs = ({
                 [event.elementType]: event.error,
               });
               setBankName(event.bankName);
-              console.log("CardNumberElement [change]", event);
             }}
           />
           <p className="mt-2 mb-2 text-red-500 text-xs">
