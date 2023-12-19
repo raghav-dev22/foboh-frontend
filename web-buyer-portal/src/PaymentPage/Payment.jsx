@@ -111,7 +111,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const payBtn = () => {
     navigate("home/order-confirm");
   };
-  // const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
+
   const [activeKey, setActiveKey] = useState("1");
   const [editDelivery, setEditDelivery] = useState(false);
   const [editBillingAddress, setEditBillingAddress] = useState(false);
@@ -300,14 +300,12 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     }
 
     if (localDefaultPaymentMethod === "Credit Card/Debit Card") {
-      // Stripe for credit/debit
       const payload = await stripe.createPaymentMethod({
         type: "card",
         card: elements.getElement(CardNumberElement),
         billing_details: {
           name: cardHolderName,
           address: {
-            // Include the customer's address here
             line1: deliveryAddress?.Address,
             city: deliveryAddress?.Suburb,
             state: deliveryAddress?.State?.label,
@@ -374,9 +372,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         au_becs_debit: elements.getElement(AuBankAccountElement),
         billing_details: {
           email: email,
-          name: cardHolderName, // Use the cardholder's name from the input field
+          name: cardHolderName,
           address: {
-            // Include the customer's address here
             line1: deliveryAddress?.Address,
             city: deliveryAddress?.Suburb,
             state: deliveryAddress?.State?.label,
@@ -669,9 +666,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     active
                     loading={loadingData}
                     paragraph={{ rows: 1 }}
-                    // active
-                    // avatar
-                    // className="custom-skeleton"
                   />
 
                   {!loadingData && (
@@ -783,10 +777,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     }
                     key="1"
                   >
-                    {/* <h5 className="text-lg font-semibold text-[#2B4447]">
-                    No payment period for pay now
-                  </h5> */}
-
                     <div className="border border-[#E7E7E7] rounded-md   mt-2">
                       <div
                         className="justify-between flex items-center  border-b p-3 border-[#E7E7E7]"
@@ -840,7 +830,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                           />
                         </div>
                       </div>
-                      {/* {isChecked && ( */}
+
                       <div className="bg-[#E7E7E7] py-5 px-2">
                         <div className="rounded-md bg-white p-3 flex justify-between">
                           <div className="flex items-center gap-2">
@@ -852,7 +842,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                           <div className="change-btn cursor-pointer">
                             <Tooltip placement="top" title={text}>
                               <ModeIcon
-                                // style={{ fill: token.buttonThemeColor }}
                                 onClick={() => {
                                   setCardDetails(!cardDetails);
                                   setIsChecked(isChecked);
@@ -863,9 +852,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                           </div>
                         </div>
                       </div>
-                      {/* )} */}
-                      {/* {cardDetails && (
-                        <> */}
+
                       <div className=" py-5 px-4">
                         <div
                           className={`relative mb-4 `}

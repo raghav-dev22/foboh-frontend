@@ -221,8 +221,6 @@ function StockDetails() {
       })
       .catch((error) => console.log(error));
 
-    // total profit
-
     fetch(
       `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getTotalProfit?OrganisationId=${organisationId}`,
       {
@@ -243,37 +241,35 @@ function StockDetails() {
     <>
       {stockBox?.map((item, index) => {
         return (
-          <>
-            <div
-              key={`${index}-${item?.title}`}
-              className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index} w-full`}
-            >
-              <div className="grid grid-cols-1 gap-6 p-4">
-                <div className="flex justify-between ">
-                  <div className=" stock-icon h-12 w-12 rounded-full  flex justify-center items-center bg-slate-100 ">
-                    {item.Image}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <p className="text-sm font-semibold ">{item.value}</p>
-
-                    <div className="">{item.Arrow}</div>
-                  </div>
+          <div
+            key={`${index}-${item?.title}`}
+            className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index} w-full`}
+          >
+            <div className="grid grid-cols-1 gap-6 p-4">
+              <div className="flex justify-between ">
+                <div className=" stock-icon h-12 w-12 rounded-full  flex justify-center items-center bg-slate-100 ">
+                  {item.Image}
                 </div>
+                <div className="flex items-center gap-1">
+                  <p className="text-sm font-semibold ">{item.value}</p>
 
-                <div className="">
-                  <h4 className="text-2xl font-bold text-start  ">
-                    {item.title}
-                  </h4>
+                  <div className="">{item.Arrow}</div>
+                </div>
+              </div>
 
-                  <div className="flex justify-between">
-                    <p className="text-sm font-semibold text-zinc-500">
-                      {item.description}
-                    </p>
-                  </div>
+              <div className="">
+                <h4 className="text-2xl font-bold text-start  ">
+                  {item.title}
+                </h4>
+
+                <div className="flex justify-between">
+                  <p className="text-sm font-semibold text-zinc-500">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             </div>
-          </>
+          </div>
         );
       })}
     </>

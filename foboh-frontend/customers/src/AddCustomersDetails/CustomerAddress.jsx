@@ -130,19 +130,7 @@ function CustomerAddress({
                 onChange={handleChange}
                 placeholder="Enter Apartment"
                 name="apartment"
-                // style={{
-                //   border:
-                //     errors.apartment && touched?.apartment && "1px solid red",
-                // }}
               />
-              {/* {errors.apartment && touched?.apartment && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.apartment}
-                </p>
-              )}
-              {errors.apartment && touched?.apartment && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
-              )} */}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 items-start">
@@ -215,11 +203,7 @@ function CustomerAddress({
 
               <Select
                 name="state"
-                // isMulti={true}
                 options={stateOptions}
-                // value={stateOptions.find(
-                //   (option) => option.value === values.state
-                // )}
                 value={values?.state}
                 onChange={(e) => handleSelect(e, "state")}
                 className="basic-multi-select "
@@ -342,21 +326,7 @@ function CustomerAddress({
                 onChange={handleChange}
                 placeholder="Enter Apartment"
                 name="billingApartment"
-                // style={{
-                //   border:
-                //     errors.billingApartment &&
-                //     touched?.billingApartment &&
-                //     "1px solid red",
-                // }}
               />
-              {/* {errors.billingApartment && touched?.billingApartment && (
-                <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
-                  {errors.billingApartment}
-                </p>
-              )}
-              {errors.billingApartment && touched?.billingApartment && (
-                <ErrorOutlineIcon className="absolute text-red-500 top-[42px] right-5 transition-all duration-[0.3s] " />
-              )} */}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-5 items-start">

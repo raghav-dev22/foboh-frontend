@@ -28,11 +28,9 @@ const DeliveryEditForm = () => {
   const navigate = useNavigate();
   const [stateOption, setStateOption] = useState(null);
   const [cart, setCart] = useState();
-
   const { useToken } = theme;
   const { token } = useToken();
   let states = [];
-
   const {
     values,
     errors,

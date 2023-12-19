@@ -483,13 +483,13 @@ a.foboh-green-btn:hover {
 }
 ::-webkit-scrollbar {
   width: 6px !important;
-  height: 10px !important;
+  height: 6px !important;
 
   background: #0000000f;
 }
 .custom-scroll-bar::-webkit-scrollbar {
   width: 6px !important;
-  height: 10px !important;
+  height: 6px !important;
 }
 .toggle-checkbox:checked {
   @apply: right-0 border-green-400;

@@ -126,7 +126,6 @@ const OrderListing = () => {
     setUpdatedOrderStatus(status);
   };
 
-  // Asynchronously fetching data for apis
   const asyncFunction = async () => {
     const orderDetailsResponse = await getOrderDetails(id);
 
@@ -196,11 +195,11 @@ const OrderListing = () => {
 
       //Setting order product details to useState on loading
       setOrderProductsDetails(
-        orderDetailsResponse.map((product, idx) => {
+        orderDetailsResponse?.map((product, idx) => {
           return {
             key: idx,
             ProductDetail: (
-              <div className="flex justify-start gap-4">
+              <div className="flex justify-start gap-4" key={idx}>
                 <div
                   className="flex items-center justify-center"
                   style={{ width: "65px" }}
@@ -346,11 +345,6 @@ const OrderListing = () => {
                     Cancel
                   </button>
                   <div className="flex gap-3 ">
-                    {/* <button
-                      className="bg-[#F8B02B] py-2 px-6 rounded-[6px] text-white font-semibold text-base"
-                    >
-                      Request Changes
-                    </button> */}
                     <button
                       onClick={() => {
                         handleOrderStatusChange("Processing");

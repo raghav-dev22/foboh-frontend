@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { BillingAddressCheckoutSchema } from "../schemas";
 import { useFormik } from "formik";
 import Select from "react-select";
 import { theme } from "antd";
-import { useNavigate } from "react-router-dom";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import { getBuyerValues } from "../helpers/setBuyerValues";
 import { getAddress } from "../helpers/getAddress";
 import { getStates } from "../helpers/getStates";
 import { addressUpdate } from "../helpers/addressUpdate";
-import BusinessIcon from "@mui/icons-material/Business";
 import ReceiptLongSharpIcon from "@mui/icons-material/ReceiptLongSharp";
 function BillingAddress({
   deliveryAddress,
@@ -23,13 +18,11 @@ function BillingAddress({
   activeChecked,
   setActiveChecked,
 }) {
-  const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const { useToken } = theme;
   const { token } = useToken();
   const EditDeliveryVal = JSON.parse(localStorage.getItem("deliveryAddress"));
   const [states, setStates] = useState([]);
-
   const [initialValues, setInitialValues] = useState({
     Address: "",
     Suburb: "",
@@ -38,7 +31,6 @@ function BillingAddress({
     State: {},
     Notes: "",
   });
-
   const {
     values,
     errors,
@@ -93,7 +85,7 @@ function BillingAddress({
     let timeout;
 
     getStates().then((data) => {
-      statesData = data.map((state) => {
+      statesData = data?.map((state) => {
         return {
           label: state.stateName,
           value: state.stateId,
@@ -178,7 +170,6 @@ function BillingAddress({
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Company"
                 type="text"
-                // placeholder="Company (Optional)"
                 name="Address"
                 value={values?.Address}
                 onChange={handleChange}
@@ -308,7 +299,6 @@ function BillingAddress({
             type="button"
             onClick={handleSubmit}
             style={{ backgroundColor: token.buttonThemeColor }}
-            // disabled={!isValid}
             className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white"
           >
             Save

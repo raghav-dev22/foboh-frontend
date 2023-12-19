@@ -1055,6 +1055,7 @@ const AllOrders = () => {
             }}
             scroll={{
               x: 1200,
+              // y: 200,
             }}
           />
         </div>

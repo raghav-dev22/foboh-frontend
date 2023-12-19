@@ -6,12 +6,8 @@ import { ProfileEditSchema } from "../schemas";
 import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
-import { updateField } from "../slices/buyerSlice";
 import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
-// import { Button, Form, Input, Radio } from "antd";
-// import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const ProfileEdit = () => {
   const navigate = useNavigate();

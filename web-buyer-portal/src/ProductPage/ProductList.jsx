@@ -1190,8 +1190,8 @@ const ProductList = () => {
                 <div className=" z-10   left-0 w-full product-dropdown rounded-lg   h-fit py-3  ">
                   <ul className="dropdown-content  min-h-[100%] max-h-[165px] overflow-auto custom-scroll-bar">
                     {categoryAndSubcategory &&
-                      categoryAndSubcategory.map((category, idx) => (
-                        <li className="py-2.5   px-4    ">
+                      categoryAndSubcategory?.map((category, idx) => (
+                        <li className="py-2.5   px-4 " key={idx}>
                           <div className="flex items-center green-checkbox">
                             <input
                               id={idx}
@@ -1461,20 +1461,18 @@ const ProductList = () => {
                     >
                       {countries.map((item) => {
                         return (
-                          <>
-                            <Option value={item.label} key={item.value}>
-                              <div className="flex items-center my-1">
-                                <label
-                                  htmlFor="default-checkbox"
-                                  className="ml-2 "
-                                >
-                                  <h5 className="text-base font-normal text-[#637381]">
-                                    {item.label}
-                                  </h5>
-                                </label>
-                              </div>
-                            </Option>
-                          </>
+                          <Option value={item.label} key={item.value}>
+                            <div className="flex items-center my-1">
+                              <label
+                                htmlFor="default-checkbox"
+                                className="ml-2 "
+                              >
+                                <h5 className="text-base font-normal text-[#637381]">
+                                  {item.label}
+                                </h5>
+                              </label>
+                            </div>
+                          </Option>
                         );
                       })}
                     </Select>
@@ -1545,10 +1543,10 @@ const ProductList = () => {
                       }
                       open={true}
                     >
-                      {regionsAvailable.map((item) => {
+                      {regionsAvailable.map((item, i) => {
                         return (
-                          <>
-                            <Option value={item.label} key={item.value}>
+                          <React.Fragment key={item.value}>
+                            <Option value={item.label}>
                               <div className="flex items-center my-1">
                                 <label
                                   htmlFor="default-checkbox"
@@ -1560,7 +1558,7 @@ const ProductList = () => {
                                 </label>
                               </div>
                             </Option>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </Select>
@@ -1769,10 +1767,10 @@ const ProductList = () => {
                       open={true}
                       value={tagsValue}
                     >
-                      {tagsList.map((item) => {
+                      {tagsList?.map((item) => {
                         return (
-                          <>
-                            <Option value={item.label} key={item.value}>
+                          <React.Fragment key={item.value}>
+                            <Option value={item.label}>
                               <div className="flex items-center my-1">
                                 <label
                                   htmlFor="default-checkbox"
@@ -1784,7 +1782,7 @@ const ProductList = () => {
                                 </label>
                               </div>
                             </Option>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </Select>

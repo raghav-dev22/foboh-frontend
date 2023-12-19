@@ -207,7 +207,6 @@ function ViewProduct() {
       })
       .catch((error) => console.log(error));
 
-    // tag
     await fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
       method: "GET",
     })
@@ -1298,7 +1297,6 @@ function ViewProduct() {
           >
             <div className="w-full lg:w-2/5	 h-full	">
               <div className="grid gap-5">
-                {/* Update Image ---START */}
                 <Skeleton
                   style={{ padding: "10px" }}
                   loading={loading}
@@ -1656,7 +1654,7 @@ function ViewProduct() {
                               className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                             />
                             <label
-                              for="track-inventory"
+                              htmlFor="track-inventory"
                               className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                             ></label>
                           </div>
@@ -1705,7 +1703,7 @@ function ViewProduct() {
                               className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                             />
                             <label
-                              for="SellOutOfStock"
+                              htmlFor="SellOutOfStock"
                               className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                             ></label>
                           </div>
@@ -2188,7 +2186,6 @@ function ViewProduct() {
                             rows={4}
                             className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                             placeholder="Leave a comment..."
-                            defaultValue={""}
                             name="description"
                             value={values.description}
                             onChange={handleChange}

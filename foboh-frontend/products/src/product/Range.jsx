@@ -87,7 +87,7 @@ function Range() {
         <>
           <ul>
             {errors?.map((item) => (
-              <li className="flex gap-2">
+              <li className="flex gap-2" key={item.value}>
                 <p>{item?.row}</p>: <p>{item?.message}</p>
               </li>
             ))}
@@ -396,7 +396,7 @@ function Range() {
                   {isSearchResult && (
                     <tbody>
                       {products?.length > 0 ? (
-                        products.map((product, index) => {
+                        products?.map((product, index) => {
                           const isLast = index === products.length - 1;
                           const classes = isLast ? "p-4" : "p-4  ";
                           return (

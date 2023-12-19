@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Dialog } from "@headlessui/react";
+
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -11,9 +11,6 @@ import { Modal } from "antd";
 import { theme } from "antd";
 
 const Cart = ({ open, onClose }) => {
-  // const dispatch = useDispatch((item) => {
-  //   dispatch(remove(item));
-  // });
   const dispatch = useDispatch();
   const { useToken } = theme;
   const url = process.env.REACT_APP_PRODUCTS_URL;
@@ -28,7 +25,6 @@ const Cart = ({ open, onClose }) => {
       content: (
         <div>
           <h1>No products are available on your cart page</h1>
-          {/* <p>Some error has occurred.</p> */}
         </div>
       ),
     });
@@ -147,7 +143,7 @@ const Cart = ({ open, onClose }) => {
               </Link>
             </div>
             <div className="mx-5 mt-6">
-              {CARTdata.length === 0 ? (
+              {CARTdata?.length === 0 ? (
                 <>
                   <h5 className="text-sm font-bold text-center  pt-8  flow-root border-t border-[#CDCED6] ">
                     Your cart is empty.
@@ -166,65 +162,63 @@ const Cart = ({ open, onClose }) => {
                 </>
               ) : (
                 <>
-                  {CARTdata.map((item, index) => {
+                  {CARTdata?.map((item, index) => {
                     return (
-                      <>
-                        <div
-                          key={index}
-                          className="box  my-4 relative cartbox-div"
-                        >
-                          <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
-                            <div className="max-w-[80px] w-[80px] h-[80px]  bg-[#c3c3c3]">
-                              <img
-                                src={item.product?.productImageUrls[0]}
-                                alt=""
-                                className="max-w-[80px] w-[80px] h-[80px] object-cover	"
-                              />
+                      <div
+                        key={index}
+                        className="box  my-4 relative cartbox-div"
+                      >
+                        <div className="flex items-center gap-2 p-2 cart-div shadow-md rounded-lg bg-white">
+                          <div className="max-w-[80px] w-[80px] h-[80px]  bg-[#c3c3c3]">
+                            <img
+                              src={item.product?.productImageUrls[0]}
+                              alt=""
+                              className="max-w-[80px] w-[80px] h-[80px] object-cover	"
+                            />
+                          </div>
+                          <div className="w-full flex flex-col gap-[15px]">
+                            <div className="">
+                              <h5 className="text-sm font-bold">
+                                {item.product?.title}
+                              </h5>
+                              <p
+                                className=" text-[#666666] text-xs"
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  maxWidth: "25ch",
+                                }}
+                              >
+                                {item.product?.configuration}
+                              </p>
                             </div>
-                            <div className="w-full flex flex-col gap-[15px]">
-                              <div className="">
-                                <h5 className="text-sm font-bold">
-                                  {item.product?.title}
-                                </h5>
-                                <p
-                                  className=" text-[#666666] text-xs"
-                                  style={{
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "25ch",
-                                  }}
-                                >
-                                  {item.product?.configuration}
-                                </p>
-                              </div>
-                              <div className="flex justify-between items-center">
-                                <h5 className="text-sm font-bold">
-                                  $
-                                  {(
-                                    item?.product?.globalPrice * item.quantity
-                                  ).toFixed(2)}
-                                </h5>
-                                <p className=" text-[#666666] text-xs mx-3">
-                                  Qty:{item.quantity}
-                                </p>
-                              </div>
+                            <div className="flex justify-between items-center">
+                              <h5 className="text-sm font-bold">
+                                $
+                                {(
+                                  item?.product?.globalPrice * item.quantity
+                                ).toFixed(2)}
+                              </h5>
+                              <p className=" text-[#666666] text-xs mx-3">
+                                Qty:{item.quantity}
+                              </p>
                             </div>
                           </div>
-                          <button
-                            className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
-                            onClick={() => {
-                              removeItem(
-                                item.product?.productId
-                                // item.product?.productId
-                              );
-                            }}
-                            style={{ background: token.commonThemeColor }}
-                          >
-                            <DeleteIcon style={{ fill: "#fff" }} />
-                          </button>
                         </div>
-                      </>
+                        <button
+                          className="z-[-1] remove-div w-full flex justify-end items-center pr-1 absolute bg-black rounded-[13px] top-0 left-0 h-full cursor-pointer"
+                          onClick={() => {
+                            removeItem(
+                              item.product?.productId
+                              // item.product?.productId
+                            );
+                          }}
+                          style={{ background: token.commonThemeColor }}
+                        >
+                          <DeleteIcon style={{ fill: "#fff" }} />
+                        </button>
+                      </div>
                     );
                   })}
                   <div className="flex justify-between pt-8 ">

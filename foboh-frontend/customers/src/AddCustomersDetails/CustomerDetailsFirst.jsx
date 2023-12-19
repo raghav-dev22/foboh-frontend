@@ -29,11 +29,10 @@ function CustomerDetailsFirst({
       });
 
       if (name === "defaultPaymentTerms") {
-        // Reset the value of "defaultPaymentMethodId" when "defaultPaymentTerms" changes
         setValues({
           ...values,
           defaultPaymentTerms: e,
-          defaultPaymentMethodId: null, // Reset "defaultPaymentMethodId" to null
+          defaultPaymentMethodId: null,
         });
       } else {
         setValues({
@@ -90,10 +89,6 @@ function CustomerDetailsFirst({
         );
       })
       .catch((error) => console.log(error));
-
-    // defaultPaymentMethod
-
-    // tag
     fetch("https://masters-api-foboh.azurewebsites.net/api/tags", {
       method: "GET",
     })
@@ -319,7 +314,7 @@ function CustomerDetailsFirst({
                   className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                 />
                 <label
-                  for="toggle"
+                  htmlFor="toggle"
                   className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                 ></label>
               </div>
