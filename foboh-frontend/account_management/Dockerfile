@@ -1,20 +1,4 @@
-# FROM node:18 as build
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm install 
-# COPY . .
-# RUN npm run build --if-present
-
- 
-
-# FROM ubuntu:20.04
-# RUN apt update
-# RUN apt install nginx -y
-# COPY nginx.conf /etc/nginx/sites-available/default
-# COPY --from=build /app/dist /var/www/html
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
-
+# Need to run dockerfile from OrgerFlow folder using -f
 # Use a smaller base image with Node.js installed (Alpine-based)
 FROM node:21-alpine as build
 
@@ -22,15 +6,19 @@ FROM node:21-alpine as build
 WORKDIR /app
 
 # Copy only the account_management files and install dependencies
-COPY account_management /app/micro-frontend/account_management
+COPY micro-frontend/account_management /app/micro-frontend/account_management
 WORKDIR /app/micro-frontend/account_management
 RUN npm install 
 
 # Copy the necessary files for the build
-COPY config.js ../
+COPY Pipelines/config.js ../
 
 # Build the React application
-RUN npm run build --if-present 
+RUN npm run build --if-present
+RUN ls -la
+COPY micro-frontend/account_management/public/assets /app/micro-frontend/account_management/dist/assets 
+COPY micro-frontend/account_management/public/image /app/micro-frontend/account_management/dist/image
+RUN ls -la /app/micro-frontend/account_management/dist/
 
 # Remove development dependencies and other unnecessary files
 RUN npm prune --production && \
@@ -44,7 +32,7 @@ FROM nginx:alpine
 COPY --from=build /app/micro-frontend/account_management/dist /var/www/html
 
 # Copy the nginx configuration file
-COPY account_management/nginx.conf /etc/nginx/conf.d/default.conf
+COPY micro-frontend/account_management/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the port for the nginx server
 EXPOSE 3000
