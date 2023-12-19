@@ -1106,7 +1106,7 @@ color: #fff !important;
 }
 .ant-table-body::-webkit-scrollbar {
   width: 8px !important;
-  height: 10px !important;
+  height: 6px !important;
 }
 
 .ant-table-body::-webkit-scrollbar-thumb {

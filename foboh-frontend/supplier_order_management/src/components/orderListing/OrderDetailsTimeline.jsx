@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Checkbox } from "antd";
 import { createTimeline } from "../../helpers/orderDetailsHelper";
 
 const OrderDetailsTimeline = ({
@@ -70,15 +69,18 @@ const OrderDetailsTimeline = ({
             </li>
           </ul>
           <div className="pt-4 ">
-            {timeline.map((item) => (
-              <ul className=" flex justify-end ">
+            {timeline?.map((item, index) => (
+              <ul className=" flex justify-end " key={index}>
                 <div className="w-[93%]">
                   <h4 className="text-lg font-bold text-[#212B36] mb-5">
                     {item?.actionDate}
                   </h4>
-                  {item?.actions.map((actionItem) =>
+                  {item?.actions.map((actionItem, index) =>
                     actionItem.action !== "" ? (
-                      <li className="relative flex justify-between items-center mb-4 ">
+                      <li
+                        className="relative flex justify-between items-center mb-4 "
+                        key={index}
+                      >
                         <div className="absolute top-[4px] left-[-63px]  h-[18px] w-[18px] rounded-[50%] border border-[#CCCCCC] bg-[#FFFFFF]"></div>
 
                         <p className="text-base font-normal text-[#212B36]">
@@ -92,7 +94,10 @@ const OrderDetailsTimeline = ({
                     ) : (
                       actionItem.comment !== "" &&
                       showComments && (
-                        <li className="relative flex justify-between items-center mb-4 ">
+                        <li
+                          className="relative flex justify-between items-center mb-4 "
+                          key={index}
+                        >
                           <div className="absolute top-[4px] left-[-63px]  h-[18px] w-[18px] rounded-[50%] border border-[#CCCCCC] bg-[#FFFFFF]"></div>
 
                           <p className="text-base font-normal text-[#212B36]">

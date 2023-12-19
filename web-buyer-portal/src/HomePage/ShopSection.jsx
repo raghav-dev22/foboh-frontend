@@ -17,7 +17,7 @@ function ShopSection() {
         return response.json();
       })
       .then((data) => {
-        const limitedProducts = data.data.slice(0, 8);
+        const limitedProducts = data?.data?.slice(0, 8);
         setProducts(limitedProducts);
       })
       .catch((error) => {
@@ -45,7 +45,7 @@ function ShopSection() {
               className="carousel"
               autoplay={3000}
             >
-              {products.map((product, idx) => {
+              {products?.map((product, idx) => {
                 return (
                   <Carousel.Item key={`${idx}`}>
                     <div className=" ">

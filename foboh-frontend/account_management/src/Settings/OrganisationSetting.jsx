@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../dashboard/Header";
-// import Sidebar from "../dashboard/sidebar";
 import PersonalDetails from "./PersonalDetails";
 import EditProfile from "./EditProfile";
 
@@ -18,7 +17,6 @@ function Profile() {
               <div className="profile-section  px-11 padding-top-custom    overflow-y-auto	scroll-smooth	scrollable	">
                 <div className="py-12">
                   <h4 className="text-green text-2xl	font-semibold pb-2	">
-                    {" "}
                     Your profile
                   </h4>
                   <p className="text-gray font-medium	 text-sm	">

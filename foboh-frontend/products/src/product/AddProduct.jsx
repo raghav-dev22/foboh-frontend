@@ -254,8 +254,8 @@ function AddProduct() {
       );
 
       return {
-        label: selectedDepartment.departmentName,
-        value: selectedDepartment.departmentId,
+        label: selectedDepartment?.departmentName,
+        value: selectedDepartment?.departmentId,
       };
     });
 
@@ -775,7 +775,7 @@ function AddProduct() {
             label: item.regionName,
           }))
           .sort((a, b) => a.label.localeCompare(b.label));
-        console.log(sortedRegion, "sortedRegion");
+
         setRegion(sortedRegion);
       })
       .catch((error) => console.log(error));
@@ -983,7 +983,7 @@ function AddProduct() {
                     <h5 className="text-base font-medium text-green mb-3">
                       Status
                     </h5>
-                    {status.map((state, index) => (
+                    {status?.map((state, index) => (
                       <div
                         key={index}
                         className="flex items-center mb-4 gap-3 green-checkbox"
@@ -1045,7 +1045,7 @@ function AddProduct() {
                     <h5 className="text-base font-medium text-green mb-3">
                       Region availability
                     </h5>
-                    {regionAvailability.map((region, index) => (
+                    {regionAvailability?.map((region, index) => (
                       <div
                         key={index}
                         className="flex items-center mb-4 gap-3 green-checkbox"
@@ -1151,7 +1151,7 @@ function AddProduct() {
                           className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                         />
                         <label
-                          for="track-inventory"
+                          htmlFor="track-inventory"
                           className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                         ></label>
                       </div>
@@ -1211,7 +1211,7 @@ function AddProduct() {
                           className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                         />
                         <label
-                          for="SellOutOfStock"
+                          htmlFor="SellOutOfStock"
                           className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                         ></label>
                       </div>
@@ -1719,7 +1719,6 @@ function AddProduct() {
                         maxLength={1000}
                         className="block p-2.5 w-full text-sm text-gray-900  rounded-md border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                         placeholder="Leave a comment..."
-                        defaultValue={""}
                         name="description"
                         value={values.description}
                         onChange={handleChange}

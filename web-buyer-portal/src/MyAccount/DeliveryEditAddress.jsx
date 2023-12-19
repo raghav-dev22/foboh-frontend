@@ -56,7 +56,7 @@ const DeliveryEditAddress = ({
       setDeliveryAddress(() => {
         return {
           ...values,
-          State: values.State.label,
+          State: values.State.lable,
         };
       });
       addressUpdate(values, "delivery-address");
@@ -69,16 +69,16 @@ const DeliveryEditAddress = ({
   useEffect(() => {
     let statesData = [];
     getStates().then((data) => {
-      statesData = data.map((state) => {
+      statesData = data?.map((state) => {
         return {
-          label: state.stateName,
+          lable: state.stateName,
           value: state.stateId,
         };
       });
       setStates(
         data.map((state) => {
           return {
-            label: state.stateName,
+            lable: state.stateName,
             value: state.stateId,
           };
         })
@@ -89,7 +89,7 @@ const DeliveryEditAddress = ({
       if (data.success) {
         const buyerData = data?.data[0];
         const buyerState = statesData.find(
-          (state) => state?.label === buyerData.state
+          (state) => state?.lable === buyerData.state
         );
 
         const addressBody = {
@@ -134,13 +134,13 @@ const DeliveryEditAddress = ({
     setValues(() => {
       return {
         ...initialValues,
-        State: initialValues.State.label,
+        State: initialValues.State.lable,
       };
     });
     setDeliveryAddress(() => {
       return {
         ...initialValues,
-        State: initialValues.State.label,
+        State: initialValues.State.lable,
       };
     });
     setEditDelivery(!editDelivery);
@@ -165,9 +165,9 @@ const DeliveryEditAddress = ({
       <form className="" onChange={handleFormChange}>
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
-            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
               Address
-            </label>
+            </lable>
             <input
               type="text"
               id="Address"
@@ -192,9 +192,9 @@ const DeliveryEditAddress = ({
         </div>
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
-            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
               Apartment etc (optional)
-            </label>
+            </lable>
             <input
               type="text"
               id="Apartment"
@@ -205,12 +205,12 @@ const DeliveryEditAddress = ({
             />
           </div>
           <div className="w-full mb-4 relative">
-            <label
+            <lable
               htmlFor="Suburb"
               className="text-base font-normal text-[#2B4447]"
             >
               Suburb
-            </label>
+            </lable>
             <input
               type="text"
               id="Suburb"
@@ -234,9 +234,9 @@ const DeliveryEditAddress = ({
 
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
-            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
               Postcode
-            </label>
+            </lable>
             <input
               type="text"
               id="Postcode"
@@ -259,9 +259,9 @@ const DeliveryEditAddress = ({
             )}
           </div>
           <div className="w-full mb-4 relative">
-            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
               State
-            </label>
+            </lable>
             <Select
               type="text"
               id="State"
@@ -283,7 +283,9 @@ const DeliveryEditAddress = ({
 
         <div className="w-full   mb-3 relative">
           {" "}
-          <lable className="mb-2">Notes</lable>
+          <lable htmlFor="" className="mb-2">
+            Notes
+          </lable>
           <textarea
             className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
             id="Postcode"

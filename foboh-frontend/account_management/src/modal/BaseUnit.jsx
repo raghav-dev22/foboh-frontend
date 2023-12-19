@@ -243,7 +243,10 @@ const BaseUnit = ({
               )}
               <div className="min-h-[0px] max-h-[172x] overflow-y-auto custom-scroll-bar">
                 {unit?.map((item, idx) => (
-                  <div className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7] ">
+                  <div
+                    key={idx}
+                    className="mt-4 py-4 flex justify-between items-center border-y border-y-[#E7E7E7] "
+                  >
                     {item.editable ? (
                       <div className="flex flex-nowrap  mb-5 relative">
                         <div className="w-full  px-3 relative">

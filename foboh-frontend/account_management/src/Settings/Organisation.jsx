@@ -360,7 +360,7 @@ function Organisation() {
                   });
 
                 const departmentNames = departmentListData?.map(
-                  (item) => item.label
+                  (item) => item?.label
                 );
 
                 mutateCategories(
@@ -443,33 +443,33 @@ function Organisation() {
 
     const baseUnitMeasureTypeResponse = await getBaseUnitMeasureType();
     setBaseMeasureTypeList(
-      baseUnitMeasureTypeResponse.map((item, index) => {
+      baseUnitMeasureTypeResponse?.map((item, index) => {
         return {
           key: index,
-          label: item.type,
-          value: item.type,
+          label: item?.type,
+          value: item?.type,
         };
       })
     );
 
     const baseUnitMeasureUnitResponse = await baseUnitMeasureUnit();
     setBaseMeasureUnitList(
-      baseUnitMeasureUnitResponse.map((item, index) => {
+      baseUnitMeasureUnitResponse?.map((item, index) => {
         return {
           key: index,
-          label: item.value,
-          value: item.value,
+          label: item?.value,
+          value: item?.value,
         };
       })
     );
 
     const innerUnitMeasureTypeResponse = await getInnerUnitMeasureType();
     setInnerUnitTypeList(
-      innerUnitMeasureTypeResponse.map((item, index) => {
+      innerUnitMeasureTypeResponse?.map((item, index) => {
         return {
           key: index,
-          label: item.type,
-          value: item.type,
+          label: item?.type,
+          value: item?.type,
         };
       })
     );
@@ -485,7 +485,7 @@ function Organisation() {
   };
 
   const handleDepartmentChange = (e) => {
-    const departmentNames = e?.length > 0 ? e.map((item) => item.label) : [];
+    const departmentNames = e?.length > 0 ? e.map((item) => item?.label) : [];
     mutateCategories(e?.length > 0 ? departmentNames : null);
     setValues((prev) => {
       return {
@@ -501,11 +501,11 @@ function Organisation() {
     if (e.target.checked) {
       setValues({
         ...values,
-        billingAddress: values.organisationAddress,
-        billingAddressApartment: values.organisationAddressApartment,
-        billingAddressSuburb: values.organisationAddressSuburb,
-        billingAddressPostcode: values.organisationAddressPostcode,
-        billingAddressState: values.state,
+        billingAddress: values?.organisationAddress,
+        billingAddressApartment: values?.organisationAddressApartment,
+        billingAddressSuburb: values?.organisationAddressSuburb,
+        billingAddressPostcode: values?.organisationAddressPostcode,
+        billingAddressState: values?.state,
       });
     }
   };
@@ -568,8 +568,6 @@ function Organisation() {
           .then((data) => {
             if (!data.error) {
               setShow(true);
-              // setLogoUri(data?.blob.uri);
-              // dispatch(updateLogoURI(data?.blob.uri));
             }
           })
           .catch((error) => {
@@ -632,7 +630,6 @@ function Organisation() {
     });
   };
 
-  // useEffect(() => {}, []);
   return (
     <>
       {contextHolder}
@@ -665,19 +662,16 @@ function Organisation() {
         <form onChange={handleFormChange}>
           <div className="profile-section  sm:px-11 px-5 padding-top-custom overflow-y-auto scroll-smooth	scrollable	">
             <div className="sm:py-12 py-8 flex justify-start items-start gap-2">
-              {/* <Link to="/dashboard/settings"> */}
               <div
                 className="cursor-pointer"
                 onClick={() => {
                   navigate("/dashboard/settings");
                 }}
               >
-                <img src="/assets/previousBtn.png" alt="" />
+                <img src="/assets/previousBtn.png" alt="#" />
               </div>
-              {/* </Link> */}
               <div className="">
                 <h4 className="text-green text-2xl	font-semibold pb-1  leading-[26px]">
-                  {" "}
                   Organisation settings
                 </h4>
                 <p className="text-gray font-medium	 text-sm	">
@@ -687,7 +681,6 @@ function Organisation() {
             </div>
             <div className="lg:flex gap-5 ">
               <div className=" lg:w-3/5 w-full  gap-5 h-full	 grid	  ">
-                {/* Organization Details ---START */}
                 <div className="   w-full  rounded-lg		 border border-inherit bg-white h-fit		 	  ">
                   <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
                     <h6 className="text-base	font-medium	 text-green">
@@ -853,7 +846,6 @@ function Organisation() {
                               className="block p-2.5 w-full text-sm text-gray-900  rounded-md	 border border-gray-200 focus:outline-none focus:bg-white focus:border-gray-500 "
                               placeholder="Leave a comment..."
                               maxLength={256}
-                              defaultValue={""}
                               style={{
                                 border:
                                   errors.description &&
@@ -866,8 +858,6 @@ function Organisation() {
                                 {errors.description}
                               </p>
                             )}
-                            {/* // />  */}
-                            {/* <p className="text-gray-600 text-base	 italic">Make it as long and as crazy as you'd like</p> */}
                           </div>
                           <div className="w-full mt-5 px-3">
                             <label

@@ -528,7 +528,7 @@ const MyOrders = () => {
     } else if (name === "date") {
       // Initialize an empty array
       let dateArr = [];
-      dateArr = [value[value.length - 1]];
+      dateArr = [value[value?.length - 1]];
       setSelectedDate(dateArr);
 
       const formattedData = formatDateAfterRelativeDate(dateArr);
@@ -542,7 +542,7 @@ const MyOrders = () => {
         filter: newFilter,
       };
     } else if (name === "customDate") {
-      const formatedDate = `${value.$y}-${value.$M + 1}-${value.$D}`;
+      const formatedDate = `${value?.$y}-${value?.$M + 1}-${value?.$D}`;
       const newFilter = {
         ...filterAndSort.filter,
         customeDate: formatedDate,
@@ -709,7 +709,6 @@ const MyOrders = () => {
                           <h5 className="text-base font-medium text-[#2B4447]">
                             Date
                           </h5>
-                          {/* <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} /> */}
                         </div>
                       </li>
                       <li className="py-1 flex gap-1  green-checkbox ">
@@ -754,8 +753,6 @@ const MyOrders = () => {
                           <h5 className="text-base font-medium text-[#2B4447]">
                             Total
                           </h5>
-
-                          {/* <KeyboardArrowDownIcon style={{ fill: "#2B4447" }} /> */}
                         </div>
                       </li>
                       <li className="py-1 flex gap-1  green-checkbox">
@@ -793,7 +790,6 @@ const MyOrders = () => {
                           htmlFor=""
                           className="text-base font-normal text-[#637381]"
                         >
-                          {" "}
                           High - Low
                         </label>
                       </li>
@@ -853,10 +849,7 @@ const MyOrders = () => {
                   </div>
                   {statusMenu && (
                     <>
-                      <div
-                        // ref={dropdownRef}
-                        className=" z-10 left-0 px-3 h-[200px] custom-product-dropdown  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3"
-                      >
+                      <div className=" z-10 left-0 px-3 h-[200px] custom-product-dropdown  w-max   absolute product-dropdown bg-white custom-shadow rounded-lg overflow-y-auto custom-scroll-bar py-3">
                         <ul className="dropdown-content ">
                           <li className="py-1 flex gap-1  green-checkbox">
                             <input
@@ -944,7 +937,6 @@ const MyOrders = () => {
                                 </div>
                               </div>
                             )}
-                            {/* <DatePicker onChange={onChange} /> */}
                           </div>
                         </li>
                       </ul>
@@ -967,7 +959,6 @@ const MyOrders = () => {
         </div>
 
         <div className="border border-[#E0E0E0] rounded-[8px] mb-14">
-          {/* {showPreview && <Invoice />} */}
           <InvoiceModal
             ref={childRef}
             show={showPreview}

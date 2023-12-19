@@ -171,9 +171,9 @@ function AddCustomers() {
                       <th scope="col" className="p-4 border-y">
                         <div className="flex items-center"></div>
                       </th>
-                      {TABLE_HEAD.map((head) => (
+                      {TABLE_HEAD?.map((head, index) => (
                         <th
-                          key={head}
+                          key={index}
                           className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
                         >
                           <Typography
@@ -190,7 +190,7 @@ function AddCustomers() {
                     <>
                       <tbody>
                         {tableRecords?.length > 0 ? (
-                          tableRecords.map((product, index) => {
+                          tableRecords?.map((product, index) => {
                             const isLast = index === product.length - 1;
                             const classes = isLast ? "p-4" : "p-4  ";
                             return (

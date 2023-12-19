@@ -238,7 +238,6 @@ function CustomerContact({
                   name="deliveryMobile"
                   onClick={contactSame}
                   checked={isChecked}
-                  // value={values.deliveryMobile}
                   defaultValue=""
                   className="w-4 h-4 text-darkGreen bg-gray-100 border-gray-300 rounded  dark:bg-gray-700 dark:border-gray-600"
                 />

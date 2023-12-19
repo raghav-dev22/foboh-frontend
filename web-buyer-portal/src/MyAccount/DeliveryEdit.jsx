@@ -3,7 +3,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useFormik } from "formik";
 import { DeliveryBillingSchema } from "../schemas";
 import { useSelector } from "react-redux";
-import { json } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
 import DeliveryEditForm from "./DeliveryEditForm";
 import { theme } from "antd";
@@ -40,11 +40,9 @@ const DeliveryEdit = () => {
     initialValues: initialValues,
     validationSchema: DeliveryBillingSchema,
     onSubmit: (values) => {
-      console.log(values);
       localStorage.setItem("deliveryEdit", JSON.stringify(cart));
       navigate("/home/account");
       setCart(values);
-      console.log(cart, "flag>>");
     },
   });
 
@@ -52,11 +50,8 @@ const DeliveryEdit = () => {
     setValues(buyer);
   }, []);
 
-  console.log("error>>", values);
-
   const [isChecked, setIsChecked] = useState(false);
 
-  console.log(isChecked, "toggleCheckbox");
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto  ">

@@ -6,12 +6,8 @@ import { ProfileEditSchema } from "../schemas";
 import { useFormik } from "formik";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
-import { updateField } from "../slices/buyerSlice";
 import { getBuyerValues, setBuyerValues } from "../helpers/setBuyerValues";
 import { theme } from "antd";
-// import { Button, Form, Input, Radio } from "antd";
-// import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
@@ -45,8 +41,6 @@ const ProfileEdit = () => {
     initialValues: initialValues,
     validationSchema: ProfileEditSchema,
     onSubmit: (values) => {
-      console.log(values);
-
       fetch(
         `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/Buyer-ProfileUpdate?cbrn=${cbrn}`,
         {
@@ -69,7 +63,6 @@ const ProfileEdit = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("Response update", data);
           if (data.success) {
             navigate("/home/account");
           }
@@ -85,8 +78,6 @@ const ProfileEdit = () => {
   useEffect(() => {
     getBuyerValues(buyerId)
       .then((buyerData) => {
-        console.log("buyerData", buyerData);
-
         setValues({
           BusinessName: buyerData?.businessName,
           ABN: buyerData?.abn,
@@ -103,7 +94,6 @@ const ProfileEdit = () => {
       })
       .catch((error) => console.log(error));
   }, []);
-  console.log("error>>", values);
 
   return (
     <>

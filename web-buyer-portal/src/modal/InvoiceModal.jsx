@@ -15,7 +15,7 @@ const InvoiceModal = forwardRef(({}, ref) => {
     ) {
       setTimeout(() => {
         (async function () {
-          console.log(invoiceData, "invoiceData.organisationlogo");
+          console.log(invoiceData, "invoiceData?.organisationlogo");
           let blob = await fetch(invoiceData?.organisationlogo, {
             method: "GET",
             mode: "cors",
@@ -299,7 +299,7 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
                  <td
                     style="border:none;color:#111111;font-size:12px;font-weight:400"
                     >
-                    ${invoiceData.paymentMethod}
+                    ${invoiceData?.paymentMethod}
                  </td>
               </tr>
            </table>
