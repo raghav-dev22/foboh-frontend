@@ -18,7 +18,7 @@ export const updateOrderStatus = async (
       body: JSON.stringify({
         orderStatus: "New",
         transactionStatus: "Unpaid",
-        orderByEmailID: customerDetails?.deliveryEmail,
+        orderByEmailID: customerDetails?.orderingEmail,
         defaultPaymentTerm: [defaultPaymentTermValue?.label],
         totalPrice: cartCalculations?.subTotal,
         cartID: cartId,

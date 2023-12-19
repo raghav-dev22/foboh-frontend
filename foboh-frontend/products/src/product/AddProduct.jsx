@@ -60,7 +60,7 @@ const initialValues = {
   segment: "",
   grapeVariety: [],
   regionSelect: "",
-  vintage: 0,
+  vintage: "",
   awards: "",
   abv: "",
   country: "",
@@ -148,7 +148,7 @@ function AddProduct() {
             variety: values?.grapeVariety.map((item) => {
               return item.label;
             }),
-            vintage: values?.vintage ? values?.vintage : 0,
+            vintage: values?.vintage ? values?.vintage?.toString() : "",
             abv: values.abv,
             globalPrice: values?.salePrice,
             luCcost: values?.landedUnitCost,
@@ -185,7 +185,11 @@ function AddProduct() {
             navigate("/dashboard/products");
             setShow(false);
           } else {
-            error(data.message);
+            if (!data.message)
+              error(
+                "Some error occurred while creating product, please try again!"
+              );
+            else error(data.message);
           }
           localStorage.setItem("productAdded", true);
         })
@@ -210,9 +214,9 @@ function AddProduct() {
   const error = (message) => {
     messageApi.open({
       className: "custom-class",
+      type: "error",
       content: (
-        <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+        <div className="justify-center gap-2 items-center inline-block">
           <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
         </div>
       ),
@@ -462,8 +466,15 @@ function AddProduct() {
     setValues({
       ...values,
       department: e,
-      category: null,
+      category: "",
+      subcategory: "",
+      segment: "",
+      grapeVariety: [],
+      regionSelect: {},
+      vintage: "",
+      awards: "",
     });
+    setSubCategory([]);
     setShow(true);
     // ?DepartmentId=${e.value}
 
@@ -1520,7 +1531,7 @@ function AddProduct() {
                           id="vintage"
                           name="vintage"
                           type="text"
-                          value={values?.vintage !== 0 ? values?.vintage : null}
+                          value={values?.vintage !== "" ? values?.vintage : ""}
                           onChange={handleChange}
                           placeholder="Enter vintage"
                         />

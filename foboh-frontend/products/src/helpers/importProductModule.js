@@ -43,7 +43,7 @@ export const convertImportedProductList = (importedProducts) => {
         subCategoryId: product?.subCategoryId ? product.subCategoryId : "",
         segmentId: product?.segmentId ? product.segmentId : "",
         variety: product?.variety ? product.variety.split(",") : [],
-        vintage: product?.vintage ? product.vintage : 0,
+        vintage: product?.vintage ? product?.vintage?.toString() : "",
         abv: product?.abv ? product.abv.toString() : "",
         luCcost: calculatedLucCost,
         buyPrice: product?.buyPrice ? product.buyPrice : 0,

@@ -356,11 +356,11 @@ function Organisation() {
 
                 const departmentListData =
                   organisationSettings?.departmentList?.map((id) => {
-                    return departmentList.find((obj) => obj.value === id);
+                    return departmentList?.find((obj) => obj?.value === id);
                   });
 
                 const departmentNames = departmentListData?.map(
-                  (item) => item.label
+                  (item) => item?.label
                 );
 
                 mutateCategories(

@@ -26,7 +26,6 @@ import throttle from "lodash.throttle";
 import {
   segment,
   subCategory,
-  region,
   country,
   baseUnitOfMeasurement,
   innerUnitOfMeasurement,
@@ -72,13 +71,13 @@ function ViewProduct() {
 
   let baseUnitMeasureList = [];
   let innerUnitMeasureList = [];
+  let regionList = [];
   const [modal2Open, setModal2Open] = useState(false);
   // const [region, setRegion] = useState();
   const updateProduct = () => {
     messageApi.open({
       content: (
         <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
           <p className="text-base font-semibold text-[#F8FAFC]">
             Products saved!
           </p>
@@ -92,9 +91,9 @@ function ViewProduct() {
   const error = (message) => {
     messageApi.open({
       className: "custom-class",
+      type: "error",
       content: (
-        <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+        <div className="justify-center gap-2 items-center inline-block">
           <p className="text-base font-semibold text-[#F8FAFC]">{message}</p>
         </div>
       ),
@@ -175,11 +174,11 @@ function ViewProduct() {
     // Setting department list according to org settings
     const departments = organisationData?.departmentList?.map((item) => {
       const selectedDepartment = departmentsData?.find(
-        (depItem) => item === depItem.departmentId
+        (depItem) => item === depItem?.departmentId
       );
       return {
-        label: selectedDepartment.departmentName,
-        value: selectedDepartment.departmentId,
+        label: selectedDepartment?.departmentName,
+        value: selectedDepartment?.departmentId,
       };
     });
 
@@ -251,7 +250,7 @@ function ViewProduct() {
             label: item.regionName,
           }))
           .sort((a, b) => a.label.localeCompare(b.label));
-
+        regionList = sortedRegion;
         setRegions(sortedRegion);
       })
       .catch((error) => console.log(error));
@@ -435,7 +434,9 @@ function ViewProduct() {
               tags.includes(option.label)
             );
 
-            const regionObj = region.find((rgn) => rgn.label === regionName);
+            const regionObj = regionList.find(
+              (rgn) => rgn?.label === regionName
+            );
             if (subCategoryId === "SC500") {
               setIsWet(true);
             } else {
@@ -562,9 +563,7 @@ function ViewProduct() {
             );
           })
           .then(() => {
-            setTimeout(() => {
-              setLoading(false);
-            }, 1000);
+            setLoading(false);
           })
           .catch((error) => console.log(error));
       });
@@ -732,7 +731,9 @@ function ViewProduct() {
         .then((data) => {
           setShow(false);
           if (!data.success) {
-            error(data.message);
+            if (!data.message)
+              error("Some error occurred while updating, please try again!");
+            else error(data.message);
           } else {
             updateProduct();
             navigate("/dashboard/products");
@@ -867,7 +868,7 @@ function ViewProduct() {
       vintage: "",
       awards: "",
     });
-    setSubCategory("");
+    setSubCategory([]);
     setShow(true);
     // ?DepartmentId=${e.value}
     e.label === "Beverage" ? (isBeverage = true) : (isBeverage = false);
@@ -1986,7 +1987,7 @@ function ViewProduct() {
                             <div className=" w-full">
                               <Select
                                 name="colors"
-                                isDisabled={!region.length}
+                                isDisabled={!regions.length}
                                 options={regions}
                                 value={values.regionSelect}
                                 onChange={handleregionSelectChange}

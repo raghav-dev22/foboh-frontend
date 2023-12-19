@@ -47,34 +47,31 @@ export const getCalculations = (cartList) => {
 export const getInvoiceDataCalculations = (data, setIsWine) => {
   try {
     const dataResult = data.map((item) => {
-      let gst = 0;
-      let wet = 0;
-      let subtotal1 = 0;
-      let subtotal2 = 0;
-      let total = 0;
-      let lucUnit = 0;
+      let gstPerItem = 0;
+      let wetPerItem = null;
+      let amountPerItem = 0;
 
-      const price = item.globalPrice;
-      const quantity = item.quantity;
+      const salePrice = item?.globalPrice;
+      const quantity = item?.quantity;
+      const subCatId = item?.subCategoryId;
+      const gst = 0.1;
+      const wet = 0.29;
 
-      if (item?.subCategoryId === "SC500" || item?.subCategoryId === "SC5000") {
+      const subTotal = salePrice * quantity;
+      const subTotalGst = subTotal * gst;
+      const subTotalIncGst = subTotal + subTotalGst;
+      let subTotalWet = 0;
+      let subTotalIncWet = 0;
+
+      if (subCatId === "SC500" || subCatId === "SC5000") {
         setIsWine(true);
-        const productSubtotal = price * quantity;
-        const wetApplied = productSubtotal * 0.29;
-        wet += wetApplied;
-        const luc = productSubtotal + wetApplied;
-        lucUnit = luc;
-        const gstAppliedLuc = luc * 0.1;
-        gst += gstAppliedLuc;
-        subtotal1 += luc + gstAppliedLuc;
-      } else {
-        const productSubtotal = price * quantity;
-        const gstAppliedOnNonWine = productSubtotal * 0.1;
-        gst += gstAppliedOnNonWine;
-        subtotal2 += productSubtotal + gstAppliedOnNonWine;
+        subTotalWet = subTotal * wet;
+        subTotalIncWet = subTotal + subTotalWet;
+        wetPerItem = subTotalIncWet;
       }
 
-      total = subtotal1 + subtotal2;
+      amountPerItem = subTotalIncGst;
+      gstPerItem = subTotalGst;
 
       return {
         totalPrice: item?.totalPrice,
@@ -87,13 +84,13 @@ export const getInvoiceDataCalculations = (data, setIsWine) => {
         productId: item?.productId,
         skUcode: item?.skUcode,
         configuration: item?.configuration,
-        luCcost: lucUnit.toFixed(2),
+        luCcost: item?.luCcost?.toFixed(2),
         globalPrice: item?.globalPrice,
         title: item?.title,
         unitofMeasure: item?.unitofMeasure,
-        amountPerItem: total.toFixed(0),
-        gstPerItem: gst.toFixed(2),
-        wetPerItem: wet.toFixed(2),
+        amountPerItem: amountPerItem?.toFixed(2),
+        gstPerItem: gstPerItem?.toFixed(2),
+        wetPerItem: wetPerItem?.toFixed(2),
       };
     });
 

@@ -55,10 +55,12 @@ function PreviewModal({
           const errList = data?.data
             ? data?.data
                 ?.map((item) => {
-                  return {
-                    row: item.row,
-                    error: item.message,
-                  };
+                  if (!item.success) {
+                    return {
+                      row: item.row,
+                      error: item.message,
+                    };
+                  }
                 })
                 .filter((item) => item)
             : [];

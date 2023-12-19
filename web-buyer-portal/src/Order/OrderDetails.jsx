@@ -67,13 +67,22 @@ const OrderDetails = () => {
   );
 
   const { mutate: invoiceMutate } = useMutation(fetchInvoice, {
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const invoiceProductDataConverted = getInvoiceDataCalculations(
         data,
         setIsWine
       );
+
+      const calculations = getCalculations(data);
+
       if (childRef.current) {
-        childRef.current.handlePrint(data[0]?.orderId);
+        childRef.current.handlePrint(
+          data[0]?.orderId,
+          data[0],
+          invoiceProductDataConverted,
+          isWine,
+          calculations
+        );
       }
       setshowPreview(true);
       setInvoiceData(data[0]);

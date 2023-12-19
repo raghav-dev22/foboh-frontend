@@ -395,11 +395,15 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           "paymentDueDate"
         );
 
+        const { organisationId } = JSON.parse(
+          localStorage.getItem("buyerInfo")
+        );
+
         const details = {
           orderId: localStorage.getItem("orderId"),
           orderByEmailID: email,
           orderBy: cardHolderName,
-          organisationID: localStorage.getItem("organisationId"),
+          organisationID: organisationId,
           catalogueID: localStorage.getItem("catalogueId"),
           orderStatus: "InProcessBecs",
           paymentType: "PayLater",

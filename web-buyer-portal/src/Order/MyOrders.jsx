@@ -375,13 +375,13 @@ const MyOrders = () => {
           productId: item?.productId,
           skUcode: item?.skUcode,
           configuration: item?.configuration,
-          luCcost: item?.luCcost,
+          luCcost: item?.luCcost?.toFixed(2),
           globalPrice: item?.globalPrice,
           title: item?.title,
           unitofMeasure: item?.unitofMeasure,
-          amountPerItem: amountPerItem,
-          gstPerItem: gstPerItem,
-          wetPerItem: wetPerItem,
+          amountPerItem: amountPerItem?.toFixed(2),
+          gstPerItem: gstPerItem?.toFixed(2),
+          wetPerItem: wetPerItem?.toFixed(2),
         };
       });
     }

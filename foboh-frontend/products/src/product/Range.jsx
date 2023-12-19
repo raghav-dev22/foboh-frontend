@@ -61,7 +61,7 @@ function Range() {
   const [loading, setLoading] = useState(true);
   const isTrue = localStorage.getItem("productAdded");
   const isProductDeleted = localStorage.getItem("productDelete");
-  const [modal] = Modal.useModal();
+  // const [modal] = Modal.useModal();
   const [isSearchResult, setisSearchResult] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -80,12 +80,11 @@ function Range() {
     });
   };
 
-  const error = (errors) => {
-    modal.error({
-      title: "Use Hook!",
+  const errorModal = (errors) => {
+    Modal.error({
+      title: "Error Editing Products!",
       content: (
         <>
-          <h1>Error editing products</h1>
           <ul>
             {errors?.map((item) => (
               <li className="flex gap-2">
@@ -112,7 +111,7 @@ function Range() {
       rtl: true,
     });
   };
-  
+
   const productUrl = process.env.REACT_APP_PRODUCT_API_URL;
   // useEffect(() => {
   //   if (importTrue === "true") {
@@ -230,16 +229,24 @@ function Range() {
       }
     )
       .then((response) => {
-        response.json();
+        return response.json();
       })
-
       .then((data) => {
         setIsBulkEdit(false);
         setSelectedProducts([]);
         if (!data?.data[0]?.success) {
-          error();
+          const errors = data?.data?.map((i) => {
+            return {
+              row: i?.row,
+              message: i?.message,
+            };
+          });
+          errorModal(errors);
         } else {
           saveProduct();
+          if (childRef.current) {
+            childRef.current.handleFilterPagination(pageIndex);
+          }
         }
       })
 

@@ -317,70 +317,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
 
   const onFinalSubmit = (event) => {
     event.preventDefault();
-    const organisationId = localStorage.getItem("organisationId");
-
-    fetch(
-      `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/${datas}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          buyerId: values?.buyerId,
-          orderingFirstName: values?.orderingFirstName,
-          orderingLastName: values?.orderingLastName,
-          orderingMobile: values?.orderingMobile,
-          orderingEmail: values?.orderingEmail,
-          address: values?.address,
-          apartment: values?.apartment,
-          suburb: values?.suburb,
-          billingState: values?.billingState.label,
-          billingPostalCode: values?.billingPostalCode,
-          billingSuburb: values?.billingSuburb,
-          billingApartment: values?.billingApartment,
-          deliveryNotes: values?.deliveryNotes,
-          billingAddress: values?.billingAddress,
-          state: values?.state.label,
-          postalCode: values?.postalCode,
-          deliveryEmail: values?.deliveryEmail,
-          deliveryMobile: values?.deliveryMobile,
-          deliveryLastName: values?.deliveryLastName,
-          deliveryFirstName: values?.deliveryFirstName,
-          businessName: values?.businessName,
-          defaultPaymentMethodId: values?.defaultPaymentMethodId?.label
-            ? [values?.defaultPaymentMethodId?.label]
-            : [""],
-          defaultPaymentTerm: values?.defaultPaymentTerms?.label
-            ? [values?.defaultPaymentTerms?.label]
-            : [""],
-          abn: values?.abn,
-          liquorLicence: values?.liquorLicence,
-          organisationId: organisationId,
-          tags: [],
-          pricingProfileId: "",
-          salesRepId: "",
-          isActive: values?.isActive,
-        }),
-      }
-    )
-      .then((response) => {
-        // return response.json();
-      })
-      .then((data) => {
-        setShow(false);
-        saveCustomer();
-        setCustomerDetails((prev) => {
-          return {
-            ...prev,
-            apartment: data?.apartment,
-            address: data?.address,
-            suburb: data?.suburb,
-            state: data?.state,
-            postalCode: data?.postalCode,
-          };
-        });
-      });
   };
   const {
     values,
@@ -393,7 +329,72 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
   } = useFormik({
     initialValues: initialValues,
     validationSchema: AddCustomerSchema,
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      const organisationId = localStorage.getItem("organisationId");
+
+      fetch(
+        `https://customerfobohwepapi-fbh.azurewebsites.net/api/Customer/Update/${datas}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            buyerId: values?.buyerId,
+            orderingFirstName: values?.orderingFirstName,
+            orderingLastName: values?.orderingLastName,
+            orderingMobile: values?.orderingMobile,
+            orderingEmail: values?.orderingEmail,
+            address: values?.address,
+            apartment: values?.apartment,
+            suburb: values?.suburb,
+            billingState: values?.billingState.label,
+            billingPostalCode: values?.billingPostalCode,
+            billingSuburb: values?.billingSuburb,
+            billingApartment: values?.billingApartment,
+            deliveryNotes: values?.deliveryNotes,
+            billingAddress: values?.billingAddress,
+            state: values?.state.label,
+            postalCode: values?.postalCode,
+            deliveryEmail: values?.deliveryEmail,
+            deliveryMobile: values?.deliveryMobile,
+            deliveryLastName: values?.deliveryLastName,
+            deliveryFirstName: values?.deliveryFirstName,
+            businessName: values?.businessName,
+            defaultPaymentMethodId: values?.defaultPaymentMethodId?.label
+              ? [values?.defaultPaymentMethodId?.label]
+              : [""],
+            defaultPaymentTerm: values?.defaultPaymentTerms?.label
+              ? [values?.defaultPaymentTerms?.label]
+              : [""],
+            abn: values?.abn,
+            liquorLicence: values?.liquorLicence,
+            organisationId: organisationId,
+            tags: [],
+            pricingProfileId: "",
+            salesRepId: "",
+            isActive: values?.isActive,
+          }),
+        }
+      )
+        .then((response) => {
+          // return response.json();
+        })
+        .then((data) => {
+          setShow(false);
+          saveCustomer();
+          setCustomerDetails((prev) => {
+            return {
+              ...prev,
+              apartment: data?.apartment,
+              address: data?.address,
+              suburb: data?.suburb,
+              state: data?.state,
+              postalCode: data?.postalCode,
+            };
+          });
+        });
+    },
   });
 
   const handleInputChange = () => {
@@ -455,7 +456,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
     <>
       {contextHolder}
       <div className=" pt-6">
-        <form onChange={handleInputChange}>
+        <form onSubmit={handleSubmit} onChange={handleInputChange}>
           <div className="xl:w-full xl:mx-0  sm:block rounded-t-lg border border-darkGreen	">
             <ul className="flex      gap-5 bg-custom-skyBlue 	rounded-t-lg	pt-4 overflow-x-scroll">
               <li

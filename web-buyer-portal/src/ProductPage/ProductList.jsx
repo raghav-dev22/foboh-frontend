@@ -242,7 +242,7 @@ const ProductList = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      processChange(searchTerm === "" && "clear");
+      processChange((searchTerm || "") && "clear");
     }, 300);
 
     return () => clearTimeout(timeout);
@@ -1813,7 +1813,7 @@ const ProductList = () => {
                     active
                     avatar
                   >
-                    <div className=" border border-[#eaeaeae9] shadow-custom">
+                    <div className="rounded-md border border-[#eaeaeae9] shadow-custom">
                       <div
                         className={`h-[200px]  ${
                           item?.product?.productImageUrls?.length > 0
