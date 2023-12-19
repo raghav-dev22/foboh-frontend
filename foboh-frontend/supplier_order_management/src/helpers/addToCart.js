@@ -27,7 +27,7 @@ export const addToCart = async (value, buyerId) => {
         subCategoryId: value?.subCategoryId || "",
         segmentId: value?.segmentId || "",
         variety: value?.variety || [],
-        vintage: value?.vintage || 0,
+        vintage: value?.vintage || "",
         abv: value?.abv || "",
         globalPrice: value?.globalPrice || 0,
         luCcost: value?.luCcost || 0,
