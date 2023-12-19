@@ -274,9 +274,7 @@ function AddProduct() {
   });
 
   const { mutateAsync: mutateGetDepartments } = useMutation(getDepartments, {
-    onSuccess: (data) => {
-      console.log("getDepartments", data);
-    },
+    onSuccess: (data) => {},
     onError: (err) => {
       console.log(err);
     },
@@ -786,7 +784,6 @@ function AddProduct() {
             label: item.regionName,
           }))
           .sort((a, b) => a.label.localeCompare(b.label));
-        console.log(sortedRegion, "sortedRegion");
         setRegion(sortedRegion);
       })
       .catch((error) => console.log(error));

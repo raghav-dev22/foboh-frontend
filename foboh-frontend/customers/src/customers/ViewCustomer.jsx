@@ -100,7 +100,6 @@ function ViewCustomer() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          console.log(data.message);
           success(data.message);
           setCustomerEdit(true);
           setShow(true);

@@ -75,7 +75,6 @@ const CheckOut = () => {
     validationSchema: DeliveryAddressSchema,
     onSubmit: (values) => {
       setData(values);
-      console.log(data, "hhhhhh");
       localStorage.setItem("myKey", JSON.stringify(values));
       navigate("/home/payment-page/delivery");
     },

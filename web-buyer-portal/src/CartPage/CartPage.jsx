@@ -73,7 +73,6 @@ const CartPage = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("Data response", data);
         if (data.success) {
           cartRefetch();
           const updatedCartList = data?.data.map((item) => {
@@ -84,7 +83,6 @@ const CartPage = () => {
           });
           dispatch(setCart(updatedCartList));
         }
-        console.log(data, "add data");
       })
       .catch((error) => {
         console.error("Error deleting data:", error);
@@ -154,8 +152,6 @@ const CartPage = () => {
   );
 
   const handleIncrementDecrement = (productId, quantity, action) => {
-    console.log("handleIncrementDecrement", productId, quantity, action);
-
     const updatedList = () => {
       return cart.map((product) => {
         if (product.product.productId === productId) {

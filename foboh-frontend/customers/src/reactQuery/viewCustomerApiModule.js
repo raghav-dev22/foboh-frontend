@@ -39,7 +39,6 @@ export const getdefaultPaymentTerm = async () => {
 export const getdefaultPaymentMethod = async (defaultPaymentTerm) => {
   try {
     if (!defaultPaymentTerm || !defaultPaymentTerm?.label) {
-      console.log("Invalid input. 'e' or 'e.label' is undefined.");
       return null;
     }
     const defaultPaymentMethod = await fetch(

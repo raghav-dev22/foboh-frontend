@@ -40,23 +40,15 @@ const DeliveryEdit = () => {
     initialValues: initialValues,
     validationSchema: DeliveryBillingSchema,
     onSubmit: (values) => {
-      console.log(values);
       localStorage.setItem("deliveryEdit", JSON.stringify(cart));
       navigate("/home/account");
       setCart(values);
-      console.log(cart, "flag>>");
     },
   });
 
   useEffect(() => {
     setValues(buyer);
   }, []);
-
-  console.log("error>>", values);
-
-  const [isChecked, setIsChecked] = useState(false);
-
-  console.log(isChecked, "toggleCheckbox");
   return (
     <>
       <div className="md:w-4/5	w-full mx-auto  ">

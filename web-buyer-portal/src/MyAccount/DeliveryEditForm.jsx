@@ -26,7 +26,6 @@ const DeliveryEditForm = () => {
   };
 
   const navigate = useNavigate();
-  // console.log(buyer, "hhhh");
   const [stateOption, setStateOption] = useState(null);
   const [cart, setCart] = useState();
 
@@ -46,11 +45,9 @@ const DeliveryEditForm = () => {
     initialValues: initialValues,
     validationSchema: DeliveryBillingSchema,
     onSubmit: (values) => {
-      console.log(values);
       localStorage.setItem("deliveryEdit", JSON.stringify(cart));
       navigate("/home/account");
       setCart(values);
-      console.log(cart, "flag>>");
     },
   });
 
@@ -112,11 +109,8 @@ const DeliveryEditForm = () => {
     }
   };
 
-  console.log("error>>", values);
-
   const handleSubmitBtn = (e) => {
     const { cbrn } = JSON.parse(localStorage.getItem("buyerInfo"));
-    console.log("cbrn", cbrn);
 
     fetch(
       `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/Buyer-AddressUpdate?cbrn=${cbrn}`,
@@ -142,7 +136,6 @@ const DeliveryEditForm = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Buyer address update", data);
         navigate("/home/account");
       })
       .catch((error) => console.log(error));

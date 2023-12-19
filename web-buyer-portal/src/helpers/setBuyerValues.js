@@ -85,7 +85,6 @@ export const getBuyerValues = async (buyerId) => {
     }
 
     const data = await response.json();
-    // console.log("Buyer get response", data);
     const buyerData = data?.data[0];
     return buyerData;
   } catch (error) {

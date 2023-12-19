@@ -8,7 +8,6 @@ import Select from "react-select";
 function DeliveryAddress() {
   const [value, setValue] = useState();
   const storedValue = JSON.parse(localStorage.getItem("myKey"));
-  console.log(storedValue, "storedValue====>");
 
   return (
     <>

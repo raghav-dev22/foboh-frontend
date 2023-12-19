@@ -20,8 +20,6 @@ export const cartStatusUpdate = () => {
     }
   )
     .then((response) => response.json())
-    .then((data) => {
-      console.log("cartStatusUpdate", data);
-    })
+    .then((data) => {})
     .catch((error) => console.log(error));
 };

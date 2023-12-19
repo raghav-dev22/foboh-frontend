@@ -15,7 +15,6 @@ const InvoiceModal = forwardRef(({}, ref) => {
     ) {
       setTimeout(() => {
         (async function () {
-          console.log(invoiceData, "invoiceData.organisationlogo");
           let blob = await fetch(invoiceData?.organisationlogo, {
             method: "GET",
             mode: "cors",
@@ -202,7 +201,7 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
                  </tr>
                  ${
                    invoiceData?.shippingcharges !== null &&
-                   invoiceData?.shippingcharges.trim() !== ""
+                   invoiceData?.shippingcharges?.trim() !== ""
                      ? `
                     <tr>
                       <td
@@ -299,7 +298,7 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
                  <td
                     style="border:none;color:#111111;font-size:12px;font-weight:400"
                     >
-                    ${invoiceData.paymentMethod}
+                    ${invoiceData?.paymentMethod}
                  </td>
               </tr>
            </table>
@@ -392,11 +391,9 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
               tableAutoSize: true,
             }
           );
-          console.log("val", val);
           var dd = { content: val };
           pdfMake.createPdf(dd).download();
         })();
-        console.log("print", JSON.stringify(invoiceData));
       }, 500);
     },
   }));

@@ -60,7 +60,6 @@ function Login() {
     });
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
-    console.log(showPassword);
   };
   return (
     <div className="">

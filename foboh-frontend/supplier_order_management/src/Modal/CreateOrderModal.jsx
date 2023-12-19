@@ -214,7 +214,7 @@ const CreateOrderModal = ({
     // Getting all the customer list
     getCustomers().then((data) => {
       if (data.success) {
-        const customerData = data.data.map((customer) => ({
+        const customerData = data?.data?.map((customer) => ({
           label: customer?.businessName,
           value: customer?.buyerId,
         }));
@@ -313,7 +313,7 @@ const CreateOrderModal = ({
   const asyncFunction = async () => {
     const productList = await getProducts();
 
-    list = productList.map((item) => {
+    list = productList?.map((item) => {
       return {
         value: `${item?.title} ${item?.configuration}`,
         label: (
@@ -332,7 +332,7 @@ const CreateOrderModal = ({
 
   const asyncGetCart = async () => {
     const cartList = await getCartList();
-    const cartUpdatedList = cartList.map((product) => {
+    const cartUpdatedList = cartList?.map((product) => {
       return {
         product: product,
         quantity: {
@@ -347,7 +347,7 @@ const CreateOrderModal = ({
   // Setting Default payment terms list
   const getDefaultPaymentTermsValue = async () => {
     await getDefaultPaymentTerms().then((data) => {
-      defaultPaymentTermsList = data.map((item) => {
+      defaultPaymentTermsList = data?.map((item) => {
         return {
           label: item?.paymentTermName,
           value: item?.id,
@@ -423,7 +423,7 @@ const CreateOrderModal = ({
       : error("Some error occurred, please try again!");
 
     if (addToCartResponse) {
-      const cartUpdatedList = addToCartResponse.map((product) => {
+      const cartUpdatedList = addToCartResponse?.map((product) => {
         return {
           product: product,
           quantity: {
@@ -448,7 +448,7 @@ const CreateOrderModal = ({
       : error("Some error occurred, please try again!");
 
     if (removeCart) {
-      const cartUpdatedList = removeCart.map((product) => {
+      const cartUpdatedList = removeCart?.map((product) => {
         return {
           product: product,
           quantity: {
@@ -474,7 +474,7 @@ const CreateOrderModal = ({
   // Handle for changing the quantity of products in cart
   const handleQuantity = async (value, productId) => {
     const updateList = () => {
-      return cart.map((item) => {
+      return cart?.map((item) => {
         if (item.product.productId === productId) {
           let newQuantityValue = {
             ...item.quantity,
@@ -845,7 +845,7 @@ const CreateOrderModal = ({
                             Your cart is empty.
                           </h5>
                         ) : (
-                          cart.map(({ product, quantity }) => (
+                          cart?.map(({ product, quantity }) => (
                             <div className="flex items-center gap-2 py-5 border-b border-[#E7E7E7]">
                               <div className="">
                                 <img

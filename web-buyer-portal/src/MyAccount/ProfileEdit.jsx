@@ -45,8 +45,6 @@ const ProfileEdit = () => {
     initialValues: initialValues,
     validationSchema: ProfileEditSchema,
     onSubmit: (values) => {
-      console.log(values);
-
       fetch(
         `https://buyeruserapi-foboh-fbh.azurewebsites.net/api/BuyerUser/Buyer-ProfileUpdate?cbrn=${cbrn}`,
         {
@@ -69,7 +67,6 @@ const ProfileEdit = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("Response update", data);
           if (data.success) {
             navigate("/home/account");
           }
@@ -85,8 +82,6 @@ const ProfileEdit = () => {
   useEffect(() => {
     getBuyerValues(buyerId)
       .then((buyerData) => {
-        console.log("buyerData", buyerData);
-
         setValues({
           BusinessName: buyerData?.businessName,
           ABN: buyerData?.abn,
@@ -103,7 +98,6 @@ const ProfileEdit = () => {
       })
       .catch((error) => console.log(error));
   }, []);
-  console.log("error>>", values);
 
   return (
     <>

@@ -28,7 +28,6 @@ const ForgetPassword = () => {
           .then((response) => response.json())
           .then((data) => {
             setIsLoading(false);
-            console.log("Customer data", data);
             if (data.success) {
               // sendVerificationMail();
 
@@ -68,7 +67,6 @@ const ForgetPassword = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem("uniqueKey", data.key);
         navigate("/auth/verify-password");
       })

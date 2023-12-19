@@ -39,20 +39,20 @@ export const addressUpdate = async (values, type) => {
     };
   } else if (type === "billing-address") {
     addressBody = {
-        orderId: orderId,
-        emailId: "",
-        firstname: "",
-        lastname: "",
-        company: "",
-        apartmentSuite: values?.Apartment,
-        streetaddress: values?.Address,
-        city: values?.Suburb,
-        postcode: values?.Postcode,
-        state: values?.State?.label,
-        country: "",
-        phoneNumber: "",
-        addressType: type,
-        instructionsNotes: values?.Notes,
+      orderId: orderId,
+      emailId: "",
+      firstname: "",
+      lastname: "",
+      company: "",
+      apartmentSuite: values?.Apartment,
+      streetaddress: values?.Address,
+      city: values?.Suburb,
+      postcode: values?.Postcode,
+      state: values?.State?.label,
+      country: "",
+      phoneNumber: "",
+      addressType: type,
+      instructionsNotes: values?.Notes,
     };
   }
 
@@ -67,8 +67,6 @@ export const addressUpdate = async (values, type) => {
     }
   )
     .then((response) => response.json())
-    .then((data) => {
-      console.log("address-update-response", data);
-    })
+    .then((data) => {})
     .catch((error) => console.log(error));
 };

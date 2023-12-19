@@ -19,11 +19,9 @@ function ShopBrandSection() {
       })
       .then((data) => {
         setBrandData(data.data);
-        console.log(data, "brand2");
       })
       .catch((error) => console.log(error));
   }, []);
-  console.log(BrandData, "brand");
 
   return (
     <>
