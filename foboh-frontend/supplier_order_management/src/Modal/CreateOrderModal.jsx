@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Divider, Space, Button, Modal, Flex } from "antd";
+import { Button, Modal, message } from "antd";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import CloseIcon from "@mui/icons-material/Close";
 import { Stepper, Step, Typography, button } from "@material-tailwind/react";
@@ -7,9 +7,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
-import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import ShieldIcon from "@mui/icons-material/Shield";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AlertModal from "./AlertModal";
 import { getCustomers } from "../helpers/getCustomer";
 import Select from "react-select";
@@ -21,7 +19,6 @@ import { postBuyerDetails } from "../helpers/postBuyerDetails";
 import { getBuyerDetails } from "../helpers/getBuyerDetails";
 import { convertDefaultPaymentTermValue } from "../helpers/convertDefaultPaymentTermValue";
 import BillingAddressForm from "./BillingAddressForm";
-import { message } from "antd";
 import { getProducts } from "../helpers/getProducts";
 import { getCartList } from "../helpers/getCartList";
 import { addToCart } from "../helpers/addToCart";
@@ -33,18 +30,11 @@ import { updateDefaultPaymentTerms } from "../helpers/updateDefaultPaymentTerms"
 import ShippingDetailsForm from "./ShippingDetailsForm";
 import FinalOrder from "./FinalOrder";
 import { getCalculations } from "../helpers/getCalculations";
-import { createOrder } from "../helpers/createOrder";
 import { updateCartStatus } from "../helpers/updateCartStatus";
 import { updateOrderStatus } from "../helpers/updateOrderStatus";
 import { deleteOrder } from "../helpers/deleteOrder";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
-import { useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 let isValid = false;
 const CreateOrderModal = ({
   setCreateOrderModal,
@@ -744,6 +734,7 @@ const CreateOrderModal = ({
                             <div className="border mt-2 border-[#E0E0E0] rounded-[6px] py-2 px-4">
                               {editPayment ? (
                                 <Select
+                                  // menuIsOpen={true}
                                   onChange={handledefaultPaymentTerms}
                                   options={defaultPaymentTerms}
                                   value={defaultPaymentTermsValue}
@@ -753,7 +744,7 @@ const CreateOrderModal = ({
                                 />
                               ) : (
                                 <h4 className=" text-lg font-medium text-[#2B4447] leading-[30px]">
-                                  {defaultPaymentTermsValue?.label}{" "}
+                                  {defaultPaymentTermsValue?.label}
                                   {`(${defaultPaymentTermsDate})`}
                                 </h4>
                               )}
@@ -938,7 +929,6 @@ const CreateOrderModal = ({
                 )}
                 {activeStep === 3 && (
                   <FinalOrder
-                    
                     customerDetails={customerDetails}
                     cart={cart}
                     handleRemoveCart={handleRemoveCart}

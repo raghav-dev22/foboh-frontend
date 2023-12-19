@@ -224,7 +224,7 @@ const DeliveryAddressForm = ({
                 name="postCode"
                 className=""
                 onKeyPress={(event) => {
-                  const allowedCharacters = /^[0-9]*$/; // Regular expression to match only numbers and '+'
+                  const allowedCharacters = /^[0-9]*$/;
                   if (!allowedCharacters.test(event.key)) {
                     event.preventDefault();
                   }

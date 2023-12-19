@@ -145,16 +145,8 @@ function DeliveryAddress({
             <Select
               defaultValue={selectedOption}
               onChange={(e) => handleState(e)}
-              options={[
-                {
-                  value: "jack",
-                  label: "Jack (100)",
-                },
-                {
-                  value: "lucy",
-                  label: "Lucy (101)",
-                },
-              ]}
+              name="state"
+              options={states}
               value={values.DeliveryAddressState}
             />
             {errors.Notes && (

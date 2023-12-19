@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Modal } from "antd";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-
 const ChangeStatusModal = ({
   closeIcon,
   handleOk,
