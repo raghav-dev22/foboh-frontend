@@ -36,7 +36,6 @@ const DeliveryContactForm = ({
     initialValues: initialValues,
     validationSchema: deliveryContactSchema,
     onSubmit: async (values) => {
-      //Update api fot delivery contact
       const update = await updateDeliveryContact(
         customerDetails?.buyerId,
         values
@@ -71,7 +70,6 @@ const DeliveryContactForm = ({
   });
 
   useEffect(() => {
-    // Pre-populating customer delivery contact
     const customerDetailsBody = {
       firstName: customerDetails?.deliveryFirstName,
       lastName: customerDetails?.deliveryLastName,

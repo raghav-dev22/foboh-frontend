@@ -5,16 +5,13 @@ import React, {
   useState,
   useRef,
 } from "react";
-
 import Sort from "./Sort";
 import { Select, Space } from "antd";
-
 const stock = [
   { label: "In Stock", value: "inStock" },
   { label: "Low Stock", value: "lowStock" },
   { label: "Out of Stock", value: "outOfStock" },
 ];
-
 const status = [
   { label: "Active", value: "Active" },
   { label: "Inactive", value: "Inactive" },
@@ -106,19 +103,6 @@ const SearchProduct = forwardRef(
       )
         .then((response) => response.json())
         .then((data) => {
-          // console.log(
-          //   "cat drop",
-          //   data.map((i) => {
-          //     return {
-          //       categoryName: i.categoryName,
-          //       categoryId: i.categoryId,
-          //       subcategory: i.subcategoryId.map((c, n) => {
-          //         return { name: i.subCategorys[n], id: c };
-          //       }),
-          //     };
-          //   })
-          // );
-
           setCategoryAndSubcategory(
             data.map((i) => {
               return {
@@ -282,9 +266,7 @@ const SearchProduct = forwardRef(
           const existingIndex = prev.findIndex(
             (item) => item.cat === categoryName
           );
-
           if (existingIndex !== -1) {
-            // Update existing object if categoryName matches prev cat
             categoryList = [
               ...prev.slice(0, existingIndex),
               {
@@ -356,7 +338,7 @@ const SearchProduct = forwardRef(
         };
       } else if (name === "status") {
         const newStatusValues = e.target.checked
-          ? [...filterAndSort.filter.productStatus, id] // Replace id with the actual status value
+          ? [...filterAndSort.filter.productStatus, id]
           : filterAndSort.filter.productStatus.filter(
               (statusValue) => statusValue !== id
             );
@@ -395,7 +377,6 @@ const SearchProduct = forwardRef(
     };
 
     const handleSortChange = (sortBy, sortOrder) => {
-      // Handling pagination
       const newFilter = {
         ...filterAndSort.filter,
         page: pageIndex,
@@ -638,7 +619,7 @@ const SearchProduct = forwardRef(
                         {categoryAndSubcategory &&
                           categoryAndSubcategory.map((category, idx) => (
                             <li className="py-2.5 px-4  ">
-                              <div className="flex items-center">
+                              <div className="flex items-center green-checkbox">
                                 <input
                                   id={`${idx}-${category.categoryId}`}
                                   type="checkbox"
@@ -665,7 +646,7 @@ const SearchProduct = forwardRef(
                               </div>
 
                               {selectedCatId.includes(category.categoryId) && (
-                                <ul className="dropdown-content">
+                                <ul className="dropdown-content mt-3">
                                   <Select
                                     mode="multiple"
                                     style={{
