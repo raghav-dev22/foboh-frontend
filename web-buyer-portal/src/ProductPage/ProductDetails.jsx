@@ -204,7 +204,6 @@ const ProductDetails = () => {
                     className=" rounded-md h-[99px] flex justify-center  relative"
                   >
                     <img
-                      key={index}
                       src={image}
                       onClick={() => handleImageClick(image)}
                       className="  object-contain w-full cursor-pointer"
@@ -420,13 +419,15 @@ const ProductDetails = () => {
                             <p className="text-base font-normal text-[#2B4447] w-[200px]">
                               Grape variety:
                             </p>
-                           
-                              {selectData?.product?.variety.map(i => (
-                                <p className="text-xs font-semibold border py-1 px-2 rounded-md bg-slate-100 text-[#2B4447]">
-                                  {i}
-                                </p>
-                              ))}
-                          
+
+                            {selectData?.product?.variety.map((i, id) => (
+                              <p
+                                key={id}
+                                className="text-xs font-semibold border py-1 px-2 rounded-md bg-slate-100 text-[#2B4447]"
+                              >
+                                {i}
+                              </p>
+                            ))}
                           </div>
                         )}
                     </>
