@@ -467,7 +467,6 @@ const CreateOrderModal = ({
     removeAll
       ? success("Products removed from cart!")
       : error("Some error occurred, please try again!");
-
     removeAll && setCart([]);
   };
 
@@ -481,13 +480,11 @@ const CreateOrderModal = ({
             label: value.label,
             value: value.value,
           };
-
           if (newQuantityValue.value <= item.product.availableQty) {
             setUpdatedQuantity({
               ...item,
               quantity: newQuantityValue,
             });
-
             return {
               ...item,
               quantity: newQuantityValue,
@@ -501,7 +498,6 @@ const CreateOrderModal = ({
         return item;
       });
     };
-
     const updatedCartList = updateList();
     setCart(updatedCartList);
   };

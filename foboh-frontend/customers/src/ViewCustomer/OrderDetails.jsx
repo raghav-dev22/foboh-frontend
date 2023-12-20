@@ -396,6 +396,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
         });
     },
   });
+  console.log("errors", errors);
 
   const handleInputChange = () => {
     setShow(true);
@@ -1228,7 +1229,21 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
                             value={values?.deliveryNotes}
                             autoComplete="on"
                             placeholder="Notes here -"
+                            style={{
+                              border:
+                                errors.deliveryNotes &&
+                                touched.deliveryNotes &&
+                                "1px solid red",
+                            }}
                           />
+                          {errors.deliveryNotes && touched.deliveryNotes && (
+                            <p className="mt-2 mb-2 text-red-500 font-sm text-xs">
+                              {errors.deliveryNotes}
+                            </p>
+                          )}
+                          {errors.deliveryNotes && touched.deliveryNotes && (
+                            <ErrorOutlineIcon className="absolute text-red-500 top-[47px] right-5 transition-all duration-[0.3s] " />
+                          )}
                         </div>
                       </div>
                     </form>

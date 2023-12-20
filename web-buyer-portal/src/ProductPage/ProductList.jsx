@@ -886,6 +886,7 @@ const ProductList = () => {
       const newRegionAvailableIds = id.map((region) => region.key);
       const newRegionAvailableName = e;
 
+
       setRegionAvailability(id);
       id.length > 0 ? setFilter(true) : setFilter(false);
       const newFilter = {
@@ -1551,7 +1552,7 @@ const ProductList = () => {
                       {regionsAvailable.map((item, i) => {
                         return (
                           <React.Fragment key={item.value}>
-                            <Option value={item.label}>
+                            <Option value={item.label} key={item.value}>
                               <div className="flex items-center my-1">
                                 <label
                                   htmlFor="default-checkbox"
@@ -1775,7 +1776,7 @@ const ProductList = () => {
                       {tagsList?.map((item) => {
                         return (
                           <React.Fragment key={item.value}>
-                            <Option value={item.label}>
+                            <Option value={item.label} key={item.value}>
                               <div className="flex items-center my-1">
                                 <label
                                   htmlFor="default-checkbox"

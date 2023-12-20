@@ -33,7 +33,7 @@ import { getClientSecret } from "../helpers/getClientSecret";
 import { getCalculations } from "../helper/getCalculations";
 import { convertDefaultPaymentTermValue } from "../helpers/invoiceDateFormat";
 import { formatDate } from "../helpers/formatDateToPaymentDueDate";
-
+let statesData = [];
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
 
@@ -186,10 +186,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         addressSubmission(buyerInfo, "billing-address");
         addressSubmission(buyerInfo, "delivery-contact");
       })
-      .then(() => {
-        let statesData = [];
-
-        getStates().then((data) => {
+      .then(async () => {
+        await getStates().then((data) => {
           statesData = data.map((state) => {
             return {
               label: state.stateName,
@@ -198,12 +196,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           });
         });
 
-        getAddress("delivery-address").then((data) => {
+        await getAddress("delivery-address").then((data) => {
           if (data.success) {
-            setTimeout(() => {
-              setLoadingData(false);
-            }, 2000);
-
             const buyerData = data?.data[0];
             const buyerState = statesData?.find(
               (state) => state?.label === buyerData.state
@@ -220,10 +214,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           }
         });
 
-        getAddress("billing-address").then((data) => {
-          setTimeout(() => {
-            setLoadingData(false);
-          }, 2000);
+        await getAddress("billing-address").then((data) => {
           if (data.success) {
             const buyerData = data?.data[0];
             const buyerState = statesData.find(
@@ -240,10 +231,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             setBillingAddressData(billingAddress);
           }
         });
-        getAddress("delivery-contact").then((data) => {
-          setTimeout(() => {
-            setLoadingData(false);
-          }, 2000);
+        await getAddress("delivery-contact").then((data) => {
           const buyerData =
             data?.data?.length && data?.data?.length > 0 && data?.data[0];
           if (data.success) {
@@ -256,6 +244,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             setDeliveryContact(contactData);
           }
         });
+
+        setLoadingData(false);
       })
       .catch((error) => console.log(error));
   }, []);

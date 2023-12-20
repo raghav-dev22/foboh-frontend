@@ -104,7 +104,7 @@ function ViewCustomer() {
           setCustomerEdit(true);
           setShow(true);
           setIsOpen(false);
-          setIsBussiness(data.businessName);
+          setIsBussiness(data?.data?.businessName);
           setValues((prev) => {
             if (data.isActive === "1") {
               return {

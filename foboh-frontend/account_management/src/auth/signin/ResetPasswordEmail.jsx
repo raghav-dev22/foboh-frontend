@@ -38,7 +38,7 @@ const ResetPasswordEmail = () => {
               const userName = data.value[0].displayName;
               localStorage.setItem("userName", userName);
 
-              fetch(`${SMTP_URL}`, {
+              fetch(`${SMTP_URL}/api/notify/GenerateMailContentAndSendEmailSimply`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

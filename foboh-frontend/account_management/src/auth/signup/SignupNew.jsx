@@ -66,7 +66,7 @@ const SignupNew = () => {
               }
             } else {
               setEmailPresent(false);
-              fetch(`${SMTP_URL}`, {
+              fetch(`${SMTP_URL}/api/notify/GenerateMailContentAndSendEmailSimply`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
