@@ -1444,7 +1444,7 @@ function AddProduct() {
                             className="basic-multi-select "
                             classNamePrefix="select"
                           />
-                          {errors.subcategory && touched.subcategory && (
+                          {errors.subcategory && (
                             <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
                               {errors.subcategory}
                             </p>

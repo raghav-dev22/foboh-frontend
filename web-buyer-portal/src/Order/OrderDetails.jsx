@@ -109,7 +109,7 @@ const OrderDetails = () => {
         setCurrentStep(2);
       } else if (status === "Shipped") {
         setCurrentStep(3);
-      } else if (status === "Delivered") {
+      } else if (status === "Delivered" || status === "Complete") {
         setCurrentStep(4);
       }
     });

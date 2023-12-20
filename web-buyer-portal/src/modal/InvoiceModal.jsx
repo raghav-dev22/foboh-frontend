@@ -392,7 +392,7 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
             }
           );
           var dd = { content: val };
-          pdfMake.createPdf(dd).download();
+          pdfMake.createPdf(dd).download(`inovice-${orderId}`);
         })();
       }, 500);
     },

@@ -14,6 +14,13 @@ function CustomerAddress({
   setIsAddressChecked,
   isAddressChecked,
 }) {
+  const [prevBillingDetails, setPrevBillingDetails] = useState({
+    billingAddress: "",
+    billingApartment: "",
+    billingSuburb: "",
+    billingPostalCode: "",
+    billingState: "",
+  });
   const sameAddresses = (e) => {
     setIsAddressChecked(e.target.checked);
     if (e.target.checked) {
@@ -28,11 +35,7 @@ function CustomerAddress({
     } else {
       setValues({
         ...values,
-        billingAddress: "",
-        billingApartment: "",
-        billingSuburb: "",
-        billingPostalCode: "",
-        billingState: "",
+        ...prevBillingDetails,
       });
     }
   };
@@ -293,7 +296,15 @@ function CustomerAddress({
                 value={values?.billingAddress}
                 name="billingAddress"
                 onBlur={handleBlur}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevBillingDetails((prev) => {
+                    return {
+                      ...prev,
+                      billingAddress: e.target.value,
+                    };
+                  });
+                }}
                 style={{
                   border:
                     errors.billingAddress &&
@@ -323,7 +334,15 @@ function CustomerAddress({
                 type="text"
                 onBlur={handleBlur}
                 value={values.billingApartment}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevBillingDetails((prev) => {
+                    return {
+                      ...prev,
+                      billingApartment: e.target.value,
+                    };
+                  });
+                }}
                 placeholder="Enter Apartment"
                 name="billingApartment"
               />
@@ -345,7 +364,15 @@ function CustomerAddress({
                 onBlur={handleBlur}
                 name="billingSuburb"
                 value={values.billingSuburb}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevBillingDetails((prev) => {
+                    return {
+                      ...prev,
+                      billingSuburb: e.target.value,
+                    };
+                  });
+                }}
                 style={{
                   border:
                     errors.billingSuburb &&
@@ -373,7 +400,15 @@ function CustomerAddress({
                 className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded-md	 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevBillingDetails((prev) => {
+                    return {
+                      ...prev,
+                      billingPostalCode: e.target.value,
+                    };
+                  });
+                }}
                 onBlur={handleBlur}
                 value={values.billingPostalCode}
                 placeholder="Enter Postcode"
@@ -406,7 +441,15 @@ function CustomerAddress({
                 name="billingState"
                 options={stateOptions}
                 value={values?.billingState}
-                onChange={(e) => handleSelect(e, "billingState")}
+                onChange={(e) => {
+                  handleSelect(e, "billingState");
+                  setPrevBillingDetails((prev) => {
+                    return {
+                      ...prev,
+                      billingState: e,
+                    };
+                  });
+                }}
                 className="basic-multi-select "
                 classNamePrefix="select"
                 style={{

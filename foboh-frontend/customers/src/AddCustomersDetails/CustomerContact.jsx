@@ -7,12 +7,6 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
 import { useState } from "react";
-const initialValues = {
-  FirstName: "",
-  LastName: "",
-  Mobile: "",
-  Email: "",
-};
 
 function CustomerContact({
   values,
@@ -25,6 +19,13 @@ function CustomerContact({
   setIsChecked,
   isChecked,
 }) {
+  const [prevDeliveryContact, setPrevDeliveryContact] = useState({
+    deliveryFirstName: "",
+    deliveryLastName: "",
+    deliveryEmail: "",
+    deliveryMobile: "",
+  });
+
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
@@ -55,16 +56,13 @@ function CustomerContact({
     } else {
       setValues({
         ...values,
-        deliveryFirstName: "",
-        deliveryLastName: "",
-        deliveryEmail: "",
-        deliveryMobile: "",
+        ...prevDeliveryContact,
       });
     }
   };
   return (
     <>
-      <div className="  ">
+      <div>
         <div className=" border-b	 border-inherit sm:px-5 sm:py-4 py-3 px-4">
           <h6 className="text-base	font-medium	 text-green">Customer contacts</h6>
         </div>
@@ -262,7 +260,12 @@ function CustomerContact({
                 value={values.deliveryFirstName}
                 type="text"
                 placeholder="Enter Frist Name"
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevDeliveryContact((prev) => {
+                    return { ...prev, deliveryFirstName: e.target.value };
+                  });
+                }}
                 onBlur={handleBlur}
                 style={{
                   border:
@@ -294,7 +297,12 @@ function CustomerContact({
                 name="deliveryLastName"
                 value={values.deliveryLastName}
                 placeholder="Enter Last Name"
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevDeliveryContact((prev) => {
+                    return { ...prev, deliveryLastName: e.target.value };
+                  });
+                }}
                 onBlur={handleBlur}
                 style={{
                   border:
@@ -342,7 +350,12 @@ function CustomerContact({
                 name="deliveryMobile"
                 maxLength={20}
                 value={values.deliveryMobile}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevDeliveryContact((prev) => {
+                    return { ...prev, deliveryMobile: e.target.value };
+                  });
+                }}
                 onBlur={handleBlur}
                 style={{
                   border:
@@ -374,7 +387,12 @@ function CustomerContact({
                 placeholder="Enter Delivery Mail"
                 name="deliveryEmail"
                 value={values.deliveryEmail}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setPrevDeliveryContact((prev) => {
+                    return { ...prev, deliveryEmail: e.target.value };
+                  });
+                }}
                 onBlur={handleBlur}
                 style={{
                   border:

@@ -482,6 +482,7 @@ const SearchProduct = forwardRef(
               sortOrder: "",
             },
           };
+          saveInput("filterAndSort", filterAndSort);
         }
       }, 3000);
 
