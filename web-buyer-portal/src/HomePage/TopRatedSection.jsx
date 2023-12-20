@@ -25,7 +25,6 @@ function TopRatedSection() {
       .then((data) => {
         if (data.success) {
           setCartData(data.data);
-          console.log(data.data);
         } else {
           setCartData([]);
         }

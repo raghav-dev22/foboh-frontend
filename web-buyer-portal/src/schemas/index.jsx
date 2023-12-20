@@ -343,9 +343,8 @@ export const DeliveryAddressEditSchema = Yup.object().shape({
   Postcode: Yup.string()
     .matches(/^\d{4}$/, "Invalid postcode")
     .required("postcode is required"),
-  Notes: Yup.string()
-    .required("Delivery Instruction/Notes is required")
-    .max(50),
+  Notes: Yup.string().required("Delivery Instruction/Notes is required"),
+  // .max(50),
 });
 
 export const BillingAddressCheckoutSchema = Yup.object().shape({

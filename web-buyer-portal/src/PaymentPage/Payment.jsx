@@ -134,6 +134,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
+  const [deliveryAddress, setDeliveryAddress] = useState({});
+  const [billingAddressData, setBillingAddressData] = useState({});
+  const [deliveryContact, setDeliveryContact] = useState({});
   const errorMessage = (error) => {
     messageApi.open({
       type: "error",
@@ -274,10 +277,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const stripe = useStripe();
   const elements = useElements();
   const options = useOptions();
-
-  const [deliveryAddress, setDeliveryAddress] = useState({});
-  const [billingAddressData, setBillingAddressData] = useState({});
-  const [deliveryContact, setDeliveryContact] = useState({});
 
   const handleSubmit = async (event) => {
     await refetch();

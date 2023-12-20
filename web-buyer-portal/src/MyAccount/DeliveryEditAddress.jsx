@@ -27,9 +27,7 @@ const DeliveryEditAddress = ({
     State: {},
     Notes: "",
   });
-
   const [states, setStates] = useState([]);
-
   const { useToken } = theme;
   const { token } = useToken();
 
@@ -67,18 +65,11 @@ const DeliveryEditAddress = ({
     getStates().then((data) => {
       statesData = data?.map((state) => {
         return {
-          lable: state.stateName,
+          label: state.stateName,
           value: state.stateId,
         };
       });
-      setStates(
-        data.map((state) => {
-          return {
-            lable: state.stateName,
-            value: state.stateId,
-          };
-        })
-      );
+      setStates(statesData);
     });
 
     getAddress("delivery-address").then((data) => {
@@ -130,13 +121,13 @@ const DeliveryEditAddress = ({
     setValues(() => {
       return {
         ...initialValues,
-        State: initialValues.State.lable,
+        State: initialValues?.State?.lable,
       };
     });
     setDeliveryAddress(() => {
       return {
         ...initialValues,
-        State: initialValues.State.lable,
+        State: initialValues?.State?.lable,
       };
     });
     setEditDelivery(!editDelivery);
