@@ -24,7 +24,7 @@ const RegistrationEmail = () => {
   const handleResendLink = () => {
     // const url = process.env.REACT_APP_URL
     //Resend Link
-    fetch(`${SMTP_URL}`, {
+    fetch(`${SMTP_URL}/api/notify/GenerateMailContentAndSendEmailSimply`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
