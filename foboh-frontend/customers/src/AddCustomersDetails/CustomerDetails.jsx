@@ -313,6 +313,7 @@ function CustomerDetails() {
           />
         ) : activeStep === 1 ? (
           <CustomerContact
+          
             touched={formik.touched}
             options={options}
             values={formik.values}

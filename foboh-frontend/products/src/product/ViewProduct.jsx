@@ -172,15 +172,17 @@ function ViewProduct() {
     setInnerUnitMeasureSelect(innerUnitMeasureList);
 
     // Setting department list according to org settings
-    const departments = organisationData?.departmentList?.map((item) => {
-      const selectedDepartment = departmentsData?.find(
-        (depItem) => item === depItem?.departmentId
-      );
-      return {
-        label: selectedDepartment?.departmentName,
-        value: selectedDepartment?.departmentId,
-      };
-    });
+    const departments = organisationData?.departmentList
+      ?.map((item) => {
+        const selectedDepartment = departmentsData?.find(
+          (depItem) => item === depItem?.departmentId
+        );
+        return {
+          label: selectedDepartment?.departmentName,
+          value: selectedDepartment?.departmentId,
+        };
+      })
+      .filter((i) => i);
 
     departments?.label === "Beverage"
       ? (isBeverage = true)
@@ -624,6 +626,7 @@ function ViewProduct() {
         : addProductSchema,
       onSubmit: (values) => {},
     });
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -694,7 +697,7 @@ function ViewProduct() {
             variety: values?.grapeVariety.map((item) => {
               return item?.label;
             }),
-            vintage: values?.vintage.toString() || "0",
+            vintage: values?.vintage.toString() || "",
             abv: values?.abv,
             globalPrice: values?.salePrice,
             luCcost: values?.landedUnitCost ? values.landedUnitCost : 0,
@@ -1918,15 +1921,16 @@ function ViewProduct() {
                             </h5>
                             <div className="w-full">
                               <Select
-                                name="colors"
+                                name="subcategory"
                                 options={subCategory?.length ? subCategory : []}
                                 // isDisabled={!subCategory?.length}
                                 value={values?.subcategory}
                                 onChange={handleSubCategoryChange}
                                 className="basic-multi-select "
                                 classNamePrefix="select"
+                                onBlur={handleBlur}
                               />
-                              {errors.subcategory && touched.subcategory && (
+                              {errors.subcategory && (
                                 <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
                                   {errors.subcategory}
                                 </p>

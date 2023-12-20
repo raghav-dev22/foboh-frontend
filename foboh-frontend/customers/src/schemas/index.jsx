@@ -4,16 +4,14 @@ import * as Yup from "yup";
 export const AddCustomerSchema = Yup.object().shape({
   businessName: Yup.string()
     .max(50)
-    .min(2, "Business name should have atleast 2 letters")
-    .required("Business name is required"),
-  abn: Yup.string()
-    .min(2, "ABN should have atleast 2 letters")
-    .max(50)
-    .required("ABN is required"),
+    .min(2, "Business name should have atleast 2 letters"),
+  abn: Yup.string().min(2, "ABN should have atleast 2 letters").max(50),
+
   // liquorLicence: Yup.string()
-  liquorLicence: Yup.string()
-    .max(13, "Liquor licence cannot be more than 13 characters")
-    .required("Liquor licence is required"),
+  liquorLicence: Yup.string().max(
+    13,
+    "Liquor licence cannot be more than 13 characters"
+  ),
 
   //customers-contact
 
@@ -73,9 +71,9 @@ export const AddCustomerSchema = Yup.object().shape({
     .required("postcode is required"),
 
   deliveryNotes: Yup.string()
-    .min(2, "postalCode should have atleast 5 letters")
-    .max(50)
-    .required("postalCode name is required"),
+    .min(2, "Delivery instructions should have atleast 5 letters")
+    .max(50, "Delivery instructions must be at most 50 characters.")
+    .required("Delivery instructions name is required"),
   state: Yup.mixed().required("State is required"),
 
   billingAddress: Yup.string()
@@ -200,6 +198,5 @@ export const ViewCustomerDetails = Yup.object().shape({
     .required("ABN is required"),
   liquorLicence: Yup.string()
     .min(13, "Liquor licence cannot be more than 13 characters")
-    .max(13, "Liquor licence cannot be more than 13 characters")
-    .required("Liquor licence is required"),
+    .max(13, "Liquor licence cannot be more than 13 characters"),
 });
