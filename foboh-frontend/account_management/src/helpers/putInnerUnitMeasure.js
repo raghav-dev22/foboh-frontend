@@ -1,5 +1,6 @@
 export const putInnerUnitMeasure = async (value) => {
   const organisationId = localStorage.getItem("organisationId");
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
 
   const body = value.map((item) => {
     return {
@@ -10,7 +11,7 @@ export const putInnerUnitMeasure = async (value) => {
   });
 
   const response = await fetch(
-    `https://masters-api-foboh.azurewebsites.net/api/innerUnitOfMeasure/InnerUnitbulkupdate?OrganisationID=${organisationId}`,
+    `${mastersUrl}/api/innerUnitOfMeasure/InnerUnitbulkupdate?OrganisationID=${organisationId}`,
     {
       method: "PUT",
       headers: {

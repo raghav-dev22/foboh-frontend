@@ -44,6 +44,9 @@ let departmentList = [];
 let categoryListVar = [];
 
 function Organisation() {
+  const organisationUrl = process.env.REACT_APP_ORGANISATION_URL;
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const navigate = useNavigate();
   const [baseUnitModalOpen, setBaseUnitModalOpen] = useState(false);
   const [innerUnitModalOpen, setInnerUnitModalOpen] = useState(false);
@@ -109,54 +112,51 @@ function Organisation() {
     onSubmit: (values) => {
       saveDetails();
       if (!localStorage.getItem("organisationId")) {
-        fetch(
-          "https://organization-api-foboh.azurewebsites.net/api/Organization/create",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              tradingName: values.tradingName,
-              businessName: values.businessName,
-              liquorLicense: values.liquorLicence,
-              abn: values.abn,
-              categories: "",
-              organisationlogo: logoUri,
-              description: values?.description,
-              orderingContactFirstName: values.orderingContactFirstName,
-              orderingContactLastName: values.orderingContactLastName,
-              orderingContactMobile: values.orderingContactMobile,
-              orderingContactEmail: values.orderingContactEmail,
-              logisticsContactFirstName: values.logisticsContactFirstName,
-              logisticsContactLastName: values.logisticsContactLastName,
-              logisticsContactMobile: values.logisticsContactMobile,
-              logisticsContactEmail: values.logisticsContactEmail,
-              organisationAddress: values.organisationAddress,
-              apartment: values.organisationAddress,
-              city: "",
-              state: values.state,
-              suburb: values.organisationAddressSuburb,
-              postcode: values.organisationAddressPostcode,
-              country: "",
-              billingAddress: values.billingAddress,
-              billingAddressApartment: values.billingAddressApartment,
-              billingAddressSuburb: values.billingAddressSuburb,
-              billingAddressPostCode: values.billingAddressPostcode,
-              billingAddressState: values.billingAddressState,
-              categoryList: values.categoryList?.map((obj) => {
-                return `${obj.value}`;
-              }),
-              departmentList: values.departments?.map((obj) => {
-                return `${obj.value}`;
-              }),
-              isActive: true,
-              catalogueName: "string",
-              noofProducts: "string",
-              catalogueStatus: "string",
+        fetch(`${organisationUrl}/api/Organization/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tradingName: values.tradingName,
+            businessName: values.businessName,
+            liquorLicense: values.liquorLicence,
+            abn: values.abn,
+            categories: "",
+            organisationlogo: logoUri,
+            description: values?.description,
+            orderingContactFirstName: values.orderingContactFirstName,
+            orderingContactLastName: values.orderingContactLastName,
+            orderingContactMobile: values.orderingContactMobile,
+            orderingContactEmail: values.orderingContactEmail,
+            logisticsContactFirstName: values.logisticsContactFirstName,
+            logisticsContactLastName: values.logisticsContactLastName,
+            logisticsContactMobile: values.logisticsContactMobile,
+            logisticsContactEmail: values.logisticsContactEmail,
+            organisationAddress: values.organisationAddress,
+            apartment: values.organisationAddress,
+            city: "",
+            state: values.state,
+            suburb: values.organisationAddressSuburb,
+            postcode: values.organisationAddressPostcode,
+            country: "",
+            billingAddress: values.billingAddress,
+            billingAddressApartment: values.billingAddressApartment,
+            billingAddressSuburb: values.billingAddressSuburb,
+            billingAddressPostCode: values.billingAddressPostcode,
+            billingAddressState: values.billingAddressState,
+            categoryList: values.categoryList?.map((obj) => {
+              return `${obj.value}`;
             }),
-          }
-        )
+            departmentList: values.departments?.map((obj) => {
+              return `${obj.value}`;
+            }),
+            isActive: true,
+            catalogueName: "string",
+            noofProducts: "string",
+            catalogueStatus: "string",
+          }),
+        })
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
@@ -194,54 +194,51 @@ function Organisation() {
           .catch((error) => console.log(error));
       } else {
         const orgId = localStorage.getItem("organisationId");
-        fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/update?id=${orgId}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              tradingName: values.tradingName,
-              businessName: values.businessName,
-              liquorLicense: values.liquorLicence,
-              abn: values.abn,
-              categories: "",
-              organisationlogo: logoUri ? logoUri : "",
-              description: values.description,
-              orderingContactFirstName: values.orderingContactFirstName,
-              orderingContactLastName: values.orderingContactLastName,
-              orderingContactMobile: values.orderingContactMobile,
-              orderingContactEmail: values.orderingContactEmail,
-              logisticsContactFirstName: values.logisticsContactFirstName,
-              logisticsContactLastName: values.logisticsContactLastName,
-              logisticsContactMobile: values.logisticsContactMobile,
-              logisticsContactEmail: values.logisticsContactEmail,
-              organisationAddress: values.organisationAddress,
-              apartment: values.organisationAddressApartment,
-              city: "",
-              state: values.state?.label,
-              postcode: values.organisationAddressPostcode,
-              country: "",
-              suburb: values.organisationAddressSuburb,
-              billingAddress: values.billingAddress,
-              billingAddressApartment: values.billingAddressApartment,
-              billingAddressSuburb: values.billingAddressSuburb,
-              billingAddressPostCode: values.billingAddressPostcode,
-              billingAddressState: values.billingAddressState?.label,
-              departmentList: values.departments?.map((obj) => {
-                return `${obj.value}`;
-              }),
-              categoryList: values.categoryList?.map((obj) => {
-                return `${obj.value}`;
-              }),
-              isActive: true,
-              catalogueName: "string",
-              noofProducts: "string",
-              catalogueStatus: "string",
+        fetch(`${organisationUrl}/api/Organization/update?id=${orgId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tradingName: values.tradingName,
+            businessName: values.businessName,
+            liquorLicense: values.liquorLicence,
+            abn: values.abn,
+            categories: "",
+            organisationlogo: logoUri ? logoUri : "",
+            description: values.description,
+            orderingContactFirstName: values.orderingContactFirstName,
+            orderingContactLastName: values.orderingContactLastName,
+            orderingContactMobile: values.orderingContactMobile,
+            orderingContactEmail: values.orderingContactEmail,
+            logisticsContactFirstName: values.logisticsContactFirstName,
+            logisticsContactLastName: values.logisticsContactLastName,
+            logisticsContactMobile: values.logisticsContactMobile,
+            logisticsContactEmail: values.logisticsContactEmail,
+            organisationAddress: values.organisationAddress,
+            apartment: values.organisationAddressApartment,
+            city: "",
+            state: values.state?.label,
+            postcode: values.organisationAddressPostcode,
+            country: "",
+            suburb: values.organisationAddressSuburb,
+            billingAddress: values.billingAddress,
+            billingAddressApartment: values.billingAddressApartment,
+            billingAddressSuburb: values.billingAddressSuburb,
+            billingAddressPostCode: values.billingAddressPostcode,
+            billingAddressState: values.billingAddressState?.label,
+            departmentList: values.departments?.map((obj) => {
+              return `${obj.value}`;
             }),
-          }
-        )
+            categoryList: values.categoryList?.map((obj) => {
+              return `${obj.value}`;
+            }),
+            isActive: true,
+            catalogueName: "string",
+            noofProducts: "string",
+            catalogueStatus: "string",
+          }),
+        })
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
@@ -297,7 +294,7 @@ function Organisation() {
     const orgId = localStorage.getItem("organisationId");
     let states = [];
 
-    fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
+    fetch(`${mastersUrl}/api/State`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -314,7 +311,7 @@ function Organisation() {
       });
 
     if (orgId) {
-      fetch(`https://masters-api-foboh.azurewebsites.net/api/Category/get`, {
+      fetch(`${mastersUrl}/api/Category/get`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -333,7 +330,7 @@ function Organisation() {
         })
         .then(() => {
           fetch(
-            `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${orgId}`,
+            `${organisationUrl}/api/Organization/get?organizationId=${orgId}`,
             {
               method: "GET",
             }
@@ -558,7 +555,7 @@ function Organisation() {
 
         const orgId = localStorage.getItem("organisationId");
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
+          `${organisationUrl}/api/Organization/UploadOrganizationImage?organisationID=${orgId}`,
           {
             method: "POST",
             body: formData,

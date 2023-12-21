@@ -1,4 +1,4 @@
-export const orderStatusUpdate = () => {
+export const orderStatusUpdate = async () => {
   const orderId = localStorage.getItem("orderId");
   const { deliveryEmail, businessName } = JSON.parse(
     localStorage.getItem("buyerInfo")

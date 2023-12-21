@@ -343,7 +343,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         } else {
           setLoading(false);
 
-          paymentProcessUpdate(
+          await paymentProcessUpdate(
             orderId,
             cardHolderName,
             paymentIntent.status,
@@ -351,8 +351,8 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             OrderPaymentIntentId
           );
 
-          cartStatusUpdate();
-          orderStatusUpdate();
+          await cartStatusUpdate();
+          await orderStatusUpdate();
           countDown("payNow", "");
         }
       }
@@ -430,15 +430,15 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             errorMessage(error.message);
           } else {
             setLoading(false);
-            paymentProcessUpdate(
+            await paymentProcessUpdate(
               localStorage.getItem("orderId"),
               cardHolderName,
               paymentIntent.status,
               paymentIntent.id,
               paymentIntent.id
             );
-            cartStatusUpdate();
-            orderStatusUpdate();
+            await cartStatusUpdate();
+            await orderStatusUpdate();
             countDown("payLater", convertedPaymentDueDate);
           }
         }

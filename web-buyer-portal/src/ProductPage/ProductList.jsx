@@ -184,7 +184,7 @@ const ProductList = () => {
           brand: data?.brand,
           departmentId: data?.departmentId,
           categoryId: data?.categoryId,
-          subCategoryId: data?.subCategoryId,
+          subCategoryId: data?.subCategoryId ? data?.subCategoryId : "",
           segmentId: data?.segmentId,
           variety: [],
           vintage: data?.vintage,

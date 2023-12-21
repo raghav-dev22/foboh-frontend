@@ -1,8 +1,9 @@
 export const getAllOrders = async (filter) => {
   try {
+    const allOrdersUrl = process.env.REACT_APP_OMS_SUPPLIER_URL;
     const organisationId = localStorage.getItem("organisationId");
     const response = await fetch(
-      `https://omsupplierfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/OMSupplier/Filter?OrganisationId=${organisationId}`,
+      `${allOrdersUrl}/api/OMSupplier/OMSupplier/Filter?OrganisationId=${organisationId}`,
       {
         method: "POST",
         headers: {

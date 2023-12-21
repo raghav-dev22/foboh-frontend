@@ -1,5 +1,5 @@
-const url = process.env.REACT_APP_MASTERS_URL;
 export const getDepartments = async () => {
+  const url = process.env.REACT_APP_MASTERS_URL;
   try {
     const response = await fetch(`${url}/api/Department/get`, {
       method: "GET",
@@ -17,9 +17,10 @@ export const getDepartments = async () => {
 };
 
 export const getCategories = async (departmentNames) => {
+  const masterUrl = process.env.REACT_APP_MASTERS_URL;
   try {
     const response = await fetch(
-      `https://masters-api-foboh.azurewebsites.net/api/Category/getDepartmentbyName`,
+      `${masterUrl}/api/Category/getDepartmentbyName`,
       {
         method: "POST",
         headers: {

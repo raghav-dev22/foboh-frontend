@@ -33,6 +33,9 @@ import {
 import { useSelector } from "react-redux";
 
 const BankingInformation = () => {
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
+
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
@@ -145,7 +148,7 @@ const BankingInformation = () => {
   };
 
   useEffect(() => {
-    fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
+    fetch(`${mastersUrl}/api/State`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -161,7 +164,7 @@ const BankingInformation = () => {
       });
 
     fetch(
-      "https://masters-api-foboh.azurewebsites.net/api/BusinessType/options",
+      `${mastersUrl}/api/BusinessType/options`,
       {
         method: "GET",
       }

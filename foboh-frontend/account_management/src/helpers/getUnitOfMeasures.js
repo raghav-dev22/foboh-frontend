@@ -1,7 +1,9 @@
 export const getInnerUnitMeasureList = async () => {
   const organisationId = localStorage.getItem("organisationId");
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const response = await fetch(
-    `https://masters-api-foboh.azurewebsites.net/api/innerUnitOfMeasure/get?OrganisationID=${organisationId}`,
+    `${mastersUrl}/api/innerUnitOfMeasure/get?OrganisationID=${organisationId}`,
     {
       method: "GET",
     }
@@ -18,9 +20,10 @@ export const getInnerUnitMeasureList = async () => {
 
 export const getbaseUnitMeasureList = async () => {
   const organisationId = localStorage.getItem("organisationId");
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
 
   const baseUnitMeasureResponse = await fetch(
-    `https://masters-api-foboh.azurewebsites.net/api/baseUnitMeasure/get?OrganisationID=${organisationId}`,
+    `${mastersUrl}/api/baseUnitMeasure/get?OrganisationID=${organisationId}`,
     {
       method: "GET",
     }

@@ -2,18 +2,41 @@ import React, { useEffect, useState } from "react";
 import Carousel from "better-react-carousel";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../slices/CartSlice";
-import { theme } from "antd";
+import { add, setCart } from "../slices/CartSlice";
+import {
+  theme,
+  Select,
+  Space,
+  Skeleton,
+  Pagination,
+  Slider,
+  message,
+} from "antd";
 
 function TopRatedSection() {
   const [CartData, setCartData] = useState([]);
   const { useToken } = theme;
   const { token } = useToken();
   const dispatch = useDispatch();
-  const addCart = (item, id) => {
-    dispatch(add(item, id));
-  };
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const url = process.env.REACT_APP_PRODUCTS_URL;
+
   const catalogueId = localStorage.getItem("catalogueId");
+
+  const warning = (message) => {
+    messageApi.open({
+      type: "warning",
+      content: message,
+    });
+  };
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Product added successfully!",
+    });
+  };
+
   useEffect(() => {
     const topRated = "Top rated";
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/GetTopratedTag?TopRatedtags=${topRated}&page=1&CatalogueId=${catalogueId}`;
@@ -34,8 +57,91 @@ function TopRatedSection() {
         console.error("There was a problem with the fetch operation:", error);
       });
   }, []);
+
+  const addCart = (id, itemData, actionType) => {
+    const data = itemData;
+    const quantity = itemData?.minimumOrder;
+    const availableQty = itemData.availableQty;
+
+    const { buyerId, organisationId } = JSON.parse(
+      localStorage.getItem("buyerInfo")
+    );
+
+    if (quantity <= availableQty) {
+      fetch(`${url}/api/Product/AddToCart`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          buyerId: buyerId,
+          productId: data?.productId,
+          title: data?.title,
+          description: data?.description,
+          articleId: data?.articleID,
+          skUcode: data?.skUcode,
+          productImageUrls: data?.productImageUrls,
+          unitofMeasure: data?.unitofMeasure,
+          innerUnitofMeasure: data?.innerUnitofMeasure,
+          configuration: data?.configuration,
+          award: data?.award,
+          brand: data?.brand,
+          departmentId: data?.departmentId,
+          categoryId: data?.categoryId,
+          subCategoryId: data?.subCategoryId ? data?.subCategoryId : "",
+          segmentId: data?.segmentId,
+          variety: [],
+          vintage: data?.vintage,
+          abv: data?.abv,
+          globalPrice: data?.globalPrice,
+          luCcost: data?.luCcost,
+          buyPrice: data?.buyPrice,
+          gstFlag: true,
+          wetFlag: true,
+          trackInventory: true,
+          region: data?.region ? data?.region : "",
+          availableQty: data?.availableQty,
+          quantity: quantity,
+          stockThreshold: data?.stockThreshold,
+          stockStatus: data?.stockStatus,
+          regionAvailability: data?.regionAvailability,
+          productStatus: data?.productStatus,
+          visibility: data?.visibility,
+          minimumOrder: data?.minimumOrder,
+          tags: data?.tags,
+          countryOfOrigin: data?.countryOfOrigin || "",
+          barcodes: data?.barcodes,
+          esgStatus: data?.esgStatus,
+          healthRating: data?.healthRating,
+          organisationId: organisationId,
+          isActive: true,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            success();
+            const cartId = data.data[0].cartId;
+            const updatedCartList = data?.data.map((item) => {
+              return {
+                product: item,
+                quantity: item?.quantity,
+              };
+            });
+            dispatch(setCart(updatedCartList));
+            localStorage.setItem("cartId", cartId);
+          } else {
+            warning(data.message);
+          }
+        });
+    } else {
+      warning(`Please add product below available quantity ${availableQty}`);
+    }
+  };
+
   return (
     <>
+      {contextHolder}
       <style>
         {`
       .top-rated-section .dZkckO:hover,.top-rated-section .bBfHpH:hover {
@@ -66,23 +172,25 @@ function TopRatedSection() {
                       <img
                         className="w-full object-contain h-[250px] "
                         src={item?.productImageUrls[0]}
+                        alt="productImage"
                       />
                     ) : (
                       <img
                         className="w-full object-cover h-[250px] "
                         src="/assets/top-rated.png"
+                        alt="top-rated"
                       />
                     )}
-
-                    <div className="absolute top-[15px] right-[15px]">
-                      <div className="rounded-[4px] py-[3px] px-[15px] bg-[#DC2626]">
-                        <p className="text-white font-bold text-center">
-                          Promo
-                        </p>
+                    {item?.tags?.some((i) => i === "Promo") && (
+                      <div className="absolute top-[15px] right-[15px]">
+                        <div className="rounded-[4px] py-[3px] px-[15px] bg-[#DC2626]">
+                          <p className="text-white font-bold text-center">
+                            Promo
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
-
                   <div className=" flex flex-col justify-between lg:p-8 p-3 h-[240px]">
                     <div className=" ">
                       <h2 className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm">
@@ -96,7 +204,7 @@ function TopRatedSection() {
                       className="py-3 lg:px-7 px-3  rounded-md   bg-[#563FE3] w-fit mx-auto cursor-pointer"
                       style={{ background: token.buttonThemeColor }}
                       onClick={() => {
-                        addCart(item, item?.productId);
+                        addCart(item?.productId, item, "increment");
                       }}
                     >
                       <h6 className="font-semibold text-white text-center md:text-base text-sm">

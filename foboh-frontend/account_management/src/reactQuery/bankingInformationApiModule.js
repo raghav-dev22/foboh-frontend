@@ -2,9 +2,10 @@
 export const getBankingInformation = async () => {
   try {
     const organisationId = localStorage.getItem("organisationId");
+    const bankingInfoUrl = process.env.REACT_APP_BANKING_INFO_URL;
 
     response = await fetch(
-      `https://fobohonboardingbankinginfosettingswebapi.azurewebsites.net/api/BankingInfoSettings/getSetupbankingInfoByOrganisationID?OrganisationID=${organisationId}`,
+      `${bankingInfoUrl}/api/BankingInfoSettings/getSetupbankingInfoByOrganisationID?OrganisationID=${organisationId}`,
       {
         method: "GET",
       }
@@ -23,6 +24,8 @@ export const getBankingInformation = async () => {
 
 // Submitting bankingInformation
 export const postBankingInformations = async (values) => {
+  const bankingInfoUrl = process.env.REACT_APP_BANKING_INFO_URL;
+
   try {
     const {
       businessType,
@@ -56,7 +59,7 @@ export const postBankingInformations = async (values) => {
     } = values;
 
     const response = await fetch(
-      "https://fobohonboardingbankinginfosettingswebapi.azurewebsites.net/api/BankingInfoSettings/BankingInfoSettingsSubmission",
+      `${bankingInfoUrl}/api/BankingInfoSettings/BankingInfoSettingsSubmission`,
       {
         method: "POST",
         headers: {
@@ -110,6 +113,8 @@ export const postBankingInformations = async (values) => {
 
 // Editing bankingInformation
 export const putBankingInformations = async (values) => {
+  const bankingInfoUrl = process.env.REACT_APP_BANKING_INFO_URL;
+
   try {
     const {
       businessType,
@@ -143,7 +148,7 @@ export const putBankingInformations = async (values) => {
     } = values;
 
     const response = await fetch(
-      "https://fobohonboardingbankinginfosettingswebapi.azurewebsites.net/api/BankingInfoSettings/UpdateBankingInfoSettings",
+      `${bankingInfoUrl}/api/BankingInfoSettings/UpdateBankingInfoSettings`,
       {
         method: "PUT",
         headers: {

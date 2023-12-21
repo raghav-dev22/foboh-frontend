@@ -10,8 +10,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useQuery } from "react-query";
 import { getCart } from "../react-query/cartApiModule";
 const PaymentDetail = () => {
+  // DEV
+  // const stripePromise = loadStripe(
+  //   "pk_test_51NcFuWKrTbQIkCohQ431xjnc6S9GjcWEuCVW79nVJmpAyn92EPghuk5DZcMzI9Cq9ZFAhWGLnr0AQxVkbA8L39mK00mcbrhKr4"
+  // );
+
+  //TEST
   const stripePromise = loadStripe(
-    "pk_test_51NcFuWKrTbQIkCohQ431xjnc6S9GjcWEuCVW79nVJmpAyn92EPghuk5DZcMzI9Cq9ZFAhWGLnr0AQxVkbA8L39mK00mcbrhKr4"
+    "pk_test_51OPUVMHFtpPkFEKT9BYRmMAsRgh3YrbvdbKznKZpE6V5jfKSeGTERB5Fim7UGNPeFSurgmJWQzVsxK6YCiozezcG00d3Ub0XiC"
   );
 
   // Fetching cart data

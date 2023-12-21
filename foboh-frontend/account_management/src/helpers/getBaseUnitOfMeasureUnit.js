@@ -1,6 +1,8 @@
 export const baseUnitMeasureUnit = async () => {
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const baseUnitOfMeasure = await fetch(
-    "https://masters-api-foboh.azurewebsites.net/api/BaseUOM",
+    `${mastersUrl}/api/BaseUOM`,
     {
       method: "GET",
     }
