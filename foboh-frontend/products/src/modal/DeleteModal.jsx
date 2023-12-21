@@ -9,7 +9,6 @@ const DeleteModal = ({ open, onOk, onCancel, setDeleteModalOpen }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const productUrl = process.env.REACT_APP_PRODUCT_API_URL;
-
   const handleDelete = async () => {
     const catalogueId = localStorage.getItem("catalogueId");
     await fetch(`${productUrl}/api/Delete/${id}?CatalogueId=${catalogueId}`, {
@@ -18,13 +17,11 @@ const DeleteModal = ({ open, onOk, onCancel, setDeleteModalOpen }) => {
       .then((response) => response.json())
       .then((data) => {})
       .catch((error) => console.log(error));
-
     setDeleteModalOpen(false);
     localStorage.setItem("productDelete", true);
     const timeout = setTimeout(() => {
       navigate("/dashboard/products");
     }, 1000);
-
     return () => clearInterval(timeout);
   };
 
