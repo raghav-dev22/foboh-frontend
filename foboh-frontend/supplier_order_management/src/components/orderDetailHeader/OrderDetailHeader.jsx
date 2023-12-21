@@ -31,9 +31,13 @@ const OrderDetailHeader = ({
   const [updatedOrderStatus, setUpdatedOrderStatus] = useState("");
   const [isOrderList, setIsOrderList] = useState(false);
   const [paymentStatusModal, setPaymentStatusModal] = useState(false);
-
+  console.log(orderStatus, "orderStatus");
   const handlePaymentStatus = () => {
-    setPaymentStatusDropdown(!paymentStatusDropdown);
+    if (orderStatus !== "Cancelled" && orderStatus !== "Paid") {
+      setPaymentStatusDropdown(!paymentStatusDropdown);
+    } else {
+      setPaymentStatusDropdown(paymentStatusDropdown);
+    }
   };
 
   // Handle for payment status change

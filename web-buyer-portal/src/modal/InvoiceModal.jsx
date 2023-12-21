@@ -15,6 +15,10 @@ const InvoiceModal = forwardRef(({}, ref) => {
     ) {
       setTimeout(() => {
         (async function () {
+          console.log(
+            invoiceData?.organisationlogo,
+            "invoiceData?.organisationlogo"
+          );
           let blob = await fetch(invoiceData?.organisationlogo, {
             method: "GET",
             mode: "cors",
@@ -128,13 +132,13 @@ const InvoiceModal = forwardRef(({}, ref) => {
                    return `
                  <tr style="border-bottom:5px solid #000;">
                     <td   
-style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
-<div >
-${product?.skUcode}
-</div>
+                      style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
+                        <div >
+                        ${product?.skUcode}
+                     </div>
                     </td>
                     <td 
-style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
+                     style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
                        <div >
                           ${product?.title}
                        </div>
@@ -147,7 +151,7 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
                         ? `
                     <td
                        
-style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0"
+                      style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0"
                        >
                        <div >
 
@@ -163,20 +167,20 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
                        </div>
                     </td>
                     <td  
-style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
-<div >
+                     style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
+                     <div >
                        $${product?.globalPrice}
                        </div>
                     </td>
                     <td  
-style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
-<div >
+                     style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
+                      <div >
                        $${product?.amountPerItem}
                        </div>
                     </td>
                     <td  
-style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
-<div >
+                    style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-size:12px;font-weight:400;border-bottom:1px solid #f0f0f0">
+                    <div >
                        $${product?.gstPerItem}
                        </div>
                     </td>
@@ -264,9 +268,9 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
            </table>
            </table>
            <table style="width:100%; border-collapse: collapse;">
-      <tr>
-          <td style="border-right: 10px solid white;border-left:none;border-top:none;border-bottom:none; width: 50%; padding: 10px; border-radius: 10px ;background-color: #F8FAFC
-          ;">
+           <tr>
+           <td style="border-right: 10px solid white;border-left:none;border-top:none;border-bottom:none; width: 50%; padding: 10px; border-radius: 10px ;background-color: #F8FAFC
+           ;">
               <!-- Table 1 content -->
               <table style="width:100%">
               <tr>
@@ -376,9 +380,6 @@ style="border-left:none;border-right:none;border-top:none;;color:#5E6470;font-si
           </td>
       </tr>
   </table>
-           
-          
-  
         <table>
         <tr>
         <td  style="border:none;color:#000000      ;font-size:10px;font-weight:400">

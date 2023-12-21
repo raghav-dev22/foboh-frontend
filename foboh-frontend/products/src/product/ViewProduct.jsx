@@ -694,7 +694,7 @@ function ViewProduct() {
             categoryId: values?.category?.value,
             subCategoryId: values?.subcategory?.value,
             segmentId: values?.segment.value ? values.segment.value : "",
-            variety: values?.grapeVariety.map((item) => {
+            variety: values?.grapeVariety?.map((item) => {
               return item?.label;
             }),
             vintage: values?.vintage.toString() || "",
