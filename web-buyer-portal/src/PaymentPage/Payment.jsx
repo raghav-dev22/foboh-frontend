@@ -214,6 +214,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
               Notes: buyerData?.instructionsNotes,
             };
             setDeliveryAddress(addressBody);
+            console.log(addressBody, "addressBody");
           }
         });
 

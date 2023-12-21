@@ -165,7 +165,7 @@ function BillingAddress({
 
           <div className="flex md:flex-nowrap gap-4 my-3">
             <div className="w-full   mb-3  md:mb-0 relative">
-              <lable>Address</lable>
+              <label>Address</label>
               <input
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Company"
@@ -192,7 +192,7 @@ function BillingAddress({
           </div>
           <div className="flex md:flex-nowrap gap-4 my-3">
             <div className="w-full   mb-3 relative">
-              <lable>Apartment, Suite, etc</lable>
+              <label>Apartment, Suite, etc</label>
               <input
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Apartment"
@@ -219,7 +219,7 @@ function BillingAddress({
               )}
             </div>
             <div className="w-full   mb-3 relative md:mb-0 ">
-              <lable>Suburb</lable>
+              <label>Suburb</label>
               <input
                 type="text"
                 placeholder="suburb"
@@ -245,7 +245,7 @@ function BillingAddress({
           </div>
           <div className="flex md:flex-nowrap gap-4 my-3">
             <div className="w-full   mb-3 relative">
-              <lable>Postcode</lable>
+              <label>Postcode</label>
               <input
                 className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 "
                 id="Postcode"
@@ -270,7 +270,7 @@ function BillingAddress({
               )}
             </div>
             <div className="w-full   mb-3 relative md:mb-0">
-              <lable>State</lable>
+              <label>State</label>
               <Select
                 type="text"
                 defaultValue={`state`}

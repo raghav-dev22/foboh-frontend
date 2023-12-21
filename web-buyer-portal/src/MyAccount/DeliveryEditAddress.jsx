@@ -24,13 +24,12 @@ const DeliveryEditAddress = ({
     Suburb: "",
     Apartment: "",
     Postcode: "",
-    State: {},
+    State: "",
     Notes: "",
   });
   const [states, setStates] = useState([]);
   const { useToken } = theme;
   const { token } = useToken();
-
   const {
     values,
     errors,
@@ -44,13 +43,13 @@ const DeliveryEditAddress = ({
     validationSchema: DeliveryAddressEditSchema,
     onSubmit: (values) => {},
   });
-
+  console.log(deliveryAddress, "deliveryAddress");
   const handleSubmit = () => {
     if (isValid) {
       setDeliveryAddress(() => {
         return {
           ...values,
-          State: values.State.lable,
+          State: values?.State?.label,
         };
       });
       addressUpdate(values, "delivery-address");
@@ -59,7 +58,6 @@ const DeliveryEditAddress = ({
       console.error("Form has validation errors. Please check your input.");
     }
   };
-
   useEffect(() => {
     let statesData = [];
     getStates().then((data) => {
@@ -76,9 +74,8 @@ const DeliveryEditAddress = ({
       if (data.success) {
         const buyerData = data?.data[0];
         const buyerState = statesData.find(
-          (state) => state?.lable === buyerData.state
+          (state) => state?.label === buyerData.state
         );
-
         const addressBody = {
           Apartment: buyerData?.apartmentSuite,
           Address: buyerData?.streetaddress,
@@ -87,7 +84,7 @@ const DeliveryEditAddress = ({
           Postcode: buyerData?.postcode,
           Notes: buyerData?.instructionsNotes,
         };
-
+        console.log(addressBody, "addressBody");
         setDeliveryAddress(addressBody);
         setValues(addressBody);
         setInitialValues(addressBody);
@@ -121,13 +118,13 @@ const DeliveryEditAddress = ({
     setValues(() => {
       return {
         ...initialValues,
-        State: initialValues?.State?.lable,
+        State: initialValues?.State?.label,
       };
     });
     setDeliveryAddress(() => {
       return {
         ...initialValues,
-        State: initialValues?.State?.lable,
+        State: initialValues?.State?.label,
       };
     });
     setEditDelivery(!editDelivery);
@@ -152,9 +149,9 @@ const DeliveryEditAddress = ({
       <form className="" onChange={handleFormChange}>
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
-            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
               Address
-            </lable>
+            </label>
             <input
               type="text"
               id="Address"
@@ -179,9 +176,9 @@ const DeliveryEditAddress = ({
         </div>
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
-            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
               Apartment etc (optional)
-            </lable>
+            </label>
             <input
               type="text"
               id="Apartment"
@@ -192,12 +189,12 @@ const DeliveryEditAddress = ({
             />
           </div>
           <div className="w-full mb-4 relative">
-            <lable
+            <label
               htmlFor="Suburb"
               className="text-base font-normal text-[#2B4447]"
             >
               Suburb
-            </lable>
+            </label>
             <input
               type="text"
               id="Suburb"
@@ -221,9 +218,9 @@ const DeliveryEditAddress = ({
 
         <div className="flex flex-nowrap gap-8">
           <div className="w-full mb-4 relative">
-            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
               Postcode
-            </lable>
+            </label>
             <input
               type="text"
               id="Postcode"
@@ -246,12 +243,13 @@ const DeliveryEditAddress = ({
             )}
           </div>
           <div className="w-full mb-4 relative">
-            <lable htmlFor="" className="text-base font-normal text-[#2B4447]">
+            <label htmlFor="" className="text-base font-normal text-[#2B4447]">
               State
-            </lable>
+            </label>
             <Select
               type="text"
               id="State"
+              defaultValue={`state`}
               onChange={(e) => handleDeliveryState(e, "State")}
               name="State"
               value={values?.State}
@@ -270,9 +268,9 @@ const DeliveryEditAddress = ({
 
         <div className="w-full   mb-3 relative">
           {" "}
-          <lable htmlFor="" className="mb-2">
+          <label htmlFor="" className="mb-2">
             Notes
-          </lable>
+          </label>
           <textarea
             className="placeholder:text-sm appearance-none border border-[#E7E7E7] rounded-md w-full p-3 text-gray-700 mt-2"
             id="Postcode"
