@@ -35,7 +35,7 @@ const CancelOrderModal = ({
               key="ok"
               type="primary"
               onClick={handleOk}
-              className="bg-[#DC3545] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
+              className="bg-[#DC3545] text-white text-base font-"
             >
               Cancel Order
             </Button>

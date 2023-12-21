@@ -654,7 +654,7 @@ const MyOrders = () => {
         `}
       </style>
       {contextHolder}
-      <div className=" md:w-4/5 w-full mx-auto md:p-0 ">
+      <div className=" md:w-4/5 w-full mx-auto md:p-0 px-6 ">
         <div className="mb-6">
           <h1
             className="font-bold md:text-4xl text-2xl	 text-[#563FE3] "

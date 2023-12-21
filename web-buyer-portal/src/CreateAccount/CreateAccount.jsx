@@ -10,7 +10,9 @@ import { useParams } from "react-router-dom/dist";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 
-let states = [];
+let states = [
+  
+];
 
 function CreateAccount() {
   const [show, setShow] = useState(false);

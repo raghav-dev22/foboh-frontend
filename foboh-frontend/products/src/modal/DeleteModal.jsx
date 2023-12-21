@@ -57,7 +57,7 @@ const DeleteModal = ({ open, onOk, onCancel, setDeleteModalOpen }) => {
               key="ok"
               type="primary"
               onClick={handleDelete}
-              className="bg-[#DC3545] text-white text-base font-medium rounded-[8px]  h-[44px] w-[84px] flex justify-center items-center px-5"
+              className="bg-[#DC3545] text-white text-base font-medium rounded-[8px]  h-[44px] max-w-max flex justify-center items-center px-5"
             >
               Delete
             </Button>

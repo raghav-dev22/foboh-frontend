@@ -126,7 +126,7 @@ const Order = () => {
           {CARTdata.map((item, index) => (
             <div
               key={index}
-              className="flex justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4"
+              className="flex sm:flex-row flex-col justify-center items-center gap-3  pb-4 border-b border-b-[#E7E7E7] mb-4"
             >
               <div className="w-[150px] rounded-md h-[100px] bg-[#c3c3c3]">
                 <img

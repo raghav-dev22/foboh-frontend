@@ -186,7 +186,7 @@ const ProductDetails = () => {
       <div className="md:w-[85%] w-full mx-auto md:px-0 px-6">
         <div className="flex md:flex-nowrap flex-wrap gap-8">
           <div className="w-full md:w-2/5	 h-full	">
-            <div className="grid gap-5 md:grid-cols-1 grid-cols-2">
+            <div className="grid gap-5 grid-cols-1 ">
               {selectedImage ? (
                 <div className=" py-2 flex justify-center relative h-[225px] w-full border border-[#0000002e] rounded-md ">
                   <Image
