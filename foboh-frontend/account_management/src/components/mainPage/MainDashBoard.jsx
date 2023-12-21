@@ -333,7 +333,7 @@ function MainDashBoard() {
                 </tr>
               </thead>
               <tbody className={`divide-y divide-gray-200 `}>
-                {orderDetails.length > 0 ? (
+                {orderDetails?.length > 0 ? (
                   <OrderDetails orderDetails={orderDetails} />
                 ) : (
                   <tr>

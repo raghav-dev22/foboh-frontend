@@ -85,6 +85,20 @@ const AllOrders = () => {
   };
   const handleCustomClear = () => {
     setShowDatePicker(false);
+    setCustomSelectedDate("");
+    const newFilter = {
+      ...filterAndSort.filter,
+      orderEntryDate: "",
+      orderFilterEndDate: "",
+    };
+
+    filterAndSort = {
+      ...filterAndSort,
+      filter: newFilter,
+      page: 1,
+    };
+
+    processChange("filterAndSort");
   };
   const statusMenuBtn = () => {
     setStatusMenu(!statusMenu);
