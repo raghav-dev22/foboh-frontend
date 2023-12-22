@@ -85,22 +85,27 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [isPaymentMethodUpdateState, setIsPaymentMethodUpdateState] =
     useState(false);
 
+  const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
   const text = <span>Edit</span>;
 
   // GET CARD DETAILS
-  const { data: cardData } = useQuery("getPaymentMethod", getPaymentMethod, {
-    onSuccess: (data) => {
-      if (data) {
-        console.log("data", data);
-        isPaymentMethodAvailable = true;
-        setIsCardDetails(true);
-        setIsCardDataAvailable(true);
-      }
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+  const { data: cardData } = useQuery(
+    "getPaymentMethod",
+    () => getPaymentMethod(buyerId),
+    {
+      onSuccess: (data) => {
+        if (data) {
+          console.log("data", data);
+          isPaymentMethodAvailable = true;
+          setIsCardDetails(true);
+          setIsCardDataAvailable(true);
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
 
   const buttonWidth = 78;
 
@@ -316,51 +321,47 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     if (localDefaultPaymentMethod === "Credit Card/Debit Card") {
       // IF WE HAVE PAYMENT METHOD
       if (isPaymentMethodAvailable && !isPaymentMethodUpdate) {
-        alert("HELLO!");
-        // const convertedPaymentDueDate = convertDefaultPaymentTermValue(
-        //   "",
-        //   "paymentTodayDate"
-        // );
-        // const pm_id = payload?.paymentMethod?.id;
-        // const last4 = payload.paymentMethod.card.last4;
-        // const orderId = localStorage.getItem("orderId");
-        // const { deliveryEmail } = JSON.parse(localStorage.getItem("buyerInfo"));
-        // const { clientSecret, OrderPaymentIntentId } = await paymentProcess(
-        //   pm_id,
-        //   "PayNow",
-        //   "Card",
-        //   deliveryEmail,
-        //   orderId,
-        //   cardHolderName,
-        //   gst,
-        //   wet,
-        //   subtotal,
-        //   total,
-        //   convertedPaymentDueDate,
-        //   last4
-        // );
-        // const { error, paymentIntent } = await stripe.confirmCardPayment(
-        //   clientSecret,
-        //   {
-        //     payment_method: pm_id,
-        //   }
-        // );
-        // if (error) {
-        //   setLoading(false);
-        //   errorMessage(error?.message);
-        // } else {
-        //   setLoading(false);
-        //   await paymentProcessUpdate(
-        //     orderId,
-        //     cardHolderName,
-        //     paymentIntent.status,
-        //     paymentIntent?.id,
-        //     OrderPaymentIntentId
-        //   );
-        //   await cartStatusUpdate();
-        //   await orderStatusUpdate();
-        //   countDown("payNow", "");
-        // }
+        const convertedPaymentDueDate = convertDefaultPaymentTermValue(
+          "",
+          "paymentTodayDate"
+        );
+        const pm_id = cardData?.paymentMethodId;
+        const last4 = cardData?.last4;
+        const orderId = localStorage.getItem("orderId");
+        const { deliveryEmail, businessName } = JSON.parse(
+          localStorage.getItem("buyerInfo")
+        );
+        const { clientSecret, OrderPaymentIntentId } = await paymentProcess(
+          pm_id,
+          "PayNow",
+          "Card",
+          deliveryEmail,
+          orderId,
+          businessName,
+          gst,
+          wet,
+          subtotal,
+          total,
+          convertedPaymentDueDate,
+          last4
+        );
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(
+          clientSecret,
+          {
+            payment_method: pm_id,
+          }
+        );
+
+        if (error) {
+          setLoading(false);
+          errorMessage(error?.message);
+        } else {
+          setLoading(false);
+          await cartStatusUpdate();
+          await orderStatusUpdate();
+          countDown("payNow", "");
+        }
       } else {
         // IF WE DO NOT HAVE PAYMENT METHOD THEN WE WILL CREATE ONE
         const { paymentMethod, error } = await stripe.createPaymentMethod({
@@ -419,13 +420,13 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           } else {
             setLoading(false);
 
-            await paymentProcessUpdate(
-              orderId,
-              cardHolderName,
-              paymentIntent.status,
-              paymentIntent?.id,
-              OrderPaymentIntentId
-            );
+            // await paymentProcessUpdate(
+            //   orderId,
+            //   cardHolderName,
+            //   paymentIntent.status,
+            //   paymentIntent?.id,
+            //   OrderPaymentIntentId
+            // );
 
             await cartStatusUpdate();
             await orderStatusUpdate();
@@ -461,7 +462,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           "paymentDueDate"
         );
 
-        const { organisationId } = JSON.parse(
+        const { organisationId, buyerId } = JSON.parse(
           localStorage.getItem("buyerInfo")
         );
 
@@ -469,12 +470,14 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           orderId: localStorage.getItem("orderId"),
           orderByEmailID: email,
           orderBy: cardHolderName,
+          buyerId: buyerId,
           organisationID: organisationId,
           catalogueID: localStorage.getItem("catalogueId"),
           orderStatus: "InProcessBecs",
           paymentType: "PayLater",
           paymentMethod: "becs",
           paymentMethodID: pm_id,
+          paymentMethodUpdate: true,
           paymentMethodType: bankName,
           last4: last4,
           paymentDueDate: convertedPaymentDueDate,
@@ -491,36 +494,18 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         };
 
         const clientSecret = await getClientSecret(details);
-        const auBankAccount = elements.getElement(AuBankAccountElement);
 
         if (clientSecret) {
-          const { error, paymentIntent } =
-            await stripe.confirmAuBecsDebitPayment(clientSecret, {
-              payment_method: {
-                au_becs_debit: auBankAccount,
-                billing_details: {
-                  name: cardHolderName,
-                  email: email,
-                },
-              },
-            });
+          setLoading(false);
 
-          if (error) {
-            setLoading(false);
-            errorMessage(error.message);
-          } else {
-            setLoading(false);
-            await paymentProcessUpdate(
-              localStorage.getItem("orderId"),
-              cardHolderName,
-              paymentIntent.status,
-              paymentIntent.id,
-              paymentIntent.id
-            );
-            await cartStatusUpdate();
-            await orderStatusUpdate();
-            countDown("payLater", convertedPaymentDueDate);
-          }
+          await cartStatusUpdate();
+          await orderStatusUpdate();
+          countDown("payLater", convertedPaymentDueDate);
+        } else {
+          setLoading(false);
+          errorMessage(
+            "Some error occurred while processing, please try again later!"
+          );
         }
       }
     } else {
@@ -906,16 +891,23 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         <div className="bg-[#E7E7E7] py-5 px-2">
                           <div className="rounded-md bg-white p-3 flex justify-between">
                             <div className="flex items-center gap-2">
-                              <img src="/assets/visa.png" alt="" />
+                              {cardData ? (
+                                <h1 className="font-medium text-[#2B4447] text-base">
+                                  {cardData?.brand}
+                                </h1>
+                              ) : (
+                                <img src="/assets/visa.png" alt="" />
+                              )}
                               <h5 className="font-medium text-[#2B4447] text-base">
-                                Credit card ending with XXXX
+                                Credit card ending with {cardData?.last4}
                               </h5>
                             </div>
                             <div className="change-btn cursor-pointer">
                               <Tooltip placement="top" title={text}>
                                 <ModeIcon
                                   onClick={() => {
-                                    isPaymentMethodAvailable = false;
+                                    setIsPaymentMethodUpdateState(true);
+
                                     isPaymentMethodUpdate = true;
                                     setIsChecked(isChecked);
                                     setIsCardDetails(!isCardDetails);
