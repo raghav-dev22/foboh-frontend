@@ -186,6 +186,13 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         content: `Thank you for your payment.`,
         onOk: () => navigate("/home/order-confirm"),
       });
+    } else if (name === "payLater") {
+      const fomattedDate = formatDate(convertedPaymentDueDate);
+      Modal.success({
+        title: "Order confirmed!",
+        content: fomattedDate,
+        onOk: () => navigate("/home/order-confirm"),
+      });
     } else {
       const fomattedDate = formatDate(convertedPaymentDueDate);
       Modal.success({
@@ -328,14 +335,14 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         const pm_id = cardData?.paymentMethodId;
         const last4 = cardData?.last4;
         const orderId = localStorage.getItem("orderId");
-        const { deliveryEmail, businessName } = JSON.parse(
+        const { orderingEmail, businessName } = JSON.parse(
           localStorage.getItem("buyerInfo")
         );
         const { clientSecret, OrderPaymentIntentId } = await paymentProcess(
           pm_id,
           "PayNow",
           "Card",
-          deliveryEmail,
+          orderingEmail,
           orderId,
           businessName,
           gst,
@@ -387,7 +394,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           const pm_id = paymentMethod?.id;
           const last4 = paymentMethod.card.last4;
           const orderId = localStorage.getItem("orderId");
-          const { deliveryEmail } = JSON.parse(
+          const { orderingEmail } = JSON.parse(
             localStorage.getItem("buyerInfo")
           );
 
@@ -395,7 +402,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             pm_id,
             "PayNow",
             "Card",
-            deliveryEmail,
+            orderingEmail,
             orderId,
             cardHolderName,
             gst,
@@ -419,14 +426,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
             errorMessage(error?.message);
           } else {
             setLoading(false);
-
-            // await paymentProcessUpdate(
-            //   orderId,
-            //   cardHolderName,
-            //   paymentIntent.status,
-            //   paymentIntent?.id,
-            //   OrderPaymentIntentId
-            // );
 
             await cartStatusUpdate();
             await orderStatusUpdate();
@@ -510,6 +509,16 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
       }
     } else {
       // MANUAL PAYMENT LOGIC
+      const orderId = localStorage.getItem("orderId");
+      const { businessName } = JSON.parse(localStorage.getItem("buyerInfo"));
+      const convertedPaymentDueDate = convertDefaultPaymentTermValue(
+        defaultPaymentTerm?.length ? defaultPaymentTerm[0] : "",
+        "paymentDueDate"
+      );
+      await paymentProcessUpdate(orderId, businessName, "Unpaid", "", "");
+      await cartStatusUpdate();
+      await orderStatusUpdate();
+      countDown("", convertedPaymentDueDate);
     }
   };
 
@@ -1069,6 +1078,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                       )}
                     </div>
                   </TabPane>
+                ) : localDefaultPaymentMethod ===
+                  "Manual payment (Cash, Cheque)" ? (
+                  ""
                 ) : (
                   <TabPane
                     tab={
@@ -1117,15 +1129,13 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     }
                     key="1"
                   >
-                    {
-                      <Becs
-                        setBankName={setBankName}
-                        setCardHolderName={setCardHolderName}
-                        cardHolderName={cardHolderName}
-                        setEmail={setEmail}
-                        email={email}
-                      />
-                    }
+                    <Becs
+                      setBankName={setBankName}
+                      setCardHolderName={setCardHolderName}
+                      cardHolderName={cardHolderName}
+                      setEmail={setEmail}
+                      email={email}
+                    />
                     {/* </div> */}
                   </TabPane>
                 )}

@@ -12,7 +12,7 @@ export const getBankingInformation = async () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.success) return data.data
+        if (data.success) return data.data;
         else throw new Error("Error occurred while fetching data");
       });
 
@@ -23,8 +23,10 @@ export const getBankingInformation = async () => {
 };
 
 // Submitting bankingInformation
-export const postBankingInformations = async (values) => {
+export const postBankingInformations = async (data) => {
   const bankingInfoUrl = process.env.REACT_APP_BANKING_INFO_URL;
+
+  const [values, stripe] = data;
 
   try {
     const {
@@ -95,6 +97,15 @@ export const postBankingInformations = async (values) => {
         break;
     }
 
+    const result = await stripe.createToken("bank_account", {
+      country: "AU",
+      currency: "aud",
+      routing_number: bankingInformationBsb,
+      account_number: bankingInformationAccountNumber,
+      account_holder_name: legalBusinessName,
+      account_holder_type: businessTypeSelected, // Or 'company'
+    });
+
     const response = await fetch(
       `${bankingInfoUrl}/api/BankingInfoSettings/BankingInfoSettingsSubmission`,
       {
@@ -133,6 +144,15 @@ export const postBankingInformations = async (values) => {
           billingStatementdescriptor: billingStatementdescriptor,
           billingStatementMobile: billingStatementMobile,
           bankingInformationBankName: bankingInformationBankName,
+          bankAccountToken: {
+            token: result.token.id,
+            bankId: result.token.bank_account.id,
+            bankName: result.token.bank_account.bank_name,
+            accountHolder: result.token.bank_account.account_holder_name,
+            last4: result.token.bank_account.last4,
+            ip: result.token.client_ip,
+            created: result.token.created,
+          },
           termsAndConditions: termsAndConditions,
         }),
       }

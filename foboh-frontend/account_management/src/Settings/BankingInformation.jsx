@@ -23,6 +23,7 @@ import {
   getBankingInformation,
   postBankingInformations,
 } from "../reactQuery/bankingInformationApiModule";
+import { useStripe } from "@stripe/react-stripe-js";
 
 const BankingInformation = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const BankingInformation = () => {
   const [stateOptions, setStateOptions] = useState([]);
   const [businessType, setBusinessType] = useState([]);
   const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+  const stripe = useStripe();
 
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -120,7 +122,7 @@ const BankingInformation = () => {
     initialValues: initialValues,
     validationSchema: BankingSchema,
     onSubmit: (values) => {
-      postBankingInfo(values);
+      postBankingInfo([values, stripe]);
     },
   });
 
