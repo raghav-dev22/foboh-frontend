@@ -12,7 +12,7 @@ export const getBankingInformation = async () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.success) return data;
+        if (data.success) return data.data
         else throw new Error("Error occurred while fetching data");
       });
 
@@ -58,6 +58,43 @@ export const postBankingInformations = async (values) => {
       organisationId,
     } = values;
 
+    let businessTypeSelected = "";
+    let companyStructure = "";
+
+    switch (businessType) {
+      case "Individual":
+        businessTypeSelected = "individual";
+        break;
+
+      case "Sole Trader":
+        businessTypeSelected = "company";
+        companyStructure = "sole_proprietorship";
+        break;
+
+      case "Private Company":
+        businessTypeSelected = "company";
+        companyStructure = "private_corporation";
+        break;
+
+      case "Public Company":
+        businessTypeSelected = "company";
+        companyStructure = "public_corporation";
+        break;
+
+      case "Partnership":
+        businessTypeSelected = "company";
+        companyStructure = "private_partnership";
+        break;
+
+      case "Nonprofit":
+        businessTypeSelected = "non_profit";
+        companyStructure = "nil";
+        break;
+
+      default:
+        break;
+    }
+
     const response = await fetch(
       `${bankingInfoUrl}/api/BankingInfoSettings/BankingInfoSettingsSubmission`,
       {
@@ -66,35 +103,37 @@ export const postBankingInformations = async (values) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          organisationID: organisationId,
-          businessType: businessType,
-          businessStructure: "string",
-          businessProfileUrl: "string",
-          businessProfileMCC: "string",
-          legalbusinessname: legalBusinessName,
+          organisationId: localStorage.getItem("organisationId"),
+          businessType: businessTypeSelected,
+          companyStructure: companyStructure,
+          businessWebsiteUrl: businessWebsiteUrl,
+          legalBusinessName: legalBusinessName,
           acn: acn,
           abn: abn,
           businessPhoneNumber: businessPhoneNumber,
           businessAddress: businessAddress,
-          suburb: businessDetailsSuburb,
-          postcode: businessDetailsPostcode,
-          state: businessDetailsState,
-          country: businessDetailsCountry,
-          repFirstName: representativeInformationFirstName,
-          repLastName: representativeInformationLastName,
-          repDateofBirth: representativeInformationDob,
-          repAddress: representativeInformationAddress,
-          repSuburb: representativeInformationSuburb,
-          repPostcode: representativeInformationPostcode,
-          repState: representativeInformationState,
-          repPhone: representativeInformationMobile,
-          repEmail: representativeInformationEmail,
-          repIsOwner: representativeInformationOwnership,
-          repIsDirector: true,
-          bsBnumber: bankingInformationBsb,
-          accountNumber: bankingInformationAccountNumber,
-          statementDescriptor: billingStatementdescriptor,
-          phoneNumber: billingStatementMobile,
+          businessDetailsSuburb: businessDetailsSuburb,
+          businessDetailsPostcode: businessDetailsPostcode,
+          businessDetailsState: businessDetailsState,
+          businessDetailsCountry: businessDetailsCountry,
+          representativeInformationFirstName:
+            representativeInformationFirstName,
+          representativeInformationLastName: representativeInformationLastName,
+          representativeInformationDob: representativeInformationDob,
+          representativeInformationAddress: representativeInformationAddress,
+          representativeInformationSuburb: representativeInformationSuburb,
+          representativeInformationPostcode: representativeInformationPostcode,
+          representativeInformationState: representativeInformationState,
+          representativeInformationMobile: representativeInformationMobile,
+          representativeInformationEmail: representativeInformationEmail,
+          representativeInformationOwnership:
+            representativeInformationOwnership,
+          bankingInformationBsb: bankingInformationBsb,
+          bankingInformationAccountNumber: bankingInformationAccountNumber,
+          billingStatementdescriptor: billingStatementdescriptor,
+          billingStatementMobile: billingStatementMobile,
+          bankingInformationBankName: bankingInformationBankName,
+          termsAndConditions: termsAndConditions,
         }),
       }
     )
@@ -147,6 +186,43 @@ export const putBankingInformations = async (values) => {
       organisationId,
     } = values;
 
+    let businessTypeSelected = "";
+    let companyStructure = "";
+
+    switch (businessType) {
+      case "Individual":
+        businessTypeSelected = "individual";
+        break;
+
+      case "Sole Trader":
+        businessTypeSelected = "company";
+        companyStructure = "sole_proprietorship";
+        break;
+
+      case "Private Company":
+        businessTypeSelected = "company";
+        companyStructure = "private_corporation";
+        break;
+
+      case "Public Company":
+        businessTypeSelected = "company";
+        companyStructure = "public_corporation";
+        break;
+
+      case "Partnership":
+        businessTypeSelected = "company";
+        companyStructure = "private_partnership";
+        break;
+
+      case "Nonprofit":
+        businessTypeSelected = "non_profit";
+        companyStructure = "nil";
+        break;
+
+      default:
+        break;
+    }
+
     const response = await fetch(
       `${bankingInfoUrl}/api/BankingInfoSettings/UpdateBankingInfoSettings`,
       {
@@ -155,35 +231,38 @@ export const putBankingInformations = async (values) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          organisationID: organisationId,
-          businessType: businessType,
-          businessStructure: "string",
-          businessProfileUrl: "string",
-          businessProfileMCC: "string",
-          legalbusinessname: legalBusinessName,
+          organisationId: localStorage.getItem("organisationId"),
+          businessType: businessTypeSelected,
+          companyStructure: companyStructure,
+          businessWebsiteUrl: businessWebsiteUrl,
+          legalBusinessName: legalBusinessName,
           acn: acn,
           abn: abn,
           businessPhoneNumber: businessPhoneNumber,
           businessAddress: businessAddress,
-          suburb: businessDetailsSuburb,
-          postcode: businessDetailsPostcode,
-          state: businessDetailsState,
-          country: businessDetailsCountry,
-          repFirstName: representativeInformationFirstName,
-          repLastName: representativeInformationLastName,
-          repDateofBirth: representativeInformationDob,
-          repAddress: representativeInformationAddress,
-          repSuburb: representativeInformationSuburb,
-          repPostcode: representativeInformationPostcode,
-          repState: representativeInformationState,
-          repPhone: representativeInformationMobile,
-          repEmail: representativeInformationEmail,
-          repIsOwner: representativeInformationOwnership,
-          repIsDirector: true,
-          bsBnumber: bankingInformationBsb,
-          accountNumber: bankingInformationAccountNumber,
-          statementDescriptor: billingStatementdescriptor,
-          phoneNumber: billingStatementMobile,
+          businessDetailsSuburb: businessDetailsSuburb,
+          businessDetailsPostcode: businessDetailsPostcode,
+          businessDetailsState: businessDetailsState,
+          businessDetailsCountry: businessDetailsCountry,
+          representativeInformationFirstName:
+            representativeInformationFirstName,
+          representativeInformationLastName: representativeInformationLastName,
+          representativeInformationDob: representativeInformationDob,
+          representativeInformationAddress: representativeInformationAddress,
+          representativeInformationSuburb: representativeInformationSuburb,
+          representativeInformationPostcode: representativeInformationPostcode,
+          representativeInformationState: representativeInformationState,
+          representativeInformationMobile: representativeInformationMobile,
+          representativeInformationEmail: representativeInformationEmail,
+          representativeInformationOwnership:
+            representativeInformationOwnership,
+          bankingInformationBsb: bankingInformationBsb,
+          bankingInformationAccountNumber: bankingInformationAccountNumber,
+          billingStatementdescriptor: billingStatementdescriptor,
+          billingStatementMobile: billingStatementMobile,
+          bankingInformationBankName: bankingInformationBankName,
+          termsAndConditions: termsAndConditions,
+          isBankingInfoSubmitted: false,
         }),
       }
     )
