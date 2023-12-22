@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Tooltip } from "antd";
 
 const BankingInfoForm = ({
   handleChange,
@@ -9,9 +10,6 @@ const BankingInfoForm = ({
   errors,
   setValues,
 }) => {
-  
-
-
   return (
     <div className="border w-full border-[#E7E7E7] rounded-md  bg-white ">
       <div className="px-6 py-3 border-b border-[#E7E7E7]">
@@ -82,30 +80,36 @@ const BankingInfoForm = ({
               </p>
             )}
         </div>
-        <div className="mb-4">
-          <label
-            className="block text-[#2B4447] text-base font-medium mb-2"
-            htmlFor="bankingInformationBankName"
-          >
-            Bank Name
-          </label>
-          <input
-            className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="bankingInformationBankName"
-            type="text"
-            placeholder="Bank Name"
-            name="bankingInformationBankName"
-            value={values.bankingInformationBankName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.bankingInformationBankName &&
-            touched.bankingInformationBankName && (
-              <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                {errors.bankingInformationBankName}
-              </p>
-            )}
-        </div>
+        <Tooltip
+          color="#2B4447"
+          title="You don't need to enter bank name. This field will auto populate when you will submit bank account details."
+        >
+          <div className="mb-4">
+            <label
+              className="block text-[#2B4447] text-base font-medium mb-2"
+              htmlFor="bankingInformationBankName"
+            >
+              Bank Name
+            </label>
+            <input
+              className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="bankingInformationBankName"
+              type="text"
+              disabled={true}
+              placeholder="Bank Name"
+              name="bankingInformationBankName"
+              value={values.bankingInformationBankName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {errors.bankingInformationBankName &&
+              touched.bankingInformationBankName && (
+                <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
+                  {errors.bankingInformationBankName}
+                </p>
+              )}
+          </div>
+        </Tooltip>
       </div>
     </div>
   );

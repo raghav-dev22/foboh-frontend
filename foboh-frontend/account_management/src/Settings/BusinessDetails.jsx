@@ -20,6 +20,8 @@ const BusinessDetails = ({
         [name]: value,
       };
     });
+
+    console.log("values", values);
   };
 
   return (
@@ -42,7 +44,7 @@ const BusinessDetails = ({
               id="businessType"
               className="mt-[3px]"
               showSearch
-              placeholder="Select a person"
+              placeholder="Select a type"
               style={{
                 width: "100%",
                 height: "48px",

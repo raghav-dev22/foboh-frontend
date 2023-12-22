@@ -22,24 +22,24 @@ const CustomerBillingStatement = ({
         <div className="mb-4">
           <label
             className="block text-[#2B4447] text-base font-medium mb-2"
-            htmlFor="billingStatementdescriptor"
+            htmlFor="billingStatementDescriptor"
           >
             Statement descriptor
           </label>
           <input
             className="appearance-none border rounded-[6px] w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="billingStatementdescriptor"
+            id="billingStatementDescriptor"
             type="text"
             placeholder="Enter statement descriptor"
-            name="billingStatementdescriptor"
+            name="billingStatementDescriptor"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.StatementDescriptor}
+            value={values.billingStatementDescriptor}
           />
-          {errors.billingStatementdescriptor &&
-            touched.billingStatementdescriptor && (
+          {errors.billingStatementDescriptor &&
+            touched.billingStatementDescriptor && (
               <p className="mt-2 mb-2 text-red-500 text-xs font-normal ">
-                {errors.billingStatementdescriptor}
+                {errors.billingStatementDescriptor}
               </p>
             )}
         </div>

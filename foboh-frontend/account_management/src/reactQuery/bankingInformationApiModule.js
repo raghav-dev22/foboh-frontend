@@ -4,15 +4,16 @@ export const getBankingInformation = async () => {
     const organisationId = localStorage.getItem("organisationId");
     const bankingInfoUrl = process.env.REACT_APP_BANKING_INFO_URL;
 
-    response = await fetch(
-      `${bankingInfoUrl}/api/BankingInfoSettings/getSetupbankingInfoByOrganisationID?OrganisationID=${organisationId}`,
+    const response = await fetch(
+      `${bankingInfoUrl}/api/SetupBanking/SetupbankingInfo?OrganisationId=${organisationId}`,
+
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.success) return data.data;
+        if (data.success) return data?.data;
         else throw new Error("Error occurred while fetching data");
       });
 
@@ -54,7 +55,7 @@ export const postBankingInformations = async (data) => {
       bankingInformationBsb,
       bankingInformationAccountNumber,
       bankingInformationBankName,
-      billingStatementdescriptor,
+      billingStatementDescriptor,
       billingStatementMobile,
       termsAndConditions,
       organisationId,
@@ -103,11 +104,11 @@ export const postBankingInformations = async (data) => {
       routing_number: bankingInformationBsb,
       account_number: bankingInformationAccountNumber,
       account_holder_name: legalBusinessName,
-      account_holder_type: businessTypeSelected, // Or 'company'
+      account_holder_type: "individual", // Or 'company'
     });
 
     const response = await fetch(
-      `${bankingInfoUrl}/api/BankingInfoSettings/BankingInfoSettingsSubmission`,
+      `${bankingInfoUrl}/api/SetupBanking/CreateSetupBanking`,
       {
         method: "POST",
         headers: {
@@ -141,9 +142,9 @@ export const postBankingInformations = async (data) => {
             representativeInformationOwnership,
           bankingInformationBsb: bankingInformationBsb,
           bankingInformationAccountNumber: bankingInformationAccountNumber,
-          billingStatementdescriptor: billingStatementdescriptor,
+          billingStatementdescriptor: billingStatementDescriptor,
           billingStatementMobile: billingStatementMobile,
-          bankingInformationBankName: bankingInformationBankName,
+          bankingInformationBankName: result.token.bank_account.bank_name,
           bankAccountToken: {
             token: result.token.id,
             bankId: result.token.bank_account.id,
@@ -151,7 +152,7 @@ export const postBankingInformations = async (data) => {
             accountHolder: result.token.bank_account.account_holder_name,
             last4: result.token.bank_account.last4,
             ip: result.token.client_ip,
-            created: result.token.created,
+            created: convertUnixToDateTime(result.token.created),
           },
           termsAndConditions: termsAndConditions,
         }),
@@ -159,7 +160,8 @@ export const postBankingInformations = async (data) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.success) return data;
+        const name = result.token.bank_account.bank_name;
+        if (data.success) return { data, name };
         else throw new Error("Error while fetching data");
       })
       .catch((error) => console.log(error));
@@ -297,3 +299,28 @@ export const putBankingInformations = async (values) => {
     throw new Error(error);
   }
 };
+
+function convertUnixToDateTime(unixTimestamp) {
+  // Create a new date object with the Unix timestamp
+  var date = new Date(unixTimestamp * 1000);
+
+  // Format the date and time
+  var year = date.getFullYear();
+  var month = ("0" + (date.getMonth() + 1)).slice(-2); // months are zero-indexed
+  var day = ("0" + date.getDate()).slice(-2);
+  var hours = ("0" + date.getHours()).slice(-2);
+  var minutes = ("0" + date.getMinutes()).slice(-2);
+  var seconds = ("0" + date.getSeconds()).slice(-2);
+  var milliseconds = ("00" + date.getMilliseconds()).slice(-3);
+
+  // Get the time zone offset in hours and minutes
+  var offset = -date.getTimezoneOffset();
+  var offsetHours = ("0" + Math.floor(Math.abs(offset) / 60)).slice(-2);
+  var offsetMinutes = ("0" + (Math.abs(offset) % 60)).slice(-2);
+  var offsetSign = offset >= 0 ? "+" : "-";
+
+  // Construct the formatted date and time string
+  var formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
+
+  return formattedDateTime;
+}

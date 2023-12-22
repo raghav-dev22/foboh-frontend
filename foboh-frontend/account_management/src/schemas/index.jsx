@@ -272,7 +272,7 @@ export const BankingSchema = Yup.object().shape({
       "Account number must be 16 characters containing numbers and letters"
     ),
 
-  billingStatementdescriptor: Yup.string().required(
+    billingStatementDescriptor: Yup.string().required(
     "StatementDescriptor is required"
   ),
 
