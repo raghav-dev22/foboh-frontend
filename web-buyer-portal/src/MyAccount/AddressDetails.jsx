@@ -31,16 +31,16 @@ const AddressDetails = () => {
         </div>
 
         <div className="md:grid-cols-3 grid sm:grid-cols-2	  gap-4 md:p-0 px-6  pt-0 md:pt-8">
-          <div className="rounded-md border border-[#E0E0E0] p-3 sm:p-0">
+          <div className="rounded-md border border-[#E0E0E0] p-0">
             <div
               style={{ backgroundColor: token.commonThemeColor }}
               className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
             >
-              <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
+              <h5 className="text-white   font-bold text-lg">
                 Delivery Address
               </h5>
             </div>
-            <div className="px-4 sm:py-5 pb-5">
+            <div className="px-4 py-5 ">
               <div className="">
                 <h5 className="text-lg font-medium mb-2">
                   {buyer?.apartment} {buyer?.address}
@@ -96,12 +96,12 @@ const AddressDetails = () => {
               </div>
             </div>
           </div>
-          <div className="rounded-md border border-[#E0E0E0] sm:p-0 p-3">
+          <div className="rounded-md border border-[#E0E0E0] p-3">
             <div
               style={{ backgroundColor: token.commonThemeColor }}
               className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
             >
-              <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
+              <h5 className="text-white   font-bold text-lg">
                 Billing Address
               </h5>
             </div>

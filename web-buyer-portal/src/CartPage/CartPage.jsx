@@ -238,7 +238,7 @@ const CartPage = () => {
     <>
       {contextHolder}
       <div className="md:w-4/5	w-full mx-auto md:p-0 ">
-        <div className="  mb-12 md:bg-white  bg-[#563FE3] md:p-0 p-4 relative">
+        <div className="  mb-4 md:bg-white  md:p-0 p-4 relative">
           <h2
             style={{ color: token.commonThemeColor }}
             className="md:font-semibold font-medium md:text-2xl text-2xl	 md:text-[#563FE3] text-[#fff] md:text-left text-center"
@@ -263,7 +263,7 @@ const CartPage = () => {
                 {cart.map((item, index) => (
                   <div
                     key={index}
-                    className="flex justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4"
+                    className="flex sm:flex-row flex-col justify-center items-center gap-4  pb-4 border-b border-b-[#E7E7E7] mb-4"
                   >
                     <div className="w-[150px] rounded-md h-[160px] bg-[#c3c3c3]">
                       <img
@@ -272,44 +272,44 @@ const CartPage = () => {
                         className="w-[150px] h-[160px]  object-cover	rounded-md"
                       />
                     </div>
-                    <div className="flex flex-col justify-center gap-12 h-full py-3 w-full">
+                    <div className="flex flex-col justify-center sm:gap-12 gap-2 h-full py-3 w-full">
                       <div>
-                        <div className="flex justify-between w-full gap-3">
+                        <div className="grid sm:grid-cols-3 grid-cols-1 w-full gap-3">
                           <h4 className="md:text-lg text-base font-semibold text-[#2B4447]">
                             {item.product?.title}
                           </h4>
-                          <div className="">
-                            <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center gap-3">
-                              <p
-                                className="text-[#637381] cursor-pointer"
-                                onClick={() =>
-                                  handleIncrementDecrement(
-                                    item?.product?.productId,
-                                    item?.quantity,
-                                    "decrement",
-                                    item?.product?.availableQty
-                                  )
-                                }
-                              >
-                                -
-                              </p>
-                              {item?.quantity}
-                              <p
-                                className="text-[#637381] cursor-pointer "
-                                onClick={() =>
-                                  handleIncrementDecrement(
-                                    item?.product?.productId,
-                                    item?.quantity,
-                                    "increment",
-                                    item?.product?.availableQty
-                                  )
-                                }
-                              >
-                                +
-                              </p>
-                            </div>
+
+                          <div className="border border-[#E7E7E7] py-[6px] px-[12px] rounded-md flex justify-center items-center max-w-max gap-3">
+                            <p
+                              className="text-[#637381] cursor-pointer"
+                              onClick={() =>
+                                handleIncrementDecrement(
+                                  item?.product?.productId,
+                                  item?.quantity,
+                                  "decrement",
+                                  item?.product?.availableQty
+                                )
+                              }
+                            >
+                              -
+                            </p>
+                            {item?.quantity}
+                            <p
+                              className="text-[#637381] cursor-pointer "
+                              onClick={() =>
+                                handleIncrementDecrement(
+                                  item?.product?.productId,
+                                  item?.quantity,
+                                  "increment",
+                                  item?.product?.availableQty
+                                )
+                              }
+                            >
+                              +
+                            </p>
                           </div>
-                          <h4 className="md:text-lg text-base text-[#2B4447] font-semibold">
+
+                          <h4 className="md:text-lg text-base text-[#2B4447] font-semibold sm:text-right text-start">
                             $
                             {(
                               item?.product?.globalPrice * item.quantity
@@ -340,7 +340,7 @@ const CartPage = () => {
                           </p>
                         </div>
                         <div
-                          className="bg-[#ed1c1c36] py-1.5 px-3 rounded-md"
+                          className="bg-[#ed1c1c36] py-1.5 px-3 rounded-md flex justify-center items-center"
                           onClick={() => removeItem(item.product?.productId)}
                         >
                           <p className="text-[#DC3545]  text-sm font-medium cursor-pointer">

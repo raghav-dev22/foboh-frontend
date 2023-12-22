@@ -193,17 +193,17 @@ const Profile = () => {
                   </button>
                 </div>
               </div>
-              <div className="md:grid-cols-2 grid sm:grid-cols-3	  gap-4 md:px-0 px-6">
+              <div className="md:grid-cols-2 grid sm:grid-cols-2	  gap-4 md:px-0 px-6">
                 <div className="rounded-[5px] border border-[#E0E0E0]">
                   <div
                     style={{ backgroundColor: token.commonThemeColor }}
                     className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
                   >
-                    <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
+                    <h5 className="text-white   font-bold text-lg">
                       Business Details
                     </h5>
                   </div>
-                  <div className="px-4 sm:py-5 pb-5">
+                  <div className="px-4 py-5 ">
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.businessName}
                     </h5>
@@ -222,11 +222,11 @@ const Profile = () => {
                     style={{ backgroundColor: token.commonThemeColor }}
                     className="ordering-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	"
                   >
-                    <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
+                    <h5 className="text-white font-bold text-lg">
                       Ordering Contact
                     </h5>
                   </div>
-                  <div className="px-4 sm:py-5 pb-5">
+                  <div className="px-4 py-5 ">
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.orderingFirstName} {buyer?.orderingLastName}
                     </h5>
@@ -243,11 +243,11 @@ const Profile = () => {
                     style={{ backgroundColor: token.commonThemeColor }}
                     className="delivery-contact-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px]	"
                   >
-                    <h5 className="sm:text-white text-[#563FE3] font-bold text-lg">
+                    <h5 className="text-white  font-bold text-lg">
                       Delivery Contact
                     </h5>
                   </div>
-                  <div className="px-4 sm:py-5 pb-5">
+                  <div className="px-4 py-5 ">
                     <h5 className="text-lg font-medium mb-3">
                       {buyer?.deliveryFirstName} {buyer?.deliveryLastName}
                     </h5>
@@ -294,16 +294,16 @@ const Profile = () => {
                 </Link>
               </div>
               <div className="md:grid-cols-2 grid sm:grid-cols-2	  gap-4 md:p-0 px-6 ">
-                <div className="rounded-md border border-[#E0E0E0] p-3 sm:p-0">
+                <div className="rounded-md border border-[#E0E0E0] p-0">
                   <div
                     style={{ background: token.commonThemeColor }}
                     className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
                   >
-                    <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
+                    <h5 className="text-white   font-bold text-lg">
                       Delivery Address
                     </h5>
                   </div>
-                  <div className="px-4 sm:py-5 pb-5">
+                  <div className="px-4 py-5 ">
                     <div className="">
                       <h5 className="text-lg font-medium mb-2">
                         {buyer?.apartment} {buyer?.address}
@@ -357,12 +357,12 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-                <div className="rounded-md border border-[#E0E0E0] sm:p-0 p-3">
+                <div className="rounded-md border border-[#E0E0E0] p-0 ">
                   <div
                     style={{ background: token.commonThemeColor }}
                     className="business-details sm:bg-[#563FE3] py-2 px-4 rounded-t-[5px] 	"
                   >
-                    <h5 className="sm:text-white  text-[#563FE3] font-bold text-lg">
+                    <h5 className="text-white   font-bold text-lg">
                       Billing Address
                     </h5>
                   </div>

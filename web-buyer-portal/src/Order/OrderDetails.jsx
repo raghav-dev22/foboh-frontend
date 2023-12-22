@@ -216,7 +216,7 @@ const OrderDetails = () => {
           <h1 className="md:text-[30px] text-[25px] font-semibold text-[#2B4447] ">
             Order {orderDetails.orderId}
           </h1>
-          <div className="flex sm:justify-end justify-start items-center gap-3">
+          <div className="sm:flex grid sm:justify-end justify-start items-center gap-3">
             <button
               onClick={() => reOrder(id)}
               type="button"
@@ -336,7 +336,7 @@ const OrderDetails = () => {
 
                   <div className="md:w-[80%] w-full  flex flex-col justify-center gap-10 h-full py-3 ">
                     <div>
-                      <div className="flex justify-between w-full gap-3">
+                      <div className="flex justify-between w-full gap-3 sm:flex-row flex-col">
                         <div className="">
                           <h4 className=" text-base font-semibold text-[#2B4447]">
                             {item?.title.length > 15

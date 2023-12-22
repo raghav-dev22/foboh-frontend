@@ -401,7 +401,7 @@ function Header() {
         />
         <SearchIcon
           className="absolute top-1/4 left-2.5 "
-          style={{ fill: "#563FE3" }}
+          style={{ fill: `${token.buttonThemeColor} ` }}
         />
       </div>
     </>
