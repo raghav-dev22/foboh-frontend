@@ -879,6 +879,43 @@ const CreateOrderModal = ({
                                       value={quantity}
                                     />
                                   </div>
+
+                                  {/* incriment */}
+                                  {/* <div className="flex sm:justify-between sm:items-center sm:flex-row flex-col     sm:gap-0 gap-2 mt-2 ">
+                                    <div className="w-fit border border-[#E7E7E7] md:py-[6px] py-[4px] md:px-[12px] px-[8px] rounded-md flex justify-center items-center md:gap-1 gap-1">
+                                      <p
+                                        className="text-[#637381] cursor-pointer"
+                                        onClick={() =>
+                                          handleIncrementDecrement(
+                                            item?.product?.productId,
+                                            "decrement",
+                                            item?.product?.availableQty
+                                          )
+                                        }
+                                      >
+                                        -
+                                      </p>
+
+                                      <p className="text-[#637381] md:text-sm text-[10px]">
+                                        {" "}
+                                        {item?.quantity}
+                                      </p>
+
+                                      <p
+                                        className="text-[#637381] cursor-pointer"
+                                        onClick={() =>
+                                          handleIncrementDecrement(
+                                            item?.product?.productId,
+                                            "increment",
+                                            item?.product?.availableQty
+                                          )
+                                        }
+                                      >
+                                        +
+                                      </p>
+                                    </div>
+                                  </div> */}
+                                  {/* decriment */}
                                   <div className="col-span-4 ">
                                     <h4 className="text-lg font-semibold text-[#2B4447] text-end">
                                       ${product?.globalPrice}

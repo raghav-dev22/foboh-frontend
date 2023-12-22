@@ -529,7 +529,7 @@ function SearchCustomer({
                       id="default-search"
                       maxLength={4}
                       className="block  shadow-md lg:w-96 w-full h-11 p-4 pl-10 text-sm text-gray-900 border  rounded-md  border-inherit  "
-                      placeholder="4739"
+                      placeholder="Enter postcode"
                       name="pincode"
                       required=""
                       value={pincode}

@@ -886,7 +886,6 @@ const ProductList = () => {
       const newRegionAvailableIds = id.map((region) => region.key);
       const newRegionAvailableName = e;
 
-
       setRegionAvailability(id);
       id.length > 0 ? setFilter(true) : setFilter(false);
       const newFilter = {

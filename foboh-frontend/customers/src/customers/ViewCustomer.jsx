@@ -170,16 +170,15 @@ function ViewCustomer() {
       image: <SellIcon />,
     },
     {
-      title: "Delivery address",
-      SubTitle: `${values?.apartment} ${values?.address} ${values?.suburb} ${values?.state} ${values?.postalCode}`,
-      image: <LocationOnIcon />,
-    },
-    {
       title: "ABN / Liquor licence",
       SubTitle: `${values?.abn}/ ${values?.liquorLicence}`,
       image: <WorkIcon />,
     },
-
+    {
+      title: "Delivery address",
+      SubTitle: `${values?.apartment} ${values?.address} ${values?.suburb} ${values?.state} ${values?.postalCode}`,
+      image: <LocationOnIcon />,
+    },
     {
       title: "Customer Status",
       SubTitle: values?.isActive === "1" ? "Active" : "Inactive",

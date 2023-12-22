@@ -153,7 +153,7 @@ const MyOrders = () => {
   useEffect(() => {
     getCityState().then((data) => {
       setRegions(
-        data.map((item) => {
+        data?.map((item) => {
           return {
             value: item?.stateName,
             label: `${item?.cityName}, ${item?.stateName}`,

@@ -99,7 +99,7 @@ const OrderDetailHeader = ({
               Orders #{orderAdressDetails?.orderId}
             </h4>
             <h5 className="font-medium text-base text-[#212B36]">
-              {orderAdressDetails?.customerName}
+              {orderAdressDetails?.businessName}
             </h5>
           </div>
           <h5 className="text-base font-medium text-[#637381] ">
