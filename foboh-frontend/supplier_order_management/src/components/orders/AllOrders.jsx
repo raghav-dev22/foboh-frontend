@@ -3,7 +3,7 @@ import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DatePicker, Table, Checkbox, Skeleton } from "antd";
+import { DatePicker, Table, Checkbox, Skeleton, ConfigProvider } from "antd";
 import { useEffect } from "react";
 import { searchOrders } from "../../helpers/searchOrders";
 import Select from "react-select";
@@ -47,7 +47,6 @@ const lastDateList = ["Last 7 days", "Last 14 days", "Last 30 days"];
 
 const AllOrders = () => {
   const [sortItem, setSortItem] = useState(false);
-
   const [showFilter, setShowFilter] = useState(false);
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState({});
@@ -167,6 +166,7 @@ const AllOrders = () => {
   const data = orderData?.map((item, index) => {
     return {
       key: index,
+
       OrderID: (
         <p
           onClick={() => navigate(`/dashboard/order-details/${item?.orderId}`)}
@@ -357,12 +357,13 @@ const AllOrders = () => {
     if (ordersData.success) {
       setOrderData(ordersData?.data);
       setTotalData(ordersData?.total);
-      setLoading(false);
+      setLoading(true);
       // setTimeout(() => {
-
-      // }, 2000);
+      //   setLoading(true);
+      // }, 4000);
     } else {
       setOrderData([]);
+      setLoading(false);
       setTotalData(0);
     }
   };
@@ -370,6 +371,10 @@ const AllOrders = () => {
   const processChange = debounce(() => saveInput());
 
   const handleSearch = (e) => {
+    // setTimeout(() => {
+    //   setLoading(true);
+    // }, 1000);
+    // setLoading(false);
     const search = e.target.value;
     setInput(search);
     if (search === "") {
@@ -614,7 +619,46 @@ const AllOrders = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
+  const emptyImage = (
+    <div>
+      {loading === true ? (
+        <Skeleton
+          height={20}
+          width={80}
+          paragraph={{ rows: 10 }}
+          loading={loading}
+          active
+          // avatar
+          className="custom-skeleton"
+        />
+      ) : (
+        <div className="flex items-center justify-center h-[200px] no-data flex-col">
+          <svg
+            style={{ fill: "#808080", width: "60px" }}
+            id="Layer_1"
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 74 100"
+          >
+            <defs>
+              <style
+                dangerouslySetInnerHTML={{
+                  __html:
+                    "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                }}
+              />
+            </defs>
+            <path
+              className="cls-1"
+              d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+            />
+          </svg>
 
+          <h5 className="text-[#808080] text-lg font-medium">No Data</h5>
+        </div>
+      )}
+    </div>
+  );
   return (
     <>
       <div className="pt-5">
@@ -1054,24 +1098,26 @@ const AllOrders = () => {
           )}
         </div>
         <div className="relative border border-[#E0E0E0] rounded-[8px]  bg-white custom-table-pagination">
-          <Table
-            columns={columns}
-            dataSource={data}
-            // loading={loading}
-            showSizeChanger={false}
-            onChange={onShowSizeChange}
-            pagination={{
-              current: page,
-              pageSize: 15,
-              total: totalData,
-              showSizeChanger: false,
-              showQuickJumper: false,
-            }}
-            scroll={{
-              x: 1200,
-              // y: 200,
-            }}
-          />
+          <ConfigProvider renderEmpty={() => emptyImage}>
+            <Table
+              columns={columns}
+              dataSource={data}
+              showSizeChanger={false}
+              onChange={onShowSizeChange}
+              pagination={{
+                current: page,
+                pageSize: 15,
+                total: totalData,
+                showSizeChanger: false,
+                showQuickJumper: false,
+              }}
+              scroll={{
+                x: 1200,
+                // y: 200,
+              }}
+            />
+          </ConfigProvider>
+          {/* {loading && <Skeleton height={20} width={80} loading={loading} />} */}
         </div>
       </div>
     </>

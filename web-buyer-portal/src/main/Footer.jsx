@@ -21,12 +21,12 @@ function Footer() {
         <img
           src="/assets/Ellipse1.png"
           alt=""
-          className="absolute right-[204px] top-0"
+          className="absolute right-[204px] top-0 md:block hidden"
         />
         <img
           src="/assets/Ellipse2.png"
           alt=""
-          className="absolute bottom-0 left-[180px]"
+          className="absolute bottom-0 left-[180px] md:block hidden"
         />
 
         <div className="text-start md:text-start lg:text-center xl:text-center relative">
@@ -36,7 +36,7 @@ function Footer() {
               <img
                 src="/assets/FOBOHicon.svg"
                 alt=""
-                className="text-center absolute right-[44%]"
+                className="text-center absolute md:right-[44%] sm:right-0 sm:block hidden"
               />
             </i>
           </a>

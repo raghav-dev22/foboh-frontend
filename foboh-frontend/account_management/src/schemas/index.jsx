@@ -268,11 +268,11 @@ export const BankingSchema = Yup.object().shape({
   bankingInformationAccountNumber: Yup.string()
     .required("Account Number is required")
     .matches(
-      /^[A-Za-z0-9]{16}$/,
+      /^[A-Za-z0-9]{9}$/,
       "Account number must be 16 characters containing numbers and letters"
     ),
 
-  billingStatementdescriptor: Yup.string().required(
+    billingStatementDescriptor: Yup.string().required(
     "StatementDescriptor is required"
   ),
 

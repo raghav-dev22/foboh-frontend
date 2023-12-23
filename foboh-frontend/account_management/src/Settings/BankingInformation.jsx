@@ -9,7 +9,6 @@ import { getOrganisationDetails } from "../helpers/getOrganisationDetails";
 import { postSetupBankingDetails } from "../helpers/postSetupBankinDetails";
 import { Button, message } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
-import { getSetupBankingDetails } from "../helpers/getSetupBankingDetails";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
@@ -23,6 +22,7 @@ import {
   getBankingInformation,
   postBankingInformations,
 } from "../reactQuery/bankingInformationApiModule";
+import { useStripe } from "@stripe/react-stripe-js";
 
 const BankingInformation = () => {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ const BankingInformation = () => {
   const [stateOptions, setStateOptions] = useState([]);
   const [businessType, setBusinessType] = useState([]);
   const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+  const stripe = useStripe();
 
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -86,7 +87,7 @@ const BankingInformation = () => {
     businessDetailsSuburb: "",
     businessDetailsPostcode: "",
     businessDetailsState: "",
-    businessDetailsCountry: "Australia",
+    businessDetailsCountry: "AU",
     businessWebsiteUrl: "",
     representativeInformationFirstName: "",
     representativeInformationLastName: "",
@@ -101,7 +102,7 @@ const BankingInformation = () => {
     bankingInformationBsb: "",
     bankingInformationAccountNumber: "",
     bankingInformationBankName: "",
-    billingStatementdescriptor: "",
+    billingStatementDescriptor: "",
     billingStatementMobile: "",
     termsAndConditions: false,
     organisationId: localStorage.getItem("organisationId"),
@@ -120,9 +121,11 @@ const BankingInformation = () => {
     initialValues: initialValues,
     validationSchema: BankingSchema,
     onSubmit: (values) => {
-      postBankingInfo(values);
+      console.log("values", values);
+      postBankingInfo([values, stripe]);
     },
   });
+  console.log("errors", errors);
 
   // Fetching bank information
   const { data: bankingInformationData, isLoading } = useQuery(
@@ -130,9 +133,53 @@ const BankingInformation = () => {
     getBankingInformation,
     {
       onSuccess: (data) => {
-        setValues((prev) => {
-          return { ...prev, ...data };
-        });
+        if (data) {
+          setValues((prev) => {
+            return {
+              ...prev,
+              businessType: data?.businessType,
+              legalBusinessName: data?.legalBusinessName,
+              acn: data?.acn,
+              abn: data?.abn,
+              businessAddress: data?.businessAddress,
+              businessPhoneNumber: data?.businessPhoneNumber,
+              businessDetailsSuburb: data?.businessDetailsSuburb,
+              businessDetailsPostcode: data?.businessDetailsPostcode,
+              businessDetailsState: data?.businessDetailsState,
+              businessDetailsCountry: data?.businessDetailsCountry,
+              businessWebsiteUrl: data?.businessWebsiteUrl,
+              representativeInformationFirstName:
+                data?.representativeInformationFirstName,
+              representativeInformationLastName:
+                data?.representativeInformationLastName,
+              representativeInformationDob: convertDateString(
+                data?.representativeInformationDob
+              ),
+              representativeInformationAddress:
+                data?.representativeInformationAddress,
+              representativeInformationSuburb:
+                data?.representativeInformationSuburb,
+              representativeInformationPostcode:
+                data?.representativeInformationPostcode,
+              representativeInformationState:
+                data?.representativeInformationState,
+              representativeInformationMobile:
+                data?.representativeInformationMobile,
+              representativeInformationEmail:
+                data?.representativeInformationEmail,
+              representativeInformationOwnership:
+                data?.representativeInformationOwnership,
+              bankingInformationBsb: data?.bankingInformationBsb,
+              bankingInformationAccountNumber:
+                data?.bankingInformationAccountNumber,
+              bankingInformationBankName: data?.bankingInformationBankName,
+              billingStatementDescriptor: data?.billingStatementDescriptor,
+              billingStatementMobile: data?.billingStatementMobile,
+              termsAndConditions: data?.termsAndConditions,
+              organisationId: data?.organisationId,
+            };
+          });
+        }
       },
       onError: (error) => {
         errorUpdating("Error occurred while fetching data!");
@@ -144,7 +191,13 @@ const BankingInformation = () => {
   const { mutate: postBankingInfo } = useMutation(postBankingInformations, {
     onSuccess: (data) => {
       if (data) {
+        const {data, name} = data;
+        console.log(data, name);
+        setValues((prev) => {
+          return { ...prev, bankingInformationBankName: name };
+        });
         detilsUpdated();
+        setShow(false);
       } else {
         errorUpdating("Error occurred while updating, please try again!");
       }
@@ -181,49 +234,7 @@ const BankingInformation = () => {
         }));
         setBusinessType(businessTypeOptions);
       });
-
-    asyncFuntion();
   }, []);
-
-  const asyncFuntion = async () => {
-    const organisationDetails = await getOrganisationDetails();
-    await postSetupBankingDetails(organisationDetails);
-
-    const setupBankingDetails = await getSetupBankingDetails();
-
-    const setupBankingValues = {
-      businessType: "",
-      legalBusinessName: "",
-      acn: "",
-      abn: "",
-      businessAddress: "",
-      businessPhoneNumber: "",
-      businessDetailsSuburb: "",
-      businessDetailsPostcode: "",
-      businessDetailsState: "",
-      businessDetailsCountry: "Australia",
-      businessWebsiteUrl: "",
-      representativeInformationFirstName: "",
-      representativeInformationLastName: "",
-      representativeInformationDob: "",
-      representativeInformationAddress: "",
-      representativeInformationSuburb: "",
-      representativeInformationPostcode: "",
-      representativeInformationState: "",
-      representativeInformationMobile: "",
-      representativeInformationEmail: "",
-      representativeInformationOwnership: "",
-      bankingInformationBsb: "",
-      bankingInformationAccountNumber: "",
-      bankingInformationBankName: "",
-      billingStatementdescriptor: "",
-      billingStatementMobile: "",
-      termsAndConditions: "",
-    };
-
-    setInitialValues(setupBankingValues);
-    setValues(setupBankingValues);
-  };
 
   const formChange = () => {
     setShow(true);
@@ -326,5 +337,20 @@ const BankingInformation = () => {
     </>
   );
 };
+
+function convertDateString(inputDate) {
+  // Parse the input date string
+  var date = new Date(inputDate);
+
+  // Format the date
+  var year = date.getFullYear();
+  var month = ("0" + (date.getMonth() + 1)).slice(-2); // months are zero-indexed
+  var day = ("0" + date.getDate()).slice(-2);
+
+  // Construct the formatted date string
+  var formattedDate = `${year}-${month}-${day}`;
+
+  return formattedDate;
+}
 
 export default BankingInformation;
