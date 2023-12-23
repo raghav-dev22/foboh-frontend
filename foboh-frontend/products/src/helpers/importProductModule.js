@@ -79,7 +79,6 @@ export const convertImportedProductList = (importedProducts) => {
     throw new Error(error);
   }
 };
-
 const calculateLucCost = (salePrice) => {
   const wet = parseInt(salePrice) * 0.29;
   const luc = parseInt(salePrice) + parseInt(wet);

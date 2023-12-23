@@ -41,7 +41,7 @@ const InvoiceModal = forwardRef(({}, ref) => {
             imgUrl = await new Promise((resolve) => {
               let reader = new FileReader();
               reader.onload = () => resolve(reader.result);
-              reader.readAsDataURL(new Blob([blob], { type: "image/jpeg" }));
+              reader.readAsDataURL(blob);
             });
           }
           console.log(imgUrl, "imgUrl");
@@ -49,7 +49,7 @@ const InvoiceModal = forwardRef(({}, ref) => {
             invoiceData?.organisationlogo,
             "invoiceData?.organisationlogo"
           );
-          //  return null;
+          return null;
           var val = htmlToPdfmake(
             ` 
               <table style="width:100%">

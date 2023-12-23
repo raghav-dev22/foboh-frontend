@@ -252,10 +252,10 @@ function Organisation() {
 
   useQuery("getDepartments", getDepartments, {
     onSuccess: (data) => {
-      departmentList = data.map((item) => {
+      departmentList = data?.map((item) => {
         return {
-          label: item.departmentName,
-          value: item.departmentId,
+          label: item?.departmentName,
+          value: item?.departmentId,
         };
       });
     },
@@ -266,11 +266,11 @@ function Organisation() {
 
   const { mutate: mutateCategories } = useMutation(getCategories, {
     onSuccess: (data) => {
-      const catList = data.map((item, index) => {
+      const catList = data?.map((item, index) => {
         return {
           key: index,
-          value: item.categoryId,
-          label: item.categoryName,
+          value: item?.categoryId,
+          label: item?.categoryName,
         };
       });
       setCategories([...catList]);
@@ -299,7 +299,7 @@ function Organisation() {
     })
       .then((response) => response.json())
       .then((data) => {
-        states = data.map((i) => {
+        states = data?.map((i) => {
           return {
             key: i,
             value: i?.stateId,
@@ -317,11 +317,11 @@ function Organisation() {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            const catList = data.data.map((item, index) => {
+            const catList = data?.data?.map((item, index) => {
               return {
                 key: index,
-                value: item.categoryId,
-                label: item.categoryName,
+                value: item?.categoryId,
+                label: item?.categoryName,
               };
             });
 
@@ -347,7 +347,7 @@ function Organisation() {
                 );
                 const categoryList = organisationSettings?.categoryList?.map(
                   (id) => {
-                    return categoryListVar.find((obj) => obj.value === id);
+                    return categoryListVar?.find((obj) => obj.value === id);
                   }
                 );
 
@@ -1550,24 +1550,9 @@ function Organisation() {
                               value={values.orderingContactFirstName}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              // onKeyPress={(event) => {
-                              //   const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
-                              //   if (!allowedCharacters.test(event.key)) {
-                              //     event.preventDefault();
-                              //   }
-                              // }}
-                              onKeyPress={(event) => {
-                                if (event.key === "Enter") {
-                                  event.preventDefault();
-                                }
-                                const allowedCharacters = /^[A-Za-z]*$/;
-                                if (
-                                  !allowedCharacters.test(event.key) &&
-                                  event.key !== "Enter"
-                                ) {
-                                  event.preventDefault();
-                                }
-                              }}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.orderingContactFirstName &&
@@ -1602,24 +1587,9 @@ function Organisation() {
                               value={values.orderingContactLastName}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              // onKeyPress={(event) => {
-                              //   const allowedCharacters = /^[A-Za-z]*$/; // Regular expression to match only letters (both uppercase and lowercase)
-                              //   if (!allowedCharacters.test(event.key)) {
-                              //     event.preventDefault();
-                              //   }
-                              // }}
-                              onKeyPress={(event) => {
-                                if (event.key === "Enter") {
-                                  event.preventDefault();
-                                }
-                                const allowedCharacters = /^[A-Za-z]*$/;
-                                if (
-                                  !allowedCharacters.test(event.key) &&
-                                  event.key !== "Enter"
-                                ) {
-                                  event.preventDefault();
-                                }
-                              }}
+                              onKeyPress={(e) =>
+                                e.key === "Enter" && e.preventDefault()
+                              }
                               style={{
                                 border:
                                   errors.orderingContactLastName &&

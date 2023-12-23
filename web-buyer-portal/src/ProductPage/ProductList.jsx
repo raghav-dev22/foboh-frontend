@@ -1690,6 +1690,8 @@ const ProductList = () => {
                           value={selectSlider}
                           onChange={handleChange}
                           valueLabelDisplay="auto"
+                          min={0}
+                          max={10000}
                         />
                       </div>
 
