@@ -110,6 +110,7 @@ function Dashboard() {
 
   const authUrl = process.env.REACT_APP_AUTH_URL;
   const stripeKey = process.env.REACT_APP_STRIPE_KEY;
+  const organisationUrl = process.env.REACT_APP_ORGANISATION_URL
 
   // STRIPE
   const stripePromise = loadStripe(stripeKey);
@@ -147,7 +148,7 @@ function Dashboard() {
       })
       .then(() => {
         fetch(
-          `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${localStorage.getItem(
+          `${organisationUrl}/api/Organization/get?organizationId=${localStorage.getItem(
             "organisationId"
           )}`,
           {

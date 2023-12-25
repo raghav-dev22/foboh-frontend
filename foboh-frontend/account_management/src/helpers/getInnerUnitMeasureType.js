@@ -1,9 +1,15 @@
 export const getInnerUnitMeasureType = async () => {
-    const innerUnitMeasureTypeResponse = await fetch('https://masters-api-foboh.azurewebsites.net/api/InnerUOMtype', {
-     method: 'GET'
-    }).then(response => response.json())
-    .then(data => data)
-    .catch(error => console.log(error))
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
 
-    return innerUnitMeasureTypeResponse
-}
+  const innerUnitMeasureTypeResponse = await fetch(
+    `${mastersUrl}/api/InnerUOMtype`,
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => data)
+    .catch((error) => console.log(error));
+
+  return innerUnitMeasureTypeResponse;
+};

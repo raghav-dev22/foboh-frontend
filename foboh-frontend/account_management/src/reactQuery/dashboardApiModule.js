@@ -1,9 +1,10 @@
 export const getmonthlyGraphData = async () => {
   try {
+    const createOrderUrl = process.env.REACT_APP_CREATE_ORDER_SUPPLIER_URL;
     const organisationId = localStorage.getItem("organisationId");
 
     const response = await fetch(
-      `https://suppliercreateorderfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/Orders/Monthly?OrganisationId=${organisationId}`,
+      `${createOrderUrl}/api/OMSupplier/Orders/Monthly?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }
@@ -23,9 +24,10 @@ export const getmonthlyGraphData = async () => {
 
 export const getWeeklyGraphData = async () => {
   try {
+    const createOrderUrl = process.env.REACT_APP_CREATE_ORDER_SUPPLIER_URL;
     const organisationId = localStorage.getItem("organisationId");
     const response = await fetch(
-      `https://suppliercreateorderfobohwebapi-fbh.azurewebsites.net/api/OMSupplier/Orders/Weekly?OrganisationId=${organisationId}`,
+      `${createOrderUrl}/api/OMSupplier/Orders/Weekly?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }
@@ -46,9 +48,10 @@ export const getWeeklyGraphData = async () => {
 export const getTilesData = async () => {
   try {
     const organisationId = localStorage.getItem("organisationId");
+    const dashboardUrl = process.env.REACT_APP_DASHBOARD_SUPPLIER_URL;
 
     const response = await fetch(
-      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getAllCards?OrganisationId=${organisationId}`,
+      `${dashboardUrl}/api/DashBoard/getAllCards?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }
@@ -61,7 +64,7 @@ export const getTilesData = async () => {
       .catch((err) => console.log(err));
 
     return response;
-  } catch (error) { 
+  } catch (error) {
     throw new Error(error);
   }
 };

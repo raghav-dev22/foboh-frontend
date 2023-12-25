@@ -1,6 +1,8 @@
 export const deleteInnerUnitMeasure = async (id) => {
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const response = await fetch(
-    `https://masters-api-foboh.azurewebsites.net/api/innerUnitOfMeasure/DeleteOrders?Id=${id}`,
+    `${mastersUrl}/api/innerUnitOfMeasure/DeleteOrders?Id=${id}`,
     {
       method: "DELETE",
     }

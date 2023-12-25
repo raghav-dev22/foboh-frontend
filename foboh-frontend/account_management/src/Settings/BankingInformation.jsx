@@ -9,16 +9,9 @@ import { getOrganisationDetails } from "../helpers/getOrganisationDetails";
 import { postSetupBankingDetails } from "../helpers/postSetupBankinDetails";
 import { Button, message } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
-import { getSetupBankingDetails } from "../helpers/getSetupBankingDetails";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import { styled } from "@mui/material";
-
-import {
-  useElements,
-  AuBankAccountElement,
-  useStripe,
-} from "@stripe/react-stripe-js";
 import BusinessDetails from "./BusinessDetails";
 import RepresentativeInformation from "./RepresentativeInformation";
 import BankingInfoForm from "./BankingInfoForm";
@@ -28,11 +21,18 @@ import { useMutation, useQuery } from "react-query";
 import {
   getBankingInformation,
   postBankingInformations,
-  putBankingInformations,
 } from "../reactQuery/bankingInformationApiModule";
-import { useSelector } from "react-redux";
+import { useStripe } from "@stripe/react-stripe-js";
 
 const BankingInformation = () => {
+  const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+  const [show, setShow] = useState(false);
+  const [stateOptions, setStateOptions] = useState([]);
+  const [businessType, setBusinessType] = useState([]);
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+  const stripe = useStripe();
+
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
@@ -49,15 +49,33 @@ const BankingInformation = () => {
       fontWeight: 600,
     },
   }));
-  const navigate = useNavigate();
-  const [bankingDetails, setBankingDetails] = useState([]);
-  const [messageApi, contextHolder] = message.useMessage();
-  const [show, setShow] = useState(false);
-  const [stateOptions, setStateOptions] = useState([]);
-  const [businessType, setBusinessType] = useState([]);
-  const elements = useElements();
 
-  const organisation = useSelector((state) => state.organisationDetails);
+  const detilsUpdated = () => {
+    messageApi.open({
+      content: (
+        <div className="flex justify-center gap-2 items-center">
+          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
+          <p className="text-base font-semibold text-[#F8FAFC]">
+            Details updated!
+          </p>
+        </div>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
+
+  const errorUpdating = (message) => {
+    messageApi.error({
+      content: (
+        <p className="text-base inline-block font-semibold text-[#F8FAFC]">
+          {message}
+        </p>
+      ),
+      className: "custom-class",
+      rtl: true,
+    });
+  };
 
   const [initialValues, setInitialValues] = useState({
     businessType: "",
@@ -69,7 +87,7 @@ const BankingInformation = () => {
     businessDetailsSuburb: "",
     businessDetailsPostcode: "",
     businessDetailsState: "",
-    businessDetailsCountry: "Australia",
+    businessDetailsCountry: "AU",
     businessWebsiteUrl: "",
     representativeInformationFirstName: "",
     representativeInformationLastName: "",
@@ -84,7 +102,7 @@ const BankingInformation = () => {
     bankingInformationBsb: "",
     bankingInformationAccountNumber: "",
     bankingInformationBankName: "",
-    billingStatementdescriptor: "",
+    billingStatementDescriptor: "",
     billingStatementMobile: "",
     termsAndConditions: false,
     organisationId: localStorage.getItem("organisationId"),
@@ -103,49 +121,94 @@ const BankingInformation = () => {
     initialValues: initialValues,
     validationSchema: BankingSchema,
     onSubmit: (values) => {
-      postBankingInfo(values);
+      console.log("values", values);
+      postBankingInfo([values, stripe]);
     },
   });
+  console.log("errors", errors);
 
   // Fetching bank information
-  const {
-    data: bankingInformationData,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["getBankingInformation"],
-    queryFn: getBankingInformation,
-  });
+  const { data: bankingInformationData, isLoading } = useQuery(
+    "getBankingInformation",
+    getBankingInformation,
+    {
+      onSuccess: (data) => {
+        if (data) {
+          setValues((prev) => {
+            return {
+              ...prev,
+              businessType: data?.businessType,
+              legalBusinessName: data?.legalBusinessName,
+              acn: data?.acn,
+              abn: data?.abn,
+              businessAddress: data?.businessAddress,
+              businessPhoneNumber: data?.businessPhoneNumber,
+              businessDetailsSuburb: data?.businessDetailsSuburb,
+              businessDetailsPostcode: data?.businessDetailsPostcode,
+              businessDetailsState: data?.businessDetailsState,
+              businessDetailsCountry: data?.businessDetailsCountry,
+              businessWebsiteUrl: data?.businessWebsiteUrl,
+              representativeInformationFirstName:
+                data?.representativeInformationFirstName,
+              representativeInformationLastName:
+                data?.representativeInformationLastName,
+              representativeInformationDob: convertDateString(
+                data?.representativeInformationDob
+              ),
+              representativeInformationAddress:
+                data?.representativeInformationAddress,
+              representativeInformationSuburb:
+                data?.representativeInformationSuburb,
+              representativeInformationPostcode:
+                data?.representativeInformationPostcode,
+              representativeInformationState:
+                data?.representativeInformationState,
+              representativeInformationMobile:
+                data?.representativeInformationMobile,
+              representativeInformationEmail:
+                data?.representativeInformationEmail,
+              representativeInformationOwnership:
+                data?.representativeInformationOwnership,
+              bankingInformationBsb: data?.bankingInformationBsb,
+              bankingInformationAccountNumber:
+                data?.bankingInformationAccountNumber,
+              bankingInformationBankName: data?.bankingInformationBankName,
+              billingStatementDescriptor: data?.billingStatementDescriptor,
+              billingStatementMobile: data?.billingStatementMobile,
+              termsAndConditions: data?.termsAndConditions,
+              organisationId: data?.organisationId,
+            };
+          });
+        }
+      },
+      onError: (error) => {
+        errorUpdating("Error occurred while fetching data!");
+      },
+    }
+  );
 
   // Posting bank information
   const { mutate: postBankingInfo } = useMutation(postBankingInformations, {
-    onSuccess: (data) => {},
-    onError: (err) => {},
+    onSuccess: (data) => {
+      if (data) {
+        const {data, name} = data;
+        console.log(data, name);
+        setValues((prev) => {
+          return { ...prev, bankingInformationBankName: name };
+        });
+        detilsUpdated();
+        setShow(false);
+      } else {
+        errorUpdating("Error occurred while updating, please try again!");
+      }
+    },
+    onError: (err) => {
+      errorUpdating("Error occurred while updating, please try again!");
+    },
   });
-
-  // Updating bank information
-  const { mutate: putBankingInfo } = useMutation(putBankingInformations, {
-    onSuccess: (data) => {},
-    onError: (err) => {},
-  });
-
-  const DetilsUpdated = () => {
-    messageApi.open({
-      content: (
-        <div className="flex justify-center gap-2 items-center">
-          <CloseIcon style={{ fill: "#fff", width: "15px" }} />
-          <p className="text-base font-semibold text-[#F8FAFC]">
-            Details updated!
-          </p>
-        </div>
-      ),
-      className: "custom-class",
-      rtl: true,
-    });
-  };
 
   useEffect(() => {
-    fetch("https://masters-api-foboh.azurewebsites.net/api/State", {
+    fetch(`${mastersUrl}/api/State`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -160,12 +223,9 @@ const BankingInformation = () => {
         );
       });
 
-    fetch(
-      "https://masters-api-foboh.azurewebsites.net/api/BusinessType/options",
-      {
-        method: "GET",
-      }
-    )
+    fetch(`${mastersUrl}/api/BusinessType/options`, {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         const businessTypeOptions = data.map((item) => ({
@@ -174,116 +234,7 @@ const BankingInformation = () => {
         }));
         setBusinessType(businessTypeOptions);
       });
-
-    asyncFuntion();
   }, []);
-
-  const asyncFuntion = async () => {
-    const organisationDetails = await getOrganisationDetails();
-    await postSetupBankingDetails(organisationDetails);
-
-    const setupBankingDetails = await getSetupBankingDetails();
-
-    const setupBankingValues = {
-      businessType: "",
-      legalBusinessName: "",
-      acn: "",
-      abn: "",
-      businessAddress: "",
-      businessPhoneNumber: "",
-      businessDetailsSuburb: "",
-      businessDetailsPostcode: "",
-      businessDetailsState: "",
-      businessDetailsCountry: "Australia",
-      businessWebsiteUrl: "",
-      representativeInformationFirstName: "",
-      representativeInformationLastName: "",
-      representativeInformationDob: "",
-      representativeInformationAddress: "",
-      representativeInformationSuburb: "",
-      representativeInformationPostcode: "",
-      representativeInformationState: "",
-      representativeInformationMobile: "",
-      representativeInformationEmail: "",
-      representativeInformationOwnership: "",
-      bankingInformationBsb: "",
-      bankingInformationAccountNumber: "",
-      bankingInformationBankName: "",
-      billingStatementdescriptor: "",
-      billingStatementMobile: "",
-      termsAndConditions: "",
-    };
-
-    setInitialValues(setupBankingValues);
-    setValues(setupBankingValues);
-  };
-
-  const handleSave = async () => {
-    const auBankAccount = elements.getElement(AuBankAccountElement);
-
-    return true;
-
-    if (isValid) {
-      const orgID = localStorage.getItem("organisationId");
-      fetch(
-        `https://setupbankinginfofobohwebapi-fbh.azurewebsites.net/api/SetupBanking/UpdateBankingInfo?OrganisationID=${orgID}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            organisationID: localStorage.getItem("organisationId"),
-            businessType: values?.businessType,
-            legalbusinessname: values?.LegalBusiness,
-            acn: values?.ACN,
-            abn: values?.ABN,
-            businessAddress: values?.BusinessAddress,
-            city: values?.Suburb,
-            postcode: values?.Postcode,
-            state: values?.State,
-            country: "Australia",
-            bsBnumber: values?.BSB,
-            accountNumber: values?.AccountNumber,
-            statementDescriptor: values?.StatementDescriptor,
-            phoneNumber: values?.PhoneNumber,
-            createdBy: "string",
-            BusinessWebsiteURL: values?.BusinessWebsiteURL,
-            BusinessMobileNumber: values?.BusinessMobileNumber,
-            firstName: values?.firstName,
-            lastName: values?.lastName,
-            RepresentativeAddress: values?.RepresentativeAddress,
-            Suburb: values?.Suburb,
-            email: values?.email,
-            BankName: values?.BankName,
-            businessDetailsSuburb: values?.BusinessSuburb,
-            RepresentativePhoneNumber: values?.RepresentativePhoneNumber,
-          }),
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setShow(false);
-          DetilsUpdated();
-        })
-        .catch((error) => console.log(error));
-    } else {
-      console.log(
-        "Form has validation errors. Save operation aborted.",
-        errors
-      );
-    }
-  };
-
-  const handleState = (e) => {
-    const item = e.label;
-    const itemId = e.value;
-    setValues({
-      ...values,
-      State: e,
-    });
-    setShow(true);
-  };
 
   const formChange = () => {
     setShow(true);
@@ -297,7 +248,6 @@ const BankingInformation = () => {
   return (
     <>
       {contextHolder}
-
       <div className="bank-information-page padding-top-custom">
         <div className="pb-6 px-6 flex justify-start items-center gap-2">
           <div
@@ -387,5 +337,20 @@ const BankingInformation = () => {
     </>
   );
 };
+
+function convertDateString(inputDate) {
+  // Parse the input date string
+  var date = new Date(inputDate);
+
+  // Format the date
+  var year = date.getFullYear();
+  var month = ("0" + (date.getMonth() + 1)).slice(-2); // months are zero-indexed
+  var day = ("0" + date.getDate()).slice(-2);
+
+  // Construct the formatted date string
+  var formattedDate = `${year}-${month}-${day}`;
+
+  return formattedDate;
+}
 
 export default BankingInformation;

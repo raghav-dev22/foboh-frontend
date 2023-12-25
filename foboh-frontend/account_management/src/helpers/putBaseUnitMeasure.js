@@ -1,5 +1,7 @@
 export const putBaseUnitMeasure = async (unit) => {
   const organisationId = localStorage.getItem("organisationId");
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const body = unit.map((item) => {
     return {
       _id: item?.id,
@@ -8,7 +10,7 @@ export const putBaseUnitMeasure = async (unit) => {
     };
   });
   const response = await fetch(
-    `https://masters-api-foboh.azurewebsites.net/api/baseUnitMeasure/BaseUnitbulkupdate?OrganisationID=${organisationId}`,
+    `${mastersUrl}/api/baseUnitMeasure/BaseUnitbulkupdate?OrganisationID=${organisationId}`,
     {
       method: "PUT",
       headers: {

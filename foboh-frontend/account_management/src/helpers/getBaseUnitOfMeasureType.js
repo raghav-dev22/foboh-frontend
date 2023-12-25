@@ -1,6 +1,8 @@
 export const getBaseUnitMeasureType = async () => {
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const baseUnitMeasureType = await fetch(
-    "https://masters-api-foboh.azurewebsites.net/api/_BaseUOMType",
+    `${mastersUrl}/api/_BaseUOMType`,
     {
       method: "GET",
     }

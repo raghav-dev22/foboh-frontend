@@ -20,6 +20,7 @@ import { getWeeks } from "../../helpers/weeklyDivisions";
 import { useNavigate } from "react-router-dom";
 
 function MainDashBoard() {
+  const dashboardUrl = process.env.REACT_APP_DASHBOARD_SUPPLIER_URL;
   const [show, setShow] = useState(false);
   const [stock, setStock] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -221,7 +222,7 @@ function MainDashBoard() {
     }
 
     fetch(
-      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/StockStatus?OrganisationId=${localStorage.getItem(
+      `${dashboardUrl}/api/StockStatus?OrganisationId=${localStorage.getItem(
         "organisationId"
       )}`
     )
@@ -332,7 +333,7 @@ function MainDashBoard() {
                 </tr>
               </thead>
               <tbody className={`divide-y divide-gray-200 `}>
-                {orderDetails.length > 0 ? (
+                {orderDetails?.length > 0 ? (
                   <OrderDetails orderDetails={orderDetails} />
                 ) : (
                   <tr>

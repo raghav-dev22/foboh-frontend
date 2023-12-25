@@ -1,7 +1,8 @@
 export const getOrganisationDetails = async () => {
+  const organisationUrl = process.env.REACT_APP_ORGANISATION_URL
   const orgID = localStorage.getItem("organisationId");
   const organisationDetails = await fetch(
-    `https://organization-api-foboh.azurewebsites.net/api/Organization/get?organizationId=${orgID}`,
+    `${organisationUrl}/api/Organization/get?organizationId=${orgID}`,
     {
       method: "GET",
     }

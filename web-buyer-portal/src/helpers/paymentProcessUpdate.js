@@ -1,11 +1,12 @@
-export const paymentProcessUpdate = (
+export const paymentProcessUpdate = async (
   orderId,
   orderBy,
   status,
   id,
   OrderPaymentIntentId
 ) => {
-  fetch(
+  const { organisationId } = JSON.parse(localStorage.getItem("buyerInfo"));
+  await fetch(
     "https://fobohwbppaymentinfoapi20230925100153.azurewebsites.net/api/PaymentInfo/OrderMain_InProcessToDeliveredStatusUpdation",
     {
       method: "PUT",
@@ -18,7 +19,7 @@ export const paymentProcessUpdate = (
         orderStatus: "OrderPlaced",
         paymentStatus: status,
         orderPaymentIntentId: id,
-        organisationID: localStorage.getItem("organisationId"),
+        organisationID: organisationId,
         catalogueID: localStorage.getItem("catalogueId"),
       }),
     }

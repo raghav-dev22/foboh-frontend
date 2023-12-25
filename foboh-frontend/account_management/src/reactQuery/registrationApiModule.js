@@ -1,7 +1,9 @@
 export const postBusinessName = async (businessName) => {
   try {
+    const organisationUrl = process.env.REACT_APP_ORGANISATION_URL;
+
     const response = await fetch(
-      "https://organization-api-foboh.azurewebsites.net/api/Organization/InitialSubmit",
+      `${organisationUrl}/api/Organization/InitialSubmit`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -32,30 +34,28 @@ export const putUserUpdate = async (
   organisationId
 ) => {
   try {
-    const response = await fetch(
-      `https://user-api-foboh.azurewebsites.net/api/User/update?ccrn=${ccrn}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          status: true,
-          role: "",
-          meta: "",
-          adId: "",
-          imageUrl: "",
-          bio: "",
-          mobile: mobile,
-          organisationId: organisationId,
-          isActive: true,
-        }),
-      }
-    )
+    const userUrl = process.env.REACT_APP_AUTH_URL;
+    const response = await fetch(`${userUrl}/api/User/update?ccrn=${ccrn}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        status: true,
+        role: "",
+        meta: "",
+        adId: "",
+        imageUrl: "",
+        bio: "",
+        mobile: mobile,
+        organisationId: organisationId,
+        isActive: true,
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) return data;

@@ -1,10 +1,10 @@
-export const cartStatusUpdate = () => {
+export const cartStatusUpdate = async () => {
   const cartId = localStorage.getItem("cartId");
   const { buyerId, deliveryFirstName } = JSON.parse(
     localStorage.getItem("buyerInfo")
   );
 
-  fetch(
+  await fetch(
     `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/UpdateToCartStatusByCartId?CartId=${cartId}`,
     {
       method: "PUT",

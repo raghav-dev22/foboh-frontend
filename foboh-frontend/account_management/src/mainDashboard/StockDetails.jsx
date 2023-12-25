@@ -23,6 +23,7 @@ function StockDetails() {
   const [customerPercentage, setCustomerPercentage] = useState(0);
   const [revenue, setRevenue] = useState(0);
   const [profit, setProfit] = useState(0);
+  const dashboardUrl  = process.env.REACT_APP_DASHBOARD_SUPPLIER_URL
 
   const {
     data: tilesData,
@@ -165,7 +166,7 @@ function StockDetails() {
   useEffect(() => {
     // total  customer
     fetch(
-      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getCustomer?OrganisationId=${organisationId}`,
+      `${dashboardUrl}/api/DashBoard/getCustomer?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }
@@ -183,7 +184,7 @@ function StockDetails() {
       .catch((error) => console.log(error));
 
     fetch(
-      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getAllCards?OrganisationId=${organisationId}`,
+      `${dashboardUrl}/api/DashBoard/getAllCards?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }
@@ -191,7 +192,7 @@ function StockDetails() {
 
     // // total  order
     fetch(
-      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getNoOfoders?OrganisationId=${organisationId}`,
+      `${dashboardUrl}/api/DashBoard/getNoOfoders?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }
@@ -207,7 +208,7 @@ function StockDetails() {
 
     // // total  order
     fetch(
-      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getTotalRevenue?OrganisationId=${organisationId}`,
+      `${dashboardUrl}/api/DashBoard/getTotalRevenue?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }
@@ -222,7 +223,7 @@ function StockDetails() {
       .catch((error) => console.log(error));
 
     fetch(
-      `https://dashboardfobohwepapi-fbh.azurewebsites.net/api/DashBoard/getTotalProfit?OrganisationId=${organisationId}`,
+      `${dashboardUrl}/api/DashBoard/getTotalProfit?OrganisationId=${organisationId}`,
       {
         method: "GET",
       }

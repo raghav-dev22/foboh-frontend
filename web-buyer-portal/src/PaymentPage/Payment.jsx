@@ -33,6 +33,12 @@ import { getClientSecret } from "../helpers/getClientSecret";
 import { getCalculations } from "../helper/getCalculations";
 import { convertDefaultPaymentTermValue } from "../helpers/invoiceDateFormat";
 import { formatDate } from "../helpers/formatDateToPaymentDueDate";
+import { useMutation, useQuery } from "react-query";
+import {
+  getPaymentMethod,
+  updatePaymentMethod,
+} from "../react-query/paymentApiModule";
+
 let statesData = [];
 const useOptions = () => {
   const fontSize = useResponsiveFontSize();
@@ -67,12 +73,39 @@ const useOptions = () => {
   return options;
 };
 
+let isPaymentMethodUpdate = false;
+let isPaymentMethodAvailable = false;
+
 const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [isBecs, setIsBecs] = useState(false);
   const { defaultPaymentTerm } = JSON.parse(localStorage.getItem("buyerInfo"));
-
   const [selectedPaymentTerm, setSelectedPaymentTerm] = useState("");
+  const [isCardDetails, setIsCardDetails] = useState(false);
+  const [isCardDataAvailable, setIsCardDataAvailable] = useState(false);
+  const [isPaymentMethodUpdateState, setIsPaymentMethodUpdateState] =
+    useState(false);
+
+  const { buyerId } = JSON.parse(localStorage.getItem("buyerInfo"));
   const text = <span>Edit</span>;
+
+  // GET CARD DETAILS
+  const { data: cardData } = useQuery(
+    "getPaymentMethod",
+    () => getPaymentMethod(buyerId),
+    {
+      onSuccess: (data) => {
+        if (data) {
+          console.log("data", data);
+          isPaymentMethodAvailable = true;
+          setIsCardDetails(true);
+          setIsCardDataAvailable(true);
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
 
   const buttonWidth = 78;
 
@@ -121,7 +154,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const { TabPane } = Tabs;
   const [isChecked, setIsChecked] = useState(false);
   const [activeChecked, setActiveChecked] = useState(false);
-  const [cardDetails, setCardDetails] = useState(false);
   const [isCheckedTransfer, setIsCheckedTransfer] = useState(false);
   const [transfer, setTransfer] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
@@ -134,6 +166,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
+  const [deliveryAddress, setDeliveryAddress] = useState({});
+  const [billingAddressData, setBillingAddressData] = useState({});
+  const [deliveryContact, setDeliveryContact] = useState({});
   const errorMessage = (error) => {
     messageApi.open({
       type: "error",
@@ -149,6 +184,13 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
       Modal.success({
         title: "Order confirmed!",
         content: `Thank you for your payment.`,
+        onOk: () => navigate("/home/order-confirm"),
+      });
+    } else if (name === "payLater") {
+      const fomattedDate = formatDate(convertedPaymentDueDate);
+      Modal.success({
+        title: "Order confirmed!",
+        content: fomattedDate,
         onOk: () => navigate("/home/order-confirm"),
       });
     } else {
@@ -211,6 +253,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
               Notes: buyerData?.instructionsNotes,
             };
             setDeliveryAddress(addressBody);
+            console.log(addressBody, "addressBody");
           }
         });
 
@@ -260,14 +303,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     setIsChecked(!isChecked);
   };
 
-  const openTransfer = () => {
-    setTransfer(true);
-    setOpenDetails(false);
-    setCardDetails(false);
-    setIsChecked(false);
-    setIsCheckedTransfer(true);
-  };
-
   const [openDetails, setOpenDetails] = useState(false);
   const [editContact, setEditContact] = useState(false);
 
@@ -275,9 +310,10 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
   const elements = useElements();
   const options = useOptions();
 
-  const [deliveryAddress, setDeliveryAddress] = useState({});
-  const [billingAddressData, setBillingAddressData] = useState({});
-  const [deliveryContact, setDeliveryContact] = useState({});
+  const handleSaveDetails = (e) => {
+    isPaymentMethodUpdate = e.target.checked;
+    setIsPaymentMethodUpdateState(e.target.checked);
+  };
 
   const handleSubmit = async (event) => {
     await refetch();
@@ -290,38 +326,25 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
     }
 
     if (localDefaultPaymentMethod === "Credit Card/Debit Card") {
-      const payload = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardNumberElement),
-        billing_details: {
-          name: cardHolderName,
-          address: {
-            line1: deliveryAddress?.Address,
-            city: deliveryAddress?.Suburb,
-            state: deliveryAddress?.State?.label,
-            postal_code: deliveryAddress?.Postcode,
-            country: "AU",
-          },
-        },
-      });
-
-      if (payload) {
+      // IF WE HAVE PAYMENT METHOD
+      if (isPaymentMethodAvailable && !isPaymentMethodUpdate) {
         const convertedPaymentDueDate = convertDefaultPaymentTermValue(
           "",
           "paymentTodayDate"
         );
-        const pm_id = payload?.paymentMethod?.id;
-        const last4 = payload.paymentMethod.card.last4;
+        const pm_id = cardData?.paymentMethodId;
+        const last4 = cardData?.last4;
         const orderId = localStorage.getItem("orderId");
-        const { deliveryEmail } = JSON.parse(localStorage.getItem("buyerInfo"));
-
+        const { orderingEmail, businessName } = JSON.parse(
+          localStorage.getItem("buyerInfo")
+        );
         const { clientSecret, OrderPaymentIntentId } = await paymentProcess(
           pm_id,
           "PayNow",
           "Card",
-          deliveryEmail,
+          orderingEmail,
           orderId,
-          cardHolderName,
+          businessName,
           gst,
           wet,
           subtotal,
@@ -342,21 +365,78 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           errorMessage(error?.message);
         } else {
           setLoading(false);
-
-          paymentProcessUpdate(
-            orderId,
-            cardHolderName,
-            paymentIntent.status,
-            paymentIntent?.id,
-            OrderPaymentIntentId
-          );
-
-          cartStatusUpdate();
-          orderStatusUpdate();
+          await cartStatusUpdate();
+          await orderStatusUpdate();
           countDown("payNow", "");
         }
+      } else {
+        // IF WE DO NOT HAVE PAYMENT METHOD THEN WE WILL CREATE ONE
+        const { paymentMethod, error } = await stripe.createPaymentMethod({
+          type: "card",
+          card: elements.getElement(CardNumberElement),
+          billing_details: {
+            name: cardHolderName,
+            address: {
+              line1: deliveryAddress?.Address,
+              city: deliveryAddress?.Suburb,
+              state: deliveryAddress?.State?.label,
+              postal_code: deliveryAddress?.Postcode,
+              country: "AU",
+            },
+          },
+        });
+
+        if (paymentMethod) {
+          const convertedPaymentDueDate = convertDefaultPaymentTermValue(
+            "",
+            "paymentTodayDate"
+          );
+          const pm_id = paymentMethod?.id;
+          const last4 = paymentMethod.card.last4;
+          const orderId = localStorage.getItem("orderId");
+          const { orderingEmail } = JSON.parse(
+            localStorage.getItem("buyerInfo")
+          );
+
+          const { clientSecret, OrderPaymentIntentId } = await paymentProcess(
+            pm_id,
+            "PayNow",
+            "Card",
+            orderingEmail,
+            orderId,
+            cardHolderName,
+            gst,
+            wet,
+            subtotal,
+            total,
+            convertedPaymentDueDate,
+            last4,
+            isPaymentMethodUpdate
+          );
+
+          const { error, paymentIntent } = await stripe.confirmCardPayment(
+            clientSecret,
+            {
+              payment_method: pm_id,
+            }
+          );
+
+          if (error) {
+            setLoading(false);
+            errorMessage(error?.message);
+          } else {
+            setLoading(false);
+
+            await cartStatusUpdate();
+            await orderStatusUpdate();
+            countDown("payNow", "");
+          }
+        } else {
+          setLoading(false);
+          errorMessage("Please enter your card details");
+        }
       }
-    } else {
+    } else if (localDefaultPaymentMethod === "BECS (Direct Debit)") {
       const payload = await stripe.createPaymentMethod({
         type: "au_becs_debit",
         au_becs_debit: elements.getElement(AuBankAccountElement),
@@ -381,7 +461,7 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           "paymentDueDate"
         );
 
-        const { organisationId } = JSON.parse(
+        const { organisationId, buyerId } = JSON.parse(
           localStorage.getItem("buyerInfo")
         );
 
@@ -389,12 +469,14 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
           orderId: localStorage.getItem("orderId"),
           orderByEmailID: email,
           orderBy: cardHolderName,
+          buyerId: buyerId,
           organisationID: organisationId,
           catalogueID: localStorage.getItem("catalogueId"),
           orderStatus: "InProcessBecs",
           paymentType: "PayLater",
           paymentMethod: "becs",
           paymentMethodID: pm_id,
+          paymentMethodUpdate: true,
           paymentMethodType: bankName,
           last4: last4,
           paymentDueDate: convertedPaymentDueDate,
@@ -411,38 +493,32 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
         };
 
         const clientSecret = await getClientSecret(details);
-        const auBankAccount = elements.getElement(AuBankAccountElement);
 
         if (clientSecret) {
-          const { error, paymentIntent } =
-            await stripe.confirmAuBecsDebitPayment(clientSecret, {
-              payment_method: {
-                au_becs_debit: auBankAccount,
-                billing_details: {
-                  name: cardHolderName,
-                  email: email,
-                },
-              },
-            });
+          setLoading(false);
 
-          if (error) {
-            setLoading(false);
-            errorMessage(error.message);
-          } else {
-            setLoading(false);
-            paymentProcessUpdate(
-              localStorage.getItem("orderId"),
-              cardHolderName,
-              paymentIntent.status,
-              paymentIntent.id,
-              paymentIntent.id
-            );
-            cartStatusUpdate();
-            orderStatusUpdate();
-            countDown("payLater", convertedPaymentDueDate);
-          }
+          await cartStatusUpdate();
+          await orderStatusUpdate();
+          countDown("payLater", convertedPaymentDueDate);
+        } else {
+          setLoading(false);
+          errorMessage(
+            "Some error occurred while processing, please try again later!"
+          );
         }
       }
+    } else {
+      // MANUAL PAYMENT LOGIC
+      const orderId = localStorage.getItem("orderId");
+      const { businessName } = JSON.parse(localStorage.getItem("buyerInfo"));
+      const convertedPaymentDueDate = convertDefaultPaymentTermValue(
+        defaultPaymentTerm?.length ? defaultPaymentTerm[0] : "",
+        "paymentDueDate"
+      );
+      await paymentProcessUpdate(orderId, businessName, "Unpaid", "", "");
+      await cartStatusUpdate();
+      await orderStatusUpdate();
+      countDown("", convertedPaymentDueDate);
     }
   };
 
@@ -727,7 +803,6 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         onClick={() => {
                           setSelectedPaymentTerm("Pay Now");
                           setIsChecked(true);
-                          setCardDetails(true);
                         }}
                         className={`rounded-md w-[175px] py-[18px]`}
                         style={{
@@ -821,147 +896,191 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                         </div>
                       </div>
 
-                      <div className="bg-[#E7E7E7] py-5 px-2">
-                        <div className="rounded-md bg-white p-3 flex justify-between">
-                          <div className="flex items-center gap-2">
-                            <img src="/assets/visa.png" alt="" />
-                            <h5 className="font-medium text-[#2B4447] text-base">
-                              Credit card ending with XXXX
-                            </h5>
-                          </div>
-                          <div className="change-btn cursor-pointer">
-                            <Tooltip placement="top" title={text}>
-                              <ModeIcon
-                                onClick={() => {
-                                  setCardDetails(!cardDetails);
-                                  setIsChecked(isChecked);
-                                  setTransfer(transfer);
-                                }}
-                              />
-                            </Tooltip>
-                          </div>
-                        </div>
-                      </div>
+                      {isCardDetails && !isPaymentMethodUpdateState ? (
+                        <div className="bg-[#E7E7E7] py-5 px-2">
+                          <div className="rounded-md bg-white p-3 flex justify-between">
+                            <div className="flex items-center gap-2">
+                              {cardData ? (
+                                <h1 className="font-medium text-[#2B4447] text-base">
+                                  {cardData?.brand}
+                                </h1>
+                              ) : (
+                                <img src="/assets/visa.png" alt="" />
+                              )}
+                              <h5 className="font-medium text-[#2B4447] text-base">
+                                Credit card ending with {cardData?.last4}
+                              </h5>
+                            </div>
+                            <div className="change-btn cursor-pointer">
+                              <Tooltip placement="top" title={text}>
+                                <ModeIcon
+                                  onClick={() => {
+                                    setIsPaymentMethodUpdateState(true);
 
-                      <div className=" py-5 px-4">
-                        <div
-                          className={`relative mb-4 `}
-                          data-te-input-wrapper-init
-                        >
-                          <label className="mb-2">Card number</label>
-                          <div className="custom-card mt-2">
-                            <CardNumberElement
-                              options={options}
-                              onChange={(event) => {
-                                setCardErrors({
-                                  ...cardErrors,
-                                  [event.elementType]: event.error,
-                                });
-                              }}
-                            />
-                          </div>
-
-                          <p className="mt-2 mb-2 text-red-500 text-xs">
-                            {cardErrors?.cardNumber?.message}
-                          </p>
-                          <div className="absolute top-[39px] right-[10px]">
-                            <LockOpenIcon
-                              style={{
-                                fill: "#979797",
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div
-                          className={`relative mb-4 w-full`}
-                          data-te-input-wrapper-init
-                        >
-                          <label
-                            htmlFor="LiquerLicence"
-                            className="text-[#2B4447] font-normal text-sm"
-                          >
-                            Name on Card
-                          </label>
-                          <input
-                            type="text"
-                            id="LiquerLicence"
-                            className=" "
-                            onChange={(e) => {
-                              setCardHolderName(e.target.value);
-                            }}
-                            autoComplete="on"
-                            style={{
-                              background: "#F8F8F8",
-                            }}
-                          />
-                        </div>
-                        <div className="flex flex-nowrap gap-2">
-                          <div
-                            className={`relative mb-4  w-full`}
-                            data-te-input-wrapper-init
-                          >
-                            <label className="mb-2">
-                              Expiration date
-                              <div className="custom-card mt-2">
-                                <CardExpiryElement
-                                  options={options}
-                                  onChange={(event) => {
-                                    setCardErrors({
-                                      ...cardErrors,
-                                      [event?.elementType]: event?.error,
-                                    });
+                                    isPaymentMethodUpdate = true;
+                                    setIsChecked(isChecked);
+                                    setIsCardDetails(!isCardDetails);
+                                    setTransfer(transfer);
                                   }}
                                 />
-                              </div>
-                            </label>
+                              </Tooltip>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className=" py-5 px-4">
+                          <div
+                            className={`relative mb-4 `}
+                            data-te-input-wrapper-init
+                          >
+                            <label className="mb-2">Card number</label>
+                            <div className="custom-card mt-2">
+                              <CardNumberElement
+                                options={options}
+                                onChange={(event) => {
+                                  setCardErrors({
+                                    ...cardErrors,
+                                    [event.elementType]: event.error,
+                                  });
+                                }}
+                              />
+                            </div>
+
                             <p className="mt-2 mb-2 text-red-500 text-xs">
-                              {cardErrors?.cardExpiry?.message}
+                              {cardErrors?.cardNumber?.message}
                             </p>
+                            <div className="absolute top-[39px] right-[10px]">
+                              <LockOpenIcon
+                                style={{
+                                  fill: "#979797",
+                                }}
+                              />
+                            </div>
                           </div>
                           <div
                             className={`relative mb-4 w-full`}
                             data-te-input-wrapper-init
                           >
-                            <label className="mb-2">
-                              CVC
-                              <div className="custom-card mt-2 ">
-                                <CardCvcElement
-                                  options={options}
-                                  onChange={(event) => {
-                                    setCardErrors({
-                                      ...cardErrors,
-                                      [event.elementType]: event.error,
-                                    });
-                                  }}
-                                />
-                              </div>
+                            <label
+                              htmlFor="LiquerLicence"
+                              className="text-[#2B4447] font-normal text-sm"
+                            >
+                              Name on Card
                             </label>
-                            <p className="mt-2 mb-2 text-red-500 text-xs">
-                              {cardErrors?.cardCvc?.message}
-                            </p>
+                            <input
+                              type="text"
+                              id="LiquerLicence"
+                              className=" "
+                              onChange={(e) => {
+                                setCardHolderName(e.target.value);
+                              }}
+                              autoComplete="on"
+                              style={{
+                                background: "#F8F8F8",
+                              }}
+                            />
+                          </div>
+                          <div className="flex flex-nowrap gap-2">
+                            <div
+                              className={`relative mb-4  w-full`}
+                              data-te-input-wrapper-init
+                            >
+                              <label className="mb-2">
+                                Expiration date
+                                <div className="custom-card mt-2">
+                                  <CardExpiryElement
+                                    options={options}
+                                    onChange={(event) => {
+                                      setCardErrors({
+                                        ...cardErrors,
+                                        [event?.elementType]: event?.error,
+                                      });
+                                    }}
+                                  />
+                                </div>
+                              </label>
+                              <p className="mt-2 mb-2 text-red-500 text-xs">
+                                {cardErrors?.cardExpiry?.message}
+                              </p>
+                            </div>
+                            <div
+                              className={`relative mb-4 w-full`}
+                              data-te-input-wrapper-init
+                            >
+                              <label className="mb-2">
+                                CVC
+                                <div className="custom-card mt-2 ">
+                                  <CardCvcElement
+                                    options={options}
+                                    onChange={(event) => {
+                                      setCardErrors({
+                                        ...cardErrors,
+                                        [event.elementType]: event.error,
+                                      });
+                                    }}
+                                  />
+                                </div>
+                              </label>
+                              <p className="mt-2 mb-2 text-red-500 text-xs">
+                                {cardErrors?.cardCvc?.message}
+                              </p>
+                            </div>
+                          </div>
+                          {contextHolder}
+
+                          <div
+                            className={
+                              isCardDataAvailable
+                                ? "flex justify-end w-full items-center mb-4"
+                                : "flex justify-between w-full items-center mb-4"
+                            }
+                          >
+                            {!isCardDataAvailable && (
+                              <div className="flex items-center">
+                                <input
+                                  defaultChecked=""
+                                  id="Savecarddetails"
+                                  type="checkbox"
+                                  onChange={(e) => {
+                                    handleSaveDetails(e);
+                                  }}
+                                  defaultValue=""
+                                  name="default-radio"
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
+                                />
+
+                                <label
+                                  htmlFor="Savecarddetails"
+                                  className="ml-4 text-base font-normal text-[#2B4447] "
+                                >
+                                  Save card details
+                                </label>
+                              </div>
+                            )}
+                            {isCardDataAvailable && (
+                              <button
+                                onClick={() => {
+                                  isPaymentMethodUpdate = false;
+                                  setIsPaymentMethodUpdateState(false);
+                                  isPaymentMethodAvailable = true;
+                                  setIsCardDetails(true);
+                                }}
+                                style={{
+                                  backgroundColor: token.buttonThemeColor,
+                                }}
+                                className="bg-[#563FE3] rounded-[6px] w-fit px-[20px] py-[9px] text-base font-medium text-white hover:bg-[#6a59ce]"
+                              >
+                                Cancel
+                              </button>
+                            )}
                           </div>
                         </div>
-                        {contextHolder}
-                        <div className="flex items-center mb-4">
-                          <input
-                            defaultChecked=""
-                            id="default-checkbox"
-                            type="checkbox"
-                            defaultValue=""
-                            name="default-radio"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800"
-                          />
-
-                          <label
-                            htmlFor="radio-3"
-                            className="ml-4 text-base font-normal text-[#2B4447] "
-                          >
-                            Save card details
-                          </label>
-                        </div>
-                      </div>
+                      )}
                     </div>
                   </TabPane>
+                ) : localDefaultPaymentMethod ===
+                  "Manual payment (Cash, Cheque)" ? (
+                  ""
                 ) : (
                   <TabPane
                     tab={
@@ -1010,15 +1129,13 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                     }
                     key="1"
                   >
-                    {
-                      <Becs
-                        setBankName={setBankName}
-                        setCardHolderName={setCardHolderName}
-                        cardHolderName={cardHolderName}
-                        setEmail={setEmail}
-                        email={email}
-                      />
-                    }
+                    <Becs
+                      setBankName={setBankName}
+                      setCardHolderName={setCardHolderName}
+                      cardHolderName={cardHolderName}
+                      setEmail={setEmail}
+                      email={email}
+                    />
                     {/* </div> */}
                   </TabPane>
                 )}

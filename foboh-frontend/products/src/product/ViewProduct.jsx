@@ -694,7 +694,7 @@ function ViewProduct() {
             categoryId: values?.category?.value,
             subCategoryId: values?.subcategory?.value,
             segmentId: values?.segment.value ? values.segment.value : "",
-            variety: values?.grapeVariety.map((item) => {
+            variety: values?.grapeVariety?.map((item) => {
               return item?.label;
             }),
             vintage: values?.vintage.toString() || "",
@@ -1240,7 +1240,11 @@ function ViewProduct() {
     }
     setShow(false);
   };
-
+  const maxCharacters = 1000;
+  const remainingCharacters = Math.max(
+    0,
+    maxCharacters - (values.description || "").length
+  );
   return (
     <>
       {contextHolder}
@@ -2194,6 +2198,10 @@ function ViewProduct() {
                             value={values.description}
                             onChange={handleChange}
                           />
+                          <p className="mt-2 mb-2 text-gray-500 text-xs font-normal">
+                            {remainingCharacters} character
+                            {remainingCharacters !== 1 ? "s" : ""} left
+                          </p>
                           {errors.description && (
                             <p className="mt-2 mb-2 text-red-500 text-xs	font-normal	">
                               {errors.description}

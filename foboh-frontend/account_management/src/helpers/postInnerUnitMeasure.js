@@ -1,5 +1,7 @@
 export const postInnerUnitMeasure = async (value) => {
   const organisationId = localStorage.getItem("organisationId");
+  const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const body = value.map((item) => {
     return {
       unit: `${item?.amount} ${item?.iumUnit}`,
@@ -7,7 +9,7 @@ export const postInnerUnitMeasure = async (value) => {
     };
   });
   const innerUnitMeasureResponse = await fetch(
-    `https://masters-api-foboh.azurewebsites.net/api/innerUnitOfMeasure/CreateBaseUnit?OrganisationID=${organisationId}`,
+    `${mastersUrl}/api/innerUnitOfMeasure/CreateBaseUnit?OrganisationID=${organisationId}`,
     {
       method: "POST",
       headers: {
