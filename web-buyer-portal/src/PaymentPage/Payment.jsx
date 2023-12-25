@@ -908,7 +908,9 @@ const Payment = ({ cartData, sealedCartError, refetch }) => {
                                 <img src="/assets/visa.png" alt="" />
                               )}
                               <h5 className="font-medium text-[#2B4447] text-base">
-                                Credit card ending with {cardData?.last4}
+                                {cardData?.paymentMethodType === "card"
+                                  ? `Credit card ending with ${cardData?.last4}`
+                                  : `Bank account ending with ${cardData?.last4}`}
                               </h5>
                             </div>
                             <div className="change-btn cursor-pointer">

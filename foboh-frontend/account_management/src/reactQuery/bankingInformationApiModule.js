@@ -14,7 +14,7 @@ export const getBankingInformation = async () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) return data?.data;
-        else throw new Error("Error occurred while fetching data");
+        else return null
       });
 
     return response;
@@ -63,6 +63,28 @@ export const postBankingInformations = async (data) => {
 
     let businessTypeSelected = "";
     let companyStructure = "";
+    let ownerShip = {
+      director: false,
+      executive: false,
+      owner: false,
+    };
+
+    switch (representativeInformationOwnership) {
+      case "I own more than 25% of the company":
+        ownerShip.owner = true;
+        break;
+
+      case "I am a member of the governing board of the company":
+        ownerShip.director = true;
+        break;
+
+      case "I am a company executive.":
+        ownerShip.executive = true;
+        break;
+
+      default:
+        break;
+    }
 
     switch (businessType) {
       case "Individual":
@@ -140,6 +162,7 @@ export const postBankingInformations = async (data) => {
           representativeInformationEmail: representativeInformationEmail,
           representativeInformationOwnership:
             representativeInformationOwnership,
+          ownership: ownerShip,
           bankingInformationBsb: bankingInformationBsb,
           bankingInformationAccountNumber: bankingInformationAccountNumber,
           billingStatementdescriptor: billingStatementDescriptor,
@@ -161,8 +184,12 @@ export const postBankingInformations = async (data) => {
       .then((response) => response.json())
       .then((data) => {
         const name = result.token.bank_account.bank_name;
-        if (data.success) return { data, name };
-        else throw new Error("Error while fetching data");
+        const obj = {
+          data: data,
+          name : name
+        }
+        if (data.success) return obj
+        else return data?.message
       })
       .catch((error) => console.log(error));
 

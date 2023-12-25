@@ -12,6 +12,7 @@ const BankingInfoFooter = ({ setValues, values }) => {
           className="w-4 h-4 relative text-blue-600 bg-gray-100 border-gray-300 rounded-full dark:bg-gray-700 dark:border-gray-600"
           id="termsAndConditions"
           type="checkbox"
+          checked={values?.termsAndConditions}
           name="termsAndConditions"
           onChange={(e) => {
             setValues((prev) => {

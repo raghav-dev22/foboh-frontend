@@ -15,8 +15,10 @@ const RepresentativeInformation = ({
   errors,
   stateOptions,
   setValues,
+  setShow,
 }) => {
   const handleSelect = (value, name) => {
+    setShow(true);
     setValues((prev) => {
       return {
         ...prev,

@@ -12,8 +12,10 @@ const BusinessDetails = ({
   HelpIcon,
   setValues,
   touched,
+  setShow
 }) => {
   const handleSelect = (value, name) => {
+    setShow(true)
     setValues((prev) => {
       return {
         ...prev,

@@ -381,7 +381,7 @@ const OrderDetails = () => {
               </div>
             </div>
             <h5 className="text-lg font-semibold text-[#2B4447]">
-              Payment Status - <span className="font-medium">Paid </span>
+              Payment Status - <span className="font-medium">{orderDetails?.transactionStatus} </span>
             </h5>
           </div>
           <div className="border  h-full rounded-md bg-[#F8F8F8] border-[#E7E7E7] py-3 px-5 w-full">

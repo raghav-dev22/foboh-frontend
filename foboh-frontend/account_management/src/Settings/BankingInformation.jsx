@@ -23,6 +23,8 @@ import {
   postBankingInformations,
 } from "../reactQuery/bankingInformationApiModule";
 import { useStripe } from "@stripe/react-stripe-js";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const BankingInformation = () => {
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ const BankingInformation = () => {
   const [stateOptions, setStateOptions] = useState([]);
   const [businessType, setBusinessType] = useState([]);
   const mastersUrl = process.env.REACT_APP_MASTERS_URL;
+
   const stripe = useStripe();
 
   const CustomTooltip = styled(({ className, ...props }) => (
@@ -121,80 +124,106 @@ const BankingInformation = () => {
     initialValues: initialValues,
     validationSchema: BankingSchema,
     onSubmit: (values) => {
-      console.log("values", values);
       postBankingInfo([values, stripe]);
     },
   });
-  console.log("errors", errors);
 
   // Fetching bank information
-  const { data: bankingInformationData, isLoading } = useQuery(
-    "getBankingInformation",
-    getBankingInformation,
-    {
-      onSuccess: (data) => {
-        if (data) {
-          setValues((prev) => {
-            return {
-              ...prev,
-              businessType: data?.businessType,
-              legalBusinessName: data?.legalBusinessName,
-              acn: data?.acn,
-              abn: data?.abn,
-              businessAddress: data?.businessAddress,
-              businessPhoneNumber: data?.businessPhoneNumber,
-              businessDetailsSuburb: data?.businessDetailsSuburb,
-              businessDetailsPostcode: data?.businessDetailsPostcode,
-              businessDetailsState: data?.businessDetailsState,
-              businessDetailsCountry: data?.businessDetailsCountry,
-              businessWebsiteUrl: data?.businessWebsiteUrl,
-              representativeInformationFirstName:
-                data?.representativeInformationFirstName,
-              representativeInformationLastName:
-                data?.representativeInformationLastName,
-              representativeInformationDob: convertDateString(
-                data?.representativeInformationDob
-              ),
-              representativeInformationAddress:
-                data?.representativeInformationAddress,
-              representativeInformationSuburb:
-                data?.representativeInformationSuburb,
-              representativeInformationPostcode:
-                data?.representativeInformationPostcode,
-              representativeInformationState:
-                data?.representativeInformationState,
-              representativeInformationMobile:
-                data?.representativeInformationMobile,
-              representativeInformationEmail:
-                data?.representativeInformationEmail,
-              representativeInformationOwnership:
-                data?.representativeInformationOwnership,
-              bankingInformationBsb: data?.bankingInformationBsb,
-              bankingInformationAccountNumber:
-                data?.bankingInformationAccountNumber,
-              bankingInformationBankName: data?.bankingInformationBankName,
-              billingStatementDescriptor: data?.billingStatementDescriptor,
-              billingStatementMobile: data?.billingStatementMobile,
-              termsAndConditions: data?.termsAndConditions,
-              organisationId: data?.organisationId,
-            };
-          });
-        }
-      },
-      onError: (error) => {
-        errorUpdating("Error occurred while fetching data!");
-      },
+  const asyncFunction = async () => {
+    const data = await getBankingInformation();
+    if (data) {
+      let businessType = "";
+
+      switch (data?.businessType) {
+        case "individual":
+          businessType = "Individual";
+          break;
+
+        case "company":
+          if (data?.companyStructure === "sole_proprietorship") {
+            businessType = "Sole Proprietorship";
+          } else if (data?.companyStructure === "private_corporation") {
+            businessType = "Private Company";
+          } else if (data?.companyStructure === "public_corporation") {
+            businessType = "Public Company";
+          } else if (data?.companyStructure === "partnership") {
+            // Assuming you have a partnership case
+            businessType = "Partnership";
+          }
+          break;
+
+        case "non_profit":
+          businessType = "Nonprofit";
+          break;
+
+        default:
+          businessType = "Unknown"; // It's a good practice to handle the default case
+          break;
+      }
+
+      const body = {
+        businessType: businessType,
+        legalBusinessName: data?.legalBusinessName,
+        acn: data?.acn,
+        abn: data?.abn,
+        businessAddress: data?.businessAddress,
+        businessPhoneNumber: data?.businessPhoneNumber,
+        businessDetailsSuburb: data?.businessDetailsSuburb,
+        businessDetailsPostcode: data?.businessDetailsPostcode,
+        businessDetailsState: data?.businessDetailsState,
+        businessDetailsCountry: data?.businessDetailsCountry,
+        businessWebsiteUrl: data?.businessWebsiteUrl,
+        representativeInformationFirstName:
+          data?.representativeInformationFirstName,
+        representativeInformationLastName:
+          data?.representativeInformationLastName,
+        representativeInformationDob: convertDateString(
+          data?.representativeInformationDob
+        ),
+        representativeInformationAddress:
+          data?.representativeInformationAddress,
+        representativeInformationSuburb: data?.representativeInformationSuburb,
+        representativeInformationPostcode:
+          data?.representativeInformationPostcode,
+        representativeInformationState: data?.representativeInformationState,
+        representativeInformationMobile: data?.representativeInformationMobile,
+        representativeInformationEmail: data?.representativeInformationEmail,
+        representativeInformationOwnership:
+          data?.representativeInformationOwnership,
+        bankingInformationBsb: data?.bankingInformationBsb,
+        bankingInformationAccountNumber: data?.bankingInformationAccountNumber,
+        bankingInformationBankName: data?.bankingInformationBankName,
+        billingStatementDescriptor: data?.billingStatementDescriptor,
+        billingStatementMobile: data?.billingStatementMobile,
+        termsAndConditions: data?.termsAndConditions,
+        organisationId: data?.organisationId,
+      };
+
+      setInitialValues((prev) => {
+        return {
+          ...prev,
+          ...body,
+        };
+      });
+
+      setValues((prev) => {
+        return {
+          ...prev,
+          ...body,
+        };
+      });
     }
-  );
+  };
 
   // Posting bank information
-  const { mutate: postBankingInfo } = useMutation(postBankingInformations, {
-    onSuccess: (data) => {
-      if (data) {
-        const {data, name} = data;
-        console.log(data, name);
+  const {
+    mutate: postBankingInfo,
+    isLoading: postBankingInformationsIsLoading,
+  } = useMutation(postBankingInformations, {
+    onSuccess: (dataGet) => {
+      if (dataGet) {
         setValues((prev) => {
-          return { ...prev, bankingInformationBankName: name };
+          return { ...prev, bankingInformationBankName: dataGet?.name };
         });
         detilsUpdated();
         setShow(false);
@@ -203,7 +232,7 @@ const BankingInformation = () => {
       }
     },
     onError: (err) => {
-      errorUpdating("Error occurred while updating, please try again!");
+      errorUpdating(err);
     },
   });
 
@@ -234,6 +263,8 @@ const BankingInformation = () => {
         }));
         setBusinessType(businessTypeOptions);
       });
+
+    asyncFunction();
   }, []);
 
   const formChange = () => {
@@ -274,12 +305,33 @@ const BankingInformation = () => {
                     >
                       Cancel
                     </button>
-                    <button
-                      type="submit"
-                      className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium "
-                    >
-                      Save
-                    </button>
+                    {postBankingInformationsIsLoading ? (
+                      <button
+                        disabled={true}
+                        type="submit"
+                        className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium"
+                      >
+                        Save
+                        <Spin
+                          indicator={
+                            <LoadingOutlined
+                              style={{
+                                marginLeft: 3,
+                                fontSize: 15,
+                              }}
+                              spin
+                            />
+                          }
+                        />
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="rounded-md bg-white px-6 py-2.5 text-green text-base font-medium "
+                      >
+                        Save
+                      </button>
+                    )}
                   </nav>
                 </div>
               </div>
@@ -288,6 +340,7 @@ const BankingInformation = () => {
           <div className="lg:flex flex-col gap-5 px-6 ">
             <div className="  w-full  gap-5 h-full	 grid">
               <BusinessDetails
+                setShow={setShow}
                 values={values}
                 businessType={businessType}
                 handleBlur={handleBlur}
@@ -302,6 +355,7 @@ const BankingInformation = () => {
             </div>
             <div className="  w-full  gap-5 h-full	 grid	  ">
               <RepresentativeInformation
+                setShow={setShow}
                 setValues={setValues}
                 values={values}
                 handleChange={handleChange}
