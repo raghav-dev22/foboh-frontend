@@ -340,9 +340,11 @@ function Organisation() {
               if (data.success && data.data.length === 1) {
                 const organisationSettings = data.data[0];
                 dispatch(
-                  updateUserData({
-                    ...user,
-                    organisationId: organisationSettings.organisationID,
+                  updateUserData((prev) => {
+                    return {
+                      ...prev,
+                      organisationId: organisationSettings.organisationID,
+                    };
                   })
                 );
                 const categoryList = organisationSettings?.categoryList?.map(

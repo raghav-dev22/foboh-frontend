@@ -186,7 +186,6 @@ const AllOrders = () => {
             {item?.businessName}
           </p>
           <p className="text-xs sm:text-sm sm:font-normal font-light text-gray">
-            {" "}
             ({item?.orderingFirstName} {item?.orderingLastName})
           </p>
         </div>

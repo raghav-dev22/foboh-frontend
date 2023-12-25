@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { getTilesData } from "../reactQuery/dashboardApiModule";
 import { formatPrice } from "../helpers/formatPrice";
+import { Skeleton } from "antd";
 
 function StockDetails() {
   const [order, setOrder] = useState(0);
@@ -23,7 +24,8 @@ function StockDetails() {
   const [customerPercentage, setCustomerPercentage] = useState(0);
   const [revenue, setRevenue] = useState(0);
   const [profit, setProfit] = useState(0);
-  const dashboardUrl  = process.env.REACT_APP_DASHBOARD_SUPPLIER_URL
+  const [loading, setLoading] = useState(true);
+  const dashboardUrl = process.env.REACT_APP_DASHBOARD_SUPPLIER_URL;
 
   const {
     data: tilesData,
@@ -32,6 +34,10 @@ function StockDetails() {
   } = useQuery({
     queryKey: ["fetchTiles"],
     queryFn: getTilesData,
+    onSuccess: () => {
+      // Set loading to false after successful data fetch
+      setLoading(false);
+    },
   });
 
   const stockBox = [
@@ -246,30 +252,40 @@ function StockDetails() {
             key={`${index}-${item?.title}`}
             className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index} w-full`}
           >
-            <div className="grid grid-cols-1 gap-6 p-4">
-              <div className="flex justify-between ">
-                <div className=" stock-icon h-12 w-12 rounded-full  flex justify-center items-center bg-slate-100 ">
-                  {item.Image}
-                </div>
-                <div className="flex items-center gap-1">
-                  <p className="text-sm font-semibold ">{item.value}</p>
+            {item?.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6 p-4">
+                <div className="flex justify-between ">
+                  <div className=" stock-icon h-12 w-12 rounded-full  flex justify-center items-center bg-slate-100 ">
+                    {item.Image}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <p className="text-sm font-semibold ">{item.value}</p>
 
-                  <div className="">{item.Arrow}</div>
+                    <div className="">{item.Arrow}</div>
+                  </div>
+                </div>
+                <div className="">
+                  <h4 className="text-2xl font-bold text-start  ">
+                    {item.title}
+                  </h4>
+
+                  <div className="flex justify-between">
+                    <p className="text-sm font-semibold text-zinc-500">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              <div className="">
-                <h4 className="text-2xl font-bold text-start  ">
-                  {item.title}
-                </h4>
-
-                <div className="flex justify-between">
-                  <p className="text-sm font-semibold text-zinc-500">
-                    {item.description}
-                  </p>
-                </div>
+            ) : (
+              <div className="p-4">
+                <Skeleton
+                  paragraph={{ rows: 3 }}
+                  active
+                  avatar
+                  className="custom-skeleton-header"
+                />
               </div>
-            </div>
+            )}
           </div>
         );
       })}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table } from "antd";
+import { Table, Skeleton, ConfigProvider } from "antd";
 import CloseIcon from "@mui/icons-material/Close";
 import CancelOrderModal from "../../Modal/CancelOrderModal";
 import ChangeStatusModal from "../../Modal/ChangeStatusModal";
@@ -32,6 +32,7 @@ const OrderListing = () => {
   const [changeStatusModal, setChangeStatusModal] = useState(false);
   const [updatedOrderStatus, setUpdatedOrderStatus] = useState("");
   const [timeline, setTimeline] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [shortenName, setShortenName] = useState("");
 
   const { id } = useParams();
@@ -166,8 +167,6 @@ const OrderListing = () => {
           error("Some error has occurred, please try again later!");
         }
       }
-
-      //If order status is Delivered and payment is Paid then order status will be Complete
       if (
         orderDetailsResponse[0]?.orderStatus === "Delivered" &&
         orderDetailsResponse[0]?.transactionStatus === "Paid"
@@ -256,7 +255,46 @@ const OrderListing = () => {
       }
     }
   };
+  const emptyImage = (
+    <div>
+      {loading === true ? (
+        <Skeleton
+          height={20}
+          width={80}
+          paragraph={{ rows: 2 }}
+          loading={loading}
+          active
+          // avatar
+          className="custom-skeleton"
+        />
+      ) : (
+        <div className="flex items-center justify-center h-[200px] no-data flex-col">
+          <svg
+            style={{ fill: "#808080", width: "60px" }}
+            id="Layer_1"
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 74 100"
+          >
+            <defs>
+              <style
+                dangerouslySetInnerHTML={{
+                  __html:
+                    "\n      .cls-1 {\n        stroke-width: 0px;\n      }\n    ",
+                }}
+              />
+            </defs>
+            <path
+              className="cls-1"
+              d="m62,30C62,13.4,50.8,0,37,0S12,13.4,12,30H0l6,70h62l6-70h-12ZM37,4c11.6,0,21,11.7,21,26H16c0-14.3,9.4-26,21-26Zm15,46c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm-20,0c0,2.8-2.2,5-5,5s-5-2.2-5-5,2.2-5,5-5,5,2.2,5,5Zm5,12.6c12.4,0,22.5,10.1,22.5,22.5h-5c0-9.6-7.9-17.5-17.5-17.5s-17.5,7.8-17.5,17.5h-5c0-12.4,10.1-22.5,22.5-22.5Z"
+            />
+          </svg>
 
+          <h5 className="text-[#808080] text-lg font-medium">No Data</h5>
+        </div>
+      )}
+    </div>
+  );
   return (
     <>
       {contextHolder}
@@ -276,15 +314,17 @@ const OrderListing = () => {
         <div className="flex lg:flex-nowrap flex-wrap   gap-5 ">
           <div className="lg:w-[70%] w-full">
             <div className="bg-white rounded-[8px] custom-shadow">
-              <Table
-                columns={columns}
-                dataSource={orderProductsDetails}
-                showSizeChanger={false}
-                pagination={false}
-                scroll={{
-                  y: 240,
-                }}
-              />
+              <ConfigProvider renderEmpty={() => emptyImage}>
+                <Table
+                  columns={columns}
+                  dataSource={orderProductsDetails}
+                  showSizeChanger={false}
+                  pagination={false}
+                  scroll={{
+                    y: 240,
+                  }}
+                />
+              </ConfigProvider>
               <div className=" p-4 ">
                 <div className="flex justify-between py-3 border-b border-[#E7E7E7]">
                   <h5 className="text-base font-medium text-[#637381]">

@@ -77,9 +77,11 @@ function PersonalDetails({
         setImageSrc(data.data[0].imageUrl);
         setInitiaLogoUri(data.data[0].imageUrl);
         dispatch(
-          updateUserData({
-            ...user,
-            imageUrl: data.data[0].imageUrl,
+          updateUserData((prev) => {
+            return {
+              ...prev,
+              imageUrl: data.data[0].imageUrl,
+            };
           })
         );
       })

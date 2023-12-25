@@ -2,8 +2,9 @@ import React from "react";
 
 import { stockStatus } from "../helpers/stockStatusButton";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+import { Skeleton } from "antd";
 
-function ProductDetails({ stock }) {
+function ProductDetails({ stock, loading }) {
   return (
     <>
       {stock?.length > 0 ? (
@@ -37,17 +38,24 @@ function ProductDetails({ stock }) {
             </div>
           );
         })
+      ) : loading ? (
+        <div
+          style={{
+            position: "relative",
+            height: "85px",
+          }}
+        >
+          <Skeleton
+            paragraph={{ rows: 5 }}
+            active
+            avatar
+            className="custom-skeleton"
+            loading={loading}
+          />
+        </div>
       ) : (
         <div className="flex justify-center items-center h-full">
-          {/* <img src="/assets/no-product.jpg" className="w-[100px]" alt="" /> */}
           <div className="flex justify-center items-center gap-2 flex-col">
-            {/* <RemoveShoppingCartIcon
-              style={{
-                fill: "rgb(140 140 140)",
-                width: "70px",
-                height: "70px",
-              }}
-            /> */}
             <svg
               style={{ fill: "#808080", width: "60px" }}
               id="Layer_1"

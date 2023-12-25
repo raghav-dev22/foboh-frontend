@@ -6,7 +6,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Skeleton } from "antd";
 
 const Header = () => {
-  const loading = true;
   const user = useSelector((state) => state.user);
   const organisation = useSelector((state) => state.organisationDetails);
   const navigate = useNavigate();
@@ -233,16 +232,7 @@ const Header = () => {
             </nav>
           ) : (
             <Skeleton
-              // style={{
-              //   width: "95%",
-
-              //   position: "absolute",
-
-              //   top: "10px",
-              //   left: "14px",
-              // }}
               paragraph={{ rows: 1 }}
-              loading={loading}
               active
               avatar
               className="custom-skeleton-header"
