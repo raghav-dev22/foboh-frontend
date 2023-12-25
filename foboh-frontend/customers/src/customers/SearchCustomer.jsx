@@ -447,12 +447,12 @@ function SearchCustomer({
                                       filterAndSort?.filter?.status ===
                                       sts.value
                                     }
-                                    type="checkbox"
+                                    type="radio"
                                     value={statusSelected}
                                     onClick={(e) =>
                                       toggleCategory(e, sts.value, "status")
                                     }
-                                    className=""
+                                    className="w-4 h-4 text-lightGreen bg-gray-100 border-gray-300 rounded relative dark:bg-gray-700 dark:border-gray-600"
                                   />
                                 </div>
 
