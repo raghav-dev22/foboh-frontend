@@ -123,16 +123,17 @@ const BaseUnit = ({
       ? success("Base unit measure added!")
       : error("Some error occurred, please try again.");
     response && masterAsyncFunction();
+    console.log(response, "response");
   };
 
   const handleDelete = async (idx, baseUnitMeasureId) => {
-    setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
     const response = await deleteBaseUnitMeasure(baseUnitMeasureId);
-    response
-      ? error("Base unit measure removed!")
-      : error("Some error occurred while removing.");
-
-    response && masterAsyncFunction();
+    if (response) {
+      setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
+      success("Base unit measure removed!");
+    } else {
+      error("Some error occurred while removing.");
+    }
   };
 
   const handleIsEdit = (idx) => {
@@ -359,7 +360,7 @@ const BaseUnit = ({
                         <div className="flex items-center justify-end gap-3 pr-2">
                           <div
                             onClick={() => handleIsEdit(idx)}
-                            className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
+                            className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center cursor-pointer"
                           >
                             <EditRoundedIcon style={{ fill: "#147D73" }} />
                           </div>

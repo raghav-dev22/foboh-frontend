@@ -42,6 +42,7 @@ import {
   getDepartments,
   getOrganisation,
 } from "../reactQuery/addProductApiModules";
+import { useRef } from "react";
 
 let organisationDatas = {};
 let isBeverage = false;
@@ -1047,6 +1048,10 @@ function ViewProduct() {
     });
     setShow(true);
   };
+  const handleWETChange = (e) => {
+    setShow(true);
+    setCheckWET(!checkWET);
+  };
 
   const handleSalePrice = (e) => {
     const salePrice = e.target.value;
@@ -1069,6 +1074,18 @@ function ViewProduct() {
       });
     }
     setShow(true);
+    const wet = parseInt(salePrice) * 0.29;
+    const luc = parseInt(salePrice) + parseInt(wet);
+
+    //Setting WET & Setting LUC
+    setValues((prev) => {
+      return {
+        ...prev,
+        salePrice: salePrice,
+        wineEqualisationTax: wet.toFixed(2),
+        landedUnitCost: luc.toFixed(2),
+      };
+    });
   };
 
   const handleBuyPrice = (e) => {
@@ -1098,30 +1115,6 @@ function ViewProduct() {
     setShow(true);
   };
 
-  const handleWETChange = (e) => {
-    if (e.target.checked) {
-      //Calculating WET & LUC
-      const salePrice = values.salePrice;
-      const wet = parseInt(salePrice) * 0.29;
-      const luc = parseInt(salePrice) + parseInt(wet);
-
-      //Setting WET & Setting LUC
-      setValues({
-        ...values,
-        wineEqualisationTax: wet.toFixed(2),
-        landedUnitCost: luc.toFixed(2),
-      });
-    } else {
-      setValues({
-        ...values,
-        wineEqualisationTax: "",
-        landedUnitCost: "",
-      });
-    }
-    setShow(true);
-    setCheckWET(!checkWET);
-  };
-
   const handleConfiguration = (e) => {
     setValues({
       ...values,
@@ -1131,7 +1124,7 @@ function ViewProduct() {
   };
 
   const [progress, setProgress] = useState(0);
-
+  const fileInputRef = useRef(null);
   const uploadProgress = throttle(
     (value) => {
       setProgress(value);
@@ -1143,6 +1136,7 @@ function ViewProduct() {
   const handleImageUpload = async (e) => {
     const files = e.target.files;
     let err = null;
+    console.log(files, "formData");
 
     if (files.length > maxImageCount)
       return error("Maximum 5 images have already been uploaded!");
@@ -1167,7 +1161,6 @@ function ViewProduct() {
             formData.append("files", files[i]);
           }
         }
-
         const options = formData;
         const config = {
           onUploadProgress: (progressEvent) => {
@@ -1196,6 +1189,7 @@ function ViewProduct() {
           .catch((error) => console.log(error));
       }
     }
+    fileInputRef.current.form.reset();
   };
 
   const CustomTooltip = styled(({ className, ...props }) => (
@@ -1223,7 +1217,11 @@ function ViewProduct() {
 
   const handleReset = (e) => {
     e.preventDefault();
-    setValues(initialValues);
+    setValues({
+      ...initialValues,
+      baseUnitMeasure: initialValues?.baseUnitMeasure,
+      innerUnitMeasure: initialValues?.innerUnitMeasure,
+    });
     setProductImageUris(prevImgUrl);
 
     if (
@@ -1425,59 +1423,75 @@ function ViewProduct() {
                     10,000 px, no greater than 5 MB and in JPEG or PNG format
                   </p>
                 </div>
-
                 <label
                   htmlFor="upload-image"
                   className="update-img-btn rounded-md	w-full py-3	bg-custom-skyBlue flex cursor-pointer justify-center"
                 >
-                  <input
-                    onChange={handleImageUpload}
-                    id="upload-image"
-                    type="file"
-                    name="files[]"
-                    multiple
-                    hidden
-                  />
-                  <div className="flex gap-2 items-center justify-center">
-                    <div className="">
-                      <svg
-                        width={20}
-                        height={21}
-                        viewBox="0 0 20 21"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <mask
-                          id="mask0_555_25257"
-                          style={{ maskType: "alpha" }}
-                          maskUnits="userSpaceOnUse"
-                          x={0}
-                          y={0}
+                  <Skeleton
+                    style={{
+                      borderRadius: "0.375rem",
+                      width: "100%",
+                      padding: "0.75rem",
+                      height: "30px",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                    loading={loading}
+                  >
+                    <input
+                      onChange={handleImageUpload}
+                      id="upload-image"
+                      type="file"
+                      name="files[]"
+                      ref={fileInputRef}
+                      multiple
+                      hidden
+                    />
+                    <div className="flex gap-2 items-center justify-center">
+                      <div className="">
+                        <svg
                           width={20}
                           height={21}
+                          viewBox="0 0 20 21"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <rect y="0.5" width={20} height={20} fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_555_25257)">
-                          <path
-                            d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
-                            fill="white"
-                          />
-                        </g>
-                      </svg>
+                          <mask
+                            id="mask0_555_25257"
+                            style={{ maskType: "alpha" }}
+                            maskUnits="userSpaceOnUse"
+                            x={0}
+                            y={0}
+                            width={20}
+                            height={21}
+                          >
+                            <rect
+                              y="0.5"
+                              width={20}
+                              height={20}
+                              fill="#D9D9D9"
+                            />
+                          </mask>
+                          <g mask="url(#mask0_555_25257)">
+                            <path
+                              d="M15.7288 7.16681V5.50014H14.0622V4.25016H15.7288V2.5835H16.9788V4.25016H18.6454V5.50014H16.9788V7.16681H15.7288ZM2.6519 18.4168C2.23097 18.4168 1.87467 18.271 1.58301 17.9793C1.29134 17.6876 1.14551 17.3313 1.14551 16.9104V7.42325C1.14551 7.0023 1.29134 6.646 1.58301 6.35433C1.87467 6.06266 2.23097 5.91683 2.6519 5.91683H5.19678L6.73845 4.25016H11.7705V5.50014H7.2833L5.75445 7.16681H2.6519C2.57711 7.16681 2.51567 7.19085 2.46759 7.23893C2.41952 7.28702 2.39549 7.34846 2.39549 7.42325V16.9104C2.39549 16.9852 2.41952 17.0466 2.46759 17.0947C2.51567 17.1428 2.57711 17.1668 2.6519 17.1668H15.4724C15.5472 17.1668 15.6086 17.1428 15.6567 17.0947C15.7048 17.0466 15.7288 16.9852 15.7288 16.9104V9.45846H16.9788V16.9104C16.9788 17.3313 16.8329 17.6876 16.5413 17.9793C16.2496 18.271 15.8933 18.4168 15.4724 18.4168H2.6519ZM9.06215 15.5963C10.0183 15.5963 10.829 15.2637 11.494 14.5987C12.1591 13.9336 12.4916 13.123 12.4916 12.1668C12.4916 11.2106 12.1591 10.4 11.494 9.73494C10.829 9.06988 10.0183 8.73735 9.06215 8.73735C8.10596 8.73735 7.29533 9.06988 6.63028 9.73494C5.96521 10.4 5.63267 11.2106 5.63267 12.1668C5.63267 13.123 5.96521 13.9336 6.63028 14.5987C7.29533 15.2637 8.10596 15.5963 9.06215 15.5963ZM9.06215 14.3463C8.44677 14.3463 7.92967 14.1369 7.51086 13.7181C7.09206 13.2993 6.88265 12.7822 6.88265 12.1668C6.88265 11.5514 7.09206 11.0343 7.51086 10.6155C7.92967 10.1967 8.44677 9.98731 9.06215 9.98731C9.67753 9.98731 10.1946 10.1967 10.6134 10.6155C11.0322 11.0343 11.2416 11.5514 11.2416 12.1668C11.2416 12.7822 11.0322 13.2993 10.6134 13.7181C10.1946 14.1369 9.67753 14.3463 9.06215 14.3463Z"
+                              fill="white"
+                            />
+                          </g>
+                        </svg>
+                      </div>
+                      <div className="">
+                        <h6 className="text-white font-medium	text-base	">
+                          {productImageUris?.length === maxImageCount
+                            ? "5 image maximum reached"
+                            : productImageUris?.length > 0
+                            ? `Add up to ${maxImageCount}  images`
+                            : "Upload up to 5 images"}
+                        </h6>
+                      </div>
                     </div>
-                    <div className="">
-                      <h6 className="text-white font-medium	text-base	">
-                        {productImageUris?.length === maxImageCount
-                          ? "5 image maximum reached"
-                          : productImageUris?.length > 0
-                          ? `Add up to ${maxImageCount}  images`
-                          : "Upload up to 5 images"}
-                      </h6>
-                    </div>
-                  </div>
+                  </Skeleton>
                 </label>
-
                 {/* Product Listing ---START */}
                 <div className="rounded-lg	border border-inherit	bg-white">
                   <div className="border-b border-inherit  py-3 px-5">
@@ -2274,9 +2288,9 @@ function ViewProduct() {
                             type="text"
                             placeholder="$330.00"
                             onKeyPress={(e) => {
-                              const isValidKey = /[0-9.]/.test(e.key); // Test if the pressed key is a number
+                              const isValidKey = /[0-9.]/.test(e.key);
                               if (!isValidKey) {
-                                e.preventDefault(); // Prevent input of non-numeric characters
+                                e.preventDefault();
                               }
                             }}
                           />
@@ -2468,14 +2482,28 @@ function ViewProduct() {
                 </div>
               </div>
               <div className="flex justify-end items-start gap-3">
-                <div
-                  onClick={() => {
-                    setDeleteModalOpen(true);
+                <Skeleton
+                  style={{
+                    borderRadius: "6px",
+                    padding: "0.625rem",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    width: "33%",
                   }}
-                  className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
+                  loading={loading}
+                  // active
+                  // avatar
                 >
-                  Delete
-                </div>
+                  <div
+                    onClick={() => {
+                      setDeleteModalOpen(true);
+                    }}
+                    className="cursor-pointer rounded-[6px] py-2.5 flex justify-center items-center bg-[#DC3545] w-[33%] text-white text-base font-semibold"
+                  >
+                    Delete
+                  </div>
+                </Skeleton>
               </div>
               {/* Pricing Details ---END */}
             </div>

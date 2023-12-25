@@ -76,8 +76,6 @@ const dateOptionsList = ["Last 7 days", "Last 14 days", "Last 30 days"];
 const statusOptionsList = [
   "New",
   "Pending approval",
-  "Changes requested",
-  "Updated",
   "Processing",
   "Shipped",
   "Partially fulfilled",

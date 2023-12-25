@@ -117,13 +117,14 @@ const InnerUnit = ({
   };
 
   const handleDelete = async (idx, innerUnitMeasureId) => {
-    setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
-
     const response = await deleteInnerUnitMeasure(innerUnitMeasureId);
-    response
-      ? error("Inner unit measure removed!")
-      : error("Some error occurred while removing.");
-    response && masterAsyncFunction();
+    if (response) {
+      setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
+      success("Inner unit measure removed!");
+      masterAsyncFunction();
+    } else {
+      error("Some error occurred while removing.");
+    }
   };
 
   const handleIsEdit = (idx) => {
@@ -348,13 +349,13 @@ const InnerUnit = ({
                       <div className="flex items-center justify-end gap-3 pr-3">
                         <div
                           onClick={() => handleIsEdit(idx)}
-                          className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
+                          className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center cursor-pointer"
                         >
                           <EditRoundedIcon style={{ fill: "#147D73" }} />
                         </div>
                         <div
                           onClick={() => handleDelete(idx, item?.id)}
-                          className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center"
+                          className="border border-[#E7E7E7] rounded-[8px] h-[35px] w-[35px] bg-[#F8FAFC] flex justify-center items-center cursor-pointer"
                         >
                           <DeleteIcon style={{ fill: "#147D73" }} />
                         </div>

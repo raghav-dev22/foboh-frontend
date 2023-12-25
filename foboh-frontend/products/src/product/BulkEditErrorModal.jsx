@@ -16,7 +16,7 @@ function BulkEditErrorModal({ show, setShow, error, loader }) {
       navigate("/dashboard/products");
     } else {
       localStorage.removeItem("selectedProducts");
-      navigate("/dashboard/products");
+      navigate("/dashboard/bulk-edit");
       setShow(false);
     }
   };
