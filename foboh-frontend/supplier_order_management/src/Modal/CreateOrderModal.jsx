@@ -526,6 +526,7 @@ const CreateOrderModal = ({
               >
                 <ArrowBackIosRoundedIcon
                   style={{ width: "14px", fill: "#2B4447" }}
+                  className="cursor-pointer"
                 />
               </div>
               <CloseRoundedIcon

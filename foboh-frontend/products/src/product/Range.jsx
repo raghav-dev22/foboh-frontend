@@ -455,18 +455,20 @@ function Range() {
                                   >
                                     {product.productImageUrls ? (
                                       <>
-                                        <div className="">
+                                        <div
+                                          className=""
+                                          style={{
+                                            borderRadius: "6px",
+
+                                            height: "40px",
+
+                                            width: "40px",
+                                          }}
+                                        >
                                           <img
                                             src={product.productImageUrls[0]}
                                             alt=""
                                             className="object-cover cursor-pointer  "
-                                            style={{
-                                              borderRadius: "6px",
-
-                                              height: "40px",
-
-                                              width: "40px",
-                                            }}
                                           />
                                         </div>
                                       </>
@@ -485,7 +487,13 @@ function Range() {
                                   </div>
                                 </td>
 
-                                <td className={classes}>
+                                <td
+                                  className={`${classes} `}
+                                  style={{
+                                    maxWidth: "200px",
+                                    minWidth: "100%",
+                                  }}
+                                >
                                   <div
                                     onClick={() =>
                                       navigate(
