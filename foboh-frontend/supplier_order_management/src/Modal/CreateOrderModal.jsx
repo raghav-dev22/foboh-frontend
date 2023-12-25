@@ -182,24 +182,26 @@ const CreateOrderModal = ({
 
   // Handle submitting the order
   const handleSubmit = async () => {
-    const orderResponse = await updateOrderStatus(
-      customerDetails,
-      defaultPaymentTermsValue,
-      cartCalculations,
-      shippingcharges
-    );
+    if (cart.length > 0) {
+      const orderResponse = await updateOrderStatus(
+        customerDetails,
+        defaultPaymentTermsValue,
+        cartCalculations,
+        shippingcharges
+      );
 
-    if (orderResponse) {
-      const cartStatus = await updateCartStatus(customerDetails);
+      if (orderResponse) {
+        const cartStatus = await updateCartStatus(customerDetails);
 
-      cartStatus
-        ? success("  Order placed successfully!")
-        : error(" Some error has occurred! Please try again");
+        cartStatus
+          ? success("  Order placed successfully!")
+          : error(" Some error has occurred! Please try again");
 
-      setCreateOrderModal(false);
-      setCustomerDetails({});
-      setIsCustomerSelected(false);
-      setActiveStep(0);
+        setCreateOrderModal(false);
+        setCustomerDetails({});
+        setIsCustomerSelected(false);
+        setActiveStep(0);
+      }
     }
   };
 

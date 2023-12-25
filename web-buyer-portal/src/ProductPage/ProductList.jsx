@@ -886,7 +886,6 @@ const ProductList = () => {
       const newRegionAvailableIds = id.map((region) => region.key);
       const newRegionAvailableName = e;
 
-
       setRegionAvailability(id);
       id.length > 0 ? setFilter(true) : setFilter(false);
       const newFilter = {
@@ -1691,6 +1690,8 @@ const ProductList = () => {
                           value={selectSlider}
                           onChange={handleChange}
                           valueLabelDisplay="auto"
+                          min={0}
+                          max={10000}
                         />
                       </div>
 

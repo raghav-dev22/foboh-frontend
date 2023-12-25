@@ -85,7 +85,7 @@ function ErrorFoundModal({
                       >
                         <p className="text-sm font-normal">
                           <span className="font-bold">
-                            {errorData?.length} products
+                            {errorData?.filter((i) => i)?.length} products
                           </span>{" "}
                           have errors that need correcting before importing.
                           After you fix the errors, try importing the file again

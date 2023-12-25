@@ -10,7 +10,7 @@ export const deleteBaseUnitMeasure = async (id) => {
     .then((data) => {
       if (data.success) return true;
       else return false;
-    });
-
+    })
+    .catch((error) => console.log(error));
   return response;
 };

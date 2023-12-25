@@ -15,21 +15,41 @@ const InvoiceModal = forwardRef(({}, ref) => {
     ) {
       setTimeout(() => {
         (async function () {
+          let imgUrl;
+          const dataImagePattern =
+            /^data:image\/(png|jpeg|jpg|gif);base64,([A-Za-z0-9+/=])+$/;
+          const urlPattern = /^(https?:\/\/|www\.)[^\s$.?#].[^\s]*$/;
+
+          if (dataImagePattern.test(invoiceData?.organisationlogo)) {
+            imgUrl = invoiceData?.organisationlogo;
+          } else if (urlPattern.test(invoiceData?.organisationlogo)) {
+            let blob = await fetch(invoiceData?.organisationlogo, {
+              method: "GET",
+              mode: "no-cors",
+              cache: "no-cache",
+              credentials: "same-origin",
+              responseType: "blob",
+            }).then((r) => {
+              console.log("r", r);
+              if (dataImagePattern.test(invoiceData?.organisationlogo)) {
+                return r;
+              } else {
+                return r.blob();
+              }
+            });
+            console.log(imgUrl, "imgUrl");
+            imgUrl = await new Promise((resolve) => {
+              let reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.readAsDataURL(blob);
+            });
+          }
+          console.log(imgUrl, "imgUrl");
           console.log(
             invoiceData?.organisationlogo,
             "invoiceData?.organisationlogo"
           );
-          let blob = await fetch(invoiceData?.organisationlogo, {
-            method: "GET",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-          }).then((r) => r.blob());
-          let imgUrl = await new Promise((resolve) => {
-            let reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-          });
+          return null;
           var val = htmlToPdfmake(
             ` 
               <table style="width:100%">

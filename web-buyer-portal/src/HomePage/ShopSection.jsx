@@ -9,8 +9,8 @@ function ShopSection() {
   const navigate = useNavigate();
   const { useToken } = theme;
   const { token } = useToken();
-  const catalogueId = localStorage.getItem("catalogueId");
   useEffect(() => {
+    const catalogueId = localStorage.getItem("catalogueId");
     const apiUrl = `https://buyerwebportalfoboh-fbh.azurewebsites.net/api/Product/getAllBySubcategory?CatalogueId=${catalogueId}`;
     fetch(apiUrl)
       .then((response) => {
@@ -50,7 +50,7 @@ function ShopSection() {
                   <Carousel.Item key={`${idx}`}>
                     <div className=" ">
                       <img
-                        className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000]"
+                        className="md:w-[270px] md:h-[226px] w-full h-full object-cover rounded-md bg-[#000] cursor-pointer "
                         src={product.productImageUrls}
                         onClick={() =>
                           navigate(
@@ -60,7 +60,7 @@ function ShopSection() {
                       />
                       <div className="mt-3">
                         <h2
-                          className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm cursor-pointer "
+                          className="text-[#000] md:font-semibold font-medium md:text-lg text-center text-sm cursor-pointer"
                           onClick={() =>
                             navigate(
                               `/home/all-products/product/${product?.productId}`

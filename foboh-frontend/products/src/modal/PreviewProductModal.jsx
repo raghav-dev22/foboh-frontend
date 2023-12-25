@@ -32,7 +32,6 @@ function PreviewProductModal({
       console.log("updatedProductserror", error);
     }
   }, [importedProducts]);
-
   const showModal = () => {
     setShow(false);
     localStorage.setItem("productImport", true);
@@ -49,12 +48,15 @@ function PreviewProductModal({
         return response.json();
       })
       .then((data) => {
-        const errList = data.data.map((item) => {
-          return {
-            row: item.row,
-            error: item.message,
-          };
-        }).filter(item => item)
+        const errList = data?.data
+          ?.map((item) => {
+            return {
+              row: item.row,
+              error: item.message,
+              title: item.title,
+            };
+          })
+          .filter((item) => item);
         setErrList(errList);
         setLoading(false);
         setShowPreviewModal(true);
