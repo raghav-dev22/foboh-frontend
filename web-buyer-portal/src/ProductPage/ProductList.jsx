@@ -886,7 +886,6 @@ const ProductList = () => {
       const newRegionAvailableIds = id.map((region) => region.key);
       const newRegionAvailableName = e;
 
-
       setRegionAvailability(id);
       id.length > 0 ? setFilter(true) : setFilter(false);
       const newFilter = {
@@ -974,6 +973,11 @@ const ProductList = () => {
     <>
       <style>
         {`
+        .ant-slider .ant-slider-track,.ant-slider:hover .ant-slider-track{
+          background-color: ${token.commonThemeColor};        }
+        .ant-slider .ant-slider-handle::after{
+          box-shadow:0 0 0 2px ${token.commonThemeColor} !important
+        }
        .product-list:hover{
         background:${token.bannerThemeColor} !important
        }
@@ -1683,7 +1687,7 @@ const ProductList = () => {
                 <>
                   <div id="container ">
                     <div className="wrap">
-                      <div className="sliderwrap">
+                      <div className="sliderwrap mx-[4px]">
                         <Slider
                           getAriaLabel={() => "Temperature range"}
                           range
