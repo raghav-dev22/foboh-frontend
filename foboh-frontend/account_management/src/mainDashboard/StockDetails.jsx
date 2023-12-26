@@ -23,7 +23,7 @@ function StockDetails() {
   const [customerPercentage, setCustomerPercentage] = useState(0);
   const [revenue, setRevenue] = useState(0);
   const [profit, setProfit] = useState(0);
-  const dashboardUrl  = process.env.REACT_APP_DASHBOARD_SUPPLIER_URL
+  const dashboardUrl = process.env.REACT_APP_DASHBOARD_SUPPLIER_URL;
 
   const {
     data: tilesData,
@@ -95,7 +95,7 @@ function StockDetails() {
 
       Arrow:
         parseFloat(tilesData?.totalProfitPercentage) > 0 ? (
-          <ArrowUpwardIcon style={{ fill: "#45CB85" }} />
+          <ArrowUpwardIcon style={{ fill: "#009900" }} />
         ) : parseFloat(tilesData?.totalProfitPercentage) < 0 ? (
           <ArrowDownwardIcon style={{ fill: "#DC3545" }} />
         ) : null,

@@ -88,18 +88,6 @@ const InnerUnit = ({
     setIumType(null);
     setiumUnit(null);
 
-    setUnit((prev) => {
-      return [
-        ...prev,
-        {
-          amount: amount,
-          iumType: iumType,
-          iumUnit: iumUnit,
-          editable: false,
-        },
-      ];
-    });
-
     const addInnerMeasureUnit = [
       {
         amount: amount,
@@ -110,16 +98,34 @@ const InnerUnit = ({
     ];
 
     const response = await postInnerUnitMeasure(addInnerMeasureUnit);
-    response
-      ? success("Inner unit measure added successfuly!")
-      : error("Some error occurred, please try again.");
-    response && masterAsyncFunction();
+    if (response.success) {
+      let item = response.data;
+      const match = item?.unit?.split(" ");
+      if (match.length === 2) {
+        const value = match[0];
+        const unit = match[1];
+        const formData = {
+          id: item._id,
+          amount: value,
+          type: item.type,
+          iumUnit: unit,
+          editable: false,
+        };
+        setUnit((unit) => [...unit, formData]);
+      }
+      success("Base unit measure added!");
+      masterAsyncFunction();
+    } else {
+      error("Some error occurred, please try again.");
+    }
   };
 
   const handleDelete = async (idx, innerUnitMeasureId) => {
     const response = await deleteInnerUnitMeasure(innerUnitMeasureId);
     if (response) {
-      setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
+      setUnit((unit) => {
+        return unit.filter((item, itemIndex) => itemIndex !== idx);
+      });
       success("Inner unit measure removed!");
       masterAsyncFunction();
     } else {

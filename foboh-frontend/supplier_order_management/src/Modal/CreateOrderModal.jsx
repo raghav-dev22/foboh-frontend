@@ -159,7 +159,7 @@ const CreateOrderModal = ({
         (setActiveStep((cur) => cur + 1),
         setDetails(true),
         setSelectedItems(""));
-    } else if (activeStep === 1 && !errorData) {
+    } else if (activeStep === 1 && !errorData && cart.length > 0) {
       !isLastStep &&
         (setActiveStep((cur) => cur + 1),
         setDetails(true),
@@ -174,7 +174,9 @@ const CreateOrderModal = ({
     if (isCustomerSelected) {
       setIsCustomerSelected(false);
     } else {
+      setIsCustomerSelected(true);
       !isFirstStep && setActiveStep((cur) => cur - 1);
+      console.log(customerDetails.businessName, "customerDetails.businessName");
     }
   };
   const items = ["Apples", "Nails", "Bananas", "Helicopters"];
@@ -392,6 +394,7 @@ const CreateOrderModal = ({
       if (buyerDetails.success) {
         isValid = true;
         const buyerData = buyerDetails.data[0];
+        console.log(buyerData, "buyerData");
         setCustomerDetails(buyerData);
         const defaultPaymentTermsListValue = defaultPaymentTerms.find(
           (item) => item.label === buyerDetails.data[0].defaultPaymentTerm[0]
@@ -400,7 +403,7 @@ const CreateOrderModal = ({
         setDefaultPaymentTermsValue(defaultPaymentTermsListValue);
 
         const defaultPaymentTermsDateValue = convertDefaultPaymentTermValue(
-          defaultPaymentTermsListValue.label
+          defaultPaymentTermsListValue?.label
         );
 
         setDefaultPaymentTermsDate(defaultPaymentTermsDateValue);
@@ -438,6 +441,8 @@ const CreateOrderModal = ({
       setCart(cartUpdatedList);
       if (cartUpdatedList.length > 0) {
         isValid = true;
+      } else {
+        isValid = false;
       }
     }
   };

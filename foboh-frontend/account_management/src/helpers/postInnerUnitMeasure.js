@@ -20,7 +20,7 @@ export const postInnerUnitMeasure = async (value) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      if (data.success) return true;
+      if (data.success) return data;
       else return false;
     })
     .catch((error) => console.log(error));

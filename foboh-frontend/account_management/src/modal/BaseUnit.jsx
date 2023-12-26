@@ -99,15 +99,6 @@ const BaseUnit = ({
     setSelectedBaseType(null);
     setSelectedBaseUnit(null);
     setAmount("");
-    setUnit((prev) => [
-      ...prev,
-      {
-        type: selectedBaseType,
-        amount: amount,
-        bumUnit: selectedBaseUnit,
-        editable: false,
-      },
-    ]);
 
     const addBaseUnitMeasure = [
       {
@@ -119,17 +110,34 @@ const BaseUnit = ({
     ];
 
     const response = await postBaseUnitMeasure(addBaseUnitMeasure);
-    response
-      ? success("Base unit measure added!")
-      : error("Some error occurred, please try again.");
-    response && masterAsyncFunction();
-    console.log(response, "response");
+    if (response.success) {
+      let item = response.data;
+      const match = item?.unit?.split(" ");
+      if (match.length === 2) {
+        const value = match[0];
+        const unit = match[1];
+        const formData = {
+          id: item._id,
+          amount: value,
+          type: item.type,
+          bumUnit: unit,
+          editable: false,
+        };
+        setUnit((unit) => [...unit, formData]);
+      }
+      success("Base unit measure added!");
+      masterAsyncFunction();
+    } else {
+      error("Some error occurred, please try again.");
+    }
   };
 
   const handleDelete = async (idx, baseUnitMeasureId) => {
     const response = await deleteBaseUnitMeasure(baseUnitMeasureId);
     if (response) {
-      setUnit(unit.filter((item, itemIndex) => itemIndex !== idx));
+      setUnit((unit) => {
+        return unit.filter((item, itemIndex) => itemIndex !== idx);
+      });
       success("Base unit measure removed!");
     } else {
       error("Some error occurred while removing.");
@@ -152,7 +160,7 @@ const BaseUnit = ({
 
   const handleEdit = (idx, name, value) => {
     setUnit((prev) =>
-      prev.map((item, itemIndex) => {
+      prev?.map((item, itemIndex) => {
         if (itemIndex === idx && name === "amount") {
           return {
             ...item,
@@ -176,7 +184,7 @@ const BaseUnit = ({
 
   const handleSaveEdit = async (idx, baseUnitMeasureId) => {
     setUnit((prev) =>
-      prev.map((item, itemIndex) => {
+      prev?.map((item, itemIndex) => {
         if (itemIndex === idx) {
           return {
             ...item,
@@ -198,7 +206,7 @@ const BaseUnit = ({
   const handleCancelEdit = async (idx) => {
     await asyncFunction();
     setUnit((prev) =>
-      prev.map((item, itemIndex) => {
+      prev?.map((item, itemIndex) => {
         if (itemIndex === idx) {
           return {
             ...item,

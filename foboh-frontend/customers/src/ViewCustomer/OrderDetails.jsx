@@ -305,7 +305,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
         setValues((prev) => {
           return {
             ...prev,
-            defaultPaymentMethodId: updatedPaymentMethod.length
+            defaultPaymentMethodId: updatedPaymentMethod?.length
               ? updatedPaymentMethod?.find(
                   (item) => data?.defaultPaymentMethodId[0] === item?.label
                 )
@@ -396,7 +396,6 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
         });
     },
   });
-  console.log("errors", errors);
 
   const handleInputChange = () => {
     setShow(true);
@@ -459,7 +458,7 @@ const OrderDetails = ({ datas, handleCustomerDetails, setTileValues }) => {
       <div className=" pt-6">
         <form onSubmit={handleSubmit} onChange={handleInputChange}>
           <div className="xl:w-full xl:mx-0  sm:block rounded-t-lg border border-darkGreen	">
-            <ul className="flex      gap-5 bg-custom-skyBlue 	rounded-t-lg	pt-4 overflow-x-scroll">
+            <ul className="flex gap-5 bg-custom-skyBlue rounded-t-lg	pt-4 overflow-x-scroll">
               <li
                 onClick={() => setActiveStatus(1)}
                 className={
