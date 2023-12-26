@@ -424,17 +424,16 @@ const ProductDetails = () => {
                             <p className="text-base font-normal text-[#2B4447] w-[200px]">
                               Grape variety:
                             </p>
-
-                            {selectData?.product?.variety.map((i, id) => (
-                              <div className="grid grid-cols-4 gap-2">
+                            <div className="grid grid-cols-4 gap-2">
+                              {selectData?.product?.variety.map((i, id) => (
                                 <p
                                   key={id}
                                   className="text-xs font-semibold border py-1 px-2 rounded-md bg-slate-100 text-[#2B4447]"
                                 >
                                   {i}
                                 </p>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
                         )}
                     </>
