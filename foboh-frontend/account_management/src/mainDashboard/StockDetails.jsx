@@ -252,7 +252,7 @@ function StockDetails() {
             key={`${index}-${item?.title}`}
             className={` rounded-md   border border-inherit bg-white grow h-40 stock-${index} w-full`}
           >
-            {item?.length > 0 ? (
+            {!loading ? (
               <div className="grid grid-cols-1 gap-6 p-4">
                 <div className="flex justify-between ">
                   <div className=" stock-icon h-12 w-12 rounded-full  flex justify-center items-center bg-slate-100 ">
